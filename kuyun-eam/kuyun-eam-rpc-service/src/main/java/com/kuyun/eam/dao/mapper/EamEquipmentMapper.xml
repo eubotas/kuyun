@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kuyun.eam.dao.mapper.EamEquipmentMapper">
+  <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamEquipment">
+    <id column="equipment_id" jdbcType="INTEGER" property="equipmentId" />
+    <result column="equipment_model_id" jdbcType="INTEGER" property="equipmentModelId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="number" jdbcType="VARCHAR" property="number" />
+    <result column="serial_number" jdbcType="VARCHAR" property="serialNumber" />
+    <result column="image_path" jdbcType="VARCHAR" property="imagePath" />
+    <result column="longitude" jdbcType="DECIMAL" property="longitude" />
+    <result column="latitude" jdbcType="DECIMAL" property="latitude" />
+    <result column="user" jdbcType="VARCHAR" property="user" />
+    <result column="factory_date" jdbcType="TIMESTAMP" property="factoryDate" />
+    <result column="commissioning_date" jdbcType="TIMESTAMP" property="commissioningDate" />
+    <result column="warranty_start_date" jdbcType="TIMESTAMP" property="warrantyStartDate" />
+    <result column="warranty_end_date" jdbcType="TIMESTAMP" property="warrantyEndDate" />
+    <result column="maintenance_period" jdbcType="VARCHAR" property="maintenancePeriod" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    equipment_id, equipment_model_id, name, number, serial_number, image_path, longitude, 
+    latitude, user, factory_date, commissioning_date, warranty_start_date, warranty_end_date, 
+    maintenance_period
+  </sql>
+  <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from eam_equipment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from eam_equipment
+    where equipment_id = #{equipmentId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from eam_equipment
+    where equipment_id = #{equipmentId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentExample">
+    delete from eam_equipment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamEquipment">
+    insert into eam_equipment (equipment_id, equipment_model_id, name, 
+      number, serial_number, image_path, 
+      longitude, latitude, user, 
+      factory_date, commissioning_date, warranty_start_date, 
+      warranty_end_date, maintenance_period)
+    values (#{equipmentId,jdbcType=INTEGER}, #{equipmentModelId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{number,jdbcType=VARCHAR}, #{serialNumber,jdbcType=VARCHAR}, #{imagePath,jdbcType=VARCHAR}, 
+      #{longitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}, #{user,jdbcType=VARCHAR}, 
+      #{factoryDate,jdbcType=TIMESTAMP}, #{commissioningDate,jdbcType=TIMESTAMP}, #{warrantyStartDate,jdbcType=TIMESTAMP}, 
+      #{warrantyEndDate,jdbcType=TIMESTAMP}, #{maintenancePeriod,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamEquipment">
+    insert into eam_equipment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="equipmentId != null">
+        equipment_id,
+      </if>
+      <if test="equipmentModelId != null">
+        equipment_model_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="number != null">
+        number,
+      </if>
+      <if test="serialNumber != null">
+        serial_number,
+      </if>
+      <if test="imagePath != null">
+        image_path,
+      </if>
+      <if test="longitude != null">
+        longitude,
+      </if>
+      <if test="latitude != null">
+        latitude,
+      </if>
+      <if test="user != null">
+        user,
+      </if>
+      <if test="factoryDate != null">
+        factory_date,
+      </if>
+      <if test="commissioningDate != null">
+        commissioning_date,
+      </if>
+      <if test="warrantyStartDate != null">
+        warranty_start_date,
+      </if>
+      <if test="warrantyEndDate != null">
+        warranty_end_date,
+      </if>
+      <if test="maintenancePeriod != null">
+        maintenance_period,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="equipmentId != null">
+        #{equipmentId,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentModelId != null">
+        #{equipmentModelId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="serialNumber != null">
+        #{serialNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="imagePath != null">
+        #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="user != null">
+        #{user,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryDate != null">
+        #{factoryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commissioningDate != null">
+        #{commissioningDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="warrantyStartDate != null">
+        #{warrantyStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="warrantyEndDate != null">
+        #{warrantyEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="maintenancePeriod != null">
+        #{maintenancePeriod,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentExample" resultType="java.lang.Long">
+    select count(*) from eam_equipment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update eam_equipment
+    <set>
+      <if test="record.equipmentId != null">
+        equipment_id = #{record.equipmentId,jdbcType=INTEGER},
+      </if>
+      <if test="record.equipmentModelId != null">
+        equipment_model_id = #{record.equipmentModelId,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.number != null">
+        number = #{record.number,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serialNumber != null">
+        serial_number = #{record.serialNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.imagePath != null">
+        image_path = #{record.imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.longitude != null">
+        longitude = #{record.longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="record.latitude != null">
+        latitude = #{record.latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="record.user != null">
+        user = #{record.user,jdbcType=VARCHAR},
+      </if>
+      <if test="record.factoryDate != null">
+        factory_date = #{record.factoryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.commissioningDate != null">
+        commissioning_date = #{record.commissioningDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.warrantyStartDate != null">
+        warranty_start_date = #{record.warrantyStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.warrantyEndDate != null">
+        warranty_end_date = #{record.warrantyEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.maintenancePeriod != null">
+        maintenance_period = #{record.maintenancePeriod,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update eam_equipment
+    set equipment_id = #{record.equipmentId,jdbcType=INTEGER},
+      equipment_model_id = #{record.equipmentModelId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      number = #{record.number,jdbcType=VARCHAR},
+      serial_number = #{record.serialNumber,jdbcType=VARCHAR},
+      image_path = #{record.imagePath,jdbcType=VARCHAR},
+      longitude = #{record.longitude,jdbcType=DECIMAL},
+      latitude = #{record.latitude,jdbcType=DECIMAL},
+      user = #{record.user,jdbcType=VARCHAR},
+      factory_date = #{record.factoryDate,jdbcType=TIMESTAMP},
+      commissioning_date = #{record.commissioningDate,jdbcType=TIMESTAMP},
+      warranty_start_date = #{record.warrantyStartDate,jdbcType=TIMESTAMP},
+      warranty_end_date = #{record.warrantyEndDate,jdbcType=TIMESTAMP},
+      maintenance_period = #{record.maintenancePeriod,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kuyun.eam.dao.model.EamEquipment">
+    update eam_equipment
+    <set>
+      <if test="equipmentModelId != null">
+        equipment_model_id = #{equipmentModelId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        number = #{number,jdbcType=VARCHAR},
+      </if>
+      <if test="serialNumber != null">
+        serial_number = #{serialNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="imagePath != null">
+        image_path = #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null">
+        longitude = #{longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="latitude != null">
+        latitude = #{latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="user != null">
+        user = #{user,jdbcType=VARCHAR},
+      </if>
+      <if test="factoryDate != null">
+        factory_date = #{factoryDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="commissioningDate != null">
+        commissioning_date = #{commissioningDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="warrantyStartDate != null">
+        warranty_start_date = #{warrantyStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="warrantyEndDate != null">
+        warranty_end_date = #{warrantyEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="maintenancePeriod != null">
+        maintenance_period = #{maintenancePeriod,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where equipment_id = #{equipmentId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamEquipment">
+    update eam_equipment
+    set equipment_model_id = #{equipmentModelId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      number = #{number,jdbcType=VARCHAR},
+      serial_number = #{serialNumber,jdbcType=VARCHAR},
+      image_path = #{imagePath,jdbcType=VARCHAR},
+      longitude = #{longitude,jdbcType=DECIMAL},
+      latitude = #{latitude,jdbcType=DECIMAL},
+      user = #{user,jdbcType=VARCHAR},
+      factory_date = #{factoryDate,jdbcType=TIMESTAMP},
+      commissioning_date = #{commissioningDate,jdbcType=TIMESTAMP},
+      warranty_start_date = #{warrantyStartDate,jdbcType=TIMESTAMP},
+      warranty_end_date = #{warrantyEndDate,jdbcType=TIMESTAMP},
+      maintenance_period = #{maintenancePeriod,jdbcType=VARCHAR}
+    where equipment_id = #{equipmentId,jdbcType=INTEGER}
+  </update>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+</mapper>

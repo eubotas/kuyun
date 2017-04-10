@@ -1,0 +1,11 @@
+.idea
+.classpath
+.project
+*.iml
+*.eml
+target
+*.log
+*.log.*
+**/resources/kuyun-admin
+generatorConfig.xml
+.DS_Store

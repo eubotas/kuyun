@@ -1,0 +1,30 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.kuyun</groupId>
+    <artifactId>kuyun-pay</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
+
+    <name>kuyun-pay</name>
+    <url>http://www.kuyun.cn</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.compilerVersion>1.7</maven.compiler.compilerVersion>
+    </properties>
+
+    <modules>
+        <module>kuyun-pay-common</module>
+        <module>kuyun-pay-dao</module>
+        <module>kuyun-pay-rpc-api</module>
+        <module>kuyun-pay-rpc-service</module>
+        <module>kuyun-pay-sdk</module>
+        <module>kuyun-pay-web</module>
+        <module>kuyun-pay-admin</module>
+    </modules>
+</project>

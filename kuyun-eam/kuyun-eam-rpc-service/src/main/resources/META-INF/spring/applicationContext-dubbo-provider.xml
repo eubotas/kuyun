@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd ">
+
+    <dubbo:application name="kuyun-eam-rpc-service"/>
+
+    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
+
+    <dubbo:protocol name="dubbo" port="20883"/>
+
+    <!-- 设备 -->
+    <bean id="eamEquipmentServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamEquipmentServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamEquipmentService" ref="eamEquipmentServiceImpl" timeout="10000"/>
+
+    <!-- 设备模型 -->
+    <bean id="eamEquipmentModelServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamEquipmentModelServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamEquipmentModelService" ref="eamEquipmentModelServiceImpl" timeout="10000"/>
+
+    <!-- 设备模型参数 -->
+    <bean id="eamEquipmentModelPropertiesServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamEquipmentModelPropertiesServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamEquipmentModelPropertiesService" ref="eamEquipmentModelPropertiesServiceImpl" timeout="10000"/>
+
+
+</beans>
