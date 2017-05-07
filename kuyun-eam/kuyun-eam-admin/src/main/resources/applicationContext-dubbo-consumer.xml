@@ -24,6 +24,28 @@
     <!-- 设备模型参数 -->
     <dubbo:reference id="eamEquipmentModelPropertiesService" interface="com.kuyun.eam.rpc.api.EamEquipmentModelPropertiesService" mock="true"/>
 
+    <!-- 配件 -->
+    <dubbo:reference id="eamPartsService" interface="com.kuyun.eam.rpc.api.EamPartsService" mock="true"/>
+
+    <!-- 配件类别 -->
+    <dubbo:reference id="eamPartsCategoryService" interface="com.kuyun.eam.rpc.api.EamPartsCategoryService" mock="true"/>
+
+    <!-- 维保 -->
+    <dubbo:reference id="eamMaintenanceService" interface="com.kuyun.eam.rpc.api.EamMaintenanceService" mock="true"/>
+
+    <!-- 仓库 -->
+    <dubbo:reference id="eamWarehouseService" interface="com.kuyun.eam.rpc.api.EamWarehouseService" mock="true"/>
+
+    <!-- 仓位 -->
+    <dubbo:reference id="eamLocationService" interface="com.kuyun.eam.rpc.api.EamLocationService" mock="true"/>
+
+    <!-- 库存 -->
+    <dubbo:reference id="eamInventoryService" interface="com.kuyun.eam.rpc.api.EamInventoryService" mock="true"/>
+
+    <!-- 设备管理 -->
+    <dubbo:reference id="eamApiService" interface="com.kuyun.eam.rpc.api.EamApiService" mock="true"/>
+
+
     <!-- 接口服务 -->
     <dubbo:reference id="upmsApiService" interface="com.kuyun.upms.rpc.api.UpmsApiService" mock="true" registry="upmsRegistry"/>
 </beans>

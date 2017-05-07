@@ -56,6 +56,50 @@ public class UpmsApiServiceMock implements UpmsApiService {
         return null;
     }
 
+    /**
+     * 根据userId获取所在组织的父节点
+     *
+     * @param upmsUserId
+     * @return
+     */
+    @Override
+    public UpmsOrganization selectParentOrganizationByUserId(Integer upmsUserId) {
+        return null;
+    }
+
+    /**
+     * 根据userId获取所在组织的所有父节点
+     *
+     * @param upmsUserId
+     * @return
+     */
+    @Override
+    public List<UpmsOrganization> selectAllParentOrganizationByUserId(Integer upmsUserId) {
+        return null;
+    }
+
+    /**
+     * 根据userId获取所在组织的所有子节点
+     *
+     * @param upmsUserId
+     * @return
+     */
+    @Override
+    public List<UpmsOrganization> selectAllChildOrganizationByUserId(Integer upmsUserId) {
+        return null;
+    }
+
+    /**
+     * 根据userId获取所在组织的所有的用户
+     *
+     * @param upmsUserId
+     * @return
+     */
+    @Override
+    public List<UpmsUser> selectUsersByUserId(Integer upmsUserId) {
+        return null;
+    }
+
     @Override
     public int insertUpmsLogSelective(UpmsLog record) {
         _log.info("UpmsApiServiceMock => insertSelective");

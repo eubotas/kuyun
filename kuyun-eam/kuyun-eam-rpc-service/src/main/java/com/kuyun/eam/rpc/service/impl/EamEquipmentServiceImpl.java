@@ -6,11 +6,17 @@ import com.kuyun.eam.dao.mapper.EamEquipmentMapper;
 import com.kuyun.eam.dao.model.EamEquipment;
 import com.kuyun.eam.dao.model.EamEquipmentExample;
 import com.kuyun.eam.rpc.api.EamEquipmentService;
+import com.kuyun.upms.dao.model.UpmsOrganization;
+import com.kuyun.upms.dao.model.UpmsUser;
+import com.kuyun.upms.rpc.api.UpmsApiService;
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
 
 /**
 * EamEquipmentService实现

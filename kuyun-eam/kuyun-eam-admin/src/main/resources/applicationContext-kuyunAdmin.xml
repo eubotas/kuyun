@@ -4,6 +4,7 @@
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<!-- 启动解压kuyunAdmin-x.x.x.jar到resources目录 -->
-	<!--<bean id="kuyunAdminUtil" class="com.kuyun.common.util.KuyunAdminUtil"></bean>-->
+	<bean id="kuyunAdminUtil" class="com.kuyun.common.util.KuyunAdminUtil"></bean>
+	<bean id="eamUtils" class="com.kuyun.eam.admin.util.EamUtils"></bean>
 
 </beans>

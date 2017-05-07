@@ -18,6 +18,7 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 
 	public Mapper mapper;
 
+
 	@Override
 	public int countByExample(Example example) {
 		try {
@@ -87,6 +88,7 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 		DynamicDataSource.clearDataSource();
 		return 0;
 	}
+
 
 	@Override
 	public List<Record> selectByExampleWithBLOBs(Example example) {

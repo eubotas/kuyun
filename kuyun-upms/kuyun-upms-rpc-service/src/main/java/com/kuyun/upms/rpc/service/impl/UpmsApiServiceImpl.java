@@ -3,6 +3,8 @@ package com.kuyun.upms.rpc.service.impl;
 import com.kuyun.upms.dao.mapper.*;
 import com.kuyun.upms.dao.model.*;
 import com.kuyun.upms.rpc.api.UpmsApiService;
+import com.kuyun.upms.rpc.api.UpmsUserOrganizationService;
+import com.kuyun.upms.rpc.api.UpmsUserService;
 import com.kuyun.upms.rpc.mapper.UpmsApiMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,6 +45,12 @@ public class UpmsApiServiceImpl implements UpmsApiService {
 
     @Autowired
     UpmsLogMapper upmsLogMapper;
+
+    @Autowired
+    UpmsUserService upmsUserService;
+
+    @Autowired
+    UpmsUserOrganizationService upmsUserOrganizationService;
 
     /**
      * 根据用户id获取所拥有的权限
@@ -140,6 +149,78 @@ public class UpmsApiServiceImpl implements UpmsApiService {
             return upmsUsers.get(0);
         }
         return null;
+    }
+
+    @Override
+    public UpmsOrganization selectParentOrganizationByUserId(Integer upmsUserId) {
+        UpmsOrganization result = null;
+        UpmsUserOrganization userOrganization = getUpmsUserOrganization(upmsUserId);
+        if (userOrganization != null){
+            List<UpmsOrganization> organizations = upmsApiMapper.selectAllParentOrganizationById(userOrganization.getOrganizationId());
+            if (!organizations.isEmpty()){
+                result = organizations.get(0);
+            }
+
+        }
+        return result;
+    }
+
+    /**
+     * 根据userId获取所在组织的所有父节点
+     *
+     * @param upmsUserId
+     * @return
+     */
+    @Override
+    public List<UpmsOrganization> selectAllParentOrganizationByUserId(Integer upmsUserId) {
+        UpmsUserOrganization userOrganization = getUpmsUserOrganization(upmsUserId);
+        return upmsApiMapper.selectAllParentOrganizationById(userOrganization.getOrganizationId());
+    }
+
+    /**
+     * 根据userId获取所在组织的所有子节点
+     *
+     * @param upmsUserId
+     * @return
+     */
+    @Override
+    public List<UpmsOrganization> selectAllChildOrganizationByUserId(Integer upmsUserId) {
+        UpmsUserOrganization userOrganization = getUpmsUserOrganization(upmsUserId);
+        return  upmsApiMapper.selectAllChildOrganizationById(userOrganization.getOrganizationId());
+    }
+
+    private UpmsUserOrganization getUpmsUserOrganization(Integer upmsUserId) {
+        UpmsUserOrganizationExample userOrganizationExample = new UpmsUserOrganizationExample();
+        userOrganizationExample.createCriteria().andUserIdEqualTo(upmsUserId);
+        return upmsUserOrganizationService.selectFirstByExample(userOrganizationExample);
+    }
+
+    public List<UpmsUser> selectUsersByUserId(Integer upmsUserId){
+        List<UpmsUser> result = new ArrayList<>();
+        UpmsOrganization organization = selectParentOrganizationByUserId(upmsUserId);
+
+        if (organization != null){
+            List<Integer> userIds = getUserIds(organization);
+
+            UpmsUserExample userExample = new UpmsUserExample();
+            userExample.createCriteria().andUserIdIn(userIds);
+            result = upmsUserService.selectByExample(userExample);
+
+        }
+        return result;
+    }
+
+    private List<Integer> getUserIds(UpmsOrganization organization) {
+        UpmsUserOrganizationExample userOrganizationExample = new UpmsUserOrganizationExample();
+        userOrganizationExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId());
+        List<UpmsUserOrganization> userOrganizations = upmsUserOrganizationService.selectByExample(userOrganizationExample);
+        List<Integer> userIds = new ArrayList<>();
+        if (userOrganizations != null && !userOrganizations.isEmpty()){
+            for (UpmsUserOrganization userOrganization : userOrganizations){
+                userIds.add(userOrganization.getUserId());
+            }
+        }
+        return userIds;
     }
 
     /**

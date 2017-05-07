@@ -59,6 +59,35 @@ public interface UpmsApiService {
      */
     UpmsUser selectUpmsUserByUsername(String username);
 
+
+    /**
+     * 根据userId获取所在组织的父节点
+     * @param upmsUserId
+     * @return
+     */
+    UpmsOrganization selectParentOrganizationByUserId(Integer upmsUserId);
+
+    /**
+     * 根据userId获取所在组织的所有父节点
+     * @param upmsUserId
+     * @return
+     */
+    List<UpmsOrganization> selectAllParentOrganizationByUserId(Integer upmsUserId);
+
+    /**
+     *根据userId获取所在组织的所有子节点
+     * @param upmsUserId
+     * @return
+     */
+    List<UpmsOrganization> selectAllChildOrganizationByUserId(Integer upmsUserId);
+
+    /**
+     * 根据userId获取所在组织的所有的用户
+     * @param upmsUserId
+     * @return
+     */
+    List<UpmsUser> selectUsersByUserId(Integer upmsUserId);
+
     /**
      * 写入操作日志
      * @param record

@@ -5,13 +5,21 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
+import com.kuyun.eam.admin.util.EamUtils;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.EamEquipment;
 import com.kuyun.eam.dao.model.EamEquipmentExample;
+import com.kuyun.eam.dao.model.EamEquipmentModel;
+import com.kuyun.eam.dao.model.EamEquipmentModelExample;
+import com.kuyun.eam.rpc.api.EamEquipmentModelService;
 import com.kuyun.eam.rpc.api.EamEquipmentService;
+import com.kuyun.upms.dao.model.UpmsOrganization;
+import com.kuyun.upms.dao.model.UpmsUser;
+import com.kuyun.upms.rpc.api.UpmsApiService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +28,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +49,12 @@ public class EamEquipmentController extends BaseController {
 	
 	@Autowired
 	private EamEquipmentService eamEquipmentService;
+
+	@Autowired
+	private EamEquipmentModelService eamEquipmentModelService;
+
+	@Autowired
+	private EamUtils eamUtils;
 
 
 	@ApiOperation(value = "设备首页")
@@ -64,6 +79,13 @@ public class EamEquipmentController extends BaseController {
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			eamEquipmentExample.setOrderByClause(sort + " " + order);
 		}
+
+		UpmsOrganization organization = eamUtils.getCurrentUserParentOrignization();
+
+		if (organization != null){
+			eamEquipmentExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId());
+		}
+
 		List<EamEquipment> rows = eamEquipmentService.selectByExample(eamEquipmentExample);
 		long total = eamEquipmentService.countByExample(eamEquipmentExample);
 		Map<String, Object> result = new HashMap<>();
@@ -75,7 +97,11 @@ public class EamEquipmentController extends BaseController {
 	@ApiOperation(value = "新增设备")
 	@RequiresPermissions("eam:equipment:create")
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public String create() {
+	public String create( ModelMap modelMap) {
+
+		List<EamEquipmentModel> equipmentModels = eamEquipmentModelService.selectByExample(new EamEquipmentModelExample());
+		modelMap.put("equipmentModels", equipmentModels);
+
 		return "/manage/equipment/create.jsp";
 	}
 
@@ -91,6 +117,7 @@ public class EamEquipmentController extends BaseController {
 		if (!result.isSuccess()) {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
+		eamUtils.addAddtionalValue(eamEquipment);
 		int count = eamEquipmentService.insertSelective(eamEquipment);
 		return new EamResult(SUCCESS, count);
 	}
@@ -126,8 +153,10 @@ public class EamEquipmentController extends BaseController {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
 		equipment.setEquipmentId(id);
+		eamUtils.updateAddtionalValue(equipment);
 		int count = eamEquipmentService.updateByPrimaryKeySelective(equipment);
 		return new EamResult(SUCCESS, count);
 	}
+
 
 }

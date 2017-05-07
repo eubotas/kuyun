@@ -16,6 +16,12 @@
     <result column="warranty_start_date" jdbcType="TIMESTAMP" property="warrantyStartDate" />
     <result column="warranty_end_date" jdbcType="TIMESTAMP" property="warrantyEndDate" />
     <result column="maintenance_period" jdbcType="VARCHAR" property="maintenancePeriod" />
+    <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
+    <result column="organization_id" jdbcType="INTEGER" property="organizationId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -78,7 +84,8 @@
   <sql id="Base_Column_List">
     equipment_id, equipment_model_id, name, number, serial_number, image_path, longitude, 
     latitude, user, factory_date, commissioning_date, warranty_start_date, warranty_end_date, 
-    maintenance_period
+    maintenance_period, create_user_id, create_time, update_user_id, update_time, delete_flag, 
+    organization_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentExample" resultMap="BaseResultMap">
     select
@@ -123,12 +130,16 @@
       number, serial_number, image_path, 
       longitude, latitude, user, 
       factory_date, commissioning_date, warranty_start_date, 
-      warranty_end_date, maintenance_period)
+      warranty_end_date, maintenance_period, create_user_id, 
+      create_time, update_user_id, update_time, 
+      delete_flag, organization_id)
     values (#{equipmentId,jdbcType=INTEGER}, #{equipmentModelId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{number,jdbcType=VARCHAR}, #{serialNumber,jdbcType=VARCHAR}, #{imagePath,jdbcType=VARCHAR}, 
       #{longitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}, #{user,jdbcType=VARCHAR}, 
       #{factoryDate,jdbcType=TIMESTAMP}, #{commissioningDate,jdbcType=TIMESTAMP}, #{warrantyStartDate,jdbcType=TIMESTAMP}, 
-      #{warrantyEndDate,jdbcType=TIMESTAMP}, #{maintenancePeriod,jdbcType=VARCHAR})
+      #{warrantyEndDate,jdbcType=TIMESTAMP}, #{maintenancePeriod,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{deleteFlag,jdbcType=BIT}, #{organizationId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamEquipment">
     insert into eam_equipment
@@ -175,6 +186,24 @@
       <if test="maintenancePeriod != null">
         maintenance_period,
       </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag,
+      </if>
+      <if test="organizationId != null">
+        organization_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="equipmentId != null">
@@ -218,6 +247,24 @@
       </if>
       <if test="maintenancePeriod != null">
         #{maintenancePeriod,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null">
+        #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="organizationId != null">
+        #{organizationId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -272,6 +319,24 @@
       <if test="record.maintenancePeriod != null">
         maintenance_period = #{record.maintenancePeriod,jdbcType=VARCHAR},
       </if>
+      <if test="record.createUserId != null">
+        create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUserId != null">
+        update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deleteFlag != null">
+        delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="record.organizationId != null">
+        organization_id = #{record.organizationId,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -292,7 +357,13 @@
       commissioning_date = #{record.commissioningDate,jdbcType=TIMESTAMP},
       warranty_start_date = #{record.warrantyStartDate,jdbcType=TIMESTAMP},
       warranty_end_date = #{record.warrantyEndDate,jdbcType=TIMESTAMP},
-      maintenance_period = #{record.maintenancePeriod,jdbcType=VARCHAR}
+      maintenance_period = #{record.maintenancePeriod,jdbcType=VARCHAR},
+      create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      organization_id = #{record.organizationId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -339,6 +410,24 @@
       <if test="maintenancePeriod != null">
         maintenance_period = #{maintenancePeriod,jdbcType=VARCHAR},
       </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag = #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="organizationId != null">
+        organization_id = #{organizationId,jdbcType=INTEGER},
+      </if>
     </set>
     where equipment_id = #{equipmentId,jdbcType=INTEGER}
   </update>
@@ -356,7 +445,13 @@
       commissioning_date = #{commissioningDate,jdbcType=TIMESTAMP},
       warranty_start_date = #{warrantyStartDate,jdbcType=TIMESTAMP},
       warranty_end_date = #{warrantyEndDate,jdbcType=TIMESTAMP},
-      maintenance_period = #{maintenancePeriod,jdbcType=VARCHAR}
+      maintenance_period = #{maintenancePeriod,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      delete_flag = #{deleteFlag,jdbcType=BIT},
+      organization_id = #{organizationId,jdbcType=INTEGER}
     where equipment_id = #{equipmentId,jdbcType=INTEGER}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />

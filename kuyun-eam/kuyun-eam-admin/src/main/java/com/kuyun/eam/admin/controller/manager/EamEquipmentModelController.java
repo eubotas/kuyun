@@ -5,11 +5,13 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
+import com.kuyun.eam.admin.util.EamUtils;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.EamEquipmentModel;
 import com.kuyun.eam.dao.model.EamEquipmentModelExample;
 import com.kuyun.eam.rpc.api.EamEquipmentModelService;
 import com.kuyun.eam.rpc.api.EamEquipmentService;
+import com.kuyun.upms.dao.model.UpmsOrganization;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -45,7 +47,8 @@ public class EamEquipmentModelController extends BaseController {
 	@Autowired
 	private EamEquipmentModelService eamEquipmentModelService;
 
-
+	@Autowired
+	private EamUtils eamUtils;
 
 
 	@ApiOperation(value = "设备模型首页")
@@ -70,6 +73,13 @@ public class EamEquipmentModelController extends BaseController {
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			eamEquipmentModelExample.setOrderByClause(sort + " " + order);
 		}
+
+		UpmsOrganization organization = eamUtils.getCurrentUserParentOrignization();
+
+		if (organization != null){
+			eamEquipmentModelExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId());
+		}
+
 		List<EamEquipmentModel> rows = eamEquipmentModelService.selectByExample(eamEquipmentModelExample);
 		long total = eamEquipmentModelService.countByExample(eamEquipmentModelExample);
 		Map<String, Object> result = new HashMap<>();
@@ -82,7 +92,7 @@ public class EamEquipmentModelController extends BaseController {
 	@RequiresPermissions("eam:equipmentModel:create")
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public String create() {
-		return "/manage/equipmentModel/model/create.jsp";
+		return "/manage/equipment/model/create.jsp";
 	}
 
 	@ApiOperation(value = "新增设备模型")
@@ -97,6 +107,7 @@ public class EamEquipmentModelController extends BaseController {
 		if (!result.isSuccess()) {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
+		eamUtils.addAddtionalValue(equipmentModel);
 		int count = eamEquipmentModelService.insertSelective(equipmentModel);
 		return new EamResult(SUCCESS, count);
 	}
@@ -110,13 +121,15 @@ public class EamEquipmentModelController extends BaseController {
 		return new EamResult(SUCCESS, count);
 	}
 
+
+
 	@ApiOperation(value = "修改设备模型")
 	@RequiresPermissions("eam:equipmentModel:update")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
 	public String update(@PathVariable("id") int id, ModelMap modelMap) {
 		EamEquipmentModel eamEquipmentModel = eamEquipmentModelService.selectByPrimaryKey(id);
 		modelMap.put("equipmentModel", eamEquipmentModel);
-		return "/manage/equipmentModel/model/update.jsp";
+		return "/manage/equipment/model/update.jsp";
 	}
 
 	@ApiOperation(value = "修改设备模型")
@@ -132,8 +145,11 @@ public class EamEquipmentModelController extends BaseController {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
 		equipmentModel.setEquipmentModelId(id);
+		eamUtils.updateAddtionalValue(equipmentModel);
 		int count = eamEquipmentModelService.updateByPrimaryKeySelective(equipmentModel);
 		return new EamResult(SUCCESS, count);
 	}
+
+
 
 }

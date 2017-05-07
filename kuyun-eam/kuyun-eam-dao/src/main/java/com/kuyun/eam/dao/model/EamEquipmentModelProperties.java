@@ -1,8 +1,9 @@
 package com.kuyun.eam.dao.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
-public class EamEquipmentModelProperties implements Serializable {
+public class EamEquipmentModelProperties extends BaseEntity implements Serializable {
     private Integer equipmentModelPropertyId;
 
     private Integer equipmentModelId;
@@ -20,6 +21,7 @@ public class EamEquipmentModelProperties implements Serializable {
     private String alarmType;
 
     private String refreshPeriod;
+
 
     private static final long serialVersionUID = 1L;
 
@@ -95,6 +97,7 @@ public class EamEquipmentModelProperties implements Serializable {
         this.refreshPeriod = refreshPeriod;
     }
 
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -110,6 +113,12 @@ public class EamEquipmentModelProperties implements Serializable {
         sb.append(", dataType=").append(dataType);
         sb.append(", alarmType=").append(alarmType);
         sb.append(", refreshPeriod=").append(refreshPeriod);
+        sb.append(", createUserId=").append(getCreateUserId());
+        sb.append(", createTime=").append(getCreateTime());
+        sb.append(", updateUserId=").append(getUpdateUserId());
+        sb.append(", updateTime=").append(getUpdateTime());
+        sb.append(", deleteFlag=").append(getDeleteFlag());
+        sb.append(", organizationId=").append(getOrganizationId());
         sb.append("]");
         return sb.toString();
     }
@@ -134,7 +143,13 @@ public class EamEquipmentModelProperties implements Serializable {
             && (this.getAddress() == null ? other.getAddress() == null : this.getAddress().equals(other.getAddress()))
             && (this.getDataType() == null ? other.getDataType() == null : this.getDataType().equals(other.getDataType()))
             && (this.getAlarmType() == null ? other.getAlarmType() == null : this.getAlarmType().equals(other.getAlarmType()))
-            && (this.getRefreshPeriod() == null ? other.getRefreshPeriod() == null : this.getRefreshPeriod().equals(other.getRefreshPeriod()));
+            && (this.getRefreshPeriod() == null ? other.getRefreshPeriod() == null : this.getRefreshPeriod().equals(other.getRefreshPeriod()))
+            && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
+            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
+            && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
+            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
+            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
+            && (this.getOrganizationId() == null ? other.getOrganizationId() == null : this.getOrganizationId().equals(other.getOrganizationId()));
     }
 
     @Override
@@ -150,6 +165,12 @@ public class EamEquipmentModelProperties implements Serializable {
         result = prime * result + ((getDataType() == null) ? 0 : getDataType().hashCode());
         result = prime * result + ((getAlarmType() == null) ? 0 : getAlarmType().hashCode());
         result = prime * result + ((getRefreshPeriod() == null) ? 0 : getRefreshPeriod().hashCode());
+        result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());
+        result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
+        result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());
+        result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
+        result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
+        result = prime * result + ((getOrganizationId() == null) ? 0 : getOrganizationId().hashCode());
         return result;
     }
 }

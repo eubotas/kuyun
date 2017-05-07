@@ -25,5 +25,33 @@
     <bean id="eamEquipmentModelPropertiesServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamEquipmentModelPropertiesServiceImpl"/>
     <dubbo:service interface="com.kuyun.eam.rpc.api.EamEquipmentModelPropertiesService" ref="eamEquipmentModelPropertiesServiceImpl" timeout="10000"/>
 
+    <!-- 配件 -->
+    <bean id="eamPartsServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamPartsServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamPartsService" ref="eamPartsServiceImpl" timeout="10000"/>
+
+    <!-- 配件类别 -->
+    <bean id="eamPartsCategoryServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamPartsCategoryServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamPartsCategoryService" ref="eamPartsCategoryServiceImpl" timeout="10000"/>
+
+    <!-- 仓库 -->
+    <bean id="eamWarehouseServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamWarehouseServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamWarehouseService" ref="eamWarehouseServiceImpl" timeout="10000"/>
+
+    <!-- 仓位 -->
+    <bean id="eamLocationServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamLocationServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamLocationService" ref="eamLocationServiceImpl" timeout="10000"/>
+
+    <!-- 库存 -->
+    <bean id="eamInventoryServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamInventoryServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamInventoryService" ref="eamInventoryServiceImpl" timeout="10000"/>
+
+    <!-- 维保 -->
+    <bean id="eamMaintenanceServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamMaintenanceServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamMaintenanceService" ref="eamMaintenanceServiceImpl" timeout="10000"/>
+
+
+    <!-- 接口服务 -->
+    <bean id="eamApiServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamApiServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamApiService" ref="eamApiServiceImpl" timeout="10000"/>
 
 </beans>

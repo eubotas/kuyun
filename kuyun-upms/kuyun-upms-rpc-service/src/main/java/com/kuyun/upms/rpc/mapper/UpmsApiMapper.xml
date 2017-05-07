@@ -27,6 +27,15 @@
 		<result column="orders" jdbcType="BIGINT" property="orders" />
 	</resultMap>
 
+	<!-- 组织 -->
+	<resultMap id="UpmsOrganizationResultMap" type="com.kuyun.upms.dao.model.UpmsOrganization">
+		<id column="organization_id" jdbcType="INTEGER" property="organizationId" />
+		<result column="pid" jdbcType="VARCHAR" property="pid" />
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="description" jdbcType="VARCHAR" property="description" />
+		<result column="ctime" jdbcType="BIGINT" property="ctime" />
+	</resultMap>
+
 	<!-- 权限字段 -->
 	<sql id="UpmsPermission_Column_List">
 		permission_id, system_id, pid, name, type, permission_value, uri, icon, status, ctime, orders
@@ -53,13 +62,34 @@
 		) order by up.orders asc
 	</select>
 
+	<!-- 角色字段 -->
+	<sql id="UpmsOrganization_Column_List">
+		 organization_id, pid, name, description, ctime
+	</sql>
+
 	<!-- 根据用户id获取所属的角色 -->
 	<select id="selectUpmsRoleByUpmsUserId" parameterType="java.lang.Integer" resultMap="UpmsRoleResultMap">
 		select
-			<include refid="UpmsRole_Column_List" />
+		<include refid="UpmsRole_Column_List" />
 		from upms_role ur where ur.role_id in (
-			select uur.role_id from upms_user_role uur where uur.user_id=#{upmsUserId,jdbcType=INTEGER}
+		select uur.role_id from upms_user_role uur where uur.user_id=#{upmsUserId,jdbcType=INTEGER}
 		)
+	</select>
+
+	<!-- 根据id获取所在组织所有的父组织 -->
+	<select id="selectAllParentOrganizationById" parameterType="java.lang.Integer" resultMap="UpmsOrganizationResultMap">
+		select
+		<include refid="UpmsOrganization_Column_List" />
+		from upms_organization uo
+		where FIND_IN_SET(uo.organization_id,getParentList(#{organizationId,jdbcType=INTEGER}));
+	</select>
+
+	<!-- 根据id获取所在组织的所有子节点 -->
+	<select id="selectAllChildOrganizationById" parameterType="java.lang.Integer" resultMap="UpmsOrganizationResultMap">
+		select
+		<include refid="UpmsOrganization_Column_List" />
+		from upms_organization uo
+		where FIND_IN_SET(uo.organization_id,getParentList(#{organizationId,jdbcType=INTEGER}));
 	</select>
 
 	<!-- 缓存 -->
