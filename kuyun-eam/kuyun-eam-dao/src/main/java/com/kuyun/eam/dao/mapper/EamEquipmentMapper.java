@@ -12,6 +12,8 @@ public interface EamEquipmentMapper {
 
     int deleteByPrimaryKey(Integer equipmentId);
 
+    int deleteByPrimaryKey(String equipmentId);
+
     int insert(EamEquipment record);
 
     int insertSelective(EamEquipment record);
@@ -19,6 +21,8 @@ public interface EamEquipmentMapper {
     List<EamEquipment> selectByExample(EamEquipmentExample example);
 
     EamEquipment selectByPrimaryKey(Integer equipmentId);
+
+    EamEquipment selectByPrimaryKey(String equipmentId);
 
     int updateByExampleSelective(@Param("record") EamEquipment record, @Param("example") EamEquipmentExample example);
 

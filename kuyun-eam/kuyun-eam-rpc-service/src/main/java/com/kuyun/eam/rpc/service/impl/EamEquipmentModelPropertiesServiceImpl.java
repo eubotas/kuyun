@@ -3,6 +3,7 @@ package com.kuyun.eam.rpc.service.impl;
 import com.kuyun.common.annotation.BaseService;
 import com.kuyun.common.base.BaseServiceImpl;
 import com.kuyun.eam.dao.mapper.EamEquipmentModelPropertiesMapper;
+import com.kuyun.eam.dao.model.EamEquipmentModel;
 import com.kuyun.eam.dao.model.EamEquipmentModelProperties;
 import com.kuyun.eam.dao.model.EamEquipmentModelPropertiesExample;
 import com.kuyun.eam.rpc.api.EamEquipmentModelPropertiesService;
@@ -25,5 +26,18 @@ public class EamEquipmentModelPropertiesServiceImpl extends BaseServiceImpl<EamE
 
     @Autowired
     EamEquipmentModelPropertiesMapper eamEquipmentModelPropertiesMapper;
+
+
+    @Override
+    public int insert(EamEquipmentModelProperties record) {
+        record.setDeleteFlag(Boolean.FALSE);
+        return super.insert(record);
+    }
+
+    @Override
+    public int insertSelective(EamEquipmentModelProperties record) {
+        record.setDeleteFlag(Boolean.FALSE);
+        return super.insertSelective(record);
+    }
 
 }

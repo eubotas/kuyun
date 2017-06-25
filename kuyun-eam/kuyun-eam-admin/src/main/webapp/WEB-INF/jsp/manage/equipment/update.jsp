@@ -42,9 +42,8 @@
 				<div class="form-group">
 					<div class="fg-line">
 						<select id="equipmentModelId" name="equipmentModelId" style="width: 100%">
-							<option value="0">设备模型</option>
 							<c:forEach var="equipmentModel" items="${equipmentModels}">
-								<option value="${equipmentModel.equipmentModelId}" <c:if test="${equipment.equipmentModelId==equipmentModel.equipmentModelId}">selected</c:if>>${equipmentModelId.name}</option>
+								<option value="${equipmentModel.equipmentModelId}" <c:if test="${equipment.equipmentModelId==equipmentModel.equipmentModelId}">selected</c:if>>${equipmentModel.name}</option>
 							</c:forEach>
 						</select>
 					</div>
@@ -139,8 +138,8 @@ function updateSubmit() {
         url: '${basePath}/manage/equipment/update/${equipment.equipmentId}',
         data: $('#updateForm').serialize(),
         beforeSend: function() {
-			if ($('#title').val() == '') {
-				$('#title').focus();
+			if ($('#name').val() == '') {
+				$('#name').focus();
 				return false;
 			}
         },

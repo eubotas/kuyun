@@ -475,7 +475,7 @@ CREATE TABLE `upms_log` (
   `url` varchar(200) DEFAULT NULL COMMENT 'URL',
   `method` varchar(10) DEFAULT NULL COMMENT '请求类型',
   `parameter` mediumtext,
-  `user_agent` varchar(200) DEFAULT NULL COMMENT '用户标识',
+  `user_agent` varchar(500) DEFAULT NULL COMMENT '用户标识',
   `ip` varchar(30) DEFAULT NULL COMMENT 'IP地址',
   `result` mediumtext,
   `permissions` varchar(100) DEFAULT NULL COMMENT '权限值',

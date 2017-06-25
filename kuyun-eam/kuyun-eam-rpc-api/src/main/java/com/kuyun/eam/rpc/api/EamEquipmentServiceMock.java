@@ -11,4 +11,13 @@ import com.kuyun.eam.dao.model.EamEquipmentExample;
 */
 public class EamEquipmentServiceMock extends BaseServiceMock<EamEquipmentMapper, EamEquipment, EamEquipmentExample> implements EamEquipmentService {
 
+    @Override
+    public EamEquipment selectByPrimaryKey(String id) {
+        return null;
+    }
+
+    @Override
+    public int deleteByPrimaryKey(String id) {
+        return 0;
+    }
 }

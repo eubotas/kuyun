@@ -198,27 +198,27 @@ public class EamMaintenanceExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andEquipmentIdEqualTo(Integer value) {
+        public Criteria andEquipmentIdEqualTo(String value) {
             addCriterion("t.equipment_id =", value, "equipmentId");
             return (Criteria) this;
         }
 
-        public Criteria andEquipmentIdNotEqualTo(Integer value) {
+        public Criteria andEquipmentIdNotEqualTo(String value) {
             addCriterion("t.equipment_id <>", value, "equipmentId");
             return (Criteria) this;
         }
 
-        public Criteria andEquipmentIdGreaterThan(Integer value) {
+        public Criteria andEquipmentIdGreaterThan(String value) {
             addCriterion("t.equipment_id >", value, "equipmentId");
             return (Criteria) this;
         }
 
-        public Criteria andEquipmentIdGreaterThanOrEqualTo(Integer value) {
+        public Criteria andEquipmentIdGreaterThanOrEqualTo(String value) {
             addCriterion("t.equipment_id >=", value, "equipmentId");
             return (Criteria) this;
         }
 
-        public Criteria andEquipmentIdLessThan(Integer value) {
+        public Criteria andEquipmentIdLessThan(String value) {
             addCriterion("t.equipment_id <", value, "equipmentId");
             return (Criteria) this;
         }
@@ -228,22 +228,22 @@ public class EamMaintenanceExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andEquipmentIdIn(List<Integer> values) {
+        public Criteria andEquipmentIdIn(List<String> values) {
             addCriterion("t.equipment_id in", values, "equipmentId");
             return (Criteria) this;
         }
 
-        public Criteria andEquipmentIdNotIn(List<Integer> values) {
+        public Criteria andEquipmentIdNotIn(List<String> values) {
             addCriterion("t.equipment_id not in", values, "equipmentId");
             return (Criteria) this;
         }
 
-        public Criteria andEquipmentIdBetween(Integer value1, Integer value2) {
+        public Criteria andEquipmentIdBetween(String value1, String value2) {
             addCriterion("t.equipment_id between", value1, value2, "equipmentId");
             return (Criteria) this;
         }
 
-        public Criteria andEquipmentIdNotBetween(Integer value1, Integer value2) {
+        public Criteria andEquipmentIdNotBetween(String value1, String value2) {
             addCriterion("t.equipment_id not between", value1, value2, "equipmentId");
             return (Criteria) this;
         }

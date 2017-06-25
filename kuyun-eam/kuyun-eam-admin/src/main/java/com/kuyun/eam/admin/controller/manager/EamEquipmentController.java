@@ -6,20 +6,16 @@ import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.admin.util.EamUtils;
+import com.kuyun.eam.admin.util.ModbusFunctionCode;
+import com.kuyun.eam.admin.util.ProtocolEnum;
 import com.kuyun.eam.common.constant.EamResult;
-import com.kuyun.eam.dao.model.EamEquipment;
-import com.kuyun.eam.dao.model.EamEquipmentExample;
-import com.kuyun.eam.dao.model.EamEquipmentModel;
-import com.kuyun.eam.dao.model.EamEquipmentModelExample;
-import com.kuyun.eam.rpc.api.EamEquipmentModelService;
-import com.kuyun.eam.rpc.api.EamEquipmentService;
+import com.kuyun.eam.dao.model.*;
+import com.kuyun.eam.rpc.api.*;
 import com.kuyun.upms.dao.model.UpmsOrganization;
-import com.kuyun.upms.dao.model.UpmsUser;
-import com.kuyun.upms.rpc.api.UpmsApiService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +24,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,8 +49,16 @@ public class EamEquipmentController extends BaseController {
 	private EamEquipmentModelService eamEquipmentModelService;
 
 	@Autowired
+	private EamEquipmentModelPropertiesService eamEquipmentModelPropertiesService;
+
+	@Autowired
 	private EamUtils eamUtils;
 
+	@Autowired
+	private EamSensorService eamSensorService;
+
+	@Autowired
+	private EamProtocolService protocolService;
 
 	@ApiOperation(value = "设备首页")
 	@RequiresPermissions("eam:equipment:read")
@@ -134,7 +137,12 @@ public class EamEquipmentController extends BaseController {
 	@ApiOperation(value = "修改设备")
 	@RequiresPermissions("eam:equipment:update")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-	public String update(@PathVariable("id") int id, ModelMap modelMap) {
+	public String update(@PathVariable("id") String id, ModelMap modelMap) {
+		EamEquipmentModelExample equipmentModelExample = new EamEquipmentModelExample();
+		equipmentModelExample.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE);
+		List<EamEquipmentModel> equipmentModels = eamEquipmentModelService.selectByExample(equipmentModelExample);
+		modelMap.put("equipmentModels", equipmentModels);
+
 		EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(id);
 		modelMap.put("equipment", equipment);
 		return "/manage/equipment/update.jsp";
@@ -144,7 +152,7 @@ public class EamEquipmentController extends BaseController {
 	@RequiresPermissions("eam:equipment:update")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
 	@ResponseBody
-	public Object update(@PathVariable("id") int id, EamEquipment equipment) {
+	public Object update(@PathVariable("id") String id, EamEquipment equipment) {
 		ComplexResult result = FluentValidator.checkAll()
 				.on(equipment.getName(), new LengthValidator(1, 20, "设备名称"))
 				.doValidate()
@@ -158,5 +166,51 @@ public class EamEquipmentController extends BaseController {
 		return new EamResult(SUCCESS, count);
 	}
 
+	@ApiOperation(value = "设备接入")
+	@RequiresPermissions("eam:equipment:update")
+	@RequestMapping(value = "/connect/{id}", method = RequestMethod.GET)
+	public String connect(@PathVariable("id") String id, ModelMap modelMap) {
+		EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(id);
+		modelMap.put("equipment", equipment);
+		modelMap.put("protocols", protocolService.selectByExample(new EamProtocolExample()));
+		return "/manage/equipment/connect.jsp";
+	}
+
+	@ApiOperation(value = "设备接入")
+	@RequiresPermissions("eam:equipment:update")
+	@RequestMapping(value = "/connect/{id}", method = RequestMethod.POST)
+	@ResponseBody
+	public Object connect(@PathVariable("id") String id, EamEquipment equipment) {
+
+		equipment.setEquipmentId(id);
+		int count = eamEquipmentService.updateByPrimaryKeySelective(equipment);
+		return new EamResult(SUCCESS, count);
+	}
+
+	@RequiresPermissions("eam:equipment:update")
+	@RequestMapping(value = "/modbus/{eId}/{pId}", method = RequestMethod.GET)
+	public String modbus(@PathVariable("eId") String eId, @PathVariable("pId") int pId, ModelMap modelMap) {
+		EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(eId);
+		EamEquipmentModelProperties eamEquipmentModelProperties = eamEquipmentModelPropertiesService.selectByPrimaryKey(pId);
+		EamSensor sensor = getSensor(equipment, eamEquipmentModelProperties);
+
+		modelMap.put("equipment", equipment);
+		modelMap.put("equipmentModelProperties", eamEquipmentModelProperties);
+		modelMap.put("modbusFunctionCodes", ModbusFunctionCode.values());
+		if (sensor != null){
+			modelMap.put("sensor", sensor);
+		}
+
+		return "/manage/equipment/modbus.jsp";
+	}
+
+	public EamSensor getSensor(EamEquipment equipment, EamEquipmentModelProperties eamEquipmentModelProperties){
+		EamSensorExample example = new EamSensorExample();
+		example.createCriteria().andEquipmentIdEqualTo(equipment.getEquipmentId())
+				.andEquipmentModelPropertyIdEqualTo(eamEquipmentModelProperties.getEquipmentModelPropertyId());
+
+
+		return eamSensorService.selectFirstByExample(example);
+	}
 
 }

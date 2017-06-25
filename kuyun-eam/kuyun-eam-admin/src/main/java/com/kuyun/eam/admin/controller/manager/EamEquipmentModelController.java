@@ -77,8 +77,10 @@ public class EamEquipmentModelController extends BaseController {
 		UpmsOrganization organization = eamUtils.getCurrentUserParentOrignization();
 
 		if (organization != null){
-			eamEquipmentModelExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId());
+			eamEquipmentModelExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId())
+			.andDeleteFlagEqualTo(Boolean.FALSE);
 		}
+
 
 		List<EamEquipmentModel> rows = eamEquipmentModelService.selectByExample(eamEquipmentModelExample);
 		long total = eamEquipmentModelService.countByExample(eamEquipmentModelExample);

@@ -36,6 +36,7 @@ public class EamServiceTest {
     @Autowired
     private EamEquipmentModelService eamEquipmentModelService;
 
+    @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private EamWarehouseService warehouseService;
 
@@ -64,7 +65,8 @@ public class EamServiceTest {
 //        eamMaintenanceExample.createCriteria().andMaintenanceIdEqualTo(1).andEquipmentIdEqualTo(1);
 //        eamApiService.selectMaintenance(eamMaintenanceExample);
 
-        eamApiService.selectLocation(new EamLocationVO());
+//        eamApiService.selectLocation(new EamLocationVO());
+        eamEquipmentModelService.deleteByPrimaryKey(3);
     }
 
 }

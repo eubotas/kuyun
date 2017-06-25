@@ -83,7 +83,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from eam_inventory t
+    from eam_inventory
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -102,7 +102,7 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from eam_inventory t
+    from eam_inventory
     where inventory_id = #{inventoryId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
@@ -110,7 +110,7 @@
     where inventory_id = #{inventoryId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamInventoryExample">
-    delete from eam_inventory t
+    delete from eam_inventory
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -207,13 +207,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamInventoryExample" resultType="java.lang.Long">
-    select count(*) from eam_inventory t
+    select count(*) from eam_inventory
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update eam_inventory t
+    update eam_inventory
     <set>
       <if test="record.inventoryId != null">
         inventory_id = #{record.inventoryId,jdbcType=INTEGER},
@@ -257,7 +257,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update eam_inventory t
+    update eam_inventory
     set inventory_id = #{record.inventoryId,jdbcType=INTEGER},
       warehouse_id = #{record.warehouseId,jdbcType=INTEGER},
       location_id = #{record.locationId,jdbcType=INTEGER},
@@ -275,7 +275,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.kuyun.eam.dao.model.EamInventory">
-    update eam_inventory t
+    update eam_inventory
     <set>
       <if test="warehouseId != null">
         warehouse_id = #{warehouseId,jdbcType=INTEGER},

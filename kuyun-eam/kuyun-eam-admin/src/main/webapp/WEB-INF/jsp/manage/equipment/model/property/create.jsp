@@ -35,22 +35,15 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-12">
-				<div class="form-group">
-					<div class="fg-line">
-						<label for="lable">设备模型参数名称</label>
-						<input id="lable" type="text" class="form-control" name="lable" maxlength="20">
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-12">
+
+			<%--<div class="col-sm-12">
 				<div class="form-group">
 					<div class="fg-line">
 						<label for="address">参数地址</label>
 						<input id="address" type="text" class="form-control" name="address" maxlength="20">
 					</div>
 				</div>
-			</div>
+			</div>--%>
 			<div class="col-sm-12">
 				<div class="form-group">
 					<div class="fg-line">
@@ -59,11 +52,11 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-12">
+			<%--<div class="col-sm-12">
 				<div class="form-group">
 					<div class="fg-line">
-						<label for="alarm_type">参数报警</label>
-						<input id="alarm_type" type="text" class="form-control" name="alarm_type" maxlength="20">
+						<label for="alarmType">参数报警</label>
+						<input id="alarmType" type="text" class="form-control" name="alarmType" maxlength="20">
 					</div>
 				</div>
 			</div>
@@ -74,7 +67,7 @@
 						<input id="refreshPeriod" type="text" class="form-control" name="refreshPeriod" maxlength="20">
 					</div>
 				</div>
-			</div>
+			</div>--%>
 		</div>
 
 		<div class="form-group text-right dialog-buttons">

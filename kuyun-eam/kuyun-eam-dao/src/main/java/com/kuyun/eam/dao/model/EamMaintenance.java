@@ -7,7 +7,7 @@ import java.util.Date;
 public class EamMaintenance extends BaseEntity implements Serializable {
     private Integer maintenanceId;
 
-    private Integer equipmentId;
+    private String equipmentId;
 
     private Integer partId;
     private BigDecimal partQuantity;
@@ -32,11 +32,11 @@ public class EamMaintenance extends BaseEntity implements Serializable {
         this.maintenanceId = maintenanceId;
     }
 
-    public Integer getEquipmentId() {
+    public String getEquipmentId() {
         return equipmentId;
     }
 
-    public void setEquipmentId(Integer equipmentId) {
+    public void setEquipmentId(String equipmentId) {
         this.equipmentId = equipmentId;
     }
 

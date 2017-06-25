@@ -5,7 +5,6 @@
     <id column="maintenance_id" jdbcType="INTEGER" property="maintenanceId" />
     <result column="equipment_id" jdbcType="INTEGER" property="equipmentId" />
     <result column="part_id" jdbcType="INTEGER" property="partId" />
-    <result column="part_quantity" jdbcType="DECIMAL" property="partQuantity" />
     <result column="reason" jdbcType="VARCHAR" property="reason" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="maintain_user_id" jdbcType="INTEGER" property="maintainUserId" />
@@ -76,7 +75,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    maintenance_id, equipment_id, part_id, part_quantity, reason, content, maintain_user_id, maintain_time,
+    maintenance_id, equipment_id, part_id, reason, content, maintain_user_id, maintain_time, 
     create_user_id, create_time, update_user_id, update_time, delete_flag, organization_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamMaintenanceExample" resultMap="BaseResultMap">
@@ -85,7 +84,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from eam_maintenance t
+    from eam_maintenance
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -112,18 +111,18 @@
     where maintenance_id = #{maintenanceId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamMaintenanceExample">
-    delete from eam_maintenance t
+    delete from eam_maintenance
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamMaintenance">
-    insert into eam_maintenance (maintenance_id, equipment_id, part_id, part_quantity,
+    insert into eam_maintenance (maintenance_id, equipment_id, part_id, 
       reason, content, maintain_user_id, 
       maintain_time, create_user_id, create_time, 
       update_user_id, update_time, delete_flag, 
       organization_id)
-    values (#{maintenanceId,jdbcType=INTEGER}, #{equipmentId,jdbcType=INTEGER}, #{partId,jdbcType=INTEGER}, #{partQuantity,jdbcType=DECIMAL},
+    values (#{maintenanceId,jdbcType=INTEGER}, #{equipmentId,jdbcType=INTEGER}, #{partId,jdbcType=INTEGER}, 
       #{reason,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{maintainUserId,jdbcType=INTEGER}, 
       #{maintainTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
@@ -140,9 +139,6 @@
       </if>
       <if test="partId != null">
         part_id,
-      </if>
-      <if test="partQuantity != null">
-        part_quantity,
       </if>
       <if test="reason != null">
         reason,
@@ -185,9 +181,6 @@
       <if test="partId != null">
         #{partId,jdbcType=INTEGER},
       </if>
-      <if test="partQuantity != null">
-        #{partQuantity,jdbcType=DECIMAL},
-      </if>
       <if test="reason != null">
         #{reason,jdbcType=VARCHAR},
       </if>
@@ -221,13 +214,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamMaintenanceExample" resultType="java.lang.Long">
-    select count(*) from eam_maintenance t
+    select count(*) from eam_maintenance
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update eam_maintenance t
+    update eam_maintenance
     <set>
       <if test="record.maintenanceId != null">
         maintenance_id = #{record.maintenanceId,jdbcType=INTEGER},
@@ -237,9 +230,6 @@
       </if>
       <if test="record.partId != null">
         part_id = #{record.partId,jdbcType=INTEGER},
-      </if>
-      <if test="record.partQuantity != null">
-        part_quantity = #{record.partQuantity,jdbcType=DECIMAL},
       </if>
       <if test="record.reason != null">
         reason = #{record.reason,jdbcType=VARCHAR},
@@ -277,11 +267,10 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update eam_maintenance t
+    update eam_maintenance
     set maintenance_id = #{record.maintenanceId,jdbcType=INTEGER},
       equipment_id = #{record.equipmentId,jdbcType=INTEGER},
       part_id = #{record.partId,jdbcType=INTEGER},
-      part_quantity = #{record.partQuantity,jdbcType=DECIMAL},
       reason = #{record.reason,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=VARCHAR},
       maintain_user_id = #{record.maintainUserId,jdbcType=INTEGER},
@@ -304,9 +293,6 @@
       </if>
       <if test="partId != null">
         part_id = #{partId,jdbcType=INTEGER},
-      </if>
-      <if test="partQuantity != null">
-        part_quantity = #{partQuantity,jdbcType=DECIMAL},
       </if>
       <if test="reason != null">
         reason = #{reason,jdbcType=VARCHAR},
@@ -345,7 +331,6 @@
     update eam_maintenance
     set equipment_id = #{equipmentId,jdbcType=INTEGER},
       part_id = #{partId,jdbcType=INTEGER},
-      part_quantity = #{partQuantity,jdbcType=DECIMAL},
       reason = #{reason,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
       maintain_user_id = #{maintainUserId,jdbcType=INTEGER},

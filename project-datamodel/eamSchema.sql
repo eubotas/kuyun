@@ -1,8 +1,9 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     4/27/2017 10:46:00 PM                        */
+/* Created on:     2017-06-12 11:16:35 AM                       */
 /*==============================================================*/
-
+use kuyun;
+SET FOREIGN_KEY_CHECKS=0;
 
 drop table if exists eam_equipment;
 
@@ -20,6 +21,12 @@ drop table if exists eam_parts;
 
 drop table if exists eam_parts_category;
 
+drop table if exists eam_protocol;
+
+drop table if exists eam_sensor;
+
+drop table if exists eam_sensor_data;
+
 drop table if exists eam_warehouse;
 
 /*==============================================================*/
@@ -27,15 +34,18 @@ drop table if exists eam_warehouse;
 /*==============================================================*/
 create table eam_equipment
 (
-   equipment_id         int not null auto_increment,
+   equipment_id         varchar(32),
    equipment_model_id   int,
+   organization_id      int,
+   protocol_id          int,
    name                 varchar(30),
    number               varchar(30),
    serial_number        varchar(50),
    image_path           varchar(100),
-   longitude            decimal,
-   latitude             decimal,
+   longitude            decimal(10,5),
+   latitude             decimal(10,5),
    user                 varchar(30),
+   heart_data           varchar(50),
    factory_date         datetime,
    commissioning_date   datetime,
    warranty_start_date  datetime,
@@ -46,7 +56,7 @@ create table eam_equipment
    update_user_id       int,
    update_time          datetime,
    delete_flag          boolean,
-   organization_id      int,
+   is_online            boolean,
    primary key (equipment_id)
 );
 
@@ -116,7 +126,7 @@ create table eam_inventory
    primary key (inventory_id)
 );
 
-alter table eam_inventory comment '库存明细表';
+alter table eam_inventory comment ' 库存明细表';
 
 /*==============================================================*/
 /* Table: eam_location                                          */
@@ -144,9 +154,8 @@ alter table eam_location comment '仓位信息表';
 create table eam_maintenance
 (
    maintenance_id       int not null auto_increment,
-   equipment_id         int,
+   equipment_id         varchar(32),
    part_id              int,
-   part_quantity        decimal(10,2),
    reason               varchar(200),
    content              varchar(250),
    maintain_user_id     int,
@@ -160,7 +169,7 @@ create table eam_maintenance
    primary key (maintenance_id)
 );
 
-alter table eam_maintenance comment '维保';
+alter table eam_maintenance comment ' 维保';
 
 /*==============================================================*/
 /* Table: eam_parts                                             */
@@ -196,7 +205,69 @@ create table eam_parts_category
    primary key (category_id)
 );
 
-alter table eam_parts_category comment '配件类别';
+alter table eam_parts_category comment ' 配件类别';
+
+/*==============================================================*/
+/* Table: eam_protocol                                          */
+/*==============================================================*/
+create table eam_protocol
+(
+   protocol_id          int not null auto_increment,
+   name                 varchar(20),
+   IP                   varchar(25),
+   port                 int,
+   primary key (protocol_id)
+);
+
+alter table eam_protocol comment ' 接入协议';
+
+/*==============================================================*/
+/* Table: eam_sensor                                            */
+/*==============================================================*/
+create table eam_sensor
+(
+   sensor_id            int not null auto_increment,
+   equipment_id         varchar(32),
+   equipment_model_property_id int,
+   salve_id             int,
+   function_code        int,
+   address              int,
+   data_format          varchar(10),
+   period               int,
+   write_number         int,
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   organization_id      int,
+   primary key (sensor_id)
+);
+
+alter table eam_sensor comment '设备传感器';
+
+/*==============================================================*/
+/* Table: eam_sensor_data                                       */
+/*==============================================================*/
+create table eam_sensor_data
+(
+   sensor_data_id       int not null auto_increment,
+   sensor_id            int,
+   string_value         varchar(50),
+   number_value         decimal,
+   boolean_value        boolean,
+   longitude_value      decimal,
+   latitude_value       decimal,
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   organization_id      int,
+   primary key (sensor_data_id)
+);
+
+alter table eam_sensor_data comment '设备传感器数据';
 
 /*==============================================================*/
 /* Table: eam_warehouse                                         */
@@ -216,6 +287,9 @@ create table eam_warehouse
 );
 
 alter table eam_warehouse comment '仓库信息表';
+
+alter table eam_equipment add constraint FK_Reference_10 foreign key (protocol_id)
+      references eam_protocol (protocol_id) on delete restrict on update restrict;
 
 alter table eam_equipment add constraint FK_Reference_42 foreign key (equipment_model_id)
       references eam_equipment_model (equipment_model_id) on delete restrict on update restrict;
@@ -243,6 +317,17 @@ alter table eam_maintenance add constraint FK_Reference_44 foreign key (part_id)
 
 alter table eam_parts add constraint FK_Reference_45 foreign key (category_id)
       references eam_parts_category (category_id) on delete restrict on update restrict;
+
+alter table eam_sensor add constraint FK_Reference_11 foreign key (equipment_model_property_id)
+      references eam_equipment_model_properties (equipment_model_property_id) on delete restrict on update restrict;
+
+alter table eam_sensor add constraint FK_Reference_12 foreign key (equipment_id)
+      references eam_equipment (equipment_id) on delete restrict on update restrict;
+
+alter table eam_sensor_data add constraint FK_Reference_13 foreign key (sensor_id)
+      references eam_sensor (sensor_id) on delete restrict on update restrict;
+
+
 
 
 --http://benjaminwhx.com/2015/11/24/Mysql%E4%B8%AD%E7%9A%84%E9%80%92%E5%BD%92%E5%B1%82%E6%AC%A1%E6%9F%A5%E8%AF%A2%EF%BC%88%E7%88%B6%E5%AD%90%E6%9F%A5%E8%AF%A2%EF%BC%89/
@@ -294,3 +379,6 @@ BEGIN
     RETURN sTemp; 
 END
 //
+
+
+##ALTER TABLE eam_equipment ADD heart_data varchar(50);

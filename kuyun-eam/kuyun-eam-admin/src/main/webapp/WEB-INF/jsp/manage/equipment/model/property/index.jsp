@@ -58,7 +58,7 @@ $(function() {
 			{field: 'name', title: '参数名称'},
 			{field: 'dataType', title: '数据类型'},
 			{field: 'unit', title: '参数单位'},
-			{field: 'refreshPeriod', title: '刷新周期'},
+			/*{field: 'refreshPeriod', title: '刷新周期'},*/
 			{field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
 		]
 	});

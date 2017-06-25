@@ -1,12 +1,17 @@
 package com.kuyun.eam.dao.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 public class EamEquipment extends BaseEntity implements Serializable {
-    private Integer equipmentId;
+    private String equipmentId;
 
     private Integer equipmentModelId;
+
+    private Integer protocolId;
 
     private String name;
 
@@ -16,9 +21,9 @@ public class EamEquipment extends BaseEntity implements Serializable {
 
     private String imagePath;
 
-    private Long longitude;
+    private BigDecimal longitude;
 
-    private Long latitude;
+    private BigDecimal latitude;
 
     private String user;
 
@@ -31,16 +36,37 @@ public class EamEquipment extends BaseEntity implements Serializable {
     private Date warrantyEndDate;
 
     private String maintenancePeriod;
+    private String heartData;
+
+    private Boolean isOnline;
+
+    private List<EamSensor> sensors = Collections.emptyList();
 
 
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getEquipmentId() {
+    public String getHeartData() {
+        return heartData;
+    }
+
+    public void setHeartData(String heartData) {
+        this.heartData = heartData;
+    }
+
+    public List<EamSensor> getSensors() {
+        return sensors;
+    }
+
+    public void setSensors(List<EamSensor> sensors) {
+        this.sensors = sensors;
+    }
+
+    public String getEquipmentId() {
         return equipmentId;
     }
 
-    public void setEquipmentId(Integer equipmentId) {
+    public void setEquipmentId(String equipmentId) {
         this.equipmentId = equipmentId;
     }
 
@@ -50,6 +76,14 @@ public class EamEquipment extends BaseEntity implements Serializable {
 
     public void setEquipmentModelId(Integer equipmentModelId) {
         this.equipmentModelId = equipmentModelId;
+    }
+
+    public Integer getProtocolId() {
+        return protocolId;
+    }
+
+    public void setProtocolId(Integer protocolId) {
+        this.protocolId = protocolId;
     }
 
     public String getName() {
@@ -84,19 +118,19 @@ public class EamEquipment extends BaseEntity implements Serializable {
         this.imagePath = imagePath;
     }
 
-    public Long getLongitude() {
+    public BigDecimal getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(Long longitude) {
+    public void setLongitude(BigDecimal longitude) {
         this.longitude = longitude;
     }
 
-    public Long getLatitude() {
+    public BigDecimal getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(Long latitude) {
+    public void setLatitude(BigDecimal latitude) {
         this.latitude = latitude;
     }
 
@@ -148,6 +182,13 @@ public class EamEquipment extends BaseEntity implements Serializable {
         this.maintenancePeriod = maintenancePeriod;
     }
 
+    public Boolean isOnline() {
+        return isOnline;
+    }
+
+    public void setOnline(Boolean online) {
+        isOnline = online;
+    }
 
     @Override
     public String toString() {
@@ -174,6 +215,9 @@ public class EamEquipment extends BaseEntity implements Serializable {
         sb.append(", updateUserId=").append(getUpdateUserId());
         sb.append(", updateTime=").append(getUpdateTime());
         sb.append(", deleteFlag=").append(getDeleteFlag());
+        sb.append(", isOnline=").append(isOnline());
+        sb.append(", protocolId=").append(getProtocolId());
+        sb.append(", heartData=").append(getHeartData());
         sb.append(", organizationId=").append(getOrganizationId());
         sb.append("]");
         return sb.toString();
@@ -193,6 +237,7 @@ public class EamEquipment extends BaseEntity implements Serializable {
         EamEquipment other = (EamEquipment) that;
         return (this.getEquipmentId() == null ? other.getEquipmentId() == null : this.getEquipmentId().equals(other.getEquipmentId()))
             && (this.getEquipmentModelId() == null ? other.getEquipmentModelId() == null : this.getEquipmentModelId().equals(other.getEquipmentModelId()))
+            && (this.getProtocolId() == null ? other.getProtocolId() == null : this.getProtocolId().equals(other.getProtocolId()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
             && (this.getNumber() == null ? other.getNumber() == null : this.getNumber().equals(other.getNumber()))
             && (this.getSerialNumber() == null ? other.getSerialNumber() == null : this.getSerialNumber().equals(other.getSerialNumber()))
@@ -210,6 +255,8 @@ public class EamEquipment extends BaseEntity implements Serializable {
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
+            && (this.isOnline() == null ? other.isOnline() == null : this.isOnline().equals(other.isOnline()))
+            && (this.getHeartData() == null ? other.getHeartData() == null : this.getHeartData().equals(other.getHeartData()))
             && (this.getOrganizationId() == null ? other.getOrganizationId() == null : this.getOrganizationId().equals(other.getOrganizationId()));
     }
 
@@ -219,6 +266,7 @@ public class EamEquipment extends BaseEntity implements Serializable {
         int result = 1;
         result = prime * result + ((getEquipmentId() == null) ? 0 : getEquipmentId().hashCode());
         result = prime * result + ((getEquipmentModelId() == null) ? 0 : getEquipmentModelId().hashCode());
+        result = prime * result + ((getProtocolId() == null) ? 0 : getProtocolId().hashCode());
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         result = prime * result + ((getNumber() == null) ? 0 : getNumber().hashCode());
         result = prime * result + ((getSerialNumber() == null) ? 0 : getSerialNumber().hashCode());
@@ -236,6 +284,8 @@ public class EamEquipment extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
+        result = prime * result + ((isOnline() == null) ? 0 : isOnline().hashCode());
+        result = prime * result + ((getHeartData() == null) ? 0 : getHeartData().hashCode());
         result = prime * result + ((getOrganizationId() == null) ? 0 : getOrganizationId().hashCode());
         return result;
     }

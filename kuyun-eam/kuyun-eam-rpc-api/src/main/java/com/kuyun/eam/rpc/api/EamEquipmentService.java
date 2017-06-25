@@ -10,4 +10,7 @@ import com.kuyun.eam.dao.model.EamEquipmentExample;
 */
 public interface EamEquipmentService extends BaseService<EamEquipment, EamEquipmentExample> {
 
+    EamEquipment selectByPrimaryKey(String id);
+
+    int deleteByPrimaryKey(String id);
 }

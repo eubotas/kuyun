@@ -2,8 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kuyun.eam.dao.mapper.EamEquipmentMapper">
   <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamEquipment">
-    <id column="equipment_id" jdbcType="INTEGER" property="equipmentId" />
+    <id column="equipment_id" jdbcType="VARCHAR" property="equipmentId" />
     <result column="equipment_model_id" jdbcType="INTEGER" property="equipmentModelId" />
+    <result column="organization_id" jdbcType="INTEGER" property="organizationId" />
+    <result column="protocol_id" jdbcType="INTEGER" property="protocolId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="number" jdbcType="VARCHAR" property="number" />
     <result column="serial_number" jdbcType="VARCHAR" property="serialNumber" />
@@ -21,7 +23,8 @@
     <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
-    <result column="organization_id" jdbcType="INTEGER" property="organizationId" />
+    <result column="is_online" jdbcType="BIT" property="isOnline" />
+    <result column="heart_data" jdbcType="VARCHAR" property="heartData" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -82,10 +85,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    equipment_id, equipment_model_id, name, number, serial_number, image_path, longitude, 
-    latitude, user, factory_date, commissioning_date, warranty_start_date, warranty_end_date, 
-    maintenance_period, create_user_id, create_time, update_user_id, update_time, delete_flag, 
-    organization_id
+    equipment_id, equipment_model_id, organization_id, protocol_id, name, number, serial_number, 
+    image_path, longitude, latitude, user, factory_date, commissioning_date, warranty_start_date, 
+    warranty_end_date, maintenance_period, create_user_id, create_time, update_user_id, 
+    update_time, delete_flag, is_online, heart_data
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentExample" resultMap="BaseResultMap">
     select
@@ -109,15 +112,15 @@
       </if>
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from eam_equipment
-    where equipment_id = #{equipmentId,jdbcType=INTEGER}
+    where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from eam_equipment
-    where equipment_id = #{equipmentId,jdbcType=INTEGER}
+    where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentExample">
     delete from eam_equipment
@@ -126,20 +129,22 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamEquipment">
-    insert into eam_equipment (equipment_id, equipment_model_id, name, 
-      number, serial_number, image_path, 
-      longitude, latitude, user, 
-      factory_date, commissioning_date, warranty_start_date, 
+    insert into eam_equipment (equipment_id, equipment_model_id, organization_id, 
+      protocol_id, name, number, 
+      serial_number, image_path, longitude, 
+      latitude, user, factory_date, 
+      commissioning_date, warranty_start_date, 
       warranty_end_date, maintenance_period, create_user_id, 
       create_time, update_user_id, update_time, 
-      delete_flag, organization_id)
-    values (#{equipmentId,jdbcType=INTEGER}, #{equipmentModelId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{number,jdbcType=VARCHAR}, #{serialNumber,jdbcType=VARCHAR}, #{imagePath,jdbcType=VARCHAR}, 
-      #{longitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}, #{user,jdbcType=VARCHAR}, 
-      #{factoryDate,jdbcType=TIMESTAMP}, #{commissioningDate,jdbcType=TIMESTAMP}, #{warrantyStartDate,jdbcType=TIMESTAMP}, 
+      delete_flag, is_online, heart_data)
+    values (#{equipmentId,jdbcType=VARCHAR}, #{equipmentModelId,jdbcType=INTEGER}, #{organizationId,jdbcType=INTEGER},
+      #{protocolId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, 
+      #{serialNumber,jdbcType=VARCHAR}, #{imagePath,jdbcType=VARCHAR}, #{longitude,jdbcType=DECIMAL}, 
+      #{latitude,jdbcType=DECIMAL}, #{user,jdbcType=VARCHAR}, #{factoryDate,jdbcType=TIMESTAMP}, 
+      #{commissioningDate,jdbcType=TIMESTAMP}, #{warrantyStartDate,jdbcType=TIMESTAMP}, 
       #{warrantyEndDate,jdbcType=TIMESTAMP}, #{maintenancePeriod,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlag,jdbcType=BIT}, #{organizationId,jdbcType=INTEGER})
+      #{deleteFlag,jdbcType=BIT}, #{isOnline,jdbcType=BIT}, #{heartData,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamEquipment">
     insert into eam_equipment
@@ -149,6 +154,12 @@
       </if>
       <if test="equipmentModelId != null">
         equipment_model_id,
+      </if>
+      <if test="organizationId != null">
+        organization_id,
+      </if>
+      <if test="protocolId != null">
+        protocol_id,
       </if>
       <if test="name != null">
         name,
@@ -201,16 +212,25 @@
       <if test="deleteFlag != null">
         delete_flag,
       </if>
-      <if test="organizationId != null">
-        organization_id,
+      <if test="isOnline != null">
+        is_online,
+      </if>
+      <if test="heartData != null">
+        heart_data,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="equipmentId != null">
-        #{equipmentId,jdbcType=INTEGER},
+        #{equipmentId,jdbcType=VARCHAR},
       </if>
       <if test="equipmentModelId != null">
         #{equipmentModelId,jdbcType=INTEGER},
+      </if>
+      <if test="organizationId != null">
+        #{organizationId,jdbcType=INTEGER},
+      </if>
+      <if test="protocolId != null">
+        #{protocolId,jdbcType=INTEGER},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -263,8 +283,11 @@
       <if test="deleteFlag != null">
         #{deleteFlag,jdbcType=BIT},
       </if>
-      <if test="organizationId != null">
-        #{organizationId,jdbcType=INTEGER},
+      <if test="isOnline != null">
+        #{isOnline,jdbcType=BIT},
+      </if>
+      <if test="heartData != null">
+        #{heartData,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -278,10 +301,16 @@
     update eam_equipment
     <set>
       <if test="record.equipmentId != null">
-        equipment_id = #{record.equipmentId,jdbcType=INTEGER},
+        equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
       </if>
       <if test="record.equipmentModelId != null">
         equipment_model_id = #{record.equipmentModelId,jdbcType=INTEGER},
+      </if>
+      <if test="record.organizationId != null">
+        organization_id = #{record.organizationId,jdbcType=INTEGER},
+      </if>
+      <if test="record.protocolId != null">
+        protocol_id = #{record.protocolId,jdbcType=INTEGER},
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
@@ -334,8 +363,11 @@
       <if test="record.deleteFlag != null">
         delete_flag = #{record.deleteFlag,jdbcType=BIT},
       </if>
-      <if test="record.organizationId != null">
-        organization_id = #{record.organizationId,jdbcType=INTEGER},
+      <if test="record.isOnline != null">
+        is_online = #{record.isOnline,jdbcType=BIT},
+      </if>
+      <if test="record.heartData != null">
+        heart_data = #{record.heartData,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -344,8 +376,10 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update eam_equipment
-    set equipment_id = #{record.equipmentId,jdbcType=INTEGER},
+    set equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
       equipment_model_id = #{record.equipmentModelId,jdbcType=INTEGER},
+      organization_id = #{record.organizationId,jdbcType=INTEGER},
+      protocol_id = #{record.protocolId,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       number = #{record.number,jdbcType=VARCHAR},
       serial_number = #{record.serialNumber,jdbcType=VARCHAR},
@@ -363,7 +397,8 @@
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      organization_id = #{record.organizationId,jdbcType=INTEGER}
+      is_online = #{record.isOnline,jdbcType=BIT}
+      heart_data = #{record.heartData,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -373,6 +408,12 @@
     <set>
       <if test="equipmentModelId != null">
         equipment_model_id = #{equipmentModelId,jdbcType=INTEGER},
+      </if>
+      <if test="organizationId != null">
+        organization_id = #{organizationId,jdbcType=INTEGER},
+      </if>
+      <if test="protocolId != null">
+        protocol_id = #{protocolId,jdbcType=INTEGER},
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
@@ -425,15 +466,20 @@
       <if test="deleteFlag != null">
         delete_flag = #{deleteFlag,jdbcType=BIT},
       </if>
-      <if test="organizationId != null">
-        organization_id = #{organizationId,jdbcType=INTEGER},
+      <if test="isOnline != null">
+        is_online = #{isOnline,jdbcType=BIT},
+      </if>
+      <if test="heartData != null">
+        heart_data = #{heartData,jdbcType=VARCHAR},
       </if>
     </set>
-    where equipment_id = #{equipmentId,jdbcType=INTEGER}
+    where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamEquipment">
     update eam_equipment
     set equipment_model_id = #{equipmentModelId,jdbcType=INTEGER},
+      organization_id = #{organizationId,jdbcType=INTEGER},
+      protocol_id = #{protocolId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       number = #{number,jdbcType=VARCHAR},
       serial_number = #{serialNumber,jdbcType=VARCHAR},
@@ -451,8 +497,9 @@
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
-      organization_id = #{organizationId,jdbcType=INTEGER}
-    where equipment_id = #{equipmentId,jdbcType=INTEGER}
+      is_online = #{isOnline,jdbcType=BIT}
+      heart_data = #{heartData,jdbcType=VARCHAR}
+    where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>

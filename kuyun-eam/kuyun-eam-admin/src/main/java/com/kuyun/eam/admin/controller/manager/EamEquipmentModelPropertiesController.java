@@ -85,13 +85,15 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			equipmentModelPropertiesExample.setOrderByClause(sort + " " + order);
 		}
-		equipmentModelPropertiesExample.createCriteria().andEquipmentModelIdEqualTo(id);
+		equipmentModelPropertiesExample.createCriteria().andEquipmentModelIdEqualTo(id)
+		.andDeleteFlagEqualTo(Boolean.FALSE);
 
-		UpmsOrganization organization = eamUtils.getCurrentUserParentOrignization();
 
-		if (organization != null){
-			equipmentModelPropertiesExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId());
-		}
+//		UpmsOrganization organization = eamUtils.getCurrentUserParentOrignization();
+//
+//		if (organization != null){
+//			equipmentModelPropertiesExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId());
+//		}
 		List<EamEquipmentModelProperties> rows = eamEquipmentModelPropertiesService.selectByExample(equipmentModelPropertiesExample);
 		long total = eamEquipmentModelPropertiesService.countByExample(equipmentModelPropertiesExample);
 		Map<String, Object> result = new HashMap<>();
@@ -157,7 +159,7 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 		if (!result.isSuccess()) {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
-		equipmentModelProperties.setEquipmentModelId(id);
+		equipmentModelProperties.setEquipmentModelPropertyId(id);
 		eamUtils.updateAddtionalValue(equipmentModelProperties);
 		int count = eamEquipmentModelPropertiesService.updateByPrimaryKeySelective(equipmentModelProperties);
 		return new EamResult(SUCCESS, count);

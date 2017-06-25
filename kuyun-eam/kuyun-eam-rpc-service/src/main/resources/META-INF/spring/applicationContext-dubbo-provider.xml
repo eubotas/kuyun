@@ -45,6 +45,18 @@
     <bean id="eamInventoryServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamInventoryServiceImpl"/>
     <dubbo:service interface="com.kuyun.eam.rpc.api.EamInventoryService" ref="eamInventoryServiceImpl" timeout="10000"/>
 
+    <!-- 接入协议 -->
+    <bean id="eamProtocolServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamProtocolServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamProtocolService" ref="eamProtocolServiceImpl" timeout="10000"/>
+
+    <!-- 设备传感器 -->
+    <bean id="eamSensorServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamSensorServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamSensorService" ref="eamSensorServiceImpl" timeout="10000"/>
+
+    <!-- 传感器数据 -->
+    <bean id="eamSensorDataServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamSensorDataServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamSensorDataService" ref="eamSensorDataServiceImpl" timeout="10000"/>
+
     <!-- 维保 -->
     <bean id="eamMaintenanceServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamMaintenanceServiceImpl"/>
     <dubbo:service interface="com.kuyun.eam.rpc.api.EamMaintenanceService" ref="eamMaintenanceServiceImpl" timeout="10000"/>

@@ -33,6 +33,10 @@
 ) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8mb4 COMMENT='权限';
 **/
 
+use kuyun;
+SET SQL_SAFE_UPDATES = 0;
+SET FOREIGN_KEY_CHECKS=0;
+
 -- 系统设置
 delete from upms_system where system_id = 6;
 INSERT INTO `upms_system` VALUES ('6', 'zmdi zmdi-cloud', '/resources/kuyun-admin/images/kuyun-oss.png', '#0B8DE5', 'http://eam.kuyun.cn:9999', '1', 'kuyun-eam-admin', '设备管理系统', '设备管理系统', '6', '6');
@@ -49,6 +53,7 @@ INSERT INTO `upms_permission` VALUES ('205', '6', '200', '设备信息管理', '
 INSERT INTO `upms_permission` VALUES ('206', '6', '205', '新增设备', '3', 'eam:equipment:create', '/manage/equipment/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
 INSERT INTO `upms_permission` VALUES ('207', '6', '205', '编辑设备', '3', 'eam:equipment:update', '/manage/equipment/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
 INSERT INTO `upms_permission` VALUES ('208', '6', '205', '删除设备', '3', 'eam:equipment:delete', '/manage/equipment/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
+INSERT INTO `upms_permission` VALUES ('209', '6', '205', '设备接入', '3', 'eam:equipment:update', '/manage/equipment/connect', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
 
 
 INSERT INTO `upms_permission` VALUES ('213', '6', '0', ' 仓储管理', '1', null, null, 'zmdi zmdi-collection-text', '1', '200', '200');
@@ -91,4 +96,6 @@ INSERT INTO `upms_permission` VALUES ('243', '6', '240', '删除设备维保', '
 
 
 
-
+DELETE FROM `eam_protocol`
+INSERT INTO `eam_protocol` VALUES (1, 'Modbus RTU', '127.0.0.1', 8234);
+INSERT INTO `eam_protocol` VALUES (2, 'MQTT', '127.0.0.1', 8233);

@@ -30,8 +30,8 @@
 			<div class="col-sm-12">
 				<div class="form-group">
 					<div class="fg-line">
-						<label for="serial_number">设备序列号</label>
-						<input id="serial_number" type="text" class="form-control" name="serial_number" maxlength="20">
+						<label for="serialNumber">设备序列号</label>
+						<input id="serialNumber" type="text" class="form-control" name="serialNumber" maxlength="20">
 					</div>
 				</div>
 			</div>
@@ -137,8 +137,8 @@ function createSubmit() {
         url: '${basePath}/manage/equipment/create',
         data: $('#createForm').serialize(),
         beforeSend: function() {
-            if ($('#title').val() == '') {
-                $('#title').focus();
+            if ($('#name').val() == '') {
+                $('#name').focus();
                 return false;
             }
         },
