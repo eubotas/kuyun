@@ -191,7 +191,7 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamLocationExample" resultType="java.lang.Long">
-    select count(*) from eam_location
+    select count(*) from eam_location t
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

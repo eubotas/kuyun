@@ -1,6 +1,7 @@
 package com.kuyun.eam.dao.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -168,6 +169,16 @@ public class EamEquipmentExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andEquipmentIdLike(String value) {
+            addCriterion("equipment_id like", value, "equipmentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentIdNotLike(String value) {
+            addCriterion("equipment_id not like", value, "equipmentId");
+            return (Criteria) this;
+        }
+
         public Criteria andEquipmentIdIn(List<String> values) {
             addCriterion("equipment_id in", values, "equipmentId");
             return (Criteria) this;
@@ -183,7 +194,7 @@ public class EamEquipmentExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andEquipmentIdNotBetween(Integer value1, Integer value2) {
+        public Criteria andEquipmentIdNotBetween(String value1, String value2) {
             addCriterion("equipment_id not between", value1, value2, "equipmentId");
             return (Criteria) this;
         }
@@ -245,6 +256,126 @@ public class EamEquipmentExample implements Serializable {
 
         public Criteria andEquipmentModelIdNotBetween(Integer value1, Integer value2) {
             addCriterion("equipment_model_id not between", value1, value2, "equipmentModelId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrganizationIdIsNull() {
+            addCriterion("organization_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrganizationIdIsNotNull() {
+            addCriterion("organization_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrganizationIdEqualTo(Integer value) {
+            addCriterion("organization_id =", value, "organizationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrganizationIdNotEqualTo(Integer value) {
+            addCriterion("organization_id <>", value, "organizationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrganizationIdGreaterThan(Integer value) {
+            addCriterion("organization_id >", value, "organizationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrganizationIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("organization_id >=", value, "organizationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrganizationIdLessThan(Integer value) {
+            addCriterion("organization_id <", value, "organizationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrganizationIdLessThanOrEqualTo(Integer value) {
+            addCriterion("organization_id <=", value, "organizationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrganizationIdIn(List<Integer> values) {
+            addCriterion("organization_id in", values, "organizationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrganizationIdNotIn(List<Integer> values) {
+            addCriterion("organization_id not in", values, "organizationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrganizationIdBetween(Integer value1, Integer value2) {
+            addCriterion("organization_id between", value1, value2, "organizationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrganizationIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("organization_id not between", value1, value2, "organizationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProtocolIdIsNull() {
+            addCriterion("protocol_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProtocolIdIsNotNull() {
+            addCriterion("protocol_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProtocolIdEqualTo(Integer value) {
+            addCriterion("protocol_id =", value, "protocolId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProtocolIdNotEqualTo(Integer value) {
+            addCriterion("protocol_id <>", value, "protocolId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProtocolIdGreaterThan(Integer value) {
+            addCriterion("protocol_id >", value, "protocolId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProtocolIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("protocol_id >=", value, "protocolId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProtocolIdLessThan(Integer value) {
+            addCriterion("protocol_id <", value, "protocolId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProtocolIdLessThanOrEqualTo(Integer value) {
+            addCriterion("protocol_id <=", value, "protocolId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProtocolIdIn(List<Integer> values) {
+            addCriterion("protocol_id in", values, "protocolId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProtocolIdNotIn(List<Integer> values) {
+            addCriterion("protocol_id not in", values, "protocolId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProtocolIdBetween(Integer value1, Integer value2) {
+            addCriterion("protocol_id between", value1, value2, "protocolId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProtocolIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("protocol_id not between", value1, value2, "protocolId");
             return (Criteria) this;
         }
 
@@ -538,52 +669,52 @@ public class EamEquipmentExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andLongitudeEqualTo(Long value) {
+        public Criteria andLongitudeEqualTo(BigDecimal value) {
             addCriterion("longitude =", value, "longitude");
             return (Criteria) this;
         }
 
-        public Criteria andLongitudeNotEqualTo(Long value) {
+        public Criteria andLongitudeNotEqualTo(BigDecimal value) {
             addCriterion("longitude <>", value, "longitude");
             return (Criteria) this;
         }
 
-        public Criteria andLongitudeGreaterThan(Long value) {
+        public Criteria andLongitudeGreaterThan(BigDecimal value) {
             addCriterion("longitude >", value, "longitude");
             return (Criteria) this;
         }
 
-        public Criteria andLongitudeGreaterThanOrEqualTo(Long value) {
+        public Criteria andLongitudeGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("longitude >=", value, "longitude");
             return (Criteria) this;
         }
 
-        public Criteria andLongitudeLessThan(Long value) {
+        public Criteria andLongitudeLessThan(BigDecimal value) {
             addCriterion("longitude <", value, "longitude");
             return (Criteria) this;
         }
 
-        public Criteria andLongitudeLessThanOrEqualTo(Long value) {
+        public Criteria andLongitudeLessThanOrEqualTo(BigDecimal value) {
             addCriterion("longitude <=", value, "longitude");
             return (Criteria) this;
         }
 
-        public Criteria andLongitudeIn(List<Long> values) {
+        public Criteria andLongitudeIn(List<BigDecimal> values) {
             addCriterion("longitude in", values, "longitude");
             return (Criteria) this;
         }
 
-        public Criteria andLongitudeNotIn(List<Long> values) {
+        public Criteria andLongitudeNotIn(List<BigDecimal> values) {
             addCriterion("longitude not in", values, "longitude");
             return (Criteria) this;
         }
 
-        public Criteria andLongitudeBetween(Long value1, Long value2) {
+        public Criteria andLongitudeBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("longitude between", value1, value2, "longitude");
             return (Criteria) this;
         }
 
-        public Criteria andLongitudeNotBetween(Long value1, Long value2) {
+        public Criteria andLongitudeNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("longitude not between", value1, value2, "longitude");
             return (Criteria) this;
         }
@@ -598,52 +729,52 @@ public class EamEquipmentExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andLatitudeEqualTo(Long value) {
+        public Criteria andLatitudeEqualTo(BigDecimal value) {
             addCriterion("latitude =", value, "latitude");
             return (Criteria) this;
         }
 
-        public Criteria andLatitudeNotEqualTo(Long value) {
+        public Criteria andLatitudeNotEqualTo(BigDecimal value) {
             addCriterion("latitude <>", value, "latitude");
             return (Criteria) this;
         }
 
-        public Criteria andLatitudeGreaterThan(Long value) {
+        public Criteria andLatitudeGreaterThan(BigDecimal value) {
             addCriterion("latitude >", value, "latitude");
             return (Criteria) this;
         }
 
-        public Criteria andLatitudeGreaterThanOrEqualTo(Long value) {
+        public Criteria andLatitudeGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("latitude >=", value, "latitude");
             return (Criteria) this;
         }
 
-        public Criteria andLatitudeLessThan(Long value) {
+        public Criteria andLatitudeLessThan(BigDecimal value) {
             addCriterion("latitude <", value, "latitude");
             return (Criteria) this;
         }
 
-        public Criteria andLatitudeLessThanOrEqualTo(Long value) {
+        public Criteria andLatitudeLessThanOrEqualTo(BigDecimal value) {
             addCriterion("latitude <=", value, "latitude");
             return (Criteria) this;
         }
 
-        public Criteria andLatitudeIn(List<Long> values) {
+        public Criteria andLatitudeIn(List<BigDecimal> values) {
             addCriterion("latitude in", values, "latitude");
             return (Criteria) this;
         }
 
-        public Criteria andLatitudeNotIn(List<Long> values) {
+        public Criteria andLatitudeNotIn(List<BigDecimal> values) {
             addCriterion("latitude not in", values, "latitude");
             return (Criteria) this;
         }
 
-        public Criteria andLatitudeBetween(Long value1, Long value2) {
+        public Criteria andLatitudeBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("latitude between", value1, value2, "latitude");
             return (Criteria) this;
         }
 
-        public Criteria andLatitudeNotBetween(Long value1, Long value2) {
+        public Criteria andLatitudeNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("latitude not between", value1, value2, "latitude");
             return (Criteria) this;
         }
@@ -715,6 +846,76 @@ public class EamEquipmentExample implements Serializable {
 
         public Criteria andUserNotBetween(String value1, String value2) {
             addCriterion("user not between", value1, value2, "user");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeartDataIsNull() {
+            addCriterion("heart_data is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeartDataIsNotNull() {
+            addCriterion("heart_data is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeartDataEqualTo(String value) {
+            addCriterion("heart_data =", value, "heartData");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeartDataNotEqualTo(String value) {
+            addCriterion("heart_data <>", value, "heartData");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeartDataGreaterThan(String value) {
+            addCriterion("heart_data >", value, "heartData");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeartDataGreaterThanOrEqualTo(String value) {
+            addCriterion("heart_data >=", value, "heartData");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeartDataLessThan(String value) {
+            addCriterion("heart_data <", value, "heartData");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeartDataLessThanOrEqualTo(String value) {
+            addCriterion("heart_data <=", value, "heartData");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeartDataLike(String value) {
+            addCriterion("heart_data like", value, "heartData");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeartDataNotLike(String value) {
+            addCriterion("heart_data not like", value, "heartData");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeartDataIn(List<String> values) {
+            addCriterion("heart_data in", values, "heartData");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeartDataNotIn(List<String> values) {
+            addCriterion("heart_data not in", values, "heartData");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeartDataBetween(String value1, String value2) {
+            addCriterion("heart_data between", value1, value2, "heartData");
+            return (Criteria) this;
+        }
+
+        public Criteria andHeartDataNotBetween(String value1, String value2) {
+            addCriterion("heart_data not between", value1, value2, "heartData");
             return (Criteria) this;
         }
 
@@ -1328,78 +1529,63 @@ public class EamEquipmentExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andOrganizationIdIsNull() {
-            addCriterion("organization_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrganizationIdIsNotNull() {
-            addCriterion("organization_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrganizationIdEqualTo(Integer value) {
-            addCriterion("organization_id =", value, "organizationId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrganizationIdNotEqualTo(Integer value) {
-            addCriterion("organization_id <>", value, "organizationId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrganizationIdGreaterThan(Integer value) {
-            addCriterion("organization_id >", value, "organizationId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrganizationIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("organization_id >=", value, "organizationId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrganizationIdLessThan(Integer value) {
-            addCriterion("organization_id <", value, "organizationId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrganizationIdLessThanOrEqualTo(Integer value) {
-            addCriterion("organization_id <=", value, "organizationId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrganizationIdIn(List<Integer> values) {
-            addCriterion("organization_id in", values, "organizationId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrganizationIdNotIn(List<Integer> values) {
-            addCriterion("organization_id not in", values, "organizationId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrganizationIdBetween(Integer value1, Integer value2) {
-            addCriterion("organization_id between", value1, value2, "organizationId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrganizationIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("organization_id not between", value1, value2, "organizationId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOnlineIsNull() {
+        public Criteria andIsOnlineIsNull() {
             addCriterion("is_online is null");
             return (Criteria) this;
         }
 
-        public Criteria andOnlineIsNotNull() {
+        public Criteria andIsOnlineIsNotNull() {
             addCriterion("is_online is not null");
             return (Criteria) this;
         }
 
-        public Criteria andOnlineEqualTo(Boolean value) {
-            addCriterion("is_online =", value, "is_online");
+        public Criteria andIsOnlineEqualTo(Boolean value) {
+            addCriterion("is_online =", value, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineNotEqualTo(Boolean value) {
+            addCriterion("is_online <>", value, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineGreaterThan(Boolean value) {
+            addCriterion("is_online >", value, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_online >=", value, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineLessThan(Boolean value) {
+            addCriterion("is_online <", value, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_online <=", value, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineIn(List<Boolean> values) {
+            addCriterion("is_online in", values, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineNotIn(List<Boolean> values) {
+            addCriterion("is_online not in", values, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_online between", value1, value2, "isOnline");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsOnlineNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_online not between", value1, value2, "isOnline");
             return (Criteria) this;
         }
     }

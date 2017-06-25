@@ -115,7 +115,7 @@ create table eam_inventory
    warehouse_id         int,
    location_id          int,
    part_id              int,
-   quantity             decimal,
+   quantity             decimal(10,2),
    in_task_date         datetime,
    create_user_id       int,
    create_time          datetime,
@@ -158,6 +158,7 @@ create table eam_maintenance
    part_id              int,
    reason               varchar(200),
    content              varchar(250),
+   part_quantity        decimal(10,2),
    maintain_user_id     int,
    maintain_time        datetime,
    create_user_id       int,
@@ -254,10 +255,10 @@ create table eam_sensor_data
    sensor_data_id       int not null auto_increment,
    sensor_id            int,
    string_value         varchar(50),
-   number_value         decimal,
+   number_value         decimal(10,2),
    boolean_value        boolean,
-   longitude_value      decimal,
-   latitude_value       decimal,
+   longitude_value      decimal(10,5),
+   latitude_value       decimal(10,5),
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,
@@ -382,3 +383,5 @@ END
 
 
 ##ALTER TABLE eam_equipment ADD heart_data varchar(50);
+
+ALTER TABLE eam_sensor ADD quantity int;

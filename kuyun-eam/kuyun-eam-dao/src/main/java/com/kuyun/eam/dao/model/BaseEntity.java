@@ -1,11 +1,12 @@
 package com.kuyun.eam.dao.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Created by user on 4/29/2017.
+ * Created by user on 2017-06-25.
  */
-public class BaseEntity {
+public class BaseEntity implements Serializable {
 
     private Integer createUserId;
 
@@ -66,5 +67,4 @@ public class BaseEntity {
     public void setOrganizationId(Integer organizationId) {
         this.organizationId = organizationId;
     }
-
 }

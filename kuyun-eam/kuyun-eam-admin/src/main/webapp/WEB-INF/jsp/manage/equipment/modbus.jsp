@@ -50,6 +50,15 @@
 			<div class="col-sm-12">
 				<div class="form-group">
 					<div class="fg-line">
+						<label for="quantity">数量</label>
+						<input id="quantity" type="text" class="form-control" name="quantity" maxlength="500" <c:if test="${sensor != null}"> value="${sensor.quantity}"</c:if>>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-12">
+				<div class="form-group">
+					<div class="fg-line">
 						<label for="period">采集周期</label>
 						<input id="period" type="text" class="form-control" name="period" maxlength="500" <c:if test="${sensor != null}"> value="${sensor.period}" </c:if>>
 					</div>

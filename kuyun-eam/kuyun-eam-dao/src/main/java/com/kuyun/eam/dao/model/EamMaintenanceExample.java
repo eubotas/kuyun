@@ -223,8 +223,18 @@ public class EamMaintenanceExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andEquipmentIdLessThanOrEqualTo(Integer value) {
+        public Criteria andEquipmentIdLessThanOrEqualTo(String value) {
             addCriterion("t.equipment_id <=", value, "equipmentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentIdLike(String value) {
+            addCriterion("t.equipment_id like", value, "equipmentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentIdNotLike(String value) {
+            addCriterion("t.equipment_id not like", value, "equipmentId");
             return (Criteria) this;
         }
 
@@ -308,66 +318,6 @@ public class EamMaintenanceExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andPartQuantityIsNull() {
-            addCriterion("t.part_quantity is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPartQuantityIsNotNull() {
-            addCriterion("t.part_quantity is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPartQuantityEqualTo(Integer value) {
-            addCriterion("t.part_quantity =", value, "partQuantity");
-            return (Criteria) this;
-        }
-
-        public Criteria andPartQuantityNotEqualTo(Integer value) {
-            addCriterion("t.part_quantity <>", value, "partQuantity");
-            return (Criteria) this;
-        }
-
-        public Criteria andPartQuantityGreaterThan(Integer value) {
-            addCriterion("t.part_quantity >", value, "partQuantity");
-            return (Criteria) this;
-        }
-
-        public Criteria andPartQuantityGreaterThanOrEqualTo(Integer value) {
-            addCriterion("t.part_quantity >=", value, "partQuantity");
-            return (Criteria) this;
-        }
-
-        public Criteria andPartQuantityLessThan(Integer value) {
-            addCriterion("t.part_quantity <", value, "partQuantity");
-            return (Criteria) this;
-        }
-
-        public Criteria andPartQuantityLessThanOrEqualTo(Integer value) {
-            addCriterion("t.part_quantity <=", value, "partQuantity");
-            return (Criteria) this;
-        }
-
-        public Criteria andPartQuantityIn(List<Integer> values) {
-            addCriterion("t.part_quantity in", values, "partQuantity");
-            return (Criteria) this;
-        }
-
-        public Criteria andPartQuantityNotIn(List<Integer> values) {
-            addCriterion("t.part_quantity not in", values, "partQuantity");
-            return (Criteria) this;
-        }
-
-        public Criteria andPartQuantityBetween(Integer value1, Integer value2) {
-            addCriterion("t.part_quantity between", value1, value2, "partQuantity");
-            return (Criteria) this;
-        }
-
-        public Criteria andPartQuantityNotBetween(Integer value1, Integer value2) {
-            addCriterion("t.part_quantity not between", value1, value2, "partQuantity");
-            return (Criteria) this;
-        }
-
         public Criteria andReasonIsNull() {
             addCriterion("t.reason is null");
             return (Criteria) this;
@@ -379,62 +329,62 @@ public class EamMaintenanceExample implements Serializable {
         }
 
         public Criteria andReasonEqualTo(String value) {
-            addCriterion("t.reason =", value, "t.reason");
+            addCriterion("t.reason =", value, "reason");
             return (Criteria) this;
         }
 
         public Criteria andReasonNotEqualTo(String value) {
-            addCriterion("t.reason <>", value, "t.reason");
+            addCriterion("t.reason <>", value, "reason");
             return (Criteria) this;
         }
 
         public Criteria andReasonGreaterThan(String value) {
-            addCriterion("t.reason >", value, "t.reason");
+            addCriterion("t.reason >", value, "reason");
             return (Criteria) this;
         }
 
         public Criteria andReasonGreaterThanOrEqualTo(String value) {
-            addCriterion("t.reason >=", value, "t.reason");
+            addCriterion("t.reason >=", value, "reason");
             return (Criteria) this;
         }
 
         public Criteria andReasonLessThan(String value) {
-            addCriterion("t.reason <", value, "t.reason");
+            addCriterion("t.reason <", value, "reason");
             return (Criteria) this;
         }
 
         public Criteria andReasonLessThanOrEqualTo(String value) {
-            addCriterion("t.reason <=", value, "t.reason");
+            addCriterion("t.reason <=", value, "reason");
             return (Criteria) this;
         }
 
         public Criteria andReasonLike(String value) {
-            addCriterion("t.reason like", value, "t.reason");
+            addCriterion("t.reason like", value, "reason");
             return (Criteria) this;
         }
 
         public Criteria andReasonNotLike(String value) {
-            addCriterion("t.reason not like", value, "t.reason");
+            addCriterion("t.reason not like", value, "reason");
             return (Criteria) this;
         }
 
         public Criteria andReasonIn(List<String> values) {
-            addCriterion("t.reason in", values, "t.reason");
+            addCriterion("t.reason in", values, "reason");
             return (Criteria) this;
         }
 
         public Criteria andReasonNotIn(List<String> values) {
-            addCriterion("t.reason not in", values, "t.reason");
+            addCriterion("t.reason not in", values, "reason");
             return (Criteria) this;
         }
 
         public Criteria andReasonBetween(String value1, String value2) {
-            addCriterion("t.reason between", value1, value2, "t.reason");
+            addCriterion("t.reason between", value1, value2, "reason");
             return (Criteria) this;
         }
 
         public Criteria andReasonNotBetween(String value1, String value2) {
-            addCriterion("t.reason not between", value1, value2, "t.reason");
+            addCriterion("t.reason not between", value1, value2, "reason");
             return (Criteria) this;
         }
 
@@ -449,62 +399,62 @@ public class EamMaintenanceExample implements Serializable {
         }
 
         public Criteria andContentEqualTo(String value) {
-            addCriterion("t.content =", value, "t.content");
+            addCriterion("t.content =", value, "content");
             return (Criteria) this;
         }
 
         public Criteria andContentNotEqualTo(String value) {
-            addCriterion("t.content <>", value, "t.content");
+            addCriterion("t.content <>", value, "content");
             return (Criteria) this;
         }
 
         public Criteria andContentGreaterThan(String value) {
-            addCriterion("t.content >", value, "t.content");
+            addCriterion("t.content >", value, "content");
             return (Criteria) this;
         }
 
         public Criteria andContentGreaterThanOrEqualTo(String value) {
-            addCriterion("t.content >=", value, "t.content");
+            addCriterion("t.content >=", value, "content");
             return (Criteria) this;
         }
 
         public Criteria andContentLessThan(String value) {
-            addCriterion("t.content <", value, "t.content");
+            addCriterion("t.content <", value, "content");
             return (Criteria) this;
         }
 
         public Criteria andContentLessThanOrEqualTo(String value) {
-            addCriterion("t.content <=", value, "t.content");
+            addCriterion("t.content <=", value, "content");
             return (Criteria) this;
         }
 
         public Criteria andContentLike(String value) {
-            addCriterion("t.content like", value, "t.content");
+            addCriterion("t.content like", value, "content");
             return (Criteria) this;
         }
 
         public Criteria andContentNotLike(String value) {
-            addCriterion("t.content not like", value, "t.content");
+            addCriterion("t.content not like", value, "content");
             return (Criteria) this;
         }
 
         public Criteria andContentIn(List<String> values) {
-            addCriterion("t.content in", values, "t.content");
+            addCriterion("t.content in", values, "content");
             return (Criteria) this;
         }
 
         public Criteria andContentNotIn(List<String> values) {
-            addCriterion("t.content not in", values, "t.content");
+            addCriterion("t.content not in", values, "content");
             return (Criteria) this;
         }
 
         public Criteria andContentBetween(String value1, String value2) {
-            addCriterion("t.content between", value1, value2, "t.content");
+            addCriterion("t.content between", value1, value2, "content");
             return (Criteria) this;
         }
 
         public Criteria andContentNotBetween(String value1, String value2) {
-            addCriterion("t.content not between", value1, value2, "t.content");
+            addCriterion("t.content not between", value1, value2, "content");
             return (Criteria) this;
         }
 

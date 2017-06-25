@@ -3,12 +3,13 @@
 <mapper namespace="com.kuyun.eam.dao.mapper.EamMaintenanceMapper">
   <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamMaintenance">
     <id column="maintenance_id" jdbcType="INTEGER" property="maintenanceId" />
-    <result column="equipment_id" jdbcType="INTEGER" property="equipmentId" />
+    <result column="equipment_id" jdbcType="VARCHAR" property="equipmentId" />
     <result column="part_id" jdbcType="INTEGER" property="partId" />
     <result column="reason" jdbcType="VARCHAR" property="reason" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="maintain_user_id" jdbcType="INTEGER" property="maintainUserId" />
     <result column="maintain_time" jdbcType="TIMESTAMP" property="maintainTime" />
+    <result column="part_quantity" jdbcType="DECIMAL" property="partQuantity" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
@@ -75,7 +76,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    maintenance_id, equipment_id, part_id, reason, content, maintain_user_id, maintain_time, 
+    maintenance_id, equipment_id, part_id, reason, content, maintain_user_id, maintain_time,part_quantity,
     create_user_id, create_time, update_user_id, update_time, delete_flag, organization_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamMaintenanceExample" resultMap="BaseResultMap">
@@ -84,7 +85,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from eam_maintenance
+    from eam_maintenance t
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -101,13 +102,13 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from eam_maintenance
     where maintenance_id = #{maintenanceId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from eam_maintenance
+    delete from eam_maintenancegi
     where maintenance_id = #{maintenanceId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamMaintenanceExample">
@@ -117,16 +118,17 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamMaintenance">
-    insert into eam_maintenance (maintenance_id, equipment_id, part_id, 
-      reason, content, maintain_user_id, 
-      maintain_time, create_user_id, create_time, 
-      update_user_id, update_time, delete_flag, 
-      organization_id)
-    values (#{maintenanceId,jdbcType=INTEGER}, #{equipmentId,jdbcType=INTEGER}, #{partId,jdbcType=INTEGER}, 
-      #{reason,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{maintainUserId,jdbcType=INTEGER}, 
-      #{maintainTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
-      #{organizationId,jdbcType=INTEGER})
+    insert into eam_maintenance (maintenance_id, equipment_id, part_id,
+    reason, content, maintain_user_id,
+    maintain_time, create_user_id, create_time,
+    update_user_id, update_time, delete_flag,
+    organization_id, part_quantity)
+    values (#{maintenanceId,jdbcType=INTEGER}, #{equipmentId,jdbcType=VARCHAR}, #{partId,jdbcType=INTEGER},
+    #{reason,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{maintainUserId,jdbcType=INTEGER},
+    #{maintainTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP},
+    #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT},
+    #{organizationId,jdbcType=INTEGER},
+    #{part_quantity,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamMaintenance">
     insert into eam_maintenance
@@ -170,13 +172,16 @@
       <if test="organizationId != null">
         organization_id,
       </if>
+      <if test="partQuantity != null">
+        part_quantity,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="maintenanceId != null">
         #{maintenanceId,jdbcType=INTEGER},
       </if>
       <if test="equipmentId != null">
-        #{equipmentId,jdbcType=INTEGER},
+        #{equipmentId,jdbcType=VARCHAR},
       </if>
       <if test="partId != null">
         #{partId,jdbcType=INTEGER},
@@ -211,10 +216,13 @@
       <if test="organizationId != null">
         #{organizationId,jdbcType=INTEGER},
       </if>
+      <if test="partQuantity != null">
+        #{partQuantity,jdbcType=DECIMAL},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamMaintenanceExample" resultType="java.lang.Long">
-    select count(*) from eam_maintenance
+    select count(*) from eam_maintenance t
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -226,7 +234,7 @@
         maintenance_id = #{record.maintenanceId,jdbcType=INTEGER},
       </if>
       <if test="record.equipmentId != null">
-        equipment_id = #{record.equipmentId,jdbcType=INTEGER},
+        equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
       </if>
       <if test="record.partId != null">
         part_id = #{record.partId,jdbcType=INTEGER},
@@ -261,6 +269,9 @@
       <if test="record.organizationId != null">
         organization_id = #{record.organizationId,jdbcType=INTEGER},
       </if>
+      <if test="record.partQuantity != null">
+        part_quantity = #{record.partQuantity,jdbcType=DECIMAL},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -269,18 +280,19 @@
   <update id="updateByExample" parameterType="map">
     update eam_maintenance
     set maintenance_id = #{record.maintenanceId,jdbcType=INTEGER},
-      equipment_id = #{record.equipmentId,jdbcType=INTEGER},
-      part_id = #{record.partId,jdbcType=INTEGER},
-      reason = #{record.reason,jdbcType=VARCHAR},
-      content = #{record.content,jdbcType=VARCHAR},
-      maintain_user_id = #{record.maintainUserId,jdbcType=INTEGER},
-      maintain_time = #{record.maintainTime,jdbcType=TIMESTAMP},
-      create_user_id = #{record.createUserId,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      update_user_id = #{record.updateUserId,jdbcType=INTEGER},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      organization_id = #{record.organizationId,jdbcType=INTEGER}
+    equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
+    part_id = #{record.partId,jdbcType=INTEGER},
+    reason = #{record.reason,jdbcType=VARCHAR},
+    content = #{record.content,jdbcType=VARCHAR},
+    maintain_user_id = #{record.maintainUserId,jdbcType=INTEGER},
+    maintain_time = #{record.maintainTime,jdbcType=TIMESTAMP},
+    create_user_id = #{record.createUserId,jdbcType=INTEGER},
+    create_time = #{record.createTime,jdbcType=TIMESTAMP},
+    update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+    update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+    delete_flag = #{record.deleteFlag,jdbcType=BIT},
+    organization_id = #{record.organizationId,jdbcType=INTEGER},
+    part_quantity = #{record.partQuantity,jdbcType=DECIMAL}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -289,7 +301,7 @@
     update eam_maintenance
     <set>
       <if test="equipmentId != null">
-        equipment_id = #{equipmentId,jdbcType=INTEGER},
+        equipment_id = #{equipmentId,jdbcType=VARCHAR},
       </if>
       <if test="partId != null">
         part_id = #{partId,jdbcType=INTEGER},
@@ -324,23 +336,27 @@
       <if test="organizationId != null">
         organization_id = #{organizationId,jdbcType=INTEGER},
       </if>
+      <if test="partQuantity != null">
+        part_quantity = #{partQuantity,jdbcType=DECIMAL},
+      </if>
     </set>
     where maintenance_id = #{maintenanceId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamMaintenance">
     update eam_maintenance
-    set equipment_id = #{equipmentId,jdbcType=INTEGER},
-      part_id = #{partId,jdbcType=INTEGER},
-      reason = #{reason,jdbcType=VARCHAR},
-      content = #{content,jdbcType=VARCHAR},
-      maintain_user_id = #{maintainUserId,jdbcType=INTEGER},
-      maintain_time = #{maintainTime,jdbcType=TIMESTAMP},
-      create_user_id = #{createUserId,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_user_id = #{updateUserId,jdbcType=INTEGER},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      delete_flag = #{deleteFlag,jdbcType=BIT},
-      organization_id = #{organizationId,jdbcType=INTEGER}
+    set equipment_id = #{equipmentId,jdbcType=VARCHAR},
+    part_id = #{partId,jdbcType=INTEGER},
+    reason = #{reason,jdbcType=VARCHAR},
+    content = #{content,jdbcType=VARCHAR},
+    maintain_user_id = #{maintainUserId,jdbcType=INTEGER},
+    maintain_time = #{maintainTime,jdbcType=TIMESTAMP},
+    create_user_id = #{createUserId,jdbcType=INTEGER},
+    create_time = #{createTime,jdbcType=TIMESTAMP},
+    update_user_id = #{updateUserId,jdbcType=INTEGER},
+    update_time = #{updateTime,jdbcType=TIMESTAMP},
+    delete_flag = #{deleteFlag,jdbcType=BIT},
+    organization_id = #{organizationId,jdbcType=INTEGER},
+    part_quantity = #{partQuantity,jdbcType=DECIMAL}
     where maintenance_id = #{maintenanceId,jdbcType=INTEGER}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />

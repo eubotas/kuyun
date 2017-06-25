@@ -3,7 +3,7 @@ package com.kuyun.eam.dao.model;
 import java.io.Serializable;
 import java.util.Date;
 
-public class EamSensor extends BaseEntity  implements Serializable {
+public class EamSensor extends BaseEntity implements Serializable {
     private Integer sensorId;
 
     private String equipmentId;
@@ -21,6 +21,8 @@ public class EamSensor extends BaseEntity  implements Serializable {
     private Integer period;
 
     private Integer writeNumber;
+
+    private Integer quantity;
 
     private static final long serialVersionUID = 1L;
 
@@ -96,6 +98,13 @@ public class EamSensor extends BaseEntity  implements Serializable {
         this.writeNumber = writeNumber;
     }
 
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
 
     @Override
     public String toString() {
@@ -118,6 +127,7 @@ public class EamSensor extends BaseEntity  implements Serializable {
         sb.append(", updateTime=").append(getUpdateTime());
         sb.append(", deleteFlag=").append(getDeleteFlag());
         sb.append(", organizationId=").append(getOrganizationId());
+        sb.append(", quantity=").append(quantity);
         sb.append("]");
         return sb.toString();
     }
@@ -148,7 +158,8 @@ public class EamSensor extends BaseEntity  implements Serializable {
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getOrganizationId() == null ? other.getOrganizationId() == null : this.getOrganizationId().equals(other.getOrganizationId()));
+            && (this.getOrganizationId() == null ? other.getOrganizationId() == null : this.getOrganizationId().equals(other.getOrganizationId()))
+            && (this.getQuantity() == null ? other.getQuantity() == null : this.getQuantity().equals(other.getQuantity()));
     }
 
     @Override
@@ -170,6 +181,7 @@ public class EamSensor extends BaseEntity  implements Serializable {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getOrganizationId() == null) ? 0 : getOrganizationId().hashCode());
+        result = prime * result + ((getQuantity() == null) ? 0 : getQuantity().hashCode());
         return result;
     }
 }

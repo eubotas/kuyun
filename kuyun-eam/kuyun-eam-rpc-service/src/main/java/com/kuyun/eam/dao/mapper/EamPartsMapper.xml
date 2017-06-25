@@ -84,7 +84,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from eam_parts
+    from eam_parts t
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -214,7 +214,7 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamPartsExample" resultType="java.lang.Long">
-    select count(*) from eam_parts
+    select count(*) from eam_parts t
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

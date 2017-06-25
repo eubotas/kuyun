@@ -3,7 +3,7 @@ package com.kuyun.eam.dao.model;
 import java.io.Serializable;
 import java.util.Date;
 
-public class EamSensorData extends BaseEntity implements Serializable {
+public class EamSensorData implements Serializable {
     private Integer sensorDataId;
 
     private Integer sensorId;
@@ -18,7 +18,17 @@ public class EamSensorData extends BaseEntity implements Serializable {
 
     private Long latitudeValue;
 
+    private Integer createUserId;
 
+    private Date createTime;
+
+    private Integer updateUserId;
+
+    private Date updateTime;
+
+    private Boolean deleteFlag;
+
+    private Integer organizationId;
 
     private static final long serialVersionUID = 1L;
 
@@ -78,6 +88,53 @@ public class EamSensorData extends BaseEntity implements Serializable {
         this.latitudeValue = latitudeValue;
     }
 
+    public Integer getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(Integer createUserId) {
+        this.createUserId = createUserId;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Integer getUpdateUserId() {
+        return updateUserId;
+    }
+
+    public void setUpdateUserId(Integer updateUserId) {
+        this.updateUserId = updateUserId;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public Boolean getDeleteFlag() {
+        return deleteFlag;
+    }
+
+    public void setDeleteFlag(Boolean deleteFlag) {
+        this.deleteFlag = deleteFlag;
+    }
+
+    public Integer getOrganizationId() {
+        return organizationId;
+    }
+
+    public void setOrganizationId(Integer organizationId) {
+        this.organizationId = organizationId;
+    }
 
     @Override
     public String toString() {
@@ -92,12 +149,12 @@ public class EamSensorData extends BaseEntity implements Serializable {
         sb.append(", booleanValue=").append(booleanValue);
         sb.append(", longitudeValue=").append(longitudeValue);
         sb.append(", latitudeValue=").append(latitudeValue);
-        sb.append(", createUserId=").append(getCreateUserId());
-        sb.append(", createTime=").append(getCreateTime());
-        sb.append(", updateUserId=").append(getUpdateUserId());
-        sb.append(", updateTime=").append(getUpdateTime());
-        sb.append(", deleteFlag=").append(getDeleteFlag());
-        sb.append(", organizationId=").append(getOrganizationId());
+        sb.append(", createUserId=").append(createUserId);
+        sb.append(", createTime=").append(createTime);
+        sb.append(", updateUserId=").append(updateUserId);
+        sb.append(", updateTime=").append(updateTime);
+        sb.append(", deleteFlag=").append(deleteFlag);
+        sb.append(", organizationId=").append(organizationId);
         sb.append("]");
         return sb.toString();
     }

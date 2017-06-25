@@ -228,6 +228,16 @@ public class EamSensorExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andEquipmentIdLike(String value) {
+            addCriterion("equipment_id like", value, "equipmentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentIdNotLike(String value) {
+            addCriterion("equipment_id not like", value, "equipmentId");
+            return (Criteria) this;
+        }
+
         public Criteria andEquipmentIdIn(List<String> values) {
             addCriterion("equipment_id in", values, "equipmentId");
             return (Criteria) this;
@@ -1035,6 +1045,66 @@ public class EamSensorExample implements Serializable {
 
         public Criteria andOrganizationIdNotBetween(Integer value1, Integer value2) {
             addCriterion("organization_id not between", value1, value2, "organizationId");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuantityIsNull() {
+            addCriterion("quantity is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuantityIsNotNull() {
+            addCriterion("quantity is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuantityEqualTo(Integer value) {
+            addCriterion("quantity =", value, "quantity");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuantityNotEqualTo(Integer value) {
+            addCriterion("quantity <>", value, "quantity");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuantityGreaterThan(Integer value) {
+            addCriterion("quantity >", value, "quantity");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuantityGreaterThanOrEqualTo(Integer value) {
+            addCriterion("quantity >=", value, "quantity");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuantityLessThan(Integer value) {
+            addCriterion("quantity <", value, "quantity");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuantityLessThanOrEqualTo(Integer value) {
+            addCriterion("quantity <=", value, "quantity");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuantityIn(List<Integer> values) {
+            addCriterion("quantity in", values, "quantity");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuantityNotIn(List<Integer> values) {
+            addCriterion("quantity not in", values, "quantity");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuantityBetween(Integer value1, Integer value2) {
+            addCriterion("quantity between", value1, value2, "quantity");
+            return (Criteria) this;
+        }
+
+        public Criteria andQuantityNotBetween(Integer value1, Integer value2) {
+            addCriterion("quantity not between", value1, value2, "quantity");
             return (Criteria) this;
         }
     }
