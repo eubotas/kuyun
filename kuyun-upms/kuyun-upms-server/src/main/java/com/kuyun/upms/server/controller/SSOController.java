@@ -1,18 +1,19 @@
 package com.kuyun.upms.server.controller;
 
 import com.kuyun.common.base.BaseController;
+import com.kuyun.common.util.MD5Util;
 import com.kuyun.common.util.RedisUtil;
 import com.kuyun.upms.client.shiro.session.UpmsSession;
 import com.kuyun.upms.client.shiro.session.UpmsSessionDao;
 import com.kuyun.upms.common.constant.UpmsResult;
 import com.kuyun.upms.common.constant.UpmsResultConstant;
-import com.kuyun.upms.dao.model.UpmsSystemExample;
-import com.kuyun.upms.rpc.api.UpmsSystemService;
-import com.kuyun.upms.rpc.api.UpmsUserService;
+import com.kuyun.upms.dao.model.*;
+import com.kuyun.upms.rpc.api.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
@@ -32,6 +33,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -59,6 +61,19 @@ public class SSOController extends BaseController {
 
     @Autowired
     UpmsSessionDao upmsSessionDao;
+
+    @Autowired
+    private UpmsOrganizationService upmsOrganizationService;
+
+    @Autowired
+    private UpmsUserOrganizationService upmsUserOrganizationService;
+
+    @Autowired
+    private UpmsPermissionService upmsPermissionService;
+
+    @Autowired
+    private UpmsUserPermissionService upmsUserPermissionService;
+
 
     @ApiOperation(value = "认证中心首页")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
@@ -186,6 +201,141 @@ public class SSOController extends BaseController {
             redirectUrl = "/";
         }
         return "redirect:" + redirectUrl;
+    }
+
+    @RequestMapping(value = "/reg", method = RequestMethod.GET)
+    public String reg(HttpServletRequest request) {
+        return "/sso/reg.jsp";
+    }
+
+    @RequestMapping(value = "/check_user_name", method = RequestMethod.POST)
+    @ResponseBody
+    public Object checkUserName(HttpServletRequest request, ModelMap modelMap) {
+        String userName = request.getParameter("account");
+        if (StringUtils.isBlank(userName)) {
+            return new UpmsResult(UpmsResultConstant.EMPTY_USERNAME, "用户名不能为空！");
+        }
+
+        UpmsUser user = getUpmsUser(userName);
+
+        if (user != null){
+            return new UpmsResult(UpmsResultConstant.FAILED, "用户名已存在");
+        }else {
+            return new UpmsResult(UpmsResultConstant.SUCCESS, "用户名可用");
+        }
+    }
+
+    private UpmsUser getUpmsUser(String userName) {
+        UpmsUserExample userExample = new UpmsUserExample();
+        userExample.createCriteria().andUsernameEqualTo(userName);
+
+        return upmsUserService.selectFirstByExample(userExample);
+    }
+
+
+    @RequestMapping(value = "/reg", method = RequestMethod.POST)
+    @ResponseBody
+    public Object reg(HttpServletRequest request, ModelMap modelMap) {
+        String userName = request.getParameter("account");
+        String password = request.getParameter("password");
+        String name = request.getParameter("name");
+        String company = request.getParameter("company");
+        String email = request.getParameter("email");
+        String phone = request.getParameter("phone");
+        String code = request.getParameter("code");
+
+        UpmsUser user = getUpmsUser(userName);
+        if (user != null){
+            return new UpmsResult(UpmsResultConstant.FAILED, "用户名已存在");
+        }
+
+        UpmsUser upmsUser = new UpmsUser();
+        upmsUser.setUsername(userName);
+        upmsUser.setRealname(name);
+        upmsUser.setEmail(email);
+        upmsUser.setPhone(phone);
+        upmsUser.setLocked(Byte.decode("0"));
+
+
+        long time = System.currentTimeMillis();
+        String salt = UUID.randomUUID().toString().replaceAll("-", "");
+        upmsUser.setSalt(salt);
+        upmsUser.setPassword(MD5Util.MD5(password + upmsUser.getSalt()));
+        upmsUser.setCtime(time);
+        int count = upmsUserService.insertSelective(upmsUser);
+        _log.info("新增用户，主键：userId={}", upmsUser.getUserId());
+
+        handleUserOrganization(company, upmsUser);
+
+        assignPermission(upmsUser);
+
+        return new UpmsResult(UpmsResultConstant.SUCCESS, count);
+
+    }
+
+    private void assignPermission(UpmsUser upmsUser) {
+
+        List<UpmsPermission> permissionList = getPermissions();
+
+        for(UpmsPermission permission : permissionList){
+            UpmsUserPermission userPermission = new UpmsUserPermission();
+            userPermission.setUserId(upmsUser.getUserId());
+            userPermission.setPermissionId(permission.getPermissionId());
+            userPermission.setType(Byte.decode("1"));
+            upmsUserPermissionService.insertSelective(userPermission);
+        }
+    }
+
+    private List<UpmsPermission> getPermissions() {
+        UpmsPermissionExample example = new UpmsPermissionExample();
+        example.createCriteria().andPermissionIdGreaterThanOrEqualTo(200);
+
+        return upmsPermissionService.selectByExample(example);
+    }
+
+    private void handleUserOrganization(String organization, UpmsUser upmsUser){
+
+        UpmsOrganization org = getUpmsOrganization(organization);
+
+        if (org == null){
+            org = createOrganization(organization);
+        }
+
+        UpmsUserOrganization upmsUserOrganization = new UpmsUserOrganization();
+        upmsUserOrganization.setUserId(getUserId(upmsUser));
+        upmsUserOrganization.setOrganizationId(getOrganizationId(org));
+        upmsUserOrganizationService.insertSelective(upmsUserOrganization);
+    }
+
+    private UpmsOrganization createOrganization(String organization) {
+        UpmsOrganization org;
+        org = new UpmsOrganization();
+        org.setName(organization);
+        org.setDescription(organization);
+        org.setCtime(System.currentTimeMillis());
+        upmsOrganizationService.insertSelective(org);
+        return org;
+    }
+
+    private UpmsOrganization getUpmsOrganization(String organization) {
+        UpmsOrganizationExample orgExample = new UpmsOrganizationExample();
+        orgExample.createCriteria().andNameEqualTo(organization);
+        return upmsOrganizationService.selectFirstByExample(orgExample);
+    }
+
+    private int getUserId(UpmsUser upmsUser){
+        if (upmsUser.getUserId() == null){
+            UpmsUser upmsUserNew = getUpmsUser(upmsUser.getUsername());
+            upmsUser.setUserId(upmsUserNew.getUserId());
+        }
+        return upmsUser.getUserId();
+    }
+
+    private int getOrganizationId(UpmsOrganization org){
+        if (org.getOrganizationId() == null){
+            org = getUpmsOrganization(org.getName());
+        }
+        return org.getOrganizationId();
     }
 
 }

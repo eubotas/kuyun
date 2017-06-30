@@ -128,3 +128,5 @@ function createSubmit() {
     });
 }
 </script>
+
+<jsp:include page="/resources/inc/footer.jsp" flush="true"/>

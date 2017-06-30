@@ -29,6 +29,11 @@ drop table if exists eam_sensor_data;
 
 drop table if exists eam_warehouse;
 
+drop table if exists eam_alarm;
+
+
+
+
 /*==============================================================*/
 /* Table: eam_equipment                                         */
 /*==============================================================*/
@@ -288,6 +293,19 @@ create table eam_warehouse
 );
 
 alter table eam_warehouse comment '仓库信息表';
+
+/*==============================================================*/
+/* Table: eam_alarm                                          */
+/*==============================================================*/
+create table eam_alarm
+(
+   alarm_id             int not null auto_increment,
+   name                 varchar(20),
+   IP                   varchar(25),
+   port                 int,
+   primary key (alarm_id)
+);
+
 
 alter table eam_equipment add constraint FK_Reference_10 foreign key (protocol_id)
       references eam_protocol (protocol_id) on delete restrict on update restrict;

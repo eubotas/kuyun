@@ -22,6 +22,9 @@
     <link href="${basePath}/resources/kuyun-admin/css/login.css" rel="stylesheet"/>
 </head>
 <body>
+
+
+
 <div id="login-window">
     <div class="input-group m-b-20">
         <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
@@ -35,10 +38,13 @@
             <input id="password" type="password" class="form-control" name="password" placeholder="密码" required value="123456">
         </div>
     </div>
-    <div class="clearfix">
-    </div>
+
     <div class="checkbox">
         <input id="rememberMe" type="checkbox" class="checkbix" data-text="自动登录" name="rememberMe">
+    </div>
+
+    <div class="">
+        <a href="reg">用户注册</a>
     </div>
     <a id="login-bt" href="javascript:;" class="waves-effect waves-button waves-float"><i class="zmdi zmdi-arrow-forward"></i></a>
 </div>
