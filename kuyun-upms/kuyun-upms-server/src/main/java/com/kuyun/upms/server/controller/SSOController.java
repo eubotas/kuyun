@@ -1,8 +1,12 @@
 package com.kuyun.upms.server.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.kuyun.common.base.BaseController;
+import com.kuyun.common.netease.SMSUtil;
 import com.kuyun.common.util.MD5Util;
 import com.kuyun.common.util.RedisUtil;
+import com.kuyun.common.util.StringUtil;
 import com.kuyun.upms.client.shiro.session.UpmsSession;
 import com.kuyun.upms.client.shiro.session.UpmsSessionDao;
 import com.kuyun.upms.common.constant.UpmsResult;
@@ -11,6 +15,7 @@ import com.kuyun.upms.dao.model.*;
 import com.kuyun.upms.rpc.api.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import net.sf.json.JSONArray;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
@@ -32,9 +37,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Type;
 import java.net.URLEncoder;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * 单点登录管理
@@ -73,6 +78,9 @@ public class SSOController extends BaseController {
 
     @Autowired
     private UpmsUserPermissionService upmsUserPermissionService;
+
+    @Autowired
+    private UpmsApiService upmsApiService;
 
 
     @ApiOperation(value = "认证中心首页")
@@ -225,6 +233,16 @@ public class SSOController extends BaseController {
         }
     }
 
+    @RequestMapping(value = "/send_code", method = RequestMethod.POST)
+    @ResponseBody
+    public Object sendCode(HttpServletRequest request, ModelMap modelMap) {
+        String phone = request.getParameter("phone");
+        if (StringUtils.isBlank(phone)) {
+            return new UpmsResult(UpmsResultConstant.EMPTY_PHONE, "电话号码不能为空！");
+        }
+        return SMSUtil.sendCode(phone);
+    }
+
     private UpmsUser getUpmsUser(String userName) {
         UpmsUserExample userExample = new UpmsUserExample();
         userExample.createCriteria().andUsernameEqualTo(userName);
@@ -249,6 +267,12 @@ public class SSOController extends BaseController {
             return new UpmsResult(UpmsResultConstant.FAILED, "用户名已存在");
         }
 
+        String resCode = checkVerifyCode(phone, code);
+        if (!"200".equals(resCode)){
+            return new UpmsResult(UpmsResultConstant.FAILED, "验证码不正确");
+        }
+
+
         UpmsUser upmsUser = new UpmsUser();
         upmsUser.setUsername(userName);
         upmsUser.setRealname(name);
@@ -269,8 +293,43 @@ public class SSOController extends BaseController {
 
         assignPermission(upmsUser);
 
+        sendSMSToManager(upmsUser, company);
+
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
 
+    }
+
+    private void sendSMSToManager(UpmsUser argUser, String company) {
+        //TODO: send sms to manager
+        int roleId = 1;
+        List<UpmsUser> users = upmsApiService.selectUpmsUserByUpmsRoleId(roleId);
+        JSONArray phones = new JSONArray();
+        for(UpmsUser user : users){
+            if (!StringUtils.isEmpty(user.getPhone())){
+                phones.add(user.getPhone());
+            }
+        }
+
+        String templateId = "3056289";
+        //有新用户注册！姓名：%s，公司：%s，电话：%s，邮箱：%s。
+        JSONArray params = new JSONArray();
+        params.add(argUser.getRealname());
+        params.add(company);
+        params.add(argUser.getPhone());
+        params.add(argUser.getEmail());
+
+        if (phones.size() > 0){
+            SMSUtil.sendTemplate(templateId, phones.toString(), params.toString());
+        }
+    }
+
+    private String checkVerifyCode(String phone, String code) {
+        String resData = SMSUtil.verifyCode(phone, code);
+        Gson gson = new Gson();
+        Type type = new TypeToken<Map<String, String>>(){}.getType();
+        Map<String,String> map = gson.fromJson(resData, type);
+
+        return map.get("code");
     }
 
     private void assignPermission(UpmsUser upmsUser) {

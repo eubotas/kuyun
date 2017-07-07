@@ -27,6 +27,11 @@ public class UpmsApiServiceMock implements UpmsApiService {
     }
 
     @Override
+    public List<UpmsUser> selectUpmsUserByUpmsRoleId(Integer upmsRoleId) {
+        return null;
+    }
+
+    @Override
     public List<UpmsRolePermission> selectUpmsRolePermisstionByUpmsRoleId(Integer upmsRoleId) {
         _log.info("UpmsApiServiceMock => selectUpmsRolePermisstionByUpmsRoleId");
         return null;

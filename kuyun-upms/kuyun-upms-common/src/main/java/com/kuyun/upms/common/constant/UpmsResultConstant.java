@@ -15,7 +15,9 @@ public enum UpmsResultConstant {
     EMPTY_PASSWORD(10102, "Password cannot be empty"),
     INVALID_USERNAME(10103, "Account does not exist"),
     INVALID_PASSWORD(10104, "Password error"),
-    INVALID_ACCOUNT(10105, "Invalid account");
+    INVALID_ACCOUNT(10105, "Invalid account"),
+    EMPTY_PHONE(10106, "phone cannot be empty"),
+    EMPTY_CODE(10107, "code cannot be empty");
 
     public int code;
 

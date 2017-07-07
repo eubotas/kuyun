@@ -24,6 +24,9 @@ public interface UpmsApiService {
      */
     List<UpmsRole> selectUpmsRoleByUpmsUserId(Integer upmsUserId);
 
+    // 根据角色id获取所属的用户
+    List<UpmsUser> selectUpmsUserByUpmsRoleId(Integer upmsRoleId);
+
     /**
      * 根据角色id获取所拥有的权限
      * @param upmsRoleId

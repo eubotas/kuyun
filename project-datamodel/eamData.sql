@@ -55,12 +55,16 @@ INSERT INTO `upms_permission` VALUES ('207', '6', '205', '编辑设备', '3', 'e
 INSERT INTO `upms_permission` VALUES ('208', '6', '205', '删除设备', '3', 'eam:equipment:delete', '/manage/equipment/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
 INSERT INTO `upms_permission` VALUES ('209', '6', '205', '设备接入', '3', 'eam:equipment:update', '/manage/equipment/connect', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
 
+INSERT INTO `upms_permission` VALUES ('210', '6', '0', '报警管理', '2', 'eam:equipment:read',   '/manage/equipment/index', null, '1', '205', '205');
+INSERT INTO `upms_permission` VALUES ('211', '6', '205', '新增报警', '3', 'eam:equipment:create', '/manage/equipment/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
+INSERT INTO `upms_permission` VALUES ('212', '6', '205', '编辑报警', '3', 'eam:equipment:update', '/manage/equipment/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
+INSERT INTO `upms_permission` VALUES ('213', '6', '205', '删除报警', '3', 'eam:equipment:delete', '/manage/equipment/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
 
-INSERT INTO `upms_permission` VALUES ('213', '6', '0', ' 仓储管理', '1', null, null, 'zmdi zmdi-collection-text', '1', '200', '200');
-INSERT INTO `upms_permission` VALUES ('214', '6', '213', '仓库管理', '2', 'eam:warehouse:read',   '/manage/warehouse/index', null, '1', '213', '213');
-INSERT INTO `upms_permission` VALUES ('215', '6', '214', '新增仓库', '3', 'eam:warehouse:create', '/manage/warehouse/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
-INSERT INTO `upms_permission` VALUES ('216', '6', '214', '编辑仓库', '3', 'eam:warehouse:update', '/manage/warehouse/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
-INSERT INTO `upms_permission` VALUES ('217', '6', '214', '删除仓库', '3', 'eam:warehouse:delete', '/manage/warehouse/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
+INSERT INTO `upms_permission` VALUES ('220', '6', '0', ' 仓储管理', '1', null, null, 'zmdi zmdi-collection-text', '1', '200', '200');
+INSERT INTO `upms_permission` VALUES ('221', '6', '220', '仓库管理', '2', 'eam:warehouse:read',   '/manage/warehouse/index', null, '1', '213', '213');
+INSERT INTO `upms_permission` VALUES ('222', '6', '221', '新增仓库', '3', 'eam:warehouse:create', '/manage/warehouse/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
+INSERT INTO `upms_permission` VALUES ('223', '6', '221', '编辑仓库', '3', 'eam:warehouse:update', '/manage/warehouse/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
+INSERT INTO `upms_permission` VALUES ('224', '6', '221', '删除仓库', '3', 'eam:warehouse:delete', '/manage/warehouse/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
 
 INSERT INTO `upms_permission` VALUES ('218', '6', '213', '仓位管理', '2', 'eam:location:read',   '/manage/location/index', null, '1', '218', '218');
 INSERT INTO `upms_permission` VALUES ('219', '6', '218', '新增仓位', '3', 'eam:location:create', '/manage/location/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');

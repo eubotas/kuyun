@@ -223,6 +223,11 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         return userIds;
     }
 
+    // 根据角色id获取所属的用户
+    public List<UpmsUser> selectUpmsUserByUpmsRoleId(Integer upmsRoleId){
+        return upmsApiMapper.selectUpmsUserByUpmsRoleId(upmsRoleId);
+    }
+
     /**
      * 写入操作日志
      * @param record
