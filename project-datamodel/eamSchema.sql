@@ -30,6 +30,8 @@ drop table if exists eam_sensor_data;
 drop table if exists eam_warehouse;
 
 drop table if exists eam_alarm;
+drop table if exists eam_alarm_type_value;
+drop table if exists eam_alarm_target_person;
 
 
 

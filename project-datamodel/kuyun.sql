@@ -13,6 +13,10 @@ File Encoding         : 65001
 Date: 2017-04-05 23:12:00
 */
 
+DROP DATABASE IF EXISTS kuyun;
+create database kuyun;
+use kuyun;
+
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
