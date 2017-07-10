@@ -9,3 +9,5 @@ target
 **/resources/kuyun-admin
 generatorConfig.xml
 .DS_Store
+#eclipse 
+**/.settings
