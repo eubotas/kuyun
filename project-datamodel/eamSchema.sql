@@ -240,6 +240,7 @@ create table eam_sensor
    address              int,
    data_format          varchar(10),
    period               int,
+   quantity             int,
    write_number         int,
    create_user_id       int,
    create_time          datetime,
@@ -297,14 +298,31 @@ alter table eam_warehouse comment '仓库信息表';
 /*==============================================================*/
 /* Table: eam_alarm                                          */
 /*==============================================================*/
-create table eam_alarm
-(
-   alarm_id             int not null auto_increment,
-   name                 varchar(20),
-   IP                   varchar(25),
-   port                 int,
-   primary key (alarm_id)
-);
+CREATE TABLE `eam_alarm` (
+  `alarm_id` int(11) NOT NULL AUTO_INCREMENT,
+  `equipment_id` varchar(32) DEFAULT NULL,
+  `sensor_id` int(11) DEFAULT NULL,
+  `alarm_type` varchar(20) DEFAULT NULL,
+  `alarm_target` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`alarm_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `eam_alarm_type_value` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `alarm_id` int(11) DEFAULT NULL,
+  `upper_Bound` decimal(10,2) DEFAULT NULL,
+  `lower_Bound` decimal(10,2) DEFAULT NULL,
+  `duration` decimal(10,2) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `eam_alarm_target_person` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `alarm_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 alter table eam_equipment add constraint FK_Reference_10 foreign key (protocol_id)
@@ -402,4 +420,4 @@ END
 
 ##ALTER TABLE eam_equipment ADD heart_data varchar(50);
 
-ALTER TABLE eam_sensor ADD quantity int;
+##ALTER TABLE eam_sensor ADD quantity int;
