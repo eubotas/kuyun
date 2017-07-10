@@ -30,12 +30,11 @@ drop table if exists eam_sensor_data;
 drop table if exists eam_warehouse;
 
 drop table if exists eam_alarm;
-drop table if exists eam_alarm_type_value;
-drop table if exists eam_alarm_target_organization;
-
-drop table if exists eam_alarm_target_person;
 
 drop table if exists eam_alarm_type_value;
+
+drop table if exists eam_alarm_target_user;
+
 
 
 
@@ -323,10 +322,10 @@ CREATE TABLE `eam_alarm_type_value` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `eam_alarm_target_organization` (
+CREATE TABLE `eam_alarm_target_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `alarm_id` int(11) DEFAULT NULL,
-  `organization_id` int(11) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
