@@ -8,7 +8,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * 服务启动类
  * Created by kuyun on 2017/3/29.
  */
-public class kuyunPayRpcServiceApplication {
+public class KuyunPayRpcServiceApplication {
 
 	private static Logger _log = LoggerFactory.getLogger(kuyunPayRpcServiceApplication.class);
 
