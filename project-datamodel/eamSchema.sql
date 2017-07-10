@@ -33,6 +33,10 @@ drop table if exists eam_alarm;
 drop table if exists eam_alarm_type_value;
 drop table if exists eam_alarm_target_organization;
 
+drop table if exists eam_alarm_target_person;
+
+drop table if exists eam_alarm_type_value;
+
 
 
 
@@ -369,10 +373,13 @@ alter table eam_sensor_data add constraint FK_Reference_13 foreign key (sensor_i
 
 
 
---http://benjaminwhx.com/2015/11/24/Mysql%E4%B8%AD%E7%9A%84%E9%80%92%E5%BD%92%E5%B1%82%E6%AC%A1%E6%9F%A5%E8%AF%A2%EF%BC%88%E7%88%B6%E5%AD%90%E6%9F%A5%E8%AF%A2%EF%BC%89/
+#http://benjaminwhx.com/2015/11/24/Mysql%E4%B8%AD%E7%9A%84%E9%80%92%E5%BD%92%E5%B1%82%E6%AC%A1%E6%9F%A5%E8%AF%A2%EF%BC%88%E7%88%B6%E5%AD%90%E6%9F%A5%E8%AF%A2%EF%BC%89/
 
---根据传入id查询所有父节点的id
+#根据传入id查询所有父节点的id
+drop FUNCTION getParentList;
+
 delimiter // 
+
 CREATE FUNCTION `getParentList`(rootId INT)
 RETURNS varchar(1000) 
 
@@ -399,8 +406,12 @@ RETURN sTemp;
 END
 //
 
---根据传入id查询所有子节点的id
-delimiter // 
+delimiter ;
+
+#根据传入id查询所有子节点的id
+
+drop FUNCTION getChildList;
+delimiter //
 CREATE FUNCTION `getChildList`(rootId INT)
 RETURNS varchar(1000) 
 
@@ -419,6 +430,9 @@ BEGIN
 END
 //
 
+
+#resotre default delimiter
+delimiter ;
 
 ##ALTER TABLE eam_equipment ADD heart_data varchar(50);
 
