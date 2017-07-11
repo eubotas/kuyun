@@ -104,6 +104,9 @@
                     <webApp>
                         <contextPath>/</contextPath>
                     </webApp>
+                    <war>
+                        ${basedir}/target/kuyun-eam-admin
+                    </war>
                     <httpConnector>
                         <port>9999</port>
                     </httpConnector>

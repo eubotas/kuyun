@@ -10,7 +10,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class KuyunApiRpcServiceApplication {
 
-	private static Logger _log = LoggerFactory.getLogger(kuyunApiRpcServiceApplication.class);
+	private static Logger _log = LoggerFactory.getLogger(KuyunApiRpcServiceApplication.class);
 
 	public static void main(String[] args) {
 		_log.info(">>>>> kuyun-api-rpc-service 正在启动 <<<<<");

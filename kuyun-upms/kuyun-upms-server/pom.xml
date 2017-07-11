@@ -104,8 +104,11 @@
                 <configuration>
                     <scanIntervalSeconds>3</scanIntervalSeconds>
                     <webApp>
-                        <contextPath>/</contextPath>
+                        <contextPath></contextPath>
                     </webApp>
+                    <war>
+                        ${basedir}/target/kuyun-upms-server
+                    </war>
                     <httpConnector>
                         <port>1111</port>
                     </httpConnector>

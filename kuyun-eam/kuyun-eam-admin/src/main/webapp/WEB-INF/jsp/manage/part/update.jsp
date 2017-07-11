@@ -23,7 +23,7 @@
 					<div class="fg-line">
 						<select id="categoryId" name="categoryId" style="width: 100%">
 							<c:forEach var="category" items="${categoryList}">
-								<option value="${category.categoryId}" <c:if test="${category.categoryId==part.categoryId}">selected</c:if>>${category.name}</option>
+								<option value="${category.categoryId}" ${category.categoryId==part.categoryId ? 'selected' : ''}>${category.name}</option>
 							</c:forEach>
 						</select>
 					</div>

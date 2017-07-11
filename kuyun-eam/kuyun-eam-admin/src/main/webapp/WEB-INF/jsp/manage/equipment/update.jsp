@@ -43,7 +43,7 @@
 					<div class="fg-line">
 						<select id="equipmentModelId" name="equipmentModelId" style="width: 100%">
 							<c:forEach var="equipmentModel" items="${equipmentModels}">
-								<option value="${equipmentModel.equipmentModelId}" <c:if test="${equipment.equipmentModelId==equipmentModel.equipmentModelId}">selected</c:if>>${equipmentModel.name}</option>
+								<option value="${equipmentModel.equipmentModelId}" ${equipment.equipmentModelId==equipmentModel.equipmentModelId ? 'selected' : ''}>${equipmentModel.name}</option>
 							</c:forEach>
 						</select>
 					</div>

@@ -31,7 +31,7 @@
 					<div class="fg-line">
 						<select id="functionCode" name="functionCode" style="width: 100%">
 							<c:forEach var="functionCode" items="${modbusFunctionCodes}">
-								<option value="${functionCode.code}" <c:if test="${sensor != null and sensor.functionCode==functionCode.code}">selected</c:if>>${functionCode.name}</option>
+								<option value="${functionCode.code}" ${sensor != null && sensor.functionCode == functionCode.code ? 'selected' : ''}>${functionCode.name}</option>
 							</c:forEach>
 						</select>
 					</div>
