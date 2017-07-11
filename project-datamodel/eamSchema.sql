@@ -309,6 +309,12 @@ CREATE TABLE `eam_alarm` (
   `sensor_id` int(11) DEFAULT NULL,
   `alarm_type` varchar(20) DEFAULT NULL,
   `alarm_target` varchar(10) DEFAULT NULL,
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   organization_id      int,
   PRIMARY KEY (`alarm_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -328,6 +334,62 @@ CREATE TABLE `eam_alarm_target_user` (
   `user_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+#工单分类
+create table eam_ticket_type
+(
+   id                   int not null auto_increment,
+   name                 varchar(30),
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   organization_id      int,
+   primary key (id)
+);
+
+#工单
+create table eam_ticket
+(
+   ticket_id            int not null auto_increment,
+   ticket_type_id       int,
+   description          varchar(200)  COMMENT '描述',
+   image_path_1         varchar(100)  COMMENT '上传图片',
+   image_path_2         varchar(100)  COMMENT '上传图片',
+   image_path_3         varchar(100)  COMMENT '上传图片',
+   image_path_4         varchar(100)  COMMENT '上传图片',
+   priority             varchar(10)   COMMENT '优先级（一般，紧急, 非常紧急）',
+   executor_id          int           COMMENT '处理人',
+   status               varchar(10)   COMMENT '状态（未解决, 处理中, 已解决, 不需处理）',
+   end_date             datetime,
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   organization_id      int,
+   primary key (ticket_id)
+);
+
+#工单记录
+create table eam_ticket_record
+(
+   id                   int not null auto_increment,
+   ticket_id            int,
+   step                 varchar(20) COMMENT '处理步骤',
+   comments             varchar(200) COMMENT '处理内容',
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   organization_id      int,
+   primary key (id)
+);
+
 
 
 alter table eam_equipment add constraint FK_Reference_10 foreign key (protocol_id)
@@ -377,7 +439,7 @@ alter table eam_sensor_data add constraint FK_Reference_13 foreign key (sensor_i
 #根据传入id查询所有父节点的id
 drop FUNCTION getParentList;
 
-delimiter // 
+#delimiter //
 
 CREATE FUNCTION `getParentList`(rootId INT)
 RETURNS varchar(1000) 
@@ -403,14 +465,14 @@ BEGIN
   
 RETURN sTemp; 
 END
-//
+#//
 
 delimiter ;
 
 #根据传入id查询所有子节点的id
 
 drop FUNCTION getChildList;
-delimiter //
+#delimiter //
 CREATE FUNCTION `getChildList`(rootId INT)
 RETURNS varchar(1000) 
 
@@ -427,7 +489,7 @@ BEGIN
     END WHILE;
     RETURN sTemp; 
 END
-//
+#//
 
 
 #resotre default delimiter
