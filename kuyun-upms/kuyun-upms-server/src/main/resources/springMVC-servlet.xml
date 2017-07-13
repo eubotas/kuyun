@@ -12,6 +12,11 @@
 
     <!-- 拦截器 -->
     <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <!--跨域请求拦截器-->
+            <bean id="crossDomainInterceptor" class="com.kuyun.common.interceptor.CrossDomainInterceptor"/>
+        </mvc:interceptor>
         <!-- 获取登录信息 -->
         <mvc:interceptor>
             <mvc:mapping path="/manage/**"/>
