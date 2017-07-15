@@ -12,11 +12,11 @@
 
     <!-- 拦截器配置 -->
     <mvc:interceptors>
-        <mvc:interceptor>
-            <mvc:mapping path="/**"/>
-            <!--跨域请求拦截器-->
-            <bean id="crossDomainInterceptor" class="com.kuyun.common.interceptor.CrossDomainInterceptor"/>
-        </mvc:interceptor>
+        <!--<mvc:interceptor>-->
+            <!--<mvc:mapping path="/**"/>-->
+            <!--&lt;!&ndash;跨域请求拦截器&ndash;&gt;-->
+            <!--<bean id="crossDomainInterceptor" class="com.kuyun.common.interceptor.CrossDomainInterceptor"/>-->
+        <!--</mvc:interceptor>-->
         <!-- 后台拦截器 -->
         <mvc:interceptor>
             <!-- 拦截路径 -->
