@@ -35,6 +35,8 @@ drop table if exists eam_alarm_type_value;
 
 drop table if exists eam_alarm_target_user;
 
+drop table if exists eam_alarm_record;
+
 drop table if exists eam_ticket_type;
 
 drop table if exists eam_ticket;
@@ -340,7 +342,28 @@ CREATE TABLE `eam_alarm_target_user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/*==============================================================*/
+/* Table: eam_alarm_record                                         */
+/*==============================================================*/
+create table eam_alarm_record (
+   id int(11) NOT NULL AUTO_INCREMENT,
+   alarm_date      datetime  COMMENT '报警时间',
+   number           varchar(30)  COMMENT '设备编号',
+   name             varchar(30)  COMMENT '设备名称',
+   alarm_content   varchar(20) COMMENT '报警内容',
+   alarm_level     varchar(20) COMMENT '报警等级',
+   alarm_status    varchar(20) COMMENT '报警状态',
+   operation       varchar(20) COMMENT '操作',
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   organization_id      int,
+   PRIMARY KEY (`id`)
+);
 
+alter table eam_alarm_record comment '报警记录';
 
 #工单分类
 create table eam_ticket_type
