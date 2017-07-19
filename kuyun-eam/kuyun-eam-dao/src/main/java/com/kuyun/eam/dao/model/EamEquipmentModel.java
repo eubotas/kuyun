@@ -1,7 +1,6 @@
 package com.kuyun.eam.dao.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public class EamEquipmentModel extends BaseEntity implements Serializable {
     private Integer equipmentModelId;

@@ -20,9 +20,32 @@ public class EamSensor extends BaseEntity implements Serializable {
 
     private Integer period;
 
+    private Integer quantity;
+
     private Integer writeNumber;
 
-    private Integer quantity;
+
+
+    /**
+     * 巨控
+     *
+     * @mbg.generated
+     */
+    private String grmVariable;
+
+    /**
+     * 巨控
+     *
+     * @mbg.generated
+     */
+    private String grmAction;
+
+    /**
+     * 巨控
+     *
+     * @mbg.generated
+     */
+    private String grmVariableValue;
 
     private static final long serialVersionUID = 1L;
 
@@ -90,6 +113,14 @@ public class EamSensor extends BaseEntity implements Serializable {
         this.period = period;
     }
 
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
     public Integer getWriteNumber() {
         return writeNumber;
     }
@@ -98,12 +129,28 @@ public class EamSensor extends BaseEntity implements Serializable {
         this.writeNumber = writeNumber;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public String getGrmVariable() {
+        return grmVariable;
     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
+    public void setGrmVariable(String grmVariable) {
+        this.grmVariable = grmVariable;
+    }
+
+    public String getGrmAction() {
+        return grmAction;
+    }
+
+    public void setGrmAction(String grmAction) {
+        this.grmAction = grmAction;
+    }
+
+    public String getGrmVariableValue() {
+        return grmVariableValue;
+    }
+
+    public void setGrmVariableValue(String grmVariableValue) {
+        this.grmVariableValue = grmVariableValue;
     }
 
     @Override
@@ -120,6 +167,7 @@ public class EamSensor extends BaseEntity implements Serializable {
         sb.append(", address=").append(address);
         sb.append(", dataFormat=").append(dataFormat);
         sb.append(", period=").append(period);
+        sb.append(", quantity=").append(quantity);
         sb.append(", writeNumber=").append(writeNumber);
         sb.append(", createUserId=").append(getCreateUserId());
         sb.append(", createTime=").append(getCreateTime());
@@ -127,7 +175,9 @@ public class EamSensor extends BaseEntity implements Serializable {
         sb.append(", updateTime=").append(getUpdateTime());
         sb.append(", deleteFlag=").append(getDeleteFlag());
         sb.append(", organizationId=").append(getOrganizationId());
-        sb.append(", quantity=").append(quantity);
+        sb.append(", grmVariable=").append(grmVariable);
+        sb.append(", grmAction=").append(grmAction);
+        sb.append(", grmVariableValue=").append(grmVariableValue);
         sb.append("]");
         return sb.toString();
     }
@@ -152,6 +202,7 @@ public class EamSensor extends BaseEntity implements Serializable {
             && (this.getAddress() == null ? other.getAddress() == null : this.getAddress().equals(other.getAddress()))
             && (this.getDataFormat() == null ? other.getDataFormat() == null : this.getDataFormat().equals(other.getDataFormat()))
             && (this.getPeriod() == null ? other.getPeriod() == null : this.getPeriod().equals(other.getPeriod()))
+            && (this.getQuantity() == null ? other.getQuantity() == null : this.getQuantity().equals(other.getQuantity()))
             && (this.getWriteNumber() == null ? other.getWriteNumber() == null : this.getWriteNumber().equals(other.getWriteNumber()))
             && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
@@ -159,7 +210,9 @@ public class EamSensor extends BaseEntity implements Serializable {
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
             && (this.getOrganizationId() == null ? other.getOrganizationId() == null : this.getOrganizationId().equals(other.getOrganizationId()))
-            && (this.getQuantity() == null ? other.getQuantity() == null : this.getQuantity().equals(other.getQuantity()));
+            && (this.getGrmVariable() == null ? other.getGrmVariable() == null : this.getGrmVariable().equals(other.getGrmVariable()))
+            && (this.getGrmAction() == null ? other.getGrmAction() == null : this.getGrmAction().equals(other.getGrmAction()))
+            && (this.getGrmVariableValue() == null ? other.getGrmVariableValue() == null : this.getGrmVariableValue().equals(other.getGrmVariableValue()));
     }
 
     @Override
@@ -174,6 +227,7 @@ public class EamSensor extends BaseEntity implements Serializable {
         result = prime * result + ((getAddress() == null) ? 0 : getAddress().hashCode());
         result = prime * result + ((getDataFormat() == null) ? 0 : getDataFormat().hashCode());
         result = prime * result + ((getPeriod() == null) ? 0 : getPeriod().hashCode());
+        result = prime * result + ((getQuantity() == null) ? 0 : getQuantity().hashCode());
         result = prime * result + ((getWriteNumber() == null) ? 0 : getWriteNumber().hashCode());
         result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
@@ -181,7 +235,9 @@ public class EamSensor extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getOrganizationId() == null) ? 0 : getOrganizationId().hashCode());
-        result = prime * result + ((getQuantity() == null) ? 0 : getQuantity().hashCode());
+        result = prime * result + ((getGrmVariable() == null) ? 0 : getGrmVariable().hashCode());
+        result = prime * result + ((getGrmAction() == null) ? 0 : getGrmAction().hashCode());
+        result = prime * result + ((getGrmVariableValue() == null) ? 0 : getGrmVariableValue().hashCode());
         return result;
     }
 }

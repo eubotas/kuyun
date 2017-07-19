@@ -1,23 +1,26 @@
 package com.kuyun.eam.dao.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
-public class EamSensorData implements Serializable {
-    private Integer sensorDataId;
+public class EamTicketRecord implements Serializable {
+    private Integer id;
 
-    private Integer sensorId;
+    private Integer ticketId;
 
-    private String stringValue;
+    /**
+     * 处理步骤
+     *
+     * @mbg.generated
+     */
+    private String step;
 
-    private BigDecimal numberValue;
-
-    private Boolean booleanValue;
-
-    private BigDecimal longitudeValue;
-
-    private BigDecimal latitudeValue;
+    /**
+     * 处理内容
+     *
+     * @mbg.generated
+     */
+    private String comments;
 
     private Integer createUserId;
 
@@ -33,60 +36,36 @@ public class EamSensorData implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getSensorDataId() {
-        return sensorDataId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setSensorDataId(Integer sensorDataId) {
-        this.sensorDataId = sensorDataId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public Integer getSensorId() {
-        return sensorId;
+    public Integer getTicketId() {
+        return ticketId;
     }
 
-    public void setSensorId(Integer sensorId) {
-        this.sensorId = sensorId;
+    public void setTicketId(Integer ticketId) {
+        this.ticketId = ticketId;
     }
 
-    public String getStringValue() {
-        return stringValue;
+    public String getStep() {
+        return step;
     }
 
-    public void setStringValue(String stringValue) {
-        this.stringValue = stringValue;
+    public void setStep(String step) {
+        this.step = step;
     }
 
-    public BigDecimal getNumberValue() {
-        return numberValue;
+    public String getComments() {
+        return comments;
     }
 
-    public void setNumberValue(BigDecimal numberValue) {
-        this.numberValue = numberValue;
-    }
-
-    public Boolean getBooleanValue() {
-        return booleanValue;
-    }
-
-    public void setBooleanValue(Boolean booleanValue) {
-        this.booleanValue = booleanValue;
-    }
-
-    public BigDecimal getLongitudeValue() {
-        return longitudeValue;
-    }
-
-    public void setLongitudeValue(BigDecimal longitudeValue) {
-        this.longitudeValue = longitudeValue;
-    }
-
-    public BigDecimal getLatitudeValue() {
-        return latitudeValue;
-    }
-
-    public void setLatitudeValue(BigDecimal latitudeValue) {
-        this.latitudeValue = latitudeValue;
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 
     public Integer getCreateUserId() {
@@ -143,13 +122,10 @@ public class EamSensorData implements Serializable {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", sensorDataId=").append(sensorDataId);
-        sb.append(", sensorId=").append(sensorId);
-        sb.append(", stringValue=").append(stringValue);
-        sb.append(", numberValue=").append(numberValue);
-        sb.append(", booleanValue=").append(booleanValue);
-        sb.append(", longitudeValue=").append(longitudeValue);
-        sb.append(", latitudeValue=").append(latitudeValue);
+        sb.append(", id=").append(id);
+        sb.append(", ticketId=").append(ticketId);
+        sb.append(", step=").append(step);
+        sb.append(", comments=").append(comments);
         sb.append(", createUserId=").append(createUserId);
         sb.append(", createTime=").append(createTime);
         sb.append(", updateUserId=").append(updateUserId);
@@ -171,14 +147,11 @@ public class EamSensorData implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        EamSensorData other = (EamSensorData) that;
-        return (this.getSensorDataId() == null ? other.getSensorDataId() == null : this.getSensorDataId().equals(other.getSensorDataId()))
-            && (this.getSensorId() == null ? other.getSensorId() == null : this.getSensorId().equals(other.getSensorId()))
-            && (this.getStringValue() == null ? other.getStringValue() == null : this.getStringValue().equals(other.getStringValue()))
-            && (this.getNumberValue() == null ? other.getNumberValue() == null : this.getNumberValue().equals(other.getNumberValue()))
-            && (this.getBooleanValue() == null ? other.getBooleanValue() == null : this.getBooleanValue().equals(other.getBooleanValue()))
-            && (this.getLongitudeValue() == null ? other.getLongitudeValue() == null : this.getLongitudeValue().equals(other.getLongitudeValue()))
-            && (this.getLatitudeValue() == null ? other.getLatitudeValue() == null : this.getLatitudeValue().equals(other.getLatitudeValue()))
+        EamTicketRecord other = (EamTicketRecord) that;
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
+            && (this.getTicketId() == null ? other.getTicketId() == null : this.getTicketId().equals(other.getTicketId()))
+            && (this.getStep() == null ? other.getStep() == null : this.getStep().equals(other.getStep()))
+            && (this.getComments() == null ? other.getComments() == null : this.getComments().equals(other.getComments()))
             && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
@@ -191,13 +164,10 @@ public class EamSensorData implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((getSensorDataId() == null) ? 0 : getSensorDataId().hashCode());
-        result = prime * result + ((getSensorId() == null) ? 0 : getSensorId().hashCode());
-        result = prime * result + ((getStringValue() == null) ? 0 : getStringValue().hashCode());
-        result = prime * result + ((getNumberValue() == null) ? 0 : getNumberValue().hashCode());
-        result = prime * result + ((getBooleanValue() == null) ? 0 : getBooleanValue().hashCode());
-        result = prime * result + ((getLongitudeValue() == null) ? 0 : getLongitudeValue().hashCode());
-        result = prime * result + ((getLatitudeValue() == null) ? 0 : getLatitudeValue().hashCode());
+        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+        result = prime * result + ((getTicketId() == null) ? 0 : getTicketId().hashCode());
+        result = prime * result + ((getStep() == null) ? 0 : getStep().hashCode());
+        result = prime * result + ((getComments() == null) ? 0 : getComments().hashCode());
         result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());

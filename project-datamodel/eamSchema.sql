@@ -242,13 +242,16 @@ create table eam_sensor
    sensor_id            int not null auto_increment,
    equipment_id         varchar(32),
    equipment_model_property_id int,
-   salve_id             int,
-   function_code        int,
-   address              int,
-   data_format          varchar(10),
-   period               int,
-   quantity             int,
-   write_number         int,
+   salve_id             int  comment 'Modbus RTU',   
+   function_code        int  comment 'Modbus RTU',
+   address              int  comment 'Modbus RTU',
+   data_format          varchar(10) comment 'Modbus RTU',
+   period               int  comment 'Modbus RTU',
+   quantity             int  comment 'Modbus RTU',
+   write_number         int  comment 'Modbus RTU',
+   grm_action           varchar(5) comment '巨控',
+   grm_variable         varchar(20) comment '巨控',
+   grm_variable_value   varchar(20) comment '巨控',
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,
@@ -500,3 +503,7 @@ delimiter ;
 ##ALTER TABLE eam_equipment ADD heart_data varchar(50);
 
 ##ALTER TABLE eam_sensor ADD quantity int;
+
+#ALTER TABLE eam_sensor ADD   grm_action           varchar(5) comment '巨控';
+#ALTER TABLE eam_sensor ADD   grm_variable         varchar(20) comment '巨控';
+#ALTER TABLE eam_sensor ADD   grm_variable_value   varchar(20) comment '巨控';

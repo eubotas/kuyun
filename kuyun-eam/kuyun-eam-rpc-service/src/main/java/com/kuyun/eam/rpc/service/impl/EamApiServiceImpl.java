@@ -57,7 +57,7 @@ public class EamApiServiceImpl implements EamApiService {
     public Integer inTask(EamInventory eamInventory) {
         EamInventory inventory = getInventory(eamInventory);
         if (inventory != null){
-            inventory.setQuantity(eamInventory.getQuantity() + inventory.getQuantity());
+            inventory.setQuantity(eamInventory.getQuantity().add(inventory.getQuantity()));
             return inventoryService.updateByPrimaryKeySelective(inventory);
         }else {
             return inventoryService.insertSelective(eamInventory);
@@ -77,7 +77,7 @@ public class EamApiServiceImpl implements EamApiService {
     public Integer outTask(EamInventory eamInventory) {
         EamInventory inventory = getInventory(eamInventory);
         if (inventory != null){
-            inventory.setQuantity(inventory.getQuantity() - eamInventory.getQuantity());
+            inventory.setQuantity(inventory.getQuantity().subtract(eamInventory.getQuantity()));
             return inventoryService.updateByPrimaryKeySelective(inventory);
         }else {
             _log.warn("There is no inventory for " + eamInventory.getPartId());
