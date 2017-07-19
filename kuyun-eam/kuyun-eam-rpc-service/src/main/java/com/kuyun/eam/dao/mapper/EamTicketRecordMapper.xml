@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kuyun.eam.dao.mapper.EamEquipmentModelMapper">
-  <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamEquipmentModel">
-    <id column="equipment_model_id" jdbcType="INTEGER" property="equipmentModelId" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="number" jdbcType="VARCHAR" property="number" />
+<mapper namespace="com.kuyun.eam.dao.mapper.EamTicketRecordMapper">
+  <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamTicketRecord">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="ticket_id" jdbcType="INTEGER" property="ticketId" />
+    <result column="step" jdbcType="VARCHAR" property="step" />
+    <result column="comments" jdbcType="VARCHAR" property="comments" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
@@ -71,16 +72,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    equipment_model_id, name, number, create_user_id, create_time, update_user_id, update_time, 
+    id, ticket_id, step, comments, create_user_id, create_time, update_user_id, update_time, 
     delete_flag, organization_id
   </sql>
-  <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentModelExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamTicketRecordExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from eam_equipment_model
+    from eam_ticket_record
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -99,40 +100,43 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from eam_equipment_model
-    where equipment_model_id = #{equipmentModelId,jdbcType=INTEGER}
+    from eam_ticket_record
+    where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from eam_equipment_model
-    where equipment_model_id = #{equipmentModelId,jdbcType=INTEGER}
+    delete from eam_ticket_record
+    where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentModelExample">
-    delete from eam_equipment_model
+  <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamTicketRecordExample">
+    delete from eam_ticket_record
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamEquipmentModel">
-    insert into eam_equipment_model (equipment_model_id, name, number, 
-      create_user_id, create_time, update_user_id, 
-      update_time, delete_flag, organization_id
-      )
-    values (#{equipmentModelId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, 
-      #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{organizationId,jdbcType=INTEGER}
-      )
+  <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamTicketRecord">
+    insert into eam_ticket_record (id, ticket_id, step, 
+      comments, create_user_id, create_time, 
+      update_user_id, update_time, delete_flag, 
+      organization_id)
+    values (#{id,jdbcType=INTEGER}, #{ticketId,jdbcType=INTEGER}, #{step,jdbcType=VARCHAR}, 
+      #{comments,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
+      #{organizationId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamEquipmentModel">
-    insert into eam_equipment_model
+  <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamTicketRecord">
+    insert into eam_ticket_record
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="equipmentModelId != null">
-        equipment_model_id,
+      <if test="id != null">
+        id,
       </if>
-      <if test="name != null">
-        name,
+      <if test="ticketId != null">
+        ticket_id,
       </if>
-      <if test="number != null">
-        number,
+      <if test="step != null">
+        step,
+      </if>
+      <if test="comments != null">
+        comments,
       </if>
       <if test="createUserId != null">
         create_user_id,
@@ -154,14 +158,17 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="equipmentModelId != null">
-        #{equipmentModelId,jdbcType=INTEGER},
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="ticketId != null">
+        #{ticketId,jdbcType=INTEGER},
       </if>
-      <if test="number != null">
-        #{number,jdbcType=VARCHAR},
+      <if test="step != null">
+        #{step,jdbcType=VARCHAR},
+      </if>
+      <if test="comments != null">
+        #{comments,jdbcType=VARCHAR},
       </if>
       <if test="createUserId != null">
         #{createUserId,jdbcType=INTEGER},
@@ -183,23 +190,26 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentModelExample" resultType="java.lang.Long">
-    select count(*) from eam_equipment_model
+  <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamTicketRecordExample" resultType="java.lang.Long">
+    select count(*) from eam_ticket_record
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update eam_equipment_model
+    update eam_ticket_record
     <set>
-      <if test="record.equipmentModelId != null">
-        equipment_model_id = #{record.equipmentModelId,jdbcType=INTEGER},
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="record.ticketId != null">
+        ticket_id = #{record.ticketId,jdbcType=INTEGER},
       </if>
-      <if test="record.number != null">
-        number = #{record.number,jdbcType=VARCHAR},
+      <if test="record.step != null">
+        step = #{record.step,jdbcType=VARCHAR},
+      </if>
+      <if test="record.comments != null">
+        comments = #{record.comments,jdbcType=VARCHAR},
       </if>
       <if test="record.createUserId != null">
         create_user_id = #{record.createUserId,jdbcType=INTEGER},
@@ -225,10 +235,11 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update eam_equipment_model
-    set equipment_model_id = #{record.equipmentModelId,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
-      number = #{record.number,jdbcType=VARCHAR},
+    update eam_ticket_record
+    set id = #{record.id,jdbcType=INTEGER},
+      ticket_id = #{record.ticketId,jdbcType=INTEGER},
+      step = #{record.step,jdbcType=VARCHAR},
+      comments = #{record.comments,jdbcType=VARCHAR},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
@@ -239,14 +250,17 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.kuyun.eam.dao.model.EamEquipmentModel">
-    update eam_equipment_model
+  <update id="updateByPrimaryKeySelective" parameterType="com.kuyun.eam.dao.model.EamTicketRecord">
+    update eam_ticket_record
     <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+      <if test="ticketId != null">
+        ticket_id = #{ticketId,jdbcType=INTEGER},
       </if>
-      <if test="number != null">
-        number = #{number,jdbcType=VARCHAR},
+      <if test="step != null">
+        step = #{step,jdbcType=VARCHAR},
+      </if>
+      <if test="comments != null">
+        comments = #{comments,jdbcType=VARCHAR},
       </if>
       <if test="createUserId != null">
         create_user_id = #{createUserId,jdbcType=INTEGER},
@@ -267,19 +281,20 @@
         organization_id = #{organizationId,jdbcType=INTEGER},
       </if>
     </set>
-    where equipment_model_id = #{equipmentModelId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamEquipmentModel">
-    update eam_equipment_model
-    set name = #{name,jdbcType=VARCHAR},
-      number = #{number,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamTicketRecord">
+    update eam_ticket_record
+    set ticket_id = #{ticketId,jdbcType=INTEGER},
+      step = #{step,jdbcType=VARCHAR},
+      comments = #{comments,jdbcType=VARCHAR},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
       organization_id = #{organizationId,jdbcType=INTEGER}
-    where equipment_model_id = #{equipmentModelId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>

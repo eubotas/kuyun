@@ -13,6 +13,7 @@
     <result column="longitude" jdbcType="DECIMAL" property="longitude" />
     <result column="latitude" jdbcType="DECIMAL" property="latitude" />
     <result column="user" jdbcType="VARCHAR" property="user" />
+    <result column="heart_data" jdbcType="VARCHAR" property="heartData" />
     <result column="factory_date" jdbcType="TIMESTAMP" property="factoryDate" />
     <result column="commissioning_date" jdbcType="TIMESTAMP" property="commissioningDate" />
     <result column="warranty_start_date" jdbcType="TIMESTAMP" property="warrantyStartDate" />
@@ -24,7 +25,6 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
     <result column="is_online" jdbcType="BIT" property="isOnline" />
-    <result column="heart_data" jdbcType="VARCHAR" property="heartData" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -86,9 +86,9 @@
   </sql>
   <sql id="Base_Column_List">
     equipment_id, equipment_model_id, organization_id, protocol_id, name, number, serial_number, 
-    image_path, longitude, latitude, user, factory_date, commissioning_date, warranty_start_date, 
-    warranty_end_date, maintenance_period, create_user_id, create_time, update_user_id, 
-    update_time, delete_flag, is_online, heart_data
+    image_path, longitude, latitude, user, heart_data, factory_date, commissioning_date, 
+    warranty_start_date, warranty_end_date, maintenance_period, create_user_id, create_time, 
+    update_user_id, update_time, delete_flag, is_online
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentExample" resultMap="BaseResultMap">
     select
@@ -132,19 +132,19 @@
     insert into eam_equipment (equipment_id, equipment_model_id, organization_id, 
       protocol_id, name, number, 
       serial_number, image_path, longitude, 
-      latitude, user, factory_date, 
-      commissioning_date, warranty_start_date, 
+      latitude, user, heart_data, 
+      factory_date, commissioning_date, warranty_start_date, 
       warranty_end_date, maintenance_period, create_user_id, 
       create_time, update_user_id, update_time, 
-      delete_flag, is_online, heart_data)
-    values (#{equipmentId,jdbcType=VARCHAR}, #{equipmentModelId,jdbcType=INTEGER}, #{organizationId,jdbcType=INTEGER},
+      delete_flag, is_online)
+    values (#{equipmentId,jdbcType=VARCHAR}, #{equipmentModelId,jdbcType=INTEGER}, #{organizationId,jdbcType=INTEGER}, 
       #{protocolId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, 
       #{serialNumber,jdbcType=VARCHAR}, #{imagePath,jdbcType=VARCHAR}, #{longitude,jdbcType=DECIMAL}, 
-      #{latitude,jdbcType=DECIMAL}, #{user,jdbcType=VARCHAR}, #{factoryDate,jdbcType=TIMESTAMP}, 
-      #{commissioningDate,jdbcType=TIMESTAMP}, #{warrantyStartDate,jdbcType=TIMESTAMP}, 
+      #{latitude,jdbcType=DECIMAL}, #{user,jdbcType=VARCHAR}, #{heartData,jdbcType=VARCHAR}, 
+      #{factoryDate,jdbcType=TIMESTAMP}, #{commissioningDate,jdbcType=TIMESTAMP}, #{warrantyStartDate,jdbcType=TIMESTAMP}, 
       #{warrantyEndDate,jdbcType=TIMESTAMP}, #{maintenancePeriod,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlag,jdbcType=BIT}, #{isOnline,jdbcType=BIT}, #{heartData,jdbcType=VARCHAR})
+      #{deleteFlag,jdbcType=BIT}, #{isOnline,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamEquipment">
     insert into eam_equipment
@@ -182,6 +182,9 @@
       <if test="user != null">
         user,
       </if>
+      <if test="heartData != null">
+        heart_data,
+      </if>
       <if test="factoryDate != null">
         factory_date,
       </if>
@@ -214,9 +217,6 @@
       </if>
       <if test="isOnline != null">
         is_online,
-      </if>
-      <if test="heartData != null">
-        heart_data,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -253,6 +253,9 @@
       <if test="user != null">
         #{user,jdbcType=VARCHAR},
       </if>
+      <if test="heartData != null">
+        #{heartData,jdbcType=VARCHAR},
+      </if>
       <if test="factoryDate != null">
         #{factoryDate,jdbcType=TIMESTAMP},
       </if>
@@ -285,9 +288,6 @@
       </if>
       <if test="isOnline != null">
         #{isOnline,jdbcType=BIT},
-      </if>
-      <if test="heartData != null">
-        #{heartData,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -333,6 +333,9 @@
       <if test="record.user != null">
         user = #{record.user,jdbcType=VARCHAR},
       </if>
+      <if test="record.heartData != null">
+        heart_data = #{record.heartData,jdbcType=VARCHAR},
+      </if>
       <if test="record.factoryDate != null">
         factory_date = #{record.factoryDate,jdbcType=TIMESTAMP},
       </if>
@@ -366,9 +369,6 @@
       <if test="record.isOnline != null">
         is_online = #{record.isOnline,jdbcType=BIT},
       </if>
-      <if test="record.heartData != null">
-        heart_data = #{record.heartData,jdbcType=VARCHAR},
-      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -387,6 +387,7 @@
       longitude = #{record.longitude,jdbcType=DECIMAL},
       latitude = #{record.latitude,jdbcType=DECIMAL},
       user = #{record.user,jdbcType=VARCHAR},
+      heart_data = #{record.heartData,jdbcType=VARCHAR},
       factory_date = #{record.factoryDate,jdbcType=TIMESTAMP},
       commissioning_date = #{record.commissioningDate,jdbcType=TIMESTAMP},
       warranty_start_date = #{record.warrantyStartDate,jdbcType=TIMESTAMP},
@@ -398,7 +399,6 @@
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{record.deleteFlag,jdbcType=BIT},
       is_online = #{record.isOnline,jdbcType=BIT}
-      heart_data = #{record.heartData,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -436,6 +436,9 @@
       <if test="user != null">
         user = #{user,jdbcType=VARCHAR},
       </if>
+      <if test="heartData != null">
+        heart_data = #{heartData,jdbcType=VARCHAR},
+      </if>
       <if test="factoryDate != null">
         factory_date = #{factoryDate,jdbcType=TIMESTAMP},
       </if>
@@ -469,9 +472,6 @@
       <if test="isOnline != null">
         is_online = #{isOnline,jdbcType=BIT},
       </if>
-      <if test="heartData != null">
-        heart_data = #{heartData,jdbcType=VARCHAR},
-      </if>
     </set>
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </update>
@@ -487,6 +487,7 @@
       longitude = #{longitude,jdbcType=DECIMAL},
       latitude = #{latitude,jdbcType=DECIMAL},
       user = #{user,jdbcType=VARCHAR},
+      heart_data = #{heartData,jdbcType=VARCHAR},
       factory_date = #{factoryDate,jdbcType=TIMESTAMP},
       commissioning_date = #{commissioningDate,jdbcType=TIMESTAMP},
       warranty_start_date = #{warrantyStartDate,jdbcType=TIMESTAMP},
@@ -498,7 +499,6 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
       is_online = #{isOnline,jdbcType=BIT}
-      heart_data = #{heartData,jdbcType=VARCHAR}
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />

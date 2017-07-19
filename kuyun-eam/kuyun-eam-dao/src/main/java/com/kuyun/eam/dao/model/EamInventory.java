@@ -1,6 +1,7 @@
 package com.kuyun.eam.dao.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class EamInventory extends BaseEntity implements Serializable {
@@ -12,7 +13,7 @@ public class EamInventory extends BaseEntity implements Serializable {
 
     private Integer partId;
 
-    private Long quantity;
+    private BigDecimal quantity;
 
     private Date inTaskDate;
 
@@ -52,11 +53,11 @@ public class EamInventory extends BaseEntity implements Serializable {
         this.partId = partId;
     }
 
-    public Long getQuantity() {
+    public BigDecimal getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Long quantity) {
+    public void setQuantity(BigDecimal quantity) {
         this.quantity = quantity;
     }
 
