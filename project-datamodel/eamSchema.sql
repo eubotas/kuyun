@@ -56,6 +56,8 @@ create table eam_equipment
    latitude             decimal(10,5),
    user                 varchar(30),
    heart_data           varchar(50),
+   grm                  varchar(50) comment '巨控设备ID',
+   grm_password         varchar(50) comment '巨控设备密码',
    factory_date         datetime,
    commissioning_date   datetime,
    warranty_start_date  datetime,

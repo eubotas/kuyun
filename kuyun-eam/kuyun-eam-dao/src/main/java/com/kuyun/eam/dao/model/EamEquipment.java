@@ -38,7 +38,22 @@ public class EamEquipment extends BaseEntity implements Serializable {
     private String maintenancePeriod;
 
 
+
     private Boolean isOnline;
+
+    /**
+     * 巨控设备ID
+     *
+     * @mbg.generated
+     */
+    private String grm;
+
+    /**
+     * 巨控设备密码
+     *
+     * @mbg.generated
+     */
+    private String grmPassword;
 
     private static final long serialVersionUID = 1L;
 
@@ -170,13 +185,28 @@ public class EamEquipment extends BaseEntity implements Serializable {
         this.maintenancePeriod = maintenancePeriod;
     }
 
-
     public Boolean isOnline() {
         return isOnline;
     }
 
     public void setOnline(Boolean isOnline) {
         this.isOnline = isOnline;
+    }
+
+    public String getGrm() {
+        return grm;
+    }
+
+    public void setGrm(String grm) {
+        this.grm = grm;
+    }
+
+    public String getGrmPassword() {
+        return grmPassword;
+    }
+
+    public void setGrmPassword(String grmPassword) {
+        this.grmPassword = grmPassword;
     }
 
     @Override
@@ -208,6 +238,8 @@ public class EamEquipment extends BaseEntity implements Serializable {
         sb.append(", updateTime=").append(getUpdateTime());
         sb.append(", deleteFlag=").append(getDeleteFlag());
         sb.append(", isOnline=").append(isOnline);
+        sb.append(", grm=").append(grm);
+        sb.append(", grmPassword=").append(grmPassword);
         sb.append("]");
         return sb.toString();
     }
@@ -246,7 +278,9 @@ public class EamEquipment extends BaseEntity implements Serializable {
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.isOnline() == null ? other.isOnline() == null : this.isOnline().equals(other.isOnline()));
+            && (this.isOnline() == null ? other.isOnline() == null : this.isOnline().equals(other.isOnline()))
+            && (this.getGrm() == null ? other.getGrm() == null : this.getGrm().equals(other.getGrm()))
+            && (this.getGrmPassword() == null ? other.getGrmPassword() == null : this.getGrmPassword().equals(other.getGrmPassword()));
     }
 
     @Override
@@ -276,6 +310,8 @@ public class EamEquipment extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((isOnline() == null) ? 0 : isOnline().hashCode());
+        result = prime * result + ((getGrm() == null) ? 0 : getGrm().hashCode());
+        result = prime * result + ((getGrmPassword() == null) ? 0 : getGrmPassword().hashCode());
         return result;
     }
 }

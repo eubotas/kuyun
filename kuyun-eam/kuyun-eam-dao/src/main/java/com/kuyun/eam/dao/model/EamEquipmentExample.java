@@ -1588,6 +1588,146 @@ public class EamEquipmentExample implements Serializable {
             addCriterion("is_online not between", value1, value2, "isOnline");
             return (Criteria) this;
         }
+
+        public Criteria andGrmIsNull() {
+            addCriterion("grm is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmIsNotNull() {
+            addCriterion("grm is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmEqualTo(String value) {
+            addCriterion("grm =", value, "grm");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmNotEqualTo(String value) {
+            addCriterion("grm <>", value, "grm");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmGreaterThan(String value) {
+            addCriterion("grm >", value, "grm");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmGreaterThanOrEqualTo(String value) {
+            addCriterion("grm >=", value, "grm");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmLessThan(String value) {
+            addCriterion("grm <", value, "grm");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmLessThanOrEqualTo(String value) {
+            addCriterion("grm <=", value, "grm");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmLike(String value) {
+            addCriterion("grm like", value, "grm");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmNotLike(String value) {
+            addCriterion("grm not like", value, "grm");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmIn(List<String> values) {
+            addCriterion("grm in", values, "grm");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmNotIn(List<String> values) {
+            addCriterion("grm not in", values, "grm");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmBetween(String value1, String value2) {
+            addCriterion("grm between", value1, value2, "grm");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmNotBetween(String value1, String value2) {
+            addCriterion("grm not between", value1, value2, "grm");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPasswordIsNull() {
+            addCriterion("grm_password is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPasswordIsNotNull() {
+            addCriterion("grm_password is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPasswordEqualTo(String value) {
+            addCriterion("grm_password =", value, "grmPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPasswordNotEqualTo(String value) {
+            addCriterion("grm_password <>", value, "grmPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPasswordGreaterThan(String value) {
+            addCriterion("grm_password >", value, "grmPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPasswordGreaterThanOrEqualTo(String value) {
+            addCriterion("grm_password >=", value, "grmPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPasswordLessThan(String value) {
+            addCriterion("grm_password <", value, "grmPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPasswordLessThanOrEqualTo(String value) {
+            addCriterion("grm_password <=", value, "grmPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPasswordLike(String value) {
+            addCriterion("grm_password like", value, "grmPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPasswordNotLike(String value) {
+            addCriterion("grm_password not like", value, "grmPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPasswordIn(List<String> values) {
+            addCriterion("grm_password in", values, "grmPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPasswordNotIn(List<String> values) {
+            addCriterion("grm_password not in", values, "grmPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPasswordBetween(String value1, String value2) {
+            addCriterion("grm_password between", value1, value2, "grmPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPasswordNotBetween(String value1, String value2) {
+            addCriterion("grm_password not between", value1, value2, "grmPassword");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria implements Serializable {
