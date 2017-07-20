@@ -35,9 +35,11 @@ drop table if exists eam_alarm_type_value;
 
 drop table if exists eam_alarm_target_user;
 
+drop table if exists eam_ticket_type;
 
+drop table if exists eam_ticket;
 
-
+drop table if exists eam_ticket_record;
 
 /*==============================================================*/
 /* Table: eam_equipment                                         */
@@ -442,7 +444,7 @@ alter table eam_sensor_data add constraint FK_Reference_13 foreign key (sensor_i
 #http://benjaminwhx.com/2015/11/24/Mysql%E4%B8%AD%E7%9A%84%E9%80%92%E5%BD%92%E5%B1%82%E6%AC%A1%E6%9F%A5%E8%AF%A2%EF%BC%88%E7%88%B6%E5%AD%90%E6%9F%A5%E8%AF%A2%EF%BC%89/
 
 #根据传入id查询所有父节点的id
-drop FUNCTION getParentList;
+drop FUNCTION if exists getParentList;
 
 #delimiter //
 
@@ -476,7 +478,7 @@ delimiter ;
 
 #根据传入id查询所有子节点的id
 
-drop FUNCTION getChildList;
+drop FUNCTION if exists getChildList;
 #delimiter //
 CREATE FUNCTION `getChildList`(rootId INT)
 RETURNS varchar(1000) 
