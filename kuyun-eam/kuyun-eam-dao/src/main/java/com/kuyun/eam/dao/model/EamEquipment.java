@@ -2,7 +2,9 @@ package com.kuyun.eam.dao.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 public class EamEquipment extends BaseEntity implements Serializable {
     private String equipmentId;
@@ -37,9 +39,10 @@ public class EamEquipment extends BaseEntity implements Serializable {
 
     private String maintenancePeriod;
 
-
-
     private Boolean isOnline;
+
+
+    private List<EamSensor> sensors = Collections.emptyList();
 
     /**
      * 巨控设备ID
@@ -56,6 +59,14 @@ public class EamEquipment extends BaseEntity implements Serializable {
     private String grmPassword;
 
     private static final long serialVersionUID = 1L;
+
+    public List<EamSensor> getSensors() {
+        return sensors;
+    }
+
+    public void setSensors(List<EamSensor> sensors) {
+        this.sensors = sensors;
+    }
 
     public String getEquipmentId() {
         return equipmentId;
