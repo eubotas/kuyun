@@ -99,9 +99,27 @@ INSERT INTO `upms_permission` VALUES ('262', '6', '261', '新增设备维保', '
 INSERT INTO `upms_permission` VALUES ('263', '6', '261', '编辑设备维保', '3', 'eam:maintain:update', '/manage/maintain/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
 INSERT INTO `upms_permission` VALUES ('264', '6', '261', '删除设备维保', '3', 'eam:maintain:delete', '/manage/maintain/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
 
+# prepare ticket menu items, id start with 300 
 
+INSERT INTO `upms_permission` VALUES ('300', '6', '0', ' 工单管理', '1', null, null, 'zmdi zmdi-collection-text', '1', '220', '300');
+INSERT INTO `upms_permission` VALUES ('310', '6', '300', '类型管理', '2', 'eam:ticketType:read',   '/manage/ticket/type/index', null, '1', '221', '310');
+INSERT INTO `upms_permission` VALUES ('311', '6', '310', '新增类型', '3', 'eam:ticketType:create', '/manage/ticket/type/create', 'zmdi zmdi-plus', '1', '1489820150404', '311');
+INSERT INTO `upms_permission` VALUES ('312', '6', '310', '编辑类型', '3', 'eam:ticketType:update', '/manage/ticket/type/update', 'zmdi zmdi-edit', '1', '1489820178269', '312');
+INSERT INTO `upms_permission` VALUES ('313', '6', '310', '删除类型', '3', 'eam:ticketType:delete', '/manage/ticket/type/delete', 'zmdi zmdi-close', '1', '1489820207607', '313');
+
+INSERT INTO `upms_permission` VALUES ('320', '6', '300', '我的未处理工单', '2', 'eam:ticket:myOpenTicket',   '/manage/ticket/myOpen', null, '1', '225', '320');
+INSERT INTO `upms_permission` VALUES ('330', '6', '300', '我的全部工单', '2', 'eam:ticket:myAllTicket',   '/manage/ticket/myAll', null, '1', '225', '330');
+INSERT INTO `upms_permission` VALUES ('340', '6', '300', '未处理工单', '2', 'eam:ticket:openTicket',   '/manage/ticket/open', null, '1', '225', '340');
+INSERT INTO `upms_permission` VALUES ('350', '6', '300', '全部工单', '2', 'eam:ticket:allTicket',   '/manage/ticket/all', null, '1', '225', '350');
+INSERT INTO `upms_permission` VALUES ('351', '6', '350', '新增工单', '3', 'eam:ticket:create', '/manage/ticket/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
+INSERT INTO `upms_permission` VALUES ('352', '6', '350', '编辑工单', '3', 'eam:ticket:update', '/manage/ticket/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
+INSERT INTO `upms_permission` VALUES ('353', '6', '350', '解决工单（不需处理）', '3', 'eam:ticket:noNeedOperation', '/manage/ticket/noNeedOperation', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
+
+
+# end prepare ticket menu item
 
 DELETE FROM `eam_protocol`;
 INSERT INTO `eam_protocol` VALUES (1, 'Modbus RTU', '127.0.0.1', 8234);
 INSERT INTO `eam_protocol` VALUES (2, 'Modbus TCP', '127.0.0.1', 8233);
 INSERT INTO `eam_protocol` VALUES (3, 'MQTT', '127.0.0.1', 8232);
+

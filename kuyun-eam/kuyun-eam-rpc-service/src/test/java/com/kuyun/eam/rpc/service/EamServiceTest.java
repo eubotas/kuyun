@@ -3,6 +3,9 @@ package com.kuyun.eam.rpc.service;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.EamApiService;
 import com.kuyun.eam.rpc.api.EamEquipmentModelService;
+import com.kuyun.eam.rpc.api.EamTicketRecordService;
+import com.kuyun.eam.rpc.api.EamTicketService;
+import com.kuyun.eam.rpc.api.EamTicketTypeService;
 import com.kuyun.eam.rpc.api.EamWarehouseService;
 import com.kuyun.eam.vo.EamLocationVO;
 import com.kuyun.eam.vo.EamMaintenanceVO;
@@ -39,6 +42,18 @@ public class EamServiceTest {
     @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private EamWarehouseService warehouseService;
+    
+    @SuppressWarnings("SpringJavaAutowiringInspection")
+    @Autowired
+    private EamTicketService eamTicketService;
+    
+    @SuppressWarnings("SpringJavaAutowiringInspection")
+    @Autowired
+    private EamTicketRecordService eamTicketRecordService;
+    
+    @SuppressWarnings("SpringJavaAutowiringInspection")
+    @Autowired
+    private EamTicketTypeService eamTicketTypeService;
 
     @Test
     public void list() {
@@ -66,7 +81,15 @@ public class EamServiceTest {
 //        eamApiService.selectMaintenance(eamMaintenanceExample);
 
 //        eamApiService.selectLocation(new EamLocationVO());
-        eamEquipmentModelService.deleteByPrimaryKey(3);
+//        eamEquipmentModelService.deleteByPrimaryKey(3);
+    		EamTicketType tt = new EamTicketType();
+    		tt.setName("手工工单");
+    		int pk = eamTicketTypeService.insert(tt);
+    		System.out.println("create ticket Type : "+ tt.getName()+" has PK :"+ pk);
+    		eamTicketTypeService.deleteByPrimaryKey(1);
+    		System.out.println("delete PK :"+ pk);
+    		
+    		 
     }
 
 }
