@@ -115,7 +115,8 @@ INSERT INTO `upms_permission` VALUES ('351', '6', '350', '新增工单', '3', 'e
 INSERT INTO `upms_permission` VALUES ('352', '6', '350', '编辑工单', '3', 'eam:ticket:update', '/manage/ticket/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
 INSERT INTO `upms_permission` VALUES ('353', '6', '350', '解决工单（不需处理）', '3', 'eam:ticket:noNeedOperation', '/manage/ticket/noNeedOperation', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
 
-
+TRUNCATE TABLE `eam_ticket_type`;
+INSERT INTO `eam_ticket_type` VALUES (11,'警报工单',1,'2017-07-26 15:51:51',1,'2017-07-26 15:51:51',0,1),(12,'其它工单',1,'2017-07-26 15:52:15',1,'2017-07-26 15:52:15',0,1),(13,'手工工单',1,'2017-07-26 16:23:15',1,'2017-07-26 16:23:15',0,1);
 # end prepare ticket menu item
 
 DELETE FROM `eam_protocol`;
