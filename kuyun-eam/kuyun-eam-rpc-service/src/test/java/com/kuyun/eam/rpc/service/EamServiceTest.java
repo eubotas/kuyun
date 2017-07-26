@@ -1,5 +1,6 @@
 package com.kuyun.eam.rpc.service;
 
+
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.EamApiService;
 import com.kuyun.eam.rpc.api.EamEquipmentModelService;
@@ -9,14 +10,20 @@ import com.kuyun.eam.rpc.api.EamTicketTypeService;
 import com.kuyun.eam.rpc.api.EamWarehouseService;
 import com.kuyun.eam.vo.EamLocationVO;
 import com.kuyun.eam.vo.EamMaintenanceVO;
+import com.kuyun.upms.dao.model.UpmsOrganization;
+
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 单元测试
@@ -54,6 +61,7 @@ public class EamServiceTest {
     @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private EamTicketTypeService eamTicketTypeService;
+    
 
     @Test
     public void list() {
@@ -86,8 +94,34 @@ public class EamServiceTest {
     		tt.setName("手工工单");
     		int pk = eamTicketTypeService.insert(tt);
     		System.out.println("create ticket Type : "+ tt.getName()+" has PK :"+ pk);
-    		eamTicketTypeService.deleteByPrimaryKey(1);
+    		eamTicketTypeService.deleteByPrimaryKey(pk);
     		System.out.println("delete PK :"+ pk);
+    		
+    		int offset = 0;
+		int limit = 10;
+		String sort = "";
+		String order = "";
+		
+    		EamTicketTypeExample eamTicketTypeExample = new EamTicketTypeExample();
+    		eamTicketTypeExample.setOffset(offset);
+    		eamTicketTypeExample.setLimit(limit);
+    		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
+    			eamTicketTypeExample.setOrderByClause(sort + ", " + order);
+    		}
+
+//    		UpmsOrganization organization = eamUtils.getCurrentUserParentOrignization();
+//
+//    		if (organization != null){
+//    			eamTicketTypeExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId())
+//    			.andDeleteFlagEqualTo(Boolean.FALSE);
+//    		}
+
+
+    		List<EamTicketType> rows = eamTicketTypeService.selectByExample(eamTicketTypeExample);
+    		long total = eamTicketTypeService.countByExample(eamTicketTypeExample);
+    		Map<String, Object> result = new HashMap<>();
+    		result.put("rows", rows);
+    		result.put("total", total);
     		
     		 
     }
