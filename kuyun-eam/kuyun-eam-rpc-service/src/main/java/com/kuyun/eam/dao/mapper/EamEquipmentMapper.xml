@@ -27,6 +27,7 @@
     <result column="is_online" jdbcType="BIT" property="isOnline" />
     <result column="grm" jdbcType="VARCHAR" property="grm" />
     <result column="grm_password" jdbcType="VARCHAR" property="grmPassword" />
+    <result column="grm_period" jdbcType="INTEGER" property="grmPeriod" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -90,7 +91,7 @@
     equipment_id, equipment_model_id, organization_id, protocol_id, name, number, serial_number, 
     image_path, longitude, latitude, user, heart_data, factory_date, commissioning_date, 
     warranty_start_date, warranty_end_date, maintenance_period, create_user_id, create_time, 
-    update_user_id, update_time, delete_flag, is_online, grm, grm_password
+    update_user_id, update_time, delete_flag, is_online, grm, grm_password, grm_period
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentExample" resultMap="BaseResultMap">
     select
@@ -139,7 +140,7 @@
       warranty_end_date, maintenance_period, create_user_id, 
       create_time, update_user_id, update_time, 
       delete_flag, is_online, grm, 
-      grm_password)
+      grm_password, grm_period)
     values (#{equipmentId,jdbcType=VARCHAR}, #{equipmentModelId,jdbcType=INTEGER}, #{organizationId,jdbcType=INTEGER}, 
       #{protocolId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, 
       #{serialNumber,jdbcType=VARCHAR}, #{imagePath,jdbcType=VARCHAR}, #{longitude,jdbcType=DECIMAL}, 
@@ -148,7 +149,7 @@
       #{warrantyEndDate,jdbcType=TIMESTAMP}, #{maintenancePeriod,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{deleteFlag,jdbcType=BIT}, #{isOnline,jdbcType=BIT}, #{grm,jdbcType=VARCHAR}, 
-      #{grmPassword,jdbcType=VARCHAR})
+      #{grmPassword,jdbcType=VARCHAR}, #{grmPeriod,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamEquipment">
     insert into eam_equipment
@@ -228,6 +229,9 @@
       <if test="grmPassword != null">
         grm_password,
       </if>
+      <if test="grmPeriod != null">
+        grm_period,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="equipmentId != null">
@@ -304,6 +308,9 @@
       </if>
       <if test="grmPassword != null">
         #{grmPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="grmPeriod != null">
+        #{grmPeriod,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -391,6 +398,9 @@
       <if test="record.grmPassword != null">
         grm_password = #{record.grmPassword,jdbcType=VARCHAR},
       </if>
+      <if test="record.grmPeriod != null">
+        grm_period = #{record.grmPeriod,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -422,7 +432,8 @@
       delete_flag = #{record.deleteFlag,jdbcType=BIT},
       is_online = #{record.isOnline,jdbcType=BIT},
       grm = #{record.grm,jdbcType=VARCHAR},
-      grm_password = #{record.grmPassword,jdbcType=VARCHAR}
+      grm_password = #{record.grmPassword,jdbcType=VARCHAR},
+      grm_period = #{record.grmPeriod,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -502,6 +513,9 @@
       <if test="grmPassword != null">
         grm_password = #{grmPassword,jdbcType=VARCHAR},
       </if>
+      <if test="grmPeriod != null">
+        grm_period = #{grmPeriod,jdbcType=INTEGER},
+      </if>
     </set>
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </update>
@@ -530,7 +544,8 @@
       delete_flag = #{deleteFlag,jdbcType=BIT},
       is_online = #{isOnline,jdbcType=BIT},
       grm = #{grm,jdbcType=VARCHAR},
-      grm_password = #{grmPassword,jdbcType=VARCHAR}
+      grm_password = #{grmPassword,jdbcType=VARCHAR},
+      grm_period = #{grmPeriod,jdbcType=INTEGER}
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />

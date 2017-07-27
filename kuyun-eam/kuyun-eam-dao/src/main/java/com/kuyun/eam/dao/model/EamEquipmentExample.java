@@ -1728,6 +1728,66 @@ public class EamEquipmentExample implements Serializable {
             addCriterion("grm_password not between", value1, value2, "grmPassword");
             return (Criteria) this;
         }
+
+        public Criteria andGrmPeriodIsNull() {
+            addCriterion("grm_period is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodIsNotNull() {
+            addCriterion("grm_period is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodEqualTo(Integer value) {
+            addCriterion("grm_period =", value, "grmPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodNotEqualTo(Integer value) {
+            addCriterion("grm_period <>", value, "grmPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodGreaterThan(Integer value) {
+            addCriterion("grm_period >", value, "grmPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodGreaterThanOrEqualTo(Integer value) {
+            addCriterion("grm_period >=", value, "grmPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodLessThan(Integer value) {
+            addCriterion("grm_period <", value, "grmPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodLessThanOrEqualTo(Integer value) {
+            addCriterion("grm_period <=", value, "grmPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodIn(List<Integer> values) {
+            addCriterion("grm_period in", values, "grmPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodNotIn(List<Integer> values) {
+            addCriterion("grm_period not in", values, "grmPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodBetween(Integer value1, Integer value2) {
+            addCriterion("grm_period between", value1, value2, "grmPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodNotBetween(Integer value1, Integer value2) {
+            addCriterion("grm_period not between", value1, value2, "grmPeriod");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria implements Serializable {

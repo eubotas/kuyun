@@ -51,8 +51,33 @@ public class SMSUtil {
         }
     }
 
+    public static String sendTemplate(String appKey, String appSecret, String templateid, String mobiles, String params){
+        SendTemplate sms = new SendTemplate(templateid, mobiles, params);
+        sms.setAppKey(appKey);
+        sms.setAppSecret(appSecret);
+        try {
+            return sms.sendSMS();
+        } catch (Exception e) {
+            _log.error("SMS Verify code error:" + e.getMessage());
+            return nvps.toString();
+        }
+    }
+
+    public static String queryStatus(String sendId){
+        QueryStatus sms = new QueryStatus(sendId);
+        try {
+            return sms.sendSMS();
+        } catch (Exception e) {
+            _log.error("SMS Verify code error:" + e.getMessage());
+            return nvps.toString();
+        }
+    }
+
     public static void main(String[] args) {
-        System.out.println("sendCode(\"13402559532\") = " + sendCode("13402559532"));
-        System.out.println("verifyCode(\"13402559532\") = " + verifyCode("13402559532", "650388"));
+//        System.out.println("sendCode(\"13402559532\") = " + sendCode("13402559532"));
+//        System.out.println("verifyCode(\"13402559532\") = " + verifyCode("13402559532", "650388"));
+
+//        System.out.printf("sendTemplate="+ sendTemplate("3029185", "['13402559532', '18151968275']", ""));
+        System.out.printf("queryStatus="+ queryStatus("12805"));
     }
 }

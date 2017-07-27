@@ -60,6 +60,7 @@ create table eam_equipment
    heart_data           varchar(50),
    grm                  varchar(50) comment '巨控设备ID',
    grm_password         varchar(50) comment '巨控设备密码',
+   grm_period           int         comment '巨控采集频率单位秒',
    factory_date         datetime,
    commissioning_date   datetime,
    warranty_start_date  datetime,
@@ -509,3 +510,4 @@ delimiter ;
 #ALTER TABLE eam_sensor ADD   grm_action           varchar(5) comment '巨控';
 #ALTER TABLE eam_sensor ADD   grm_variable         varchar(20) comment '巨控';
 #ALTER TABLE eam_sensor ADD   grm_variable_value   varchar(20) comment '巨控';
+#ALTER TABLE eam_equipment ADD grm_period int comment '巨控采集频率单位秒';

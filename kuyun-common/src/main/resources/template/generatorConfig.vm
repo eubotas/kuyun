@@ -52,7 +52,9 @@
                         password="${generator_jdbc_password}" />
 
         <!-- model生成 -->
-        <javaModelGenerator targetPackage="${generator_javaModelGenerator_targetPackage}" targetProject="${targetProject}/src/main/java" />
+        <javaModelGenerator targetPackage="${generator_javaModelGenerator_targetPackage}" targetProject="${targetProject}/src/main/java">
+            <property name="rootClass" value="com.kuyun.common.dao.model.BaseEntity"/>
+        </javaModelGenerator>
 
         <!-- MapperXML生成 -->
         <sqlMapGenerator targetPackage="${generator_sqlMapGenerator_targetPackage}" targetProject="${targetProject_sqlMap}/src/main/java" />

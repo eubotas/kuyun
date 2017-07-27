@@ -1,5 +1,6 @@
 package com.kuyun.common.netease;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
@@ -39,7 +40,10 @@ public class SendTemplate extends AbstractSMS {
          */
         nvps.add(new BasicNameValuePair("templateid", templateid));
         nvps.add(new BasicNameValuePair("mobiles", mobiles));
-        nvps.add(new BasicNameValuePair("params", params));
+
+        if (!StringUtils.isEmpty(params)){
+            nvps.add(new BasicNameValuePair("params", params));
+        }
         return nvps;
     }
 }

@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kuyun.marketing.rpc.mapper.MktApiMapper">
+
+	<resultMap id="MktSmsVOResultMap" type="com.kuyun.marketing.vo.MktSmsVo" extends="com.kuyun.marketing.dao.mapper.MktSmsMapper.BaseResultMap">
+		<result column="template_name" jdbcType="VARCHAR" property="templateName" />
+		<result column="template_content" jdbcType="VARCHAR" property="templateContent" />
+	</resultMap>
+
+	<select id="getSmsList" parameterType="com.kuyun.marketing.vo.MktSmsVo" resultMap="MktSmsVOResultMap">
+		select
+		s.id,
+		t.name as template_name,
+		t.content as template_content,
+		s.send_time
+		from mkt_sms s, mkt_sms_template t
+		WHERE s.sms_template_id = t.id
+		<if test="smsTemplateId != null and smsTemplateId != ''">
+			AND s.sms_template_id = #{smsTemplateId}
+		</if>
+
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+
+
+	<!-- 缓存 -->
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+
+</mapper>

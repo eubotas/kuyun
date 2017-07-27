@@ -7,7 +7,7 @@
         http://code.alibabatech.com/schema/dubbo
         http://code.alibabatech.com/schema/dubbo/dubbo.xsd ">
 
-    <dubbo:application name="kuyun-cms-admin"/>
+    <dubbo:application name="kuyun-eam-admin"/>
 
     <dubbo:registry address="zookeeper://127.0.0.1:2181" default="false"/>
     <dubbo:registry id="upmsRegistry" address="zookeeper://127.0.0.1:2181"/>
