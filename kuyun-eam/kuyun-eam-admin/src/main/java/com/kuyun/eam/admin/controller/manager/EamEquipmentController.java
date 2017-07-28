@@ -202,6 +202,26 @@ public class EamEquipmentController extends BaseController {
 		return "/manage/equipment/modbus.jsp";
 	}
 
+
+	@ApiOperation(value = "传感器参数")
+	@RequiresPermissions("eam:equipment:update")
+	@RequestMapping(value = "/sensor/{eId}/{pId}", method = RequestMethod.GET)
+	@ResponseBody
+	public Object sensor(@PathVariable("eId") String eId, @PathVariable("pId") int pId) {
+		EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(eId);
+		EamEquipmentModelProperties eamEquipmentModelProperties = eamEquipmentModelPropertiesService.selectByPrimaryKey(pId);
+		EamSensor sensor = getSensor(equipment, eamEquipmentModelProperties);
+
+		Map<String, Object> result = new HashMap<>();
+		result.put("equipment", equipment);
+		result.put("equipmentModelProperties", eamEquipmentModelProperties);
+		result.put("modbusFunctionCodes", ModbusFunctionCode.values());
+		result.put("sensor", sensor);
+		return result;
+	}
+
+
+
 	public EamSensor getSensor(EamEquipment equipment, EamEquipmentModelProperties eamEquipmentModelProperties){
 		EamSensorExample example = new EamSensorExample();
 		example.createCriteria().andEquipmentIdEqualTo(equipment.getEquipmentId())
