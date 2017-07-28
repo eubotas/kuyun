@@ -8,7 +8,7 @@
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 <div id="updateDialog" class="crudDialog">
 	<form id="updateForm" method="post">
-		<input type="hidden" name="userId" value="1">
+
 		<input type="hidden" name="equipmentModelId" value="${equipmentModelProperties.equipmentModelId}">
 
 		<div class="row">

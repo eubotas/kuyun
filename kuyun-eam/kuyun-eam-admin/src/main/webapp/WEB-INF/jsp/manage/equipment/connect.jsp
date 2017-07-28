@@ -18,7 +18,7 @@
 <div id="main">
 	<div id="connectDialog" class="crudDialog">
 		<form id="connectForm" method="post">
-			<input type="hidden" name="userId" value="1">
+
 			<input type="hidden" name="equipmentId" value="${equipment.equipmentId}">
 			<div class="row">
 				<div class="col-sm-12">
