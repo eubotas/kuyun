@@ -1,7 +1,7 @@
 package com.kuyun.eam.dao.model;
 
+import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
-import java.util.Date;
 
 public class EamParts extends BaseEntity implements Serializable {
     private Integer partId;
@@ -76,8 +76,6 @@ public class EamParts extends BaseEntity implements Serializable {
         this.brand = brand;
     }
 
-
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -91,12 +89,6 @@ public class EamParts extends BaseEntity implements Serializable {
         sb.append(", model=").append(model);
         sb.append(", unit=").append(unit);
         sb.append(", brand=").append(brand);
-        sb.append(", createUserId=").append(getCreateUserId());
-        sb.append(", createTime=").append(getCreateTime());
-        sb.append(", updateUserId=").append(getUpdateUserId());
-        sb.append(", updateTime=").append(getUpdateTime());
-        sb.append(", deleteFlag=").append(getDeleteFlag());
-        sb.append(", organizationId=").append(getOrganizationId());
         sb.append("]");
         return sb.toString();
     }

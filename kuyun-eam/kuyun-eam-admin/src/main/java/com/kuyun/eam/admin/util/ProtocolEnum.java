@@ -5,7 +5,8 @@ package com.kuyun.eam.admin.util;
  */
 public enum ProtocolEnum {
     MODBUS_RTU(1, "Modbus RTU"),
-    MQTT(2, "MQTT");
+    MODBUS_TCP(2, "Modbus TCP"),
+    MQTT(3, "MQTT");
 
     private ProtocolEnum(int id, String name){
         this.id = id;

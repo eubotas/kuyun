@@ -5,7 +5,6 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
-import com.kuyun.eam.admin.util.EamUtils;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.EamLocation;
 import com.kuyun.eam.dao.model.EamLocationExample;
@@ -15,13 +14,10 @@ import com.kuyun.eam.rpc.api.EamApiService;
 import com.kuyun.eam.rpc.api.EamLocationService;
 import com.kuyun.eam.rpc.api.EamWarehouseService;
 import com.kuyun.eam.vo.EamLocationVO;
+import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsOrganization;
-import com.kuyun.upms.dao.model.UpmsUser;
-import com.kuyun.upms.rpc.api.UpmsApiService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +26,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,7 +52,7 @@ public class EamLocationController extends BaseController {
 	private EamWarehouseService eamWarehouseService;
 
 	@Autowired
-	private EamUtils eamUtils;
+	private BaseEntityUtil baseEntityUtil;
 
 	@Autowired
 	private EamApiService eamApiService;
@@ -80,20 +75,19 @@ public class EamLocationController extends BaseController {
 			@RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
 			@RequestParam(required = false, value = "sort") String sort,
 			@RequestParam(required = false, value = "order") String order) {
-		EamLocationExample locationExample = new EamLocationExample();
-		locationExample.setOffset(offset);
-		locationExample.setLimit(limit);
+		EamLocationVO locationVO = new EamLocationVO();
+		locationVO.setOffset(offset);
+		locationVO.setLimit(limit);
 
-		UpmsOrganization organization = eamUtils.getCurrentUserParentOrignization();
+		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
 		if (organization != null){
-			locationExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId());
+			locationVO.setOrganizationId(organization.getOrganizationId());
 		}
-		List<EamLocationVO> rows = eamApiService.selectLocation(locationExample);
-		long total = eamLocationService.countByExample(locationExample);
+		List<EamLocationVO> rows = eamApiService.selectLocation(locationVO);
 		Map<String, Object> result = new HashMap<>();
 		result.put("rows", rows);
-		result.put("total", total);
+		result.put("total", rows.size());
 		return result;
 	}
 
@@ -119,7 +113,7 @@ public class EamLocationController extends BaseController {
 		if (!result.isSuccess()) {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
-		eamUtils.addAddtionalValue(eamLocation);
+		baseEntityUtil.addAddtionalValue(eamLocation);
 		int count = eamLocationService.insertSelective(eamLocation);
 		return new EamResult(SUCCESS, count);
 	}
@@ -155,7 +149,7 @@ public class EamLocationController extends BaseController {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
 		location.setLocationId(id);
-		eamUtils.updateAddtionalValue(location);
+		baseEntityUtil.updateAddtionalValue(location);
 		int count = eamLocationService.updateByPrimaryKeySelective(location);
 		return new EamResult(SUCCESS, count);
 	}

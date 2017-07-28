@@ -1,9 +1,8 @@
 package com.kuyun.eam.rpc.mapper;
 
-import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.vo.EamInventoryVO;
-import com.kuyun.eam.vo.EamMaintenanceVO;
 import com.kuyun.eam.vo.EamLocationVO;
+import com.kuyun.eam.vo.EamMaintenanceVO;
 import com.kuyun.eam.vo.EamPartVO;
 
 import java.util.List;
@@ -13,11 +12,11 @@ import java.util.List;
  */
 public interface EamApiMapper {
 
-    List<EamMaintenanceVO> selectMaintenance(EamMaintenanceExample example);
+    List<EamMaintenanceVO> selectMaintenance(EamMaintenanceVO maintenanceVO);
 
-    List<EamLocationVO> selectLocation(EamLocationExample example);
+    List<EamLocationVO> selectLocation(EamLocationVO locationVO);
 
-    List<EamPartVO> selectPart(EamPartsExample example);
+    List<EamPartVO> selectPart(EamPartVO partVO);
 
-    List<EamInventoryVO> selectInventory(EamInventoryExample example);
+    List<EamInventoryVO> selectInventory(EamInventoryVO inventoryVO);
 }

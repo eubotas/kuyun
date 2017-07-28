@@ -1,5 +1,6 @@
 package com.kuyun.eam.dao.model;
 
+import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
 
 public class EamEquipmentModel extends BaseEntity implements Serializable {
@@ -8,7 +9,6 @@ public class EamEquipmentModel extends BaseEntity implements Serializable {
     private String name;
 
     private String number;
-
 
     private static final long serialVersionUID = 1L;
 
@@ -36,7 +36,6 @@ public class EamEquipmentModel extends BaseEntity implements Serializable {
         this.number = number;
     }
 
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -46,12 +45,6 @@ public class EamEquipmentModel extends BaseEntity implements Serializable {
         sb.append(", equipmentModelId=").append(equipmentModelId);
         sb.append(", name=").append(name);
         sb.append(", number=").append(number);
-        sb.append(", createUserId=").append(getCreateUserId());
-        sb.append(", createTime=").append(getCreateTime());
-        sb.append(", updateUserId=").append(getUpdateUserId());
-        sb.append(", updateTime=").append(getUpdateTime());
-        sb.append(", deleteFlag=").append(getDeleteFlag());
-        sb.append(", organizationId=").append(getOrganizationId());
         sb.append("]");
         return sb.toString();
     }
@@ -69,14 +62,14 @@ public class EamEquipmentModel extends BaseEntity implements Serializable {
         }
         EamEquipmentModel other = (EamEquipmentModel) that;
         return (this.getEquipmentModelId() == null ? other.getEquipmentModelId() == null : this.getEquipmentModelId().equals(other.getEquipmentModelId()))
-                && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
-                && (this.getNumber() == null ? other.getNumber() == null : this.getNumber().equals(other.getNumber()))
-                && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
-                && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
-                && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
-                && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
-                && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-                && (this.getOrganizationId() == null ? other.getOrganizationId() == null : this.getOrganizationId().equals(other.getOrganizationId()));
+            && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
+            && (this.getNumber() == null ? other.getNumber() == null : this.getNumber().equals(other.getNumber()))
+            && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
+            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
+            && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
+            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
+            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
+            && (this.getOrganizationId() == null ? other.getOrganizationId() == null : this.getOrganizationId().equals(other.getOrganizationId()));
     }
 
     @Override

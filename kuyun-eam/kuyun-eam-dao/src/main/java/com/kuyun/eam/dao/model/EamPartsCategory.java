@@ -1,13 +1,12 @@
 package com.kuyun.eam.dao.model;
 
+import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
-import java.util.Date;
 
 public class EamPartsCategory extends BaseEntity implements Serializable {
     private Integer categoryId;
 
     private String name;
-
 
     private static final long serialVersionUID = 1L;
 
@@ -35,12 +34,6 @@ public class EamPartsCategory extends BaseEntity implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", categoryId=").append(categoryId);
         sb.append(", name=").append(name);
-        sb.append(", createUserId=").append(getCreateUserId());
-        sb.append(", createTime=").append(getCreateTime());
-        sb.append(", updateUserId=").append(getUpdateUserId());
-        sb.append(", updateTime=").append(getUpdateTime());
-        sb.append(", deleteFlag=").append(getDeleteFlag());
-        sb.append(", organizationId=").append(getOrganizationId());
         sb.append("]");
         return sb.toString();
     }

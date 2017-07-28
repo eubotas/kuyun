@@ -1,6 +1,7 @@
 package com.kuyun.eam.dao.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -328,52 +329,52 @@ public class EamSensorDataExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andNumberValueEqualTo(Long value) {
+        public Criteria andNumberValueEqualTo(BigDecimal value) {
             addCriterion("number_value =", value, "numberValue");
             return (Criteria) this;
         }
 
-        public Criteria andNumberValueNotEqualTo(Long value) {
+        public Criteria andNumberValueNotEqualTo(BigDecimal value) {
             addCriterion("number_value <>", value, "numberValue");
             return (Criteria) this;
         }
 
-        public Criteria andNumberValueGreaterThan(Long value) {
+        public Criteria andNumberValueGreaterThan(BigDecimal value) {
             addCriterion("number_value >", value, "numberValue");
             return (Criteria) this;
         }
 
-        public Criteria andNumberValueGreaterThanOrEqualTo(Long value) {
+        public Criteria andNumberValueGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("number_value >=", value, "numberValue");
             return (Criteria) this;
         }
 
-        public Criteria andNumberValueLessThan(Long value) {
+        public Criteria andNumberValueLessThan(BigDecimal value) {
             addCriterion("number_value <", value, "numberValue");
             return (Criteria) this;
         }
 
-        public Criteria andNumberValueLessThanOrEqualTo(Long value) {
+        public Criteria andNumberValueLessThanOrEqualTo(BigDecimal value) {
             addCriterion("number_value <=", value, "numberValue");
             return (Criteria) this;
         }
 
-        public Criteria andNumberValueIn(List<Long> values) {
+        public Criteria andNumberValueIn(List<BigDecimal> values) {
             addCriterion("number_value in", values, "numberValue");
             return (Criteria) this;
         }
 
-        public Criteria andNumberValueNotIn(List<Long> values) {
+        public Criteria andNumberValueNotIn(List<BigDecimal> values) {
             addCriterion("number_value not in", values, "numberValue");
             return (Criteria) this;
         }
 
-        public Criteria andNumberValueBetween(Long value1, Long value2) {
+        public Criteria andNumberValueBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("number_value between", value1, value2, "numberValue");
             return (Criteria) this;
         }
 
-        public Criteria andNumberValueNotBetween(Long value1, Long value2) {
+        public Criteria andNumberValueNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("number_value not between", value1, value2, "numberValue");
             return (Criteria) this;
         }
@@ -448,52 +449,52 @@ public class EamSensorDataExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andLongitudeValueEqualTo(Long value) {
+        public Criteria andLongitudeValueEqualTo(BigDecimal value) {
             addCriterion("longitude_value =", value, "longitudeValue");
             return (Criteria) this;
         }
 
-        public Criteria andLongitudeValueNotEqualTo(Long value) {
+        public Criteria andLongitudeValueNotEqualTo(BigDecimal value) {
             addCriterion("longitude_value <>", value, "longitudeValue");
             return (Criteria) this;
         }
 
-        public Criteria andLongitudeValueGreaterThan(Long value) {
+        public Criteria andLongitudeValueGreaterThan(BigDecimal value) {
             addCriterion("longitude_value >", value, "longitudeValue");
             return (Criteria) this;
         }
 
-        public Criteria andLongitudeValueGreaterThanOrEqualTo(Long value) {
+        public Criteria andLongitudeValueGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("longitude_value >=", value, "longitudeValue");
             return (Criteria) this;
         }
 
-        public Criteria andLongitudeValueLessThan(Long value) {
+        public Criteria andLongitudeValueLessThan(BigDecimal value) {
             addCriterion("longitude_value <", value, "longitudeValue");
             return (Criteria) this;
         }
 
-        public Criteria andLongitudeValueLessThanOrEqualTo(Long value) {
+        public Criteria andLongitudeValueLessThanOrEqualTo(BigDecimal value) {
             addCriterion("longitude_value <=", value, "longitudeValue");
             return (Criteria) this;
         }
 
-        public Criteria andLongitudeValueIn(List<Long> values) {
+        public Criteria andLongitudeValueIn(List<BigDecimal> values) {
             addCriterion("longitude_value in", values, "longitudeValue");
             return (Criteria) this;
         }
 
-        public Criteria andLongitudeValueNotIn(List<Long> values) {
+        public Criteria andLongitudeValueNotIn(List<BigDecimal> values) {
             addCriterion("longitude_value not in", values, "longitudeValue");
             return (Criteria) this;
         }
 
-        public Criteria andLongitudeValueBetween(Long value1, Long value2) {
+        public Criteria andLongitudeValueBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("longitude_value between", value1, value2, "longitudeValue");
             return (Criteria) this;
         }
 
-        public Criteria andLongitudeValueNotBetween(Long value1, Long value2) {
+        public Criteria andLongitudeValueNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("longitude_value not between", value1, value2, "longitudeValue");
             return (Criteria) this;
         }
@@ -508,52 +509,52 @@ public class EamSensorDataExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andLatitudeValueEqualTo(Long value) {
+        public Criteria andLatitudeValueEqualTo(BigDecimal value) {
             addCriterion("latitude_value =", value, "latitudeValue");
             return (Criteria) this;
         }
 
-        public Criteria andLatitudeValueNotEqualTo(Long value) {
+        public Criteria andLatitudeValueNotEqualTo(BigDecimal value) {
             addCriterion("latitude_value <>", value, "latitudeValue");
             return (Criteria) this;
         }
 
-        public Criteria andLatitudeValueGreaterThan(Long value) {
+        public Criteria andLatitudeValueGreaterThan(BigDecimal value) {
             addCriterion("latitude_value >", value, "latitudeValue");
             return (Criteria) this;
         }
 
-        public Criteria andLatitudeValueGreaterThanOrEqualTo(Long value) {
+        public Criteria andLatitudeValueGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("latitude_value >=", value, "latitudeValue");
             return (Criteria) this;
         }
 
-        public Criteria andLatitudeValueLessThan(Long value) {
+        public Criteria andLatitudeValueLessThan(BigDecimal value) {
             addCriterion("latitude_value <", value, "latitudeValue");
             return (Criteria) this;
         }
 
-        public Criteria andLatitudeValueLessThanOrEqualTo(Long value) {
+        public Criteria andLatitudeValueLessThanOrEqualTo(BigDecimal value) {
             addCriterion("latitude_value <=", value, "latitudeValue");
             return (Criteria) this;
         }
 
-        public Criteria andLatitudeValueIn(List<Long> values) {
+        public Criteria andLatitudeValueIn(List<BigDecimal> values) {
             addCriterion("latitude_value in", values, "latitudeValue");
             return (Criteria) this;
         }
 
-        public Criteria andLatitudeValueNotIn(List<Long> values) {
+        public Criteria andLatitudeValueNotIn(List<BigDecimal> values) {
             addCriterion("latitude_value not in", values, "latitudeValue");
             return (Criteria) this;
         }
 
-        public Criteria andLatitudeValueBetween(Long value1, Long value2) {
+        public Criteria andLatitudeValueBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("latitude_value between", value1, value2, "latitudeValue");
             return (Criteria) this;
         }
 
-        public Criteria andLatitudeValueNotBetween(Long value1, Long value2) {
+        public Criteria andLatitudeValueNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("latitude_value not between", value1, value2, "latitudeValue");
             return (Criteria) this;
         }

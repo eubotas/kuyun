@@ -1,6 +1,7 @@
 package com.kuyun.eam.rpc.service.impl;
 
-import com.kuyun.eam.dao.model.*;
+import com.kuyun.eam.dao.model.EamInventory;
+import com.kuyun.eam.dao.model.EamInventoryExample;
 import com.kuyun.eam.rpc.api.EamApiService;
 import com.kuyun.eam.rpc.api.EamInventoryService;
 import com.kuyun.eam.rpc.mapper.EamApiMapper;
@@ -33,24 +34,24 @@ public class EamApiServiceImpl implements EamApiService {
 
 
     @Override
-    public List<EamMaintenanceVO> selectMaintenance(EamMaintenanceExample eamMaintenanceExample) {
+    public List<EamMaintenanceVO> selectMaintenance(EamMaintenanceVO maintenanceVO) {
 
-        return eamApiMapper.selectMaintenance(eamMaintenanceExample);
+        return eamApiMapper.selectMaintenance(maintenanceVO);
     }
 
     @Override
-    public List<EamLocationVO> selectLocation(EamLocationExample example){
-        return eamApiMapper.selectLocation(example);
+    public List<EamLocationVO> selectLocation(EamLocationVO locationVO){
+        return eamApiMapper.selectLocation(locationVO);
     }
 
     @Override
-    public List<EamPartVO> selectPart(EamPartsExample eamPartsExample) {
-        return eamApiMapper.selectPart(eamPartsExample);
+    public List<EamPartVO> selectPart(EamPartVO partVO) {
+        return eamApiMapper.selectPart(partVO);
     }
 
     @Override
-    public List<EamInventoryVO> selectInventory(EamInventoryExample eamInventoryExample) {
-        return eamApiMapper.selectInventory(eamInventoryExample);
+    public List<EamInventoryVO> selectInventory(EamInventoryVO inventoryVO) {
+        return eamApiMapper.selectInventory(inventoryVO);
     }
 
     @Override

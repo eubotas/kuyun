@@ -18,7 +18,7 @@
 
 
 
-	<select id="selectMaintenance" parameterType="com.kuyun.eam.dao.model.EamMaintenanceExample" resultMap="EamMaintenanceVOResultMap">
+	<select id="selectMaintenance" parameterType="com.kuyun.eam.vo.EamMaintenanceVO" resultMap="EamMaintenanceVOResultMap">
 		select
 		<include refid="Maintenance_Column_List" />
 		e.name as equipment_name,
@@ -29,10 +29,11 @@
 		LEFT JOIN eam_equipment e ON t.equipment_id = e.equipment_id
 		LEFT JOIN eam_parts p on  t.part_id = p.part_id
 		LEFT JOIN upms_user u on t.maintain_user_id = u.user_id
-
-		<if test="_parameter != null">
-			<include refid="com.kuyun.eam.dao.mapper.EamMaintenanceMapper.Example_Where_Clause" />
+		WHERE 1=1
+		<if test="organizationId != null and organizationId != ''">
+			AND t.organization_id = #{organizationId}
 		</if>
+
 		<if test="orderByClause != null">
 			order by ${orderByClause}
 		</if>
@@ -60,16 +61,19 @@
 
 
 
-	<select id="selectLocation" parameterType="com.kuyun.eam.dao.model.EamLocationExample" resultMap="EamLocationVOResultMap">
+	<select id="selectLocation" parameterType="com.kuyun.eam.vo.EamLocationVO" resultMap="EamLocationVOResultMap">
 		select
 
 		<include refid="Location_Column_List" />
 		e.name as warehouse_name
 		from eam_Location t
 		LEFT JOIN eam_warehouse e ON t.warehouse_id = e.warehouse_id
-
-		<if test="_parameter != null">
-			<include refid="com.kuyun.eam.dao.mapper.EamLocationMapper.Example_Where_Clause" />
+		WHERE 1=1
+		<if test="organizationId != null and organizationId != ''">
+			AND t.organization_id = #{organizationId}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
 		</if>
 		<if test="limit != null">
 			<if test="offset != null">
@@ -96,16 +100,19 @@
 
 
 
-	<select id="selectPart" parameterType="com.kuyun.eam.dao.model.EamPartsExample" resultMap="EamPartVOResultMap">
+	<select id="selectPart" parameterType="com.kuyun.eam.vo.EamPartVO" resultMap="EamPartVOResultMap">
 		select
 
 		<include refid="Part_Column_List" />
 		e.name as category_name
 		from eam_parts t
 		LEFT JOIN eam_parts_category e ON t.category_id = e.category_id
-
-		<if test="_parameter != null">
-			<include refid="com.kuyun.eam.dao.mapper.EamPartsMapper.Example_Where_Clause" />
+		WHERE 1=1
+		<if test="organizationId != null and organizationId != ''">
+			AND t.organization_id = #{organizationId}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
 		</if>
 		<if test="limit != null">
 			<if test="offset != null">
@@ -134,7 +141,7 @@
 
 
 
-	<select id="selectInventory" parameterType="com.kuyun.eam.dao.model.EamInventoryExample" resultMap="EamInventoryVOResultMap">
+	<select id="selectInventory" parameterType="com.kuyun.eam.vo.EamInventoryVO" resultMap="EamInventoryVOResultMap">
 		select
 
 		<include refid="Inventory_Column_List" />
@@ -145,8 +152,12 @@
 		LEFT JOIN eam_warehouse w ON t.warehouse_id = w.warehouse_id
 		LEFT JOIN eam_location l ON t.location_id = l.location_id
 		LEFT JOIN eam_parts p ON t.part_id = p.part_id
-		<if test="_parameter != null">
-			<include refid="com.kuyun.eam.dao.mapper.EamInventoryMapper.Example_Where_Clause" />
+		WHERE 1=1
+		<if test="organizationId != null and organizationId != ''">
+			AND t.organization_id = #{organizationId}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
 		</if>
 		<if test="limit != null">
 			<if test="offset != null">

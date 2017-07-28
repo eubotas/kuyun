@@ -5,16 +5,14 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
-import com.kuyun.eam.admin.util.EamUtils;
 import com.kuyun.eam.admin.util.ModbusFunctionCode;
-import com.kuyun.eam.admin.util.ProtocolEnum;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
+import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsOrganization;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -52,7 +50,7 @@ public class EamEquipmentController extends BaseController {
 	private EamEquipmentModelPropertiesService eamEquipmentModelPropertiesService;
 
 	@Autowired
-	private EamUtils eamUtils;
+	private BaseEntityUtil baseEntityUtil;
 
 	@Autowired
 	private EamSensorService eamSensorService;
@@ -83,7 +81,7 @@ public class EamEquipmentController extends BaseController {
 			eamEquipmentExample.setOrderByClause(sort + " " + order);
 		}
 
-		UpmsOrganization organization = eamUtils.getCurrentUserParentOrignization();
+		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
 		if (organization != null){
 			eamEquipmentExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId());
@@ -120,7 +118,7 @@ public class EamEquipmentController extends BaseController {
 		if (!result.isSuccess()) {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
-		eamUtils.addAddtionalValue(eamEquipment);
+		baseEntityUtil.addAddtionalValue(eamEquipment);
 		int count = eamEquipmentService.insertSelective(eamEquipment);
 		return new EamResult(SUCCESS, count);
 	}
@@ -161,7 +159,7 @@ public class EamEquipmentController extends BaseController {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
 		equipment.setEquipmentId(id);
-		eamUtils.updateAddtionalValue(equipment);
+		baseEntityUtil.updateAddtionalValue(equipment);
 		int count = eamEquipmentService.updateByPrimaryKeySelective(equipment);
 		return new EamResult(SUCCESS, count);
 	}

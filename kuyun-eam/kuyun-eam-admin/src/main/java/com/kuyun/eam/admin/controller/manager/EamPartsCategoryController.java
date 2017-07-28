@@ -5,19 +5,15 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
-import com.kuyun.eam.admin.util.EamUtils;
 import com.kuyun.eam.common.constant.EamResult;
-import com.kuyun.eam.dao.model.EamParts;
 import com.kuyun.eam.dao.model.EamPartsCategory;
 import com.kuyun.eam.dao.model.EamPartsCategoryExample;
 import com.kuyun.eam.rpc.api.EamPartsCategoryService;
+import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsOrganization;
-import com.kuyun.upms.dao.model.UpmsUser;
-import com.kuyun.upms.rpc.api.UpmsApiService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +22,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +45,7 @@ public class EamPartsCategoryController extends BaseController {
 
 
 	@Autowired
-	private EamUtils eamUtils;
+	private BaseEntityUtil baseEntityUtil;
 
 
 	@ApiOperation(value = "配件类别首页")
@@ -75,7 +70,7 @@ public class EamPartsCategoryController extends BaseController {
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			partsCategoryExample.setOrderByClause(sort + " " + order);
 		}
-		UpmsOrganization organization = eamUtils.getCurrentUserParentOrignization();
+		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
 		if (organization != null){
 			partsCategoryExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId());
@@ -107,7 +102,7 @@ public class EamPartsCategoryController extends BaseController {
 		if (!result.isSuccess()) {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
-		eamUtils.addAddtionalValue(eamPartsCategory);
+		baseEntityUtil.addAddtionalValue(eamPartsCategory);
 		int count = eamPartsCategoryService.insertSelective(eamPartsCategory);
 		return new EamResult(SUCCESS, count);
 	}
@@ -143,7 +138,7 @@ public class EamPartsCategoryController extends BaseController {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
 		partCategory.setCategoryId(id);
-		eamUtils.updateAddtionalValue(partCategory);
+		baseEntityUtil.updateAddtionalValue(partCategory);
 		int count = eamPartsCategoryService.updateByPrimaryKeySelective(partCategory);
 		return new EamResult(SUCCESS, count);
 	}

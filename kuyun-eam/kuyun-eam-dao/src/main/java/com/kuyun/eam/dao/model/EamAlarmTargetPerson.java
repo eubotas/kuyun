@@ -1,8 +1,9 @@
 package com.kuyun.eam.dao.model;
 
+import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
 
-public class EamAlarmTargetPerson implements Serializable {
+public class EamAlarmTargetPerson extends BaseEntity implements Serializable {
     private Integer id;
 
     private Integer alarmId;

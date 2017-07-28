@@ -1,5 +1,6 @@
 package com.kuyun.eam.dao.model;
 
+import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -16,8 +17,6 @@ public class EamInventory extends BaseEntity implements Serializable {
     private BigDecimal quantity;
 
     private Date inTaskDate;
-
-
 
     private static final long serialVersionUID = 1L;
 
@@ -69,7 +68,6 @@ public class EamInventory extends BaseEntity implements Serializable {
         this.inTaskDate = inTaskDate;
     }
 
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -82,12 +80,6 @@ public class EamInventory extends BaseEntity implements Serializable {
         sb.append(", partId=").append(partId);
         sb.append(", quantity=").append(quantity);
         sb.append(", inTaskDate=").append(inTaskDate);
-        sb.append(", createUserId=").append(getCreateUserId());
-        sb.append(", createTime=").append(getCreateTime());
-        sb.append(", updateUserId=").append(getUpdateUserId());
-        sb.append(", updateTime=").append(getUpdateTime());
-        sb.append(", deleteFlag=").append(getDeleteFlag());
-        sb.append(", organizationId=").append(getOrganizationId());
         sb.append("]");
         return sb.toString();
     }
@@ -105,17 +97,17 @@ public class EamInventory extends BaseEntity implements Serializable {
         }
         EamInventory other = (EamInventory) that;
         return (this.getInventoryId() == null ? other.getInventoryId() == null : this.getInventoryId().equals(other.getInventoryId()))
-                && (this.getWarehouseId() == null ? other.getWarehouseId() == null : this.getWarehouseId().equals(other.getWarehouseId()))
-                && (this.getLocationId() == null ? other.getLocationId() == null : this.getLocationId().equals(other.getLocationId()))
-                && (this.getPartId() == null ? other.getPartId() == null : this.getPartId().equals(other.getPartId()))
-                && (this.getQuantity() == null ? other.getQuantity() == null : this.getQuantity().equals(other.getQuantity()))
-                && (this.getInTaskDate() == null ? other.getInTaskDate() == null : this.getInTaskDate().equals(other.getInTaskDate()))
-                && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
-                && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
-                && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
-                && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
-                && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-                && (this.getOrganizationId() == null ? other.getOrganizationId() == null : this.getOrganizationId().equals(other.getOrganizationId()));
+            && (this.getWarehouseId() == null ? other.getWarehouseId() == null : this.getWarehouseId().equals(other.getWarehouseId()))
+            && (this.getLocationId() == null ? other.getLocationId() == null : this.getLocationId().equals(other.getLocationId()))
+            && (this.getPartId() == null ? other.getPartId() == null : this.getPartId().equals(other.getPartId()))
+            && (this.getQuantity() == null ? other.getQuantity() == null : this.getQuantity().equals(other.getQuantity()))
+            && (this.getInTaskDate() == null ? other.getInTaskDate() == null : this.getInTaskDate().equals(other.getInTaskDate()))
+            && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
+            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
+            && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
+            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
+            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
+            && (this.getOrganizationId() == null ? other.getOrganizationId() == null : this.getOrganizationId().equals(other.getOrganizationId()));
     }
 
     @Override

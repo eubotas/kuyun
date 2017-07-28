@@ -5,20 +5,16 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
-import com.kuyun.eam.admin.util.EamUtils;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.EamEquipmentModelProperties;
 import com.kuyun.eam.dao.model.EamEquipmentModelPropertiesExample;
 import com.kuyun.eam.rpc.api.EamEquipmentModelPropertiesService;
 import com.kuyun.eam.rpc.api.EamEquipmentModelService;
 import com.kuyun.eam.rpc.api.EamEquipmentService;
-import com.kuyun.upms.dao.model.UpmsOrganization;
-import com.kuyun.upms.dao.model.UpmsUser;
-import com.kuyun.upms.rpc.api.UpmsApiService;
+import com.kuyun.upms.client.util.BaseEntityUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +23,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +51,7 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 	private EamEquipmentModelPropertiesService eamEquipmentModelPropertiesService;
 
 	@Autowired
-	private EamUtils eamUtils;
+	private BaseEntityUtil baseEntityUtil;
 
 
 
@@ -89,7 +84,7 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 		.andDeleteFlagEqualTo(Boolean.FALSE);
 
 
-//		UpmsOrganization organization = eamUtils.getCurrentUserParentOrignization();
+//		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 //
 //		if (organization != null){
 //			equipmentModelPropertiesExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId());
@@ -122,7 +117,7 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 		if (!result.isSuccess()) {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
-		eamUtils.addAddtionalValue(equipmentModelProperties);
+		baseEntityUtil.addAddtionalValue(equipmentModelProperties);
 		int count = eamEquipmentModelPropertiesService.insertSelective(equipmentModelProperties);
 		return new EamResult(SUCCESS, count);
 	}
@@ -160,7 +155,7 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
 		equipmentModelProperties.setEquipmentModelPropertyId(id);
-		eamUtils.updateAddtionalValue(equipmentModelProperties);
+		baseEntityUtil.updateAddtionalValue(equipmentModelProperties);
 		int count = eamEquipmentModelPropertiesService.updateByPrimaryKeySelective(equipmentModelProperties);
 		return new EamResult(SUCCESS, count);
 	}

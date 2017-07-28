@@ -5,18 +5,15 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
-import com.kuyun.eam.admin.util.EamUtils;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.vo.EamPartVO;
+import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsOrganization;
-import com.kuyun.upms.dao.model.UpmsUser;
-import com.kuyun.upms.rpc.api.UpmsApiService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +22,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,7 +50,7 @@ public class EamPartsController extends BaseController {
 	private EamApiService eamApiService;
 
 	@Autowired
-	private EamUtils eamUtils;
+	private BaseEntityUtil baseEntityUtil;
 
 	@Autowired
 	private EamInventoryService eamInventoryService;
@@ -82,22 +78,21 @@ public class EamPartsController extends BaseController {
 			@RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
 			@RequestParam(required = false, value = "sort") String sort,
 			@RequestParam(required = false, value = "order") String order) {
-		EamPartsExample partsExample = new EamPartsExample();
-		partsExample.setOffset(offset);
-		partsExample.setLimit(limit);
+		EamPartVO partVO = new EamPartVO();
+		partVO.setOffset(offset);
+		partVO.setLimit(limit);
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
-			partsExample.setOrderByClause(sort + " " + order);
+			partVO.setOrderByClause(sort + " " + order);
 		}
-		UpmsOrganization organization = eamUtils.getCurrentUserParentOrignization();
+		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
 		if (organization != null){
-			partsExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId());
+			partVO.setOrganizationId(organization.getOrganizationId());
 		}
-		List<EamPartVO> rows = eamApiService.selectPart(partsExample);
-		long total = eamPartsService.countByExample(partsExample);
+		List<EamPartVO> rows = eamApiService.selectPart(partVO);
 		Map<String, Object> result = new HashMap<>();
 		result.put("rows", rows);
-		result.put("total", total);
+		result.put("total", rows.size());
 		return result;
 	}
 
@@ -128,7 +123,7 @@ public class EamPartsController extends BaseController {
 		if (!result.isSuccess()) {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
-		eamUtils.addAddtionalValue(eamPart);
+		baseEntityUtil.addAddtionalValue(eamPart);
 		int count = eamPartsService.insertSelective(eamPart);
 		return new EamResult(SUCCESS, count);
 	}
@@ -165,7 +160,7 @@ public class EamPartsController extends BaseController {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
 		part.setPartId(id);
-		eamUtils.updateAddtionalValue(part);
+		baseEntityUtil.updateAddtionalValue(part);
 		int count = eamPartsService.updateByPrimaryKeySelective(part);
 		return new EamResult(SUCCESS, count);
 	}
@@ -195,7 +190,7 @@ public class EamPartsController extends BaseController {
 	@RequestMapping(value = "/intask", method = RequestMethod.POST)
 	@ResponseBody
 	public Object intask(EamInventory inventory) {
-		eamUtils.addAddtionalValue(inventory);
+		baseEntityUtil.addAddtionalValue(inventory);
 		int count = eamApiService.inTask(inventory);
 		return new EamResult(SUCCESS, count);
 	}
@@ -215,7 +210,7 @@ public class EamPartsController extends BaseController {
 	@RequestMapping(value = "/outtask", method = RequestMethod.POST)
 	@ResponseBody
 	public Object outtask(EamInventory inventory) {
-		eamUtils.addAddtionalValue(inventory);
+		baseEntityUtil.addAddtionalValue(inventory);
 		int count = eamApiService.outTask(inventory);
 		return new EamResult(SUCCESS, count);
 	}

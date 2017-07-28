@@ -1,13 +1,12 @@
 package com.kuyun.eam.dao.model;
 
+import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
 
-public class EamAlarmTargetOrganization implements Serializable {
+public class EamAlarmTargetOrganization extends BaseEntity implements Serializable {
     private Integer id;
 
     private Integer alarmId;
-
-    private Integer organizationId;
 
     private static final long serialVersionUID = 1L;
 
@@ -27,14 +26,6 @@ public class EamAlarmTargetOrganization implements Serializable {
         this.alarmId = alarmId;
     }
 
-    public Integer getOrganizationId() {
-        return organizationId;
-    }
-
-    public void setOrganizationId(Integer organizationId) {
-        this.organizationId = organizationId;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -43,7 +34,6 @@ public class EamAlarmTargetOrganization implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", alarmId=").append(alarmId);
-        sb.append(", organizationId=").append(organizationId);
         sb.append("]");
         return sb.toString();
     }

@@ -5,7 +5,6 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
-import com.kuyun.eam.admin.util.EamUtils;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.EamApiService;
@@ -13,13 +12,13 @@ import com.kuyun.eam.rpc.api.EamEquipmentService;
 import com.kuyun.eam.rpc.api.EamMaintenanceService;
 import com.kuyun.eam.rpc.api.EamPartsService;
 import com.kuyun.eam.vo.EamMaintenanceVO;
+import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsOrganization;
 import com.kuyun.upms.dao.model.UpmsUser;
 import com.kuyun.upms.rpc.api.UpmsApiService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +27,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,7 +49,7 @@ public class EamMaintenanceController extends BaseController {
 	private EamMaintenanceService eamMaintenanceService;
 
 	@Autowired
-	private EamUtils eamUtils;
+	private BaseEntityUtil baseEntityUtil;
 
 	@Autowired
 	private EamEquipmentService eamEquipmentService;
@@ -81,22 +79,21 @@ public class EamMaintenanceController extends BaseController {
 			@RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
 			@RequestParam(required = false, value = "sort") String sort,
 			@RequestParam(required = false, value = "order") String order) {
-		EamMaintenanceExample maintenanceExample = new EamMaintenanceExample();
-		maintenanceExample.setOffset(offset);
-		maintenanceExample.setLimit(limit);
+		EamMaintenanceVO eamMaintenanceVO = new EamMaintenanceVO();
+		eamMaintenanceVO.setOffset(offset);
+		eamMaintenanceVO.setLimit(limit);
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
-			maintenanceExample.setOrderByClause(sort + " " + order);
+			eamMaintenanceVO.setOrderByClause(sort + " " + order);
 		}
-		UpmsOrganization organization = eamUtils.getCurrentUserParentOrignization();
+		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
 		if (organization != null){
-			maintenanceExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId());
+			eamMaintenanceVO.setOrganizationId(organization.getOrganizationId());
 		}
-		List<EamMaintenanceVO> rows = eamApiService.selectMaintenance(maintenanceExample);
-		long total = eamMaintenanceService.countByExample(maintenanceExample);
+		List<EamMaintenanceVO> rows = eamApiService.selectMaintenance(eamMaintenanceVO);
 		Map<String, Object> result = new HashMap<>();
 		result.put("rows", rows);
-		result.put("total", total);
+		result.put("total", rows.size());
 		return result;
 	}
 
@@ -118,7 +115,7 @@ public class EamMaintenanceController extends BaseController {
 		List<EamParts> partList = eamPartsService.selectByExample(partsExample);
 		modelMap.addAttribute("partList", partList);
 
-		UpmsUser user = eamUtils.getCurrentUser();
+		UpmsUser user = baseEntityUtil.getCurrentUser();
 		List<UpmsUser> userList = upmsApiService.selectUsersByUserId(user.getUserId());
 		modelMap.addAttribute("userList", userList);
 
@@ -136,7 +133,7 @@ public class EamMaintenanceController extends BaseController {
 		if (!result.isSuccess()) {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
-		eamUtils.addAddtionalValue(eamMaintain);
+		baseEntityUtil.addAddtionalValue(eamMaintain);
 		int count = eamMaintenanceService.insertSelective(eamMaintain);
 		return new EamResult(SUCCESS, count);
 	}
@@ -173,7 +170,7 @@ public class EamMaintenanceController extends BaseController {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
 		maintain.setMaintenanceId(id);
-		eamUtils.updateAddtionalValue(maintain);
+		baseEntityUtil.updateAddtionalValue(maintain);
 		int count = eamMaintenanceService.updateByPrimaryKeySelective(maintain);
 		return new EamResult(SUCCESS, count);
 	}

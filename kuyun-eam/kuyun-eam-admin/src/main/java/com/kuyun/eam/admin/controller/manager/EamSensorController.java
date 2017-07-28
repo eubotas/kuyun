@@ -4,32 +4,21 @@ import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
-import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.common.validator.NotNullValidator;
-import com.kuyun.eam.admin.util.EamUtils;
-import com.kuyun.eam.admin.util.ModbusFunctionCode;
-import com.kuyun.eam.admin.util.ProtocolEnum;
 import com.kuyun.eam.common.constant.EamResult;
-import com.kuyun.eam.dao.model.*;
-import com.kuyun.eam.rpc.api.EamEquipmentModelPropertiesService;
-import com.kuyun.eam.rpc.api.EamEquipmentModelService;
-import com.kuyun.eam.rpc.api.EamEquipmentService;
+import com.kuyun.eam.dao.model.EamSensor;
 import com.kuyun.eam.rpc.api.EamSensorService;
-import com.kuyun.upms.dao.model.UpmsOrganization;
+import com.kuyun.upms.client.util.BaseEntityUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import static com.kuyun.eam.common.constant.EamResultConstant.INVALID_LENGTH;
 import static com.kuyun.eam.common.constant.EamResultConstant.SUCCESS;
@@ -46,7 +35,7 @@ public class EamSensorController extends BaseController {
 	private static Logger _log = LoggerFactory.getLogger(EamSensorController.class);
 
 	@Autowired
-	private EamUtils eamUtils;
+	private BaseEntityUtil baseEntityUtil;
 
 	@Autowired
 	private EamSensorService eamSensorService;
@@ -65,7 +54,7 @@ public class EamSensorController extends BaseController {
 		if (!result.isSuccess()) {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
-		eamUtils.addAddtionalValue(sensor);
+		baseEntityUtil.addAddtionalValue(sensor);
 
 		int count = 0;
 		if (sensor.getSensorId() != null){

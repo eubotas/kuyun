@@ -1,24 +1,12 @@
 package com.kuyun.eam.dao.model;
 
+import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
-import java.util.Date;
 
-public class EamTicketType implements Serializable {
+public class EamTicketType extends BaseEntity implements Serializable {
     private Integer id;
 
     private String name;
-
-    private Integer createUserId;
-
-    private Date createTime;
-
-    private Integer updateUserId;
-
-    private Date updateTime;
-
-    private Boolean deleteFlag;
-
-    private Integer organizationId;
 
     private static final long serialVersionUID = 1L;
 
@@ -38,54 +26,6 @@ public class EamTicketType implements Serializable {
         this.name = name;
     }
 
-    public Integer getCreateUserId() {
-        return createUserId;
-    }
-
-    public void setCreateUserId(Integer createUserId) {
-        this.createUserId = createUserId;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Integer getUpdateUserId() {
-        return updateUserId;
-    }
-
-    public void setUpdateUserId(Integer updateUserId) {
-        this.updateUserId = updateUserId;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Boolean getDeleteFlag() {
-        return deleteFlag;
-    }
-
-    public void setDeleteFlag(Boolean deleteFlag) {
-        this.deleteFlag = deleteFlag;
-    }
-
-    public Integer getOrganizationId() {
-        return organizationId;
-    }
-
-    public void setOrganizationId(Integer organizationId) {
-        this.organizationId = organizationId;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -94,12 +34,6 @@ public class EamTicketType implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", name=").append(name);
-        sb.append(", createUserId=").append(createUserId);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", updateUserId=").append(updateUserId);
-        sb.append(", updateTime=").append(updateTime);
-        sb.append(", deleteFlag=").append(deleteFlag);
-        sb.append(", organizationId=").append(organizationId);
         sb.append("]");
         return sb.toString();
     }

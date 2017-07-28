@@ -1,18 +1,15 @@
 package com.kuyun.eam.admin.controller.manager;
 
 import com.kuyun.common.base.BaseController;
-import com.kuyun.eam.admin.util.EamUtils;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.vo.EamInventoryVO;
+import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsOrganization;
-import com.kuyun.upms.dao.model.UpmsUser;
-import com.kuyun.upms.rpc.api.UpmsApiService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +51,7 @@ public class EamInventoryController extends BaseController {
 	private EamApiService eamApiService;
 
 	@Autowired
-	private EamUtils eamUtils;
+	private BaseEntityUtil baseEntityUtil;
 
 
 	@ApiOperation(value = "库存首页")
@@ -74,22 +70,21 @@ public class EamInventoryController extends BaseController {
 			@RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
 			@RequestParam(required = false, value = "sort") String sort,
 			@RequestParam(required = false, value = "order") String order) {
-		EamInventoryExample inventoryExample = new EamInventoryExample();
-		inventoryExample.setOffset(offset);
-		inventoryExample.setLimit(limit);
+		EamInventoryVO inventoryVO = new EamInventoryVO();
+		inventoryVO.setOffset(offset);
+		inventoryVO.setLimit(limit);
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
-			inventoryExample.setOrderByClause(sort + " " + order);
+			inventoryVO.setOrderByClause(sort + " " + order);
 		}
-		UpmsOrganization organization = eamUtils.getCurrentUserParentOrignization();
+		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
 		if (organization != null){
-			inventoryExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId());
+			inventoryVO.setOrganizationId(organization.getOrganizationId());
 		}
-		List<EamInventoryVO> rows = eamApiService.selectInventory(inventoryExample);
-		long total = eamInventoryService.countByExample(inventoryExample);
+		List<EamInventoryVO> rows = eamApiService.selectInventory(inventoryVO);
 		Map<String, Object> result = new HashMap<>();
 		result.put("rows", rows);
-		result.put("total", total);
+		result.put("total", rows.size());
 		return result;
 	}
 
@@ -129,7 +124,7 @@ public class EamInventoryController extends BaseController {
 //		if (!result.isSuccess()) {
 //			return new EamResult(INVALID_LENGTH, result.getErrors());
 //		}
-		eamUtils.addAddtionalValue(inventory);
+		baseEntityUtil.addAddtionalValue(inventory);
 		int count = eamInventoryService.insertSelective(inventory);
 		return new EamResult(SUCCESS, count);
 	}
@@ -166,7 +161,7 @@ public class EamInventoryController extends BaseController {
 //			return new EamResult(INVALID_LENGTH, result.getErrors());
 //		}
 		inventory.setInventoryId(id);
-		eamUtils.updateAddtionalValue(inventory);
+		baseEntityUtil.updateAddtionalValue(inventory);
 		int count = eamInventoryService.updateByPrimaryKeySelective(inventory);
 		return new EamResult(SUCCESS, count);
 	}

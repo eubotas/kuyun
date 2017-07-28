@@ -5,12 +5,12 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
-import com.kuyun.eam.admin.util.EamUtils;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.EamEquipmentModel;
 import com.kuyun.eam.dao.model.EamEquipmentModelExample;
 import com.kuyun.eam.rpc.api.EamEquipmentModelService;
 import com.kuyun.eam.rpc.api.EamEquipmentService;
+import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsOrganization;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -48,7 +48,7 @@ public class EamEquipmentModelController extends BaseController {
 	private EamEquipmentModelService eamEquipmentModelService;
 
 	@Autowired
-	private EamUtils eamUtils;
+	private BaseEntityUtil baseEntityUtil;
 
 
 	@ApiOperation(value = "设备模型首页")
@@ -74,7 +74,7 @@ public class EamEquipmentModelController extends BaseController {
 			eamEquipmentModelExample.setOrderByClause(sort + " " + order);
 		}
 
-		UpmsOrganization organization = eamUtils.getCurrentUserParentOrignization();
+		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
 		if (organization != null){
 			eamEquipmentModelExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId())
@@ -109,7 +109,7 @@ public class EamEquipmentModelController extends BaseController {
 		if (!result.isSuccess()) {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
-		eamUtils.addAddtionalValue(equipmentModel);
+		baseEntityUtil.addAddtionalValue(equipmentModel);
 		int count = eamEquipmentModelService.insertSelective(equipmentModel);
 		return new EamResult(SUCCESS, count);
 	}
@@ -147,7 +147,7 @@ public class EamEquipmentModelController extends BaseController {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
 		equipmentModel.setEquipmentModelId(id);
-		eamUtils.updateAddtionalValue(equipmentModel);
+		baseEntityUtil.updateAddtionalValue(equipmentModel);
 		int count = eamEquipmentModelService.updateByPrimaryKeySelective(equipmentModel);
 		return new EamResult(SUCCESS, count);
 	}

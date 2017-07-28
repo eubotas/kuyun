@@ -1,5 +1,6 @@
 package com.kuyun.eam.dao.model;
 
+import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -10,17 +11,16 @@ public class EamMaintenance extends BaseEntity implements Serializable {
     private String equipmentId;
 
     private Integer partId;
-    private BigDecimal partQuantity;
 
     private String reason;
 
     private String content;
 
+    private BigDecimal partQuantity;
+
     private Integer maintainUserId;
 
     private Date maintainTime;
-
-
 
     private static final long serialVersionUID = 1L;
 
@@ -64,6 +64,14 @@ public class EamMaintenance extends BaseEntity implements Serializable {
         this.content = content;
     }
 
+    public BigDecimal getPartQuantity() {
+        return partQuantity;
+    }
+
+    public void setPartQuantity(BigDecimal partQuantity) {
+        this.partQuantity = partQuantity;
+    }
+
     public Integer getMaintainUserId() {
         return maintainUserId;
     }
@@ -80,14 +88,6 @@ public class EamMaintenance extends BaseEntity implements Serializable {
         this.maintainTime = maintainTime;
     }
 
-    public BigDecimal getPartQuantity() {
-        return partQuantity;
-    }
-
-    public void setPartQuantity(BigDecimal partQuantity) {
-        this.partQuantity = partQuantity;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -97,17 +97,11 @@ public class EamMaintenance extends BaseEntity implements Serializable {
         sb.append(", maintenanceId=").append(maintenanceId);
         sb.append(", equipmentId=").append(equipmentId);
         sb.append(", partId=").append(partId);
-        sb.append(", partQuantity=").append(partQuantity);
         sb.append(", reason=").append(reason);
         sb.append(", content=").append(content);
+        sb.append(", partQuantity=").append(partQuantity);
         sb.append(", maintainUserId=").append(maintainUserId);
         sb.append(", maintainTime=").append(maintainTime);
-        sb.append(", createUserId=").append(getCreateUserId());
-        sb.append(", createTime=").append(getCreateTime());
-        sb.append(", updateUserId=").append(getUpdateUserId());
-        sb.append(", updateTime=").append(getUpdateTime());
-        sb.append(", deleteFlag=").append(getDeleteFlag());
-        sb.append(", organizationId=").append(getOrganizationId());
         sb.append("]");
         return sb.toString();
     }
@@ -127,9 +121,9 @@ public class EamMaintenance extends BaseEntity implements Serializable {
         return (this.getMaintenanceId() == null ? other.getMaintenanceId() == null : this.getMaintenanceId().equals(other.getMaintenanceId()))
             && (this.getEquipmentId() == null ? other.getEquipmentId() == null : this.getEquipmentId().equals(other.getEquipmentId()))
             && (this.getPartId() == null ? other.getPartId() == null : this.getPartId().equals(other.getPartId()))
-            && (this.getPartQuantity() == null ? other.getPartQuantity() == null : this.getPartQuantity().equals(other.getPartQuantity()))
             && (this.getReason() == null ? other.getReason() == null : this.getReason().equals(other.getReason()))
             && (this.getContent() == null ? other.getContent() == null : this.getContent().equals(other.getContent()))
+            && (this.getPartQuantity() == null ? other.getPartQuantity() == null : this.getPartQuantity().equals(other.getPartQuantity()))
             && (this.getMaintainUserId() == null ? other.getMaintainUserId() == null : this.getMaintainUserId().equals(other.getMaintainUserId()))
             && (this.getMaintainTime() == null ? other.getMaintainTime() == null : this.getMaintainTime().equals(other.getMaintainTime()))
             && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
@@ -147,9 +141,9 @@ public class EamMaintenance extends BaseEntity implements Serializable {
         result = prime * result + ((getMaintenanceId() == null) ? 0 : getMaintenanceId().hashCode());
         result = prime * result + ((getEquipmentId() == null) ? 0 : getEquipmentId().hashCode());
         result = prime * result + ((getPartId() == null) ? 0 : getPartId().hashCode());
-        result = prime * result + ((getPartQuantity() == null) ? 0 : getPartQuantity().hashCode());
         result = prime * result + ((getReason() == null) ? 0 : getReason().hashCode());
         result = prime * result + ((getContent() == null) ? 0 : getContent().hashCode());
+        result = prime * result + ((getPartQuantity() == null) ? 0 : getPartQuantity().hashCode());
         result = prime * result + ((getMaintainUserId() == null) ? 0 : getMaintainUserId().hashCode());
         result = prime * result + ((getMaintainTime() == null) ? 0 : getMaintainTime().hashCode());
         result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());

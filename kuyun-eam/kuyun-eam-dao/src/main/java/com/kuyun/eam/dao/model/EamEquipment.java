@@ -1,5 +1,6 @@
 package com.kuyun.eam.dao.model;
 
+import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -190,11 +191,11 @@ public class EamEquipment extends BaseEntity implements Serializable {
         this.maintenancePeriod = maintenancePeriod;
     }
 
-    public Boolean isOnline() {
+    public Boolean getIsOnline() {
         return isOnline;
     }
 
-    public void setOnline(Boolean isOnline) {
+    public void setIsOnline(Boolean isOnline) {
         this.isOnline = isOnline;
     }
 
@@ -230,7 +231,6 @@ public class EamEquipment extends BaseEntity implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", equipmentId=").append(equipmentId);
         sb.append(", equipmentModelId=").append(equipmentModelId);
-        sb.append(", organizationId=").append(getOrganizationId());
         sb.append(", protocolId=").append(protocolId);
         sb.append(", name=").append(name);
         sb.append(", number=").append(number);
@@ -245,11 +245,6 @@ public class EamEquipment extends BaseEntity implements Serializable {
         sb.append(", warrantyStartDate=").append(warrantyStartDate);
         sb.append(", warrantyEndDate=").append(warrantyEndDate);
         sb.append(", maintenancePeriod=").append(maintenancePeriod);
-        sb.append(", createUserId=").append(getCreateUserId());
-        sb.append(", createTime=").append(getCreateTime());
-        sb.append(", updateUserId=").append(getUpdateUserId());
-        sb.append(", updateTime=").append(getUpdateTime());
-        sb.append(", deleteFlag=").append(getDeleteFlag());
         sb.append(", isOnline=").append(isOnline);
         sb.append(", grm=").append(grm);
         sb.append(", grmPassword=").append(grmPassword);
@@ -292,7 +287,7 @@ public class EamEquipment extends BaseEntity implements Serializable {
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.isOnline() == null ? other.isOnline() == null : this.isOnline().equals(other.isOnline()))
+            && (this.getIsOnline() == null ? other.getIsOnline() == null : this.getIsOnline().equals(other.getIsOnline()))
             && (this.getGrm() == null ? other.getGrm() == null : this.getGrm().equals(other.getGrm()))
             && (this.getGrmPassword() == null ? other.getGrmPassword() == null : this.getGrmPassword().equals(other.getGrmPassword()))
             && (this.getGrmPeriod() == null ? other.getGrmPeriod() == null : this.getGrmPeriod().equals(other.getGrmPeriod()));
@@ -324,7 +319,7 @@ public class EamEquipment extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
-        result = prime * result + ((isOnline() == null) ? 0 : isOnline().hashCode());
+        result = prime * result + ((getIsOnline() == null) ? 0 : getIsOnline().hashCode());
         result = prime * result + ((getGrm() == null) ? 0 : getGrm().hashCode());
         result = prime * result + ((getGrmPassword() == null) ? 0 : getGrmPassword().hashCode());
         result = prime * result + ((getGrmPeriod() == null) ? 0 : getGrmPeriod().hashCode());

@@ -13,15 +13,16 @@ import java.util.List;
  */
 public interface EamApiService {
 
-    List<EamMaintenanceVO> selectMaintenance(EamMaintenanceExample example);
+    List<EamMaintenanceVO> selectMaintenance(EamMaintenanceVO maintenanceVO);
 
-    List<EamLocationVO> selectLocation(EamLocationExample example);
+    List<EamLocationVO> selectLocation(EamLocationVO locationVO);
 
-    List<EamPartVO> selectPart(EamPartsExample example);
+    List<EamPartVO> selectPart(EamPartVO partVO);
 
-    List<EamInventoryVO> selectInventory(EamInventoryExample example);
+    List<EamInventoryVO> selectInventory(EamInventoryVO inventoryVO);
 
     Integer inTask(EamInventory inventory);
 
     Integer outTask(EamInventory inventory);
+
 }

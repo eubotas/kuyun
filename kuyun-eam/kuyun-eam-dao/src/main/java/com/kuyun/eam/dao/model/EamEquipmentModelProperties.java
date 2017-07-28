@@ -1,7 +1,7 @@
 package com.kuyun.eam.dao.model;
 
+import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
-import java.util.Date;
 
 public class EamEquipmentModelProperties extends BaseEntity implements Serializable {
     private Integer equipmentModelPropertyId;
@@ -21,7 +21,6 @@ public class EamEquipmentModelProperties extends BaseEntity implements Serializa
     private String alarmType;
 
     private String refreshPeriod;
-
 
     private static final long serialVersionUID = 1L;
 
@@ -97,7 +96,6 @@ public class EamEquipmentModelProperties extends BaseEntity implements Serializa
         this.refreshPeriod = refreshPeriod;
     }
 
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -113,12 +111,6 @@ public class EamEquipmentModelProperties extends BaseEntity implements Serializa
         sb.append(", dataType=").append(dataType);
         sb.append(", alarmType=").append(alarmType);
         sb.append(", refreshPeriod=").append(refreshPeriod);
-        sb.append(", createUserId=").append(getCreateUserId());
-        sb.append(", createTime=").append(getCreateTime());
-        sb.append(", updateUserId=").append(getUpdateUserId());
-        sb.append(", updateTime=").append(getUpdateTime());
-        sb.append(", deleteFlag=").append(getDeleteFlag());
-        sb.append(", organizationId=").append(getOrganizationId());
         sb.append("]");
         return sb.toString();
     }
@@ -136,20 +128,20 @@ public class EamEquipmentModelProperties extends BaseEntity implements Serializa
         }
         EamEquipmentModelProperties other = (EamEquipmentModelProperties) that;
         return (this.getEquipmentModelPropertyId() == null ? other.getEquipmentModelPropertyId() == null : this.getEquipmentModelPropertyId().equals(other.getEquipmentModelPropertyId()))
-                && (this.getEquipmentModelId() == null ? other.getEquipmentModelId() == null : this.getEquipmentModelId().equals(other.getEquipmentModelId()))
-                && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
-                && (this.getLable() == null ? other.getLable() == null : this.getLable().equals(other.getLable()))
-                && (this.getUnit() == null ? other.getUnit() == null : this.getUnit().equals(other.getUnit()))
-                && (this.getAddress() == null ? other.getAddress() == null : this.getAddress().equals(other.getAddress()))
-                && (this.getDataType() == null ? other.getDataType() == null : this.getDataType().equals(other.getDataType()))
-                && (this.getAlarmType() == null ? other.getAlarmType() == null : this.getAlarmType().equals(other.getAlarmType()))
-                && (this.getRefreshPeriod() == null ? other.getRefreshPeriod() == null : this.getRefreshPeriod().equals(other.getRefreshPeriod()))
-                && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
-                && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
-                && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
-                && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
-                && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-                && (this.getOrganizationId() == null ? other.getOrganizationId() == null : this.getOrganizationId().equals(other.getOrganizationId()));
+            && (this.getEquipmentModelId() == null ? other.getEquipmentModelId() == null : this.getEquipmentModelId().equals(other.getEquipmentModelId()))
+            && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
+            && (this.getLable() == null ? other.getLable() == null : this.getLable().equals(other.getLable()))
+            && (this.getUnit() == null ? other.getUnit() == null : this.getUnit().equals(other.getUnit()))
+            && (this.getAddress() == null ? other.getAddress() == null : this.getAddress().equals(other.getAddress()))
+            && (this.getDataType() == null ? other.getDataType() == null : this.getDataType().equals(other.getDataType()))
+            && (this.getAlarmType() == null ? other.getAlarmType() == null : this.getAlarmType().equals(other.getAlarmType()))
+            && (this.getRefreshPeriod() == null ? other.getRefreshPeriod() == null : this.getRefreshPeriod().equals(other.getRefreshPeriod()))
+            && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
+            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
+            && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
+            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
+            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
+            && (this.getOrganizationId() == null ? other.getOrganizationId() == null : this.getOrganizationId().equals(other.getOrganizationId()));
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.kuyun.eam.rpc.api;
 
-import com.kuyun.eam.dao.model.*;
+import com.kuyun.eam.dao.model.EamInventory;
 import com.kuyun.eam.vo.EamInventoryVO;
 import com.kuyun.eam.vo.EamLocationVO;
 import com.kuyun.eam.vo.EamMaintenanceVO;
@@ -18,23 +18,23 @@ public class EamApiServiceMock implements EamApiService {
 
 
     @Override
-    public List<EamMaintenanceVO> selectMaintenance(EamMaintenanceExample example) {
+    public List<EamMaintenanceVO> selectMaintenance(EamMaintenanceVO maintenanceVO) {
         _log.info("EamApiServiceMock => selectMaintenance");
         return null;
     }
 
     @Override
-    public List<EamLocationVO> selectLocation(EamLocationExample example) {
+    public List<EamLocationVO> selectLocation(EamLocationVO locationVO) {
         return null;
     }
 
     @Override
-    public List<EamPartVO> selectPart(EamPartsExample example) {
+    public List<EamPartVO> selectPart(EamPartVO partVO) {
         return null;
     }
 
     @Override
-    public List<EamInventoryVO> selectInventory(EamInventoryExample example) {
+    public List<EamInventoryVO> selectInventory(EamInventoryVO inventoryVO) {
         return null;
     }
 

@@ -1,8 +1,9 @@
 package com.kuyun.eam.dao.model;
 
+import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
 
-public class EamProtocol implements Serializable {
+public class EamProtocol extends BaseEntity implements Serializable {
     private Integer protocolId;
 
     private String name;

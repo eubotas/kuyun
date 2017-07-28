@@ -5,18 +5,15 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
-import com.kuyun.eam.admin.util.EamUtils;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.EamWarehouse;
 import com.kuyun.eam.dao.model.EamWarehouseExample;
 import com.kuyun.eam.rpc.api.EamWarehouseService;
+import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsOrganization;
-import com.kuyun.upms.dao.model.UpmsUser;
-import com.kuyun.upms.rpc.api.UpmsApiService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +22,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,7 +45,7 @@ public class EamWarehouseController extends BaseController {
 
 
 	@Autowired
-	private EamUtils eamUtils;
+	private BaseEntityUtil baseEntityUtil;
 
 
 
@@ -75,7 +71,7 @@ public class EamWarehouseController extends BaseController {
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			warehousesExample.setOrderByClause(sort + " " + order);
 		}
-		UpmsOrganization organization = eamUtils.getCurrentUserParentOrignization();
+		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
 		if (organization != null){
 			warehousesExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId());
@@ -107,7 +103,7 @@ public class EamWarehouseController extends BaseController {
 		if (!result.isSuccess()) {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
-		eamUtils.addAddtionalValue(warehouse);
+		baseEntityUtil.addAddtionalValue(warehouse);
 		int count = eamWarehouseService.insertSelective(warehouse);
 		return new EamResult(SUCCESS, count);
 	}
@@ -143,7 +139,7 @@ public class EamWarehouseController extends BaseController {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
 		warehouse.setWarehouseId(id);
-		eamUtils.updateAddtionalValue(warehouse);
+		baseEntityUtil.updateAddtionalValue(warehouse);
 		int count = eamWarehouseService.updateByPrimaryKeySelective(warehouse);
 		return new EamResult(SUCCESS, count);
 	}

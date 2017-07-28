@@ -1,9 +1,10 @@
 package com.kuyun.eam.dao.model;
 
+import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class EamAlarmTypeValue implements Serializable {
+public class EamAlarmTypeValue extends BaseEntity implements Serializable {
     private Integer id;
 
     private Integer alarmId;

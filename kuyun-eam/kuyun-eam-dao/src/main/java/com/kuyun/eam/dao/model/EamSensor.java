@@ -1,7 +1,7 @@
 package com.kuyun.eam.dao.model;
 
+import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
-import java.util.Date;
 
 public class EamSensor extends BaseEntity implements Serializable {
     private Integer sensorId;
@@ -23,8 +23,6 @@ public class EamSensor extends BaseEntity implements Serializable {
     private Integer quantity;
 
     private Integer writeNumber;
-
-
 
     /**
      * 巨控
@@ -169,12 +167,6 @@ public class EamSensor extends BaseEntity implements Serializable {
         sb.append(", period=").append(period);
         sb.append(", quantity=").append(quantity);
         sb.append(", writeNumber=").append(writeNumber);
-        sb.append(", createUserId=").append(getCreateUserId());
-        sb.append(", createTime=").append(getCreateTime());
-        sb.append(", updateUserId=").append(getUpdateUserId());
-        sb.append(", updateTime=").append(getUpdateTime());
-        sb.append(", deleteFlag=").append(getDeleteFlag());
-        sb.append(", organizationId=").append(getOrganizationId());
         sb.append(", grmVariable=").append(grmVariable);
         sb.append(", grmAction=").append(grmAction);
         sb.append(", grmVariableValue=").append(grmVariableValue);
