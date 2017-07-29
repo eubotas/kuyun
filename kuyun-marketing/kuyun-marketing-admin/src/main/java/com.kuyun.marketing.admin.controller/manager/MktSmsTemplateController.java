@@ -12,7 +12,10 @@ import com.kuyun.marketing.rpc.api.MktApiService;
 import com.kuyun.marketing.rpc.api.MktSmsTemplateService;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsOrganization;
+import com.kuyun.upms.dao.model.UpmsUserExample;
 import com.kuyun.upms.dao.vo.UpmsUserVo;
+import com.kuyun.upms.rpc.api.UpmsApiService;
+import com.kuyun.upms.rpc.api.UpmsUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -52,6 +55,8 @@ public class MktSmsTemplateController extends BaseController {
 	@Autowired
 	private MktApiService mktApiService;
 
+	@Autowired
+	private UpmsUserService upmsUserService;
 
 	@ApiOperation(value = "短信模板首页")
 	@RequiresPermissions("mkt:smsTemplate:read")
@@ -169,11 +174,22 @@ public class MktSmsTemplateController extends BaseController {
 	@RequiresPermissions("mkt:sms:create")
 	@RequestMapping(value = "/user/list", method = RequestMethod.GET)
 	@ResponseBody
-	public Object userList() {
-		List<UpmsUserVo> users = mktApiService.getUsers();
+	public Object userList(@RequestParam(required = false, defaultValue = "0", value = "offset") int offset,
+						   @RequestParam(required = false, defaultValue = "100", value = "limit") int limit,
+						   @RequestParam(required = false, value = "sort") String sort,
+						   @RequestParam(required = false, value = "order") String order) {
+		UpmsUserExample example = new UpmsUserExample();
+		example.setOffset(offset);
+		example.setLimit(limit);
+		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
+			example.setOrderByClause(sort + " " + order);
+		}
+
+		List<UpmsUserVo> users = mktApiService.getUsers(example);
+		long total = upmsUserService.countByExample(example);
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("rows", users);
-		result.put("total", users.size());
+		result.put("total", total);
 		return result;
 	}
 

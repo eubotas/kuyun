@@ -2,6 +2,7 @@ package com.kuyun.marketing.rpc.api;
 
 import com.kuyun.marketing.dao.model.MktSms;
 import com.kuyun.marketing.vo.MktSmsVo;
+import com.kuyun.upms.dao.model.UpmsUserExample;
 import com.kuyun.upms.dao.vo.UpmsUserVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +20,7 @@ public class MktApiServiceMock implements MktApiService {
         return null;
     }
 
-    public List<UpmsUserVo> getUsers() {
+    public List<UpmsUserVo> getUsers(UpmsUserExample example) {
         return null;
     }
 

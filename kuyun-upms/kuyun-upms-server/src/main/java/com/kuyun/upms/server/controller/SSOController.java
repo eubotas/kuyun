@@ -3,10 +3,10 @@ package com.kuyun.upms.server.controller;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kuyun.common.base.BaseController;
+import com.kuyun.common.base.BaseResult;
 import com.kuyun.common.netease.SMSUtil;
 import com.kuyun.common.util.MD5Util;
 import com.kuyun.common.util.RedisUtil;
-import com.kuyun.common.util.StringUtil;
 import com.kuyun.upms.client.shiro.session.UpmsSession;
 import com.kuyun.upms.client.shiro.session.UpmsSessionDao;
 import com.kuyun.upms.common.constant.UpmsResult;
@@ -18,7 +18,6 @@ import io.swagger.annotations.ApiOperation;
 import net.sf.json.JSONArray;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
@@ -35,8 +34,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URLEncoder;
 import java.util.*;
@@ -104,16 +105,17 @@ public class SSOController extends BaseController {
 
     @ApiOperation(value = "登录")
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login(HttpServletRequest request) {
+    public String login(HttpServletRequest request, ServletResponse response) {
         Subject subject = SecurityUtils.getSubject();
         Session session = subject.getSession();
         String serverSessionId = session.getId().toString();
         // 判断是否已登录，如果已登录，则回跳
         String code = RedisUtil.get(kuyun_UPMS_SERVER_SESSION_ID + "_" + serverSessionId);
+
+        // 回跳
+        String backurl = request.getParameter("backurl");
         // code校验值
         if (StringUtils.isNotBlank(code)) {
-            // 回跳
-            String backurl = request.getParameter("backurl");
             String username = (String) subject.getPrincipal();
             if (StringUtils.isBlank(backurl)) {
                 backurl = "/";
@@ -126,8 +128,27 @@ public class SSOController extends BaseController {
             }
             _log.debug("认证中心帐号通过，带code回跳：{}", backurl);
             return "redirect:" + backurl;
+        }else {
+            if (StringUtils.isBlank(backurl)) {
+                return "/sso/login.jsp";
+            }else {
+                handleSessionTimeOut(response);
+            }
+            return null;
         }
-        return "/sso/login.jsp";
+
+    }
+
+    private void handleSessionTimeOut(ServletResponse response){
+        BaseResult result = new BaseResult(401, "Unauthorized", null);
+        String json = new Gson().toJson(result);
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        try {
+            response.getWriter().write(json);
+        } catch (IOException e) {
+            _log.error("Send Time Out Response Error:"+e.getMessage());
+        }
     }
 
     @ApiOperation(value = "登录")

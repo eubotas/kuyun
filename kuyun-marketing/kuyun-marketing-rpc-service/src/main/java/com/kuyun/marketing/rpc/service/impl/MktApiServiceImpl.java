@@ -58,8 +58,8 @@ public class MktApiServiceImpl implements MktApiService {
         return mktApiMapper.getSmsList(vo);
     }
 
-    public List<UpmsUserVo> getUsers(){
-        List<UpmsUserVo> result = getUpmsUserVos(new UpmsUserExample());
+    public List<UpmsUserVo> getUsers(UpmsUserExample example){
+        List<UpmsUserVo> result = getUpmsUserVos(example);
         return result;
     }
 
