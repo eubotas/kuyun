@@ -25,11 +25,11 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
-import com.kuyun.eam.admin.util.EamUtils_;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.EamTicketType;
 import com.kuyun.eam.dao.model.EamTicketTypeExample;
 import com.kuyun.eam.rpc.api.EamTicketTypeService;
+import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsOrganization;
 
 import io.swagger.annotations.Api;
@@ -53,7 +53,7 @@ public class EamTicketTypeController extends BaseController {
 	private EamTicketTypeService eamTicketTypeService;
 
 	@Autowired
-	private EamUtils_ eamUtils_;
+	private BaseEntityUtil baseEntityUtil;
 
 
 	@ApiOperation(value = "工单类型管理首页")
@@ -79,7 +79,7 @@ public class EamTicketTypeController extends BaseController {
 			eamTicketTypeExample.setOrderByClause(sort + " " + order);
 		}
 
-		UpmsOrganization organization = eamUtils_.getCurrentUserParentOrignization();
+		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
 		if (organization != null){
 			eamTicketTypeExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId())
@@ -114,7 +114,7 @@ public class EamTicketTypeController extends BaseController {
 		if (!result.isSuccess()) {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
-		eamUtils_.addAddtionalValue(ticketType);
+		baseEntityUtil.addAddtionalValue(ticketType);
 		int count = eamTicketTypeService.insertSelective(ticketType);
 		return new EamResult(SUCCESS, count);
 	}
@@ -152,7 +152,7 @@ public class EamTicketTypeController extends BaseController {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
 		ticketType.setId(id);
-		eamUtils_.updateAddtionalValue(ticketType);
+		baseEntityUtil.updateAddtionalValue(ticketType);
 		int count = eamTicketTypeService.updateByPrimaryKeySelective(ticketType);
 		return new EamResult(SUCCESS, count);
 	}

@@ -169,6 +169,39 @@
 		</if>
 	</select>
 
+	<resultMap id="EamTicketVOResultMap" type="com.kuyun.eam.vo.EamTicketVO" extends="com.kuyun.eam.dao.mapper.EamTicket.BaseResultMap">
+		<association property="ticketType" columnPrefix="tt_" resultMap="com.kuyun.eam.dao.mapper.EamTicketType.BaseResultMap"></association>
+	</resultMap>
+
+	<select id="selectTicket" parameterType="com.kuyun.eam.dao.model.EamTicketExample" resultMap="EamTicketVOResultMap">
+		select
+		t.*,
+		tt.id as tt_id, 
+		tt.name as tt_name, 
+		tt.create_user_id as tt_create_user_id, 
+		tt.create_time as tt_create_time, 
+		tt.update_user_id as tt_update_user_id, 
+		tt.update_time as tt_update_time,
+		tt.delete_flag as tt_delete_flag, 
+    		tt.organization_id as tt_organization_id
+		from eam_ticket t
+		LEFT OUTER JOIN eam_ticket_type tt ON t.ticket_type_id = tt.id
+		<if test="_parameter != null">
+      		<include refid="com.kuyun.eam.dao.mapper.EamTicket.Example_Where_Clause" />
+    		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
 	<!-- 缓存 -->
 	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 

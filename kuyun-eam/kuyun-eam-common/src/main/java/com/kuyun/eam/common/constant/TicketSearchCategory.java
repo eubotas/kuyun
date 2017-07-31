@@ -1,4 +1,4 @@
-package com.kuyun.eam.admin.util;
+package com.kuyun.eam.common.constant;
 
 public enum TicketSearchCategory {
 	

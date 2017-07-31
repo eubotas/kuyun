@@ -17,15 +17,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kuyun.common.base.BaseController;
-import com.kuyun.eam.admin.util.EamUtils_;
-import com.kuyun.eam.admin.util.TicketSearchCategory;
+import com.kuyun.eam.common.constant.TicketSearchCategory;
 import com.kuyun.eam.common.constant.TicketStatus;
-import com.kuyun.eam.dao.model.EamTicket;
 import com.kuyun.eam.dao.model.EamTicketExample;
 import com.kuyun.eam.dao.model.EamTicketType;
 import com.kuyun.eam.dao.model.EamTicketTypeExample;
+import com.kuyun.eam.rpc.api.EamApiService;
 import com.kuyun.eam.rpc.api.EamTicketService;
 import com.kuyun.eam.rpc.api.EamTicketTypeService;
+import com.kuyun.eam.vo.EamTicketVO;
+import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsOrganization;
 
 import io.swagger.annotations.Api;
@@ -47,9 +48,12 @@ public class EamTicketController extends BaseController {
 
 	@Autowired
 	private EamTicketTypeService eamTicketTypeService;
+	
+	@Autowired
+	private EamApiService eamApiService;
 
 	@Autowired
-	private EamUtils_ eamUtils_;
+	private BaseEntityUtil baseEntityUtil;
 
 
 	@ApiOperation(value = "工单管理首页")
@@ -86,10 +90,10 @@ public class EamTicketController extends BaseController {
 
 		switch (TicketSearchCategory.getCategroy(category)) {
 		case MY_OPEN:
-			eamTicketExample.createCriteria().andExecutorIdEqualTo(eamUtils_.getCurrentUser().getUserId()).andStatusNotEqualTo(TicketStatus.NO_DEAL_WITH.getName()).andStatusNotEqualTo(TicketStatus.RESOLVED.getName());
+			eamTicketExample.createCriteria().andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId()).andStatusNotEqualTo(TicketStatus.NO_DEAL_WITH.getName()).andStatusNotEqualTo(TicketStatus.RESOLVED.getName());
 			break;
 		case MY_ALL:
-			eamTicketExample.createCriteria().andExecutorIdEqualTo(eamUtils_.getCurrentUser().getUserId());
+			eamTicketExample.createCriteria().andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
 			break;
 		case OPEN:
 			eamTicketExample.createCriteria().andStatusNotEqualTo(TicketStatus.NO_DEAL_WITH.getName()).andStatusNotEqualTo(TicketStatus.RESOLVED.getName());
@@ -99,7 +103,7 @@ public class EamTicketController extends BaseController {
 			break;
 		}
 		
-		UpmsOrganization organization = eamUtils_.getCurrentUserParentOrignization();
+		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
 		if (organization != null){
 			eamTicketExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId())
@@ -107,7 +111,7 @@ public class EamTicketController extends BaseController {
 		}
 
 
-		List<EamTicket> rows = eamTicketService.selectByExample(eamTicketExample);
+		List<EamTicketVO> rows = eamApiService.selectTicket(eamTicketExample);
 //		System.out.println("rows:");
 //		for (EamTicket ticket : rows) {
 //			System.out.println(ticket.toString());
