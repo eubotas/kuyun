@@ -1,10 +1,7 @@
 package com.kuyun.eam.rpc.api;
 
 import com.kuyun.eam.dao.model.EamInventory;
-import com.kuyun.eam.vo.EamInventoryVO;
-import com.kuyun.eam.vo.EamLocationVO;
-import com.kuyun.eam.vo.EamMaintenanceVO;
-import com.kuyun.eam.vo.EamPartVO;
+import com.kuyun.eam.vo.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,6 +42,11 @@ public class EamApiServiceMock implements EamApiService {
 
     @Override
     public Integer outTask(EamInventory inventory) {
+        return null;
+    }
+
+    @Override
+    public List<EamSensorDataVO> selectEamSensorData(EamSensorVO sensorVO) {
         return null;
     }
 }

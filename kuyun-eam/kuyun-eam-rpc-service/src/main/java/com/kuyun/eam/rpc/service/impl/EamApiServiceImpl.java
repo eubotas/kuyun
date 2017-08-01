@@ -5,10 +5,7 @@ import com.kuyun.eam.dao.model.EamInventoryExample;
 import com.kuyun.eam.rpc.api.EamApiService;
 import com.kuyun.eam.rpc.api.EamInventoryService;
 import com.kuyun.eam.rpc.mapper.EamApiMapper;
-import com.kuyun.eam.vo.EamInventoryVO;
-import com.kuyun.eam.vo.EamLocationVO;
-import com.kuyun.eam.vo.EamMaintenanceVO;
-import com.kuyun.eam.vo.EamPartVO;
+import com.kuyun.eam.vo.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,6 +82,11 @@ public class EamApiServiceImpl implements EamApiService {
             return 1;
         }
 
+    }
+
+    @Override
+    public List<EamSensorDataVO> selectEamSensorData(EamSensorVO sensorVO){
+        return eamApiMapper.selectEamSensorData(sensorVO);
     }
 
 }

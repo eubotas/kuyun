@@ -1,10 +1,7 @@
 package com.kuyun.eam.rpc.api;
 
 import com.kuyun.eam.dao.model.*;
-import com.kuyun.eam.vo.EamInventoryVO;
-import com.kuyun.eam.vo.EamMaintenanceVO;
-import com.kuyun.eam.vo.EamLocationVO;
-import com.kuyun.eam.vo.EamPartVO;
+import com.kuyun.eam.vo.*;
 
 import java.util.List;
 
@@ -24,5 +21,7 @@ public interface EamApiService {
     Integer inTask(EamInventory inventory);
 
     Integer outTask(EamInventory inventory);
+
+    List<EamSensorDataVO> selectEamSensorData(EamSensorVO sensorVO);
 
 }

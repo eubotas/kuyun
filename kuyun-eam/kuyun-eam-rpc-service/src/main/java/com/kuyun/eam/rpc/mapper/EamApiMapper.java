@@ -1,9 +1,6 @@
 package com.kuyun.eam.rpc.mapper;
 
-import com.kuyun.eam.vo.EamInventoryVO;
-import com.kuyun.eam.vo.EamLocationVO;
-import com.kuyun.eam.vo.EamMaintenanceVO;
-import com.kuyun.eam.vo.EamPartVO;
+import com.kuyun.eam.vo.*;
 
 import java.util.List;
 
@@ -19,4 +16,6 @@ public interface EamApiMapper {
     List<EamPartVO> selectPart(EamPartVO partVO);
 
     List<EamInventoryVO> selectInventory(EamInventoryVO inventoryVO);
+
+    List<EamSensorDataVO> selectEamSensorData(EamSensorVO sensorVO);
 }
