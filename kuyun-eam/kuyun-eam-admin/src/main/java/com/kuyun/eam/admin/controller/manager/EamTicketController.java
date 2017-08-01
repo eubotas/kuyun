@@ -59,13 +59,13 @@ public class EamTicketController extends BaseController {
 	@ApiOperation(value = "工单管理首页")
 	@RequiresPermissions("eam:ticket:read")
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String index(@RequestParam(required = false, defaultValue = "myAll", value = "category") String category, ModelMap modelMap) {
-		List<EamTicketType> types = eamTicketTypeService.selectByExample(new EamTicketTypeExample());
-		Map<Integer,String> typeKeyValue = new HashMap<Integer, String>();
-		for (EamTicketType type: types) {
-			typeKeyValue.put(type.getId(), type.getName());
-		}
-		modelMap.put("typeKeyValue", typeKeyValue);
+	public String index(@RequestParam(required = false, defaultValue = "myAll", value = "category") String category , ModelMap modelMap) {
+//		List<EamTicketType> types = eamTicketTypeService.selectByExample(new EamTicketTypeExample());
+//		Map<Integer,String> typeKeyValue = new HashMap<Integer, String>();
+//		for (EamTicketType type: types) {
+//			typeKeyValue.put(type.getId(), type.getName());
+//		}
+//		modelMap.put("typeKeyValue", typeKeyValue);
 		modelMap.put("category", category);
 		
 		return "/manage/ticket/index.jsp";
@@ -109,6 +109,7 @@ public class EamTicketController extends BaseController {
 			eamTicketExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId())
 			.andDeleteFlagEqualTo(Boolean.FALSE);
 		}
+		
 
 
 		List<EamTicketVO> rows = eamApiService.selectTicket(eamTicketExample);

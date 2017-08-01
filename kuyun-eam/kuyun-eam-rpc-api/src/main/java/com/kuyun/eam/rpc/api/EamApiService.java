@@ -1,13 +1,14 @@
 package com.kuyun.eam.rpc.api;
 
-import com.kuyun.eam.dao.model.*;
+import java.util.List;
+
+import com.kuyun.eam.dao.model.EamInventory;
+import com.kuyun.eam.dao.model.EamTicketExample;
 import com.kuyun.eam.vo.EamInventoryVO;
-import com.kuyun.eam.vo.EamMaintenanceVO;
 import com.kuyun.eam.vo.EamLocationVO;
+import com.kuyun.eam.vo.EamMaintenanceVO;
 import com.kuyun.eam.vo.EamPartVO;
 import com.kuyun.eam.vo.EamTicketVO;
-
-import java.util.List;
 
 /**
  * Created by user on 4/24/2017.

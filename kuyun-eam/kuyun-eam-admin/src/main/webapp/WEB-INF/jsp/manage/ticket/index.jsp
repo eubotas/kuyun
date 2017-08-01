@@ -56,7 +56,8 @@ $(function() {
 			{field: 'ck', checkbox: true},
 			{field: 'description', title: '工单名称', sortable: true, align: 'center'},
 			{field: 'priority', title: '优先级'},
-			{field: 'executorId', title: '执行人'},
+			{field: 'ticketType.name', title: '工单类型'},
+			{field: 'realname', title: '执行人'},
 			{field: 'status', title: '当前状态'},
 			{field: 'endDate', title: '完成日期', formatter:'timeFormatter'},
 			{field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}

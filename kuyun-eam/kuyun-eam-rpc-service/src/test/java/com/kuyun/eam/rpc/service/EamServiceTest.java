@@ -1,16 +1,9 @@
 package com.kuyun.eam.rpc.service;
 
 
-import com.kuyun.eam.dao.model.*;
-import com.kuyun.eam.rpc.api.EamApiService;
-import com.kuyun.eam.rpc.api.EamEquipmentModelService;
-import com.kuyun.eam.rpc.api.EamTicketRecordService;
-import com.kuyun.eam.rpc.api.EamTicketService;
-import com.kuyun.eam.rpc.api.EamTicketTypeService;
-import com.kuyun.eam.rpc.api.EamWarehouseService;
-import com.kuyun.eam.vo.EamLocationVO;
-import com.kuyun.eam.vo.EamMaintenanceVO;
-import com.kuyun.upms.dao.model.UpmsOrganization;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
@@ -19,11 +12,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.kuyun.eam.dao.model.EamTicketExample;
+import com.kuyun.eam.dao.model.EamTicketType;
+import com.kuyun.eam.dao.model.EamTicketTypeExample;
+import com.kuyun.eam.rpc.api.EamApiService;
+import com.kuyun.eam.rpc.api.EamEquipmentModelService;
+import com.kuyun.eam.rpc.api.EamTicketRecordService;
+import com.kuyun.eam.rpc.api.EamTicketService;
+import com.kuyun.eam.rpc.api.EamTicketTypeService;
+import com.kuyun.eam.rpc.api.EamWarehouseService;
+import com.kuyun.eam.vo.EamTicketVO;
 
 /**
  * 单元测试
@@ -122,6 +121,18 @@ public class EamServiceTest {
     		Map<String, Object> result = new HashMap<>();
     		result.put("rows", rows);
     		result.put("total", total);
+    		
+    		EamTicketExample eamTicketExample = new EamTicketExample();
+    		eamTicketExample.setOffset(offset);
+    		eamTicketExample.setLimit(limit);
+    		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
+    			eamTicketExample.setOrderByClause(sort + " " + order);
+    		}
+    		
+    		List<EamTicketVO> voRows = eamApiService.selectTicket(eamTicketExample);
+    		total = eamTicketService.countByExample(eamTicketExample);
+    		System.out.println(total);
+    		
     		
     		 
     }

@@ -18,9 +18,6 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
     <result column="organization_id" jdbcType="INTEGER" property="organizationId" />
-    <result column="grm_variable" jdbcType="VARCHAR" property="grmVariable" />
-    <result column="grm_action" jdbcType="VARCHAR" property="grmAction" />
-    <result column="grm_variable_value" jdbcType="VARCHAR" property="grmVariableValue" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -83,7 +80,7 @@
   <sql id="Base_Column_List">
     sensor_id, equipment_id, equipment_model_property_id, salve_id, function_code, address, 
     data_format, period, quantity, write_number, create_user_id, create_time, update_user_id, 
-    update_time, delete_flag, organization_id, grm_variable, grm_action, grm_variable_value
+    update_time, delete_flag, organization_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamSensorExample" resultMap="BaseResultMap">
     select
@@ -129,15 +126,13 @@
       data_format, period, quantity, 
       write_number, create_user_id, create_time, 
       update_user_id, update_time, delete_flag, 
-      organization_id, grm_variable, grm_action, 
-      grm_variable_value)
+      organization_id)
     values (#{sensorId,jdbcType=INTEGER}, #{equipmentId,jdbcType=VARCHAR}, #{equipmentModelPropertyId,jdbcType=INTEGER}, 
       #{salveId,jdbcType=INTEGER}, #{functionCode,jdbcType=INTEGER}, #{address,jdbcType=INTEGER}, 
       #{dataFormat,jdbcType=VARCHAR}, #{period,jdbcType=INTEGER}, #{quantity,jdbcType=INTEGER}, 
       #{writeNumber,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
-      #{organizationId,jdbcType=INTEGER}, #{grmVariable,jdbcType=VARCHAR}, #{grmAction,jdbcType=VARCHAR}, 
-      #{grmVariableValue,jdbcType=VARCHAR})
+      #{organizationId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamSensor">
     insert into eam_sensor
@@ -190,15 +185,6 @@
       <if test="organizationId != null">
         organization_id,
       </if>
-      <if test="grmVariable != null">
-        grm_variable,
-      </if>
-      <if test="grmAction != null">
-        grm_action,
-      </if>
-      <if test="grmVariableValue != null">
-        grm_variable_value,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="sensorId != null">
@@ -248,15 +234,6 @@
       </if>
       <if test="organizationId != null">
         #{organizationId,jdbcType=INTEGER},
-      </if>
-      <if test="grmVariable != null">
-        #{grmVariable,jdbcType=VARCHAR},
-      </if>
-      <if test="grmAction != null">
-        #{grmAction,jdbcType=VARCHAR},
-      </if>
-      <if test="grmVariableValue != null">
-        #{grmVariableValue,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -317,15 +294,6 @@
       <if test="record.organizationId != null">
         organization_id = #{record.organizationId,jdbcType=INTEGER},
       </if>
-      <if test="record.grmVariable != null">
-        grm_variable = #{record.grmVariable,jdbcType=VARCHAR},
-      </if>
-      <if test="record.grmAction != null">
-        grm_action = #{record.grmAction,jdbcType=VARCHAR},
-      </if>
-      <if test="record.grmVariableValue != null">
-        grm_variable_value = #{record.grmVariableValue,jdbcType=VARCHAR},
-      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -348,10 +316,7 @@
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      organization_id = #{record.organizationId,jdbcType=INTEGER},
-      grm_variable = #{record.grmVariable,jdbcType=VARCHAR},
-      grm_action = #{record.grmAction,jdbcType=VARCHAR},
-      grm_variable_value = #{record.grmVariableValue,jdbcType=VARCHAR}
+      organization_id = #{record.organizationId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -404,15 +369,6 @@
       <if test="organizationId != null">
         organization_id = #{organizationId,jdbcType=INTEGER},
       </if>
-      <if test="grmVariable != null">
-        grm_variable = #{grmVariable,jdbcType=VARCHAR},
-      </if>
-      <if test="grmAction != null">
-        grm_action = #{grmAction,jdbcType=VARCHAR},
-      </if>
-      <if test="grmVariableValue != null">
-        grm_variable_value = #{grmVariableValue,jdbcType=VARCHAR},
-      </if>
     </set>
     where sensor_id = #{sensorId,jdbcType=INTEGER}
   </update>
@@ -432,10 +388,7 @@
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
-      organization_id = #{organizationId,jdbcType=INTEGER},
-      grm_variable = #{grmVariable,jdbcType=VARCHAR},
-      grm_action = #{grmAction,jdbcType=VARCHAR},
-      grm_variable_value = #{grmVariableValue,jdbcType=VARCHAR}
+      organization_id = #{organizationId,jdbcType=INTEGER}
     where sensor_id = #{sensorId,jdbcType=INTEGER}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />

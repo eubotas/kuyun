@@ -24,27 +24,6 @@ public class EamSensor extends BaseEntity implements Serializable {
 
     private Integer writeNumber;
 
-    /**
-     * 巨控
-     *
-     * @mbg.generated
-     */
-    private String grmVariable;
-
-    /**
-     * 巨控
-     *
-     * @mbg.generated
-     */
-    private String grmAction;
-
-    /**
-     * 巨控
-     *
-     * @mbg.generated
-     */
-    private String grmVariableValue;
-
     private static final long serialVersionUID = 1L;
 
     public Integer getSensorId() {
@@ -127,30 +106,6 @@ public class EamSensor extends BaseEntity implements Serializable {
         this.writeNumber = writeNumber;
     }
 
-    public String getGrmVariable() {
-        return grmVariable;
-    }
-
-    public void setGrmVariable(String grmVariable) {
-        this.grmVariable = grmVariable;
-    }
-
-    public String getGrmAction() {
-        return grmAction;
-    }
-
-    public void setGrmAction(String grmAction) {
-        this.grmAction = grmAction;
-    }
-
-    public String getGrmVariableValue() {
-        return grmVariableValue;
-    }
-
-    public void setGrmVariableValue(String grmVariableValue) {
-        this.grmVariableValue = grmVariableValue;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -167,9 +122,6 @@ public class EamSensor extends BaseEntity implements Serializable {
         sb.append(", period=").append(period);
         sb.append(", quantity=").append(quantity);
         sb.append(", writeNumber=").append(writeNumber);
-        sb.append(", grmVariable=").append(grmVariable);
-        sb.append(", grmAction=").append(grmAction);
-        sb.append(", grmVariableValue=").append(grmVariableValue);
         sb.append("]");
         return sb.toString();
     }
@@ -201,10 +153,7 @@ public class EamSensor extends BaseEntity implements Serializable {
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getOrganizationId() == null ? other.getOrganizationId() == null : this.getOrganizationId().equals(other.getOrganizationId()))
-            && (this.getGrmVariable() == null ? other.getGrmVariable() == null : this.getGrmVariable().equals(other.getGrmVariable()))
-            && (this.getGrmAction() == null ? other.getGrmAction() == null : this.getGrmAction().equals(other.getGrmAction()))
-            && (this.getGrmVariableValue() == null ? other.getGrmVariableValue() == null : this.getGrmVariableValue().equals(other.getGrmVariableValue()));
+            && (this.getOrganizationId() == null ? other.getOrganizationId() == null : this.getOrganizationId().equals(other.getOrganizationId()));
     }
 
     @Override
@@ -227,9 +176,6 @@ public class EamSensor extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getOrganizationId() == null) ? 0 : getOrganizationId().hashCode());
-        result = prime * result + ((getGrmVariable() == null) ? 0 : getGrmVariable().hashCode());
-        result = prime * result + ((getGrmAction() == null) ? 0 : getGrmAction().hashCode());
-        result = prime * result + ((getGrmVariableValue() == null) ? 0 : getGrmVariableValue().hashCode());
         return result;
     }
 }

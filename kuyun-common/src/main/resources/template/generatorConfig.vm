@@ -68,15 +68,15 @@
 
                 #foreach($last_insert_id_table in $last_insert_id_tables.entrySet())
                     #if($!last_insert_id_table.key == $!table.table_name)
-                        <table tableName="$!table.table_name" domainObjectName="$!table.model_name">
+                        <table tableName="$!table.table_name" domainObjectName="$!table.model_name" #if($table.alias_name) alias="$table.alias_name"   #end >
                             <generatedKey column="$!last_insert_id_table.value" sqlStatement="MySql" identity="true" />
                         </table>
                     #else
-                        <table tableName="$!table.table_name" domainObjectName="$!table.model_name"></table>
+                        <table tableName="$!table.table_name" domainObjectName="$!table.model_name" #if($table.alias_name) alias="$table.alias_name"   #end></table>
                     #end
                 #end
             #else
-                <table tableName="$!table.table_name" domainObjectName="$!table.model_name"></table>
+                <table tableName="$!table.table_name" domainObjectName="$!table.model_name" #if($table.alias_name) alias="$table.alias_name"   #end></table>
             #end
 
         #end

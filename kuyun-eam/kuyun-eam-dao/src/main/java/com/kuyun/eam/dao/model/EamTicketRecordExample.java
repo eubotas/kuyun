@@ -129,622 +129,622 @@ public class EamTicketRecordExample implements Serializable {
         }
 
         public Criteria andIdIsNull() {
-            addCriterion("id is null");
+            addCriterion("eam_ticket_record.id is null");
             return (Criteria) this;
         }
 
         public Criteria andIdIsNotNull() {
-            addCriterion("id is not null");
+            addCriterion("eam_ticket_record.id is not null");
             return (Criteria) this;
         }
 
         public Criteria andIdEqualTo(Integer value) {
-            addCriterion("id =", value, "id");
+            addCriterion("eam_ticket_record.id =", value, "id");
             return (Criteria) this;
         }
 
         public Criteria andIdNotEqualTo(Integer value) {
-            addCriterion("id <>", value, "id");
+            addCriterion("eam_ticket_record.id <>", value, "id");
             return (Criteria) this;
         }
 
         public Criteria andIdGreaterThan(Integer value) {
-            addCriterion("id >", value, "id");
+            addCriterion("eam_ticket_record.id >", value, "id");
             return (Criteria) this;
         }
 
         public Criteria andIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("id >=", value, "id");
+            addCriterion("eam_ticket_record.id >=", value, "id");
             return (Criteria) this;
         }
 
         public Criteria andIdLessThan(Integer value) {
-            addCriterion("id <", value, "id");
+            addCriterion("eam_ticket_record.id <", value, "id");
             return (Criteria) this;
         }
 
         public Criteria andIdLessThanOrEqualTo(Integer value) {
-            addCriterion("id <=", value, "id");
+            addCriterion("eam_ticket_record.id <=", value, "id");
             return (Criteria) this;
         }
 
         public Criteria andIdIn(List<Integer> values) {
-            addCriterion("id in", values, "id");
+            addCriterion("eam_ticket_record.id in", values, "id");
             return (Criteria) this;
         }
 
         public Criteria andIdNotIn(List<Integer> values) {
-            addCriterion("id not in", values, "id");
+            addCriterion("eam_ticket_record.id not in", values, "id");
             return (Criteria) this;
         }
 
         public Criteria andIdBetween(Integer value1, Integer value2) {
-            addCriterion("id between", value1, value2, "id");
+            addCriterion("eam_ticket_record.id between", value1, value2, "id");
             return (Criteria) this;
         }
 
         public Criteria andIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("id not between", value1, value2, "id");
+            addCriterion("eam_ticket_record.id not between", value1, value2, "id");
             return (Criteria) this;
         }
 
         public Criteria andTicketIdIsNull() {
-            addCriterion("ticket_id is null");
+            addCriterion("eam_ticket_record.ticket_id is null");
             return (Criteria) this;
         }
 
         public Criteria andTicketIdIsNotNull() {
-            addCriterion("ticket_id is not null");
+            addCriterion("eam_ticket_record.ticket_id is not null");
             return (Criteria) this;
         }
 
         public Criteria andTicketIdEqualTo(Integer value) {
-            addCriterion("ticket_id =", value, "ticketId");
+            addCriterion("eam_ticket_record.ticket_id =", value, "ticketId");
             return (Criteria) this;
         }
 
         public Criteria andTicketIdNotEqualTo(Integer value) {
-            addCriterion("ticket_id <>", value, "ticketId");
+            addCriterion("eam_ticket_record.ticket_id <>", value, "ticketId");
             return (Criteria) this;
         }
 
         public Criteria andTicketIdGreaterThan(Integer value) {
-            addCriterion("ticket_id >", value, "ticketId");
+            addCriterion("eam_ticket_record.ticket_id >", value, "ticketId");
             return (Criteria) this;
         }
 
         public Criteria andTicketIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("ticket_id >=", value, "ticketId");
+            addCriterion("eam_ticket_record.ticket_id >=", value, "ticketId");
             return (Criteria) this;
         }
 
         public Criteria andTicketIdLessThan(Integer value) {
-            addCriterion("ticket_id <", value, "ticketId");
+            addCriterion("eam_ticket_record.ticket_id <", value, "ticketId");
             return (Criteria) this;
         }
 
         public Criteria andTicketIdLessThanOrEqualTo(Integer value) {
-            addCriterion("ticket_id <=", value, "ticketId");
+            addCriterion("eam_ticket_record.ticket_id <=", value, "ticketId");
             return (Criteria) this;
         }
 
         public Criteria andTicketIdIn(List<Integer> values) {
-            addCriterion("ticket_id in", values, "ticketId");
+            addCriterion("eam_ticket_record.ticket_id in", values, "ticketId");
             return (Criteria) this;
         }
 
         public Criteria andTicketIdNotIn(List<Integer> values) {
-            addCriterion("ticket_id not in", values, "ticketId");
+            addCriterion("eam_ticket_record.ticket_id not in", values, "ticketId");
             return (Criteria) this;
         }
 
         public Criteria andTicketIdBetween(Integer value1, Integer value2) {
-            addCriterion("ticket_id between", value1, value2, "ticketId");
+            addCriterion("eam_ticket_record.ticket_id between", value1, value2, "ticketId");
             return (Criteria) this;
         }
 
         public Criteria andTicketIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("ticket_id not between", value1, value2, "ticketId");
+            addCriterion("eam_ticket_record.ticket_id not between", value1, value2, "ticketId");
             return (Criteria) this;
         }
 
         public Criteria andStepIsNull() {
-            addCriterion("step is null");
+            addCriterion("eam_ticket_record.step is null");
             return (Criteria) this;
         }
 
         public Criteria andStepIsNotNull() {
-            addCriterion("step is not null");
+            addCriterion("eam_ticket_record.step is not null");
             return (Criteria) this;
         }
 
         public Criteria andStepEqualTo(String value) {
-            addCriterion("step =", value, "step");
+            addCriterion("eam_ticket_record.step =", value, "step");
             return (Criteria) this;
         }
 
         public Criteria andStepNotEqualTo(String value) {
-            addCriterion("step <>", value, "step");
+            addCriterion("eam_ticket_record.step <>", value, "step");
             return (Criteria) this;
         }
 
         public Criteria andStepGreaterThan(String value) {
-            addCriterion("step >", value, "step");
+            addCriterion("eam_ticket_record.step >", value, "step");
             return (Criteria) this;
         }
 
         public Criteria andStepGreaterThanOrEqualTo(String value) {
-            addCriterion("step >=", value, "step");
+            addCriterion("eam_ticket_record.step >=", value, "step");
             return (Criteria) this;
         }
 
         public Criteria andStepLessThan(String value) {
-            addCriterion("step <", value, "step");
+            addCriterion("eam_ticket_record.step <", value, "step");
             return (Criteria) this;
         }
 
         public Criteria andStepLessThanOrEqualTo(String value) {
-            addCriterion("step <=", value, "step");
+            addCriterion("eam_ticket_record.step <=", value, "step");
             return (Criteria) this;
         }
 
         public Criteria andStepLike(String value) {
-            addCriterion("step like", value, "step");
+            addCriterion("eam_ticket_record.step like", value, "step");
             return (Criteria) this;
         }
 
         public Criteria andStepNotLike(String value) {
-            addCriterion("step not like", value, "step");
+            addCriterion("eam_ticket_record.step not like", value, "step");
             return (Criteria) this;
         }
 
         public Criteria andStepIn(List<String> values) {
-            addCriterion("step in", values, "step");
+            addCriterion("eam_ticket_record.step in", values, "step");
             return (Criteria) this;
         }
 
         public Criteria andStepNotIn(List<String> values) {
-            addCriterion("step not in", values, "step");
+            addCriterion("eam_ticket_record.step not in", values, "step");
             return (Criteria) this;
         }
 
         public Criteria andStepBetween(String value1, String value2) {
-            addCriterion("step between", value1, value2, "step");
+            addCriterion("eam_ticket_record.step between", value1, value2, "step");
             return (Criteria) this;
         }
 
         public Criteria andStepNotBetween(String value1, String value2) {
-            addCriterion("step not between", value1, value2, "step");
+            addCriterion("eam_ticket_record.step not between", value1, value2, "step");
             return (Criteria) this;
         }
 
         public Criteria andCommentsIsNull() {
-            addCriterion("comments is null");
+            addCriterion("eam_ticket_record.comments is null");
             return (Criteria) this;
         }
 
         public Criteria andCommentsIsNotNull() {
-            addCriterion("comments is not null");
+            addCriterion("eam_ticket_record.comments is not null");
             return (Criteria) this;
         }
 
         public Criteria andCommentsEqualTo(String value) {
-            addCriterion("comments =", value, "comments");
+            addCriterion("eam_ticket_record.comments =", value, "comments");
             return (Criteria) this;
         }
 
         public Criteria andCommentsNotEqualTo(String value) {
-            addCriterion("comments <>", value, "comments");
+            addCriterion("eam_ticket_record.comments <>", value, "comments");
             return (Criteria) this;
         }
 
         public Criteria andCommentsGreaterThan(String value) {
-            addCriterion("comments >", value, "comments");
+            addCriterion("eam_ticket_record.comments >", value, "comments");
             return (Criteria) this;
         }
 
         public Criteria andCommentsGreaterThanOrEqualTo(String value) {
-            addCriterion("comments >=", value, "comments");
+            addCriterion("eam_ticket_record.comments >=", value, "comments");
             return (Criteria) this;
         }
 
         public Criteria andCommentsLessThan(String value) {
-            addCriterion("comments <", value, "comments");
+            addCriterion("eam_ticket_record.comments <", value, "comments");
             return (Criteria) this;
         }
 
         public Criteria andCommentsLessThanOrEqualTo(String value) {
-            addCriterion("comments <=", value, "comments");
+            addCriterion("eam_ticket_record.comments <=", value, "comments");
             return (Criteria) this;
         }
 
         public Criteria andCommentsLike(String value) {
-            addCriterion("comments like", value, "comments");
+            addCriterion("eam_ticket_record.comments like", value, "comments");
             return (Criteria) this;
         }
 
         public Criteria andCommentsNotLike(String value) {
-            addCriterion("comments not like", value, "comments");
+            addCriterion("eam_ticket_record.comments not like", value, "comments");
             return (Criteria) this;
         }
 
         public Criteria andCommentsIn(List<String> values) {
-            addCriterion("comments in", values, "comments");
+            addCriterion("eam_ticket_record.comments in", values, "comments");
             return (Criteria) this;
         }
 
         public Criteria andCommentsNotIn(List<String> values) {
-            addCriterion("comments not in", values, "comments");
+            addCriterion("eam_ticket_record.comments not in", values, "comments");
             return (Criteria) this;
         }
 
         public Criteria andCommentsBetween(String value1, String value2) {
-            addCriterion("comments between", value1, value2, "comments");
+            addCriterion("eam_ticket_record.comments between", value1, value2, "comments");
             return (Criteria) this;
         }
 
         public Criteria andCommentsNotBetween(String value1, String value2) {
-            addCriterion("comments not between", value1, value2, "comments");
+            addCriterion("eam_ticket_record.comments not between", value1, value2, "comments");
             return (Criteria) this;
         }
 
         public Criteria andCreateUserIdIsNull() {
-            addCriterion("create_user_id is null");
+            addCriterion("eam_ticket_record.create_user_id is null");
             return (Criteria) this;
         }
 
         public Criteria andCreateUserIdIsNotNull() {
-            addCriterion("create_user_id is not null");
+            addCriterion("eam_ticket_record.create_user_id is not null");
             return (Criteria) this;
         }
 
         public Criteria andCreateUserIdEqualTo(Integer value) {
-            addCriterion("create_user_id =", value, "createUserId");
+            addCriterion("eam_ticket_record.create_user_id =", value, "createUserId");
             return (Criteria) this;
         }
 
         public Criteria andCreateUserIdNotEqualTo(Integer value) {
-            addCriterion("create_user_id <>", value, "createUserId");
+            addCriterion("eam_ticket_record.create_user_id <>", value, "createUserId");
             return (Criteria) this;
         }
 
         public Criteria andCreateUserIdGreaterThan(Integer value) {
-            addCriterion("create_user_id >", value, "createUserId");
+            addCriterion("eam_ticket_record.create_user_id >", value, "createUserId");
             return (Criteria) this;
         }
 
         public Criteria andCreateUserIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("create_user_id >=", value, "createUserId");
+            addCriterion("eam_ticket_record.create_user_id >=", value, "createUserId");
             return (Criteria) this;
         }
 
         public Criteria andCreateUserIdLessThan(Integer value) {
-            addCriterion("create_user_id <", value, "createUserId");
+            addCriterion("eam_ticket_record.create_user_id <", value, "createUserId");
             return (Criteria) this;
         }
 
         public Criteria andCreateUserIdLessThanOrEqualTo(Integer value) {
-            addCriterion("create_user_id <=", value, "createUserId");
+            addCriterion("eam_ticket_record.create_user_id <=", value, "createUserId");
             return (Criteria) this;
         }
 
         public Criteria andCreateUserIdIn(List<Integer> values) {
-            addCriterion("create_user_id in", values, "createUserId");
+            addCriterion("eam_ticket_record.create_user_id in", values, "createUserId");
             return (Criteria) this;
         }
 
         public Criteria andCreateUserIdNotIn(List<Integer> values) {
-            addCriterion("create_user_id not in", values, "createUserId");
+            addCriterion("eam_ticket_record.create_user_id not in", values, "createUserId");
             return (Criteria) this;
         }
 
         public Criteria andCreateUserIdBetween(Integer value1, Integer value2) {
-            addCriterion("create_user_id between", value1, value2, "createUserId");
+            addCriterion("eam_ticket_record.create_user_id between", value1, value2, "createUserId");
             return (Criteria) this;
         }
 
         public Criteria andCreateUserIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("create_user_id not between", value1, value2, "createUserId");
+            addCriterion("eam_ticket_record.create_user_id not between", value1, value2, "createUserId");
             return (Criteria) this;
         }
 
         public Criteria andCreateTimeIsNull() {
-            addCriterion("create_time is null");
+            addCriterion("eam_ticket_record.create_time is null");
             return (Criteria) this;
         }
 
         public Criteria andCreateTimeIsNotNull() {
-            addCriterion("create_time is not null");
+            addCriterion("eam_ticket_record.create_time is not null");
             return (Criteria) this;
         }
 
         public Criteria andCreateTimeEqualTo(Date value) {
-            addCriterion("create_time =", value, "createTime");
+            addCriterion("eam_ticket_record.create_time =", value, "createTime");
             return (Criteria) this;
         }
 
         public Criteria andCreateTimeNotEqualTo(Date value) {
-            addCriterion("create_time <>", value, "createTime");
+            addCriterion("eam_ticket_record.create_time <>", value, "createTime");
             return (Criteria) this;
         }
 
         public Criteria andCreateTimeGreaterThan(Date value) {
-            addCriterion("create_time >", value, "createTime");
+            addCriterion("eam_ticket_record.create_time >", value, "createTime");
             return (Criteria) this;
         }
 
         public Criteria andCreateTimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("create_time >=", value, "createTime");
+            addCriterion("eam_ticket_record.create_time >=", value, "createTime");
             return (Criteria) this;
         }
 
         public Criteria andCreateTimeLessThan(Date value) {
-            addCriterion("create_time <", value, "createTime");
+            addCriterion("eam_ticket_record.create_time <", value, "createTime");
             return (Criteria) this;
         }
 
         public Criteria andCreateTimeLessThanOrEqualTo(Date value) {
-            addCriterion("create_time <=", value, "createTime");
+            addCriterion("eam_ticket_record.create_time <=", value, "createTime");
             return (Criteria) this;
         }
 
         public Criteria andCreateTimeIn(List<Date> values) {
-            addCriterion("create_time in", values, "createTime");
+            addCriterion("eam_ticket_record.create_time in", values, "createTime");
             return (Criteria) this;
         }
 
         public Criteria andCreateTimeNotIn(List<Date> values) {
-            addCriterion("create_time not in", values, "createTime");
+            addCriterion("eam_ticket_record.create_time not in", values, "createTime");
             return (Criteria) this;
         }
 
         public Criteria andCreateTimeBetween(Date value1, Date value2) {
-            addCriterion("create_time between", value1, value2, "createTime");
+            addCriterion("eam_ticket_record.create_time between", value1, value2, "createTime");
             return (Criteria) this;
         }
 
         public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
-            addCriterion("create_time not between", value1, value2, "createTime");
+            addCriterion("eam_ticket_record.create_time not between", value1, value2, "createTime");
             return (Criteria) this;
         }
 
         public Criteria andUpdateUserIdIsNull() {
-            addCriterion("update_user_id is null");
+            addCriterion("eam_ticket_record.update_user_id is null");
             return (Criteria) this;
         }
 
         public Criteria andUpdateUserIdIsNotNull() {
-            addCriterion("update_user_id is not null");
+            addCriterion("eam_ticket_record.update_user_id is not null");
             return (Criteria) this;
         }
 
         public Criteria andUpdateUserIdEqualTo(Integer value) {
-            addCriterion("update_user_id =", value, "updateUserId");
+            addCriterion("eam_ticket_record.update_user_id =", value, "updateUserId");
             return (Criteria) this;
         }
 
         public Criteria andUpdateUserIdNotEqualTo(Integer value) {
-            addCriterion("update_user_id <>", value, "updateUserId");
+            addCriterion("eam_ticket_record.update_user_id <>", value, "updateUserId");
             return (Criteria) this;
         }
 
         public Criteria andUpdateUserIdGreaterThan(Integer value) {
-            addCriterion("update_user_id >", value, "updateUserId");
+            addCriterion("eam_ticket_record.update_user_id >", value, "updateUserId");
             return (Criteria) this;
         }
 
         public Criteria andUpdateUserIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("update_user_id >=", value, "updateUserId");
+            addCriterion("eam_ticket_record.update_user_id >=", value, "updateUserId");
             return (Criteria) this;
         }
 
         public Criteria andUpdateUserIdLessThan(Integer value) {
-            addCriterion("update_user_id <", value, "updateUserId");
+            addCriterion("eam_ticket_record.update_user_id <", value, "updateUserId");
             return (Criteria) this;
         }
 
         public Criteria andUpdateUserIdLessThanOrEqualTo(Integer value) {
-            addCriterion("update_user_id <=", value, "updateUserId");
+            addCriterion("eam_ticket_record.update_user_id <=", value, "updateUserId");
             return (Criteria) this;
         }
 
         public Criteria andUpdateUserIdIn(List<Integer> values) {
-            addCriterion("update_user_id in", values, "updateUserId");
+            addCriterion("eam_ticket_record.update_user_id in", values, "updateUserId");
             return (Criteria) this;
         }
 
         public Criteria andUpdateUserIdNotIn(List<Integer> values) {
-            addCriterion("update_user_id not in", values, "updateUserId");
+            addCriterion("eam_ticket_record.update_user_id not in", values, "updateUserId");
             return (Criteria) this;
         }
 
         public Criteria andUpdateUserIdBetween(Integer value1, Integer value2) {
-            addCriterion("update_user_id between", value1, value2, "updateUserId");
+            addCriterion("eam_ticket_record.update_user_id between", value1, value2, "updateUserId");
             return (Criteria) this;
         }
 
         public Criteria andUpdateUserIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("update_user_id not between", value1, value2, "updateUserId");
+            addCriterion("eam_ticket_record.update_user_id not between", value1, value2, "updateUserId");
             return (Criteria) this;
         }
 
         public Criteria andUpdateTimeIsNull() {
-            addCriterion("update_time is null");
+            addCriterion("eam_ticket_record.update_time is null");
             return (Criteria) this;
         }
 
         public Criteria andUpdateTimeIsNotNull() {
-            addCriterion("update_time is not null");
+            addCriterion("eam_ticket_record.update_time is not null");
             return (Criteria) this;
         }
 
         public Criteria andUpdateTimeEqualTo(Date value) {
-            addCriterion("update_time =", value, "updateTime");
+            addCriterion("eam_ticket_record.update_time =", value, "updateTime");
             return (Criteria) this;
         }
 
         public Criteria andUpdateTimeNotEqualTo(Date value) {
-            addCriterion("update_time <>", value, "updateTime");
+            addCriterion("eam_ticket_record.update_time <>", value, "updateTime");
             return (Criteria) this;
         }
 
         public Criteria andUpdateTimeGreaterThan(Date value) {
-            addCriterion("update_time >", value, "updateTime");
+            addCriterion("eam_ticket_record.update_time >", value, "updateTime");
             return (Criteria) this;
         }
 
         public Criteria andUpdateTimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("update_time >=", value, "updateTime");
+            addCriterion("eam_ticket_record.update_time >=", value, "updateTime");
             return (Criteria) this;
         }
 
         public Criteria andUpdateTimeLessThan(Date value) {
-            addCriterion("update_time <", value, "updateTime");
+            addCriterion("eam_ticket_record.update_time <", value, "updateTime");
             return (Criteria) this;
         }
 
         public Criteria andUpdateTimeLessThanOrEqualTo(Date value) {
-            addCriterion("update_time <=", value, "updateTime");
+            addCriterion("eam_ticket_record.update_time <=", value, "updateTime");
             return (Criteria) this;
         }
 
         public Criteria andUpdateTimeIn(List<Date> values) {
-            addCriterion("update_time in", values, "updateTime");
+            addCriterion("eam_ticket_record.update_time in", values, "updateTime");
             return (Criteria) this;
         }
 
         public Criteria andUpdateTimeNotIn(List<Date> values) {
-            addCriterion("update_time not in", values, "updateTime");
+            addCriterion("eam_ticket_record.update_time not in", values, "updateTime");
             return (Criteria) this;
         }
 
         public Criteria andUpdateTimeBetween(Date value1, Date value2) {
-            addCriterion("update_time between", value1, value2, "updateTime");
+            addCriterion("eam_ticket_record.update_time between", value1, value2, "updateTime");
             return (Criteria) this;
         }
 
         public Criteria andUpdateTimeNotBetween(Date value1, Date value2) {
-            addCriterion("update_time not between", value1, value2, "updateTime");
+            addCriterion("eam_ticket_record.update_time not between", value1, value2, "updateTime");
             return (Criteria) this;
         }
 
         public Criteria andDeleteFlagIsNull() {
-            addCriterion("delete_flag is null");
+            addCriterion("eam_ticket_record.delete_flag is null");
             return (Criteria) this;
         }
 
         public Criteria andDeleteFlagIsNotNull() {
-            addCriterion("delete_flag is not null");
+            addCriterion("eam_ticket_record.delete_flag is not null");
             return (Criteria) this;
         }
 
         public Criteria andDeleteFlagEqualTo(Boolean value) {
-            addCriterion("delete_flag =", value, "deleteFlag");
+            addCriterion("eam_ticket_record.delete_flag =", value, "deleteFlag");
             return (Criteria) this;
         }
 
         public Criteria andDeleteFlagNotEqualTo(Boolean value) {
-            addCriterion("delete_flag <>", value, "deleteFlag");
+            addCriterion("eam_ticket_record.delete_flag <>", value, "deleteFlag");
             return (Criteria) this;
         }
 
         public Criteria andDeleteFlagGreaterThan(Boolean value) {
-            addCriterion("delete_flag >", value, "deleteFlag");
+            addCriterion("eam_ticket_record.delete_flag >", value, "deleteFlag");
             return (Criteria) this;
         }
 
         public Criteria andDeleteFlagGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("delete_flag >=", value, "deleteFlag");
+            addCriterion("eam_ticket_record.delete_flag >=", value, "deleteFlag");
             return (Criteria) this;
         }
 
         public Criteria andDeleteFlagLessThan(Boolean value) {
-            addCriterion("delete_flag <", value, "deleteFlag");
+            addCriterion("eam_ticket_record.delete_flag <", value, "deleteFlag");
             return (Criteria) this;
         }
 
         public Criteria andDeleteFlagLessThanOrEqualTo(Boolean value) {
-            addCriterion("delete_flag <=", value, "deleteFlag");
+            addCriterion("eam_ticket_record.delete_flag <=", value, "deleteFlag");
             return (Criteria) this;
         }
 
         public Criteria andDeleteFlagIn(List<Boolean> values) {
-            addCriterion("delete_flag in", values, "deleteFlag");
+            addCriterion("eam_ticket_record.delete_flag in", values, "deleteFlag");
             return (Criteria) this;
         }
 
         public Criteria andDeleteFlagNotIn(List<Boolean> values) {
-            addCriterion("delete_flag not in", values, "deleteFlag");
+            addCriterion("eam_ticket_record.delete_flag not in", values, "deleteFlag");
             return (Criteria) this;
         }
 
         public Criteria andDeleteFlagBetween(Boolean value1, Boolean value2) {
-            addCriterion("delete_flag between", value1, value2, "deleteFlag");
+            addCriterion("eam_ticket_record.delete_flag between", value1, value2, "deleteFlag");
             return (Criteria) this;
         }
 
         public Criteria andDeleteFlagNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("delete_flag not between", value1, value2, "deleteFlag");
+            addCriterion("eam_ticket_record.delete_flag not between", value1, value2, "deleteFlag");
             return (Criteria) this;
         }
 
         public Criteria andOrganizationIdIsNull() {
-            addCriterion("organization_id is null");
+            addCriterion("eam_ticket_record.organization_id is null");
             return (Criteria) this;
         }
 
         public Criteria andOrganizationIdIsNotNull() {
-            addCriterion("organization_id is not null");
+            addCriterion("eam_ticket_record.organization_id is not null");
             return (Criteria) this;
         }
 
         public Criteria andOrganizationIdEqualTo(Integer value) {
-            addCriterion("organization_id =", value, "organizationId");
+            addCriterion("eam_ticket_record.organization_id =", value, "organizationId");
             return (Criteria) this;
         }
 
         public Criteria andOrganizationIdNotEqualTo(Integer value) {
-            addCriterion("organization_id <>", value, "organizationId");
+            addCriterion("eam_ticket_record.organization_id <>", value, "organizationId");
             return (Criteria) this;
         }
 
         public Criteria andOrganizationIdGreaterThan(Integer value) {
-            addCriterion("organization_id >", value, "organizationId");
+            addCriterion("eam_ticket_record.organization_id >", value, "organizationId");
             return (Criteria) this;
         }
 
         public Criteria andOrganizationIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("organization_id >=", value, "organizationId");
+            addCriterion("eam_ticket_record.organization_id >=", value, "organizationId");
             return (Criteria) this;
         }
 
         public Criteria andOrganizationIdLessThan(Integer value) {
-            addCriterion("organization_id <", value, "organizationId");
+            addCriterion("eam_ticket_record.organization_id <", value, "organizationId");
             return (Criteria) this;
         }
 
         public Criteria andOrganizationIdLessThanOrEqualTo(Integer value) {
-            addCriterion("organization_id <=", value, "organizationId");
+            addCriterion("eam_ticket_record.organization_id <=", value, "organizationId");
             return (Criteria) this;
         }
 
         public Criteria andOrganizationIdIn(List<Integer> values) {
-            addCriterion("organization_id in", values, "organizationId");
+            addCriterion("eam_ticket_record.organization_id in", values, "organizationId");
             return (Criteria) this;
         }
 
         public Criteria andOrganizationIdNotIn(List<Integer> values) {
-            addCriterion("organization_id not in", values, "organizationId");
+            addCriterion("eam_ticket_record.organization_id not in", values, "organizationId");
             return (Criteria) this;
         }
 
         public Criteria andOrganizationIdBetween(Integer value1, Integer value2) {
-            addCriterion("organization_id between", value1, value2, "organizationId");
+            addCriterion("eam_ticket_record.organization_id between", value1, value2, "organizationId");
             return (Criteria) this;
         }
 
         public Criteria andOrganizationIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("organization_id not between", value1, value2, "organizationId");
+            addCriterion("eam_ticket_record.organization_id not between", value1, value2, "organizationId");
             return (Criteria) this;
         }
     }
