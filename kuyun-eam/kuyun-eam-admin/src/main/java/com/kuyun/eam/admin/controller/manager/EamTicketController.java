@@ -9,8 +9,12 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.datetime.DateFormatter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,9 +31,12 @@ import com.kuyun.eam.common.constant.TicketSearchCategory;
 import com.kuyun.eam.common.constant.TicketStatus;
 import com.kuyun.eam.dao.model.EamTicket;
 import com.kuyun.eam.dao.model.EamTicketExample;
+import com.kuyun.eam.dao.model.EamTicketRecord;
+import com.kuyun.eam.dao.model.EamTicketRecordExample;
 import com.kuyun.eam.dao.model.EamTicketType;
 import com.kuyun.eam.dao.model.EamTicketTypeExample;
 import com.kuyun.eam.rpc.api.EamApiService;
+import com.kuyun.eam.rpc.api.EamTicketRecordService;
 import com.kuyun.eam.rpc.api.EamTicketService;
 import com.kuyun.eam.rpc.api.EamTicketTypeService;
 import com.kuyun.eam.vo.EamTicketVO;
@@ -49,6 +56,11 @@ import io.swagger.annotations.ApiOperation;
 @Api(value = "工单管理", description = "工单管理")
 @RequestMapping("/manage/ticket")
 public class EamTicketController extends BaseController {
+	
+	@InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.addCustomFormatter(new DateFormatter("yyyy-MM-dd"));
+    }
 
 	private static Logger _log = LoggerFactory.getLogger(EamTicketController.class);
 	
@@ -66,6 +78,9 @@ public class EamTicketController extends BaseController {
 	
 	@Autowired
 	private UpmsApiService upmsApiService;
+	
+	@Autowired
+	private EamTicketRecordService eamTicketRecordService;
 
 
 	@ApiOperation(value = "工单管理首页")
@@ -143,6 +158,7 @@ public class EamTicketController extends BaseController {
 		
 		
 		List<UpmsUser> users = upmsApiService.selectUsersByUserId(baseEntityUtil.getCurrentUser().getUserId());
+	
 		
 		modelMap.put("users", users);
 		List<EamTicketType> types = eamTicketTypeService.selectByExample(new EamTicketTypeExample());
@@ -180,35 +196,51 @@ public class EamTicketController extends BaseController {
 		return new EamResult(SUCCESS, count);
 	}
 
+*/
 
-
-	@ApiOperation(value = "修改工单类型")
-	@RequiresPermissions("eam:ticketType:update")
+	@ApiOperation(value = "处理工单")
+	@RequiresPermissions("eam:ticket:update")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
 	public String update(@PathVariable("id") int id, ModelMap modelMap) {
-		EamTicketType eamTicketType = eamTicketTypeService.selectByPrimaryKey(id);
-		modelMap.put("ticketType", eamTicketType);
-		return "/manage/ticket/type/update.jsp";
+		EamTicketExample ete = new EamTicketExample();
+		ete.createCriteria().andTicketIdEqualTo(id);
+		EamTicketVO eamTicket = eamApiService.selectTicket(ete).get(0);
+		modelMap.put("ticket", eamTicket);
+		
+		EamTicketRecordExample etre = new EamTicketRecordExample();
+		etre.createCriteria().andTicketIdEqualTo(id);
+		etre.setOrderByClause("eam_ticket_record_create_time desc");
+		
+		List<EamTicketRecord> records = eamTicketRecordService.selectByExample(etre);
+		modelMap.put("records", records);
+		return "/manage/ticket/update.jsp";
 	}
 
-	@ApiOperation(value = "修改工单类型")
-	@RequiresPermissions("eam:ticketType:update")
+	@ApiOperation(value = "处理工单")
+	@RequiresPermissions("eam:ticket:update")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
 	@ResponseBody
-	public Object update(@PathVariable("id") int id, EamTicketType ticketType) {
+	public Object update(@PathVariable("id") int id, EamTicketRecord ticketRecord) {
 		ComplexResult result = FluentValidator.checkAll()
-				.on(ticketType.getName(), new LengthValidator(1, 20, "工单类型名称"))
+				.on(ticketRecord.getComments(), new LengthValidator(1, 200, "工单处理注释"))
 				.doValidate()
 				.result(ResultCollectors.toComplex());
 		if (!result.isSuccess()) {
-			return new EamResult(INVALID_LENGTH, result.getErrors());
+			return new EamResult(EamResultConstant.INVALID_LENGTH, result.getErrors());
 		}
-		ticketType.setId(id);
-		eamUtils_.updateAddtionalValue(ticketType);
-		int count = eamTicketTypeService.updateByPrimaryKeySelective(ticketType);
-		return new EamResult(SUCCESS, count);
+		ticketRecord.setTicketId(id);
+		ticketRecord.setId(null);
+		baseEntityUtil.addAddtionalValue(ticketRecord);
+		int count = eamTicketRecordService.insertSelective(ticketRecord);
+		
+		// change the ticket status according to the record step value
+		EamTicket ticket = eamTicketService.selectByPrimaryKey(id);
+		ticket.setStatus(ticketRecord.getStep());
+		eamTicketService.updateByPrimaryKeySelective(ticket);
+		
+		return new EamResult(EamResultConstant.SUCCESS, count);
 	}
 
 
-*/
+
 }

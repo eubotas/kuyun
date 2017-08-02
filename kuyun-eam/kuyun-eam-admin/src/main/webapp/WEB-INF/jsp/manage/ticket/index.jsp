@@ -47,7 +47,7 @@ $(function() {
 		smartDisplay: false,
 		escape: true,
 		searchOnEnterKey: true,
-		idField: 'equipmentId',
+		idField: 'ticketId',
 //		sortName: 'orders',
 //        sortOrder: 'desc',
 		maintainSelected: true,
@@ -59,7 +59,7 @@ $(function() {
 			{field: 'ticketType.name', title: '工单类型'},
 			{field: 'realname', title: '执行人'},
 			{field: 'status', title: '当前状态'},
-			{field: 'endDate', title: '完成日期', formatter:'timeFormatter'},
+			{field: 'endDate', title: '指定完成日期', formatter:'timeFormatter'},
 			{field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
 		]
 	});

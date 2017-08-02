@@ -12,10 +12,10 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group">
-					<div class="fg-line">
+					
 						<label for="description">工单描述</label>
 						<textarea id="description" class="form-control" name="description" maxlength="200" rows="4"></textarea>
-					</div>
+					
 				</div>
 			</div>
 			<div class="col-sm-6">
@@ -44,7 +44,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-12">
+			<div class="col-sm-6">
 				<div class="form-group">
 					<div class="fg-line">
 						<label for="executorId">执行人</label>
@@ -54,6 +54,14 @@
 								<option value="${user.userId}">${user.realname}</option>
 							</c:forEach>
 						</select>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group">
+					<div class="fg-line">
+						<label for="endDate">指定完成日期</label>
+						<input id="endDate" type = "date" name="endDate" class="form-control"></input>
 					</div>
 				</div>
 			</div>
