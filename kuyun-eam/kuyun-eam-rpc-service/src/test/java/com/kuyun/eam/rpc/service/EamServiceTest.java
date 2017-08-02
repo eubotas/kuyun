@@ -89,24 +89,24 @@ public class EamServiceTest {
 
 //        eamApiService.selectLocation(new EamLocationVO());
 //        eamEquipmentModelService.deleteByPrimaryKey(3);
-    		EamTicketType tt = new EamTicketType();
-    		tt.setName("手工工单");
-    		int pk = eamTicketTypeService.insert(tt);
-    		System.out.println("create ticket Type : "+ tt.getName()+" has PK :"+ pk);
-    		eamTicketTypeService.deleteByPrimaryKey(pk);
-    		System.out.println("delete PK :"+ pk);
-    		
-    		int offset = 0;
-		int limit = 10;
-		String sort = "";
-		String order = "";
-		
-    		EamTicketTypeExample eamTicketTypeExample = new EamTicketTypeExample();
-    		eamTicketTypeExample.setOffset(offset);
-    		eamTicketTypeExample.setLimit(limit);
-    		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
-    			eamTicketTypeExample.setOrderByClause(sort + ", " + order);
-    		}
+//    		EamTicketType tt = new EamTicketType();
+//    		tt.setName("手工工单");
+//    		int pk = eamTicketTypeService.insert(tt);
+//    		System.out.println("create ticket Type : "+ tt.getName()+" has PK :"+ pk);
+//    		eamTicketTypeService.deleteByPrimaryKey(pk);
+//    		System.out.println("delete PK :"+ pk);
+//    		
+//    		int offset = 0;
+//		int limit = 10;
+//		String sort = "";
+//		String order = "";
+//		
+//    		EamTicketTypeExample eamTicketTypeExample = new EamTicketTypeExample();
+//    		eamTicketTypeExample.setOffset(offset);
+//    		eamTicketTypeExample.setLimit(limit);
+//    		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
+//    			eamTicketTypeExample.setOrderByClause(sort + ", " + order);
+//    		}
 
 //    		UpmsOrganization organization = eamUtils.getCurrentUserParentOrignization();
 //
@@ -115,23 +115,23 @@ public class EamServiceTest {
 //    			.andDeleteFlagEqualTo(Boolean.FALSE);
 //    		}
 
-
-    		List<EamTicketType> rows = eamTicketTypeService.selectByExample(eamTicketTypeExample);
-    		long total = eamTicketTypeService.countByExample(eamTicketTypeExample);
-    		Map<String, Object> result = new HashMap<>();
-    		result.put("rows", rows);
-    		result.put("total", total);
-    		
-    		EamTicketExample eamTicketExample = new EamTicketExample();
-    		eamTicketExample.setOffset(offset);
-    		eamTicketExample.setLimit(limit);
-    		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
-    			eamTicketExample.setOrderByClause(sort + " " + order);
-    		}
-    		
-    		List<EamTicketVO> voRows = eamApiService.selectTicket(eamTicketExample);
-    		total = eamTicketService.countByExample(eamTicketExample);
-    		System.out.println(total);
+//
+//    		List<EamTicketType> rows = eamTicketTypeService.selectByExample(eamTicketTypeExample);
+//    		long total = eamTicketTypeService.countByExample(eamTicketTypeExample);
+//    		Map<String, Object> result = new HashMap<>();
+//    		result.put("rows", rows);
+//    		result.put("total", total);
+//    		
+//    		EamTicketExample eamTicketExample = new EamTicketExample();
+//    		eamTicketExample.setOffset(offset);
+//    		eamTicketExample.setLimit(limit);
+//    		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
+//    			eamTicketExample.setOrderByClause(sort + " " + order);
+//    		}
+//    		
+//    		List<EamTicketVO> voRows = eamApiService.selectTicket(eamTicketExample);
+//    		total = eamTicketService.countByExample(eamTicketExample);
+//    		System.out.println(total);
     		
     		
     		 

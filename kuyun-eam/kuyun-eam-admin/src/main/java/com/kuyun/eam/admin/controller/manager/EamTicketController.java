@@ -16,9 +16,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.baidu.unbiz.fluentvalidator.ComplexResult;
+import com.baidu.unbiz.fluentvalidator.FluentValidator;
+import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
+import com.kuyun.common.validator.LengthValidator;
+import com.kuyun.eam.common.constant.EamResult;
+import com.kuyun.eam.common.constant.EamResultConstant;
 import com.kuyun.eam.common.constant.TicketSearchCategory;
 import com.kuyun.eam.common.constant.TicketStatus;
+import com.kuyun.eam.dao.model.EamTicket;
 import com.kuyun.eam.dao.model.EamTicketExample;
 import com.kuyun.eam.dao.model.EamTicketType;
 import com.kuyun.eam.dao.model.EamTicketTypeExample;
@@ -28,6 +35,8 @@ import com.kuyun.eam.rpc.api.EamTicketTypeService;
 import com.kuyun.eam.vo.EamTicketVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsOrganization;
+import com.kuyun.upms.dao.model.UpmsUser;
+import com.kuyun.upms.rpc.api.UpmsApiService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -54,6 +63,9 @@ public class EamTicketController extends BaseController {
 
 	@Autowired
 	private BaseEntityUtil baseEntityUtil;
+	
+	@Autowired
+	private UpmsApiService upmsApiService;
 
 
 	@ApiOperation(value = "工单管理首页")
@@ -123,31 +135,42 @@ public class EamTicketController extends BaseController {
 		result.put("total", total);
 		return result;
 	}
-/*
+
 	@ApiOperation(value = "新增工单类型")
-	@RequiresPermissions("eam:ticketType:create")
+	@RequiresPermissions("eam:ticket:create")
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public String create() {
-		return "/manage/ticket/type/create.jsp";
+	public String create(ModelMap modelMap ) {
+		
+		
+		List<UpmsUser> users = upmsApiService.selectUsersByUserId(baseEntityUtil.getCurrentUser().getUserId());
+		
+		modelMap.put("users", users);
+		List<EamTicketType> types = eamTicketTypeService.selectByExample(new EamTicketTypeExample());
+		modelMap.put("ticketTypes", types);
+		
+		
+		
+		return "/manage/ticket/create.jsp";
 	}
 
 	@ApiOperation(value = "新增工单类型")
-	@RequiresPermissions("eam:ticketType:create")
+	@RequiresPermissions("eam:ticket:create")
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	@ResponseBody
-	public Object create(EamTicketType ticketType) {
+	public Object create(EamTicket ticket) {
 		ComplexResult result = FluentValidator.checkAll()
-				.on(ticketType.getName(), new LengthValidator(1, 20, "工单类型名称"))
+				.on(ticket.getDescription(), new LengthValidator(1, 200, "工单描述"))
 				.doValidate()
 				.result(ResultCollectors.toComplex());
 		if (!result.isSuccess()) {
-			return new EamResult(INVALID_LENGTH, result.getErrors());
+			return new EamResult(EamResultConstant.INVALID_LENGTH, result.getErrors());
 		}
-		eamUtils_.addAddtionalValue(ticketType);
-		int count = eamTicketTypeService.insertSelective(ticketType);
-		return new EamResult(SUCCESS, count);
+		baseEntityUtil.addAddtionalValue(ticket);
+		ticket.setStatus(TicketStatus.OPEN.getName());
+		int count = eamTicketService.insertSelective(ticket);
+		return new EamResult(EamResultConstant.SUCCESS, count);
 	}
-
+/*
 	@ApiOperation(value = "删除工单类型")
 	@RequiresPermissions("eam:ticketType:delete")
 	@RequestMapping(value = "/delete/{ids}",method = RequestMethod.GET)

@@ -54,7 +54,7 @@ $(function() {
 		toolbar: '#toolbar',
 		columns: [
 			{field: 'ck', checkbox: true},
-			{field: 'description', title: '工单名称', sortable: true, align: 'center'},
+			{field: 'description', title: '工单描述', sortable: true, align: 'center'},
 			{field: 'priority', title: '优先级'},
 			{field: 'ticketType.name', title: '工单类型'},
 			{field: 'realname', title: '执行人'},
@@ -67,8 +67,7 @@ $(function() {
 // 格式化操作按钮
 function actionFormatter(value, row, index) {
     return [
-        '<a class="update" href="javascript:;" onclick="updateAction()" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>　',
-        '<a class="delete" href="javascript:;" onclick="deleteAction()" data-toggle="tooltip" title="Remove"><i class="glyphicon glyphicon-remove"></i></a>'
+        '<a class="update" href="javascript:;" onclick="updateAction()" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>　'
     ].join('');
 }
 
@@ -83,9 +82,9 @@ var createDialog;
 function createAction() {
 	createDialog = $.dialog({
 		animationSpeed: 300,
-		title: '新增设备',
+		title: '新增工单',
 		columnClass: 'xlarge',
-		content: 'url:${basePath}/manage/equipment/create',
+		content: 'url:${basePath}/manage/ticket/create',
 		onContentReady: function () {
 			initMaterialInput();
 			$('select').select2();
@@ -112,9 +111,9 @@ function updateAction() {
 	} else {
 		updateDialog = $.dialog({
 			animationSpeed: 300,
-			title: '编辑设备',
+			title: '工单处理',
 			columnClass: 'xlarge',
-			content: 'url:${basePath}/manage/equipment/update/' + rows[0].equipmentId,
+			content: 'url:${basePath}/manage/ticket/update/' + rows[0].ticketId,
 			onContentReady: function () {
 				initMaterialInput();
 				$('select').select2();
@@ -122,125 +121,7 @@ function updateAction() {
 		});
 	}
 }
-// 删除
-var deleteDialog;
-function deleteAction() {
-	var rows = $table.bootstrapTable('getSelections');
-	if (rows.length == 0) {
-		$.confirm({
-			title: false,
-			content: '请至少选择一条记录！',
-			autoClose: 'cancel|3000',
-			backgroundDismiss: true,
-			buttons: {
-				cancel: {
-					text: '取消',
-					btnClass: 'waves-effect waves-button'
-				}
-			}
-		});
-	} else {
-		deleteDialog = $.confirm({
-			type: 'red',
-			animationSpeed: 300,
-			title: false,
-			content: '确认删除该设备吗？',
-			buttons: {
-				confirm: {
-					text: '确认',
-					btnClass: 'waves-effect waves-button',
-					action: function () {
-						var ids = new Array();
-						for (var i in rows) {
-							ids.push(rows[i].equipmentId);
-						}
-						$.ajax({
-							type: 'get',
-							url: '${basePath}/manage/equipment/delete/' + ids.join("-"),
-							success: function(result) {
-								if (result.code != 1) {
-									if (result.data instanceof Array) {
-										$.each(result.data, function(index, value) {
-											$.confirm({
-												theme: 'dark',
-												animation: 'rotateX',
-												closeAnimation: 'rotateX',
-												title: false,
-												content: value.errorMsg,
-												buttons: {
-													confirm: {
-														text: '确认',
-														btnClass: 'waves-effect waves-button waves-light'
-													}
-												}
-											});
-										});
-									} else {
-										$.confirm({
-											theme: 'dark',
-											animation: 'rotateX',
-											closeAnimation: 'rotateX',
-											title: false,
-											content: result.data.errorMsg,
-											buttons: {
-												confirm: {
-													text: '确认',
-													btnClass: 'waves-effect waves-button waves-light'
-												}
-											}
-										});
-									}
-								} else {
-									deleteDialog.close();
-									$table.bootstrapTable('refresh');
-								}
-							},
-							error: function(XMLHttpRequest, textStatus, errorThrown) {
-								$.confirm({
-									theme: 'dark',
-									animation: 'rotateX',
-									closeAnimation: 'rotateX',
-									title: false,
-									content: textStatus,
-									buttons: {
-										confirm: {
-											text: '确认',
-											btnClass: 'waves-effect waves-button waves-light'
-										}
-									}
-								});
-							}
-						});
-					}
-				},
-				cancel: {
-					text: '取消',
-					btnClass: 'waves-effect waves-button'
-				}
-			}
-		});
-	}
-}
 
-function connectAction() {
-    var rows = $table.bootstrapTable('getSelections');
-    if (rows.length != 1) {
-        $.confirm({
-            title: false,
-            content: '请选择一条记录！',
-            autoClose: 'cancel|3000',
-            backgroundDismiss: true,
-            buttons: {
-                cancel: {
-                    text: '取消',
-                    btnClass: 'waves-effect waves-button'
-                }
-            }
-        });
-    } else {
-        window.location = "${basePath}/manage/equipment/connect/" + rows[0].equipmentId;
-    }
-}
 </script>
 </body>
 </html>
