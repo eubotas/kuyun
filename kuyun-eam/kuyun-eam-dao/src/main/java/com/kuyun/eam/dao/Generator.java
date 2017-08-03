@@ -25,12 +25,17 @@ public class Generator {
     static {
 
     }
-
+    private static Map<String, String> ALIAS_NEEDED_TABLES = new HashMap<String,String>();
+    static {
+    		ALIAS_NEEDED_TABLES.put("eam_ticket", "eam_ticket");
+    		ALIAS_NEEDED_TABLES.put("eam_ticket_type", "eam_ticket_type");
+    		ALIAS_NEEDED_TABLES.put("eam_ticket_record", "eam_ticket_record");
+    }
     /**
      * 自动代码生成
      * @param args
      */
     public static void main(String[] args) throws Exception {
-        MybatisGeneratorUtil.generator(JDBC_DRIVER, JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD, MODULE, DATABASE, TABLE_PREFIX, PACKAGE_NAME, LAST_INSERT_ID_TABLES);
+        MybatisGeneratorUtil.generator(JDBC_DRIVER, JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD, MODULE, DATABASE, TABLE_PREFIX, PACKAGE_NAME, LAST_INSERT_ID_TABLES,ALIAS_NEEDED_TABLES);
     }
 }

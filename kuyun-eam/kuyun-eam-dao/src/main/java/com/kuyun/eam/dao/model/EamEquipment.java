@@ -3,9 +3,7 @@ package com.kuyun.eam.dao.model;
 import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 
 public class EamEquipment extends BaseEntity implements Serializable {
     private String equipmentId;
@@ -42,39 +40,7 @@ public class EamEquipment extends BaseEntity implements Serializable {
 
     private Boolean isOnline;
 
-
-    private List<EamSensor> sensors = Collections.emptyList();
-
-    /**
-     * 巨控设备ID
-     *
-     * @mbg.generated
-     */
-    private String grm;
-
-    /**
-     * 巨控设备密码
-     *
-     * @mbg.generated
-     */
-    private String grmPassword;
-
-    /**
-     * 巨控采集频率单位秒
-     *
-     * @mbg.generated
-     */
-    private Integer grmPeriod;
-
     private static final long serialVersionUID = 1L;
-
-    public List<EamSensor> getSensors() {
-        return sensors;
-    }
-
-    public void setSensors(List<EamSensor> sensors) {
-        this.sensors = sensors;
-    }
 
     public String getEquipmentId() {
         return equipmentId;
@@ -212,30 +178,6 @@ public class EamEquipment extends BaseEntity implements Serializable {
         this.isOnline = isOnline;
     }
 
-    public String getGrm() {
-        return grm;
-    }
-
-    public void setGrm(String grm) {
-        this.grm = grm;
-    }
-
-    public String getGrmPassword() {
-        return grmPassword;
-    }
-
-    public void setGrmPassword(String grmPassword) {
-        this.grmPassword = grmPassword;
-    }
-
-    public Integer getGrmPeriod() {
-        return grmPeriod;
-    }
-
-    public void setGrmPeriod(Integer grmPeriod) {
-        this.grmPeriod = grmPeriod;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -259,9 +201,6 @@ public class EamEquipment extends BaseEntity implements Serializable {
         sb.append(", warrantyEndDate=").append(warrantyEndDate);
         sb.append(", maintenancePeriod=").append(maintenancePeriod);
         sb.append(", isOnline=").append(isOnline);
-        sb.append(", grm=").append(grm);
-        sb.append(", grmPassword=").append(grmPassword);
-        sb.append(", grmPeriod=").append(grmPeriod);
         sb.append("]");
         return sb.toString();
     }
@@ -300,10 +239,7 @@ public class EamEquipment extends BaseEntity implements Serializable {
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getIsOnline() == null ? other.getIsOnline() == null : this.getIsOnline().equals(other.getIsOnline()))
-            && (this.getGrm() == null ? other.getGrm() == null : this.getGrm().equals(other.getGrm()))
-            && (this.getGrmPassword() == null ? other.getGrmPassword() == null : this.getGrmPassword().equals(other.getGrmPassword()))
-            && (this.getGrmPeriod() == null ? other.getGrmPeriod() == null : this.getGrmPeriod().equals(other.getGrmPeriod()));
+            && (this.getIsOnline() == null ? other.getIsOnline() == null : this.getIsOnline().equals(other.getIsOnline()));
     }
 
     @Override
@@ -333,9 +269,6 @@ public class EamEquipment extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getIsOnline() == null) ? 0 : getIsOnline().hashCode());
-        result = prime * result + ((getGrm() == null) ? 0 : getGrm().hashCode());
-        result = prime * result + ((getGrmPassword() == null) ? 0 : getGrmPassword().hashCode());
-        result = prime * result + ((getGrmPeriod() == null) ? 0 : getGrmPeriod().hashCode());
         return result;
     }
 }

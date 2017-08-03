@@ -1,11 +1,11 @@
 package com.kuyun.eam.rpc.service;
 
-import com.kuyun.eam.dao.model.*;
-import com.kuyun.eam.rpc.api.EamApiService;
-import com.kuyun.eam.rpc.api.EamEquipmentModelService;
-import com.kuyun.eam.rpc.api.EamWarehouseService;
-import com.kuyun.eam.vo.EamLocationVO;
-import com.kuyun.eam.vo.EamMaintenanceVO;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +13,16 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
-import java.util.List;
+import com.kuyun.eam.dao.model.EamTicketExample;
+import com.kuyun.eam.dao.model.EamTicketType;
+import com.kuyun.eam.dao.model.EamTicketTypeExample;
+import com.kuyun.eam.rpc.api.EamApiService;
+import com.kuyun.eam.rpc.api.EamEquipmentModelService;
+import com.kuyun.eam.rpc.api.EamTicketRecordService;
+import com.kuyun.eam.rpc.api.EamTicketService;
+import com.kuyun.eam.rpc.api.EamTicketTypeService;
+import com.kuyun.eam.rpc.api.EamWarehouseService;
+import com.kuyun.eam.vo.EamTicketVO;
 
 /**
  * 单元测试
@@ -39,6 +48,19 @@ public class EamServiceTest {
     @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private EamWarehouseService warehouseService;
+    
+    @SuppressWarnings("SpringJavaAutowiringInspection")
+    @Autowired
+    private EamTicketService eamTicketService;
+    
+    @SuppressWarnings("SpringJavaAutowiringInspection")
+    @Autowired
+    private EamTicketRecordService eamTicketRecordService;
+    
+    @SuppressWarnings("SpringJavaAutowiringInspection")
+    @Autowired
+    private EamTicketTypeService eamTicketTypeService;
+    
 
     @Test
     public void list() {
@@ -66,7 +88,53 @@ public class EamServiceTest {
 //        eamApiService.selectMaintenance(eamMaintenanceExample);
 
 //        eamApiService.selectLocation(new EamLocationVO());
-        eamEquipmentModelService.deleteByPrimaryKey(3);
+//        eamEquipmentModelService.deleteByPrimaryKey(3);
+//    		EamTicketType tt = new EamTicketType();
+//    		tt.setName("手工工单");
+//    		int pk = eamTicketTypeService.insert(tt);
+//    		System.out.println("create ticket Type : "+ tt.getName()+" has PK :"+ pk);
+//    		eamTicketTypeService.deleteByPrimaryKey(pk);
+//    		System.out.println("delete PK :"+ pk);
+//    		
+//    		int offset = 0;
+//		int limit = 10;
+//		String sort = "";
+//		String order = "";
+//		
+//    		EamTicketTypeExample eamTicketTypeExample = new EamTicketTypeExample();
+//    		eamTicketTypeExample.setOffset(offset);
+//    		eamTicketTypeExample.setLimit(limit);
+//    		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
+//    			eamTicketTypeExample.setOrderByClause(sort + ", " + order);
+//    		}
+
+//    		UpmsOrganization organization = eamUtils.getCurrentUserParentOrignization();
+//
+//    		if (organization != null){
+//    			eamTicketTypeExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId())
+//    			.andDeleteFlagEqualTo(Boolean.FALSE);
+//    		}
+
+//
+//    		List<EamTicketType> rows = eamTicketTypeService.selectByExample(eamTicketTypeExample);
+//    		long total = eamTicketTypeService.countByExample(eamTicketTypeExample);
+//    		Map<String, Object> result = new HashMap<>();
+//    		result.put("rows", rows);
+//    		result.put("total", total);
+//    		
+//    		EamTicketExample eamTicketExample = new EamTicketExample();
+//    		eamTicketExample.setOffset(offset);
+//    		eamTicketExample.setLimit(limit);
+//    		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
+//    			eamTicketExample.setOrderByClause(sort + " " + order);
+//    		}
+//    		
+//    		List<EamTicketVO> voRows = eamApiService.selectTicket(eamTicketExample);
+//    		total = eamTicketService.countByExample(eamTicketExample);
+//    		System.out.println(total);
+    		
+    		
+    		 
     }
 
 }

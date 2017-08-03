@@ -7,6 +7,12 @@
     <result column="sensor_id" jdbcType="INTEGER" property="sensorId" />
     <result column="alarm_type" jdbcType="VARCHAR" property="alarmType" />
     <result column="alarm_target" jdbcType="VARCHAR" property="alarmTarget" />
+    <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
+    <result column="organization_id" jdbcType="INTEGER" property="organizationId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,7 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    alarm_id, equipment_id, sensor_id, alarm_type, alarm_target
+    alarm_id, equipment_id, sensor_id, alarm_type, alarm_target, create_user_id, create_time, 
+    update_user_id, update_time, delete_flag, organization_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamAlarmExample" resultMap="BaseResultMap">
     select
@@ -109,9 +116,13 @@
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamAlarm">
     insert into eam_alarm (alarm_id, equipment_id, sensor_id, 
-      alarm_type, alarm_target)
+      alarm_type, alarm_target, create_user_id, 
+      create_time, update_user_id, update_time, 
+      delete_flag, organization_id)
     values (#{alarmId,jdbcType=INTEGER}, #{equipmentId,jdbcType=VARCHAR}, #{sensorId,jdbcType=INTEGER}, 
-      #{alarmType,jdbcType=VARCHAR}, #{alarmTarget,jdbcType=VARCHAR})
+      #{alarmType,jdbcType=VARCHAR}, #{alarmTarget,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{deleteFlag,jdbcType=BIT}, #{organizationId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamAlarm">
     insert into eam_alarm
@@ -131,6 +142,24 @@
       <if test="alarmTarget != null">
         alarm_target,
       </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag,
+      </if>
+      <if test="organizationId != null">
+        organization_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="alarmId != null">
@@ -147,6 +176,24 @@
       </if>
       <if test="alarmTarget != null">
         #{alarmTarget,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null">
+        #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="organizationId != null">
+        #{organizationId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -174,6 +221,24 @@
       <if test="record.alarmTarget != null">
         alarm_target = #{record.alarmTarget,jdbcType=VARCHAR},
       </if>
+      <if test="record.createUserId != null">
+        create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUserId != null">
+        update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deleteFlag != null">
+        delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="record.organizationId != null">
+        organization_id = #{record.organizationId,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -185,7 +250,13 @@
       equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
       sensor_id = #{record.sensorId,jdbcType=INTEGER},
       alarm_type = #{record.alarmType,jdbcType=VARCHAR},
-      alarm_target = #{record.alarmTarget,jdbcType=VARCHAR}
+      alarm_target = #{record.alarmTarget,jdbcType=VARCHAR},
+      create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      organization_id = #{record.organizationId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -205,6 +276,24 @@
       <if test="alarmTarget != null">
         alarm_target = #{alarmTarget,jdbcType=VARCHAR},
       </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag = #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="organizationId != null">
+        organization_id = #{organizationId,jdbcType=INTEGER},
+      </if>
     </set>
     where alarm_id = #{alarmId,jdbcType=INTEGER}
   </update>
@@ -213,7 +302,13 @@
     set equipment_id = #{equipmentId,jdbcType=VARCHAR},
       sensor_id = #{sensorId,jdbcType=INTEGER},
       alarm_type = #{alarmType,jdbcType=VARCHAR},
-      alarm_target = #{alarmTarget,jdbcType=VARCHAR}
+      alarm_target = #{alarmTarget,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      delete_flag = #{deleteFlag,jdbcType=BIT},
+      organization_id = #{organizationId,jdbcType=INTEGER}
     where alarm_id = #{alarmId,jdbcType=INTEGER}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />

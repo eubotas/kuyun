@@ -3,10 +3,12 @@ package com.kuyun.eam.dao.model;
 import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
 
-public class EamAlarmTargetOrganization extends BaseEntity implements Serializable {
+public class EamAlarmTargetUser extends BaseEntity implements Serializable {
     private Integer id;
 
     private Integer alarmId;
+
+    private Integer userId;
 
     private static final long serialVersionUID = 1L;
 
@@ -26,6 +28,14 @@ public class EamAlarmTargetOrganization extends BaseEntity implements Serializab
         this.alarmId = alarmId;
     }
 
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -34,6 +44,7 @@ public class EamAlarmTargetOrganization extends BaseEntity implements Serializab
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", alarmId=").append(alarmId);
+        sb.append(", userId=").append(userId);
         sb.append("]");
         return sb.toString();
     }
@@ -49,10 +60,10 @@ public class EamAlarmTargetOrganization extends BaseEntity implements Serializab
         if (getClass() != that.getClass()) {
             return false;
         }
-        EamAlarmTargetOrganization other = (EamAlarmTargetOrganization) that;
+        EamAlarmTargetUser other = (EamAlarmTargetUser) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getAlarmId() == null ? other.getAlarmId() == null : this.getAlarmId().equals(other.getAlarmId()))
-            && (this.getOrganizationId() == null ? other.getOrganizationId() == null : this.getOrganizationId().equals(other.getOrganizationId()));
+            && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()));
     }
 
     @Override
@@ -61,7 +72,7 @@ public class EamAlarmTargetOrganization extends BaseEntity implements Serializab
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getAlarmId() == null) ? 0 : getAlarmId().hashCode());
-        result = prime * result + ((getOrganizationId() == null) ? 0 : getOrganizationId().hashCode());
+        result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
         return result;
     }
 }

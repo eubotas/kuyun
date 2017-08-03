@@ -2,14 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kuyun.eam.dao.mapper.EamTicketTypeMapper">
   <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamTicketType">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
-    <result column="organization_id" jdbcType="INTEGER" property="organizationId" />
+    <id column="eam_ticket_type_id" jdbcType="INTEGER" property="id" />
+    <result column="eam_ticket_type_name" jdbcType="VARCHAR" property="name" />
+    <result column="eam_ticket_type_create_user_id" jdbcType="INTEGER" property="createUserId" />
+    <result column="eam_ticket_type_create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="eam_ticket_type_update_user_id" jdbcType="INTEGER" property="updateUserId" />
+    <result column="eam_ticket_type_update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="eam_ticket_type_delete_flag" jdbcType="BIT" property="deleteFlag" />
+    <result column="eam_ticket_type_organization_id" jdbcType="INTEGER" property="organizationId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,8 +70,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, create_user_id, create_time, update_user_id, update_time, delete_flag, 
-    organization_id
+    eam_ticket_type.id as eam_ticket_type_id, eam_ticket_type.name as eam_ticket_type_name, 
+    eam_ticket_type.create_user_id as eam_ticket_type_create_user_id, eam_ticket_type.create_time as eam_ticket_type_create_time, 
+    eam_ticket_type.update_user_id as eam_ticket_type_update_user_id, eam_ticket_type.update_time as eam_ticket_type_update_time, 
+    eam_ticket_type.delete_flag as eam_ticket_type_delete_flag, eam_ticket_type.organization_id as eam_ticket_type_organization_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamTicketTypeExample" resultMap="BaseResultMap">
     select
@@ -79,7 +81,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from eam_ticket_type
+    from eam_ticket_type eam_ticket_type
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -98,15 +100,15 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from eam_ticket_type
-    where id = #{id,jdbcType=INTEGER}
+    from eam_ticket_type eam_ticket_type
+    where eam_ticket_type.id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from eam_ticket_type
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamTicketTypeExample">
-    delete from eam_ticket_type
+    delete from eam_ticket_type eam_ticket_type
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -175,37 +177,37 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamTicketTypeExample" resultType="java.lang.Long">
-    select count(*) from eam_ticket_type
+    select count(*) from eam_ticket_type eam_ticket_type
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update eam_ticket_type
+    update eam_ticket_type eam_ticket_type
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        eam_ticket_type.id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+        eam_ticket_type.name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.createUserId != null">
-        create_user_id = #{record.createUserId,jdbcType=INTEGER},
+        eam_ticket_type.create_user_id = #{record.createUserId,jdbcType=INTEGER},
       </if>
       <if test="record.createTime != null">
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+        eam_ticket_type.create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.updateUserId != null">
-        update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+        eam_ticket_type.update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       </if>
       <if test="record.updateTime != null">
-        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+        eam_ticket_type.update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.deleteFlag != null">
-        delete_flag = #{record.deleteFlag,jdbcType=BIT},
+        eam_ticket_type.delete_flag = #{record.deleteFlag,jdbcType=BIT},
       </if>
       <if test="record.organizationId != null">
-        organization_id = #{record.organizationId,jdbcType=INTEGER},
+        eam_ticket_type.organization_id = #{record.organizationId,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -213,15 +215,15 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update eam_ticket_type
-    set id = #{record.id,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
-      create_user_id = #{record.createUserId,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      update_user_id = #{record.updateUserId,jdbcType=INTEGER},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      organization_id = #{record.organizationId,jdbcType=INTEGER}
+    update eam_ticket_type eam_ticket_type
+    set eam_ticket_type.id = #{record.id,jdbcType=INTEGER},
+      eam_ticket_type.name = #{record.name,jdbcType=VARCHAR},
+      eam_ticket_type.create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      eam_ticket_type.create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      eam_ticket_type.update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+      eam_ticket_type.update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      eam_ticket_type.delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      eam_ticket_type.organization_id = #{record.organizationId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>

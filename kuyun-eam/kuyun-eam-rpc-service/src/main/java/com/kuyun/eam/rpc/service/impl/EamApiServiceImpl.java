@@ -1,18 +1,27 @@
 package com.kuyun.eam.rpc.service.impl;
 
-import com.kuyun.eam.dao.model.EamInventory;
-import com.kuyun.eam.dao.model.EamInventoryExample;
-import com.kuyun.eam.rpc.api.EamApiService;
-import com.kuyun.eam.rpc.api.EamInventoryService;
-import com.kuyun.eam.rpc.mapper.EamApiMapper;
-import com.kuyun.eam.vo.*;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.kuyun.eam.dao.model.EamInventory;
+import com.kuyun.eam.dao.model.EamInventoryExample;
+import com.kuyun.eam.dao.model.EamTicketExample;
+import com.kuyun.eam.rpc.api.EamApiService;
+import com.kuyun.eam.rpc.api.EamInventoryService;
+import com.kuyun.eam.rpc.mapper.EamApiMapper;
+import com.kuyun.eam.vo.EamInventoryVO;
+import com.kuyun.eam.vo.EamLocationVO;
+import com.kuyun.eam.vo.EamMaintenanceVO;
+import com.kuyun.eam.vo.EamPartVO;
+import com.kuyun.eam.vo.EamSensorDataVO;
+import com.kuyun.eam.vo.EamSensorVO;
+import com.kuyun.eam.vo.EamTicketVO;
+
 
 /**
  * Created by user on 4/24/2017.
@@ -49,6 +58,11 @@ public class EamApiServiceImpl implements EamApiService {
     @Override
     public List<EamInventoryVO> selectInventory(EamInventoryVO inventoryVO) {
         return eamApiMapper.selectInventory(inventoryVO);
+    }
+    
+    @Override
+    public List<EamTicketVO> selectTicket(EamTicketExample example) {
+	    	return eamApiMapper.selectTicket(example);
     }
 
     @Override

@@ -1,11 +1,19 @@
 package com.kuyun.eam.rpc.api;
 
-import com.kuyun.eam.dao.model.EamInventory;
-import com.kuyun.eam.vo.*;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
+import com.kuyun.eam.dao.model.EamInventory;
+import com.kuyun.eam.dao.model.EamTicketExample;
+import com.kuyun.eam.vo.EamInventoryVO;
+import com.kuyun.eam.vo.EamLocationVO;
+import com.kuyun.eam.vo.EamMaintenanceVO;
+import com.kuyun.eam.vo.EamPartVO;
+import com.kuyun.eam.vo.EamSensorDataVO;
+import com.kuyun.eam.vo.EamSensorVO;
+import com.kuyun.eam.vo.EamTicketVO;
 
 /**
  * Created by user on 4/24/2017.
@@ -33,6 +41,11 @@ public class EamApiServiceMock implements EamApiService {
     @Override
     public List<EamInventoryVO> selectInventory(EamInventoryVO inventoryVO) {
         return null;
+    }
+    
+    @Override
+    public List<EamTicketVO> selectTicket(EamTicketExample example) {
+    		return null;
     }
 
     @Override

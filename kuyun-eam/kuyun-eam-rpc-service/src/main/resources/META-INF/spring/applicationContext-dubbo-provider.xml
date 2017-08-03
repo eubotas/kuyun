@@ -65,5 +65,13 @@
     <!-- 接口服务 -->
     <bean id="eamApiServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamApiServiceImpl"/>
     <dubbo:service interface="com.kuyun.eam.rpc.api.EamApiService" ref="eamApiServiceImpl" timeout="10000"/>
+    
+    <!-- 工单相关 -->
+	<bean id="eamTicketServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamTicketServiceImpl" />
+	<dubbo:service interface="com.kuyun.eam.rpc.api.EamTicketService" ref="eamTicketServiceImpl" timeout="10000" />
+	<bean id="eamTicketRecordServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamTicketRecordServiceImpl" />
+	<dubbo:service interface="com.kuyun.eam.rpc.api.EamTicketRecordService" ref="eamTicketRecordServiceImpl" timeout="10000" />
+	<bean id="eamTicketTypeServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamTicketTypeServiceImpl"  />
+	<dubbo:service interface="com.kuyun.eam.rpc.api.EamTicketTypeService" ref="eamTicketTypeServiceImpl" timeout="10000" />
 
 </beans>

@@ -2,23 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kuyun.eam.dao.mapper.EamTicketMapper">
   <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamTicket">
-    <id column="ticket_id" jdbcType="INTEGER" property="ticketId" />
-    <result column="ticket_type_id" jdbcType="INTEGER" property="ticketTypeId" />
-    <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="image_path_1" jdbcType="VARCHAR" property="imagePath1" />
-    <result column="image_path_2" jdbcType="VARCHAR" property="imagePath2" />
-    <result column="image_path_3" jdbcType="VARCHAR" property="imagePath3" />
-    <result column="image_path_4" jdbcType="VARCHAR" property="imagePath4" />
-    <result column="priority" jdbcType="VARCHAR" property="priority" />
-    <result column="executor_id" jdbcType="INTEGER" property="executorId" />
-    <result column="status" jdbcType="VARCHAR" property="status" />
-    <result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
-    <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
-    <result column="organization_id" jdbcType="INTEGER" property="organizationId" />
+    <id column="eam_ticket_ticket_id" jdbcType="INTEGER" property="ticketId" />
+    <result column="eam_ticket_ticket_type_id" jdbcType="INTEGER" property="ticketTypeId" />
+    <result column="eam_ticket_description" jdbcType="VARCHAR" property="description" />
+    <result column="eam_ticket_image_path_1" jdbcType="VARCHAR" property="imagePath1" />
+    <result column="eam_ticket_image_path_2" jdbcType="VARCHAR" property="imagePath2" />
+    <result column="eam_ticket_image_path_3" jdbcType="VARCHAR" property="imagePath3" />
+    <result column="eam_ticket_image_path_4" jdbcType="VARCHAR" property="imagePath4" />
+    <result column="eam_ticket_priority" jdbcType="VARCHAR" property="priority" />
+    <result column="eam_ticket_executor_id" jdbcType="INTEGER" property="executorId" />
+    <result column="eam_ticket_status" jdbcType="VARCHAR" property="status" />
+    <result column="eam_ticket_end_date" jdbcType="TIMESTAMP" property="endDate" />
+    <result column="eam_ticket_create_user_id" jdbcType="INTEGER" property="createUserId" />
+    <result column="eam_ticket_create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="eam_ticket_update_user_id" jdbcType="INTEGER" property="updateUserId" />
+    <result column="eam_ticket_update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="eam_ticket_delete_flag" jdbcType="BIT" property="deleteFlag" />
+    <result column="eam_ticket_organization_id" jdbcType="INTEGER" property="organizationId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -79,9 +79,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ticket_id, ticket_type_id, description, image_path_1, image_path_2, image_path_3, 
-    image_path_4, priority, executor_id, status, end_date, create_user_id, create_time, 
-    update_user_id, update_time, delete_flag, organization_id
+    eam_ticket.ticket_id as eam_ticket_ticket_id, eam_ticket.ticket_type_id as eam_ticket_ticket_type_id, 
+    eam_ticket.description as eam_ticket_description, eam_ticket.image_path_1 as eam_ticket_image_path_1, 
+    eam_ticket.image_path_2 as eam_ticket_image_path_2, eam_ticket.image_path_3 as eam_ticket_image_path_3, 
+    eam_ticket.image_path_4 as eam_ticket_image_path_4, eam_ticket.priority as eam_ticket_priority, 
+    eam_ticket.executor_id as eam_ticket_executor_id, eam_ticket.status as eam_ticket_status, 
+    eam_ticket.end_date as eam_ticket_end_date, eam_ticket.create_user_id as eam_ticket_create_user_id, 
+    eam_ticket.create_time as eam_ticket_create_time, eam_ticket.update_user_id as eam_ticket_update_user_id, 
+    eam_ticket.update_time as eam_ticket_update_time, eam_ticket.delete_flag as eam_ticket_delete_flag, 
+    eam_ticket.organization_id as eam_ticket_organization_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamTicketExample" resultMap="BaseResultMap">
     select
@@ -89,7 +95,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from eam_ticket
+    from eam_ticket eam_ticket
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -108,15 +114,15 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from eam_ticket
-    where ticket_id = #{ticketId,jdbcType=INTEGER}
+    from eam_ticket eam_ticket
+    where eam_ticket.ticket_id = #{ticketId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from eam_ticket
     where ticket_id = #{ticketId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamTicketExample">
-    delete from eam_ticket
+    delete from eam_ticket eam_ticket
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -245,64 +251,64 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamTicketExample" resultType="java.lang.Long">
-    select count(*) from eam_ticket
+    select count(*) from eam_ticket eam_ticket
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update eam_ticket
+    update eam_ticket eam_ticket
     <set>
       <if test="record.ticketId != null">
-        ticket_id = #{record.ticketId,jdbcType=INTEGER},
+        eam_ticket.ticket_id = #{record.ticketId,jdbcType=INTEGER},
       </if>
       <if test="record.ticketTypeId != null">
-        ticket_type_id = #{record.ticketTypeId,jdbcType=INTEGER},
+        eam_ticket.ticket_type_id = #{record.ticketTypeId,jdbcType=INTEGER},
       </if>
       <if test="record.description != null">
-        description = #{record.description,jdbcType=VARCHAR},
+        eam_ticket.description = #{record.description,jdbcType=VARCHAR},
       </if>
       <if test="record.imagePath1 != null">
-        image_path_1 = #{record.imagePath1,jdbcType=VARCHAR},
+        eam_ticket.image_path_1 = #{record.imagePath1,jdbcType=VARCHAR},
       </if>
       <if test="record.imagePath2 != null">
-        image_path_2 = #{record.imagePath2,jdbcType=VARCHAR},
+        eam_ticket.image_path_2 = #{record.imagePath2,jdbcType=VARCHAR},
       </if>
       <if test="record.imagePath3 != null">
-        image_path_3 = #{record.imagePath3,jdbcType=VARCHAR},
+        eam_ticket.image_path_3 = #{record.imagePath3,jdbcType=VARCHAR},
       </if>
       <if test="record.imagePath4 != null">
-        image_path_4 = #{record.imagePath4,jdbcType=VARCHAR},
+        eam_ticket.image_path_4 = #{record.imagePath4,jdbcType=VARCHAR},
       </if>
       <if test="record.priority != null">
-        priority = #{record.priority,jdbcType=VARCHAR},
+        eam_ticket.priority = #{record.priority,jdbcType=VARCHAR},
       </if>
       <if test="record.executorId != null">
-        executor_id = #{record.executorId,jdbcType=INTEGER},
+        eam_ticket.executor_id = #{record.executorId,jdbcType=INTEGER},
       </if>
       <if test="record.status != null">
-        status = #{record.status,jdbcType=VARCHAR},
+        eam_ticket.status = #{record.status,jdbcType=VARCHAR},
       </if>
       <if test="record.endDate != null">
-        end_date = #{record.endDate,jdbcType=TIMESTAMP},
+        eam_ticket.end_date = #{record.endDate,jdbcType=TIMESTAMP},
       </if>
       <if test="record.createUserId != null">
-        create_user_id = #{record.createUserId,jdbcType=INTEGER},
+        eam_ticket.create_user_id = #{record.createUserId,jdbcType=INTEGER},
       </if>
       <if test="record.createTime != null">
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+        eam_ticket.create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.updateUserId != null">
-        update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+        eam_ticket.update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       </if>
       <if test="record.updateTime != null">
-        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+        eam_ticket.update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.deleteFlag != null">
-        delete_flag = #{record.deleteFlag,jdbcType=BIT},
+        eam_ticket.delete_flag = #{record.deleteFlag,jdbcType=BIT},
       </if>
       <if test="record.organizationId != null">
-        organization_id = #{record.organizationId,jdbcType=INTEGER},
+        eam_ticket.organization_id = #{record.organizationId,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -310,24 +316,24 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update eam_ticket
-    set ticket_id = #{record.ticketId,jdbcType=INTEGER},
-      ticket_type_id = #{record.ticketTypeId,jdbcType=INTEGER},
-      description = #{record.description,jdbcType=VARCHAR},
-      image_path_1 = #{record.imagePath1,jdbcType=VARCHAR},
-      image_path_2 = #{record.imagePath2,jdbcType=VARCHAR},
-      image_path_3 = #{record.imagePath3,jdbcType=VARCHAR},
-      image_path_4 = #{record.imagePath4,jdbcType=VARCHAR},
-      priority = #{record.priority,jdbcType=VARCHAR},
-      executor_id = #{record.executorId,jdbcType=INTEGER},
-      status = #{record.status,jdbcType=VARCHAR},
-      end_date = #{record.endDate,jdbcType=TIMESTAMP},
-      create_user_id = #{record.createUserId,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      update_user_id = #{record.updateUserId,jdbcType=INTEGER},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      organization_id = #{record.organizationId,jdbcType=INTEGER}
+    update eam_ticket eam_ticket
+    set eam_ticket.ticket_id = #{record.ticketId,jdbcType=INTEGER},
+      eam_ticket.ticket_type_id = #{record.ticketTypeId,jdbcType=INTEGER},
+      eam_ticket.description = #{record.description,jdbcType=VARCHAR},
+      eam_ticket.image_path_1 = #{record.imagePath1,jdbcType=VARCHAR},
+      eam_ticket.image_path_2 = #{record.imagePath2,jdbcType=VARCHAR},
+      eam_ticket.image_path_3 = #{record.imagePath3,jdbcType=VARCHAR},
+      eam_ticket.image_path_4 = #{record.imagePath4,jdbcType=VARCHAR},
+      eam_ticket.priority = #{record.priority,jdbcType=VARCHAR},
+      eam_ticket.executor_id = #{record.executorId,jdbcType=INTEGER},
+      eam_ticket.status = #{record.status,jdbcType=VARCHAR},
+      eam_ticket.end_date = #{record.endDate,jdbcType=TIMESTAMP},
+      eam_ticket.create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      eam_ticket.create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      eam_ticket.update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+      eam_ticket.update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      eam_ticket.delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      eam_ticket.organization_id = #{record.organizationId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
