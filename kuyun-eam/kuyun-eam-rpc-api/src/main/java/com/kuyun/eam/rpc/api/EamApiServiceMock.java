@@ -11,6 +11,8 @@ import com.kuyun.eam.vo.EamInventoryVO;
 import com.kuyun.eam.vo.EamLocationVO;
 import com.kuyun.eam.vo.EamMaintenanceVO;
 import com.kuyun.eam.vo.EamPartVO;
+import com.kuyun.eam.vo.EamSensorDataVO;
+import com.kuyun.eam.vo.EamSensorVO;
 import com.kuyun.eam.vo.EamTicketVO;
 
 /**
@@ -53,6 +55,11 @@ public class EamApiServiceMock implements EamApiService {
 
     @Override
     public Integer outTask(EamInventory inventory) {
+        return null;
+    }
+
+    @Override
+    public List<EamSensorDataVO> selectEamSensorData(EamSensorVO sensorVO) {
         return null;
     }
 }

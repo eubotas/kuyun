@@ -8,6 +8,8 @@ import com.kuyun.eam.vo.EamInventoryVO;
 import com.kuyun.eam.vo.EamLocationVO;
 import com.kuyun.eam.vo.EamMaintenanceVO;
 import com.kuyun.eam.vo.EamPartVO;
+import com.kuyun.eam.vo.EamSensorDataVO;
+import com.kuyun.eam.vo.EamSensorVO;
 import com.kuyun.eam.vo.EamTicketVO;
 
 /**
@@ -28,5 +30,7 @@ public interface EamApiService {
     Integer inTask(EamInventory inventory);
 
     Integer outTask(EamInventory inventory);
+
+    List<EamSensorDataVO> selectEamSensorData(EamSensorVO sensorVO);
 
 }

@@ -219,7 +219,6 @@ public class SSOController extends BaseController {
         return new UpmsResult(UpmsResultConstant.SUCCESS, code);
     }
 
-    @ApiOperation(value = "退出登录")
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logout(HttpServletRequest request) {
         // shiro退出登录
@@ -231,6 +230,16 @@ public class SSOController extends BaseController {
         }
         return "redirect:" + redirectUrl;
     }
+
+    @ApiOperation(value = "退出登录")
+    @RequestMapping(value = "/api/logout", method = RequestMethod.GET)
+    @ResponseBody
+    public Object apiLogout(HttpServletRequest request) {
+        // shiro退出登录
+        SecurityUtils.getSubject().logout();
+        return new UpmsResult(UpmsResultConstant.SUCCESS, 1);
+    }
+
 
     @RequestMapping(value = "/reg", method = RequestMethod.GET)
     public String reg(HttpServletRequest request) {

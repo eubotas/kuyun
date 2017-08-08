@@ -169,6 +169,61 @@
 		</if>
 	</select>
 
+
+	<resultMap id="EamSensorDataVOResultMap" type="com.kuyun.eam.vo.EamSensorDataVO" extends="com.kuyun.eam.dao.mapper.EamSensorDataMapper.BaseResultMap">
+		<result column="equipment_id" jdbcType="VARCHAR" property="equipmentId" />
+		<result column="equipment_name" jdbcType="VARCHAR" property="equipmentName" />
+		<result column="equipment_model_property_id" jdbcType="VARCHAR" property="equipmentModelPropertyId" />
+		<result column="equipment_model_property_name" jdbcType="VARCHAR" property="equipmentModelPropertyName" />
+	</resultMap>
+
+	<sql id="Sensor_Data_Column_List">
+		t.sensor_data_id, t.sensor_id, t.string_value, t.number_value, t.boolean_value, t.longitude_value,
+		t.latitude_value, t.create_user_id, t.create_time, t.update_user_id, t.update_time, t.delete_flag,
+		t.organization_id,
+	</sql>
+
+	<select id="selectEamSensorData" parameterType="com.kuyun.eam.vo.EamSensorVO" resultMap="EamInventoryVOResultMap">
+		select
+		<include refid="Sensor_Data_Column_List" />
+		e.equipment_id,
+		e.name as equipment_name,
+		p.equipment_model_property_id,
+		p.name as equipment_model_property_name
+		from eam_sensor_data t
+		LEFT JOIN eam_sensor s ON t.sensor_id = s.sensor_id
+		LEFT JOIN eam_equipment_model_properties p ON p.equipment_model_property_id = s.equipment_model_property_id
+		LEFT JOIN eam_equipment e ON e.equipment_id = s.equipment_id
+		WHERE 1=1
+		<if test="sensorId != null and sensorId != ''">
+			AND s.sensor_id = #{sensorId}
+		</if>
+		<if test="equipmentId != null and equipmentId != ''">
+			AND s.equipment_id = #{equipmentId}
+		</if>
+		<if test="equipmentModelPropertyId != null and equipmentModelPropertyId != ''">
+			AND s.equipment_model_property_id = #{equipmentModelPropertyId}
+		</if>
+		<if test="startDate != null and startDate != ''">
+			AND t.create_time <![CDATA[>=]]> #{startDate}
+		</if>
+		<if test="endDate != null and endDate != ''">
+			AND t.create_time <![CDATA[<=]]>#{endDate}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+
 	<resultMap id="EamTicketVOResultMap" type="com.kuyun.eam.vo.EamTicketVO" extends="com.kuyun.eam.dao.mapper.EamTicketMapper.BaseResultMap">
 	    <result column="realname" jdbcType="VARCHAR" property="realname" />
 		<association property="ticketType" resultMap="com.kuyun.eam.dao.mapper.EamTicketTypeMapper.BaseResultMap"></association>
