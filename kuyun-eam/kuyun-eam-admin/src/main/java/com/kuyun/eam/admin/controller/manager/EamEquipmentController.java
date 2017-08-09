@@ -8,6 +8,8 @@ import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.admin.util.ModbusFunctionCode;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.*;
+import com.kuyun.eam.pojo.sensor.SensorGroup;
+import com.kuyun.eam.pojo.tree.Tree;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsOrganization;
@@ -57,6 +59,9 @@ public class EamEquipmentController extends BaseController {
 
 	@Autowired
 	private EamProtocolService protocolService;
+
+	@Autowired
+	private EamApiService eamApiService;
 
 	@ApiOperation(value = "设备首页")
 	@RequiresPermissions("eam:equipment:read")
@@ -231,4 +236,21 @@ public class EamEquipmentController extends BaseController {
 		return eamSensorService.selectFirstByExample(example);
 	}
 
+	@ApiOperation(value = "CityTree")
+	@RequiresPermissions("eam:equipment:read")
+	@RequestMapping(value = "/city/tree", method = RequestMethod.GET)
+	@ResponseBody
+	public Object getCityTree() {
+		Tree tree = eamApiService.getCityTree(baseEntityUtil.getCurrentUserParentOrignization());
+		return new EamResult(SUCCESS, tree);
+	}
+
+	@ApiOperation(value = "设备当前采集数据")
+	@RequiresPermissions("eam:equipment:read")
+	@RequestMapping(value = "/sensor/data/{eId}", method = RequestMethod.GET)
+	@ResponseBody
+	public Object getSensorData(@PathVariable("eId") String eId) {
+		List<SensorGroup> sensorGroups = eamApiService.getSensorData(eId);
+		return new EamResult(SUCCESS, sensorGroups);
+	}
 }

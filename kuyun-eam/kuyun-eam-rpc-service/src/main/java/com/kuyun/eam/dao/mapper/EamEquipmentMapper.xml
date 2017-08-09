@@ -25,6 +25,11 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
     <result column="is_online" jdbcType="BIT" property="isOnline" />
+    <result column="grm" jdbcType="VARCHAR" property="grm" />
+    <result column="grm_password" jdbcType="VARCHAR" property="grmPassword" />
+    <result column="grm_period" jdbcType="INTEGER" property="grmPeriod" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -88,7 +93,8 @@
     equipment_id, equipment_model_id, organization_id, protocol_id, name, number, serial_number, 
     image_path, longitude, latitude, user, heart_data, factory_date, commissioning_date, 
     warranty_start_date, warranty_end_date, maintenance_period, create_user_id, create_time, 
-    update_user_id, update_time, delete_flag, is_online
+    update_user_id, update_time, delete_flag, is_online, grm, grm_password, grm_period, 
+    province, city
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentExample" resultMap="BaseResultMap">
     select
@@ -136,7 +142,9 @@
       factory_date, commissioning_date, warranty_start_date, 
       warranty_end_date, maintenance_period, create_user_id, 
       create_time, update_user_id, update_time, 
-      delete_flag, is_online)
+      delete_flag, is_online, grm, 
+      grm_password, grm_period, province, 
+      city)
     values (#{equipmentId,jdbcType=VARCHAR}, #{equipmentModelId,jdbcType=INTEGER}, #{organizationId,jdbcType=INTEGER}, 
       #{protocolId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, 
       #{serialNumber,jdbcType=VARCHAR}, #{imagePath,jdbcType=VARCHAR}, #{longitude,jdbcType=DECIMAL}, 
@@ -144,7 +152,9 @@
       #{factoryDate,jdbcType=TIMESTAMP}, #{commissioningDate,jdbcType=TIMESTAMP}, #{warrantyStartDate,jdbcType=TIMESTAMP}, 
       #{warrantyEndDate,jdbcType=TIMESTAMP}, #{maintenancePeriod,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlag,jdbcType=BIT}, #{isOnline,jdbcType=BIT})
+      #{deleteFlag,jdbcType=BIT}, #{isOnline,jdbcType=BIT}, #{grm,jdbcType=VARCHAR}, 
+      #{grmPassword,jdbcType=VARCHAR}, #{grmPeriod,jdbcType=INTEGER}, #{province,jdbcType=VARCHAR}, 
+      #{city,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamEquipment">
     insert into eam_equipment
@@ -218,6 +228,21 @@
       <if test="isOnline != null">
         is_online,
       </if>
+      <if test="grm != null">
+        grm,
+      </if>
+      <if test="grmPassword != null">
+        grm_password,
+      </if>
+      <if test="grmPeriod != null">
+        grm_period,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="equipmentId != null">
@@ -288,6 +313,21 @@
       </if>
       <if test="isOnline != null">
         #{isOnline,jdbcType=BIT},
+      </if>
+      <if test="grm != null">
+        #{grm,jdbcType=VARCHAR},
+      </if>
+      <if test="grmPassword != null">
+        #{grmPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="grmPeriod != null">
+        #{grmPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -369,6 +409,21 @@
       <if test="record.isOnline != null">
         is_online = #{record.isOnline,jdbcType=BIT},
       </if>
+      <if test="record.grm != null">
+        grm = #{record.grm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.grmPassword != null">
+        grm_password = #{record.grmPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.grmPeriod != null">
+        grm_period = #{record.grmPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="record.province != null">
+        province = #{record.province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null">
+        city = #{record.city,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -398,7 +453,12 @@
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      is_online = #{record.isOnline,jdbcType=BIT}
+      is_online = #{record.isOnline,jdbcType=BIT},
+      grm = #{record.grm,jdbcType=VARCHAR},
+      grm_password = #{record.grmPassword,jdbcType=VARCHAR},
+      grm_period = #{record.grmPeriod,jdbcType=INTEGER},
+      province = #{record.province,jdbcType=VARCHAR},
+      city = #{record.city,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -472,6 +532,21 @@
       <if test="isOnline != null">
         is_online = #{isOnline,jdbcType=BIT},
       </if>
+      <if test="grm != null">
+        grm = #{grm,jdbcType=VARCHAR},
+      </if>
+      <if test="grmPassword != null">
+        grm_password = #{grmPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="grmPeriod != null">
+        grm_period = #{grmPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
     </set>
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </update>
@@ -498,7 +573,12 @@
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
-      is_online = #{isOnline,jdbcType=BIT}
+      is_online = #{isOnline,jdbcType=BIT},
+      grm = #{grm,jdbcType=VARCHAR},
+      grm_password = #{grmPassword,jdbcType=VARCHAR},
+      grm_period = #{grmPeriod,jdbcType=INTEGER},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR}
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />

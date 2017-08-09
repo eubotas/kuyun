@@ -1588,6 +1588,346 @@ public class EamEquipmentExample implements Serializable {
             addCriterion("is_online not between", value1, value2, "isOnline");
             return (Criteria) this;
         }
+
+        public Criteria andGrmIsNull() {
+            addCriterion("grm is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmIsNotNull() {
+            addCriterion("grm is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmEqualTo(String value) {
+            addCriterion("grm =", value, "grm");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmNotEqualTo(String value) {
+            addCriterion("grm <>", value, "grm");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmGreaterThan(String value) {
+            addCriterion("grm >", value, "grm");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmGreaterThanOrEqualTo(String value) {
+            addCriterion("grm >=", value, "grm");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmLessThan(String value) {
+            addCriterion("grm <", value, "grm");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmLessThanOrEqualTo(String value) {
+            addCriterion("grm <=", value, "grm");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmLike(String value) {
+            addCriterion("grm like", value, "grm");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmNotLike(String value) {
+            addCriterion("grm not like", value, "grm");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmIn(List<String> values) {
+            addCriterion("grm in", values, "grm");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmNotIn(List<String> values) {
+            addCriterion("grm not in", values, "grm");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmBetween(String value1, String value2) {
+            addCriterion("grm between", value1, value2, "grm");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmNotBetween(String value1, String value2) {
+            addCriterion("grm not between", value1, value2, "grm");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPasswordIsNull() {
+            addCriterion("grm_password is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPasswordIsNotNull() {
+            addCriterion("grm_password is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPasswordEqualTo(String value) {
+            addCriterion("grm_password =", value, "grmPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPasswordNotEqualTo(String value) {
+            addCriterion("grm_password <>", value, "grmPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPasswordGreaterThan(String value) {
+            addCriterion("grm_password >", value, "grmPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPasswordGreaterThanOrEqualTo(String value) {
+            addCriterion("grm_password >=", value, "grmPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPasswordLessThan(String value) {
+            addCriterion("grm_password <", value, "grmPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPasswordLessThanOrEqualTo(String value) {
+            addCriterion("grm_password <=", value, "grmPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPasswordLike(String value) {
+            addCriterion("grm_password like", value, "grmPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPasswordNotLike(String value) {
+            addCriterion("grm_password not like", value, "grmPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPasswordIn(List<String> values) {
+            addCriterion("grm_password in", values, "grmPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPasswordNotIn(List<String> values) {
+            addCriterion("grm_password not in", values, "grmPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPasswordBetween(String value1, String value2) {
+            addCriterion("grm_password between", value1, value2, "grmPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPasswordNotBetween(String value1, String value2) {
+            addCriterion("grm_password not between", value1, value2, "grmPassword");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodIsNull() {
+            addCriterion("grm_period is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodIsNotNull() {
+            addCriterion("grm_period is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodEqualTo(Integer value) {
+            addCriterion("grm_period =", value, "grmPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodNotEqualTo(Integer value) {
+            addCriterion("grm_period <>", value, "grmPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodGreaterThan(Integer value) {
+            addCriterion("grm_period >", value, "grmPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodGreaterThanOrEqualTo(Integer value) {
+            addCriterion("grm_period >=", value, "grmPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodLessThan(Integer value) {
+            addCriterion("grm_period <", value, "grmPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodLessThanOrEqualTo(Integer value) {
+            addCriterion("grm_period <=", value, "grmPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodIn(List<Integer> values) {
+            addCriterion("grm_period in", values, "grmPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodNotIn(List<Integer> values) {
+            addCriterion("grm_period not in", values, "grmPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodBetween(Integer value1, Integer value2) {
+            addCriterion("grm_period between", value1, value2, "grmPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodNotBetween(Integer value1, Integer value2) {
+            addCriterion("grm_period not between", value1, value2, "grmPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceIsNull() {
+            addCriterion("province is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceIsNotNull() {
+            addCriterion("province is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceEqualTo(String value) {
+            addCriterion("province =", value, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceNotEqualTo(String value) {
+            addCriterion("province <>", value, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceGreaterThan(String value) {
+            addCriterion("province >", value, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceGreaterThanOrEqualTo(String value) {
+            addCriterion("province >=", value, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceLessThan(String value) {
+            addCriterion("province <", value, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceLessThanOrEqualTo(String value) {
+            addCriterion("province <=", value, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceLike(String value) {
+            addCriterion("province like", value, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceNotLike(String value) {
+            addCriterion("province not like", value, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceIn(List<String> values) {
+            addCriterion("province in", values, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceNotIn(List<String> values) {
+            addCriterion("province not in", values, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceBetween(String value1, String value2) {
+            addCriterion("province between", value1, value2, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andProvinceNotBetween(String value1, String value2) {
+            addCriterion("province not between", value1, value2, "province");
+            return (Criteria) this;
+        }
+
+        public Criteria andCityIsNull() {
+            addCriterion("city is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCityIsNotNull() {
+            addCriterion("city is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCityEqualTo(String value) {
+            addCriterion("city =", value, "city");
+            return (Criteria) this;
+        }
+
+        public Criteria andCityNotEqualTo(String value) {
+            addCriterion("city <>", value, "city");
+            return (Criteria) this;
+        }
+
+        public Criteria andCityGreaterThan(String value) {
+            addCriterion("city >", value, "city");
+            return (Criteria) this;
+        }
+
+        public Criteria andCityGreaterThanOrEqualTo(String value) {
+            addCriterion("city >=", value, "city");
+            return (Criteria) this;
+        }
+
+        public Criteria andCityLessThan(String value) {
+            addCriterion("city <", value, "city");
+            return (Criteria) this;
+        }
+
+        public Criteria andCityLessThanOrEqualTo(String value) {
+            addCriterion("city <=", value, "city");
+            return (Criteria) this;
+        }
+
+        public Criteria andCityLike(String value) {
+            addCriterion("city like", value, "city");
+            return (Criteria) this;
+        }
+
+        public Criteria andCityNotLike(String value) {
+            addCriterion("city not like", value, "city");
+            return (Criteria) this;
+        }
+
+        public Criteria andCityIn(List<String> values) {
+            addCriterion("city in", values, "city");
+            return (Criteria) this;
+        }
+
+        public Criteria andCityNotIn(List<String> values) {
+            addCriterion("city not in", values, "city");
+            return (Criteria) this;
+        }
+
+        public Criteria andCityBetween(String value1, String value2) {
+            addCriterion("city between", value1, value2, "city");
+            return (Criteria) this;
+        }
+
+        public Criteria andCityNotBetween(String value1, String value2) {
+            addCriterion("city not between", value1, value2, "city");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria implements Serializable {

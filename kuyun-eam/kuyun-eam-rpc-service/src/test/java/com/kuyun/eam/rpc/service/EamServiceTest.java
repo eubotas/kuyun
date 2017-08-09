@@ -1,11 +1,9 @@
 package com.kuyun.eam.rpc.service;
 
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang.StringUtils;
+import com.kuyun.eam.dao.model.EamTicketExample;
+import com.kuyun.eam.rpc.api.*;
+import com.kuyun.eam.vo.EamTicketVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,16 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
-import com.kuyun.eam.dao.model.EamTicketExample;
-import com.kuyun.eam.dao.model.EamTicketType;
-import com.kuyun.eam.dao.model.EamTicketTypeExample;
-import com.kuyun.eam.rpc.api.EamApiService;
-import com.kuyun.eam.rpc.api.EamEquipmentModelService;
-import com.kuyun.eam.rpc.api.EamTicketRecordService;
-import com.kuyun.eam.rpc.api.EamTicketService;
-import com.kuyun.eam.rpc.api.EamTicketTypeService;
-import com.kuyun.eam.rpc.api.EamWarehouseService;
-import com.kuyun.eam.vo.EamTicketVO;
+import java.util.List;
 
 /**
  * 单元测试
@@ -30,7 +19,7 @@ import com.kuyun.eam.vo.EamTicketVO;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
-        "classpath:applicationContext.xml",
+        "classpath:META-INF/spring/applicationContext.xml",
         "classpath:META-INF/spring/applicationContext-jdbc.xml",
         "classpath:META-INF/spring/applicationContext-listener.xml"
 })
@@ -122,16 +111,16 @@ public class EamServiceTest {
 //    		result.put("rows", rows);
 //    		result.put("total", total);
 //    		
-//    		EamTicketExample eamTicketExample = new EamTicketExample();
-//    		eamTicketExample.setOffset(offset);
-//    		eamTicketExample.setLimit(limit);
+    		EamTicketExample eamTicketExample = new EamTicketExample();
+    		eamTicketExample.setOffset(0);
+    		eamTicketExample.setLimit(10);
 //    		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 //    			eamTicketExample.setOrderByClause(sort + " " + order);
 //    		}
-//    		
-//    		List<EamTicketVO> voRows = eamApiService.selectTicket(eamTicketExample);
-//    		total = eamTicketService.countByExample(eamTicketExample);
-//    		System.out.println(total);
+
+    		List<EamTicketVO> voRows = eamApiService.selectTicket(eamTicketExample);
+    		int total = eamTicketService.countByExample(eamTicketExample);
+    		System.out.println(total);
     		
     		
     		 

@@ -17,6 +17,7 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
     <result column="organization_id" jdbcType="INTEGER" property="organizationId" />
+    <result column="display_type" jdbcType="VARCHAR" property="displayType" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -79,7 +80,7 @@
   <sql id="Base_Column_List">
     equipment_model_property_id, equipment_model_id, name, lable, unit, address, data_type, 
     alarm_type, refresh_period, create_user_id, create_time, update_user_id, update_time, 
-    delete_flag, organization_id
+    delete_flag, organization_id, display_type
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentModelPropertiesExample" resultMap="BaseResultMap">
     select
@@ -125,13 +126,13 @@
       address, data_type, alarm_type, 
       refresh_period, create_user_id, create_time, 
       update_user_id, update_time, delete_flag, 
-      organization_id)
+      organization_id, display_type)
     values (#{equipmentModelPropertyId,jdbcType=INTEGER}, #{equipmentModelId,jdbcType=INTEGER}, 
       #{name,jdbcType=VARCHAR}, #{lable,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{dataType,jdbcType=VARCHAR}, #{alarmType,jdbcType=VARCHAR}, 
       #{refreshPeriod,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
-      #{organizationId,jdbcType=INTEGER})
+      #{organizationId,jdbcType=INTEGER}, #{displayType,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamEquipmentModelProperties">
     insert into eam_equipment_model_properties
@@ -181,6 +182,9 @@
       <if test="organizationId != null">
         organization_id,
       </if>
+      <if test="displayType != null">
+        display_type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="equipmentModelPropertyId != null">
@@ -227,6 +231,9 @@
       </if>
       <if test="organizationId != null">
         #{organizationId,jdbcType=INTEGER},
+      </if>
+      <if test="displayType != null">
+        #{displayType,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -284,6 +291,9 @@
       <if test="record.organizationId != null">
         organization_id = #{record.organizationId,jdbcType=INTEGER},
       </if>
+      <if test="record.displayType != null">
+        display_type = #{record.displayType,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -305,7 +315,8 @@
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      organization_id = #{record.organizationId,jdbcType=INTEGER}
+      organization_id = #{record.organizationId,jdbcType=INTEGER},
+      display_type = #{record.displayType,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -355,6 +366,9 @@
       <if test="organizationId != null">
         organization_id = #{organizationId,jdbcType=INTEGER},
       </if>
+      <if test="displayType != null">
+        display_type = #{displayType,jdbcType=VARCHAR},
+      </if>
     </set>
     where equipment_model_property_id = #{equipmentModelPropertyId,jdbcType=INTEGER}
   </update>
@@ -373,7 +387,8 @@
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
-      organization_id = #{organizationId,jdbcType=INTEGER}
+      organization_id = #{organizationId,jdbcType=INTEGER},
+      display_type = #{displayType,jdbcType=VARCHAR}
     where equipment_model_property_id = #{equipmentModelPropertyId,jdbcType=INTEGER}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />

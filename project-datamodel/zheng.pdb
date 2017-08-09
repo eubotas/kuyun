@@ -9816,7 +9816,7 @@ LABL 0 新宋体,8,N</a:FontList>
 <o:Column Id="o413">
 <a:ObjectID>6EF8C111-9362-4A39-9DA2-2AD56AC15876</a:ObjectID>
 <a:Name>参数显示名称</a:Name>
-<a:Code>lable</a:Code>
+<a:Code>label</a:Code>
 <a:CreationDate>1491615762</a:CreationDate>
 <a:Creator>user</a:Creator>
 <a:ModificationDate>1491616105</a:ModificationDate>

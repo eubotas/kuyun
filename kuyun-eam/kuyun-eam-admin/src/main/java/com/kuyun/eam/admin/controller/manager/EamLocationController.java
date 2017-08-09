@@ -18,6 +18,7 @@ import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsOrganization;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,10 +75,19 @@ public class EamLocationController extends BaseController {
 			@RequestParam(required = false, defaultValue = "0", value = "offset") int offset,
 			@RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
 			@RequestParam(required = false, value = "sort") String sort,
-			@RequestParam(required = false, value = "order") String order) {
+			@RequestParam(required = false, value = "order") String order,
+			@RequestParam(required = false, value = "warehouseId") String warehouseId) {
 		EamLocationVO locationVO = new EamLocationVO();
 		locationVO.setOffset(offset);
 		locationVO.setLimit(limit);
+
+		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
+			locationVO.setOrderByClause(sort + " " + order);
+		}
+
+		if (StringUtils.isNumeric(warehouseId)){
+			locationVO.setWarehouseId(Integer.valueOf(warehouseId));
+		}
 
 		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 

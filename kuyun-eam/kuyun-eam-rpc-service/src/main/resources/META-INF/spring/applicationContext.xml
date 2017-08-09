@@ -6,5 +6,5 @@
 
     <!-- ApplicationContext -->
     <bean id="springContextUtil" class="com.kuyun.common.util.SpringContextUtil"></bean>
-
+    <bean id="areaUtil" class="com.kuyun.eam.util.AreaUtil"></bean>
 </beans>

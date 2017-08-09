@@ -72,6 +72,9 @@
 		<if test="organizationId != null and organizationId != ''">
 			AND t.organization_id = #{organizationId}
 		</if>
+		<if test="warehouseId != null">
+			AND t.warehouse_id = #{warehouseId}
+		</if>
 		<if test="orderByClause != null">
 			order by ${orderByClause}
 		</if>
@@ -221,6 +224,38 @@
 				limit ${limit}
 			</if>
 		</if>
+	</select>
+
+	<sql id="Sensor_Column_List">
+		s.sensor_id, s.equipment_id, s.equipment_model_property_id, s.salve_id, s.function_code, s.address,
+		s.data_format, s.period, s.quantity, s.write_number, s.grm_action, s.grm_variable, s.grm_variable_value,
+		s.create_user_id, s.create_time, s.update_user_id, s.update_time, s.delete_flag, s.organization_id,
+	</sql>
+
+	<resultMap id="EamSensorVOResultMap" type="com.kuyun.eam.vo.EamSensorVO" extends="com.kuyun.eam.dao.mapper.EamSensorMapper.BaseResultMap">
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="unit" jdbcType="VARCHAR" property="unit" />
+		<result column="data_type" jdbcType="VARCHAR" property="dataType" />
+		<result column="string_value" jdbcType="VARCHAR" property="stringValue" />
+		<result column="display_type" jdbcType="VARCHAR" property="displayType" />
+	</resultMap>
+
+	<select id="selectSensorData" parameterType="String" resultMap="EamSensorVOResultMap">
+		SELECT
+		<include refid="Sensor_Column_List" />
+		p.name,
+		p.unit,
+		p.data_type,
+		p.display_type,
+		d.string_value
+		FROM eam_sensor s
+		LEFT JOIN eam_equipment_model_properties p ON s.equipment_model_property_id = p.equipment_model_property_id
+		LEFT JOIN eam_equipment e on s.equipment_id = e.equipment_id
+		LEFT JOIN eam_sensor_data d On s.sensor_id = d.sensor_id
+		AND d.sensor_data_id = (select sensor_data_id from eam_sensor_data t where t.sensor_id = s.sensor_id order by t.create_time desc limit 1)
+
+		WHERE 1=1 AND s.equipment_id = #{equipmentId}
+
 	</select>
 
 

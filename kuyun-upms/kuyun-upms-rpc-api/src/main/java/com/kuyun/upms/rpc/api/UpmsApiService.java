@@ -98,4 +98,6 @@ public interface UpmsApiService {
      */
     int insertUpmsLogSelective(UpmsLog record);
 
+
+
 }

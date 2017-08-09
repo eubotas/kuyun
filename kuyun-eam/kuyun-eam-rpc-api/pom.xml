@@ -25,6 +25,11 @@
             <version>1.0.0</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>com.kuyun</groupId>
+            <artifactId>kuyun-upms-dao</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>

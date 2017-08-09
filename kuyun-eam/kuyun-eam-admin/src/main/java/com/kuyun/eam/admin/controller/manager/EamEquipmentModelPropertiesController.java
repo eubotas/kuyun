@@ -5,6 +5,8 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
+import com.kuyun.eam.common.constant.DataType;
+import com.kuyun.eam.common.constant.DisplayType;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.EamEquipmentModelProperties;
 import com.kuyun.eam.dao.model.EamEquipmentModelPropertiesExample;
@@ -101,7 +103,10 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 	@RequiresPermissions("eam:equipmentModelProperty:create")
 	@RequestMapping(value = "/create/{id}", method = RequestMethod.GET)
 	public String create(@PathVariable("id") int id, ModelMap modelMap) {
-		modelMap.addAttribute("id", id);
+		modelMap.put("id", id);
+		modelMap.put("dataTypes", DataType.values());
+		modelMap.put("displayTypes", DisplayType.values());
+
 		return "/manage/equipment/model/property/create.jsp";
 	}
 
@@ -139,6 +144,8 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 	public String update(@PathVariable("id") int id, ModelMap modelMap) {
 		EamEquipmentModelProperties eamEquipmentModelProperties = eamEquipmentModelPropertiesService.selectByPrimaryKey(id);
 		modelMap.put("equipmentModelProperties", eamEquipmentModelProperties);
+		modelMap.put("dataTypes", DataType.values());
+		modelMap.put("displayTypes", DisplayType.values());
 		return "/manage/equipment/model/property/update.jsp";
 	}
 

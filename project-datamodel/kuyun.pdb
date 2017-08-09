@@ -4923,7 +4923,7 @@ LABL 0 新宋体,8,N</a:FontList>
 <o:Column Id="o70">
 <a:ObjectID>B410D290-9688-42DF-8EE1-0F4BABD5ECB4</a:ObjectID>
 <a:Name>参数显示名称</a:Name>
-<a:Code>lable</a:Code>
+<a:Code>label</a:Code>
 <a:CreationDate>1491615762</a:CreationDate>
 <a:Creator>user</a:Creator>
 <a:ModificationDate>1491621187</a:ModificationDate>

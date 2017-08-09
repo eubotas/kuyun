@@ -748,6 +748,216 @@ public class EamSensorExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andGrmActionIsNull() {
+            addCriterion("grm_action is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmActionIsNotNull() {
+            addCriterion("grm_action is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmActionEqualTo(String value) {
+            addCriterion("grm_action =", value, "grmAction");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmActionNotEqualTo(String value) {
+            addCriterion("grm_action <>", value, "grmAction");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmActionGreaterThan(String value) {
+            addCriterion("grm_action >", value, "grmAction");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmActionGreaterThanOrEqualTo(String value) {
+            addCriterion("grm_action >=", value, "grmAction");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmActionLessThan(String value) {
+            addCriterion("grm_action <", value, "grmAction");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmActionLessThanOrEqualTo(String value) {
+            addCriterion("grm_action <=", value, "grmAction");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmActionLike(String value) {
+            addCriterion("grm_action like", value, "grmAction");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmActionNotLike(String value) {
+            addCriterion("grm_action not like", value, "grmAction");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmActionIn(List<String> values) {
+            addCriterion("grm_action in", values, "grmAction");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmActionNotIn(List<String> values) {
+            addCriterion("grm_action not in", values, "grmAction");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmActionBetween(String value1, String value2) {
+            addCriterion("grm_action between", value1, value2, "grmAction");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmActionNotBetween(String value1, String value2) {
+            addCriterion("grm_action not between", value1, value2, "grmAction");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableIsNull() {
+            addCriterion("grm_variable is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableIsNotNull() {
+            addCriterion("grm_variable is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableEqualTo(String value) {
+            addCriterion("grm_variable =", value, "grmVariable");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableNotEqualTo(String value) {
+            addCriterion("grm_variable <>", value, "grmVariable");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableGreaterThan(String value) {
+            addCriterion("grm_variable >", value, "grmVariable");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableGreaterThanOrEqualTo(String value) {
+            addCriterion("grm_variable >=", value, "grmVariable");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableLessThan(String value) {
+            addCriterion("grm_variable <", value, "grmVariable");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableLessThanOrEqualTo(String value) {
+            addCriterion("grm_variable <=", value, "grmVariable");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableLike(String value) {
+            addCriterion("grm_variable like", value, "grmVariable");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableNotLike(String value) {
+            addCriterion("grm_variable not like", value, "grmVariable");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableIn(List<String> values) {
+            addCriterion("grm_variable in", values, "grmVariable");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableNotIn(List<String> values) {
+            addCriterion("grm_variable not in", values, "grmVariable");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableBetween(String value1, String value2) {
+            addCriterion("grm_variable between", value1, value2, "grmVariable");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableNotBetween(String value1, String value2) {
+            addCriterion("grm_variable not between", value1, value2, "grmVariable");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableValueIsNull() {
+            addCriterion("grm_variable_value is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableValueIsNotNull() {
+            addCriterion("grm_variable_value is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableValueEqualTo(String value) {
+            addCriterion("grm_variable_value =", value, "grmVariableValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableValueNotEqualTo(String value) {
+            addCriterion("grm_variable_value <>", value, "grmVariableValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableValueGreaterThan(String value) {
+            addCriterion("grm_variable_value >", value, "grmVariableValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableValueGreaterThanOrEqualTo(String value) {
+            addCriterion("grm_variable_value >=", value, "grmVariableValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableValueLessThan(String value) {
+            addCriterion("grm_variable_value <", value, "grmVariableValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableValueLessThanOrEqualTo(String value) {
+            addCriterion("grm_variable_value <=", value, "grmVariableValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableValueLike(String value) {
+            addCriterion("grm_variable_value like", value, "grmVariableValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableValueNotLike(String value) {
+            addCriterion("grm_variable_value not like", value, "grmVariableValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableValueIn(List<String> values) {
+            addCriterion("grm_variable_value in", values, "grmVariableValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableValueNotIn(List<String> values) {
+            addCriterion("grm_variable_value not in", values, "grmVariableValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableValueBetween(String value1, String value2) {
+            addCriterion("grm_variable_value between", value1, value2, "grmVariableValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableValueNotBetween(String value1, String value2) {
+            addCriterion("grm_variable_value not between", value1, value2, "grmVariableValue");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateUserIdIsNull() {
             addCriterion("create_user_id is null");
             return (Criteria) this;

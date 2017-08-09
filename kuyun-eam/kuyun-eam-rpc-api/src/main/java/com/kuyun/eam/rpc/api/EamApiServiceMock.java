@@ -2,6 +2,9 @@ package com.kuyun.eam.rpc.api;
 
 import java.util.List;
 
+import com.kuyun.eam.pojo.sensor.SensorGroup;
+import com.kuyun.eam.pojo.tree.Tree;
+import com.kuyun.upms.dao.model.UpmsOrganization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,6 +63,16 @@ public class EamApiServiceMock implements EamApiService {
 
     @Override
     public List<EamSensorDataVO> selectEamSensorData(EamSensorVO sensorVO) {
+        return null;
+    }
+
+    @Override
+    public Tree getCityTree(UpmsOrganization org) {
+        return null;
+    }
+
+    @Override
+    public List<SensorGroup> getSensorData(String equipmentId) {
         return null;
     }
 }

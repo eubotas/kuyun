@@ -12,6 +12,9 @@
     <result column="period" jdbcType="INTEGER" property="period" />
     <result column="quantity" jdbcType="INTEGER" property="quantity" />
     <result column="write_number" jdbcType="INTEGER" property="writeNumber" />
+    <result column="grm_action" jdbcType="VARCHAR" property="grmAction" />
+    <result column="grm_variable" jdbcType="VARCHAR" property="grmVariable" />
+    <result column="grm_variable_value" jdbcType="VARCHAR" property="grmVariableValue" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
@@ -79,8 +82,8 @@
   </sql>
   <sql id="Base_Column_List">
     sensor_id, equipment_id, equipment_model_property_id, salve_id, function_code, address, 
-    data_format, period, quantity, write_number, create_user_id, create_time, update_user_id, 
-    update_time, delete_flag, organization_id
+    data_format, period, quantity, write_number, grm_action, grm_variable, grm_variable_value, 
+    create_user_id, create_time, update_user_id, update_time, delete_flag, organization_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamSensorExample" resultMap="BaseResultMap">
     select
@@ -124,13 +127,15 @@
     insert into eam_sensor (sensor_id, equipment_id, equipment_model_property_id, 
       salve_id, function_code, address, 
       data_format, period, quantity, 
-      write_number, create_user_id, create_time, 
+      write_number, grm_action, grm_variable, 
+      grm_variable_value, create_user_id, create_time, 
       update_user_id, update_time, delete_flag, 
       organization_id)
     values (#{sensorId,jdbcType=INTEGER}, #{equipmentId,jdbcType=VARCHAR}, #{equipmentModelPropertyId,jdbcType=INTEGER}, 
       #{salveId,jdbcType=INTEGER}, #{functionCode,jdbcType=INTEGER}, #{address,jdbcType=INTEGER}, 
       #{dataFormat,jdbcType=VARCHAR}, #{period,jdbcType=INTEGER}, #{quantity,jdbcType=INTEGER}, 
-      #{writeNumber,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{writeNumber,jdbcType=INTEGER}, #{grmAction,jdbcType=VARCHAR}, #{grmVariable,jdbcType=VARCHAR}, 
+      #{grmVariableValue,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
       #{organizationId,jdbcType=INTEGER})
   </insert>
@@ -166,6 +171,15 @@
       </if>
       <if test="writeNumber != null">
         write_number,
+      </if>
+      <if test="grmAction != null">
+        grm_action,
+      </if>
+      <if test="grmVariable != null">
+        grm_variable,
+      </if>
+      <if test="grmVariableValue != null">
+        grm_variable_value,
       </if>
       <if test="createUserId != null">
         create_user_id,
@@ -216,6 +230,15 @@
       </if>
       <if test="writeNumber != null">
         #{writeNumber,jdbcType=INTEGER},
+      </if>
+      <if test="grmAction != null">
+        #{grmAction,jdbcType=VARCHAR},
+      </if>
+      <if test="grmVariable != null">
+        #{grmVariable,jdbcType=VARCHAR},
+      </if>
+      <if test="grmVariableValue != null">
+        #{grmVariableValue,jdbcType=VARCHAR},
       </if>
       <if test="createUserId != null">
         #{createUserId,jdbcType=INTEGER},
@@ -276,6 +299,15 @@
       <if test="record.writeNumber != null">
         write_number = #{record.writeNumber,jdbcType=INTEGER},
       </if>
+      <if test="record.grmAction != null">
+        grm_action = #{record.grmAction,jdbcType=VARCHAR},
+      </if>
+      <if test="record.grmVariable != null">
+        grm_variable = #{record.grmVariable,jdbcType=VARCHAR},
+      </if>
+      <if test="record.grmVariableValue != null">
+        grm_variable_value = #{record.grmVariableValue,jdbcType=VARCHAR},
+      </if>
       <if test="record.createUserId != null">
         create_user_id = #{record.createUserId,jdbcType=INTEGER},
       </if>
@@ -311,6 +343,9 @@
       period = #{record.period,jdbcType=INTEGER},
       quantity = #{record.quantity,jdbcType=INTEGER},
       write_number = #{record.writeNumber,jdbcType=INTEGER},
+      grm_action = #{record.grmAction,jdbcType=VARCHAR},
+      grm_variable = #{record.grmVariable,jdbcType=VARCHAR},
+      grm_variable_value = #{record.grmVariableValue,jdbcType=VARCHAR},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
@@ -351,6 +386,15 @@
       <if test="writeNumber != null">
         write_number = #{writeNumber,jdbcType=INTEGER},
       </if>
+      <if test="grmAction != null">
+        grm_action = #{grmAction,jdbcType=VARCHAR},
+      </if>
+      <if test="grmVariable != null">
+        grm_variable = #{grmVariable,jdbcType=VARCHAR},
+      </if>
+      <if test="grmVariableValue != null">
+        grm_variable_value = #{grmVariableValue,jdbcType=VARCHAR},
+      </if>
       <if test="createUserId != null">
         create_user_id = #{createUserId,jdbcType=INTEGER},
       </if>
@@ -383,6 +427,9 @@
       period = #{period,jdbcType=INTEGER},
       quantity = #{quantity,jdbcType=INTEGER},
       write_number = #{writeNumber,jdbcType=INTEGER},
+      grm_action = #{grmAction,jdbcType=VARCHAR},
+      grm_variable = #{grmVariable,jdbcType=VARCHAR},
+      grm_variable_value = #{grmVariableValue,jdbcType=VARCHAR},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=INTEGER},

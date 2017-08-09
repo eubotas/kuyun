@@ -101,8 +101,8 @@ INSERT INTO `upms_permission` VALUES ('264', '6', '261', '删除设备维保', '
 
 # prepare ticket menu items, id start with 300 
 
-INSERT INTO `upms_permission` VALUES ('300', '6', '0', ' 工单管理', '1', null, null, 'zmdi zmdi-collection-text', '1', '220', '300');
-INSERT INTO `upms_permission` VALUES ('310', '6', '300', '类型管理', '2', 'eam:ticketType:read',   '/manage/ticket/type/index', null, '1', '221', '310');
+INSERT INTO `upms_permission` VALUES ('300', '6', '0', '工单管理', '1', null, null, 'zmdi zmdi-collection-text', '1', '220', '300');
+INSERT INTO `upms_permission` VALUES ('310', '6', '300', '工单类型', '2', 'eam:ticketType:read',   '/manage/ticket/type/index', null, '1', '221', '310');
 INSERT INTO `upms_permission` VALUES ('311', '6', '310', '新增类型', '3', 'eam:ticketType:create', '/manage/ticket/type/create', 'zmdi zmdi-plus', '1', '1489820150404', '311');
 INSERT INTO `upms_permission` VALUES ('312', '6', '310', '编辑类型', '3', 'eam:ticketType:update', '/manage/ticket/type/update', 'zmdi zmdi-edit', '1', '1489820178269', '312');
 INSERT INTO `upms_permission` VALUES ('313', '6', '310', '删除类型', '3', 'eam:ticketType:delete', '/manage/ticket/type/delete', 'zmdi zmdi-close', '1', '1489820207607', '313');

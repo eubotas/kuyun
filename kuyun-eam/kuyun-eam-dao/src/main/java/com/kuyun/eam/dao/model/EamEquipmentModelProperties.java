@@ -22,6 +22,8 @@ public class EamEquipmentModelProperties extends BaseEntity implements Serializa
 
     private String refreshPeriod;
 
+    private String displayType;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getEquipmentModelPropertyId() {
@@ -96,6 +98,14 @@ public class EamEquipmentModelProperties extends BaseEntity implements Serializa
         this.refreshPeriod = refreshPeriod;
     }
 
+    public String getDisplayType() {
+        return displayType;
+    }
+
+    public void setDisplayType(String displayType) {
+        this.displayType = displayType;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -111,6 +121,7 @@ public class EamEquipmentModelProperties extends BaseEntity implements Serializa
         sb.append(", dataType=").append(dataType);
         sb.append(", alarmType=").append(alarmType);
         sb.append(", refreshPeriod=").append(refreshPeriod);
+        sb.append(", displayType=").append(displayType);
         sb.append("]");
         return sb.toString();
     }
@@ -141,7 +152,8 @@ public class EamEquipmentModelProperties extends BaseEntity implements Serializa
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getOrganizationId() == null ? other.getOrganizationId() == null : this.getOrganizationId().equals(other.getOrganizationId()));
+            && (this.getOrganizationId() == null ? other.getOrganizationId() == null : this.getOrganizationId().equals(other.getOrganizationId()))
+            && (this.getDisplayType() == null ? other.getDisplayType() == null : this.getDisplayType().equals(other.getDisplayType()));
     }
 
     @Override
@@ -163,6 +175,7 @@ public class EamEquipmentModelProperties extends BaseEntity implements Serializa
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getOrganizationId() == null) ? 0 : getOrganizationId().hashCode());
+        result = prime * result + ((getDisplayType() == null) ? 0 : getDisplayType().hashCode());
         return result;
     }
 }

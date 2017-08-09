@@ -11,6 +11,14 @@ public class EamSensorVO extends EamSensor {
     private Date startDate;
     private Date endDate;
 
+    private String name;
+    private String unit;
+    private String dataType;
+    private String stringValue;
+    private String displayType;
+
+
+
     private Integer limit;
 
     private Integer offset;
@@ -31,6 +39,46 @@ public class EamSensorVO extends EamSensor {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getDataType() {
+        return dataType;
+    }
+
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
+    }
+
+    public String getStringValue() {
+        return stringValue;
+    }
+
+    public void setStringValue(String stringValue) {
+        this.stringValue = stringValue;
+    }
+
+    public String getDisplayType() {
+        return displayType;
+    }
+
+    public void setDisplayType(String displayType) {
+        this.displayType = displayType;
     }
 
     public Integer getLimit() {

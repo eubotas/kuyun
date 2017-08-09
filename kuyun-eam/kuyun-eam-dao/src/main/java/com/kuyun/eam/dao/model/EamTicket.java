@@ -45,7 +45,7 @@ public class EamTicket extends BaseEntity implements Serializable {
     private String imagePath4;
 
     /**
-     * 优先级（一般，紧急, 非常紧急）
+     * 优先级 （一般，紧急, 非常紧急）
      *
      * @mbg.generated
      */

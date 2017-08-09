@@ -20,14 +20,14 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-12">
-				<div class="form-group">
-					<div class="fg-line">
-						<label for="lable">参数显示名称</label>
-						<input id="lable" type="text" class="form-control" name="lable" maxlength="20" value="${equipmentModelProperties.lable}">
-					</div>
-				</div>
-			</div>
+			<%--<div class="col-sm-12">--%>
+				<%--<div class="form-group">--%>
+					<%--<div class="fg-line">--%>
+						<%--<label for="label">参数显示名称</label>--%>
+						<%--<input id="label" type="text" class="form-control" name="label" maxlength="20" value="${equipmentModelProperties.label}">--%>
+					<%--</div>--%>
+				<%--</div>--%>
+			<%--</div>--%>
 			<div class="col-sm-12">
 				<div class="form-group">
 					<div class="fg-line">
@@ -49,8 +49,25 @@
 			<div class="col-sm-12">
 				<div class="form-group">
 					<div class="fg-line">
-						<label for="dataType">数据类型</label>
-						<input id="dataType" type="text" class="form-control" name="dataType" maxlength="20" value="${equipmentModelProperties.dataType}">
+
+						<select id="dataType" name="dataType" style="width: 100%">
+							<c:forEach var="dataType" items="${dataTypes}">
+								<option value="${dataType.code}" ${equipmentModelProperties.dataType.equals(dataType.code) ? 'selected' : ''}>${dataType.name}</option>
+							</c:forEach>
+						</select>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-12">
+				<div class="form-group">
+					<div class="fg-line">
+
+						<select id="displayType" name="displayType" style="width: 100%">
+							<c:forEach var="displayType" items="${displayTypes}">
+								<option value="${displayType.code}" ${equipmentModelProperties.displayType.equals(displayType.code) ? 'selected' : ''}>${displayType.name}</option>
+							</c:forEach>
+						</select>
 					</div>
 				</div>
 			</div>

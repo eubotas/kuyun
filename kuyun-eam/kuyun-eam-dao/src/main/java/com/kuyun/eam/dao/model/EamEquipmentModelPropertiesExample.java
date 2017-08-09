@@ -1097,6 +1097,76 @@ public class EamEquipmentModelPropertiesExample implements Serializable {
             addCriterion("organization_id not between", value1, value2, "organizationId");
             return (Criteria) this;
         }
+
+        public Criteria andDisplayTypeIsNull() {
+            addCriterion("display_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisplayTypeIsNotNull() {
+            addCriterion("display_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisplayTypeEqualTo(String value) {
+            addCriterion("display_type =", value, "displayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisplayTypeNotEqualTo(String value) {
+            addCriterion("display_type <>", value, "displayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisplayTypeGreaterThan(String value) {
+            addCriterion("display_type >", value, "displayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisplayTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("display_type >=", value, "displayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisplayTypeLessThan(String value) {
+            addCriterion("display_type <", value, "displayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisplayTypeLessThanOrEqualTo(String value) {
+            addCriterion("display_type <=", value, "displayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisplayTypeLike(String value) {
+            addCriterion("display_type like", value, "displayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisplayTypeNotLike(String value) {
+            addCriterion("display_type not like", value, "displayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisplayTypeIn(List<String> values) {
+            addCriterion("display_type in", values, "displayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisplayTypeNotIn(List<String> values) {
+            addCriterion("display_type not in", values, "displayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisplayTypeBetween(String value1, String value2) {
+            addCriterion("display_type between", value1, value2, "displayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisplayTypeNotBetween(String value1, String value2) {
+            addCriterion("display_type not between", value1, value2, "displayType");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria implements Serializable {

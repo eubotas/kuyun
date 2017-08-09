@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.kuyun.eam.dao.model.EamInventory;
 import com.kuyun.eam.dao.model.EamTicketExample;
+import com.kuyun.eam.pojo.sensor.SensorGroup;
+import com.kuyun.eam.pojo.tree.Tree;
 import com.kuyun.eam.vo.EamInventoryVO;
 import com.kuyun.eam.vo.EamLocationVO;
 import com.kuyun.eam.vo.EamMaintenanceVO;
@@ -11,6 +13,7 @@ import com.kuyun.eam.vo.EamPartVO;
 import com.kuyun.eam.vo.EamSensorDataVO;
 import com.kuyun.eam.vo.EamSensorVO;
 import com.kuyun.eam.vo.EamTicketVO;
+import com.kuyun.upms.dao.model.UpmsOrganization;
 
 /**
  * Created by user on 4/24/2017.
@@ -33,4 +36,7 @@ public interface EamApiService {
 
     List<EamSensorDataVO> selectEamSensorData(EamSensorVO sensorVO);
 
+    Tree getCityTree(UpmsOrganization org);
+
+    List<SensorGroup> getSensorData(String equipmentId);
 }
