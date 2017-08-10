@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd ">
+
+    <dubbo:application name="kuyun-marketing-admin"/>
+
+    <dubbo:registry address="zookeeper://127.0.0.1:2181" default="false"/>
+    <dubbo:registry id="upmsRegistry" address="zookeeper://127.0.0.1:2181"/>
+
+    <!-- 订阅服务 -->
+    <dubbo:consumer check="false"/>
+
+    <!-- 短信设置 -->
+    <dubbo:reference id="mktSmsSettingService" interface="com.kuyun.fileuploader.rpc.api.MktSmsSettingService" mock="true"/>
+
+    <!-- 短信模板 -->
+    <dubbo:reference id="mktSmsTemplateService" interface="com.kuyun.fileuploader.rpc.api.MktSmsTemplateService" mock="true"/>
+
+    <!-- 短信发送 -->
+    <dubbo:reference id="mktSmsService" interface="com.kuyun.fileuploader.rpc.api.MktSmsService" mock="true"/>
+
+    <dubbo:reference id="mktSmsUserService" interface="com.kuyun.fileuploader.rpc.api.MktSmsUserService" mock="true"/>
+
+    <!-- 接口服务 -->
+    <dubbo:reference id="upmsApiService" interface="com.kuyun.upms.rpc.api.UpmsApiService" mock="true" registry="upmsRegistry"/>
+
+    <dubbo:reference id="upmsUserService" interface="com.kuyun.upms.rpc.api.UpmsUserService" mock="true" registry="upmsRegistry"/>
+
+    <dubbo:reference id="mktApiService" interface="com.kuyun.fileuploader.rpc.api.MktApiService" mock="true" />
+</beans>
