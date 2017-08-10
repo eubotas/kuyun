@@ -20,6 +20,7 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
         "classpath:META-INF/spring/applicationContext.xml",
+        "classpath:applicationContext.xml",
         "classpath:META-INF/spring/applicationContext-jdbc.xml",
         "classpath:META-INF/spring/applicationContext-listener.xml"
 })
