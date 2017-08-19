@@ -76,15 +76,19 @@ public class EamInventoryController extends BaseController {
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			inventoryVO.setOrderByClause(sort + " " + order);
 		}
+		EamInventoryExample inventoryExample = new EamInventoryExample();
 		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
 		if (organization != null){
 			inventoryVO.setOrganizationId(organization.getOrganizationId());
+			inventoryExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId());
 		}
 		List<EamInventoryVO> rows = eamApiService.selectInventory(inventoryVO);
+		int total = eamInventoryService.countByExample(inventoryExample);
+
 		Map<String, Object> result = new HashMap<>();
 		result.put("rows", rows);
-		result.put("total", rows.size());
+		result.put("total", total);
 		return result;
 	}
 

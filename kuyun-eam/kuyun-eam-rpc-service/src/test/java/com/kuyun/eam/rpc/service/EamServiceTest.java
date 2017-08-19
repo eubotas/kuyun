@@ -27,9 +27,9 @@ import java.util.List;
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 public class EamServiceTest {
 
-    @SuppressWarnings("SpringJavaAutowiringInspection")
-    @Autowired
-    private EamApiService eamApiService;
+//    @SuppressWarnings("SpringJavaAutowiringInspection")
+//    @Autowired
+//    private EamApiService eamApiService;
 
     @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
@@ -119,9 +119,9 @@ public class EamServiceTest {
 //    			eamTicketExample.setOrderByClause(sort + " " + order);
 //    		}
 
-    		List<EamTicketVO> voRows = eamApiService.selectTicket(eamTicketExample);
-    		int total = eamTicketService.countByExample(eamTicketExample);
-    		System.out.println(total);
+//    		List<EamTicketVO> voRows = eamApiService.selectTicket(eamTicketExample);
+//    		int total = eamTicketService.countByExample(eamTicketExample);
+//    		System.out.println(total);
     		
     		
     		 

@@ -1,5 +1,7 @@
 package com.kuyun.eam.rpc.service.impl;
 
+import com.google.gson.Gson;
+import com.kuyun.eam.common.constant.CollectStatus;
 import com.kuyun.eam.common.constant.DataType;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.pojo.sensor.SensorData;
@@ -13,8 +15,12 @@ import com.kuyun.eam.rpc.api.EamEquipmentService;
 import com.kuyun.eam.rpc.api.EamInventoryService;
 import com.kuyun.eam.rpc.mapper.EamApiMapper;
 import com.kuyun.eam.util.AreaUtil;
+import com.kuyun.eam.util.ProtocolEnum;
 import com.kuyun.eam.vo.*;
+import com.kuyun.grm.rpc.api.GrmApiService;
+import com.kuyun.modbus.rpc.api.ModbusSlaveRtuApiService;
 import com.kuyun.upms.dao.model.UpmsOrganization;
+import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +29,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static com.kuyun.eam.common.constant.CollectStatus.NO_START;
+import static com.kuyun.eam.common.constant.CollectStatus.WORKING;
 
 
 /**
@@ -48,6 +58,12 @@ public class EamApiServiceImpl implements EamApiService {
 
     @Autowired
     AreaUtil areaUtil;
+
+    @Autowired
+    private GrmApiService grmApiService;
+
+    @Autowired
+    private ModbusSlaveRtuApiService modbusSlaveRtuApiService;
 
 
     @Override
@@ -135,7 +151,7 @@ public class EamApiServiceImpl implements EamApiService {
 
                 for(EamEquipment equipment : cityEntry.getValue()){
                     Device device = buildDevice(equipment);
-                    cityData.addEquip(device);
+                    cityData.addChildren(device);
                 }
 
             }
@@ -261,5 +277,87 @@ public class EamApiServiceImpl implements EamApiService {
         data.setShowtype(sensor.getDisplayType());
         data.setShoworder(sensor.getSensorId());
         return data;
+    }
+
+    class IDS{
+        String ids;
+
+        public String getIds() {
+            return ids;
+        }
+
+        public void setIds(String ids) {
+            this.ids = ids;
+        }
+    }
+
+
+    public int handleEquimpmentCollect(String jsonString, CollectStatus collectStatus) {
+
+        _log.info("json="+jsonString);
+
+        Gson gson = new Gson();
+        IDS ids = gson.fromJson(jsonString, IDS.class);
+
+        String[] idArray = ids.getIds().split("::");
+        EamEquipment equipment = new EamEquipment();
+        equipment.setCollectStatus(collectStatus.getCode());
+
+        EamEquipmentExample example = new EamEquipmentExample();
+        example.createCriteria().andEquipmentIdIn(Arrays.asList(idArray));
+
+        handleCollectAction(collectStatus, example);
+
+        return eamEquipmentService.updateByExampleSelective(equipment, example);
+    }
+
+    private void handleCollectAction(CollectStatus collectStatus, EamEquipmentExample example){
+        List<EamEquipment> eamEquipments = eamEquipmentService.selectByExample(example);
+        // handle GRM
+        handleGRMAction(collectStatus, eamEquipments);
+
+        //handle Modbus RTU
+        handleModbusRtuAction(collectStatus, eamEquipments);
+
+    }
+
+    private void handleModbusRtuAction(CollectStatus collectStatus, List<EamEquipment> eamEquipments) {
+        List<EamEquipment> modbusEquipments = eamEquipments.stream().filter(equipment -> equipment.getProtocolId() != null)
+                .filter(equipment -> ProtocolEnum.MODBUS_RTU.getId() == equipment.getProtocolId().intValue()).collect(Collectors.toList());
+
+        modbusEquipments.forEach(equipment -> {
+            handleModbusRtuAction(collectStatus, equipment);
+
+        });
+    }
+
+    private void handleGRMAction(CollectStatus collectStatus, List<EamEquipment> eamEquipments) {
+        List<EamEquipment> grmEquipments = eamEquipments.stream().filter(equipment -> equipment.getProtocolId() != null)
+                .filter(equipment -> ProtocolEnum.GRM.getId() == equipment.getProtocolId().intValue()).collect(Collectors.toList());
+
+        grmEquipments.forEach(equipment -> {
+            try {
+                handleGrmAction(collectStatus, equipment);
+            } catch (SchedulerException e) {
+                _log.error("GRM action error:"+e.getMessage());
+            }
+        });
+
+    }
+
+    private void handleGrmAction(CollectStatus collectStatus, EamEquipment equipment) throws SchedulerException {
+        if (NO_START.getCode().equalsIgnoreCase(collectStatus.getCode())){
+            grmApiService.pauseJob(equipment.getEquipmentId());
+        }else if (WORKING.getCode().equalsIgnoreCase(collectStatus.getCode())){
+            grmApiService.startJob(equipment.getEquipmentId());
+        }
+    }
+
+    private void handleModbusRtuAction(CollectStatus collectStatus, EamEquipment equipment)  {
+        if (NO_START.getCode().equalsIgnoreCase(collectStatus.getCode())){
+            modbusSlaveRtuApiService.pauseJob(equipment.getEquipmentId());
+        }else if (WORKING.getCode().equalsIgnoreCase(collectStatus.getCode())){
+            modbusSlaveRtuApiService.startJob(equipment.getEquipmentId());
+        }
     }
 }

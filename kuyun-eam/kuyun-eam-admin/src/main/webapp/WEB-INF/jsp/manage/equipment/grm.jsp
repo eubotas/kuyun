@@ -16,21 +16,13 @@
 
 
 		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group">
-					<div class="fg-line">
-						<label for="salveId">从站地址</label>
-						<input id="salveId" type="text" placeholder="地址范围 1 - 247" class="form-control" name="salveId" maxlength="200" <c:if test="${sensor != null}"> value="${sensor.salveId}" </c:if>>
-					</div>
-				</div>
-			</div>
 
 			<div class="col-sm-12">
 				<div class="form-group">
 					<div class="fg-line">
-						<select id="functionCode" name="functionCode" style="width: 100%">
-							<c:forEach var="functionCode" items="${modbusFunctionCodes}">
-								<option value="${functionCode.code}" ${sensor != null && sensor.functionCode == functionCode.code ? 'selected' : ''}>${functionCode.name}</option>
+						<select id="grmAction" name="grmAction" style="width: 100%">
+							<c:forEach var="grmAction" items="${grmActions}">
+								<option value="${grmAction.code}" ${sensor != null && sensor.grmAction == grmAction.code ? 'selected' : ''}>${grmAction.name}</option>
 							</c:forEach>
 						</select>
 					</div>
@@ -40,55 +32,32 @@
 			<div class="col-sm-12">
 				<div class="form-group">
 					<div class="fg-line">
-						<label for="address">地址</label>
-						<input id="address" type="text" class="form-control" name="address" maxlength="500" <c:if test="${sensor != null}"> value="${sensor.address}"</c:if>>
+						<label for="grmVariable">巨控 变量名</label>
+						<input id="grmVariable" type="text" class="form-control" name="grmVariable" maxlength="20" <c:if test="${sensor != null}"> value="${sensor.grmVariable}"</c:if>>
 					</div>
 				</div>
 			</div>
+
+			<div id="grmVariableValueDiv" style="display:none">
+				<div class="col-sm-12">
+					<div class="form-group">
+						<div class="fg-line">
+							<label for="grmVariableValue">巨控 写变量值</label>
+							<input id="grmVariableValue" type="text" class="form-control" name="grmVariableValue" maxlength="20" <c:if test="${sensor != null}"> value="${sensor.grmVariableValue}"</c:if>>
+						</div>
+					</div>
+				</div>
+			</div>
+
 
 			<div class="col-sm-12">
 				<div class="form-group">
 					<div class="fg-line">
-						<select id="dataFormat" name="dataFormat" style="width: 100%">
-							<c:forEach var="dataFormat" items="${dataFormats}">
-								<option value="${dataFormat.code}" ${sensor != null && sensor.dataFormat == dataFormat.code ? 'selected' : ''}>${dataFormat.name}</option>
-							</c:forEach>
-						</select>
+						<label for="grmVariableOrder">巨控 读写变量顺序</label>
+						<input id="grmVariableOrder" type="text" class="form-control" name="grmVariableOrder" maxlength="20" <c:if test="${sensor != null}"> value="${sensor.grmVariableOrder}"</c:if>>
 					</div>
 				</div>
 			</div>
-
-			<div class="col-sm-12">
-				<div class="form-group">
-					<div class="fg-line">
-						<select id="bitOrder" name="bitOrder" style="width: 100%">
-							<c:forEach var="bitOrder" items="${bitOrders}">
-								<option value="${bitOrder.name}" ${sensor != null && sensor.bitOrder == bitOrder.name ? 'selected' : ''}>${bitOrder.name}</option>
-							</c:forEach>
-						</select>
-					</div>
-				</div>
-			</div>
-
-			<%--<div class="col-sm-12">--%>
-				<%--<div class="form-group">--%>
-					<%--<div class="fg-line">--%>
-						<%--<label for="quantity">数量</label>--%>
-						<%--<input id="quantity" type="text" class="form-control" name="quantity" maxlength="500" <c:if test="${sensor != null}"> value="${sensor.quantity}"</c:if>>--%>
-					<%--</div>--%>
-				<%--</div>--%>
-			<%--</div>--%>
-
-			<div class="col-sm-12">
-				<div class="form-group">
-					<div class="fg-line">
-						<label for="period">采集周期</label>
-						<input id="period" type="text" class="form-control" name="period" maxlength="500" <c:if test="${sensor != null}"> value="${sensor.period}" </c:if>>
-					</div>
-				</div>
-			</div>
-
-
 
 		</div>
 
@@ -164,4 +133,12 @@ function createSubmit() {
         }
     });
 }
+
+$('#grmAction').change(function() {
+	if ('R' == this.value){
+        $('#grmVariableValueDiv').hide();
+	}else {
+        $('#grmVariableValueDiv').show();
+	}
+});
 </script>

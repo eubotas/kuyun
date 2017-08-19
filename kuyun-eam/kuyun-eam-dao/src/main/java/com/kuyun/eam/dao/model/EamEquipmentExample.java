@@ -1928,6 +1928,76 @@ public class EamEquipmentExample implements Serializable {
             addCriterion("city not between", value1, value2, "city");
             return (Criteria) this;
         }
+
+        public Criteria andCollectStatusIsNull() {
+            addCriterion("collect_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCollectStatusIsNotNull() {
+            addCriterion("collect_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCollectStatusEqualTo(String value) {
+            addCriterion("collect_status =", value, "collectStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCollectStatusNotEqualTo(String value) {
+            addCriterion("collect_status <>", value, "collectStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCollectStatusGreaterThan(String value) {
+            addCriterion("collect_status >", value, "collectStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCollectStatusGreaterThanOrEqualTo(String value) {
+            addCriterion("collect_status >=", value, "collectStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCollectStatusLessThan(String value) {
+            addCriterion("collect_status <", value, "collectStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCollectStatusLessThanOrEqualTo(String value) {
+            addCriterion("collect_status <=", value, "collectStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCollectStatusLike(String value) {
+            addCriterion("collect_status like", value, "collectStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCollectStatusNotLike(String value) {
+            addCriterion("collect_status not like", value, "collectStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCollectStatusIn(List<String> values) {
+            addCriterion("collect_status in", values, "collectStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCollectStatusNotIn(List<String> values) {
+            addCriterion("collect_status not in", values, "collectStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCollectStatusBetween(String value1, String value2) {
+            addCriterion("collect_status between", value1, value2, "collectStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andCollectStatusNotBetween(String value1, String value2) {
+            addCriterion("collect_status not between", value1, value2, "collectStatus");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria implements Serializable {

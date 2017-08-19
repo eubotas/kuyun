@@ -61,6 +61,12 @@ INSERT INTO `upms_permission` VALUES ('212', '6', '211', '新增报警', '3', 'e
 INSERT INTO `upms_permission` VALUES ('213', '6', '211', '编辑报警', '3', 'eam:alarm:update', '/manage/alarm/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
 INSERT INTO `upms_permission` VALUES ('214', '6', '211', '删除报警', '3', 'eam:alarm:delete', '/manage/alarm/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
 
+INSERT INTO `upms_permission` VALUES ('215', '6', '0', '数据采集', '1', null, null, 'zmdi zmdi-collection-text', '1', '210', '210');
+INSERT INTO `upms_permission` VALUES ('216', '6', '215', '数据采集', '2', 'eam:equipment:update',   '/manage/equipment/collect/index', null, '1', '216', '216');
+INSERT INTO `upms_permission` VALUES ('217', '6', '216', '启动', '3', 'eam:equipment:update', '/manage/equipment/collect/start', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
+INSERT INTO `upms_permission` VALUES ('218', '6', '216', '停止', '3', 'eam:equipment:update', '/manage/equipment/collect/stop', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
+
+
 INSERT INTO `upms_permission` VALUES ('220', '6', '0', ' 仓储管理', '1', null, null, 'zmdi zmdi-collection-text', '1', '220', '220');
 INSERT INTO `upms_permission` VALUES ('221', '6', '220', '仓库管理', '2', 'eam:warehouse:read',   '/manage/warehouse/index', null, '1', '221', '221');
 INSERT INTO `upms_permission` VALUES ('222', '6', '221', '新增仓库', '3', 'eam:warehouse:create', '/manage/warehouse/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
@@ -123,4 +129,5 @@ DELETE FROM `eam_protocol`;
 INSERT INTO `eam_protocol` VALUES (1, 'Modbus RTU', '118.89.140.11', 8234);
 INSERT INTO `eam_protocol` VALUES (2, 'Modbus TCP', '118.89.140.11', 8233);
 INSERT INTO `eam_protocol` VALUES (3, 'MQTT', '118.89.140.11', 8232);
+INSERT INTO `eam_protocol` VALUES (4, '巨控', 'www.yunplc.com', 7080);
 

@@ -2,6 +2,7 @@ package com.kuyun.eam.rpc.api;
 
 import java.util.List;
 
+import com.kuyun.eam.common.constant.CollectStatus;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.pojo.tree.Tree;
 import com.kuyun.upms.dao.model.UpmsOrganization;
@@ -74,5 +75,10 @@ public class EamApiServiceMock implements EamApiService {
     @Override
     public List<SensorGroup> getSensorData(String equipmentId) {
         return null;
+    }
+
+    @Override
+    public int handleEquimpmentCollect(String jsonString, CollectStatus collectStatus) {
+        return 0;
     }
 }

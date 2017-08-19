@@ -34,44 +34,103 @@
 					<div class="form-group">
 						<div class="fg-line">
 							<select id="protocolId" name="protocolId" style="width: 100%">
+								<option value=""></option>
 								<c:forEach var="protocol" items="${protocols}">
-									<option value="${protocol.protocolId}">${protocol.name}</option>
+									<option value="${protocol.protocolId}" ${equipment.protocolId == protocol.protocolId ? 'selected' : ''}>${protocol.name}</option>
 								</c:forEach>
 							</select>
 						</div>
 					</div>
 				</div>
 
-				<div class="col-sm-12">
-					<div class="form-group">
-						<div class="fg-line">
-							<label for="heartData">心跳包格式</label>
-							<input id="heartData" type="text" class="form-control" name="heartData" maxlength="50" <c:if test="${equipment.heartData != null}"> value="${equipment.heartData}"</c:if>>
+				<div id="modbusRtuDiv" style="display:none">
+					<div class="col-sm-12">
+						<div class="form-group">
+							<div class="fg-line">
+								<label for="heartData">心跳包格式</label>
+								<input id="heartData" type="text" class="form-control" name="heartData" maxlength="50" <c:if test="${equipment.heartData != null}"> value="${equipment.heartData}"</c:if>>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-sm-12">
+						<div class="form-group">
+							<div class="fg-line">
+								<label for="IP">IP: <c:out value="${protocols[0].ip}"/></label>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<div class="form-group">
+							<div class="fg-line">
+								<label for="port">端口号: <c:out value="${protocols[0].port}"/></label>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<div class="form-group">
+							<div class="fg-line">
+								<label for="serviceId">接入注册包: ${equipment.equipmentId}</label>
+							</div>
+						</div>
+					</div>
+				  </div>
+
+				<div id="modbusTcpDiv" style="display:none">
+					<div class="col-sm-12">
+						<div class="form-group">
+							<div class="fg-line">
+								<label for="IP">IP: <c:out value="${protocols[1].ip}"/></label>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<div class="form-group">
+							<div class="fg-line">
+								<label for="port">端口号: <c:out value="${protocols[1].port}"/></label>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<div class="form-group">
+							<div class="fg-line">
+								<label for="serviceId">接入注册包: ${equipment.equipmentId}</label>
+							</div>
 						</div>
 					</div>
 				</div>
 
-				<div class="col-sm-12">
-					<div class="form-group">
-						<div class="fg-line">
-							<label for="IP">IP: 127.0.0.1</label>
+				<div id="grmDiv" style="display:none">
+					<div class="col-sm-12">
+						<div class="form-group">
+							<div class="fg-line">
+								<label for="grm">巨控设备ID</label>
+								<input id="grm" type="text" class="form-control" name="grm" maxlength="50" <c:if test="${equipment.grm != null}"> value="${equipment.grm}"</c:if>>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-sm-12">
-					<div class="form-group">
-						<div class="fg-line">
-							<label for="port">端口号: 8234</label>
+
+					<div class="col-sm-12">
+						<div class="form-group">
+							<div class="fg-line">
+								<label for="grmPassword">巨控设备密码</label>
+								<input id="grmPassword" type="text" class="form-control" name="grmPassword" maxlength="50" <c:if test="${equipment.grmPassword != null}"> value="${equipment.grmPassword}"</c:if>>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-sm-12">
-					<div class="form-group">
-						<div class="fg-line">
-							<label for="serviceId">接入注册包: ${equipment.equipmentId}</label>
+
+					<div class="col-sm-12">
+						<div class="form-group">
+							<div class="fg-line">
+								<label for="grmPeriod">巨控设备采集频率(单位秒)</label>
+								<input id="grmPeriod" type="text" class="form-control" name="grmPeriod" maxlength="50" <c:if test="${equipment.grmPeriod != null}"> value="${equipment.grmPeriod}"</c:if>>
+							</div>
 						</div>
 					</div>
+
+
 				</div>
+
 
 			</div>
 
@@ -146,17 +205,46 @@
                 }
             });
         } else {
+            var readWriteUrl = '${basePath}/manage/equipment/modbus/${equipment.equipmentId}/' + rows[0].equipmentModelPropertyId;
+            if (1 == $('#protocolId').val()){
+                readWriteUrl = '${basePath}/manage/equipment/modbus/${equipment.equipmentId}/' + rows[0].equipmentModelPropertyId;
+            }else if (4 == $('#protocolId').val()){
+                readWriteUrl = '${basePath}/manage/equipment/grm/${equipment.equipmentId}/' + rows[0].equipmentModelPropertyId;
+
+            }
             readWriteDialog = $.dialog({
                 animationSpeed: 300,
                 title: '读写指令',
                 columnClass: 'xlarge',
-                content: 'url:${basePath}/manage/equipment/modbus/${equipment.equipmentId}/' + rows[0].equipmentModelPropertyId,
+                content: 'url:'+readWriteUrl,
                 onContentReady: function () {
                     initMaterialInput();
                     $('select').select2();
                 }
             });
         }
+    }
+    
+    function checkForm() {
+        if (1 == $('#protocolId').val()){
+            if ($('#heartData').val() == '') {
+                $('#heartData').focus();
+                return false;
+            }
+		}else if (4 == $('#protocolId').val()){
+            if ($('#grm').val() == '') {
+                $('#grm').focus();
+                return false;
+            }else if ($('#grmPassword').val() == '') {
+                $('#grmPassword').focus();
+                return false;
+            }else if ($('#grmPeriod').val() == '') {
+                $('#grmPeriod').focus();
+                return false;
+            }
+        }
+
+        return true;
     }
 
     function createSubmit() {
@@ -165,8 +253,7 @@
             url: '${basePath}/manage/equipment/connect/${equipment.equipmentId}',
             data: $('#connectForm').serialize(),
             beforeSend: function() {
-                if ($('#heartData').val() == '') {
-                    $('#heartData').focus();
+                if(!checkForm()){
                     return false;
                 }
             },
@@ -236,6 +323,24 @@
             }
         });
     }
+
+    $('#protocolId').change(function() {
+        $('#modbusRtuDiv').hide();
+        $('#modbusTcpDiv').hide();
+        $('#grmDiv').hide();
+
+        if (1 == this.value){
+            $('#modbusRtuDiv').show();
+
+		}else if (2 == this.value){
+            $('#modbusTcpDiv').show();
+
+		}else if (4 == this.value){
+            $('#grmDiv').show();
+
+		}
+
+    });
 </script>
 </body>
 </html>

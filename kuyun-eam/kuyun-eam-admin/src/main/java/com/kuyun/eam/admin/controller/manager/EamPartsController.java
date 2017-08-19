@@ -84,15 +84,21 @@ public class EamPartsController extends BaseController {
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			partVO.setOrderByClause(sort + " " + order);
 		}
+		EamPartsExample partExample = new EamPartsExample();
+
 		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
 		if (organization != null){
 			partVO.setOrganizationId(organization.getOrganizationId());
+			partExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId());
 		}
+
 		List<EamPartVO> rows = eamApiService.selectPart(partVO);
+		int total = eamPartsService.countByExample(partExample);
+
 		Map<String, Object> result = new HashMap<>();
 		result.put("rows", rows);
-		result.put("total", rows.size());
+		result.put("total", total);
 		return result;
 	}
 

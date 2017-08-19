@@ -65,7 +65,9 @@
 	<dubbo:reference interface="com.kuyun.eam.rpc.api.EamTicketRecordService" id="eamTicketRecordService" mock="true" />
 	
 	<dubbo:reference interface="com.kuyun.eam.rpc.api.EamTicketTypeService" id="eamTicketTypeService" mock="true" />
-    
-    
-    
+
+    <!-- GRM服务 -->
+    <!--<dubbo:reference id="grmApiService" interface="com.kuyun.grm.rpc.api.GrmApiService" mock="false" />-->
+
+
 </beans>

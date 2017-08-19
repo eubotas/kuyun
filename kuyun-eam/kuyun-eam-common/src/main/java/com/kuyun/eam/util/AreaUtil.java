@@ -6,9 +6,7 @@ import com.kuyun.eam.pojo.tree.CodeValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * Created by user on 2017-08-08.
@@ -23,7 +21,10 @@ public class AreaUtil {
         ClassLoader classLoader = getClass().getClassLoader();
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader(classLoader.getResource("areas.json").getFile()));
+            InputStream in = getClass().getResourceAsStream("/areas.json");
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(in, "UTF-8"));
+
             areas = gson.fromJson(br, Areas.class);
 
         }catch (IOException e) {
@@ -65,7 +66,7 @@ public class AreaUtil {
     public static void main(String[] args) {
         AreaUtil areaUtil = new AreaUtil();
 
-        _log.info(areaUtil.getName("130200"));
+        System.out.println(areaUtil.getName("340000"));
     }
 
 }

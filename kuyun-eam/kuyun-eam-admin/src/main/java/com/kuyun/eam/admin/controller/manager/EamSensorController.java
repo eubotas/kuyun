@@ -4,9 +4,14 @@ import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
+import com.kuyun.common.util.StringUtil;
 import com.kuyun.common.validator.NotNullValidator;
+import com.kuyun.eam.common.constant.DataFormat;
 import com.kuyun.eam.common.constant.EamResult;
+import com.kuyun.eam.dao.model.EamEquipment;
+import com.kuyun.eam.dao.model.EamEquipmentExample;
 import com.kuyun.eam.dao.model.EamSensor;
+import com.kuyun.eam.rpc.api.EamEquipmentService;
 import com.kuyun.eam.rpc.api.EamSensorService;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import io.swagger.annotations.Api;
@@ -16,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -40,21 +46,21 @@ public class EamSensorController extends BaseController {
 	@Autowired
 	private EamSensorService eamSensorService;
 
+	@Autowired
+	private EamEquipmentService eamEquipmentService;
+
 	@ApiOperation(value = "新增设备传感器")
 	@RequiresPermissions("eam:equipment:create")
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	@ResponseBody
 	public Object create(EamSensor sensor) {
-		ComplexResult result = FluentValidator.checkAll()
-				.on(sensor.getSalveId(), new NotNullValidator("从站地址"))
-				.on(sensor.getAddress(), new NotNullValidator("地址"))
-				.on(sensor.getPeriod(), new NotNullValidator("采集周期"))
-				.doValidate()
-				.result(ResultCollectors.toComplex());
-		if (!result.isSuccess()) {
-			return new EamResult(INVALID_LENGTH, result.getErrors());
-		}
+		Object result = validateSensor(sensor);
+		if (result != null) return result;
+
+
 		baseEntityUtil.addAddtionalValue(sensor);
+
+		updateSensor(sensor);
 
 		int count = 0;
 		if (sensor.getSensorId() != null){
@@ -65,5 +71,46 @@ public class EamSensorController extends BaseController {
 			_log.info("Create Sensor");
 		}
 		return new EamResult(SUCCESS, count);
+	}
+
+	private Object validateSensor(EamSensor sensor) {
+		EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(sensor.getEquipmentId());
+
+		if (equipment != null){
+			//check modbus
+			if ("1".equalsIgnoreCase(String.valueOf(equipment.getProtocolId()))){
+				ComplexResult result = FluentValidator.checkAll()
+						.on(sensor.getSalveId(), new NotNullValidator("从站地址"))
+						.on(sensor.getAddress(), new NotNullValidator("地址"))
+						.on(sensor.getPeriod(), new NotNullValidator("采集周期"))
+						.doValidate()
+						.result(ResultCollectors.toComplex());
+				if (!result.isSuccess()) {
+					return new EamResult(INVALID_LENGTH, result.getErrors());
+				}
+			}else if ("4".equalsIgnoreCase(String.valueOf(equipment.getProtocolId()))){
+				ComplexResult result = FluentValidator.checkAll()
+						.on(sensor.getGrmAction(), new NotNullValidator("巨控 读写指令"))
+						.on(sensor.getGrmVariable(), new NotNullValidator("巨控 变量名"))
+						.on(sensor.getGrmVariableOrder(), new NotNullValidator("巨控 读写变量顺序"))
+						.doValidate()
+						.result(ResultCollectors.toComplex());
+				if (!result.isSuccess()) {
+					return new EamResult(INVALID_LENGTH, result.getErrors());
+				}
+			}
+
+
+		}
+
+
+		return null;
+	}
+
+	private void updateSensor(EamSensor sensor){
+		if (!StringUtils.isEmpty(sensor.getDataFormat())){
+			int quantity = DataFormat.getQuantity(sensor.getDataFormat());
+			sensor.setQuantity(quantity);
+		}
 	}
 }

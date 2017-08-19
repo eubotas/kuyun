@@ -19,10 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * 设备控制器
@@ -42,24 +40,36 @@ public class EamSensorDataController extends BaseController {
 	private EamApiService eamApiService;
 
 
+	@ApiOperation(value = "传感器数据曲线列表")
+	@RequiresPermissions("eam:equipment:read")
+	@RequestMapping(value = "/list/curve", method = RequestMethod.GET)
+	@ResponseBody
+	public Object listCurve(
+			@RequestParam(required = true, value = "sensorId") int sensorId,
+			@RequestParam(required = true, value = "startDate") Date startDate,
+			@RequestParam(required = true, value = "endDate") Date endDate) {
+
+		List<EamSensorDataVO> rows = getEamSensorData(sensorId, startDate, endDate);
+		return buildCurveData(rows);
+	}
+
+
 	@ApiOperation(value = "传感器数据列表")
 	@RequiresPermissions("eam:equipment:read")
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/list/", method = RequestMethod.GET)
 	@ResponseBody
 	public Object list(
-			@RequestParam(required = false, defaultValue = "0", value = "offset") int offset,
-			@RequestParam(required = false, defaultValue = "100", value = "limit") int limit,
-			@RequestParam(required = false, value = "sort") String sort,
-			@RequestParam(required = false, value = "order") String order,
-			@RequestParam(required = false, value = "startDate") Date startDate,
-			@RequestParam(required = false, value = "endDate") Date endDate) {
+			@RequestParam(required = true, value = "sensorId") int sensorId,
+			@RequestParam(required = true, value = "startDate") Date startDate,
+			@RequestParam(required = true, value = "endDate") Date endDate) {
+		List<EamSensorDataVO> rows = getEamSensorData(sensorId, startDate, endDate);
+		return rows;
+	}
 
+	private List<EamSensorDataVO> getEamSensorData(int sensorId, Date startDate, Date endDate) {
 		EamSensorVO sensorVO = new EamSensorVO();
-		sensorVO.setOffset(offset);
-		sensorVO.setLimit(limit);
-		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
-			sensorVO.setOrderByClause(sort + " " + order);
-		}
+		sensorVO.setSensorId(sensorId);
+		sensorVO.setOrderByClause("t.create_time desc");
 
 		if (startDate != null){
 			sensorVO.setStartDate(startDate);
@@ -68,17 +78,44 @@ public class EamSensorDataController extends BaseController {
 		if (endDate != null){
 			sensorVO.setEndDate(endDate);
 		}
+		return eamApiService.selectEamSensorData(sensorVO);
+	}
 
-		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
-		if (organization != null){
-			sensorVO.setOrganizationId(organization.getOrganizationId());
+	private CurveData buildCurveData(List<EamSensorDataVO> rows){
+		List<String> value = new ArrayList<>(rows.size());
+		List<Date> time = new ArrayList<>(rows.size());
+		for (EamSensorDataVO row : rows){
+			value.add(row.getStringValue());
+			time.add(row.getCreateTime());
 		}
-		List<EamSensorDataVO> rows = eamApiService.selectEamSensorData(sensorVO);
-		Map<String, Object> result = new HashMap<>();
-		result.put("rows", rows);
-		result.put("total", rows.size());
+
+		CurveData result = new CurveData();
+		result.setValue(value);
+		result.setTime(time);
+
 		return result;
+	}
+
+	class CurveData implements Serializable{
+		List<String> value = new ArrayList<>();
+		List<Date> time = new ArrayList<>();
+
+		public List<String> getValue() {
+			return value;
+		}
+
+		public void setValue(List<String> value) {
+			this.value = value;
+		}
+
+		public List<Date> getTime() {
+			return time;
+		}
+
+		public void setTime(List<Date> time) {
+			this.time = time;
+		}
 	}
 
 }

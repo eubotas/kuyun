@@ -1317,6 +1317,136 @@ public class EamSensorExample implements Serializable {
             addCriterion("organization_id not between", value1, value2, "organizationId");
             return (Criteria) this;
         }
+
+        public Criteria andBitOrderIsNull() {
+            addCriterion("bit_order is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBitOrderIsNotNull() {
+            addCriterion("bit_order is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBitOrderEqualTo(String value) {
+            addCriterion("bit_order =", value, "bitOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBitOrderNotEqualTo(String value) {
+            addCriterion("bit_order <>", value, "bitOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBitOrderGreaterThan(String value) {
+            addCriterion("bit_order >", value, "bitOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBitOrderGreaterThanOrEqualTo(String value) {
+            addCriterion("bit_order >=", value, "bitOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBitOrderLessThan(String value) {
+            addCriterion("bit_order <", value, "bitOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBitOrderLessThanOrEqualTo(String value) {
+            addCriterion("bit_order <=", value, "bitOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBitOrderLike(String value) {
+            addCriterion("bit_order like", value, "bitOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBitOrderNotLike(String value) {
+            addCriterion("bit_order not like", value, "bitOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBitOrderIn(List<String> values) {
+            addCriterion("bit_order in", values, "bitOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBitOrderNotIn(List<String> values) {
+            addCriterion("bit_order not in", values, "bitOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBitOrderBetween(String value1, String value2) {
+            addCriterion("bit_order between", value1, value2, "bitOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBitOrderNotBetween(String value1, String value2) {
+            addCriterion("bit_order not between", value1, value2, "bitOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableOrderIsNull() {
+            addCriterion("grm_variable_order is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableOrderIsNotNull() {
+            addCriterion("grm_variable_order is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableOrderEqualTo(Integer value) {
+            addCriterion("grm_variable_order =", value, "grmVariableOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableOrderNotEqualTo(Integer value) {
+            addCriterion("grm_variable_order <>", value, "grmVariableOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableOrderGreaterThan(Integer value) {
+            addCriterion("grm_variable_order >", value, "grmVariableOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableOrderGreaterThanOrEqualTo(Integer value) {
+            addCriterion("grm_variable_order >=", value, "grmVariableOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableOrderLessThan(Integer value) {
+            addCriterion("grm_variable_order <", value, "grmVariableOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableOrderLessThanOrEqualTo(Integer value) {
+            addCriterion("grm_variable_order <=", value, "grmVariableOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableOrderIn(List<Integer> values) {
+            addCriterion("grm_variable_order in", values, "grmVariableOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableOrderNotIn(List<Integer> values) {
+            addCriterion("grm_variable_order not in", values, "grmVariableOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableOrderBetween(Integer value1, Integer value2) {
+            addCriterion("grm_variable_order between", value1, value2, "grmVariableOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableOrderNotBetween(Integer value1, Integer value2) {
+            addCriterion("grm_variable_order not between", value1, value2, "grmVariableOrder");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria implements Serializable {

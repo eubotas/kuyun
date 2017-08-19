@@ -30,6 +30,7 @@
     <result column="grm_period" jdbcType="INTEGER" property="grmPeriod" />
     <result column="province" jdbcType="VARCHAR" property="province" />
     <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="collect_status" jdbcType="VARCHAR" property="collectStatus" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -94,7 +95,7 @@
     image_path, longitude, latitude, user, heart_data, factory_date, commissioning_date, 
     warranty_start_date, warranty_end_date, maintenance_period, create_user_id, create_time, 
     update_user_id, update_time, delete_flag, is_online, grm, grm_password, grm_period, 
-    province, city
+    province, city, collect_status
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentExample" resultMap="BaseResultMap">
     select
@@ -144,7 +145,7 @@
       create_time, update_user_id, update_time, 
       delete_flag, is_online, grm, 
       grm_password, grm_period, province, 
-      city)
+      city, collect_status)
     values (#{equipmentId,jdbcType=VARCHAR}, #{equipmentModelId,jdbcType=INTEGER}, #{organizationId,jdbcType=INTEGER}, 
       #{protocolId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, 
       #{serialNumber,jdbcType=VARCHAR}, #{imagePath,jdbcType=VARCHAR}, #{longitude,jdbcType=DECIMAL}, 
@@ -154,7 +155,7 @@
       #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{deleteFlag,jdbcType=BIT}, #{isOnline,jdbcType=BIT}, #{grm,jdbcType=VARCHAR}, 
       #{grmPassword,jdbcType=VARCHAR}, #{grmPeriod,jdbcType=INTEGER}, #{province,jdbcType=VARCHAR}, 
-      #{city,jdbcType=VARCHAR})
+      #{city,jdbcType=VARCHAR}, #{collectStatus,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamEquipment">
     insert into eam_equipment
@@ -243,6 +244,9 @@
       <if test="city != null">
         city,
       </if>
+      <if test="collectStatus != null">
+        collect_status,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="equipmentId != null">
@@ -328,6 +332,9 @@
       </if>
       <if test="city != null">
         #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="collectStatus != null">
+        #{collectStatus,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -424,6 +431,9 @@
       <if test="record.city != null">
         city = #{record.city,jdbcType=VARCHAR},
       </if>
+      <if test="record.collectStatus != null">
+        collect_status = #{record.collectStatus,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -458,7 +468,8 @@
       grm_password = #{record.grmPassword,jdbcType=VARCHAR},
       grm_period = #{record.grmPeriod,jdbcType=INTEGER},
       province = #{record.province,jdbcType=VARCHAR},
-      city = #{record.city,jdbcType=VARCHAR}
+      city = #{record.city,jdbcType=VARCHAR},
+      collect_status = #{record.collectStatus,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -547,6 +558,9 @@
       <if test="city != null">
         city = #{city,jdbcType=VARCHAR},
       </if>
+      <if test="collectStatus != null">
+        collect_status = #{collectStatus,jdbcType=VARCHAR},
+      </if>
     </set>
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </update>
@@ -578,7 +592,8 @@
       grm_password = #{grmPassword,jdbcType=VARCHAR},
       grm_period = #{grmPeriod,jdbcType=INTEGER},
       province = #{province,jdbcType=VARCHAR},
-      city = #{city,jdbcType=VARCHAR}
+      city = #{city,jdbcType=VARCHAR},
+      collect_status = #{collectStatus,jdbcType=VARCHAR}
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />

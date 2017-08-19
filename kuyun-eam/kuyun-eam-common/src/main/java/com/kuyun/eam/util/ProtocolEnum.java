@@ -1,4 +1,4 @@
-package com.kuyun.eam.admin.util;
+package com.kuyun.eam.util;
 
 /**
  * Created by user on 2017-06-11.
@@ -6,7 +6,8 @@ package com.kuyun.eam.admin.util;
 public enum ProtocolEnum {
     MODBUS_RTU(1, "Modbus RTU"),
     MODBUS_TCP(2, "Modbus TCP"),
-    MQTT(3, "MQTT");
+    MQTT(3, "MQTT"),
+    GRM(4, "巨控");
 
     private ProtocolEnum(int id, String name){
         this.id = id;

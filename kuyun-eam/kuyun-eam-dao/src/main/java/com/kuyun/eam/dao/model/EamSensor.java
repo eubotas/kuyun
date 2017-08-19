@@ -31,11 +31,6 @@ public class EamSensor extends BaseEntity implements Serializable {
      */
     private Integer address;
 
-    /**
-     * Modbus RTU
-     *
-     * @mbg.generated
-     */
     private String dataFormat;
 
     /**
@@ -79,6 +74,20 @@ public class EamSensor extends BaseEntity implements Serializable {
      * @mbg.generated
      */
     private String grmVariableValue;
+
+    /**
+     * Modbus RTU 字节顺序
+     *
+     * @mbg.generated
+     */
+    private String bitOrder;
+
+    /**
+     * 巨控 读写变量顺序
+     *
+     * @mbg.generated
+     */
+    private Integer grmVariableOrder;
 
     private static final long serialVersionUID = 1L;
 
@@ -186,6 +195,22 @@ public class EamSensor extends BaseEntity implements Serializable {
         this.grmVariableValue = grmVariableValue;
     }
 
+    public String getBitOrder() {
+        return bitOrder;
+    }
+
+    public void setBitOrder(String bitOrder) {
+        this.bitOrder = bitOrder;
+    }
+
+    public Integer getGrmVariableOrder() {
+        return grmVariableOrder;
+    }
+
+    public void setGrmVariableOrder(Integer grmVariableOrder) {
+        this.grmVariableOrder = grmVariableOrder;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -205,6 +230,8 @@ public class EamSensor extends BaseEntity implements Serializable {
         sb.append(", grmAction=").append(grmAction);
         sb.append(", grmVariable=").append(grmVariable);
         sb.append(", grmVariableValue=").append(grmVariableValue);
+        sb.append(", bitOrder=").append(bitOrder);
+        sb.append(", grmVariableOrder=").append(grmVariableOrder);
         sb.append("]");
         return sb.toString();
     }
@@ -239,7 +266,9 @@ public class EamSensor extends BaseEntity implements Serializable {
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getOrganizationId() == null ? other.getOrganizationId() == null : this.getOrganizationId().equals(other.getOrganizationId()));
+            && (this.getOrganizationId() == null ? other.getOrganizationId() == null : this.getOrganizationId().equals(other.getOrganizationId()))
+            && (this.getBitOrder() == null ? other.getBitOrder() == null : this.getBitOrder().equals(other.getBitOrder()))
+            && (this.getGrmVariableOrder() == null ? other.getGrmVariableOrder() == null : this.getGrmVariableOrder().equals(other.getGrmVariableOrder()));
     }
 
     @Override
@@ -265,6 +294,8 @@ public class EamSensor extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getOrganizationId() == null) ? 0 : getOrganizationId().hashCode());
+        result = prime * result + ((getBitOrder() == null) ? 0 : getBitOrder().hashCode());
+        result = prime * result + ((getGrmVariableOrder() == null) ? 0 : getGrmVariableOrder().hashCode());
         return result;
     }
 }

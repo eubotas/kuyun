@@ -21,6 +21,16 @@
             <version>1.0.0</version>
         </dependency>
         <dependency>
+            <groupId>com.kuyun</groupId>
+            <artifactId>kuyun-grm-rpc-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kuyun</groupId>
+            <artifactId>kuyun-modbus-slave-rtu-rpc-api</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>

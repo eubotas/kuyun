@@ -67,6 +67,13 @@ public class EamEquipment extends BaseEntity implements Serializable {
 
     private String city;
 
+    /**
+     * 采集状态
+     *
+     * @mbg.generated
+     */
+    private String collectStatus;
+
     private List<EamSensor> sensors = Collections.emptyList();
 
     public List<EamSensor> getSensors() {
@@ -76,7 +83,6 @@ public class EamEquipment extends BaseEntity implements Serializable {
     public void setSensors(List<EamSensor> sensors) {
         this.sensors = sensors;
     }
-
 
     private static final long serialVersionUID = 1L;
 
@@ -256,6 +262,14 @@ public class EamEquipment extends BaseEntity implements Serializable {
         this.city = city;
     }
 
+    public String getCollectStatus() {
+        return collectStatus;
+    }
+
+    public void setCollectStatus(String collectStatus) {
+        this.collectStatus = collectStatus;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -284,6 +298,7 @@ public class EamEquipment extends BaseEntity implements Serializable {
         sb.append(", grmPeriod=").append(grmPeriod);
         sb.append(", province=").append(province);
         sb.append(", city=").append(city);
+        sb.append(", collectStatus=").append(collectStatus);
         sb.append("]");
         return sb.toString();
     }
@@ -327,7 +342,8 @@ public class EamEquipment extends BaseEntity implements Serializable {
             && (this.getGrmPassword() == null ? other.getGrmPassword() == null : this.getGrmPassword().equals(other.getGrmPassword()))
             && (this.getGrmPeriod() == null ? other.getGrmPeriod() == null : this.getGrmPeriod().equals(other.getGrmPeriod()))
             && (this.getProvince() == null ? other.getProvince() == null : this.getProvince().equals(other.getProvince()))
-            && (this.getCity() == null ? other.getCity() == null : this.getCity().equals(other.getCity()));
+            && (this.getCity() == null ? other.getCity() == null : this.getCity().equals(other.getCity()))
+            && (this.getCollectStatus() == null ? other.getCollectStatus() == null : this.getCollectStatus().equals(other.getCollectStatus()));
     }
 
     @Override
@@ -362,6 +378,7 @@ public class EamEquipment extends BaseEntity implements Serializable {
         result = prime * result + ((getGrmPeriod() == null) ? 0 : getGrmPeriod().hashCode());
         result = prime * result + ((getProvince() == null) ? 0 : getProvince().hashCode());
         result = prime * result + ((getCity() == null) ? 0 : getCity().hashCode());
+        result = prime * result + ((getCollectStatus() == null) ? 0 : getCollectStatus().hashCode());
         return result;
     }
 }
