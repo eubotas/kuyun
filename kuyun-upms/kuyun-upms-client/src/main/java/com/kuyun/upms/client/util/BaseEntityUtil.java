@@ -32,14 +32,15 @@ public class BaseEntityUtil {
                 record.setCreateUserId(user.getUserId());
             }
             record.setUpdateUserId(user.getUserId());
+            UpmsOrganization organization = upmsApiService.selectParentOrganizationByUserId(user.getUserId());
+
+            if (organization != null){
+
+                record.setOrganizationId(organization.getOrganizationId());
+            }
         }
 
-        UpmsOrganization organization = upmsApiService.selectParentOrganizationByUserId(user.getUserId());
-
-        if (organization != null){
-
-            record.setOrganizationId(organization.getOrganizationId());
-        }
+    
 
     }
 
@@ -57,6 +58,7 @@ public class BaseEntityUtil {
 
     public UpmsUser getCurrentUser(){
         String username = (String) SecurityUtils.getSubject().getPrincipal();
+        if (username == null || username.isEmpty() ) return null;
         UpmsUser upmsUser = upmsApiService.selectUpmsUserByUsername(username);
         return upmsUser;
     }

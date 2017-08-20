@@ -4,7 +4,7 @@ import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
 
 public class FdFiles extends BaseEntity implements Serializable {
-    private Integer id;
+    private String uuid;
 
     /**
      * 上传时候的文件名
@@ -40,12 +40,12 @@ public class FdFiles extends BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
-        return id;
+    public String getUuid() {
+        return uuid;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUuid(String uuid) {
+        this.uuid = uuid;
     }
 
     public String getFileName() {
@@ -102,7 +102,7 @@ public class FdFiles extends BaseEntity implements Serializable {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", id=").append(id);
+        sb.append(", uuid=").append(uuid);
         sb.append(", fileName=").append(fileName);
         sb.append(", mime=").append(mime);
         sb.append(", size=").append(size);
@@ -125,7 +125,7 @@ public class FdFiles extends BaseEntity implements Serializable {
             return false;
         }
         FdFiles other = (FdFiles) that;
-        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
+        return (this.getUuid() == null ? other.getUuid() == null : this.getUuid().equals(other.getUuid()))
             && (this.getFileName() == null ? other.getFileName() == null : this.getFileName().equals(other.getFileName()))
             && (this.getMime() == null ? other.getMime() == null : this.getMime().equals(other.getMime()))
             && (this.getSize() == null ? other.getSize() == null : this.getSize().equals(other.getSize()))
@@ -144,7 +144,7 @@ public class FdFiles extends BaseEntity implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+        result = prime * result + ((getUuid() == null) ? 0 : getUuid().hashCode());
         result = prime * result + ((getFileName() == null) ? 0 : getFileName().hashCode());
         result = prime * result + ((getMime() == null) ? 0 : getMime().hashCode());
         result = prime * result + ((getSize() == null) ? 0 : getSize().hashCode());

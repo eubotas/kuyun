@@ -128,63 +128,73 @@ public class FdFilesExample implements Serializable {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andIdIsNull() {
-            addCriterion("fd_files.id is null");
+        public Criteria andUuidIsNull() {
+            addCriterion("fd_files.uuid is null");
             return (Criteria) this;
         }
 
-        public Criteria andIdIsNotNull() {
-            addCriterion("fd_files.id is not null");
+        public Criteria andUuidIsNotNull() {
+            addCriterion("fd_files.uuid is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIdEqualTo(Integer value) {
-            addCriterion("fd_files.id =", value, "id");
+        public Criteria andUuidEqualTo(String value) {
+            addCriterion("fd_files.uuid =", value, "uuid");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotEqualTo(Integer value) {
-            addCriterion("fd_files.id <>", value, "id");
+        public Criteria andUuidNotEqualTo(String value) {
+            addCriterion("fd_files.uuid <>", value, "uuid");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThan(Integer value) {
-            addCriterion("fd_files.id >", value, "id");
+        public Criteria andUuidGreaterThan(String value) {
+            addCriterion("fd_files.uuid >", value, "uuid");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("fd_files.id >=", value, "id");
+        public Criteria andUuidGreaterThanOrEqualTo(String value) {
+            addCriterion("fd_files.uuid >=", value, "uuid");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThan(Integer value) {
-            addCriterion("fd_files.id <", value, "id");
+        public Criteria andUuidLessThan(String value) {
+            addCriterion("fd_files.uuid <", value, "uuid");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThanOrEqualTo(Integer value) {
-            addCriterion("fd_files.id <=", value, "id");
+        public Criteria andUuidLessThanOrEqualTo(String value) {
+            addCriterion("fd_files.uuid <=", value, "uuid");
             return (Criteria) this;
         }
 
-        public Criteria andIdIn(List<Integer> values) {
-            addCriterion("fd_files.id in", values, "id");
+        public Criteria andUuidLike(String value) {
+            addCriterion("fd_files.uuid like", value, "uuid");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotIn(List<Integer> values) {
-            addCriterion("fd_files.id not in", values, "id");
+        public Criteria andUuidNotLike(String value) {
+            addCriterion("fd_files.uuid not like", value, "uuid");
             return (Criteria) this;
         }
 
-        public Criteria andIdBetween(Integer value1, Integer value2) {
-            addCriterion("fd_files.id between", value1, value2, "id");
+        public Criteria andUuidIn(List<String> values) {
+            addCriterion("fd_files.uuid in", values, "uuid");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("fd_files.id not between", value1, value2, "id");
+        public Criteria andUuidNotIn(List<String> values) {
+            addCriterion("fd_files.uuid not in", values, "uuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUuidBetween(String value1, String value2) {
+            addCriterion("fd_files.uuid between", value1, value2, "uuid");
+            return (Criteria) this;
+        }
+
+        public Criteria andUuidNotBetween(String value1, String value2) {
+            addCriterion("fd_files.uuid not between", value1, value2, "uuid");
             return (Criteria) this;
         }
 

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kuyun.fileuploader.dao.mapper.FdFilesMapper">
   <resultMap id="BaseResultMap" type="com.kuyun.fileuploader.dao.model.FdFiles">
-    <id column="fd_files_id" jdbcType="INTEGER" property="id" />
+    <id column="fd_files_uuid" jdbcType="VARCHAR" property="uuid" />
     <result column="fd_files_file_name" jdbcType="VARCHAR" property="fileName" />
     <result column="fd_files_mime" jdbcType="VARCHAR" property="mime" />
     <result column="fd_files_size" jdbcType="BIGINT" property="size" />
@@ -75,7 +75,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    fd_files.id as fd_files_id, fd_files.file_name as fd_files_file_name, fd_files.mime as fd_files_mime, 
+    fd_files.uuid as fd_files_uuid, fd_files.file_name as fd_files_file_name, fd_files.mime as fd_files_mime, 
     fd_files.size as fd_files_size, fd_files.saved_file_name as fd_files_saved_file_name, 
     fd_files.moudle_name as fd_files_moudle_name, fd_files.oss_id as fd_files_oss_id, 
     fd_files.organization_id as fd_files_organization_id, fd_files.create_user_id as fd_files_create_user_id, 
@@ -104,15 +104,15 @@
       </if>
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from fd_files fd_files
-    where fd_files.id = #{id,jdbcType=INTEGER}
+    where fd_files.uuid = #{uuid,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from fd_files
-    where id = #{id,jdbcType=INTEGER}
+    where uuid = #{uuid,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.fileuploader.dao.model.FdFilesExample">
     delete from fd_files fd_files
@@ -121,26 +121,23 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.fileuploader.dao.model.FdFiles">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into fd_files (file_name, mime, size, 
-      saved_file_name, moudle_name, oss_id, 
-      organization_id, create_user_id, create_time, 
-      update_user_id, update_time, delete_flag
-      )
-    values (#{fileName,jdbcType=VARCHAR}, #{mime,jdbcType=VARCHAR}, #{size,jdbcType=BIGINT}, 
-      #{savedFileName,jdbcType=VARCHAR}, #{moudleName,jdbcType=VARCHAR}, #{ossId,jdbcType=INTEGER}, 
-      #{organizationId,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}
-      )
+    insert into fd_files (uuid, file_name, mime, 
+      size, saved_file_name, moudle_name, 
+      oss_id, organization_id, create_user_id, 
+      create_time, update_user_id, update_time, 
+      delete_flag)
+    values (#{uuid,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{mime,jdbcType=VARCHAR}, 
+      #{size,jdbcType=BIGINT}, #{savedFileName,jdbcType=VARCHAR}, #{moudleName,jdbcType=VARCHAR}, 
+      #{ossId,jdbcType=INTEGER}, #{organizationId,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{deleteFlag,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.fileuploader.dao.model.FdFiles">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into fd_files
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="uuid != null">
+        uuid,
+      </if>
       <if test="fileName != null">
         file_name,
       </if>
@@ -179,6 +176,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="uuid != null">
+        #{uuid,jdbcType=VARCHAR},
+      </if>
       <if test="fileName != null">
         #{fileName,jdbcType=VARCHAR},
       </if>
@@ -226,8 +226,8 @@
   <update id="updateByExampleSelective" parameterType="map">
     update fd_files fd_files
     <set>
-      <if test="record.id != null">
-        fd_files.id = #{record.id,jdbcType=INTEGER},
+      <if test="record.uuid != null">
+        fd_files.uuid = #{record.uuid,jdbcType=VARCHAR},
       </if>
       <if test="record.fileName != null">
         fd_files.file_name = #{record.fileName,jdbcType=VARCHAR},
@@ -272,7 +272,7 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update fd_files fd_files
-    set fd_files.id = #{record.id,jdbcType=INTEGER},
+    set fd_files.uuid = #{record.uuid,jdbcType=VARCHAR},
       fd_files.file_name = #{record.fileName,jdbcType=VARCHAR},
       fd_files.mime = #{record.mime,jdbcType=VARCHAR},
       fd_files.size = #{record.size,jdbcType=BIGINT},
@@ -329,7 +329,7 @@
         delete_flag = #{deleteFlag,jdbcType=BIT},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where uuid = #{uuid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kuyun.fileuploader.dao.model.FdFiles">
     update fd_files
@@ -345,7 +345,7 @@
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT}
-    where id = #{id,jdbcType=INTEGER}
+    where uuid = #{uuid,jdbcType=VARCHAR}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>

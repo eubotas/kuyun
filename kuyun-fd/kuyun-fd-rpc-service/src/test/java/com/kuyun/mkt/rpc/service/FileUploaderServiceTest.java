@@ -36,17 +36,17 @@ public class FileUploaderServiceTest {
 	@Test
 	public void getFileLocation() {
 		
-		FdFiles file = new FdFiles();
-		file.setFileName("aa.txt");
-		file.setSize(10l);
-		file.setMoudleName("eam");
-		file.setMime("text/plain");
-		
-		String name = fileUploaderService.getStorageLocation(file);
-		
-		System.out.println(name);
-		assert !name.isEmpty();
-		
+//		FdFiles file = new FdFiles();
+//		file.setFileName("aa.txt");
+//		file.setSize(10l);
+//		file.setMoudleName("eam");
+//		file.setMime("text/plain");
+//		
+////		String name = fileUploaderService.generateLocalStorageLocation(file);
+//		
+//		System.out.println(name);
+//		assert !name.isEmpty();
+//		
 		
 	}
 

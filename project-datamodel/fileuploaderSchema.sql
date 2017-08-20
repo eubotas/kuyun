@@ -6,7 +6,7 @@ drop table if exists fd_oss_files;
 
 create table fd_files 
 (
-   id                   int not null auto_increment,
+   uuid                 varchar(100),
    file_name            varchar(500) comment '上传时候的文件名',
    mime                 varchar(500) ,
    size                 bigint zerofill,
@@ -19,7 +19,7 @@ create table fd_files
    update_user_id       int,
    update_time          datetime comment '更新时间',
    delete_flag          boolean,
-   primary key (id)
+   primary key (uuid)
 );
 
 create table fd_oss_files

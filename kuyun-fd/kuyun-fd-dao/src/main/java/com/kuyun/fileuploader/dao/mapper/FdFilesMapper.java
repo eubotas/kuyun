@@ -10,7 +10,7 @@ public interface FdFilesMapper {
 
     int deleteByExample(FdFilesExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(String uuid);
 
     int insert(FdFiles record);
 
@@ -18,7 +18,7 @@ public interface FdFilesMapper {
 
     List<FdFiles> selectByExample(FdFilesExample example);
 
-    FdFiles selectByPrimaryKey(Integer id);
+    FdFiles selectByPrimaryKey(String uuid);
 
     int updateByExampleSelective(@Param("record") FdFiles record, @Param("example") FdFilesExample example);
 

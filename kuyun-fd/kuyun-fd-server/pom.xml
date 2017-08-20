@@ -115,7 +115,7 @@
                         ${basedir}/target/kuyun-fd-server
                     </war>
                     <httpConnector>
-                        <port>9998</port>
+                        <port>9498</port>
                     </httpConnector>
                     <reload>automatic</reload>
                 </configuration>

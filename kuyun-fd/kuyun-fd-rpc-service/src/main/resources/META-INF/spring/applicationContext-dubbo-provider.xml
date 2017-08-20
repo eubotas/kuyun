@@ -13,7 +13,13 @@
 
     <dubbo:protocol name="dubbo" port="20884"/>
 
-    <!-- 短信设置 -->
+    <bean id="fdFilesService" class="com.kuyun.fileuploader.rpc.service.impl.FdFilesServiceImpl"/>
+    <dubbo:service interface="com.kuyun.fileuploader.rpc.api.FdFilesService" ref="fdFilesService" timeout="10000"/>
+
+    <bean id="fdOssFilesService" class="com.kuyun.fileuploader.rpc.service.impl.FdOssFilesServiceImpl"/>
+    <dubbo:service interface="com.kuyun.fileuploader.rpc.api.FdOssFilesService" ref="fdOssFilesService" timeout="10000"/>
+
+   
     <bean id="fileUploaderService" class="com.kuyun.fileuploader.rpc.service.impl.FileUploaderServiceImpl"/>
     <dubbo:service interface="com.kuyun.fileuploader.rpc.api.FileUploaderService" ref="fileUploaderService" timeout="10000"/>
 
