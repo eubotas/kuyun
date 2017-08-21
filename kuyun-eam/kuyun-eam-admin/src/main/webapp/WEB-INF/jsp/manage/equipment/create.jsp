@@ -50,14 +50,7 @@
 				</div>
 			</div>
 
-			<div class="col-sm-12">
-				<div class="form-group">
-					<div class="fg-line">
-						<label for="imagePath">设备图片</label>
-						<input id="imagePath" type="text" class="form-control" name="imagePath" maxlength="300">
-					</div>
-				</div>
-			</div>
+
 
 
 			<div class="col-sm-6">
@@ -122,6 +115,11 @@
 				</div>
 			</div>
 
+			<div class="col-sm-12">
+				<div id="fine-uploader-gallery"></div>
+				<input id="imagePath" type="hidden" class="form-control"  name="imagePath" maxlength="500">
+			</div>
+
 		</div>
 
 		<div class="form-group text-right dialog-buttons">
@@ -131,7 +129,65 @@
 	</form>
 </div>
 <script>
+    var galleryUploader = new qq.FineUploader(
+        {
+            element : document.getElementById("fine-uploader-gallery"),
+            template : 'qq-template-gallery',
+            request : {
+                endpoint : 'http://fd.kuyun.cn:9498/fd/upload',
+                params : {
+                    kuyunModule : "eam"
+                }
+            },
+            thumbnails : {
+                placeholders : {
+                    waitingPath : '${basePath}/resources/kuyun-admin/plugins/fileupload/placeholders/waiting-generic.png',
+                    notAvailablePath : '${basePath}/resources/kuyun-admin/plugins/fileupload/placeholders/not_available-generic.png'
+                }
+            },
+            validation : {
+				/*  allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'] */
+            },
+            chunking : {
+                enabled : true,
+                concurrent : {
+                    enabled : true
+                },
+                success : {
+                    endpoint : 'http://fd.kuyun.cn:9498/fd/uploadDone'
+                },
+                mandatory : true
+            },
+            deleteFile : {
+                enabled : true,
+                forceConfirm : true,
+                endpoint : 'http://fd.kuyun.cn:9498/fd/delete'
+            },
+            cors : {
+                //all requests are expected to be cross-domain requests
+                expected : true,
+
+                //if you want cookies to be sent along with the request
+                sendCredentials : false
+            }
+			/* init file list
+			 session:{
+			 endpoint: '/fd/list?ids=7,8,10'
+			 }, */
+        });
+</script>
+<script>
 function createSubmit() {
+    var uploads = galleryUploader.getUploads({
+        status: qq.status.UPLOAD_SUCCESSFUL
+    });
+    var fileUuids = '';
+    for (var i = 0; i < uploads.length; i++) {
+        fileUuids = fileUuids + uploads[i].uuid + ",";
+    }
+    console.log("fileUuids = " + fileUuids);
+    $('#imagePath').val(fileUuids);
+
     $.ajax({
         type: 'post',
         url: '${basePath}/manage/equipment/create',

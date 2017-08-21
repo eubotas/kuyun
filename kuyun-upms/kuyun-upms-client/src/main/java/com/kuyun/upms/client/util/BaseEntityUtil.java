@@ -6,6 +6,7 @@ import com.kuyun.upms.dao.model.UpmsUser;
 import com.kuyun.upms.rpc.api.UpmsApiService;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 
 import java.util.Date;
 
@@ -57,15 +58,21 @@ public class BaseEntityUtil {
 
 
     public UpmsUser getCurrentUser(){
+        UpmsUser result = null;
         String username = (String) SecurityUtils.getSubject().getPrincipal();
-        if (username == null || username.isEmpty() ) return null;
-        UpmsUser upmsUser = upmsApiService.selectUpmsUserByUsername(username);
-        return upmsUser;
+        if (!StringUtils.isEmpty(username)){
+            result = upmsApiService.selectUpmsUserByUsername(username);
+        }
+        return result;
     }
 
     public UpmsOrganization getCurrentUserParentOrignization(){
+        UpmsOrganization result = null;
         UpmsUser user = getCurrentUser();
-        return upmsApiService.selectParentOrganizationByUserId(user.getUserId());
+        if (user != null){
+            result = upmsApiService.selectParentOrganizationByUserId(user.getUserId());
+        }
+        return result;
 
     }
 }
