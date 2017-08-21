@@ -66,15 +66,15 @@
         #foreach($table in $tables)
             #if($last_insert_id_tables.size() != 0)
 
-                #foreach($last_insert_id_table in $last_insert_id_tables.entrySet())
-                    #if($!last_insert_id_table.key == $!table.table_name)
+                
+                    #if($last_insert_id_tables.containsKey($!table.table_name) == true)
                         <table tableName="$!table.table_name" domainObjectName="$!table.model_name" #if($table.alias_name) alias="$table.alias_name"   #end >
-                            <generatedKey column="$!last_insert_id_table.value" sqlStatement="MySql" identity="true" />
+                            <generatedKey column="$!last_insert_id_tables.get($!table.table_name)" sqlStatement="MySql" identity="true" />
                         </table>
                     #else
                         <table tableName="$!table.table_name" domainObjectName="$!table.model_name" #if($table.alias_name) alias="$table.alias_name"   #end></table>
                     #end
-                #end
+         
             #else
                 <table tableName="$!table.table_name" domainObjectName="$!table.model_name" #if($table.alias_name) alias="$table.alias_name"   #end></table>
             #end

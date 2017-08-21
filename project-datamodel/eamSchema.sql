@@ -371,7 +371,7 @@ create table eam_ticket
    ticket_id            int not null auto_increment,
    ticket_type_id       int,
    description          varchar(200)  COMMENT '描述',
-   image_path_1         varchar(100)  COMMENT '上传图片',
+   image_path_1         varchar(20000)  COMMENT '上传图片',
    image_path_2         varchar(100)  COMMENT '上传图片',
    image_path_3         varchar(100)  COMMENT '上传图片',
    image_path_4         varchar(100)  COMMENT '上传图片',
@@ -504,7 +504,6 @@ BEGIN
     RETURN sTemp; 
 END
 #//
-
 
 #resotre default delimiter
 delimiter ;

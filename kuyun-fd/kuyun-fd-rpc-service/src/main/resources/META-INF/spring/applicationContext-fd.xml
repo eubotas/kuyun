@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- <bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations" value="classpath:file_storage.properties" />
+	</bean> -->
+
+
+
+	<bean id="storage" class="com.kuyun.fileuploder.common.Storage">
+		<property name="location" value="${file.uploader.storage}" />
+	</bean>
+
+	<bean id="snowflakeIdWorker" class="com.kuyun.common.util.key.SnowflakeIdWorker">
+		<constructor-arg name="workerId" value="0" />
+		<constructor-arg name="datacenterId" value="0" />
+	</bean>
+</beans>
