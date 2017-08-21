@@ -154,6 +154,15 @@ public class EamEquipmentController extends BaseController {
 		return "/manage/equipment/update.jsp";
 	}
 
+	@ApiOperation(value = "获取设备信息")
+	@RequiresPermissions("eam:equipment:read")
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public Object getEamEquipment(@PathVariable("id") String id) {
+		EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(id);
+		return new EamResult(SUCCESS, equipment);
+	}
+
 	@ApiOperation(value = "修改设备")
 	@RequiresPermissions("eam:equipment:update")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
