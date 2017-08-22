@@ -69,5 +69,6 @@
     <!-- GRM服务 -->
     <!--<dubbo:reference id="grmApiService" interface="com.kuyun.grm.rpc.api.GrmApiService" mock="false" />-->
 
-
+	<!-- File upload -->
+	<dubbo:reference id="fileUploaderService" interface="com.kuyun.fileuploader.rpc.api.FileUploaderService" mock="false" />
 </beans>

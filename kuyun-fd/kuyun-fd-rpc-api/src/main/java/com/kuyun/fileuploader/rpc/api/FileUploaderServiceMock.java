@@ -4,8 +4,15 @@ import java.util.List;
 
 import com.kuyun.fileuploader.dao.model.FdFiles;
 import com.kuyun.fileuploader.dao.model.FdOssFiles;
+import com.kuyun.fileuploder.common.FileUploadServerInfo;
 
 public class FileUploaderServiceMock implements FileUploaderService {
+
+	@Override
+	public FileUploadServerInfo getServerInfo() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
 	public FdFiles getFileInfo(String uuid) {

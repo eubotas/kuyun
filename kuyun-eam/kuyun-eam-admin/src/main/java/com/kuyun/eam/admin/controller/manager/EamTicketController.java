@@ -82,6 +82,8 @@ public class EamTicketController extends BaseController {
 	@Autowired
 	private EamTicketRecordService eamTicketRecordService;
 
+	@Autowired
+	private com.kuyun.fileuploader.rpc.api.FileUploaderService fileUploaderService;
 
 	@ApiOperation(value = "工单管理首页")
 	@RequiresPermissions("eam:ticket:read")
@@ -94,6 +96,7 @@ public class EamTicketController extends BaseController {
 //		}
 //		modelMap.put("typeKeyValue", typeKeyValue);
 		modelMap.put("category", category);
+		
 		
 		return "/manage/ticket/index.jsp";
 	}
@@ -163,7 +166,7 @@ public class EamTicketController extends BaseController {
 		modelMap.put("users", users);
 		List<EamTicketType> types = eamTicketTypeService.selectByExample(new EamTicketTypeExample());
 		modelMap.put("ticketTypes", types);
-		
+		modelMap.put("uploadServer", fileUploaderService.getServerInfo());
 		
 		
 		return "/manage/ticket/create.jsp";
