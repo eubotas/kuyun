@@ -1,5 +1,6 @@
 package com.kuyun.eam.admin.controller.manager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
+import com.google.common.base.Splitter;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.common.constant.EamResult;
@@ -209,6 +211,17 @@ public class EamTicketController extends BaseController {
 		ete.createCriteria().andTicketIdEqualTo(id);
 		EamTicketVO eamTicket = eamApiService.selectTicket(ete).get(0);
 		modelMap.put("ticket", eamTicket);
+		
+		//retrieve the image list
+		List<String> imageList =  new ArrayList<String>();
+		for ( String uuid : Splitter.on(',')
+			    .trimResults()
+			    .omitEmptyStrings()
+			    .split(eamTicket.getImagePath1()) ) {
+			imageList.add(fileUploaderService.getServerInfo().getEndpoint_show()+"/"+uuid);
+		}
+		
+		modelMap.put("imageList", imageList);
 		
 		EamTicketRecordExample etre = new EamTicketRecordExample();
 		etre.createCriteria().andTicketIdEqualTo(id);

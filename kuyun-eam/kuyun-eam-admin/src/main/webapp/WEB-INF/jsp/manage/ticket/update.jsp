@@ -79,6 +79,12 @@
 	<div class="col-sm-12">
 		<label for="createTime">创建时间</label> <span id="createTime">${ticket.createTime}</span>
 	</div>
+	<div class="col-sm-12">
+		<!-- image lsit  -->
+		<c:forEach var="image" items="${imageList}">
+			<image src='${image}' />
+		</c:forEach>
+	</div>
 </div>
 <div class="row">
 	<hr />
