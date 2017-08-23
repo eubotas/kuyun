@@ -1,6 +1,6 @@
 package com.kuyun.fileuploder.common;
 
-public class Storage {
+public class Storage implements java.io.Serializable {
 
 	private String location;
 
