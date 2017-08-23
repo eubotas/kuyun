@@ -1,6 +1,6 @@
 package com.kuyun.fileuploder.common;
 
-public class FileUploadServerInfo {
+public class FileUploadServerInfo implements java.io.Serializable {
 	
 	private String serverBaseUri;
 	private String fileuploadBase;

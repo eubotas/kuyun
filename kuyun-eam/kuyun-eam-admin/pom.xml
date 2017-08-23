@@ -31,11 +31,11 @@
             <artifactId>kuyun-admin</artifactId>
             <version>1.0.0</version>
         </dependency>
- <!--        <dependency>
+        <dependency>
             <groupId>com.kuyun</groupId>
             <artifactId>kuyun-grm</artifactId>
             <version>1.0.0</version>
-        </dependency> -->
+        </dependency> 
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

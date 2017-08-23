@@ -16,7 +16,7 @@
 	</bean>
 
 	<bean id="fileUploadServerInfo" class="com.kuyun.fileuploder.common.FileUploadServerInfo">
-		<property name="serverBaseUri" value="${fd.server.baseUri" />
+		<property name="serverBaseUri" value="${fd.server.baseUri}" />
 		<property name="fileuploadBase" value="${fd.server.fd.base}" />
 		<property name="upload" value="${fd.server.uploadfile}" />
 		<property name="uploadDone" value="${fd.server.uploadDone}" />
