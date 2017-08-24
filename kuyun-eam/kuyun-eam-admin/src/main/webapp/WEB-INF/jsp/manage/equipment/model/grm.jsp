@@ -8,7 +8,7 @@
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 <div id="readWriteDialog" class="crudDialog">
 	<form id="sensorForm" method="post">
-		<input type="hidden" name="equipmentId" value="${equipment.equipmentId}">
+		<input type="hidden" name="equipmentModelId" value="${equipmentModel.equipmentModelId}">
 		<input type="hidden" name="equipmentModelPropertyId" value="${equipmentModelProperties.equipmentModelPropertyId}">
 		<c:if test="${sensor != null}">
 			<input type="hidden" name="sensorId" value="${sensor.sensorId}">
@@ -74,10 +74,7 @@ function createSubmit() {
         url: '${basePath}/manage/sensor/create',
         data: $('#sensorForm').serialize(),
         beforeSend: function() {
-            if ($('#salveId').val() == '') {
-                $('#salveId').focus();
-                return false;
-            }
+
         },
         success: function(result) {
 			if (result.code != 1) {

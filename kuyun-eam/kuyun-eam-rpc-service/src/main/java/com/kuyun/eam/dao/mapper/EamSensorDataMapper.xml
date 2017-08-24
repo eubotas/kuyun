@@ -3,6 +3,7 @@
 <mapper namespace="com.kuyun.eam.dao.mapper.EamSensorDataMapper">
   <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamSensorData">
     <id column="sensor_data_id" jdbcType="INTEGER" property="sensorDataId" />
+    <result column="equipment_id" jdbcType="VARCHAR" property="equipmentId" />
     <result column="sensor_id" jdbcType="INTEGER" property="sensorId" />
     <result column="string_value" jdbcType="VARCHAR" property="stringValue" />
     <result column="number_value" jdbcType="DECIMAL" property="numberValue" />
@@ -75,9 +76,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    sensor_data_id, sensor_id, string_value, number_value, boolean_value, longitude_value, 
-    latitude_value, create_user_id, create_time, update_user_id, update_time, delete_flag, 
-    organization_id
+    sensor_data_id, equipment_id, sensor_id, string_value, number_value, boolean_value, 
+    longitude_value, latitude_value, create_user_id, create_time, update_user_id, update_time, 
+    delete_flag, organization_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamSensorDataExample" resultMap="BaseResultMap">
     select
@@ -118,22 +119,25 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamSensorData">
-    insert into eam_sensor_data (sensor_data_id, sensor_id, string_value, 
-      number_value, boolean_value, longitude_value, 
-      latitude_value, create_user_id, create_time, 
-      update_user_id, update_time, delete_flag, 
-      organization_id)
-    values (#{sensorDataId,jdbcType=INTEGER}, #{sensorId,jdbcType=INTEGER}, #{stringValue,jdbcType=VARCHAR}, 
-      #{numberValue,jdbcType=DECIMAL}, #{booleanValue,jdbcType=BIT}, #{longitudeValue,jdbcType=DECIMAL}, 
-      #{latitudeValue,jdbcType=DECIMAL}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
-      #{organizationId,jdbcType=INTEGER})
+    insert into eam_sensor_data (sensor_data_id, equipment_id, sensor_id, 
+      string_value, number_value, boolean_value, 
+      longitude_value, latitude_value, create_user_id, 
+      create_time, update_user_id, update_time, 
+      delete_flag, organization_id)
+    values (#{sensorDataId,jdbcType=INTEGER}, #{equipmentId,jdbcType=VARCHAR}, #{sensorId,jdbcType=INTEGER}, 
+      #{stringValue,jdbcType=VARCHAR}, #{numberValue,jdbcType=DECIMAL}, #{booleanValue,jdbcType=BIT}, 
+      #{longitudeValue,jdbcType=DECIMAL}, #{latitudeValue,jdbcType=DECIMAL}, #{createUserId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{deleteFlag,jdbcType=BIT}, #{organizationId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamSensorData">
     insert into eam_sensor_data
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="sensorDataId != null">
         sensor_data_id,
+      </if>
+      <if test="equipmentId != null">
+        equipment_id,
       </if>
       <if test="sensorId != null">
         sensor_id,
@@ -175,6 +179,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="sensorDataId != null">
         #{sensorDataId,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentId != null">
+        #{equipmentId,jdbcType=VARCHAR},
       </if>
       <if test="sensorId != null">
         #{sensorId,jdbcType=INTEGER},
@@ -226,6 +233,9 @@
       <if test="record.sensorDataId != null">
         sensor_data_id = #{record.sensorDataId,jdbcType=INTEGER},
       </if>
+      <if test="record.equipmentId != null">
+        equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
+      </if>
       <if test="record.sensorId != null">
         sensor_id = #{record.sensorId,jdbcType=INTEGER},
       </if>
@@ -270,6 +280,7 @@
   <update id="updateByExample" parameterType="map">
     update eam_sensor_data
     set sensor_data_id = #{record.sensorDataId,jdbcType=INTEGER},
+      equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
       sensor_id = #{record.sensorId,jdbcType=INTEGER},
       string_value = #{record.stringValue,jdbcType=VARCHAR},
       number_value = #{record.numberValue,jdbcType=DECIMAL},
@@ -289,6 +300,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.kuyun.eam.dao.model.EamSensorData">
     update eam_sensor_data
     <set>
+      <if test="equipmentId != null">
+        equipment_id = #{equipmentId,jdbcType=VARCHAR},
+      </if>
       <if test="sensorId != null">
         sensor_id = #{sensorId,jdbcType=INTEGER},
       </if>
@@ -330,7 +344,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamSensorData">
     update eam_sensor_data
-    set sensor_id = #{sensorId,jdbcType=INTEGER},
+    set equipment_id = #{equipmentId,jdbcType=VARCHAR},
+      sensor_id = #{sensorId,jdbcType=INTEGER},
       string_value = #{stringValue,jdbcType=VARCHAR},
       number_value = #{numberValue,jdbcType=DECIMAL},
       boolean_value = #{booleanValue,jdbcType=BIT},

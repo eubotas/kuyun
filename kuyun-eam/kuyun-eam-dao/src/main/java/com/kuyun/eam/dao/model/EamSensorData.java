@@ -7,6 +7,8 @@ import java.math.BigDecimal;
 public class EamSensorData extends BaseEntity implements Serializable {
     private Integer sensorDataId;
 
+    private String equipmentId;
+
     private Integer sensorId;
 
     private String stringValue;
@@ -27,6 +29,14 @@ public class EamSensorData extends BaseEntity implements Serializable {
 
     public void setSensorDataId(Integer sensorDataId) {
         this.sensorDataId = sensorDataId;
+    }
+
+    public String getEquipmentId() {
+        return equipmentId;
+    }
+
+    public void setEquipmentId(String equipmentId) {
+        this.equipmentId = equipmentId;
     }
 
     public Integer getSensorId() {
@@ -84,6 +94,7 @@ public class EamSensorData extends BaseEntity implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", sensorDataId=").append(sensorDataId);
+        sb.append(", equipmentId=").append(equipmentId);
         sb.append(", sensorId=").append(sensorId);
         sb.append(", stringValue=").append(stringValue);
         sb.append(", numberValue=").append(numberValue);
@@ -107,6 +118,7 @@ public class EamSensorData extends BaseEntity implements Serializable {
         }
         EamSensorData other = (EamSensorData) that;
         return (this.getSensorDataId() == null ? other.getSensorDataId() == null : this.getSensorDataId().equals(other.getSensorDataId()))
+            && (this.getEquipmentId() == null ? other.getEquipmentId() == null : this.getEquipmentId().equals(other.getEquipmentId()))
             && (this.getSensorId() == null ? other.getSensorId() == null : this.getSensorId().equals(other.getSensorId()))
             && (this.getStringValue() == null ? other.getStringValue() == null : this.getStringValue().equals(other.getStringValue()))
             && (this.getNumberValue() == null ? other.getNumberValue() == null : this.getNumberValue().equals(other.getNumberValue()))
@@ -126,6 +138,7 @@ public class EamSensorData extends BaseEntity implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getSensorDataId() == null) ? 0 : getSensorDataId().hashCode());
+        result = prime * result + ((getEquipmentId() == null) ? 0 : getEquipmentId().hashCode());
         result = prime * result + ((getSensorId() == null) ? 0 : getSensorId().hashCode());
         result = prime * result + ((getStringValue() == null) ? 0 : getStringValue().hashCode());
         result = prime * result + ((getNumberValue() == null) ? 0 : getNumberValue().hashCode());

@@ -3,16 +3,12 @@ package com.kuyun.eam.dao.model;
 import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 
 public class EamEquipment extends BaseEntity implements Serializable {
     private String equipmentId;
 
     private Integer equipmentModelId;
-
-    private Integer protocolId;
 
     private String name;
 
@@ -26,9 +22,18 @@ public class EamEquipment extends BaseEntity implements Serializable {
 
     private BigDecimal latitude;
 
+    private String province;
+
+    private String city;
+
     private String user;
 
-    private String heartData;
+    /**
+     * 采集状态
+     *
+     * @mbg.generated
+     */
+    private String collectStatus;
 
     private Date factoryDate;
 
@@ -42,49 +47,17 @@ public class EamEquipment extends BaseEntity implements Serializable {
 
     private Boolean isOnline;
 
-    /**
-     * 巨控设备ID
-     *
-     * @mbg.generated
-     */
-    private String grm;
-
-    /**
-     * 巨控设备密码
-     *
-     * @mbg.generated
-     */
-    private String grmPassword;
-
-    /**
-     * 巨控采集频率单位秒
-     *
-     * @mbg.generated
-     */
-    private Integer grmPeriod;
-
-    private String province;
-
-    private String city;
-
-    /**
-     * 采集状态
-     *
-     * @mbg.generated
-     */
-    private String collectStatus;
-
-    private List<EamSensor> sensors = Collections.emptyList();
-
-    public List<EamSensor> getSensors() {
-        return sensors;
-    }
-
-    public void setSensors(List<EamSensor> sensors) {
-        this.sensors = sensors;
-    }
+    private EamEquipmentModel eamEquipmentModel;
 
     private static final long serialVersionUID = 1L;
+
+    public EamEquipmentModel getEamEquipmentModel() {
+        return eamEquipmentModel;
+    }
+
+    public void setEamEquipmentModel(EamEquipmentModel eamEquipmentModel) {
+        this.eamEquipmentModel = eamEquipmentModel;
+    }
 
     public String getEquipmentId() {
         return equipmentId;
@@ -100,14 +73,6 @@ public class EamEquipment extends BaseEntity implements Serializable {
 
     public void setEquipmentModelId(Integer equipmentModelId) {
         this.equipmentModelId = equipmentModelId;
-    }
-
-    public Integer getProtocolId() {
-        return protocolId;
-    }
-
-    public void setProtocolId(Integer protocolId) {
-        this.protocolId = protocolId;
     }
 
     public String getName() {
@@ -158,6 +123,22 @@ public class EamEquipment extends BaseEntity implements Serializable {
         this.latitude = latitude;
     }
 
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     public String getUser() {
         return user;
     }
@@ -166,12 +147,12 @@ public class EamEquipment extends BaseEntity implements Serializable {
         this.user = user;
     }
 
-    public String getHeartData() {
-        return heartData;
+    public String getCollectStatus() {
+        return collectStatus;
     }
 
-    public void setHeartData(String heartData) {
-        this.heartData = heartData;
+    public void setCollectStatus(String collectStatus) {
+        this.collectStatus = collectStatus;
     }
 
     public Date getFactoryDate() {
@@ -222,54 +203,6 @@ public class EamEquipment extends BaseEntity implements Serializable {
         this.isOnline = isOnline;
     }
 
-    public String getGrm() {
-        return grm;
-    }
-
-    public void setGrm(String grm) {
-        this.grm = grm;
-    }
-
-    public String getGrmPassword() {
-        return grmPassword;
-    }
-
-    public void setGrmPassword(String grmPassword) {
-        this.grmPassword = grmPassword;
-    }
-
-    public Integer getGrmPeriod() {
-        return grmPeriod;
-    }
-
-    public void setGrmPeriod(Integer grmPeriod) {
-        this.grmPeriod = grmPeriod;
-    }
-
-    public String getProvince() {
-        return province;
-    }
-
-    public void setProvince(String province) {
-        this.province = province;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getCollectStatus() {
-        return collectStatus;
-    }
-
-    public void setCollectStatus(String collectStatus) {
-        this.collectStatus = collectStatus;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -278,27 +211,22 @@ public class EamEquipment extends BaseEntity implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", equipmentId=").append(equipmentId);
         sb.append(", equipmentModelId=").append(equipmentModelId);
-        sb.append(", protocolId=").append(protocolId);
         sb.append(", name=").append(name);
         sb.append(", number=").append(number);
         sb.append(", serialNumber=").append(serialNumber);
         sb.append(", imagePath=").append(imagePath);
         sb.append(", longitude=").append(longitude);
         sb.append(", latitude=").append(latitude);
+        sb.append(", province=").append(province);
+        sb.append(", city=").append(city);
         sb.append(", user=").append(user);
-        sb.append(", heartData=").append(heartData);
+        sb.append(", collectStatus=").append(collectStatus);
         sb.append(", factoryDate=").append(factoryDate);
         sb.append(", commissioningDate=").append(commissioningDate);
         sb.append(", warrantyStartDate=").append(warrantyStartDate);
         sb.append(", warrantyEndDate=").append(warrantyEndDate);
         sb.append(", maintenancePeriod=").append(maintenancePeriod);
         sb.append(", isOnline=").append(isOnline);
-        sb.append(", grm=").append(grm);
-        sb.append(", grmPassword=").append(grmPassword);
-        sb.append(", grmPeriod=").append(grmPeriod);
-        sb.append(", province=").append(province);
-        sb.append(", city=").append(city);
-        sb.append(", collectStatus=").append(collectStatus);
         sb.append("]");
         return sb.toString();
     }
@@ -318,15 +246,16 @@ public class EamEquipment extends BaseEntity implements Serializable {
         return (this.getEquipmentId() == null ? other.getEquipmentId() == null : this.getEquipmentId().equals(other.getEquipmentId()))
             && (this.getEquipmentModelId() == null ? other.getEquipmentModelId() == null : this.getEquipmentModelId().equals(other.getEquipmentModelId()))
             && (this.getOrganizationId() == null ? other.getOrganizationId() == null : this.getOrganizationId().equals(other.getOrganizationId()))
-            && (this.getProtocolId() == null ? other.getProtocolId() == null : this.getProtocolId().equals(other.getProtocolId()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
             && (this.getNumber() == null ? other.getNumber() == null : this.getNumber().equals(other.getNumber()))
             && (this.getSerialNumber() == null ? other.getSerialNumber() == null : this.getSerialNumber().equals(other.getSerialNumber()))
             && (this.getImagePath() == null ? other.getImagePath() == null : this.getImagePath().equals(other.getImagePath()))
             && (this.getLongitude() == null ? other.getLongitude() == null : this.getLongitude().equals(other.getLongitude()))
             && (this.getLatitude() == null ? other.getLatitude() == null : this.getLatitude().equals(other.getLatitude()))
+            && (this.getProvince() == null ? other.getProvince() == null : this.getProvince().equals(other.getProvince()))
+            && (this.getCity() == null ? other.getCity() == null : this.getCity().equals(other.getCity()))
             && (this.getUser() == null ? other.getUser() == null : this.getUser().equals(other.getUser()))
-            && (this.getHeartData() == null ? other.getHeartData() == null : this.getHeartData().equals(other.getHeartData()))
+            && (this.getCollectStatus() == null ? other.getCollectStatus() == null : this.getCollectStatus().equals(other.getCollectStatus()))
             && (this.getFactoryDate() == null ? other.getFactoryDate() == null : this.getFactoryDate().equals(other.getFactoryDate()))
             && (this.getCommissioningDate() == null ? other.getCommissioningDate() == null : this.getCommissioningDate().equals(other.getCommissioningDate()))
             && (this.getWarrantyStartDate() == null ? other.getWarrantyStartDate() == null : this.getWarrantyStartDate().equals(other.getWarrantyStartDate()))
@@ -337,13 +266,7 @@ public class EamEquipment extends BaseEntity implements Serializable {
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getIsOnline() == null ? other.getIsOnline() == null : this.getIsOnline().equals(other.getIsOnline()))
-            && (this.getGrm() == null ? other.getGrm() == null : this.getGrm().equals(other.getGrm()))
-            && (this.getGrmPassword() == null ? other.getGrmPassword() == null : this.getGrmPassword().equals(other.getGrmPassword()))
-            && (this.getGrmPeriod() == null ? other.getGrmPeriod() == null : this.getGrmPeriod().equals(other.getGrmPeriod()))
-            && (this.getProvince() == null ? other.getProvince() == null : this.getProvince().equals(other.getProvince()))
-            && (this.getCity() == null ? other.getCity() == null : this.getCity().equals(other.getCity()))
-            && (this.getCollectStatus() == null ? other.getCollectStatus() == null : this.getCollectStatus().equals(other.getCollectStatus()));
+            && (this.getIsOnline() == null ? other.getIsOnline() == null : this.getIsOnline().equals(other.getIsOnline()));
     }
 
     @Override
@@ -353,15 +276,16 @@ public class EamEquipment extends BaseEntity implements Serializable {
         result = prime * result + ((getEquipmentId() == null) ? 0 : getEquipmentId().hashCode());
         result = prime * result + ((getEquipmentModelId() == null) ? 0 : getEquipmentModelId().hashCode());
         result = prime * result + ((getOrganizationId() == null) ? 0 : getOrganizationId().hashCode());
-        result = prime * result + ((getProtocolId() == null) ? 0 : getProtocolId().hashCode());
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         result = prime * result + ((getNumber() == null) ? 0 : getNumber().hashCode());
         result = prime * result + ((getSerialNumber() == null) ? 0 : getSerialNumber().hashCode());
         result = prime * result + ((getImagePath() == null) ? 0 : getImagePath().hashCode());
         result = prime * result + ((getLongitude() == null) ? 0 : getLongitude().hashCode());
         result = prime * result + ((getLatitude() == null) ? 0 : getLatitude().hashCode());
+        result = prime * result + ((getProvince() == null) ? 0 : getProvince().hashCode());
+        result = prime * result + ((getCity() == null) ? 0 : getCity().hashCode());
         result = prime * result + ((getUser() == null) ? 0 : getUser().hashCode());
-        result = prime * result + ((getHeartData() == null) ? 0 : getHeartData().hashCode());
+        result = prime * result + ((getCollectStatus() == null) ? 0 : getCollectStatus().hashCode());
         result = prime * result + ((getFactoryDate() == null) ? 0 : getFactoryDate().hashCode());
         result = prime * result + ((getCommissioningDate() == null) ? 0 : getCommissioningDate().hashCode());
         result = prime * result + ((getWarrantyStartDate() == null) ? 0 : getWarrantyStartDate().hashCode());
@@ -373,12 +297,6 @@ public class EamEquipment extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getIsOnline() == null) ? 0 : getIsOnline().hashCode());
-        result = prime * result + ((getGrm() == null) ? 0 : getGrm().hashCode());
-        result = prime * result + ((getGrmPassword() == null) ? 0 : getGrmPassword().hashCode());
-        result = prime * result + ((getGrmPeriod() == null) ? 0 : getGrmPeriod().hashCode());
-        result = prime * result + ((getProvince() == null) ? 0 : getProvince().hashCode());
-        result = prime * result + ((getCity() == null) ? 0 : getCity().hashCode());
-        result = prime * result + ((getCollectStatus() == null) ? 0 : getCollectStatus().hashCode());
         return result;
     }
 }

@@ -5,11 +5,13 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
+import com.kuyun.eam.admin.util.ModbusFunctionCode;
+import com.kuyun.eam.common.constant.BitOrder;
+import com.kuyun.eam.common.constant.DataFormat;
 import com.kuyun.eam.common.constant.EamResult;
-import com.kuyun.eam.dao.model.EamEquipmentModel;
-import com.kuyun.eam.dao.model.EamEquipmentModelExample;
-import com.kuyun.eam.rpc.api.EamEquipmentModelService;
-import com.kuyun.eam.rpc.api.EamEquipmentService;
+import com.kuyun.eam.dao.model.*;
+import com.kuyun.eam.rpc.api.*;
+import com.kuyun.grm.common.Action;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsOrganization;
 import io.swagger.annotations.Api;
@@ -49,6 +51,15 @@ public class EamEquipmentModelController extends BaseController {
 
 	@Autowired
 	private BaseEntityUtil baseEntityUtil;
+
+	@Autowired
+	private EamProtocolService protocolService;
+
+	@Autowired
+	private EamEquipmentModelPropertiesService eamEquipmentModelPropertiesService;
+
+	@Autowired
+	private EamSensorService eamSensorService;
 
 
 	@ApiOperation(value = "设备模型首页")
@@ -93,7 +104,8 @@ public class EamEquipmentModelController extends BaseController {
 	@ApiOperation(value = "新增设备模型")
 	@RequiresPermissions("eam:equipmentModel:create")
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public String create() {
+	public String create(ModelMap modelMap) {
+		//modelMap.put("protocols", protocolService.selectByExample(new EamProtocolExample()));
 		return "/manage/equipment/model/create.jsp";
 	}
 
@@ -152,6 +164,100 @@ public class EamEquipmentModelController extends BaseController {
 		return new EamResult(SUCCESS, count);
 	}
 
+	@ApiOperation(value = "设置连接")
+	@RequiresPermissions("eam:equipmentModel:update")
+	@RequestMapping(value = "/connect/{id}", method = RequestMethod.GET)
+	public String connect(@PathVariable("id") int id, ModelMap modelMap) {
+		EamEquipmentModel equipmentModel = eamEquipmentModelService.selectByPrimaryKey(id);
+		modelMap.put("equipmentModel", equipmentModel);
+		modelMap.put("protocols", protocolService.selectByExample(new EamProtocolExample()));
+		return "/manage/equipment/model/connect.jsp";
+	}
 
+	@ApiOperation(value = "设置连接")
+	@RequiresPermissions("eam:equipmentModel:update")
+	@RequestMapping(value = "/connect/{id}", method = RequestMethod.POST)
+	@ResponseBody
+	public Object connect(@PathVariable("id") int id, EamEquipmentModel equipmentModel) {
+		equipmentModel.setEquipmentModelId(id);
+		int count = eamEquipmentModelService.updateByPrimaryKeySelective(equipmentModel);
+		return new EamResult(SUCCESS, count);
+	}
+
+	private void buildModelMap(@PathVariable("mId") int mId, @PathVariable("pId") int pId, ModelMap modelMap) {
+		EamEquipmentModel equipmentModel = eamEquipmentModelService.selectByPrimaryKey(mId);
+		EamEquipmentModelProperties eamEquipmentModelProperties = eamEquipmentModelPropertiesService.selectByPrimaryKey(pId);
+		EamSensor sensor = getSensor(eamEquipmentModelProperties);
+
+		modelMap.put("equipmentModel", equipmentModel);
+		modelMap.put("equipmentModelProperties", eamEquipmentModelProperties);
+		if (sensor != null){
+			modelMap.put("sensor", sensor);
+		}
+	}
+
+	@RequiresPermissions("eam:equipment:update")
+	@RequestMapping(value = "/grm/{mId}/{pId}", method = RequestMethod.GET)
+	public String grm(@PathVariable("mId") int mId, @PathVariable("pId") int pId, ModelMap modelMap) {
+		buildModelMap(mId, pId, modelMap);
+		modelMap.put("grmActions", Action.values());
+
+		return "/manage/equipment/model/grm.jsp";
+	}
+
+	@RequiresPermissions("eam:equipment:update")
+	@RequestMapping(value = "/modbus/{mId}/{pId}", method = RequestMethod.GET)
+	public String modbus(@PathVariable("mId") int mId, @PathVariable("pId") int pId, ModelMap modelMap) {
+		buildModelMap(mId, pId, modelMap);
+
+		modelMap.put("modbusFunctionCodes", ModbusFunctionCode.values());
+		modelMap.put("dataFormats", DataFormat.values());
+		modelMap.put("bitOrders", BitOrder.values());
+
+		return "/manage/equipment/model/modbus.jsp";
+	}
+
+	@ApiOperation(value = "Modbus传感器参数")
+	@RequiresPermissions("eam:equipment:update")
+	@RequestMapping(value = "/sensor/modbus/{mId}/{pId}", method = RequestMethod.GET)
+	@ResponseBody
+	public Object sensorModbus(@PathVariable("mId") int mId, @PathVariable("pId") int pId) {
+		Map<String, Object> result = buildHashMap(mId, pId);
+
+		result.put("modbusFunctionCodes", ModbusFunctionCode.values());
+		result.put("dataFormats", DataFormat.values());
+		result.put("bitOrders", BitOrder.values());
+		return result;
+	}
+
+	@ApiOperation(value = "巨控传感器参数")
+	@RequiresPermissions("eam:equipment:update")
+	@RequestMapping(value = "/sensor/grm/{mId}/{pId}", method = RequestMethod.GET)
+	@ResponseBody
+	public Object sensorGrm(@PathVariable("mId") int mId, @PathVariable("pId") int pId) {
+		Map<String, Object> result = buildHashMap(mId, pId);
+
+		result.put("grmActions", Action.values());
+		return result;
+	}
+
+	private Map<String, Object> buildHashMap(int mId, int pId) {
+		EamEquipmentModel equipmentModel = eamEquipmentModelService.selectByPrimaryKey(mId);
+		EamEquipmentModelProperties eamEquipmentModelProperties = eamEquipmentModelPropertiesService.selectByPrimaryKey(pId);
+		EamSensor sensor = getSensor(eamEquipmentModelProperties);
+
+		Map<String, Object> result = new HashMap<>();
+		result.put("equipmentModel", equipmentModel);
+		result.put("equipmentModelProperties", eamEquipmentModelProperties);
+		result.put("sensor", sensor);
+		return result;
+	}
+
+
+	public EamSensor getSensor(EamEquipmentModelProperties eamEquipmentModelProperties){
+		EamSensorExample example = new EamSensorExample();
+		example.createCriteria().andEquipmentModelPropertyIdEqualTo(eamEquipmentModelProperties.getEquipmentModelPropertyId());
+		return eamSensorService.selectFirstByExample(example);
+	}
 
 }

@@ -322,8 +322,8 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     private void handleModbusRtuAction(CollectStatus collectStatus, List<EamEquipment> eamEquipments) {
-        List<EamEquipment> modbusEquipments = eamEquipments.stream().filter(equipment -> equipment.getProtocolId() != null)
-                .filter(equipment -> ProtocolEnum.MODBUS_RTU.getId() == equipment.getProtocolId().intValue()).collect(Collectors.toList());
+        List<EamEquipment> modbusEquipments = eamEquipments.stream().filter(equipment -> equipment.getEamEquipmentModel() != null)
+                .filter(equipment -> ProtocolEnum.MODBUS_RTU.getId() == equipment.getEamEquipmentModel().getProtocolId().intValue()).collect(Collectors.toList());
 
         modbusEquipments.forEach(equipment -> {
             handleModbusRtuAction(collectStatus, equipment);
@@ -332,8 +332,8 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     private void handleGRMAction(CollectStatus collectStatus, List<EamEquipment> eamEquipments) {
-        List<EamEquipment> grmEquipments = eamEquipments.stream().filter(equipment -> equipment.getProtocolId() != null)
-                .filter(equipment -> ProtocolEnum.GRM.getId() == equipment.getProtocolId().intValue()).collect(Collectors.toList());
+        List<EamEquipment> grmEquipments = eamEquipments.stream().filter(equipment -> equipment.getEamEquipmentModel() != null)
+                .filter(equipment -> ProtocolEnum.GRM.getId() == equipment.getEamEquipmentModel().getProtocolId().intValue()).collect(Collectors.toList());
 
         grmEquipments.forEach(equipment -> {
             try {

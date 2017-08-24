@@ -10,6 +10,36 @@ public class EamEquipmentModel extends BaseEntity implements Serializable {
 
     private String number;
 
+    private Integer protocolId;
+
+    /**
+     * Modbus RTU
+     *
+     * @mbg.generated
+     */
+    private String heartData;
+
+    /**
+     * 巨控设备ID
+     *
+     * @mbg.generated
+     */
+    private String grm;
+
+    /**
+     * 巨控设备密码
+     *
+     * @mbg.generated
+     */
+    private String grmPassword;
+
+    /**
+     * 巨控采集频率单位秒
+     *
+     * @mbg.generated
+     */
+    private Integer grmPeriod;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getEquipmentModelId() {
@@ -36,6 +66,46 @@ public class EamEquipmentModel extends BaseEntity implements Serializable {
         this.number = number;
     }
 
+    public Integer getProtocolId() {
+        return protocolId;
+    }
+
+    public void setProtocolId(Integer protocolId) {
+        this.protocolId = protocolId;
+    }
+
+    public String getHeartData() {
+        return heartData;
+    }
+
+    public void setHeartData(String heartData) {
+        this.heartData = heartData;
+    }
+
+    public String getGrm() {
+        return grm;
+    }
+
+    public void setGrm(String grm) {
+        this.grm = grm;
+    }
+
+    public String getGrmPassword() {
+        return grmPassword;
+    }
+
+    public void setGrmPassword(String grmPassword) {
+        this.grmPassword = grmPassword;
+    }
+
+    public Integer getGrmPeriod() {
+        return grmPeriod;
+    }
+
+    public void setGrmPeriod(Integer grmPeriod) {
+        this.grmPeriod = grmPeriod;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -45,6 +115,11 @@ public class EamEquipmentModel extends BaseEntity implements Serializable {
         sb.append(", equipmentModelId=").append(equipmentModelId);
         sb.append(", name=").append(name);
         sb.append(", number=").append(number);
+        sb.append(", protocolId=").append(protocolId);
+        sb.append(", heartData=").append(heartData);
+        sb.append(", grm=").append(grm);
+        sb.append(", grmPassword=").append(grmPassword);
+        sb.append(", grmPeriod=").append(grmPeriod);
         sb.append("]");
         return sb.toString();
     }
@@ -64,6 +139,11 @@ public class EamEquipmentModel extends BaseEntity implements Serializable {
         return (this.getEquipmentModelId() == null ? other.getEquipmentModelId() == null : this.getEquipmentModelId().equals(other.getEquipmentModelId()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
             && (this.getNumber() == null ? other.getNumber() == null : this.getNumber().equals(other.getNumber()))
+            && (this.getProtocolId() == null ? other.getProtocolId() == null : this.getProtocolId().equals(other.getProtocolId()))
+            && (this.getHeartData() == null ? other.getHeartData() == null : this.getHeartData().equals(other.getHeartData()))
+            && (this.getGrm() == null ? other.getGrm() == null : this.getGrm().equals(other.getGrm()))
+            && (this.getGrmPassword() == null ? other.getGrmPassword() == null : this.getGrmPassword().equals(other.getGrmPassword()))
+            && (this.getGrmPeriod() == null ? other.getGrmPeriod() == null : this.getGrmPeriod().equals(other.getGrmPeriod()))
             && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
@@ -79,6 +159,11 @@ public class EamEquipmentModel extends BaseEntity implements Serializable {
         result = prime * result + ((getEquipmentModelId() == null) ? 0 : getEquipmentModelId().hashCode());
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         result = prime * result + ((getNumber() == null) ? 0 : getNumber().hashCode());
+        result = prime * result + ((getProtocolId() == null) ? 0 : getProtocolId().hashCode());
+        result = prime * result + ((getHeartData() == null) ? 0 : getHeartData().hashCode());
+        result = prime * result + ((getGrm() == null) ? 0 : getGrm().hashCode());
+        result = prime * result + ((getGrmPassword() == null) ? 0 : getGrmPassword().hashCode());
+        result = prime * result + ((getGrmPeriod() == null) ? 0 : getGrmPeriod().hashCode());
         result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());

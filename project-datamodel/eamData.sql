@@ -125,7 +125,7 @@ TRUNCATE TABLE `eam_ticket_type`;
 INSERT INTO `eam_ticket_type` VALUES (11,'警报工单',1,'2017-07-26 15:51:51',1,'2017-07-26 15:51:51',0,1),(12,'其它工单',1,'2017-07-26 15:52:15',1,'2017-07-26 15:52:15',0,1),(13,'手工工单',1,'2017-07-26 16:23:15',1,'2017-07-26 16:23:15',0,1);
 # end prepare ticket menu item
 
-DELETE FROM `eam_protocol`;
+TRUNCATE TABLE `eam_protocol`;
 INSERT INTO `eam_protocol` VALUES (1, 'Modbus RTU', '118.89.140.11', 8234);
 INSERT INTO `eam_protocol` VALUES (2, 'Modbus TCP', '118.89.140.11', 8233);
 INSERT INTO `eam_protocol` VALUES (3, 'MQTT', '118.89.140.11', 8232);

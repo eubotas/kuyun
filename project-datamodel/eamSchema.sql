@@ -49,7 +49,6 @@ create table eam_equipment
    equipment_id         varchar(32),
    equipment_model_id   int,
    organization_id      int,
-   protocol_id          int,
    name                 varchar(30),
    number               varchar(30),
    serial_number        varchar(50),
@@ -59,10 +58,6 @@ create table eam_equipment
    province             varchar(10),
    city                 varchar(10),
    user                 varchar(30),
-   heart_data           varchar(50) comment 'Modbus RTU',
-   grm                  varchar(50) comment '巨控设备ID',
-   grm_password         varchar(50) comment '巨控设备密码',
-   grm_period           int         comment '巨控采集频率单位秒',
    collect_status       varchar(10) comment '采集状态',
    factory_date         datetime,
    commissioning_date   datetime,
@@ -88,6 +83,11 @@ create table eam_equipment_model
    equipment_model_id   int not null auto_increment,
    name                 varchar(30),
    number               varchar(50),
+   protocol_id          int,
+   heart_data           varchar(50) comment 'Modbus RTU',
+   grm                  varchar(50) comment '巨控设备ID',
+   grm_password         varchar(50) comment '巨控设备密码',
+   grm_period           int         comment '巨控采集频率单位秒',
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,
@@ -106,13 +106,13 @@ create table eam_equipment_model_properties
 (
    equipment_model_property_id int not null auto_increment,
    equipment_model_id   int,
-   name                 varchar(30),
+   name                 varchar(30) comment '名称',
    label                varchar(50),
-   unit                 varchar(20),
+   unit                 varchar(20) comment '单位',
    address              varchar(30),
-   data_type            varchar(30),
-   display_type         varchar(10),
-   alarm_type           varchar(30),
+   data_type            varchar(30) comment '数据类型(analog, digital)',
+   display_type         varchar(10) comment '显示类型(LED, pie, guage)',
+   alarm_type           varchar(30) comment '报警类型(val_above, val_below, ...)',
    refresh_period       varchar(30),
    create_user_id       int,
    create_time          datetime,
@@ -124,6 +124,60 @@ create table eam_equipment_model_properties
 );
 
 alter table eam_equipment_model_properties comment '设备模型参数';
+
+/*==============================================================*/
+/* Table: eam_sensor                                            */
+/*==============================================================*/
+create table eam_sensor
+(
+   sensor_id            int not null auto_increment,
+   equipment_model_property_id int,
+   salve_id             int  comment 'Modbus RTU 从站地址',   
+   function_code        int  comment 'Modbus RTU 功能码',
+   address              int  comment 'Modbus RTU 起始地址',
+   data_format          varchar(15) comment 'Modbus RTU 数据格式',
+   bit_order            varchar(10) comment 'Modbus RTU 字节顺序',
+   period               int  comment 'Modbus RTU',
+   quantity             int  comment 'Modbus RTU 地址个数',
+   write_number         int  comment 'Modbus RTU',
+   grm_action           varchar(5) comment '巨控 读写指令',
+   grm_variable         varchar(20) comment '巨控 变量名',
+   grm_variable_value   varchar(20) comment '巨控 写变量值',
+   grm_variable_order   int comment '巨控 读写变量顺序',
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   organization_id      int,
+   primary key (sensor_id)
+);
+
+alter table eam_sensor comment '设备传感器';
+
+/*==============================================================*/
+/* Table: eam_sensor_data                                       */
+/*==============================================================*/
+create table eam_sensor_data
+(
+   sensor_data_id       int not null auto_increment,
+   equipment_id         varchar(32),
+   sensor_id            int,
+   string_value         varchar(50),
+   number_value         decimal(10,2),
+   boolean_value        boolean,
+   longitude_value      decimal(10,5),
+   latitude_value       decimal(10,5),
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   organization_id      int,
+   primary key (sensor_data_id)
+);
+
+alter table eam_sensor_data comment '设备传感器数据';
 
 /*==============================================================*/
 /* Table: eam_inventory                                         */
@@ -241,59 +295,7 @@ create table eam_protocol
 
 alter table eam_protocol comment ' 接入协议';
 
-/*==============================================================*/
-/* Table: eam_sensor                                            */
-/*==============================================================*/
-create table eam_sensor
-(
-   sensor_id            int not null auto_increment,
-   equipment_id         varchar(32),
-   equipment_model_property_id int,
-   salve_id             int  comment 'Modbus RTU 从站地址',   
-   function_code        int  comment 'Modbus RTU 功能码',
-   address              int  comment 'Modbus RTU 起始地址',
-   data_format          varchar(15) comment 'Modbus RTU 数据格式',
-   bit_order            varchar(10) comment 'Modbus RTU 字节顺序',
-   period               int  comment 'Modbus RTU',
-   quantity             int  comment 'Modbus RTU 地址个数',
-   write_number         int  comment 'Modbus RTU',
-   grm_action           varchar(5) comment '巨控 读写指令',
-   grm_variable         varchar(20) comment '巨控 变量名',
-   grm_variable_value   varchar(20) comment '巨控 写变量值',
-   grm_variable_order   int comment '巨控 读写变量顺序',
-   create_user_id       int,
-   create_time          datetime,
-   update_user_id       int,
-   update_time          datetime,
-   delete_flag          boolean,
-   organization_id      int,
-   primary key (sensor_id)
-);
 
-alter table eam_sensor comment '设备传感器';
-
-/*==============================================================*/
-/* Table: eam_sensor_data                                       */
-/*==============================================================*/
-create table eam_sensor_data
-(
-   sensor_data_id       int not null auto_increment,
-   sensor_id            int,
-   string_value         varchar(50),
-   number_value         decimal(10,2),
-   boolean_value        boolean,
-   longitude_value      decimal(10,5),
-   latitude_value       decimal(10,5),
-   create_user_id       int,
-   create_time          datetime,
-   update_user_id       int,
-   update_time          datetime,
-   delete_flag          boolean,
-   organization_id      int,
-   primary key (sensor_data_id)
-);
-
-alter table eam_sensor_data comment '设备传感器数据';
 
 /*==============================================================*/
 /* Table: eam_warehouse                                         */
@@ -406,7 +408,7 @@ create table eam_ticket_record
 
 
 
-alter table eam_equipment add constraint FK_Reference_10 foreign key (protocol_id)
+alter table eam_equipment_model add constraint FK_Reference_10 foreign key (protocol_id)
       references eam_protocol (protocol_id) on delete restrict on update restrict;
 
 alter table eam_equipment add constraint FK_Reference_42 foreign key (equipment_model_id)
@@ -439,11 +441,11 @@ alter table eam_parts add constraint FK_Reference_45 foreign key (category_id)
 alter table eam_sensor add constraint FK_Reference_11 foreign key (equipment_model_property_id)
       references eam_equipment_model_properties (equipment_model_property_id) on delete restrict on update restrict;
 
-alter table eam_sensor add constraint FK_Reference_12 foreign key (equipment_id)
-      references eam_equipment (equipment_id) on delete restrict on update restrict;
-
 alter table eam_sensor_data add constraint FK_Reference_13 foreign key (sensor_id)
       references eam_sensor (sensor_id) on delete restrict on update restrict;
+
+alter table eam_sensor_data add constraint FK_Reference_14 foreign key (equipment_id)
+      references eam_equipment (equipment_id) on delete restrict on update restrict;
 
 
 
@@ -453,7 +455,7 @@ alter table eam_sensor_data add constraint FK_Reference_13 foreign key (sensor_i
 #根据传入id查询所有父节点的id
 drop FUNCTION if exists getParentList;
 
-#delimiter //
+delimiter //
 
 CREATE FUNCTION `getParentList`(rootId INT)
 RETURNS varchar(1000) 
@@ -479,14 +481,14 @@ BEGIN
   
 RETURN sTemp; 
 END
-#//
+//
 
 delimiter ;
 
 #根据传入id查询所有子节点的id
 
 drop FUNCTION if exists getChildList;
-#delimiter //
+delimiter //
 CREATE FUNCTION `getChildList`(rootId INT)
 RETURNS varchar(1000) 
 
@@ -503,7 +505,7 @@ BEGIN
     END WHILE;
     RETURN sTemp; 
 END
-#//
+//
 
 #resotre default delimiter
 delimiter ;

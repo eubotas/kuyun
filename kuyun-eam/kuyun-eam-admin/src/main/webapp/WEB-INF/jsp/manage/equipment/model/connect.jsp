@@ -19,12 +19,12 @@
 	<div id="connectDialog" class="crudDialog">
 		<form id="connectForm" method="post">
 
-			<input type="hidden" name="equipmentId" value="${equipment.equipmentId}">
+			<input type="hidden" name="equipmentModelId" value="${equipmentModel.equipmentModelId}">
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="form-group">
 						<div class="fg-line">
-							<label for="name">设备名称</label>
+							<label for="name">模型名称</label>
 							<input id="name" type="text" class="form-control" name="name" maxlength="200" value="${equipment.name}" readonly>
 						</div>
 					</div>
@@ -148,7 +148,7 @@
     $(function() {
         // bootstrap table初始化
         $table.bootstrapTable({
-            url: '${basePath}/manage/equipment/model/property/list/${equipment.equipmentModelId}',
+            url: '${basePath}/manage/equipment/model/property/list/${equipmentModel.equipmentModelId}',
             height: getHeight(),
             striped: true,
             search: true,
@@ -205,11 +205,11 @@
                 }
             });
         } else {
-            var readWriteUrl = '${basePath}/manage/equipment/modbus/${equipment.equipmentId}/' + rows[0].equipmentModelPropertyId;
+            var readWriteUrl = '${basePath}/manage/equipment/model/modbus/${equipmentModel.equipmentModelId}/' + rows[0].equipmentModelPropertyId;
             if (1 == $('#protocolId').val()){
-                readWriteUrl = '${basePath}/manage/equipment/modbus/${equipment.equipmentId}/' + rows[0].equipmentModelPropertyId;
+                readWriteUrl = '${basePath}/manage/equipment/model/modbus/${equipmentModel.equipmentModelId}/' + rows[0].equipmentModelPropertyId;
             }else if (4 == $('#protocolId').val()){
-                readWriteUrl = '${basePath}/manage/equipment/grm/${equipment.equipmentId}/' + rows[0].equipmentModelPropertyId;
+                readWriteUrl = '${basePath}/manage/equipment/model/grm/${equipmentModel.equipmentModelId}/' + rows[0].equipmentModelPropertyId;
 
             }
             readWriteDialog = $.dialog({
@@ -250,7 +250,7 @@
     function createSubmit() {
         $.ajax({
             type: 'post',
-            url: '${basePath}/manage/equipment/connect/${equipment.equipmentId}',
+            url: '${basePath}/manage/equipment/model/connect/${equipmentModel.equipmentModelId}',
             data: $('#connectForm').serialize(),
             beforeSend: function() {
                 if(!checkForm()){
