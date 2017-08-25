@@ -248,6 +248,14 @@ public class EamEquipmentController extends BaseController {
 		return result;
 	}
 
+	@RequiresPermissions("eam:equipment:update")
+	@RequestMapping(value = "/data/change/{eId}/{pId}", method = RequestMethod.GET)
+	public String dataChange(@PathVariable("eId") String eId, @PathVariable("pId") int pId, ModelMap modelMap) {
+		buildModelMap(eId, pId, modelMap);
+
+		return "/manage/equipment/datachange.jsp";
+	}
+
     @ApiOperation(value = "巨控传感器参数")
     @RequiresPermissions("eam:equipment:update")
     @RequestMapping(value = "/sensor/grm/{eId}/{pId}", method = RequestMethod.GET)

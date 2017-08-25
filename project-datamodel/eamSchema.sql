@@ -261,6 +261,10 @@ create table eam_sensor
    grm_variable         varchar(20) comment '巨控 变量名',
    grm_variable_value   varchar(20) comment '巨控 写变量值',
    grm_variable_order   int comment '巨控 读写变量顺序',
+   osh                  decimal(10,2) comment '换算结果的高限',
+   osl                  decimal(10,2) comment '换算结果的低限',
+   ish                  decimal(10,2) comment '换算对象的高限',
+   isl                  decimal(10,2) comment '换算对象的低限',
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,
@@ -453,7 +457,7 @@ alter table eam_sensor_data add constraint FK_Reference_13 foreign key (sensor_i
 #根据传入id查询所有父节点的id
 drop FUNCTION if exists getParentList;
 
-#delimiter //
+delimiter //
 
 CREATE FUNCTION `getParentList`(rootId INT)
 RETURNS varchar(1000) 
@@ -479,14 +483,14 @@ BEGIN
   
 RETURN sTemp; 
 END
-#//
+//
 
 delimiter ;
 
 #根据传入id查询所有子节点的id
 
 drop FUNCTION if exists getChildList;
-#delimiter //
+delimiter //
 CREATE FUNCTION `getChildList`(rootId INT)
 RETURNS varchar(1000) 
 
@@ -503,7 +507,7 @@ BEGIN
     END WHILE;
     RETURN sTemp; 
 END
-#//
+//
 
 #resotre default delimiter
 delimiter ;
@@ -516,3 +520,5 @@ delimiter ;
 #ALTER TABLE eam_sensor ADD   grm_variable         varchar(20) comment '巨控';
 #ALTER TABLE eam_sensor ADD   grm_variable_value   varchar(20) comment '巨控';
 #ALTER TABLE eam_equipment ADD grm_period int comment '巨控采集频率单位秒';
+
+  

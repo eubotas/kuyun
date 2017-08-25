@@ -318,73 +318,73 @@ public class EamEquipmentModelPropertiesExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andLableIsNull() {
-            addCriterion("lable is null");
+        public Criteria andLabelIsNull() {
+            addCriterion("label is null");
             return (Criteria) this;
         }
 
-        public Criteria andLableIsNotNull() {
-            addCriterion("lable is not null");
+        public Criteria andLabelIsNotNull() {
+            addCriterion("label is not null");
             return (Criteria) this;
         }
 
-        public Criteria andLableEqualTo(String value) {
-            addCriterion("lable =", value, "lable");
+        public Criteria andLabelEqualTo(String value) {
+            addCriterion("label =", value, "label");
             return (Criteria) this;
         }
 
-        public Criteria andLableNotEqualTo(String value) {
-            addCriterion("lable <>", value, "lable");
+        public Criteria andLabelNotEqualTo(String value) {
+            addCriterion("label <>", value, "label");
             return (Criteria) this;
         }
 
-        public Criteria andLableGreaterThan(String value) {
-            addCriterion("lable >", value, "lable");
+        public Criteria andLabelGreaterThan(String value) {
+            addCriterion("label >", value, "label");
             return (Criteria) this;
         }
 
-        public Criteria andLableGreaterThanOrEqualTo(String value) {
-            addCriterion("lable >=", value, "lable");
+        public Criteria andLabelGreaterThanOrEqualTo(String value) {
+            addCriterion("label >=", value, "label");
             return (Criteria) this;
         }
 
-        public Criteria andLableLessThan(String value) {
-            addCriterion("lable <", value, "lable");
+        public Criteria andLabelLessThan(String value) {
+            addCriterion("label <", value, "label");
             return (Criteria) this;
         }
 
-        public Criteria andLableLessThanOrEqualTo(String value) {
-            addCriterion("lable <=", value, "lable");
+        public Criteria andLabelLessThanOrEqualTo(String value) {
+            addCriterion("label <=", value, "label");
             return (Criteria) this;
         }
 
-        public Criteria andLableLike(String value) {
-            addCriterion("lable like", value, "lable");
+        public Criteria andLabelLike(String value) {
+            addCriterion("label like", value, "label");
             return (Criteria) this;
         }
 
-        public Criteria andLableNotLike(String value) {
-            addCriterion("lable not like", value, "lable");
+        public Criteria andLabelNotLike(String value) {
+            addCriterion("label not like", value, "label");
             return (Criteria) this;
         }
 
-        public Criteria andLableIn(List<String> values) {
-            addCriterion("lable in", values, "lable");
+        public Criteria andLabelIn(List<String> values) {
+            addCriterion("label in", values, "label");
             return (Criteria) this;
         }
 
-        public Criteria andLableNotIn(List<String> values) {
-            addCriterion("lable not in", values, "lable");
+        public Criteria andLabelNotIn(List<String> values) {
+            addCriterion("label not in", values, "label");
             return (Criteria) this;
         }
 
-        public Criteria andLableBetween(String value1, String value2) {
-            addCriterion("lable between", value1, value2, "lable");
+        public Criteria andLabelBetween(String value1, String value2) {
+            addCriterion("label between", value1, value2, "label");
             return (Criteria) this;
         }
 
-        public Criteria andLableNotBetween(String value1, String value2) {
-            addCriterion("lable not between", value1, value2, "lable");
+        public Criteria andLabelNotBetween(String value1, String value2) {
+            addCriterion("label not between", value1, value2, "label");
             return (Criteria) this;
         }
 
@@ -595,6 +595,76 @@ public class EamEquipmentModelPropertiesExample implements Serializable {
 
         public Criteria andDataTypeNotBetween(String value1, String value2) {
             addCriterion("data_type not between", value1, value2, "dataType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisplayTypeIsNull() {
+            addCriterion("display_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisplayTypeIsNotNull() {
+            addCriterion("display_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisplayTypeEqualTo(String value) {
+            addCriterion("display_type =", value, "displayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisplayTypeNotEqualTo(String value) {
+            addCriterion("display_type <>", value, "displayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisplayTypeGreaterThan(String value) {
+            addCriterion("display_type >", value, "displayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisplayTypeGreaterThanOrEqualTo(String value) {
+            addCriterion("display_type >=", value, "displayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisplayTypeLessThan(String value) {
+            addCriterion("display_type <", value, "displayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisplayTypeLessThanOrEqualTo(String value) {
+            addCriterion("display_type <=", value, "displayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisplayTypeLike(String value) {
+            addCriterion("display_type like", value, "displayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisplayTypeNotLike(String value) {
+            addCriterion("display_type not like", value, "displayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisplayTypeIn(List<String> values) {
+            addCriterion("display_type in", values, "displayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisplayTypeNotIn(List<String> values) {
+            addCriterion("display_type not in", values, "displayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisplayTypeBetween(String value1, String value2) {
+            addCriterion("display_type between", value1, value2, "displayType");
+            return (Criteria) this;
+        }
+
+        public Criteria andDisplayTypeNotBetween(String value1, String value2) {
+            addCriterion("display_type not between", value1, value2, "displayType");
             return (Criteria) this;
         }
 
@@ -1095,76 +1165,6 @@ public class EamEquipmentModelPropertiesExample implements Serializable {
 
         public Criteria andOrganizationIdNotBetween(Integer value1, Integer value2) {
             addCriterion("organization_id not between", value1, value2, "organizationId");
-            return (Criteria) this;
-        }
-
-        public Criteria andDisplayTypeIsNull() {
-            addCriterion("display_type is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDisplayTypeIsNotNull() {
-            addCriterion("display_type is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDisplayTypeEqualTo(String value) {
-            addCriterion("display_type =", value, "displayType");
-            return (Criteria) this;
-        }
-
-        public Criteria andDisplayTypeNotEqualTo(String value) {
-            addCriterion("display_type <>", value, "displayType");
-            return (Criteria) this;
-        }
-
-        public Criteria andDisplayTypeGreaterThan(String value) {
-            addCriterion("display_type >", value, "displayType");
-            return (Criteria) this;
-        }
-
-        public Criteria andDisplayTypeGreaterThanOrEqualTo(String value) {
-            addCriterion("display_type >=", value, "displayType");
-            return (Criteria) this;
-        }
-
-        public Criteria andDisplayTypeLessThan(String value) {
-            addCriterion("display_type <", value, "displayType");
-            return (Criteria) this;
-        }
-
-        public Criteria andDisplayTypeLessThanOrEqualTo(String value) {
-            addCriterion("display_type <=", value, "displayType");
-            return (Criteria) this;
-        }
-
-        public Criteria andDisplayTypeLike(String value) {
-            addCriterion("display_type like", value, "displayType");
-            return (Criteria) this;
-        }
-
-        public Criteria andDisplayTypeNotLike(String value) {
-            addCriterion("display_type not like", value, "displayType");
-            return (Criteria) this;
-        }
-
-        public Criteria andDisplayTypeIn(List<String> values) {
-            addCriterion("display_type in", values, "displayType");
-            return (Criteria) this;
-        }
-
-        public Criteria andDisplayTypeNotIn(List<String> values) {
-            addCriterion("display_type not in", values, "displayType");
-            return (Criteria) this;
-        }
-
-        public Criteria andDisplayTypeBetween(String value1, String value2) {
-            addCriterion("display_type between", value1, value2, "displayType");
-            return (Criteria) this;
-        }
-
-        public Criteria andDisplayTypeNotBetween(String value1, String value2) {
-            addCriterion("display_type not between", value1, value2, "displayType");
             return (Criteria) this;
         }
     }

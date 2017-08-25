@@ -1,6 +1,7 @@
 package com.kuyun.eam.dao.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -568,6 +569,76 @@ public class EamSensorExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andBitOrderIsNull() {
+            addCriterion("bit_order is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBitOrderIsNotNull() {
+            addCriterion("bit_order is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBitOrderEqualTo(String value) {
+            addCriterion("bit_order =", value, "bitOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBitOrderNotEqualTo(String value) {
+            addCriterion("bit_order <>", value, "bitOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBitOrderGreaterThan(String value) {
+            addCriterion("bit_order >", value, "bitOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBitOrderGreaterThanOrEqualTo(String value) {
+            addCriterion("bit_order >=", value, "bitOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBitOrderLessThan(String value) {
+            addCriterion("bit_order <", value, "bitOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBitOrderLessThanOrEqualTo(String value) {
+            addCriterion("bit_order <=", value, "bitOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBitOrderLike(String value) {
+            addCriterion("bit_order like", value, "bitOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBitOrderNotLike(String value) {
+            addCriterion("bit_order not like", value, "bitOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBitOrderIn(List<String> values) {
+            addCriterion("bit_order in", values, "bitOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBitOrderNotIn(List<String> values) {
+            addCriterion("bit_order not in", values, "bitOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBitOrderBetween(String value1, String value2) {
+            addCriterion("bit_order between", value1, value2, "bitOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andBitOrderNotBetween(String value1, String value2) {
+            addCriterion("bit_order not between", value1, value2, "bitOrder");
+            return (Criteria) this;
+        }
+
         public Criteria andPeriodIsNull() {
             addCriterion("period is null");
             return (Criteria) this;
@@ -958,6 +1029,66 @@ public class EamSensorExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andGrmVariableOrderIsNull() {
+            addCriterion("grm_variable_order is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableOrderIsNotNull() {
+            addCriterion("grm_variable_order is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableOrderEqualTo(Integer value) {
+            addCriterion("grm_variable_order =", value, "grmVariableOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableOrderNotEqualTo(Integer value) {
+            addCriterion("grm_variable_order <>", value, "grmVariableOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableOrderGreaterThan(Integer value) {
+            addCriterion("grm_variable_order >", value, "grmVariableOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableOrderGreaterThanOrEqualTo(Integer value) {
+            addCriterion("grm_variable_order >=", value, "grmVariableOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableOrderLessThan(Integer value) {
+            addCriterion("grm_variable_order <", value, "grmVariableOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableOrderLessThanOrEqualTo(Integer value) {
+            addCriterion("grm_variable_order <=", value, "grmVariableOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableOrderIn(List<Integer> values) {
+            addCriterion("grm_variable_order in", values, "grmVariableOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableOrderNotIn(List<Integer> values) {
+            addCriterion("grm_variable_order not in", values, "grmVariableOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableOrderBetween(Integer value1, Integer value2) {
+            addCriterion("grm_variable_order between", value1, value2, "grmVariableOrder");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmVariableOrderNotBetween(Integer value1, Integer value2) {
+            addCriterion("grm_variable_order not between", value1, value2, "grmVariableOrder");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateUserIdIsNull() {
             addCriterion("create_user_id is null");
             return (Criteria) this;
@@ -1318,133 +1449,243 @@ public class EamSensorExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andBitOrderIsNull() {
-            addCriterion("bit_order is null");
+        public Criteria andOshIsNull() {
+            addCriterion("osh is null");
             return (Criteria) this;
         }
 
-        public Criteria andBitOrderIsNotNull() {
-            addCriterion("bit_order is not null");
+        public Criteria andOshIsNotNull() {
+            addCriterion("osh is not null");
             return (Criteria) this;
         }
 
-        public Criteria andBitOrderEqualTo(String value) {
-            addCriterion("bit_order =", value, "bitOrder");
+        public Criteria andOshEqualTo(BigDecimal value) {
+            addCriterion("osh =", value, "osh");
             return (Criteria) this;
         }
 
-        public Criteria andBitOrderNotEqualTo(String value) {
-            addCriterion("bit_order <>", value, "bitOrder");
+        public Criteria andOshNotEqualTo(BigDecimal value) {
+            addCriterion("osh <>", value, "osh");
             return (Criteria) this;
         }
 
-        public Criteria andBitOrderGreaterThan(String value) {
-            addCriterion("bit_order >", value, "bitOrder");
+        public Criteria andOshGreaterThan(BigDecimal value) {
+            addCriterion("osh >", value, "osh");
             return (Criteria) this;
         }
 
-        public Criteria andBitOrderGreaterThanOrEqualTo(String value) {
-            addCriterion("bit_order >=", value, "bitOrder");
+        public Criteria andOshGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("osh >=", value, "osh");
             return (Criteria) this;
         }
 
-        public Criteria andBitOrderLessThan(String value) {
-            addCriterion("bit_order <", value, "bitOrder");
+        public Criteria andOshLessThan(BigDecimal value) {
+            addCriterion("osh <", value, "osh");
             return (Criteria) this;
         }
 
-        public Criteria andBitOrderLessThanOrEqualTo(String value) {
-            addCriterion("bit_order <=", value, "bitOrder");
+        public Criteria andOshLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("osh <=", value, "osh");
             return (Criteria) this;
         }
 
-        public Criteria andBitOrderLike(String value) {
-            addCriterion("bit_order like", value, "bitOrder");
+        public Criteria andOshIn(List<BigDecimal> values) {
+            addCriterion("osh in", values, "osh");
             return (Criteria) this;
         }
 
-        public Criteria andBitOrderNotLike(String value) {
-            addCriterion("bit_order not like", value, "bitOrder");
+        public Criteria andOshNotIn(List<BigDecimal> values) {
+            addCriterion("osh not in", values, "osh");
             return (Criteria) this;
         }
 
-        public Criteria andBitOrderIn(List<String> values) {
-            addCriterion("bit_order in", values, "bitOrder");
+        public Criteria andOshBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("osh between", value1, value2, "osh");
             return (Criteria) this;
         }
 
-        public Criteria andBitOrderNotIn(List<String> values) {
-            addCriterion("bit_order not in", values, "bitOrder");
+        public Criteria andOshNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("osh not between", value1, value2, "osh");
             return (Criteria) this;
         }
 
-        public Criteria andBitOrderBetween(String value1, String value2) {
-            addCriterion("bit_order between", value1, value2, "bitOrder");
+        public Criteria andOslIsNull() {
+            addCriterion("osl is null");
             return (Criteria) this;
         }
 
-        public Criteria andBitOrderNotBetween(String value1, String value2) {
-            addCriterion("bit_order not between", value1, value2, "bitOrder");
+        public Criteria andOslIsNotNull() {
+            addCriterion("osl is not null");
             return (Criteria) this;
         }
 
-        public Criteria andGrmVariableOrderIsNull() {
-            addCriterion("grm_variable_order is null");
+        public Criteria andOslEqualTo(BigDecimal value) {
+            addCriterion("osl =", value, "osl");
             return (Criteria) this;
         }
 
-        public Criteria andGrmVariableOrderIsNotNull() {
-            addCriterion("grm_variable_order is not null");
+        public Criteria andOslNotEqualTo(BigDecimal value) {
+            addCriterion("osl <>", value, "osl");
             return (Criteria) this;
         }
 
-        public Criteria andGrmVariableOrderEqualTo(Integer value) {
-            addCriterion("grm_variable_order =", value, "grmVariableOrder");
+        public Criteria andOslGreaterThan(BigDecimal value) {
+            addCriterion("osl >", value, "osl");
             return (Criteria) this;
         }
 
-        public Criteria andGrmVariableOrderNotEqualTo(Integer value) {
-            addCriterion("grm_variable_order <>", value, "grmVariableOrder");
+        public Criteria andOslGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("osl >=", value, "osl");
             return (Criteria) this;
         }
 
-        public Criteria andGrmVariableOrderGreaterThan(Integer value) {
-            addCriterion("grm_variable_order >", value, "grmVariableOrder");
+        public Criteria andOslLessThan(BigDecimal value) {
+            addCriterion("osl <", value, "osl");
             return (Criteria) this;
         }
 
-        public Criteria andGrmVariableOrderGreaterThanOrEqualTo(Integer value) {
-            addCriterion("grm_variable_order >=", value, "grmVariableOrder");
+        public Criteria andOslLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("osl <=", value, "osl");
             return (Criteria) this;
         }
 
-        public Criteria andGrmVariableOrderLessThan(Integer value) {
-            addCriterion("grm_variable_order <", value, "grmVariableOrder");
+        public Criteria andOslIn(List<BigDecimal> values) {
+            addCriterion("osl in", values, "osl");
             return (Criteria) this;
         }
 
-        public Criteria andGrmVariableOrderLessThanOrEqualTo(Integer value) {
-            addCriterion("grm_variable_order <=", value, "grmVariableOrder");
+        public Criteria andOslNotIn(List<BigDecimal> values) {
+            addCriterion("osl not in", values, "osl");
             return (Criteria) this;
         }
 
-        public Criteria andGrmVariableOrderIn(List<Integer> values) {
-            addCriterion("grm_variable_order in", values, "grmVariableOrder");
+        public Criteria andOslBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("osl between", value1, value2, "osl");
             return (Criteria) this;
         }
 
-        public Criteria andGrmVariableOrderNotIn(List<Integer> values) {
-            addCriterion("grm_variable_order not in", values, "grmVariableOrder");
+        public Criteria andOslNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("osl not between", value1, value2, "osl");
             return (Criteria) this;
         }
 
-        public Criteria andGrmVariableOrderBetween(Integer value1, Integer value2) {
-            addCriterion("grm_variable_order between", value1, value2, "grmVariableOrder");
+        public Criteria andIshIsNull() {
+            addCriterion("ish is null");
             return (Criteria) this;
         }
 
-        public Criteria andGrmVariableOrderNotBetween(Integer value1, Integer value2) {
-            addCriterion("grm_variable_order not between", value1, value2, "grmVariableOrder");
+        public Criteria andIshIsNotNull() {
+            addCriterion("ish is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIshEqualTo(BigDecimal value) {
+            addCriterion("ish =", value, "ish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIshNotEqualTo(BigDecimal value) {
+            addCriterion("ish <>", value, "ish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIshGreaterThan(BigDecimal value) {
+            addCriterion("ish >", value, "ish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIshGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("ish >=", value, "ish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIshLessThan(BigDecimal value) {
+            addCriterion("ish <", value, "ish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIshLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("ish <=", value, "ish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIshIn(List<BigDecimal> values) {
+            addCriterion("ish in", values, "ish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIshNotIn(List<BigDecimal> values) {
+            addCriterion("ish not in", values, "ish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIshBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("ish between", value1, value2, "ish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIshNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("ish not between", value1, value2, "ish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIslIsNull() {
+            addCriterion("isl is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIslIsNotNull() {
+            addCriterion("isl is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIslEqualTo(BigDecimal value) {
+            addCriterion("isl =", value, "isl");
+            return (Criteria) this;
+        }
+
+        public Criteria andIslNotEqualTo(BigDecimal value) {
+            addCriterion("isl <>", value, "isl");
+            return (Criteria) this;
+        }
+
+        public Criteria andIslGreaterThan(BigDecimal value) {
+            addCriterion("isl >", value, "isl");
+            return (Criteria) this;
+        }
+
+        public Criteria andIslGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("isl >=", value, "isl");
+            return (Criteria) this;
+        }
+
+        public Criteria andIslLessThan(BigDecimal value) {
+            addCriterion("isl <", value, "isl");
+            return (Criteria) this;
+        }
+
+        public Criteria andIslLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("isl <=", value, "isl");
+            return (Criteria) this;
+        }
+
+        public Criteria andIslIn(List<BigDecimal> values) {
+            addCriterion("isl in", values, "isl");
+            return (Criteria) this;
+        }
+
+        public Criteria andIslNotIn(List<BigDecimal> values) {
+            addCriterion("isl not in", values, "isl");
+            return (Criteria) this;
+        }
+
+        public Criteria andIslBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("isl between", value1, value2, "isl");
+            return (Criteria) this;
+        }
+
+        public Criteria andIslNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("isl not between", value1, value2, "isl");
             return (Criteria) this;
         }
     }

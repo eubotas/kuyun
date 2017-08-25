@@ -10,7 +10,7 @@ public class EamEquipmentModelProperties extends BaseEntity implements Serializa
 
     private String name;
 
-    private String lable;
+    private String label;
 
     private String unit;
 
@@ -18,11 +18,11 @@ public class EamEquipmentModelProperties extends BaseEntity implements Serializa
 
     private String dataType;
 
+    private String displayType;
+
     private String alarmType;
 
     private String refreshPeriod;
-
-    private String displayType;
 
     private static final long serialVersionUID = 1L;
 
@@ -50,12 +50,12 @@ public class EamEquipmentModelProperties extends BaseEntity implements Serializa
         this.name = name;
     }
 
-    public String getLable() {
-        return lable;
+    public String getLabel() {
+        return label;
     }
 
-    public void setLable(String lable) {
-        this.lable = lable;
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     public String getUnit() {
@@ -82,6 +82,14 @@ public class EamEquipmentModelProperties extends BaseEntity implements Serializa
         this.dataType = dataType;
     }
 
+    public String getDisplayType() {
+        return displayType;
+    }
+
+    public void setDisplayType(String displayType) {
+        this.displayType = displayType;
+    }
+
     public String getAlarmType() {
         return alarmType;
     }
@@ -98,14 +106,6 @@ public class EamEquipmentModelProperties extends BaseEntity implements Serializa
         this.refreshPeriod = refreshPeriod;
     }
 
-    public String getDisplayType() {
-        return displayType;
-    }
-
-    public void setDisplayType(String displayType) {
-        this.displayType = displayType;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -115,13 +115,13 @@ public class EamEquipmentModelProperties extends BaseEntity implements Serializa
         sb.append(", equipmentModelPropertyId=").append(equipmentModelPropertyId);
         sb.append(", equipmentModelId=").append(equipmentModelId);
         sb.append(", name=").append(name);
-        sb.append(", lable=").append(lable);
+        sb.append(", label=").append(label);
         sb.append(", unit=").append(unit);
         sb.append(", address=").append(address);
         sb.append(", dataType=").append(dataType);
+        sb.append(", displayType=").append(displayType);
         sb.append(", alarmType=").append(alarmType);
         sb.append(", refreshPeriod=").append(refreshPeriod);
-        sb.append(", displayType=").append(displayType);
         sb.append("]");
         return sb.toString();
     }
@@ -141,10 +141,11 @@ public class EamEquipmentModelProperties extends BaseEntity implements Serializa
         return (this.getEquipmentModelPropertyId() == null ? other.getEquipmentModelPropertyId() == null : this.getEquipmentModelPropertyId().equals(other.getEquipmentModelPropertyId()))
             && (this.getEquipmentModelId() == null ? other.getEquipmentModelId() == null : this.getEquipmentModelId().equals(other.getEquipmentModelId()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
-            && (this.getLable() == null ? other.getLable() == null : this.getLable().equals(other.getLable()))
+            && (this.getLabel() == null ? other.getLabel() == null : this.getLabel().equals(other.getLabel()))
             && (this.getUnit() == null ? other.getUnit() == null : this.getUnit().equals(other.getUnit()))
             && (this.getAddress() == null ? other.getAddress() == null : this.getAddress().equals(other.getAddress()))
             && (this.getDataType() == null ? other.getDataType() == null : this.getDataType().equals(other.getDataType()))
+            && (this.getDisplayType() == null ? other.getDisplayType() == null : this.getDisplayType().equals(other.getDisplayType()))
             && (this.getAlarmType() == null ? other.getAlarmType() == null : this.getAlarmType().equals(other.getAlarmType()))
             && (this.getRefreshPeriod() == null ? other.getRefreshPeriod() == null : this.getRefreshPeriod().equals(other.getRefreshPeriod()))
             && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
@@ -152,8 +153,7 @@ public class EamEquipmentModelProperties extends BaseEntity implements Serializa
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getOrganizationId() == null ? other.getOrganizationId() == null : this.getOrganizationId().equals(other.getOrganizationId()))
-            && (this.getDisplayType() == null ? other.getDisplayType() == null : this.getDisplayType().equals(other.getDisplayType()));
+            && (this.getOrganizationId() == null ? other.getOrganizationId() == null : this.getOrganizationId().equals(other.getOrganizationId()));
     }
 
     @Override
@@ -163,10 +163,11 @@ public class EamEquipmentModelProperties extends BaseEntity implements Serializa
         result = prime * result + ((getEquipmentModelPropertyId() == null) ? 0 : getEquipmentModelPropertyId().hashCode());
         result = prime * result + ((getEquipmentModelId() == null) ? 0 : getEquipmentModelId().hashCode());
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
-        result = prime * result + ((getLable() == null) ? 0 : getLable().hashCode());
+        result = prime * result + ((getLabel() == null) ? 0 : getLabel().hashCode());
         result = prime * result + ((getUnit() == null) ? 0 : getUnit().hashCode());
         result = prime * result + ((getAddress() == null) ? 0 : getAddress().hashCode());
         result = prime * result + ((getDataType() == null) ? 0 : getDataType().hashCode());
+        result = prime * result + ((getDisplayType() == null) ? 0 : getDisplayType().hashCode());
         result = prime * result + ((getAlarmType() == null) ? 0 : getAlarmType().hashCode());
         result = prime * result + ((getRefreshPeriod() == null) ? 0 : getRefreshPeriod().hashCode());
         result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());
@@ -175,7 +176,6 @@ public class EamEquipmentModelProperties extends BaseEntity implements Serializa
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getOrganizationId() == null) ? 0 : getOrganizationId().hashCode());
-        result = prime * result + ((getDisplayType() == null) ? 0 : getDisplayType().hashCode());
         return result;
     }
 }

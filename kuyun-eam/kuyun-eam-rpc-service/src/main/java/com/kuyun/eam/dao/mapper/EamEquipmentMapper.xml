@@ -12,8 +12,14 @@
     <result column="image_path" jdbcType="VARCHAR" property="imagePath" />
     <result column="longitude" jdbcType="DECIMAL" property="longitude" />
     <result column="latitude" jdbcType="DECIMAL" property="latitude" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
     <result column="user" jdbcType="VARCHAR" property="user" />
     <result column="heart_data" jdbcType="VARCHAR" property="heartData" />
+    <result column="grm" jdbcType="VARCHAR" property="grm" />
+    <result column="grm_password" jdbcType="VARCHAR" property="grmPassword" />
+    <result column="grm_period" jdbcType="INTEGER" property="grmPeriod" />
+    <result column="collect_status" jdbcType="VARCHAR" property="collectStatus" />
     <result column="factory_date" jdbcType="TIMESTAMP" property="factoryDate" />
     <result column="commissioning_date" jdbcType="TIMESTAMP" property="commissioningDate" />
     <result column="warranty_start_date" jdbcType="TIMESTAMP" property="warrantyStartDate" />
@@ -25,12 +31,6 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
     <result column="is_online" jdbcType="BIT" property="isOnline" />
-    <result column="grm" jdbcType="VARCHAR" property="grm" />
-    <result column="grm_password" jdbcType="VARCHAR" property="grmPassword" />
-    <result column="grm_period" jdbcType="INTEGER" property="grmPeriod" />
-    <result column="province" jdbcType="VARCHAR" property="province" />
-    <result column="city" jdbcType="VARCHAR" property="city" />
-    <result column="collect_status" jdbcType="VARCHAR" property="collectStatus" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -92,10 +92,10 @@
   </sql>
   <sql id="Base_Column_List">
     equipment_id, equipment_model_id, organization_id, protocol_id, name, number, serial_number, 
-    image_path, longitude, latitude, user, heart_data, factory_date, commissioning_date, 
-    warranty_start_date, warranty_end_date, maintenance_period, create_user_id, create_time, 
-    update_user_id, update_time, delete_flag, is_online, grm, grm_password, grm_period, 
-    province, city, collect_status
+    image_path, longitude, latitude, province, city, user, heart_data, grm, grm_password, 
+    grm_period, collect_status, factory_date, commissioning_date, warranty_start_date, 
+    warranty_end_date, maintenance_period, create_user_id, create_time, update_user_id, 
+    update_time, delete_flag, is_online
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentExample" resultMap="BaseResultMap">
     select
@@ -139,23 +139,23 @@
     insert into eam_equipment (equipment_id, equipment_model_id, organization_id, 
       protocol_id, name, number, 
       serial_number, image_path, longitude, 
-      latitude, user, heart_data, 
+      latitude, province, city, 
+      user, heart_data, grm, 
+      grm_password, grm_period, collect_status, 
       factory_date, commissioning_date, warranty_start_date, 
       warranty_end_date, maintenance_period, create_user_id, 
       create_time, update_user_id, update_time, 
-      delete_flag, is_online, grm, 
-      grm_password, grm_period, province, 
-      city, collect_status)
+      delete_flag, is_online)
     values (#{equipmentId,jdbcType=VARCHAR}, #{equipmentModelId,jdbcType=INTEGER}, #{organizationId,jdbcType=INTEGER}, 
       #{protocolId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, 
       #{serialNumber,jdbcType=VARCHAR}, #{imagePath,jdbcType=VARCHAR}, #{longitude,jdbcType=DECIMAL}, 
-      #{latitude,jdbcType=DECIMAL}, #{user,jdbcType=VARCHAR}, #{heartData,jdbcType=VARCHAR}, 
+      #{latitude,jdbcType=DECIMAL}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{user,jdbcType=VARCHAR}, #{heartData,jdbcType=VARCHAR}, #{grm,jdbcType=VARCHAR}, 
+      #{grmPassword,jdbcType=VARCHAR}, #{grmPeriod,jdbcType=INTEGER}, #{collectStatus,jdbcType=VARCHAR}, 
       #{factoryDate,jdbcType=TIMESTAMP}, #{commissioningDate,jdbcType=TIMESTAMP}, #{warrantyStartDate,jdbcType=TIMESTAMP}, 
       #{warrantyEndDate,jdbcType=TIMESTAMP}, #{maintenancePeriod,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlag,jdbcType=BIT}, #{isOnline,jdbcType=BIT}, #{grm,jdbcType=VARCHAR}, 
-      #{grmPassword,jdbcType=VARCHAR}, #{grmPeriod,jdbcType=INTEGER}, #{province,jdbcType=VARCHAR}, 
-      #{city,jdbcType=VARCHAR}, #{collectStatus,jdbcType=VARCHAR})
+      #{deleteFlag,jdbcType=BIT}, #{isOnline,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamEquipment">
     insert into eam_equipment
@@ -190,11 +190,29 @@
       <if test="latitude != null">
         latitude,
       </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
       <if test="user != null">
         user,
       </if>
       <if test="heartData != null">
         heart_data,
+      </if>
+      <if test="grm != null">
+        grm,
+      </if>
+      <if test="grmPassword != null">
+        grm_password,
+      </if>
+      <if test="grmPeriod != null">
+        grm_period,
+      </if>
+      <if test="collectStatus != null">
+        collect_status,
       </if>
       <if test="factoryDate != null">
         factory_date,
@@ -229,24 +247,6 @@
       <if test="isOnline != null">
         is_online,
       </if>
-      <if test="grm != null">
-        grm,
-      </if>
-      <if test="grmPassword != null">
-        grm_password,
-      </if>
-      <if test="grmPeriod != null">
-        grm_period,
-      </if>
-      <if test="province != null">
-        province,
-      </if>
-      <if test="city != null">
-        city,
-      </if>
-      <if test="collectStatus != null">
-        collect_status,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="equipmentId != null">
@@ -279,11 +279,29 @@
       <if test="latitude != null">
         #{latitude,jdbcType=DECIMAL},
       </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
       <if test="user != null">
         #{user,jdbcType=VARCHAR},
       </if>
       <if test="heartData != null">
         #{heartData,jdbcType=VARCHAR},
+      </if>
+      <if test="grm != null">
+        #{grm,jdbcType=VARCHAR},
+      </if>
+      <if test="grmPassword != null">
+        #{grmPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="grmPeriod != null">
+        #{grmPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="collectStatus != null">
+        #{collectStatus,jdbcType=VARCHAR},
       </if>
       <if test="factoryDate != null">
         #{factoryDate,jdbcType=TIMESTAMP},
@@ -317,24 +335,6 @@
       </if>
       <if test="isOnline != null">
         #{isOnline,jdbcType=BIT},
-      </if>
-      <if test="grm != null">
-        #{grm,jdbcType=VARCHAR},
-      </if>
-      <if test="grmPassword != null">
-        #{grmPassword,jdbcType=VARCHAR},
-      </if>
-      <if test="grmPeriod != null">
-        #{grmPeriod,jdbcType=INTEGER},
-      </if>
-      <if test="province != null">
-        #{province,jdbcType=VARCHAR},
-      </if>
-      <if test="city != null">
-        #{city,jdbcType=VARCHAR},
-      </if>
-      <if test="collectStatus != null">
-        #{collectStatus,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -377,11 +377,29 @@
       <if test="record.latitude != null">
         latitude = #{record.latitude,jdbcType=DECIMAL},
       </if>
+      <if test="record.province != null">
+        province = #{record.province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null">
+        city = #{record.city,jdbcType=VARCHAR},
+      </if>
       <if test="record.user != null">
         user = #{record.user,jdbcType=VARCHAR},
       </if>
       <if test="record.heartData != null">
         heart_data = #{record.heartData,jdbcType=VARCHAR},
+      </if>
+      <if test="record.grm != null">
+        grm = #{record.grm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.grmPassword != null">
+        grm_password = #{record.grmPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="record.grmPeriod != null">
+        grm_period = #{record.grmPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="record.collectStatus != null">
+        collect_status = #{record.collectStatus,jdbcType=VARCHAR},
       </if>
       <if test="record.factoryDate != null">
         factory_date = #{record.factoryDate,jdbcType=TIMESTAMP},
@@ -416,24 +434,6 @@
       <if test="record.isOnline != null">
         is_online = #{record.isOnline,jdbcType=BIT},
       </if>
-      <if test="record.grm != null">
-        grm = #{record.grm,jdbcType=VARCHAR},
-      </if>
-      <if test="record.grmPassword != null">
-        grm_password = #{record.grmPassword,jdbcType=VARCHAR},
-      </if>
-      <if test="record.grmPeriod != null">
-        grm_period = #{record.grmPeriod,jdbcType=INTEGER},
-      </if>
-      <if test="record.province != null">
-        province = #{record.province,jdbcType=VARCHAR},
-      </if>
-      <if test="record.city != null">
-        city = #{record.city,jdbcType=VARCHAR},
-      </if>
-      <if test="record.collectStatus != null">
-        collect_status = #{record.collectStatus,jdbcType=VARCHAR},
-      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -451,8 +451,14 @@
       image_path = #{record.imagePath,jdbcType=VARCHAR},
       longitude = #{record.longitude,jdbcType=DECIMAL},
       latitude = #{record.latitude,jdbcType=DECIMAL},
+      province = #{record.province,jdbcType=VARCHAR},
+      city = #{record.city,jdbcType=VARCHAR},
       user = #{record.user,jdbcType=VARCHAR},
       heart_data = #{record.heartData,jdbcType=VARCHAR},
+      grm = #{record.grm,jdbcType=VARCHAR},
+      grm_password = #{record.grmPassword,jdbcType=VARCHAR},
+      grm_period = #{record.grmPeriod,jdbcType=INTEGER},
+      collect_status = #{record.collectStatus,jdbcType=VARCHAR},
       factory_date = #{record.factoryDate,jdbcType=TIMESTAMP},
       commissioning_date = #{record.commissioningDate,jdbcType=TIMESTAMP},
       warranty_start_date = #{record.warrantyStartDate,jdbcType=TIMESTAMP},
@@ -463,13 +469,7 @@
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      is_online = #{record.isOnline,jdbcType=BIT},
-      grm = #{record.grm,jdbcType=VARCHAR},
-      grm_password = #{record.grmPassword,jdbcType=VARCHAR},
-      grm_period = #{record.grmPeriod,jdbcType=INTEGER},
-      province = #{record.province,jdbcType=VARCHAR},
-      city = #{record.city,jdbcType=VARCHAR},
-      collect_status = #{record.collectStatus,jdbcType=VARCHAR}
+      is_online = #{record.isOnline,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -504,11 +504,29 @@
       <if test="latitude != null">
         latitude = #{latitude,jdbcType=DECIMAL},
       </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
       <if test="user != null">
         user = #{user,jdbcType=VARCHAR},
       </if>
       <if test="heartData != null">
         heart_data = #{heartData,jdbcType=VARCHAR},
+      </if>
+      <if test="grm != null">
+        grm = #{grm,jdbcType=VARCHAR},
+      </if>
+      <if test="grmPassword != null">
+        grm_password = #{grmPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="grmPeriod != null">
+        grm_period = #{grmPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="collectStatus != null">
+        collect_status = #{collectStatus,jdbcType=VARCHAR},
       </if>
       <if test="factoryDate != null">
         factory_date = #{factoryDate,jdbcType=TIMESTAMP},
@@ -543,24 +561,6 @@
       <if test="isOnline != null">
         is_online = #{isOnline,jdbcType=BIT},
       </if>
-      <if test="grm != null">
-        grm = #{grm,jdbcType=VARCHAR},
-      </if>
-      <if test="grmPassword != null">
-        grm_password = #{grmPassword,jdbcType=VARCHAR},
-      </if>
-      <if test="grmPeriod != null">
-        grm_period = #{grmPeriod,jdbcType=INTEGER},
-      </if>
-      <if test="province != null">
-        province = #{province,jdbcType=VARCHAR},
-      </if>
-      <if test="city != null">
-        city = #{city,jdbcType=VARCHAR},
-      </if>
-      <if test="collectStatus != null">
-        collect_status = #{collectStatus,jdbcType=VARCHAR},
-      </if>
     </set>
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </update>
@@ -575,8 +575,14 @@
       image_path = #{imagePath,jdbcType=VARCHAR},
       longitude = #{longitude,jdbcType=DECIMAL},
       latitude = #{latitude,jdbcType=DECIMAL},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
       user = #{user,jdbcType=VARCHAR},
       heart_data = #{heartData,jdbcType=VARCHAR},
+      grm = #{grm,jdbcType=VARCHAR},
+      grm_password = #{grmPassword,jdbcType=VARCHAR},
+      grm_period = #{grmPeriod,jdbcType=INTEGER},
+      collect_status = #{collectStatus,jdbcType=VARCHAR},
       factory_date = #{factoryDate,jdbcType=TIMESTAMP},
       commissioning_date = #{commissioningDate,jdbcType=TIMESTAMP},
       warranty_start_date = #{warrantyStartDate,jdbcType=TIMESTAMP},
@@ -587,13 +593,7 @@
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
-      is_online = #{isOnline,jdbcType=BIT},
-      grm = #{grm,jdbcType=VARCHAR},
-      grm_password = #{grmPassword,jdbcType=VARCHAR},
-      grm_period = #{grmPeriod,jdbcType=INTEGER},
-      province = #{province,jdbcType=VARCHAR},
-      city = #{city,jdbcType=VARCHAR},
-      collect_status = #{collectStatus,jdbcType=VARCHAR}
+      is_online = #{isOnline,jdbcType=BIT}
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </update>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
