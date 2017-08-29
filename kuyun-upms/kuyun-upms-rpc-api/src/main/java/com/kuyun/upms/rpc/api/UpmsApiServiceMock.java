@@ -111,4 +111,14 @@ public class UpmsApiServiceMock implements UpmsApiService {
         return 0;
     }
 
+    @Override
+    public String createToken(Object userId) {
+        return null;
+    }
+
+    @Override
+    public boolean validateToken(String token) {
+        return false;
+    }
+
 }

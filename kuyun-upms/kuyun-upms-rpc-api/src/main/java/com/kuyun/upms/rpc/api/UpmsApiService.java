@@ -98,6 +98,8 @@ public interface UpmsApiService {
      */
     int insertUpmsLogSelective(UpmsLog record);
 
+    String createToken(Object userId);
 
+    boolean validateToken(String token);
 
 }
