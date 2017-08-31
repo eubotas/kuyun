@@ -177,8 +177,19 @@ public class EamEquipmentController extends BaseController {
 		}
 		equipment.setEquipmentId(id);
 		baseEntityUtil.updateAddtionalValue(equipment);
+		handleSensor(id, equipment);
 		int count = eamEquipmentService.updateByPrimaryKeySelective(equipment);
 		return new EamResult(SUCCESS, count);
+	}
+
+	private void handleSensor(String id, EamEquipment equipment){
+		EamEquipment equipmentFromDB = eamEquipmentService.selectByPrimaryKey(id);
+		if (!equipmentFromDB.getEquipmentModelId().equals(equipment.getEquipmentModelId())){
+			EamSensorExample example = new EamSensorExample();
+			example.createCriteria().andEquipmentIdEqualTo(id);
+			eamSensorService.deleteByExample(example);
+		}
+
 	}
 
 	@ApiOperation(value = "设备接入")
