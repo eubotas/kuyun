@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.kuyun.eam.common.constant.CollectStatus;
 import com.kuyun.eam.common.constant.DataType;
 import com.kuyun.eam.dao.model.*;
+import com.kuyun.eam.pojo.IDS;
 import com.kuyun.eam.pojo.sensor.SensorData;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.pojo.tree.CityData;
@@ -279,18 +280,6 @@ public class EamApiServiceImpl implements EamApiService {
         return data;
     }
 
-    class IDS{
-        String ids;
-
-        public String getIds() {
-            return ids;
-        }
-
-        public void setIds(String ids) {
-            this.ids = ids;
-        }
-    }
-
 
     public int handleEquimpmentCollect(String jsonString, CollectStatus collectStatus) {
 
@@ -299,7 +288,7 @@ public class EamApiServiceImpl implements EamApiService {
         Gson gson = new Gson();
         IDS ids = gson.fromJson(jsonString, IDS.class);
 
-        String[] idArray = ids.getIds().split("::");
+        String[] idArray = ids.getIds().split("-");
         EamEquipment equipment = new EamEquipment();
         equipment.setCollectStatus(collectStatus.getCode());
 

@@ -27,4 +27,6 @@ public interface EamAlarmTargetUserMapper {
     int updateByPrimaryKeySelective(EamAlarmTargetUser record);
 
     int updateByPrimaryKey(EamAlarmTargetUser record);
+
+    void batchInsert(@Param("items") List<EamAlarmTargetUser> items);
 }

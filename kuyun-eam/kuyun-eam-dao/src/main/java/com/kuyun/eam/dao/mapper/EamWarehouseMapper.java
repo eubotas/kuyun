@@ -27,4 +27,6 @@ public interface EamWarehouseMapper {
     int updateByPrimaryKeySelective(EamWarehouse record);
 
     int updateByPrimaryKey(EamWarehouse record);
+
+    void batchInsert(@Param("items") List<EamWarehouse> items);
 }

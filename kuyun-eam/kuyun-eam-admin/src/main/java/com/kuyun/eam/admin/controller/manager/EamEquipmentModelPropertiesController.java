@@ -14,6 +14,7 @@ import com.kuyun.eam.rpc.api.EamEquipmentModelPropertiesService;
 import com.kuyun.eam.rpc.api.EamEquipmentModelService;
 import com.kuyun.eam.rpc.api.EamEquipmentService;
 import com.kuyun.upms.client.util.BaseEntityUtil;
+import com.kuyun.upms.dao.model.UpmsOrganization;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -82,15 +83,12 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			equipmentModelPropertiesExample.setOrderByClause(sort + " " + order);
 		}
-		equipmentModelPropertiesExample.createCriteria().andEquipmentModelIdEqualTo(id)
-		.andDeleteFlagEqualTo(Boolean.FALSE);
+		
+		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
-
-//		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
-//
-//		if (organization != null){
-//			equipmentModelPropertiesExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId());
-//		}
+		if (organization != null){
+			equipmentModelPropertiesExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId()).andDeleteFlagEqualTo(Boolean.FALSE);
+		}
 		List<EamEquipmentModelProperties> rows = eamEquipmentModelPropertiesService.selectByExample(equipmentModelPropertiesExample);
 		long total = eamEquipmentModelPropertiesService.countByExample(equipmentModelPropertiesExample);
 		Map<String, Object> result = new HashMap<>();

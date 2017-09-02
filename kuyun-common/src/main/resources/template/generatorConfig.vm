@@ -23,6 +23,12 @@
         <!-- 生成一个新的selectByExample方法，这个方法可以接收offset和limit参数，主要用来实现分页 -->
         <plugin type="com.kuyun.common.plugin.PaginationPlugin"></plugin>
 
+        <plugin type="com.kuyun.common.plugin.DeletePlugin"></plugin>
+
+        <plugin type="com.github.oceanc.mybatis3.generator.plugin.SliceTablePlugin"/>
+        <plugin type="com.github.oceanc.mybatis3.generator.plugin.WhereSqlTextPlugin"/>
+        <plugin type="com.github.oceanc.mybatis3.generator.plugin.BatchInsertPlugin"/>
+
         <!-- 生成在XML中的<cache>元素 -->
         <plugin type="org.mybatis.generator.plugins.CachePlugin">
             <!-- 使用ehcache -->

@@ -85,15 +85,22 @@ public class EamMaintenanceController extends BaseController {
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			eamMaintenanceVO.setOrderByClause(sort + " " + order);
 		}
+
+		EamMaintenanceExample example = new EamMaintenanceExample();
+		example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE);
+
 		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
 		if (organization != null){
 			eamMaintenanceVO.setOrganizationId(organization.getOrganizationId());
+			example.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId());
 		}
 		List<EamMaintenanceVO> rows = eamApiService.selectMaintenance(eamMaintenanceVO);
+
+		int total = eamMaintenanceService.countByExample(example);
 		Map<String, Object> result = new HashMap<>();
 		result.put("rows", rows);
-		result.put("total", rows.size());
+		result.put("total", total);
 		return result;
 	}
 

@@ -1998,6 +1998,11 @@ public class EamEquipmentExample implements Serializable {
             addCriterion("is_online not between", value1, value2, "isOnline");
             return (Criteria) this;
         }
+
+        public Criteria addConditionSql(String conditionSql) {
+            addCriterion(conditionSql);
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria implements Serializable {

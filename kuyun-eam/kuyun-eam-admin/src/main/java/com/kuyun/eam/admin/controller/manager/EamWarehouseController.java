@@ -68,6 +68,7 @@ public class EamWarehouseController extends BaseController {
 		EamWarehouseExample warehousesExample = new EamWarehouseExample();
 		warehousesExample.setOffset(offset);
 		warehousesExample.setLimit(limit);
+		warehousesExample.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE);
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			warehousesExample.setOrderByClause(sort + " " + order);
 		}

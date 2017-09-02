@@ -81,7 +81,7 @@ public class EamInventoryController extends BaseController {
 
 		if (organization != null){
 			inventoryVO.setOrganizationId(organization.getOrganizationId());
-			inventoryExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId());
+			inventoryExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId()).andDeleteFlagEqualTo(Boolean.FALSE);
 		}
 		List<EamInventoryVO> rows = eamApiService.selectInventory(inventoryVO);
 		int total = eamInventoryService.countByExample(inventoryExample);

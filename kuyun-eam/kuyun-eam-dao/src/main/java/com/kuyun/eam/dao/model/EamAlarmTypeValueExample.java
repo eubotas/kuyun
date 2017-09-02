@@ -427,6 +427,11 @@ public class EamAlarmTypeValueExample implements Serializable {
             addCriterion("duration not between", value1, value2, "duration");
             return (Criteria) this;
         }
+
+        public Criteria addConditionSql(String conditionSql) {
+            addCriterion(conditionSql);
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria implements Serializable {

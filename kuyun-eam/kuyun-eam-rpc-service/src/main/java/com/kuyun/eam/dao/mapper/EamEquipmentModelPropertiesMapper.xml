@@ -111,11 +111,11 @@
     where equipment_model_property_id = #{equipmentModelPropertyId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from eam_equipment_model_properties
+    update eam_equipment_model_properties set delete_flag = 1 
     where equipment_model_property_id = #{equipmentModelPropertyId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentModelPropertiesExample">
-    delete from eam_equipment_model_properties
+    update eam_equipment_model_properties set delete_flag = 1 
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -391,5 +391,24 @@
       organization_id = #{organizationId,jdbcType=INTEGER}
     where equipment_model_property_id = #{equipmentModelPropertyId,jdbcType=INTEGER}
   </update>
+  <insert id="batchInsert">
+    <if test="items.get(0) != null">
+            insert into eam_equipment_model_properties  (equipment_model_property_id, equipment_model_id, 
+        name, label, unit, 
+        address, data_type, display_type, 
+        alarm_type, refresh_period, create_user_id, 
+        create_time, update_user_id, update_time, 
+        delete_flag, organization_id)
+      values
+      <foreach collection="items" item="item" index="index" separator=",">
+      (#{item.equipmentModelPropertyId,jdbcType=INTEGER}, #{item.equipmentModelId,jdbcType=INTEGER}, 
+        #{item.name,jdbcType=VARCHAR}, #{item.label,jdbcType=VARCHAR}, #{item.unit,jdbcType=VARCHAR}, 
+        #{item.address,jdbcType=VARCHAR}, #{item.dataType,jdbcType=VARCHAR}, #{item.displayType,jdbcType=VARCHAR}, 
+        #{item.alarmType,jdbcType=VARCHAR}, #{item.refreshPeriod,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER}, 
+        #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
+        #{item.deleteFlag,jdbcType=BIT}, #{item.organizationId,jdbcType=INTEGER})
+      </foreach>
+    </if>
+  </insert>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>

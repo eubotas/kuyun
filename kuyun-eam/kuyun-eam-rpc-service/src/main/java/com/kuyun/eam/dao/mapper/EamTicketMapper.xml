@@ -118,11 +118,11 @@
     where eam_ticket.ticket_id = #{ticketId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from eam_ticket
+    update eam_ticket eam_ticket set delete_flag = 1 
     where ticket_id = #{ticketId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamTicketExample">
-    delete from eam_ticket eam_ticket
+    update eam_ticket eam_ticket set delete_flag = 1 
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -412,5 +412,24 @@
       organization_id = #{organizationId,jdbcType=INTEGER}
     where ticket_id = #{ticketId,jdbcType=INTEGER}
   </update>
+  <insert id="batchInsert">
+    <if test="items.get(0) != null">
+            insert into eam_ticket  (ticket_id, ticket_type_id, description, 
+        image_path_1, image_path_2, image_path_3, 
+        image_path_4, priority, executor_id, 
+        status, end_date, create_user_id, 
+        create_time, update_user_id, update_time, 
+        delete_flag, organization_id)
+      values
+      <foreach collection="items" item="item" index="index" separator=",">
+      (#{item.ticketId,jdbcType=INTEGER}, #{item.ticketTypeId,jdbcType=INTEGER}, #{item.description,jdbcType=VARCHAR}, 
+        #{item.imagePath1,jdbcType=VARCHAR}, #{item.imagePath2,jdbcType=VARCHAR}, #{item.imagePath3,jdbcType=VARCHAR}, 
+        #{item.imagePath4,jdbcType=VARCHAR}, #{item.priority,jdbcType=VARCHAR}, #{item.executorId,jdbcType=INTEGER}, 
+        #{item.status,jdbcType=VARCHAR}, #{item.endDate,jdbcType=TIMESTAMP}, #{item.createUserId,jdbcType=INTEGER}, 
+        #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
+        #{item.deleteFlag,jdbcType=BIT}, #{item.organizationId,jdbcType=INTEGER})
+      </foreach>
+    </if>
+  </insert>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>

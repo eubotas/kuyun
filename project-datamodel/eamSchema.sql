@@ -148,6 +148,25 @@ create table eam_inventory
 alter table eam_inventory comment ' 库存明细表';
 
 /*==============================================================*/
+/* Table: eam_warehouse                                         */
+/*==============================================================*/
+create table eam_warehouse
+(
+   warehouse_id         int not null auto_increment,
+   name                 varchar(30),
+   comments             varchar(100),
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   organization_id      int,
+   primary key (warehouse_id)
+);
+
+alter table eam_warehouse comment '仓库信息表';
+
+/*==============================================================*/
 /* Table: eam_location                                          */
 /*==============================================================*/
 create table eam_location
@@ -222,6 +241,11 @@ create table eam_parts_category
    category_id          int not null auto_increment,
    name                 varchar(30),
    organization_id      int,
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
    primary key (category_id)
 );
 
@@ -299,24 +323,7 @@ create table eam_sensor_data
 
 alter table eam_sensor_data comment '设备传感器数据';
 
-/*==============================================================*/
-/* Table: eam_warehouse                                         */
-/*==============================================================*/
-create table eam_warehouse
-(
-   warehouse_id         int not null auto_increment,
-   name                 varchar(30),
-   comments             varchar(100),
-   create_user_id       int,
-   create_time          datetime,
-   update_user_id       int,
-   update_time          datetime,
-   delete_flag          boolean,
-   organization_id      int,
-   primary key (warehouse_id)
-);
 
-alter table eam_warehouse comment '仓库信息表';
 
 /*==============================================================*/
 /* Table: eam_alarm                                          */

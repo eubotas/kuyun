@@ -20,6 +20,8 @@ public interface BaseService<Record, Example> {
 
 	int insertSelective(Record record);
 
+	void batchInsert(@Param("items") List<Record> items);
+
 	List<Record> selectByExampleWithBLOBs(Example example);
 
 	List<Record> selectByExample(Example example);

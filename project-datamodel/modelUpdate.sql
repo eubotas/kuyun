@@ -19,3 +19,10 @@ ALTER TABLE eam_sensor ADD osh  decimal(10,2) comment '换算结果的高限';
 ALTER TABLE eam_sensor ADD osl  decimal(10,2) comment '换算结果的低限';
 ALTER TABLE eam_sensor ADD ish  decimal(10,2) comment '换算对象的高限';
 ALTER TABLE eam_sensor ADD isl  decimal(10,2) comment '换算对象的低限';
+
+
+ALTER TABLE eam_parts_category ADD create_user_id       int;
+ALTER TABLE eam_parts_category ADD create_time       datetime;
+ALTER TABLE eam_parts_category ADD update_user_id       int;
+ALTER TABLE eam_parts_category ADD update_time       datetime;
+ALTER TABLE eam_parts_category ADD delete_flag       boolean;

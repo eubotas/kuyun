@@ -27,4 +27,6 @@ public interface EamInventoryMapper {
     int updateByPrimaryKeySelective(EamInventory record);
 
     int updateByPrimaryKey(EamInventory record);
+
+    void batchInsert(@Param("items") List<EamInventory> items);
 }

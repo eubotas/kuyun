@@ -94,7 +94,7 @@ function startAction() {
             ids.push(rows[i].equipmentId);
         }
 
-        var json = { "ids" : ids.join("::")};
+        var json = { "ids" : ids.join("-")};
 
         console.log(json);
 

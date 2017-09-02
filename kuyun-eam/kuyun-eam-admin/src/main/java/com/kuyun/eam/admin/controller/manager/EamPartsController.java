@@ -85,6 +85,7 @@ public class EamPartsController extends BaseController {
 			partVO.setOrderByClause(sort + " " + order);
 		}
 		EamPartsExample partExample = new EamPartsExample();
+		partExample.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE);
 
 		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 

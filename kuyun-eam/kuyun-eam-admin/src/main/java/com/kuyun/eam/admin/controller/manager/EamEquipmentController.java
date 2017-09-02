@@ -3,6 +3,7 @@ package com.kuyun.eam.admin.controller.manager;
 import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
+import com.google.gson.Gson;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.admin.util.ModbusFunctionCode;
@@ -10,6 +11,7 @@ import com.kuyun.eam.common.constant.BitOrder;
 import com.kuyun.eam.common.constant.DataFormat;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.*;
+import com.kuyun.eam.pojo.IDS;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.pojo.tree.Tree;
 import com.kuyun.eam.rpc.api.*;
@@ -31,6 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.kuyun.eam.common.constant.CollectStatus.NO_START;
 import static com.kuyun.eam.common.constant.EamResultConstant.INVALID_LENGTH;
 import static com.kuyun.eam.common.constant.EamResultConstant.SUCCESS;
 
@@ -92,7 +95,7 @@ public class EamEquipmentController extends BaseController {
 		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
 		if (organization != null){
-			eamEquipmentExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId());
+			eamEquipmentExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId()).andDeleteFlagEqualTo(Boolean.FALSE);
 		}
 
 		List<EamEquipment> rows = eamEquipmentService.selectByExample(eamEquipmentExample);
@@ -136,8 +139,18 @@ public class EamEquipmentController extends BaseController {
 	@RequestMapping(value = "/delete/{ids}",method = RequestMethod.GET)
 	@ResponseBody
 	public Object delete(@PathVariable("ids") String ids) {
+		String jsonString = covertToJson(ids);
+
+		eamApiService.handleEquimpmentCollect(jsonString, NO_START);
 		int count = eamEquipmentService.deleteByPrimaryKeys(ids);
 		return new EamResult(SUCCESS, count);
+	}
+
+	private String covertToJson(String ids) {
+		IDS idsObj = new IDS();
+		idsObj.setIds(ids);
+		Gson gson = new Gson();
+		return gson.toJson(idsObj);
 	}
 
 	@ApiOperation(value = "修改设备")
@@ -294,7 +307,7 @@ public class EamEquipmentController extends BaseController {
     public EamSensor getSensor(EamEquipment equipment, EamEquipmentModelProperties eamEquipmentModelProperties){
 		EamSensorExample example = new EamSensorExample();
 		example.createCriteria().andEquipmentIdEqualTo(equipment.getEquipmentId())
-				.andEquipmentModelPropertyIdEqualTo(eamEquipmentModelProperties.getEquipmentModelPropertyId());
+				.andEquipmentModelPropertyIdEqualTo(eamEquipmentModelProperties.getEquipmentModelPropertyId()).andDeleteFlagEqualTo(Boolean.FALSE);
 
 
 		return eamSensorService.selectFirstByExample(example);

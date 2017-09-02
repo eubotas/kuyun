@@ -76,6 +76,21 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 	}
 
 	@Override
+	public void batchInsert(@Param("items") List<Record> items){
+		if (items != null && !items.isEmpty()){
+			try {
+				DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
+				Method batchInsert = mapper.getClass().getDeclaredMethod("batchInsert", items.get(0).getClass());
+				batchInsert.invoke(mapper, items);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			DynamicDataSource.clearDataSource();
+		}
+	}
+
+
+	@Override
 	public int insertSelective(Record record) {
 		try {
 			DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());

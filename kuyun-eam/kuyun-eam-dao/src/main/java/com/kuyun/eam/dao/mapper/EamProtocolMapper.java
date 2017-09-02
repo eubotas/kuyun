@@ -27,4 +27,6 @@ public interface EamProtocolMapper {
     int updateByPrimaryKeySelective(EamProtocol record);
 
     int updateByPrimaryKey(EamProtocol record);
+
+    void batchInsert(@Param("items") List<EamProtocol> items);
 }

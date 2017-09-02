@@ -67,6 +67,7 @@ public class EamPartsCategoryController extends BaseController {
 		EamPartsCategoryExample partsCategoryExample = new EamPartsCategoryExample();
 		partsCategoryExample.setOffset(offset);
 		partsCategoryExample.setLimit(limit);
+		partsCategoryExample.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE);
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			partsCategoryExample.setOrderByClause(sort + " " + order);
 		}

@@ -142,7 +142,7 @@ public class SSOController extends BaseController {
     }
 
     private void handleSessionTimeOut(ServletResponse response) {
-        BaseResult result = new BaseResult(401, "Unauthorized", null);
+        BaseResult result = new BaseResult(403, "Session Timeout", null);
         String json = new Gson().toJson(result);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");

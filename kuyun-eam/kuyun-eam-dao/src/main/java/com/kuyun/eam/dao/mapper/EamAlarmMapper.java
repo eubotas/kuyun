@@ -27,4 +27,6 @@ public interface EamAlarmMapper {
     int updateByPrimaryKeySelective(EamAlarm record);
 
     int updateByPrimaryKey(EamAlarm record);
+
+    void batchInsert(@Param("items") List<EamAlarm> items);
 }

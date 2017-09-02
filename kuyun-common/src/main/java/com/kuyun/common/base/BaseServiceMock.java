@@ -36,6 +36,11 @@ public abstract class BaseServiceMock<Mapper, Record, Example> implements BaseSe
 	}
 
 	@Override
+	public void batchInsert(@Param("items") List<Record> items){
+
+	}
+
+	@Override
 	public List<Record> selectByExampleWithBLOBs(Example example) {
 		return null;
 	}

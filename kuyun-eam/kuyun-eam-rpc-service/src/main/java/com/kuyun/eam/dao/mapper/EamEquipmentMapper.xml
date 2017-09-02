@@ -126,11 +126,11 @@
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from eam_equipment
+    update eam_equipment set delete_flag = 1 
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentExample">
-    delete from eam_equipment
+    update eam_equipment set delete_flag = 1 
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -596,5 +596,32 @@
       is_online = #{isOnline,jdbcType=BIT}
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </update>
+  <insert id="batchInsert">
+    <if test="items.get(0) != null">
+            insert into eam_equipment  (equipment_id, equipment_model_id, organization_id, 
+        protocol_id, name, number, 
+        serial_number, image_path, longitude, 
+        latitude, province, city, 
+        user, heart_data, grm, 
+        grm_password, grm_period, collect_status, 
+        factory_date, commissioning_date, warranty_start_date, 
+        warranty_end_date, maintenance_period, create_user_id, 
+        create_time, update_user_id, update_time, 
+        delete_flag, is_online)
+      values
+      <foreach collection="items" item="item" index="index" separator=",">
+      (#{item.equipmentId,jdbcType=VARCHAR}, #{item.equipmentModelId,jdbcType=INTEGER}, #{item.organizationId,jdbcType=INTEGER}, 
+        #{item.protocolId,jdbcType=INTEGER}, #{item.name,jdbcType=VARCHAR}, #{item.number,jdbcType=VARCHAR}, 
+        #{item.serialNumber,jdbcType=VARCHAR}, #{item.imagePath,jdbcType=VARCHAR}, #{item.longitude,jdbcType=DECIMAL}, 
+        #{item.latitude,jdbcType=DECIMAL}, #{item.province,jdbcType=VARCHAR}, #{item.city,jdbcType=VARCHAR}, 
+        #{item.user,jdbcType=VARCHAR}, #{item.heartData,jdbcType=VARCHAR}, #{item.grm,jdbcType=VARCHAR}, 
+        #{item.grmPassword,jdbcType=VARCHAR}, #{item.grmPeriod,jdbcType=INTEGER}, #{item.collectStatus,jdbcType=VARCHAR}, 
+        #{item.factoryDate,jdbcType=TIMESTAMP}, #{item.commissioningDate,jdbcType=TIMESTAMP}, #{item.warrantyStartDate,jdbcType=TIMESTAMP}, 
+        #{item.warrantyEndDate,jdbcType=TIMESTAMP}, #{item.maintenancePeriod,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER}, 
+        #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
+        #{item.deleteFlag,jdbcType=BIT}, #{item.isOnline,jdbcType=BIT})
+      </foreach>
+    </if>
+  </insert>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>

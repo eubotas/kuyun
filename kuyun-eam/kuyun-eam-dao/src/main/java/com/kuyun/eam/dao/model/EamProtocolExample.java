@@ -386,6 +386,11 @@ public class EamProtocolExample implements Serializable {
             addCriterion("port not between", value1, value2, "port");
             return (Criteria) this;
         }
+
+        public Criteria addConditionSql(String conditionSql) {
+            addCriterion(conditionSql);
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria implements Serializable {

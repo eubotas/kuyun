@@ -343,6 +343,11 @@
             <artifactId>httpcore</artifactId>
             <version>4.4.6</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.oceanc</groupId>
+            <artifactId>mybatis3-generator-plugin</artifactId>
+            <version>0.4.0</version>
+        </dependency>
     </dependencies>
 
     <build>

@@ -98,11 +98,11 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from eam_alarm_type_value
+    update eam_alarm_type_value set delete_flag = 1 
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamAlarmTypeValueExample">
-    delete from eam_alarm_type_value
+    update eam_alarm_type_value set delete_flag = 1 
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -216,5 +216,16 @@
       duration = #{duration,jdbcType=DECIMAL}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <insert id="batchInsert">
+    <if test="items.get(0) != null">
+            insert into eam_alarm_type_value  (id, alarm_id, upper_Bound, 
+        lower_Bound, duration)
+      values
+      <foreach collection="items" item="item" index="index" separator=",">
+      (#{item.id,jdbcType=INTEGER}, #{item.alarmId,jdbcType=INTEGER}, #{item.upperBound,jdbcType=DECIMAL}, 
+        #{item.lowerBound,jdbcType=DECIMAL}, #{item.duration,jdbcType=DECIMAL})
+      </foreach>
+    </if>
+  </insert>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>
