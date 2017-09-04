@@ -31,7 +31,7 @@ drop table if exists eam_warehouse;
 
 drop table if exists eam_alarm;
 
-drop table if exists eam_alarm_type_value;
+drop table if exists eam_alarm_data;
 
 drop table if exists eam_alarm_target_user;
 
@@ -333,6 +333,9 @@ CREATE TABLE `eam_alarm` (
   `equipment_id` varchar(32) DEFAULT NULL,
   `sensor_id` int(11) DEFAULT NULL,
   `alarm_type` varchar(20) DEFAULT NULL,
+  `upper_Bound` decimal(10,2) DEFAULT NULL,
+  `lower_Bound` decimal(10,2) DEFAULT NULL,
+  `duration` decimal(10,2) DEFAULT NULL,
   `alarm_target` varchar(10) DEFAULT NULL,
    create_user_id       int,
    create_time          datetime,
@@ -344,22 +347,31 @@ CREATE TABLE `eam_alarm` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `eam_alarm_type_value` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `alarm_id` int(11) DEFAULT NULL,
-  `upper_Bound` decimal(10,2) DEFAULT NULL,
-  `lower_Bound` decimal(10,2) DEFAULT NULL,
-  `duration` decimal(10,2) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 CREATE TABLE `eam_alarm_target_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `alarm_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `alarm_id`            int(11),
+  `user_id`             int(11),
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   organization_id      int,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `eam_alarm_data` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `alarm_id`            int(11) ,
+   sensor_data_id       int,
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   organization_id      int,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 #工单分类
