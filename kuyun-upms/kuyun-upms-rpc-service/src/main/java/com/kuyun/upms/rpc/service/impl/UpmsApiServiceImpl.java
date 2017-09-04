@@ -16,8 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -254,8 +257,10 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         return sharedKey;
     }
 
-    private long getExpirationDate() {
-        return 1000 * 60 * 60 * 24 * 30;
+    private Date getExpirationDate() {
+        LocalDate localDate = LocalDate.now().plusMonths(3);
+
+        return Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
     }
 
     private String getIssuer(){
@@ -275,7 +280,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
             builder.subject(userId.toString());
             builder.issueTime(new Date());
             builder.notBeforeTime(new Date());
-            builder.expirationTime(new Date(new Date().getTime() + getExpirationDate()));
+            builder.expirationTime(getExpirationDate());
             builder.jwtID(UUID.randomUUID().toString());
 
             JWTClaimsSet claimsSet = builder.build();
@@ -301,8 +306,12 @@ public class UpmsApiServiceImpl implements UpmsApiService {
             JWSVerifier verifier = new MACVerifierExtended(getSharedKey(), signed.getJWTClaimsSet());
             return signed.verify(verifier);
         } catch (ParseException ex) {
+            System.out.println("Parse token error: = " + ex);
+            _log.error("1Parse token error:"+ex.getMessage());
             return false;
         } catch (JOSEException ex) {
+            System.out.println("2Parse token error: = " + ex);
+            _log.error("Parse token error:"+ex.getMessage());
             return false;
         }
 

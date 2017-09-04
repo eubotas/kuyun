@@ -67,14 +67,16 @@ public class EamPartsCategoryController extends BaseController {
 		EamPartsCategoryExample partsCategoryExample = new EamPartsCategoryExample();
 		partsCategoryExample.setOffset(offset);
 		partsCategoryExample.setLimit(limit);
-		partsCategoryExample.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE);
+		EamPartsCategoryExample.Criteria criteria = partsCategoryExample.createCriteria();
+		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			partsCategoryExample.setOrderByClause(sort + " " + order);
 		}
 		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
 		if (organization != null){
-			partsCategoryExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId());
+			criteria.andOrganizationIdEqualTo(organization.getOrganizationId());
 		}
 		List<EamPartsCategory> rows = eamPartsCategoryService.selectByExample(partsCategoryExample);
 		long total = eamPartsCategoryService.countByExample(partsCategoryExample);

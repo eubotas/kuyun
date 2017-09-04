@@ -87,13 +87,14 @@ public class EamMaintenanceController extends BaseController {
 		}
 
 		EamMaintenanceExample example = new EamMaintenanceExample();
-		example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE);
+		EamMaintenanceExample.Criteria criteria = example.createCriteria();
+		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
 
 		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
 		if (organization != null){
 			eamMaintenanceVO.setOrganizationId(organization.getOrganizationId());
-			example.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId());
+			criteria.andOrganizationIdEqualTo(organization.getOrganizationId());
 		}
 		List<EamMaintenanceVO> rows = eamApiService.selectMaintenance(eamMaintenanceVO);
 

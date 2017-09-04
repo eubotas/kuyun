@@ -57,8 +57,6 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 	private BaseEntityUtil baseEntityUtil;
 
 
-
-
 	@ApiOperation(value = "设备模型参数首页")
 	@RequiresPermissions("eam:equipmentModelProperty:read")
 	@RequestMapping(value = "/index/{id}", method = RequestMethod.GET)
@@ -80,6 +78,10 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 		EamEquipmentModelPropertiesExample equipmentModelPropertiesExample = new EamEquipmentModelPropertiesExample();
 		equipmentModelPropertiesExample.setOffset(offset);
 		equipmentModelPropertiesExample.setLimit(limit);
+		EamEquipmentModelPropertiesExample.Criteria criteria = equipmentModelPropertiesExample.createCriteria();
+		criteria.andEquipmentModelIdEqualTo(id);
+		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			equipmentModelPropertiesExample.setOrderByClause(sort + " " + order);
 		}
@@ -87,7 +89,7 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
 		if (organization != null){
-			equipmentModelPropertiesExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId()).andDeleteFlagEqualTo(Boolean.FALSE);
+			criteria.andOrganizationIdEqualTo(organization.getOrganizationId());
 		}
 		List<EamEquipmentModelProperties> rows = eamEquipmentModelPropertiesService.selectByExample(equipmentModelPropertiesExample);
 		long total = eamEquipmentModelPropertiesService.countByExample(equipmentModelPropertiesExample);

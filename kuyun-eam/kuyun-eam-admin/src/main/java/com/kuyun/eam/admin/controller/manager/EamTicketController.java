@@ -116,19 +116,22 @@ public class EamTicketController extends BaseController {
 		EamTicketExample eamTicketExample = new EamTicketExample();
 		eamTicketExample.setOffset(offset);
 		eamTicketExample.setLimit(limit);
+		EamTicketExample.Criteria criteria = eamTicketExample.createCriteria();
+		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			eamTicketExample.setOrderByClause(sort + " " + order);
 		}
 
 		switch (TicketSearchCategory.getCategroy(category)) {
 		case MY_OPEN:
-			eamTicketExample.createCriteria().andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId()).andStatusNotEqualTo(TicketStatus.NO_DEAL_WITH.getName()).andStatusNotEqualTo(TicketStatus.RESOLVED.getName());
+			criteria.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId()).andStatusNotEqualTo(TicketStatus.NO_DEAL_WITH.getName()).andStatusNotEqualTo(TicketStatus.RESOLVED.getName());
 			break;
 		case MY_ALL:
-			eamTicketExample.createCriteria().andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
+			criteria.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
 			break;
 		case OPEN:
-			eamTicketExample.createCriteria().andStatusNotEqualTo(TicketStatus.NO_DEAL_WITH.getName()).andStatusNotEqualTo(TicketStatus.RESOLVED.getName());
+			criteria.andStatusNotEqualTo(TicketStatus.NO_DEAL_WITH.getName()).andStatusNotEqualTo(TicketStatus.RESOLVED.getName());
 			break;
 		case ALL:
 		default:
@@ -138,17 +141,13 @@ public class EamTicketController extends BaseController {
 		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
 		if (organization != null){
-			eamTicketExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId())
-			.andDeleteFlagEqualTo(Boolean.FALSE);
+			criteria.andOrganizationIdEqualTo(organization.getOrganizationId());
 		}
 		
 
 
 		List<EamTicketVO> rows = eamApiService.selectTicket(eamTicketExample);
-//		System.out.println("rows:");
-//		for (EamTicket ticket : rows) {
-//			System.out.println(ticket.toString());
-//		}
+
 		long total = eamTicketService.countByExample(eamTicketExample);
 		Map<String, Object> result = new HashMap<>();
 		result.put("rows", rows);

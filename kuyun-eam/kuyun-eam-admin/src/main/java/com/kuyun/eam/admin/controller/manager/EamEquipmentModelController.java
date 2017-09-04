@@ -70,6 +70,8 @@ public class EamEquipmentModelController extends BaseController {
 		EamEquipmentModelExample eamEquipmentModelExample = new EamEquipmentModelExample();
 		eamEquipmentModelExample.setOffset(offset);
 		eamEquipmentModelExample.setLimit(limit);
+
+
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			eamEquipmentModelExample.setOrderByClause(sort + " " + order);
 		}

@@ -236,6 +236,7 @@ public class EamApiServiceImpl implements EamApiService {
         if (org != null){
             example.createCriteria().andOrganizationIdEqualTo(org.getOrganizationId());
         }
+        example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE);
         example.setOrderByClause("province, city asc");
         return eamEquipmentService.selectByExample(example);
     }

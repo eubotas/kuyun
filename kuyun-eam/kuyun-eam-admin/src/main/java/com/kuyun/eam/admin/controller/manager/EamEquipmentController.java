@@ -88,6 +88,9 @@ public class EamEquipmentController extends BaseController {
 		EamEquipmentExample eamEquipmentExample = new EamEquipmentExample();
 		eamEquipmentExample.setOffset(offset);
 		eamEquipmentExample.setLimit(limit);
+		EamEquipmentExample.Criteria criteria = eamEquipmentExample.createCriteria();
+		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			eamEquipmentExample.setOrderByClause(sort + " " + order);
 		}
@@ -95,7 +98,7 @@ public class EamEquipmentController extends BaseController {
 		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
 		if (organization != null){
-			eamEquipmentExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId()).andDeleteFlagEqualTo(Boolean.FALSE);
+			criteria.andOrganizationIdEqualTo(organization.getOrganizationId());
 		}
 
 		List<EamEquipment> rows = eamEquipmentService.selectByExample(eamEquipmentExample);
