@@ -299,6 +299,7 @@ function deleteAction() {
 	}
 }
 
+var connectDialog;
 function connectAction() {
     var rows = $table.bootstrapTable('getSelections');
     if (rows.length != 1) {
@@ -315,7 +316,16 @@ function connectAction() {
             }
         });
     } else {
-        window.location = "${basePath}/manage/equipment/connect/" + rows[0].equipmentId;
+        connectDialog = $.dialog({
+            animationSpeed: 300,
+            title: '设备接入',
+            columnClass: 'xlarge',
+            content: 'url:${basePath}/manage/equipment/connect/' + rows[0].equipmentId,
+            onContentReady: function () {
+                initMaterialInput();
+                $('select').select2();
+            }
+        });
     }
 }
 </script>

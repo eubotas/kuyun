@@ -2,6 +2,7 @@ package com.kuyun.eam.dao.model;
 
 import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 public class EamAlarm extends BaseEntity implements Serializable {
     private Integer alarmId;
@@ -11,6 +12,12 @@ public class EamAlarm extends BaseEntity implements Serializable {
     private Integer sensorId;
 
     private String alarmType;
+
+    private BigDecimal upperBound;
+
+    private BigDecimal lowerBound;
+
+    private BigDecimal duration;
 
     private String alarmTarget;
 
@@ -48,6 +55,30 @@ public class EamAlarm extends BaseEntity implements Serializable {
         this.alarmType = alarmType;
     }
 
+    public BigDecimal getUpperBound() {
+        return upperBound;
+    }
+
+    public void setUpperBound(BigDecimal upperBound) {
+        this.upperBound = upperBound;
+    }
+
+    public BigDecimal getLowerBound() {
+        return lowerBound;
+    }
+
+    public void setLowerBound(BigDecimal lowerBound) {
+        this.lowerBound = lowerBound;
+    }
+
+    public BigDecimal getDuration() {
+        return duration;
+    }
+
+    public void setDuration(BigDecimal duration) {
+        this.duration = duration;
+    }
+
     public String getAlarmTarget() {
         return alarmTarget;
     }
@@ -66,6 +97,9 @@ public class EamAlarm extends BaseEntity implements Serializable {
         sb.append(", equipmentId=").append(equipmentId);
         sb.append(", sensorId=").append(sensorId);
         sb.append(", alarmType=").append(alarmType);
+        sb.append(", upperBound=").append(upperBound);
+        sb.append(", lowerBound=").append(lowerBound);
+        sb.append(", duration=").append(duration);
         sb.append(", alarmTarget=").append(alarmTarget);
         sb.append("]");
         return sb.toString();
@@ -87,6 +121,9 @@ public class EamAlarm extends BaseEntity implements Serializable {
             && (this.getEquipmentId() == null ? other.getEquipmentId() == null : this.getEquipmentId().equals(other.getEquipmentId()))
             && (this.getSensorId() == null ? other.getSensorId() == null : this.getSensorId().equals(other.getSensorId()))
             && (this.getAlarmType() == null ? other.getAlarmType() == null : this.getAlarmType().equals(other.getAlarmType()))
+            && (this.getUpperBound() == null ? other.getUpperBound() == null : this.getUpperBound().equals(other.getUpperBound()))
+            && (this.getLowerBound() == null ? other.getLowerBound() == null : this.getLowerBound().equals(other.getLowerBound()))
+            && (this.getDuration() == null ? other.getDuration() == null : this.getDuration().equals(other.getDuration()))
             && (this.getAlarmTarget() == null ? other.getAlarmTarget() == null : this.getAlarmTarget().equals(other.getAlarmTarget()))
             && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
@@ -104,6 +141,9 @@ public class EamAlarm extends BaseEntity implements Serializable {
         result = prime * result + ((getEquipmentId() == null) ? 0 : getEquipmentId().hashCode());
         result = prime * result + ((getSensorId() == null) ? 0 : getSensorId().hashCode());
         result = prime * result + ((getAlarmType() == null) ? 0 : getAlarmType().hashCode());
+        result = prime * result + ((getUpperBound() == null) ? 0 : getUpperBound().hashCode());
+        result = prime * result + ((getLowerBound() == null) ? 0 : getLowerBound().hashCode());
+        result = prime * result + ((getDuration() == null) ? 0 : getDuration().hashCode());
         result = prime * result + ((getAlarmTarget() == null) ? 0 : getAlarmTarget().hashCode());
         result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());

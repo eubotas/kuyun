@@ -1,6 +1,7 @@
 package com.kuyun.eam.dao.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -385,6 +386,186 @@ public class EamAlarmExample implements Serializable {
 
         public Criteria andAlarmTypeNotBetween(String value1, String value2) {
             addCriterion("alarm_type not between", value1, value2, "alarmType");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpperBoundIsNull() {
+            addCriterion("upper_Bound is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpperBoundIsNotNull() {
+            addCriterion("upper_Bound is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpperBoundEqualTo(BigDecimal value) {
+            addCriterion("upper_Bound =", value, "upperBound");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpperBoundNotEqualTo(BigDecimal value) {
+            addCriterion("upper_Bound <>", value, "upperBound");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpperBoundGreaterThan(BigDecimal value) {
+            addCriterion("upper_Bound >", value, "upperBound");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpperBoundGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("upper_Bound >=", value, "upperBound");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpperBoundLessThan(BigDecimal value) {
+            addCriterion("upper_Bound <", value, "upperBound");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpperBoundLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("upper_Bound <=", value, "upperBound");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpperBoundIn(List<BigDecimal> values) {
+            addCriterion("upper_Bound in", values, "upperBound");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpperBoundNotIn(List<BigDecimal> values) {
+            addCriterion("upper_Bound not in", values, "upperBound");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpperBoundBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("upper_Bound between", value1, value2, "upperBound");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpperBoundNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("upper_Bound not between", value1, value2, "upperBound");
+            return (Criteria) this;
+        }
+
+        public Criteria andLowerBoundIsNull() {
+            addCriterion("lower_Bound is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLowerBoundIsNotNull() {
+            addCriterion("lower_Bound is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLowerBoundEqualTo(BigDecimal value) {
+            addCriterion("lower_Bound =", value, "lowerBound");
+            return (Criteria) this;
+        }
+
+        public Criteria andLowerBoundNotEqualTo(BigDecimal value) {
+            addCriterion("lower_Bound <>", value, "lowerBound");
+            return (Criteria) this;
+        }
+
+        public Criteria andLowerBoundGreaterThan(BigDecimal value) {
+            addCriterion("lower_Bound >", value, "lowerBound");
+            return (Criteria) this;
+        }
+
+        public Criteria andLowerBoundGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("lower_Bound >=", value, "lowerBound");
+            return (Criteria) this;
+        }
+
+        public Criteria andLowerBoundLessThan(BigDecimal value) {
+            addCriterion("lower_Bound <", value, "lowerBound");
+            return (Criteria) this;
+        }
+
+        public Criteria andLowerBoundLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("lower_Bound <=", value, "lowerBound");
+            return (Criteria) this;
+        }
+
+        public Criteria andLowerBoundIn(List<BigDecimal> values) {
+            addCriterion("lower_Bound in", values, "lowerBound");
+            return (Criteria) this;
+        }
+
+        public Criteria andLowerBoundNotIn(List<BigDecimal> values) {
+            addCriterion("lower_Bound not in", values, "lowerBound");
+            return (Criteria) this;
+        }
+
+        public Criteria andLowerBoundBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("lower_Bound between", value1, value2, "lowerBound");
+            return (Criteria) this;
+        }
+
+        public Criteria andLowerBoundNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("lower_Bound not between", value1, value2, "lowerBound");
+            return (Criteria) this;
+        }
+
+        public Criteria andDurationIsNull() {
+            addCriterion("duration is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDurationIsNotNull() {
+            addCriterion("duration is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDurationEqualTo(BigDecimal value) {
+            addCriterion("duration =", value, "duration");
+            return (Criteria) this;
+        }
+
+        public Criteria andDurationNotEqualTo(BigDecimal value) {
+            addCriterion("duration <>", value, "duration");
+            return (Criteria) this;
+        }
+
+        public Criteria andDurationGreaterThan(BigDecimal value) {
+            addCriterion("duration >", value, "duration");
+            return (Criteria) this;
+        }
+
+        public Criteria andDurationGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("duration >=", value, "duration");
+            return (Criteria) this;
+        }
+
+        public Criteria andDurationLessThan(BigDecimal value) {
+            addCriterion("duration <", value, "duration");
+            return (Criteria) this;
+        }
+
+        public Criteria andDurationLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("duration <=", value, "duration");
+            return (Criteria) this;
+        }
+
+        public Criteria andDurationIn(List<BigDecimal> values) {
+            addCriterion("duration in", values, "duration");
+            return (Criteria) this;
+        }
+
+        public Criteria andDurationNotIn(List<BigDecimal> values) {
+            addCriterion("duration not in", values, "duration");
+            return (Criteria) this;
+        }
+
+        public Criteria andDurationBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("duration between", value1, value2, "duration");
+            return (Criteria) this;
+        }
+
+        public Criteria andDurationNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("duration not between", value1, value2, "duration");
             return (Criteria) this;
         }
 

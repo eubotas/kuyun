@@ -112,7 +112,6 @@ create table eam_equipment_model_properties
    address              varchar(30),
    data_type            varchar(30) comment '数据类型(analog, digital)',
    display_type         varchar(10) comment '显示类型(LED, pie, guage)',
-   alarm_type           varchar(30) comment '报警类型(val_above, val_below, ...)',
    refresh_period       varchar(30),
    create_user_id       int,
    create_time          datetime,
@@ -330,13 +329,12 @@ alter table eam_protocol comment ' 接入协议';
 /*==============================================================*/
 CREATE TABLE `eam_alarm` (
   `alarm_id` int(11) NOT NULL AUTO_INCREMENT,
-  `equipment_id` varchar(32) DEFAULT NULL,
-  `sensor_id` int(11) DEFAULT NULL,
   `alarm_type` varchar(20) DEFAULT NULL,
   `upper_Bound` decimal(10,2) DEFAULT NULL,
   `lower_Bound` decimal(10,2) DEFAULT NULL,
   `duration` decimal(10,2) DEFAULT NULL,
   `alarm_target` varchar(10) DEFAULT NULL,
+   equipment_model_property_id int,
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,
@@ -362,7 +360,9 @@ CREATE TABLE `eam_alarm_target_user` (
 
 CREATE TABLE `eam_alarm_data` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `alarm_id`            int(11) ,
+  `alarm_id`            int(11),
+   equipment_id         varchar(32),
+   equipment_model_property_id int,
    sensor_data_id       int,
    create_user_id       int,
    create_time          datetime,

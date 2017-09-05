@@ -3,47 +3,37 @@ package com.kuyun.eam.dao.model;
 import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
 
-public class EamEquipmentModel extends BaseEntity implements Serializable {
-    private Integer equipmentModelId;
+public class EamAlarmRecord extends BaseEntity implements Serializable {
+    private Integer id;
 
-    private String name;
+    private Integer alarmId;
 
-    private String number;
-
-    private Integer protocolId;
+    private Integer sensorDataId;
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getEquipmentModelId() {
-        return equipmentModelId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setEquipmentModelId(Integer equipmentModelId) {
-        this.equipmentModelId = equipmentModelId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Integer getAlarmId() {
+        return alarmId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setAlarmId(Integer alarmId) {
+        this.alarmId = alarmId;
     }
 
-    public String getNumber() {
-        return number;
+    public Integer getSensorDataId() {
+        return sensorDataId;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    public Integer getProtocolId() {
-        return protocolId;
-    }
-
-    public void setProtocolId(Integer protocolId) {
-        this.protocolId = protocolId;
+    public void setSensorDataId(Integer sensorDataId) {
+        this.sensorDataId = sensorDataId;
     }
 
     @Override
@@ -52,10 +42,9 @@ public class EamEquipmentModel extends BaseEntity implements Serializable {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", equipmentModelId=").append(equipmentModelId);
-        sb.append(", name=").append(name);
-        sb.append(", number=").append(number);
-        sb.append(", protocolId=").append(protocolId);
+        sb.append(", id=").append(id);
+        sb.append(", alarmId=").append(alarmId);
+        sb.append(", sensorDataId=").append(sensorDataId);
         sb.append("]");
         return sb.toString();
     }
@@ -71,11 +60,10 @@ public class EamEquipmentModel extends BaseEntity implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        EamEquipmentModel other = (EamEquipmentModel) that;
-        return (this.getEquipmentModelId() == null ? other.getEquipmentModelId() == null : this.getEquipmentModelId().equals(other.getEquipmentModelId()))
-            && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
-            && (this.getNumber() == null ? other.getNumber() == null : this.getNumber().equals(other.getNumber()))
-            && (this.getProtocolId() == null ? other.getProtocolId() == null : this.getProtocolId().equals(other.getProtocolId()))
+        EamAlarmRecord other = (EamAlarmRecord) that;
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
+            && (this.getAlarmId() == null ? other.getAlarmId() == null : this.getAlarmId().equals(other.getAlarmId()))
+            && (this.getSensorDataId() == null ? other.getSensorDataId() == null : this.getSensorDataId().equals(other.getSensorDataId()))
             && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
@@ -88,10 +76,9 @@ public class EamEquipmentModel extends BaseEntity implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((getEquipmentModelId() == null) ? 0 : getEquipmentModelId().hashCode());
-        result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
-        result = prime * result + ((getNumber() == null) ? 0 : getNumber().hashCode());
-        result = prime * result + ((getProtocolId() == null) ? 0 : getProtocolId().hashCode());
+        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+        result = prime * result + ((getAlarmId() == null) ? 0 : getAlarmId().hashCode());
+        result = prime * result + ((getSensorDataId() == null) ? 0 : getSensorDataId().hashCode());
         result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());

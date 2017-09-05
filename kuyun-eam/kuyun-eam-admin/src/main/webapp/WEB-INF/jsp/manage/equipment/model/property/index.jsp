@@ -59,10 +59,135 @@ $(function() {
 			{field: 'dataType', title: '数据类型'},
 			{field: 'unit', title: '参数单位'},
 			/*{field: 'refreshPeriod', title: '刷新周期'},*/
-			{field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
+            {field: 'action', title: '读写指令', align: 'center', formatter: 'readWriteFormatter', events: 'actionEvents', clickToSelect: false},
+            {field: 'action', title: '数据转换', align: 'center', formatter: 'changeFormatter', events: 'actionEvents', clickToSelect: false},
+            {field: 'action', title: '报警设定', align: 'center', formatter: 'alarmFormatter', events: 'actionEvents', clickToSelect: false}
+//            {field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
 		]
 	});
 });
+
+// 格式化操作按钮
+function readWriteFormatter(value, row, index) {
+    return [
+        '<a class="update" href="javascript:;" onclick="readWriteAction()" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>　'
+    ].join('');
+}
+
+function changeFormatter(value, row, index) {
+    return [
+        '<a class="update" href="javascript:;" onclick="changeAction()" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>　'
+    ].join('');
+}
+
+function alarmFormatter(value, row, index) {
+    return [
+        '<a class="update" href="javascript:;" onclick="alarmAction()" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>　'
+    ].join('');
+}
+
+var readWriteDialog;
+function readWriteAction() {
+    var rows = $table.bootstrapTable('getSelections');
+    if (rows.length != 1) {
+        $.confirm({
+            title: false,
+            content: '请选择一条记录！',
+            autoClose: 'cancel|3000',
+            backgroundDismiss: true,
+            buttons: {
+                cancel: {
+                    text: '取消',
+                    btnClass: 'waves-effect waves-button'
+                }
+            }
+        });
+    } else {
+        var readWriteUrl = '${basePath}/manage/equipment/model/property/modbus/${equipmentModel.equipmentModelId}/' + rows[0].equipmentModelPropertyId;
+        if (1 == ${equipmentModel.protocolId}){
+            readWriteUrl = '${basePath}/manage/equipment/model/property/modbus/${equipmentModel.equipmentModelId}/' + rows[0].equipmentModelPropertyId;
+        }else if (4 == ${equipmentModel.protocolId}){
+            readWriteUrl = '${basePath}/manage/equipment/model/property/grm/${equipmentModel.equipmentModelId}/' + rows[0].equipmentModelPropertyId;
+
+        }
+        readWriteDialog = $.dialog({
+            animationSpeed: 300,
+            title: '读写指令',
+            columnClass: 'xlarge',
+            content: 'url:'+readWriteUrl,
+            onContentReady: function () {
+                initMaterialInput();
+                $('select').select2();
+            }
+        });
+    }
+}
+
+var changeDialog;
+function changeAction() {
+    var rows = $table.bootstrapTable('getSelections');
+    if (rows.length != 1) {
+        $.confirm({
+            title: false,
+            content: '请选择一条记录！',
+            autoClose: 'cancel|3000',
+            backgroundDismiss: true,
+            buttons: {
+                cancel: {
+                    text: '取消',
+                    btnClass: 'waves-effect waves-button'
+                }
+            }
+        });
+    } else {
+        var changeUrl = '${basePath}/manage/equipment/model/property/data/change/${equipmentModel.equipmentModelId}/' + rows[0].equipmentModelPropertyId;
+
+        changeDialog = $.dialog({
+            animationSpeed: 300,
+            title: '数据转换',
+            columnClass: 'xlarge',
+            content: 'url:'+changeUrl,
+            onContentReady: function () {
+                initMaterialInput();
+                $('select').select2();
+            }
+        });
+    }
+}
+
+var alarmDialog;
+function alarmAction() {
+    var rows = $table.bootstrapTable('getSelections');
+    if (rows.length != 1) {
+        $.confirm({
+            title: false,
+            content: '请选择一条记录！',
+            autoClose: 'cancel|3000',
+            backgroundDismiss: true,
+            buttons: {
+                cancel: {
+                    text: '取消',
+                    btnClass: 'waves-effect waves-button'
+                }
+            }
+        });
+    } else {
+        var alarmUrl = '${basePath}/manage/equipment/model/property/alarm/${equipmentModel.equipmentModelId}/' + rows[0].equipmentModelPropertyId;
+
+        alarmDialog = $.dialog({
+            animationSpeed: 300,
+            title: '报警设定',
+            columnClass: 'xlarge',
+            content: 'url:'+alarmUrl,
+            onContentReady: function () {
+                initMaterialInput();
+                $('select').select2();
+            }
+        });
+    }
+}
+
+
 // 格式化操作按钮
 function actionFormatter(value, row, index) {
     return [

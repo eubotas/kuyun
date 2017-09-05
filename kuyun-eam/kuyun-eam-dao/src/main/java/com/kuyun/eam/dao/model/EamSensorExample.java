@@ -1019,6 +1019,246 @@ public class EamSensorExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andOshIsNull() {
+            addCriterion("osh is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOshIsNotNull() {
+            addCriterion("osh is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOshEqualTo(BigDecimal value) {
+            addCriterion("osh =", value, "osh");
+            return (Criteria) this;
+        }
+
+        public Criteria andOshNotEqualTo(BigDecimal value) {
+            addCriterion("osh <>", value, "osh");
+            return (Criteria) this;
+        }
+
+        public Criteria andOshGreaterThan(BigDecimal value) {
+            addCriterion("osh >", value, "osh");
+            return (Criteria) this;
+        }
+
+        public Criteria andOshGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("osh >=", value, "osh");
+            return (Criteria) this;
+        }
+
+        public Criteria andOshLessThan(BigDecimal value) {
+            addCriterion("osh <", value, "osh");
+            return (Criteria) this;
+        }
+
+        public Criteria andOshLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("osh <=", value, "osh");
+            return (Criteria) this;
+        }
+
+        public Criteria andOshIn(List<BigDecimal> values) {
+            addCriterion("osh in", values, "osh");
+            return (Criteria) this;
+        }
+
+        public Criteria andOshNotIn(List<BigDecimal> values) {
+            addCriterion("osh not in", values, "osh");
+            return (Criteria) this;
+        }
+
+        public Criteria andOshBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("osh between", value1, value2, "osh");
+            return (Criteria) this;
+        }
+
+        public Criteria andOshNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("osh not between", value1, value2, "osh");
+            return (Criteria) this;
+        }
+
+        public Criteria andOslIsNull() {
+            addCriterion("osl is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOslIsNotNull() {
+            addCriterion("osl is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOslEqualTo(BigDecimal value) {
+            addCriterion("osl =", value, "osl");
+            return (Criteria) this;
+        }
+
+        public Criteria andOslNotEqualTo(BigDecimal value) {
+            addCriterion("osl <>", value, "osl");
+            return (Criteria) this;
+        }
+
+        public Criteria andOslGreaterThan(BigDecimal value) {
+            addCriterion("osl >", value, "osl");
+            return (Criteria) this;
+        }
+
+        public Criteria andOslGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("osl >=", value, "osl");
+            return (Criteria) this;
+        }
+
+        public Criteria andOslLessThan(BigDecimal value) {
+            addCriterion("osl <", value, "osl");
+            return (Criteria) this;
+        }
+
+        public Criteria andOslLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("osl <=", value, "osl");
+            return (Criteria) this;
+        }
+
+        public Criteria andOslIn(List<BigDecimal> values) {
+            addCriterion("osl in", values, "osl");
+            return (Criteria) this;
+        }
+
+        public Criteria andOslNotIn(List<BigDecimal> values) {
+            addCriterion("osl not in", values, "osl");
+            return (Criteria) this;
+        }
+
+        public Criteria andOslBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("osl between", value1, value2, "osl");
+            return (Criteria) this;
+        }
+
+        public Criteria andOslNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("osl not between", value1, value2, "osl");
+            return (Criteria) this;
+        }
+
+        public Criteria andIshIsNull() {
+            addCriterion("ish is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIshIsNotNull() {
+            addCriterion("ish is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIshEqualTo(BigDecimal value) {
+            addCriterion("ish =", value, "ish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIshNotEqualTo(BigDecimal value) {
+            addCriterion("ish <>", value, "ish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIshGreaterThan(BigDecimal value) {
+            addCriterion("ish >", value, "ish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIshGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("ish >=", value, "ish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIshLessThan(BigDecimal value) {
+            addCriterion("ish <", value, "ish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIshLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("ish <=", value, "ish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIshIn(List<BigDecimal> values) {
+            addCriterion("ish in", values, "ish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIshNotIn(List<BigDecimal> values) {
+            addCriterion("ish not in", values, "ish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIshBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("ish between", value1, value2, "ish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIshNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("ish not between", value1, value2, "ish");
+            return (Criteria) this;
+        }
+
+        public Criteria andIslIsNull() {
+            addCriterion("isl is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIslIsNotNull() {
+            addCriterion("isl is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIslEqualTo(BigDecimal value) {
+            addCriterion("isl =", value, "isl");
+            return (Criteria) this;
+        }
+
+        public Criteria andIslNotEqualTo(BigDecimal value) {
+            addCriterion("isl <>", value, "isl");
+            return (Criteria) this;
+        }
+
+        public Criteria andIslGreaterThan(BigDecimal value) {
+            addCriterion("isl >", value, "isl");
+            return (Criteria) this;
+        }
+
+        public Criteria andIslGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("isl >=", value, "isl");
+            return (Criteria) this;
+        }
+
+        public Criteria andIslLessThan(BigDecimal value) {
+            addCriterion("isl <", value, "isl");
+            return (Criteria) this;
+        }
+
+        public Criteria andIslLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("isl <=", value, "isl");
+            return (Criteria) this;
+        }
+
+        public Criteria andIslIn(List<BigDecimal> values) {
+            addCriterion("isl in", values, "isl");
+            return (Criteria) this;
+        }
+
+        public Criteria andIslNotIn(List<BigDecimal> values) {
+            addCriterion("isl not in", values, "isl");
+            return (Criteria) this;
+        }
+
+        public Criteria andIslBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("isl between", value1, value2, "isl");
+            return (Criteria) this;
+        }
+
+        public Criteria andIslNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("isl not between", value1, value2, "isl");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateUserIdIsNull() {
             addCriterion("create_user_id is null");
             return (Criteria) this;
@@ -1376,246 +1616,6 @@ public class EamSensorExample implements Serializable {
 
         public Criteria andOrganizationIdNotBetween(Integer value1, Integer value2) {
             addCriterion("organization_id not between", value1, value2, "organizationId");
-            return (Criteria) this;
-        }
-
-        public Criteria andOshIsNull() {
-            addCriterion("osh is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOshIsNotNull() {
-            addCriterion("osh is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOshEqualTo(BigDecimal value) {
-            addCriterion("osh =", value, "osh");
-            return (Criteria) this;
-        }
-
-        public Criteria andOshNotEqualTo(BigDecimal value) {
-            addCriterion("osh <>", value, "osh");
-            return (Criteria) this;
-        }
-
-        public Criteria andOshGreaterThan(BigDecimal value) {
-            addCriterion("osh >", value, "osh");
-            return (Criteria) this;
-        }
-
-        public Criteria andOshGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("osh >=", value, "osh");
-            return (Criteria) this;
-        }
-
-        public Criteria andOshLessThan(BigDecimal value) {
-            addCriterion("osh <", value, "osh");
-            return (Criteria) this;
-        }
-
-        public Criteria andOshLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("osh <=", value, "osh");
-            return (Criteria) this;
-        }
-
-        public Criteria andOshIn(List<BigDecimal> values) {
-            addCriterion("osh in", values, "osh");
-            return (Criteria) this;
-        }
-
-        public Criteria andOshNotIn(List<BigDecimal> values) {
-            addCriterion("osh not in", values, "osh");
-            return (Criteria) this;
-        }
-
-        public Criteria andOshBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("osh between", value1, value2, "osh");
-            return (Criteria) this;
-        }
-
-        public Criteria andOshNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("osh not between", value1, value2, "osh");
-            return (Criteria) this;
-        }
-
-        public Criteria andOslIsNull() {
-            addCriterion("osl is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOslIsNotNull() {
-            addCriterion("osl is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOslEqualTo(BigDecimal value) {
-            addCriterion("osl =", value, "osl");
-            return (Criteria) this;
-        }
-
-        public Criteria andOslNotEqualTo(BigDecimal value) {
-            addCriterion("osl <>", value, "osl");
-            return (Criteria) this;
-        }
-
-        public Criteria andOslGreaterThan(BigDecimal value) {
-            addCriterion("osl >", value, "osl");
-            return (Criteria) this;
-        }
-
-        public Criteria andOslGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("osl >=", value, "osl");
-            return (Criteria) this;
-        }
-
-        public Criteria andOslLessThan(BigDecimal value) {
-            addCriterion("osl <", value, "osl");
-            return (Criteria) this;
-        }
-
-        public Criteria andOslLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("osl <=", value, "osl");
-            return (Criteria) this;
-        }
-
-        public Criteria andOslIn(List<BigDecimal> values) {
-            addCriterion("osl in", values, "osl");
-            return (Criteria) this;
-        }
-
-        public Criteria andOslNotIn(List<BigDecimal> values) {
-            addCriterion("osl not in", values, "osl");
-            return (Criteria) this;
-        }
-
-        public Criteria andOslBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("osl between", value1, value2, "osl");
-            return (Criteria) this;
-        }
-
-        public Criteria andOslNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("osl not between", value1, value2, "osl");
-            return (Criteria) this;
-        }
-
-        public Criteria andIshIsNull() {
-            addCriterion("ish is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIshIsNotNull() {
-            addCriterion("ish is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIshEqualTo(BigDecimal value) {
-            addCriterion("ish =", value, "ish");
-            return (Criteria) this;
-        }
-
-        public Criteria andIshNotEqualTo(BigDecimal value) {
-            addCriterion("ish <>", value, "ish");
-            return (Criteria) this;
-        }
-
-        public Criteria andIshGreaterThan(BigDecimal value) {
-            addCriterion("ish >", value, "ish");
-            return (Criteria) this;
-        }
-
-        public Criteria andIshGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("ish >=", value, "ish");
-            return (Criteria) this;
-        }
-
-        public Criteria andIshLessThan(BigDecimal value) {
-            addCriterion("ish <", value, "ish");
-            return (Criteria) this;
-        }
-
-        public Criteria andIshLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("ish <=", value, "ish");
-            return (Criteria) this;
-        }
-
-        public Criteria andIshIn(List<BigDecimal> values) {
-            addCriterion("ish in", values, "ish");
-            return (Criteria) this;
-        }
-
-        public Criteria andIshNotIn(List<BigDecimal> values) {
-            addCriterion("ish not in", values, "ish");
-            return (Criteria) this;
-        }
-
-        public Criteria andIshBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("ish between", value1, value2, "ish");
-            return (Criteria) this;
-        }
-
-        public Criteria andIshNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("ish not between", value1, value2, "ish");
-            return (Criteria) this;
-        }
-
-        public Criteria andIslIsNull() {
-            addCriterion("isl is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIslIsNotNull() {
-            addCriterion("isl is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIslEqualTo(BigDecimal value) {
-            addCriterion("isl =", value, "isl");
-            return (Criteria) this;
-        }
-
-        public Criteria andIslNotEqualTo(BigDecimal value) {
-            addCriterion("isl <>", value, "isl");
-            return (Criteria) this;
-        }
-
-        public Criteria andIslGreaterThan(BigDecimal value) {
-            addCriterion("isl >", value, "isl");
-            return (Criteria) this;
-        }
-
-        public Criteria andIslGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("isl >=", value, "isl");
-            return (Criteria) this;
-        }
-
-        public Criteria andIslLessThan(BigDecimal value) {
-            addCriterion("isl <", value, "isl");
-            return (Criteria) this;
-        }
-
-        public Criteria andIslLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("isl <=", value, "isl");
-            return (Criteria) this;
-        }
-
-        public Criteria andIslIn(List<BigDecimal> values) {
-            addCriterion("isl in", values, "isl");
-            return (Criteria) this;
-        }
-
-        public Criteria andIslNotIn(List<BigDecimal> values) {
-            addCriterion("isl not in", values, "isl");
-            return (Criteria) this;
-        }
-
-        public Criteria andIslBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("isl between", value1, value2, "isl");
-            return (Criteria) this;
-        }
-
-        public Criteria andIslNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("isl not between", value1, value2, "isl");
             return (Criteria) this;
         }
 

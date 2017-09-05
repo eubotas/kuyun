@@ -29,4 +29,5 @@ public interface EamEquipmentModelMapper {
     int updateByPrimaryKey(EamEquipmentModel record);
 
     void batchInsert(@Param("items") List<EamEquipmentModel> items);
+
 }

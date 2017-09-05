@@ -26,6 +26,18 @@
 					</div>
 				</div>
 			</div>
+			<div class="col-sm-12">
+				<div class="form-group">
+					<div class="fg-line">
+						<select id="protocolId" name="protocolId" style="width: 100%">
+							<option value=""></option>
+							<c:forEach var="protocol" items="${protocols}">
+								<option value="${protocol.protocolId}" ${equipmentModel.protocolId == protocol.protocolId ? 'selected' : ''}>${protocol.name}</option>
+							</c:forEach>
+						</select>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<div class="form-group text-right dialog-buttons">

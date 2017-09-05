@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kuyun.eam.dao.mapper.EamEquipmentModelMapper">
-  <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamEquipmentModel">
-    <id column="equipment_model_id" jdbcType="INTEGER" property="equipmentModelId" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="number" jdbcType="VARCHAR" property="number" />
-    <result column="protocol_id" jdbcType="INTEGER" property="protocolId" />
+<mapper namespace="com.kuyun.eam.dao.mapper.EamAlarmDataMapper">
+  <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamAlarmData">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="alarm_id" jdbcType="INTEGER" property="alarmId" />
+    <result column="sensor_data_id" jdbcType="INTEGER" property="sensorDataId" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
@@ -72,16 +71,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    equipment_model_id, name, number, protocol_id, create_user_id, create_time, update_user_id, 
-    update_time, delete_flag, organization_id
+    id, alarm_id, sensor_data_id, create_user_id, create_time, update_user_id, update_time, 
+    delete_flag, organization_id
   </sql>
-  <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentModelExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamAlarmDataExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from eam_equipment_model
+    from eam_alarm_data
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -100,43 +99,40 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from eam_equipment_model
-    where equipment_model_id = #{equipmentModelId,jdbcType=INTEGER}
+    from eam_alarm_data
+    where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    update eam_equipment_model set delete_flag = 1 
-    where equipment_model_id = #{equipmentModelId,jdbcType=INTEGER}
+    update eam_alarm_data set delete_flag = 1 
+    where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentModelExample">
-    update eam_equipment_model set delete_flag = 1 
+  <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamAlarmDataExample">
+    update eam_alarm_data set delete_flag = 1 
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamEquipmentModel">
-    insert into eam_equipment_model (equipment_model_id, name, number, 
-      protocol_id, create_user_id, create_time, 
-      update_user_id, update_time, delete_flag, 
-      organization_id)
-    values (#{equipmentModelId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, 
-      #{protocolId,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
-      #{organizationId,jdbcType=INTEGER})
+  <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamAlarmData">
+    insert into eam_alarm_data (id, alarm_id, sensor_data_id, 
+      create_user_id, create_time, update_user_id, 
+      update_time, delete_flag, organization_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{alarmId,jdbcType=INTEGER}, #{sensorDataId,jdbcType=INTEGER}, 
+      #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{organizationId,jdbcType=INTEGER}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamEquipmentModel">
-    insert into eam_equipment_model
+  <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamAlarmData">
+    insert into eam_alarm_data
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="equipmentModelId != null">
-        equipment_model_id,
+      <if test="id != null">
+        id,
       </if>
-      <if test="name != null">
-        name,
+      <if test="alarmId != null">
+        alarm_id,
       </if>
-      <if test="number != null">
-        number,
-      </if>
-      <if test="protocolId != null">
-        protocol_id,
+      <if test="sensorDataId != null">
+        sensor_data_id,
       </if>
       <if test="createUserId != null">
         create_user_id,
@@ -158,17 +154,14 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="equipmentModelId != null">
-        #{equipmentModelId,jdbcType=INTEGER},
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="alarmId != null">
+        #{alarmId,jdbcType=INTEGER},
       </if>
-      <if test="number != null">
-        #{number,jdbcType=VARCHAR},
-      </if>
-      <if test="protocolId != null">
-        #{protocolId,jdbcType=INTEGER},
+      <if test="sensorDataId != null">
+        #{sensorDataId,jdbcType=INTEGER},
       </if>
       <if test="createUserId != null">
         #{createUserId,jdbcType=INTEGER},
@@ -190,26 +183,23 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentModelExample" resultType="java.lang.Long">
-    select count(*) from eam_equipment_model
+  <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamAlarmDataExample" resultType="java.lang.Long">
+    select count(*) from eam_alarm_data
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update eam_equipment_model
+    update eam_alarm_data
     <set>
-      <if test="record.equipmentModelId != null">
-        equipment_model_id = #{record.equipmentModelId,jdbcType=INTEGER},
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="record.alarmId != null">
+        alarm_id = #{record.alarmId,jdbcType=INTEGER},
       </if>
-      <if test="record.number != null">
-        number = #{record.number,jdbcType=VARCHAR},
-      </if>
-      <if test="record.protocolId != null">
-        protocol_id = #{record.protocolId,jdbcType=INTEGER},
+      <if test="record.sensorDataId != null">
+        sensor_data_id = #{record.sensorDataId,jdbcType=INTEGER},
       </if>
       <if test="record.createUserId != null">
         create_user_id = #{record.createUserId,jdbcType=INTEGER},
@@ -235,11 +225,10 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update eam_equipment_model
-    set equipment_model_id = #{record.equipmentModelId,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
-      number = #{record.number,jdbcType=VARCHAR},
-      protocol_id = #{record.protocolId,jdbcType=INTEGER},
+    update eam_alarm_data
+    set id = #{record.id,jdbcType=INTEGER},
+      alarm_id = #{record.alarmId,jdbcType=INTEGER},
+      sensor_data_id = #{record.sensorDataId,jdbcType=INTEGER},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
@@ -250,17 +239,14 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.kuyun.eam.dao.model.EamEquipmentModel">
-    update eam_equipment_model
+  <update id="updateByPrimaryKeySelective" parameterType="com.kuyun.eam.dao.model.EamAlarmData">
+    update eam_alarm_data
     <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+      <if test="alarmId != null">
+        alarm_id = #{alarmId,jdbcType=INTEGER},
       </if>
-      <if test="number != null">
-        number = #{number,jdbcType=VARCHAR},
-      </if>
-      <if test="protocolId != null">
-        protocol_id = #{protocolId,jdbcType=INTEGER},
+      <if test="sensorDataId != null">
+        sensor_data_id = #{sensorDataId,jdbcType=INTEGER},
       </if>
       <if test="createUserId != null">
         create_user_id = #{createUserId,jdbcType=INTEGER},
@@ -281,36 +267,34 @@
         organization_id = #{organizationId,jdbcType=INTEGER},
       </if>
     </set>
-    where equipment_model_id = #{equipmentModelId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamEquipmentModel">
-    update eam_equipment_model
-    set name = #{name,jdbcType=VARCHAR},
-      number = #{number,jdbcType=VARCHAR},
-      protocol_id = #{protocolId,jdbcType=INTEGER},
+  <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamAlarmData">
+    update eam_alarm_data
+    set alarm_id = #{alarmId,jdbcType=INTEGER},
+      sensor_data_id = #{sensorDataId,jdbcType=INTEGER},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
       organization_id = #{organizationId,jdbcType=INTEGER}
-    where equipment_model_id = #{equipmentModelId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into eam_equipment_model  (equipment_model_id, name, number, 
-        protocol_id, create_user_id, create_time, 
-        update_user_id, update_time, delete_flag, 
-        organization_id)
+            insert into eam_alarm_data  (id, alarm_id, sensor_data_id, 
+        create_user_id, create_time, update_user_id, 
+        update_time, delete_flag, organization_id
+        )
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.equipmentModelId,jdbcType=INTEGER}, #{item.name,jdbcType=VARCHAR}, #{item.number,jdbcType=VARCHAR}, 
-        #{item.protocolId,jdbcType=INTEGER}, #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, 
-        #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, 
-        #{item.organizationId,jdbcType=INTEGER})
+      (#{item.id,jdbcType=INTEGER}, #{item.alarmId,jdbcType=INTEGER}, #{item.sensorDataId,jdbcType=INTEGER}, 
+        #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, 
+        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, #{item.organizationId,jdbcType=INTEGER}
+        )
       </foreach>
     </if>
   </insert>
-
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>

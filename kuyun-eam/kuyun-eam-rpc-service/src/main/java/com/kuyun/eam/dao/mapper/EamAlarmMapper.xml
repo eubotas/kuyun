@@ -6,6 +6,9 @@
     <result column="equipment_id" jdbcType="VARCHAR" property="equipmentId" />
     <result column="sensor_id" jdbcType="INTEGER" property="sensorId" />
     <result column="alarm_type" jdbcType="VARCHAR" property="alarmType" />
+    <result column="upper_Bound" jdbcType="DECIMAL" property="upperBound" />
+    <result column="lower_Bound" jdbcType="DECIMAL" property="lowerBound" />
+    <result column="duration" jdbcType="DECIMAL" property="duration" />
     <result column="alarm_target" jdbcType="VARCHAR" property="alarmTarget" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -73,8 +76,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    alarm_id, equipment_id, sensor_id, alarm_type, alarm_target, create_user_id, create_time, 
-    update_user_id, update_time, delete_flag, organization_id
+    alarm_id, equipment_id, sensor_id, alarm_type, upper_Bound, lower_Bound, duration, 
+    alarm_target, create_user_id, create_time, update_user_id, update_time, delete_flag, 
+    organization_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamAlarmExample" resultMap="BaseResultMap">
     select
@@ -116,11 +120,13 @@
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamAlarm">
     insert into eam_alarm (alarm_id, equipment_id, sensor_id, 
-      alarm_type, alarm_target, create_user_id, 
+      alarm_type, upper_Bound, lower_Bound, 
+      duration, alarm_target, create_user_id, 
       create_time, update_user_id, update_time, 
       delete_flag, organization_id)
     values (#{alarmId,jdbcType=INTEGER}, #{equipmentId,jdbcType=VARCHAR}, #{sensorId,jdbcType=INTEGER}, 
-      #{alarmType,jdbcType=VARCHAR}, #{alarmTarget,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, 
+      #{alarmType,jdbcType=VARCHAR}, #{upperBound,jdbcType=DECIMAL}, #{lowerBound,jdbcType=DECIMAL}, 
+      #{duration,jdbcType=DECIMAL}, #{alarmTarget,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{deleteFlag,jdbcType=BIT}, #{organizationId,jdbcType=INTEGER})
   </insert>
@@ -138,6 +144,15 @@
       </if>
       <if test="alarmType != null">
         alarm_type,
+      </if>
+      <if test="upperBound != null">
+        upper_Bound,
+      </if>
+      <if test="lowerBound != null">
+        lower_Bound,
+      </if>
+      <if test="duration != null">
+        duration,
       </if>
       <if test="alarmTarget != null">
         alarm_target,
@@ -173,6 +188,15 @@
       </if>
       <if test="alarmType != null">
         #{alarmType,jdbcType=VARCHAR},
+      </if>
+      <if test="upperBound != null">
+        #{upperBound,jdbcType=DECIMAL},
+      </if>
+      <if test="lowerBound != null">
+        #{lowerBound,jdbcType=DECIMAL},
+      </if>
+      <if test="duration != null">
+        #{duration,jdbcType=DECIMAL},
       </if>
       <if test="alarmTarget != null">
         #{alarmTarget,jdbcType=VARCHAR},
@@ -218,6 +242,15 @@
       <if test="record.alarmType != null">
         alarm_type = #{record.alarmType,jdbcType=VARCHAR},
       </if>
+      <if test="record.upperBound != null">
+        upper_Bound = #{record.upperBound,jdbcType=DECIMAL},
+      </if>
+      <if test="record.lowerBound != null">
+        lower_Bound = #{record.lowerBound,jdbcType=DECIMAL},
+      </if>
+      <if test="record.duration != null">
+        duration = #{record.duration,jdbcType=DECIMAL},
+      </if>
       <if test="record.alarmTarget != null">
         alarm_target = #{record.alarmTarget,jdbcType=VARCHAR},
       </if>
@@ -250,6 +283,9 @@
       equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
       sensor_id = #{record.sensorId,jdbcType=INTEGER},
       alarm_type = #{record.alarmType,jdbcType=VARCHAR},
+      upper_Bound = #{record.upperBound,jdbcType=DECIMAL},
+      lower_Bound = #{record.lowerBound,jdbcType=DECIMAL},
+      duration = #{record.duration,jdbcType=DECIMAL},
       alarm_target = #{record.alarmTarget,jdbcType=VARCHAR},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -272,6 +308,15 @@
       </if>
       <if test="alarmType != null">
         alarm_type = #{alarmType,jdbcType=VARCHAR},
+      </if>
+      <if test="upperBound != null">
+        upper_Bound = #{upperBound,jdbcType=DECIMAL},
+      </if>
+      <if test="lowerBound != null">
+        lower_Bound = #{lowerBound,jdbcType=DECIMAL},
+      </if>
+      <if test="duration != null">
+        duration = #{duration,jdbcType=DECIMAL},
       </if>
       <if test="alarmTarget != null">
         alarm_target = #{alarmTarget,jdbcType=VARCHAR},
@@ -302,6 +347,9 @@
     set equipment_id = #{equipmentId,jdbcType=VARCHAR},
       sensor_id = #{sensorId,jdbcType=INTEGER},
       alarm_type = #{alarmType,jdbcType=VARCHAR},
+      upper_Bound = #{upperBound,jdbcType=DECIMAL},
+      lower_Bound = #{lowerBound,jdbcType=DECIMAL},
+      duration = #{duration,jdbcType=DECIMAL},
       alarm_target = #{alarmTarget,jdbcType=VARCHAR},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -314,13 +362,15 @@
   <insert id="batchInsert">
     <if test="items.get(0) != null">
             insert into eam_alarm  (alarm_id, equipment_id, sensor_id, 
-        alarm_type, alarm_target, create_user_id, 
+        alarm_type, upper_Bound, lower_Bound, 
+        duration, alarm_target, create_user_id, 
         create_time, update_user_id, update_time, 
         delete_flag, organization_id)
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.alarmId,jdbcType=INTEGER}, #{item.equipmentId,jdbcType=VARCHAR}, #{item.sensorId,jdbcType=INTEGER}, 
-        #{item.alarmType,jdbcType=VARCHAR}, #{item.alarmTarget,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER}, 
+        #{item.alarmType,jdbcType=VARCHAR}, #{item.upperBound,jdbcType=DECIMAL}, #{item.lowerBound,jdbcType=DECIMAL}, 
+        #{item.duration,jdbcType=DECIMAL}, #{item.alarmTarget,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER}, 
         #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
         #{item.deleteFlag,jdbcType=BIT}, #{item.organizationId,jdbcType=INTEGER})
       </foreach>

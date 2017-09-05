@@ -61,9 +61,6 @@ public class EamEquipmentController extends BaseController {
 	private BaseEntityUtil baseEntityUtil;
 
 	@Autowired
-	private EamSensorService eamSensorService;
-
-	@Autowired
 	private EamProtocolService protocolService;
 
 	@Autowired
@@ -113,8 +110,17 @@ public class EamEquipmentController extends BaseController {
 	@RequiresPermissions("eam:equipment:create")
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public String create( ModelMap modelMap) {
+		EamEquipmentModelExample example = new EamEquipmentModelExample();
+		EamEquipmentModelExample.Criteria criteria = example.createCriteria();
+		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
 
-		List<EamEquipmentModel> equipmentModels = eamEquipmentModelService.selectByExample(new EamEquipmentModelExample());
+		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
+
+		if (organization != null){
+			criteria.andOrganizationIdEqualTo(organization.getOrganizationId());
+		}
+
+		List<EamEquipmentModel> equipmentModels = eamEquipmentModelService.selectByExample(example);
 		modelMap.put("equipmentModels", equipmentModels);
 
 		return "/manage/equipment/create.jsp";
@@ -214,8 +220,11 @@ public class EamEquipmentController extends BaseController {
 	@RequestMapping(value = "/connect/{id}", method = RequestMethod.GET)
 	public String connect(@PathVariable("id") String id, ModelMap modelMap) {
 		EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(id);
+		EamEquipmentModel equipmentModel = equipment.getEamEquipmentModel();
+		EamProtocol protocol = protocolService.selectByPrimaryKey(equipmentModel.getProtocolId());
 		modelMap.put("equipment", equipment);
-		modelMap.put("protocols", protocolService.selectByExample(new EamProtocolExample()));
+		modelMap.put("equipmentModel", equipmentModel);
+		modelMap.put("protocol", protocol);
 		return "/manage/equipment/connect.jsp";
 	}
 
@@ -224,65 +233,58 @@ public class EamEquipmentController extends BaseController {
 	@RequestMapping(value = "/connect/{id}", method = RequestMethod.POST)
 	@ResponseBody
 	public Object connect(@PathVariable("id") String id, EamEquipment equipment) {
-
 		equipment.setEquipmentId(id);
 		int count = eamEquipmentService.updateByPrimaryKeySelective(equipment);
 		return new EamResult(SUCCESS, count);
 	}
 
-	private void buildModelMap(@PathVariable("eId") String eId, @PathVariable("pId") int pId, ModelMap modelMap) {
-		EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(eId);
-		EamEquipmentModelProperties eamEquipmentModelProperties = eamEquipmentModelPropertiesService.selectByPrimaryKey(pId);
-		//EamSensor sensor = getSensor(equipment, eamEquipmentModelProperties);
+//	private void buildModelMap(@PathVariable("eId") String eId, @PathVariable("pId") int pId, ModelMap modelMap) {
+//		EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(eId);
+//		EamEquipmentModelProperties eamEquipmentModelProperties = eamEquipmentModelPropertiesService.selectByPrimaryKey(pId);
+//		//EamSensor sensor = getSensor(equipment, eamEquipmentModelProperties);
+//
+//		modelMap.put("equipment", equipment);
+//		modelMap.put("equipmentModelProperties", eamEquipmentModelProperties);
+////		if (sensor != null){
+////			modelMap.put("sensor", sensor);
+////		}
+//	}
 
-		modelMap.put("equipment", equipment);
-		modelMap.put("equipmentModelProperties", eamEquipmentModelProperties);
-//		if (sensor != null){
-//			modelMap.put("sensor", sensor);
-//		}
-	}
+//	@RequiresPermissions("eam:equipment:update")
+//	@RequestMapping(value = "/grm/{eId}/{pId}", method = RequestMethod.GET)
+//	public Object grm(@PathVariable("eId") String eId, @PathVariable("pId") int pId, ModelMap modelMap) {
+//		buildModelMap(eId, pId, modelMap);
+//		modelMap.put("grmActions", Action.values());
+//		modelMap.put("modbusFunctionCodes", ModbusFunctionCode.values());
+//		modelMap.put("dataFormats", DataFormat.values());
+//		modelMap.put("bitOrders", BitOrder.values());
+//		return modelMap;
+//	}
+//
+//
+//
+//    @ApiOperation(value = "巨控传感器参数")
+//    @RequiresPermissions("eam:equipment:update")
+//    @RequestMapping(value = "/sensor/grm/{eId}/{pId}", method = RequestMethod.GET)
+//    @ResponseBody
+//    public Object sensorGrm(@PathVariable("eId") String eId, @PathVariable("pId") int pId) {
+//        Map<String, Object> result = buildHashMap(eId, pId);
+//
+//        result.put("grmActions", Action.values());
+//        return result;
+//    }
 
-	@RequiresPermissions("eam:equipment:update")
-	@RequestMapping(value = "/grm/{eId}/{pId}", method = RequestMethod.GET)
-	public Object grm(@PathVariable("eId") String eId, @PathVariable("pId") int pId, ModelMap modelMap) {
-		buildModelMap(eId, pId, modelMap);
-		modelMap.put("grmActions", Action.values());
-		modelMap.put("modbusFunctionCodes", ModbusFunctionCode.values());
-		modelMap.put("dataFormats", DataFormat.values());
-		modelMap.put("bitOrders", BitOrder.values());
-		return modelMap;
-	}
-
-	@RequiresPermissions("eam:equipment:update")
-	@RequestMapping(value = "/data/change/{eId}/{pId}", method = RequestMethod.GET)
-	public String dataChange(@PathVariable("eId") String eId, @PathVariable("pId") int pId, ModelMap modelMap) {
-		buildModelMap(eId, pId, modelMap);
-
-		return "/manage/equipment/datachange.jsp";
-	}
-
-    @ApiOperation(value = "巨控传感器参数")
-    @RequiresPermissions("eam:equipment:update")
-    @RequestMapping(value = "/sensor/grm/{eId}/{pId}", method = RequestMethod.GET)
-    @ResponseBody
-    public Object sensorGrm(@PathVariable("eId") String eId, @PathVariable("pId") int pId) {
-        Map<String, Object> result = buildHashMap(eId, pId);
-
-        result.put("grmActions", Action.values());
-        return result;
-    }
-
-    private Map<String, Object> buildHashMap(@PathVariable("eId") String eId, @PathVariable("pId") int pId) {
-        EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(eId);
-        EamEquipmentModelProperties eamEquipmentModelProperties = eamEquipmentModelPropertiesService.selectByPrimaryKey(pId);
-//        EamSensor sensor = getSensor(equipment, eamEquipmentModelProperties);
-
-        Map<String, Object> result = new HashMap<>();
-        result.put("equipment", equipment);
-        result.put("equipmentModelProperties", eamEquipmentModelProperties);
-//        result.put("sensor", sensor);
-        return result;
-    }
+//    private Map<String, Object> buildHashMap(@PathVariable("eId") String eId, @PathVariable("pId") int pId) {
+//        EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(eId);
+//        EamEquipmentModelProperties eamEquipmentModelProperties = eamEquipmentModelPropertiesService.selectByPrimaryKey(pId);
+////        EamSensor sensor = getSensor(equipment, eamEquipmentModelProperties);
+//
+//        Map<String, Object> result = new HashMap<>();
+//        result.put("equipment", equipment);
+//        result.put("equipmentModelProperties", eamEquipmentModelProperties);
+////        result.put("sensor", sensor);
+//        return result;
+//    }
 
 
 //    public EamSensor getSensor(EamEquipment equipment, EamEquipmentModelProperties eamEquipmentModelProperties){

@@ -22,7 +22,6 @@
 		<shiro:hasPermission name="eam:equipmentModel:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑设备模型</a></shiro:hasPermission>
 		<shiro:hasPermission name="eam:equipmentModel:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()"><i class="zmdi zmdi-close"></i> 删除设备模型</a></shiro:hasPermission>
 		<shiro:hasPermission name="eam:equipmentModelProperty:read"><a class="waves-effect waves-button" href="javascript:;" onclick="viewModelPropertyAction()"><i class="zmdi zmdi-plus"></i> 设备模型参数</a></shiro:hasPermission>
-		<shiro:hasPermission name="eam:equipmentModelProperty:read"><a class="waves-effect waves-button" href="javascript:;" onclick="connectAction()"><i class="zmdi zmdi-plus"></i> 设置连接</a></shiro:hasPermission>
 	</div>
 	<table id="table"></table>
 </div>
@@ -64,6 +63,7 @@ $(function() {
 		]
 	});
 });
+
 // 格式化操作按钮
 function actionFormatter(value, row, index) {
     return [
@@ -74,8 +74,9 @@ function actionFormatter(value, row, index) {
 
 // 格式化时间
 function timeFormatter(value , row, index) {
-	return new Date(value).toLocaleString();
+    return new Date(value).toLocaleString();
 }
+
 // 新增
 var createDialog;
 function createAction() {
@@ -139,29 +140,6 @@ function viewModelPropertyAction() {
     } else {
 
         window.location = "${basePath}/manage/equipment/model/property/index/" + rows[0].equipmentModelId;
-    }
-}
-
-
-
-function connectAction() {
-    var rows = $table.bootstrapTable('getSelections');
-    if (rows.length != 1) {
-        $.confirm({
-            title: false,
-            content: '请选择一条记录！',
-            autoClose: 'cancel|3000',
-            backgroundDismiss: true,
-            buttons: {
-                cancel: {
-                    text: '取消',
-                    btnClass: 'waves-effect waves-button'
-                }
-            }
-        });
-    } else {
-
-        window.location = "${basePath}/manage/equipment/model/connect/" + rows[0].equipmentModelId;
     }
 }
 
