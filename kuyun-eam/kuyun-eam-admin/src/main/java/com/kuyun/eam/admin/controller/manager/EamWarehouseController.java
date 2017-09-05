@@ -68,13 +68,16 @@ public class EamWarehouseController extends BaseController {
 		EamWarehouseExample warehousesExample = new EamWarehouseExample();
 		warehousesExample.setOffset(offset);
 		warehousesExample.setLimit(limit);
+		EamWarehouseExample.Criteria criteria = warehousesExample.createCriteria();
+		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			warehousesExample.setOrderByClause(sort + " " + order);
 		}
 		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
 		if (organization != null){
-			warehousesExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId());
+			criteria.andOrganizationIdEqualTo(organization.getOrganizationId());
 		}
 		List<EamWarehouse> rows = eamWarehouseService.selectByExample(warehousesExample);
 		long total = eamWarehouseService.countByExample(warehousesExample);

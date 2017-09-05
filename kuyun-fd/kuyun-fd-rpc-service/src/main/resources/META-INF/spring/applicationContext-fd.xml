@@ -15,8 +15,13 @@
 		<property name="location" value="${file.uploader.storage}" />
 	</bean>
 
-	<bean id="snowflakeIdWorker" class="com.kuyun.common.util.key.SnowflakeIdWorker">
-		<constructor-arg name="workerId" value="0" />
-		<constructor-arg name="datacenterId" value="0" />
+	<bean id="fileUploadServerInfo" class="com.kuyun.fileuploder.common.FileUploadServerInfo">
+		<property name="serverBaseUri" value="${fd.server.baseUri}" />
+		<property name="fileuploadBase" value="${fd.server.fd.base}" />
+		<property name="upload" value="${fd.server.uploadfile}" />
+		<property name="uploadDone" value="${fd.server.uploadDone}" />
+		<property name="delete" value="${fd.server.delete}" />
+		<property name="list" value="${fd.server.list}" />
+		<property name="show" value="${fd.server.show}" />
 	</bean>
 </beans>

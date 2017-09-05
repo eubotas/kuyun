@@ -62,7 +62,10 @@ public class EamSensorController extends BaseController {
 		Object result = validateSensor(sensor);
 		if (result != null) return result;
 
+		return createOrUpate(sensor);
+	}
 
+	private Object createOrUpate(EamSensor sensor) {
 		baseEntityUtil.addAddtionalValue(sensor);
 
 		updateSensor(sensor);
@@ -76,6 +79,14 @@ public class EamSensorController extends BaseController {
 			_log.info("Create Sensor");
 		}
 		return new EamResult(SUCCESS, count);
+	}
+
+	@ApiOperation(value = "更新设备传感器")
+	@RequiresPermissions("eam:equipment:update")
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	@ResponseBody
+	public Object update(EamSensor sensor) {
+		return createOrUpate(sensor);
 	}
 
 	private Object validateSensor(EamSensor sensor) {

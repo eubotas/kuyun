@@ -27,4 +27,6 @@ public interface EamPartsCategoryMapper {
     int updateByPrimaryKeySelective(EamPartsCategory record);
 
     int updateByPrimaryKey(EamPartsCategory record);
+
+    void batchInsert(@Param("items") List<EamPartsCategory> items);
 }

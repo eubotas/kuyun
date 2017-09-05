@@ -17,12 +17,14 @@
         <property name="unauthorizedUrl" value="${upms.unauthorizedUrl}"/>
         <property name="filters">
             <util:map>
-                <entry key="authc" value-ref="upmsAuthenticationFilter"/>
+                <!--<entry key="authc" value-ref="upmsAuthenticationFilter"/>-->
+                <entry key="authc" value-ref="jWTOrFormAuthenticationFilter"/>
             </util:map>
         </property>
         <property name="filterChainDefinitions">
             <value>
                 /manage/** = upmsSessionForceLogout,authc
+                <!--/manage/** = authc-->
                 /manage/index = user
                 /druid/** = user
                 /swagger-ui.html = anon
@@ -33,22 +35,51 @@
     </bean>
 
     <!-- 重写authc过滤器 -->
-    <bean id="upmsAuthenticationFilter" class="com.kuyun.upms.client.shiro.filter.UpmsAuthenticationFilter"/>
+    <!--<bean id="upmsAuthenticationFilter" class="com.kuyun.upms.client.shiro.filter.UpmsAuthenticationFilter"/>-->
+    <bean id="jWTOrFormAuthenticationFilter" class="com.kuyun.upms.client.shiro.filter.JWTOrFormAuthenticationFilter"/>
+
 
     <!-- 强制退出会话过滤器 -->
     <bean id="upmsSessionForceLogout" class="com.kuyun.upms.client.shiro.filter.UpmsSessionForceLogoutFilter"/>
 
+    <!--<bean id="subjectFactory" class="com.kuyun.upms.client.StatelessDefaultSubjectFactory"/>-->
+
     <!-- 安全管理器 -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realms">
-            <list><ref bean="upmsRealm"/></list>
+            <list>
+                <ref bean="upmsRealm"/>
+                <ref bean="jWTRealm"/>
+            </list>
         </property>
         <property name="sessionManager" ref="sessionManager"/>
         <property name="rememberMeManager" ref="rememberMeManager"/>
+        <property name="authenticator" ref="authenticator" />
+        <!--<property name="subjectFactory" ref="subjectFactory"/>-->
+        <!--<property name="subjectDAO.sessionStorageEvaluator.sessionStorageEnabled" value="false"/>-->
     </bean>
 
+    <bean id="passwordMatcher" class="org.apache.shiro.authc.credential.PasswordMatcher"/>
+    <bean id="tokenMatcher" class="org.apache.shiro.authc.credential.SimpleCredentialsMatcher"/>
+
     <!-- realm实现，继承自AuthorizingRealm -->
-    <bean id="upmsRealm" class="com.kuyun.upms.client.shiro.realm.UpmsRealm"></bean>
+    <bean id="upmsRealm" class="com.kuyun.upms.client.shiro.realm.UpmsRealm">
+        <!--<property name="credentialsMatcher" ref="passwordMatcher"/>-->
+    </bean>
+    <bean id="jWTRealm" class="com.kuyun.upms.client.shiro.realm.JWTRealm">
+        <property name="credentialsMatcher" ref="tokenMatcher"/>
+    </bean>
+
+    <bean id="authenticator" class="com.kuyun.upms.client.ModularRealmAuthenticatorExt">
+        <property name="realms">
+            <list>
+                <ref bean="upmsRealm"/>
+                <ref bean="jWTRealm"/>
+            </list>
+        </property>
+    </bean>
+
+
 
     <!-- 会话管理器 -->
     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
@@ -65,6 +96,9 @@
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
+    <!--<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">-->
+        <!--<property name="sessionValidationSchedulerEnabled" value="false"/>-->
+    <!--</bean>-->
     <!-- 会话DAO，可重写，持久化session -->
     <bean id="sessionDAO" class="com.kuyun.upms.client.shiro.session.UpmsSessionDao"/>
 

@@ -27,4 +27,6 @@ public interface EamAlarmTypeValueMapper {
     int updateByPrimaryKeySelective(EamAlarmTypeValue record);
 
     int updateByPrimaryKey(EamAlarmTypeValue record);
+
+    void batchInsert(@Param("items") List<EamAlarmTypeValue> items);
 }

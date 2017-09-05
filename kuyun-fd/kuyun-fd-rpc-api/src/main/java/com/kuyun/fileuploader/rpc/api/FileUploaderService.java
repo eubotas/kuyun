@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.kuyun.fileuploader.dao.model.FdFiles;
 import com.kuyun.fileuploader.dao.model.FdOssFiles;
+import com.kuyun.fileuploder.common.FileUploadServerInfo;
 
 public interface FileUploaderService {
 	
@@ -26,5 +27,7 @@ public interface FileUploaderService {
 	FdOssFiles getOssInfo(int id);
 	
 	boolean updateOSSInfo(FdFiles file, FdOssFiles ossFile);
+	
+	FileUploadServerInfo getServerInfo();
 	
 }

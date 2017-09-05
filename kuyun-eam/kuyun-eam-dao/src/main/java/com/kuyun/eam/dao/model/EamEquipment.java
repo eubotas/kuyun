@@ -29,6 +29,46 @@ public class EamEquipment extends BaseEntity implements Serializable {
     private String user;
 
     /**
+     * Modbus RTU
+     *
+     * @mbg.generated
+     */
+    private String heartData;
+
+    private EamEquipmentModel eamEquipmentModel;
+
+    private static final long serialVersionUID = 1L;
+
+    public EamEquipmentModel getEamEquipmentModel() {
+        return eamEquipmentModel;
+    }
+
+    public void setEamEquipmentModel(EamEquipmentModel eamEquipmentModel) {
+        this.eamEquipmentModel = eamEquipmentModel;
+    }
+
+    /**
+     * 巨控设备ID
+     *
+     * @mbg.generated
+     */
+    private String grm;
+
+    /**
+     * 巨控设备密码
+     *
+     * @mbg.generated
+     */
+    private String grmPassword;
+
+    /**
+     * 巨控采集频率单位秒
+     *
+     * @mbg.generated
+     */
+    private Integer grmPeriod;
+
+    /**
      * 采集状态
      *
      * @mbg.generated
@@ -47,16 +87,12 @@ public class EamEquipment extends BaseEntity implements Serializable {
 
     private Boolean isOnline;
 
-    private EamEquipmentModel eamEquipmentModel;
-
-    private static final long serialVersionUID = 1L;
-
-    public EamEquipmentModel getEamEquipmentModel() {
-        return eamEquipmentModel;
+    public String getHeartData() {
+        return heartData;
     }
 
-    public void setEamEquipmentModel(EamEquipmentModel eamEquipmentModel) {
-        this.eamEquipmentModel = eamEquipmentModel;
+    public void setHeartData(String heartData) {
+        this.heartData = heartData;
     }
 
     public String getEquipmentId() {
@@ -147,6 +183,30 @@ public class EamEquipment extends BaseEntity implements Serializable {
         this.user = user;
     }
 
+    public String getGrm() {
+        return grm;
+    }
+
+    public void setGrm(String grm) {
+        this.grm = grm;
+    }
+
+    public String getGrmPassword() {
+        return grmPassword;
+    }
+
+    public void setGrmPassword(String grmPassword) {
+        this.grmPassword = grmPassword;
+    }
+
+    public Integer getGrmPeriod() {
+        return grmPeriod;
+    }
+
+    public void setGrmPeriod(Integer grmPeriod) {
+        this.grmPeriod = grmPeriod;
+    }
+
     public String getCollectStatus() {
         return collectStatus;
     }
@@ -220,6 +280,10 @@ public class EamEquipment extends BaseEntity implements Serializable {
         sb.append(", province=").append(province);
         sb.append(", city=").append(city);
         sb.append(", user=").append(user);
+        sb.append(", heartData=").append(heartData);
+        sb.append(", grm=").append(grm);
+        sb.append(", grmPassword=").append(grmPassword);
+        sb.append(", grmPeriod=").append(grmPeriod);
         sb.append(", collectStatus=").append(collectStatus);
         sb.append(", factoryDate=").append(factoryDate);
         sb.append(", commissioningDate=").append(commissioningDate);
@@ -255,6 +319,10 @@ public class EamEquipment extends BaseEntity implements Serializable {
             && (this.getProvince() == null ? other.getProvince() == null : this.getProvince().equals(other.getProvince()))
             && (this.getCity() == null ? other.getCity() == null : this.getCity().equals(other.getCity()))
             && (this.getUser() == null ? other.getUser() == null : this.getUser().equals(other.getUser()))
+            && (this.getHeartData() == null ? other.getHeartData() == null : this.getHeartData().equals(other.getHeartData()))
+            && (this.getGrm() == null ? other.getGrm() == null : this.getGrm().equals(other.getGrm()))
+            && (this.getGrmPassword() == null ? other.getGrmPassword() == null : this.getGrmPassword().equals(other.getGrmPassword()))
+            && (this.getGrmPeriod() == null ? other.getGrmPeriod() == null : this.getGrmPeriod().equals(other.getGrmPeriod()))
             && (this.getCollectStatus() == null ? other.getCollectStatus() == null : this.getCollectStatus().equals(other.getCollectStatus()))
             && (this.getFactoryDate() == null ? other.getFactoryDate() == null : this.getFactoryDate().equals(other.getFactoryDate()))
             && (this.getCommissioningDate() == null ? other.getCommissioningDate() == null : this.getCommissioningDate().equals(other.getCommissioningDate()))
@@ -285,6 +353,10 @@ public class EamEquipment extends BaseEntity implements Serializable {
         result = prime * result + ((getProvince() == null) ? 0 : getProvince().hashCode());
         result = prime * result + ((getCity() == null) ? 0 : getCity().hashCode());
         result = prime * result + ((getUser() == null) ? 0 : getUser().hashCode());
+        result = prime * result + ((getHeartData() == null) ? 0 : getHeartData().hashCode());
+        result = prime * result + ((getGrm() == null) ? 0 : getGrm().hashCode());
+        result = prime * result + ((getGrmPassword() == null) ? 0 : getGrmPassword().hashCode());
+        result = prime * result + ((getGrmPeriod() == null) ? 0 : getGrmPeriod().hashCode());
         result = prime * result + ((getCollectStatus() == null) ? 0 : getCollectStatus().hashCode());
         result = prime * result + ((getFactoryDate() == null) ? 0 : getFactoryDate().hashCode());
         result = prime * result + ((getCommissioningDate() == null) ? 0 : getCommissioningDate().hashCode());

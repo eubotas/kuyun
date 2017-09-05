@@ -105,11 +105,11 @@
     where alarm_id = #{alarmId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from eam_alarm
+    update eam_alarm set delete_flag = 1 
     where alarm_id = #{alarmId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamAlarmExample">
-    delete from eam_alarm
+    update eam_alarm set delete_flag = 1 
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -311,5 +311,20 @@
       organization_id = #{organizationId,jdbcType=INTEGER}
     where alarm_id = #{alarmId,jdbcType=INTEGER}
   </update>
+  <insert id="batchInsert">
+    <if test="items.get(0) != null">
+            insert into eam_alarm  (alarm_id, equipment_id, sensor_id, 
+        alarm_type, alarm_target, create_user_id, 
+        create_time, update_user_id, update_time, 
+        delete_flag, organization_id)
+      values
+      <foreach collection="items" item="item" index="index" separator=",">
+      (#{item.alarmId,jdbcType=INTEGER}, #{item.equipmentId,jdbcType=VARCHAR}, #{item.sensorId,jdbcType=INTEGER}, 
+        #{item.alarmType,jdbcType=VARCHAR}, #{item.alarmTarget,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER}, 
+        #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
+        #{item.deleteFlag,jdbcType=BIT}, #{item.organizationId,jdbcType=INTEGER})
+      </foreach>
+    </if>
+  </insert>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>

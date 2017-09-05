@@ -27,4 +27,6 @@ public interface EamLocationMapper {
     int updateByPrimaryKeySelective(EamLocation record);
 
     int updateByPrimaryKey(EamLocation record);
+
+    void batchInsert(@Param("items") List<EamLocation> items);
 }

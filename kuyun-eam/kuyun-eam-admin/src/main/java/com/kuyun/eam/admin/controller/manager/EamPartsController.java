@@ -85,12 +85,14 @@ public class EamPartsController extends BaseController {
 			partVO.setOrderByClause(sort + " " + order);
 		}
 		EamPartsExample partExample = new EamPartsExample();
+		EamPartsExample.Criteria criteria = partExample.createCriteria();
+		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
 
 		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
 		if (organization != null){
 			partVO.setOrganizationId(organization.getOrganizationId());
-			partExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId());
+			criteria.andOrganizationIdEqualTo(organization.getOrganizationId());
 		}
 
 		List<EamPartVO> rows = eamApiService.selectPart(partVO);

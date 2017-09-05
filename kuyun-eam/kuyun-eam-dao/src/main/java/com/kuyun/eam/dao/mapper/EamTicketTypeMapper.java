@@ -27,4 +27,6 @@ public interface EamTicketTypeMapper {
     int updateByPrimaryKeySelective(EamTicketType record);
 
     int updateByPrimaryKey(EamTicketType record);
+
+    void batchInsert(@Param("items") List<EamTicketType> items);
 }

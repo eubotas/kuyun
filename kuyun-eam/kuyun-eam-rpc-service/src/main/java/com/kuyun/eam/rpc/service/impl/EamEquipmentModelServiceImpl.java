@@ -37,17 +37,6 @@ public class EamEquipmentModelServiceImpl extends BaseServiceImpl<EamEquipmentMo
     @Autowired
     EamEquipmentModelPropertiesMapper eamEquipmentModelPropertiesMapper;
 
-    @Override
-    public int insert(EamEquipmentModel record) {
-        record.setDeleteFlag(Boolean.FALSE);
-        return super.insert(record);
-    }
-
-    @Override
-    public int insertSelective(EamEquipmentModel record) {
-        record.setDeleteFlag(Boolean.FALSE);
-        return super.insertSelective(record);
-    }
 
     @Override
     public int deleteByPrimaryKeys(String ids) {

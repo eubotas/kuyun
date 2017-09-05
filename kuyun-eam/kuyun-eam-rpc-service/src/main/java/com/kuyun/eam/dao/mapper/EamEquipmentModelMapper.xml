@@ -108,11 +108,11 @@
     where equipment_model_id = #{equipmentModelId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from eam_equipment_model
+    update eam_equipment_model set delete_flag = 1 
     where equipment_model_id = #{equipmentModelId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentModelExample">
-    delete from eam_equipment_model
+    update eam_equipment_model set delete_flag = 1 
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -359,12 +359,26 @@
     where equipment_model_id = #{equipmentModelId,jdbcType=INTEGER}
   </update>
 
-
   <select id="getEquipmentModel" resultMap="BaseResultMap" parameterType="int">
     SELECT *
     FROM eam_equipment_model
     WHERE equipment_model_id=#{equipment_model_id}
   </select>
 
+  <insert id="batchInsert">
+    <if test="items.get(0) != null">
+            insert into eam_equipment_model  (equipment_model_id, name, number, 
+        create_user_id, create_time, update_user_id, 
+        update_time, delete_flag, organization_id
+        )
+      values
+      <foreach collection="items" item="item" index="index" separator=",">
+      (#{item.equipmentModelId,jdbcType=INTEGER}, #{item.name,jdbcType=VARCHAR}, #{item.number,jdbcType=VARCHAR}, 
+        #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, 
+        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, #{item.organizationId,jdbcType=INTEGER}
+        )
+      </foreach>
+    </if>
+  </insert>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>

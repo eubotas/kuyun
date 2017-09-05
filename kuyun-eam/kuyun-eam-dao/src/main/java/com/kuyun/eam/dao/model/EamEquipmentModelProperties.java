@@ -45,6 +45,7 @@ public class EamEquipmentModelProperties extends BaseEntity implements Serializa
      *
      * @mbg.generated
      */
+
     private String alarmType;
 
     private String refreshPeriod;

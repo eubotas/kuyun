@@ -17,11 +17,17 @@ import com.kuyun.fileuploader.dao.model.FdOssFiles;
 import com.kuyun.fileuploader.rpc.api.FdFilesService;
 import com.kuyun.fileuploader.rpc.api.FdOssFilesService;
 import com.kuyun.fileuploader.rpc.api.FileUploaderService;
+import com.kuyun.fileuploder.common.FileUploadServerInfo;
 import com.kuyun.fileuploder.common.Storage;
 
 @Service
 @Transactional
 public class FileUploaderServiceImpl implements FileUploaderService {
+
+	@Override
+	public FileUploadServerInfo getServerInfo() {
+		return this.fileUploadServerInfo;
+	}
 
 	private static Logger _log = LoggerFactory.getLogger(FileUploaderServiceImpl.class);
 
@@ -35,7 +41,7 @@ public class FileUploaderServiceImpl implements FileUploaderService {
 	Storage storage;
 
 	@Autowired
-	SnowflakeIdWorker snowflakeIdWorker;
+	FileUploadServerInfo fileUploadServerInfo;
 
 	@Override
 	public int fileUploaded(FdFiles file) {

@@ -31,7 +31,7 @@ drop table if exists eam_warehouse;
 
 drop table if exists eam_alarm;
 
-drop table if exists eam_alarm_type_value;
+drop table if exists eam_alarm_data;
 
 drop table if exists eam_alarm_target_user;
 
@@ -125,6 +125,7 @@ create table eam_equipment_model_properties
 
 alter table eam_equipment_model_properties comment '设备模型参数';
 
+
 /*==============================================================*/
 /* Table: eam_sensor                                            */
 /*==============================================================*/
@@ -144,6 +145,10 @@ create table eam_sensor
    grm_variable         varchar(20) comment '巨控 变量名',
    grm_variable_value   varchar(20) comment '巨控 写变量值',
    grm_variable_order   int comment '巨控 读写变量顺序',
+   osh                  decimal(10,2) comment '换算结果的高限',
+   osl                  decimal(10,2) comment '换算结果的低限',
+   ish                  decimal(10,2) comment '换算对象的高限',
+   isl                  decimal(10,2) comment '换算对象的低限',
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,
@@ -154,6 +159,7 @@ create table eam_sensor
 );
 
 alter table eam_sensor comment '设备传感器';
+
 
 /*==============================================================*/
 /* Table: eam_sensor_data                                       */
@@ -200,6 +206,25 @@ create table eam_inventory
 );
 
 alter table eam_inventory comment ' 库存明细表';
+
+/*==============================================================*/
+/* Table: eam_warehouse                                         */
+/*==============================================================*/
+create table eam_warehouse
+(
+   warehouse_id         int not null auto_increment,
+   name                 varchar(30),
+   comments             varchar(100),
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   organization_id      int,
+   primary key (warehouse_id)
+);
+
+alter table eam_warehouse comment '仓库信息表';
 
 /*==============================================================*/
 /* Table: eam_location                                          */
@@ -276,6 +301,11 @@ create table eam_parts_category
    category_id          int not null auto_increment,
    name                 varchar(30),
    organization_id      int,
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
    primary key (category_id)
 );
 
@@ -295,27 +325,6 @@ create table eam_protocol
 
 alter table eam_protocol comment ' 接入协议';
 
-
-
-/*==============================================================*/
-/* Table: eam_warehouse                                         */
-/*==============================================================*/
-create table eam_warehouse
-(
-   warehouse_id         int not null auto_increment,
-   name                 varchar(30),
-   comments             varchar(100),
-   create_user_id       int,
-   create_time          datetime,
-   update_user_id       int,
-   update_time          datetime,
-   delete_flag          boolean,
-   organization_id      int,
-   primary key (warehouse_id)
-);
-
-alter table eam_warehouse comment '仓库信息表';
-
 /*==============================================================*/
 /* Table: eam_alarm                                          */
 /*==============================================================*/
@@ -324,6 +333,9 @@ CREATE TABLE `eam_alarm` (
   `equipment_id` varchar(32) DEFAULT NULL,
   `sensor_id` int(11) DEFAULT NULL,
   `alarm_type` varchar(20) DEFAULT NULL,
+  `upper_Bound` decimal(10,2) DEFAULT NULL,
+  `lower_Bound` decimal(10,2) DEFAULT NULL,
+  `duration` decimal(10,2) DEFAULT NULL,
   `alarm_target` varchar(10) DEFAULT NULL,
    create_user_id       int,
    create_time          datetime,
@@ -335,22 +347,31 @@ CREATE TABLE `eam_alarm` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `eam_alarm_type_value` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `alarm_id` int(11) DEFAULT NULL,
-  `upper_Bound` decimal(10,2) DEFAULT NULL,
-  `lower_Bound` decimal(10,2) DEFAULT NULL,
-  `duration` decimal(10,2) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 CREATE TABLE `eam_alarm_target_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `alarm_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
+  `alarm_id`            int(11),
+  `user_id`             int(11),
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   organization_id      int,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `eam_alarm_data` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `alarm_id`            int(11) ,
+   sensor_data_id       int,
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   organization_id      int,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 #工单分类
@@ -518,3 +539,5 @@ delimiter ;
 #ALTER TABLE eam_sensor ADD   grm_variable         varchar(20) comment '巨控';
 #ALTER TABLE eam_sensor ADD   grm_variable_value   varchar(20) comment '巨控';
 #ALTER TABLE eam_equipment ADD grm_period int comment '巨控采集频率单位秒';
+
+  

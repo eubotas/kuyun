@@ -85,19 +85,26 @@ public class EamLocationController extends BaseController {
 			locationVO.setOrderByClause(sort + " " + order);
 		}
 
+		EamLocationExample example = new EamLocationExample();
+		EamLocationExample.Criteria criteria = example.createCriteria();
+		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+
 		if (StringUtils.isNumeric(warehouseId)){
 			locationVO.setWarehouseId(Integer.valueOf(warehouseId));
+			criteria.andWarehouseIdEqualTo(Integer.valueOf(warehouseId));
 		}
 
 		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
 		if (organization != null){
 			locationVO.setOrganizationId(organization.getOrganizationId());
+			criteria.andOrganizationIdEqualTo(organization.getOrganizationId());
 		}
 		List<EamLocationVO> rows = eamApiService.selectLocation(locationVO);
+		int total = eamLocationService.countByExample(example);
 		Map<String, Object> result = new HashMap<>();
 		result.put("rows", rows);
-		result.put("total", rows.size());
+		result.put("total", total);
 		return result;
 	}
 

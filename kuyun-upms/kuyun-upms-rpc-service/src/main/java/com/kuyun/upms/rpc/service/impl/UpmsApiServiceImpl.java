@@ -6,14 +6,25 @@ import com.kuyun.upms.rpc.api.UpmsApiService;
 import com.kuyun.upms.rpc.api.UpmsUserOrganizationService;
 import com.kuyun.upms.rpc.api.UpmsUserService;
 import com.kuyun.upms.rpc.mapper.UpmsApiMapper;
+import com.nimbusds.jose.*;
+import com.nimbusds.jose.crypto.MACSigner;
+import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.SignedJWT;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 用户service实现
@@ -238,4 +249,71 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         return upmsLogMapper.insertSelective(record);
     }
 
+
+    private byte[] generateSharedKey() {
+        SecureRandom random = new SecureRandom();
+        byte[] sharedKey = new byte[32];
+        random.nextBytes(sharedKey);
+        return sharedKey;
+    }
+
+    private Date getExpirationDate() {
+        LocalDate localDate = LocalDate.now().plusMonths(3);
+
+        return Date.from(localDate.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+    }
+
+    private String getIssuer(){
+        return "Kuyun";
+    }
+
+    private byte[] getSharedKey(){
+        return "KzQq9It4qAlgBMx3wS4m4MrHZnOTKuBh".getBytes();
+    }
+
+
+    public String createToken(Object userId) {
+        try {
+            JWTClaimsSet.Builder builder = new JWTClaimsSet.Builder();
+
+            builder.issuer(getIssuer());
+            builder.subject(userId.toString());
+            builder.issueTime(new Date());
+            builder.notBeforeTime(new Date());
+            builder.expirationTime(getExpirationDate());
+            builder.jwtID(UUID.randomUUID().toString());
+
+            JWTClaimsSet claimsSet = builder.build();
+            JWSHeader header = new JWSHeader(JWSAlgorithm.HS256);
+
+            Payload payload = new Payload(claimsSet.toJSONObject());
+
+            JWSObject jwsObject = new JWSObject(header, payload);
+
+            JWSSigner signer = new MACSigner(getSharedKey());
+            jwsObject.sign(signer);
+            return jwsObject.serialize();
+        } catch (JOSEException ex) {
+            _log.error("create token error:"+ex.getMessage());
+            return null;
+        }
+    }
+
+    public boolean validateToken(String token) {
+
+        try {
+            SignedJWT signed = SignedJWT.parse(token);
+            JWSVerifier verifier = new MACVerifierExtended(getSharedKey(), signed.getJWTClaimsSet());
+            return signed.verify(verifier);
+        } catch (ParseException ex) {
+            System.out.println("Parse token error: = " + ex);
+            _log.error("1Parse token error:"+ex.getMessage());
+            return false;
+        } catch (JOSEException ex) {
+            System.out.println("2Parse token error: = " + ex);
+            _log.error("Parse token error:"+ex.getMessage());
+            return false;
+        }
+
+    }
 }

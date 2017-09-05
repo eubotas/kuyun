@@ -40,7 +40,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URLEncoder;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * 单点登录管理
@@ -128,10 +130,10 @@ public class SSOController extends BaseController {
             }
             _log.debug("认证中心帐号通过，带code回跳：{}", backurl);
             return "redirect:" + backurl;
-        }else {
+        } else {
             if (StringUtils.isBlank(backurl)) {
                 return "/sso/login.jsp";
-            }else {
+            } else {
                 handleSessionTimeOut(response);
             }
             return null;
@@ -139,15 +141,15 @@ public class SSOController extends BaseController {
 
     }
 
-    private void handleSessionTimeOut(ServletResponse response){
-        BaseResult result = new BaseResult(401, "Unauthorized", null);
+    private void handleSessionTimeOut(ServletResponse response) {
+        BaseResult result = new BaseResult(403, "Session Timeout", null);
         String json = new Gson().toJson(result);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         try {
             response.getWriter().write(json);
         } catch (IOException e) {
-            _log.error("Send Time Out Response Error:"+e.getMessage());
+            _log.error("Send Time Out Response Error:" + e.getMessage());
         }
     }
 
@@ -197,7 +199,17 @@ public class SSOController extends BaseController {
             RedisUtil.set(kuyun_UPMS_SERVER_SESSION_ID + "_" + sessionId, code, (int) subject.getSession().getTimeout() / 1000);
             // code校验值
             RedisUtil.set(kuyun_UPMS_SERVER_CODE + "_" + code, code, (int) subject.getSession().getTimeout() / 1000);
+
+
+            String clientToken = upmsApiService.createToken(usernamePasswordToken.getUsername());
+
+            _log.info("user name:" + usernamePasswordToken.getUsername());
+            _log.info("clientToken:" + clientToken);
+
+            response.addHeader("token", clientToken);
         }
+
+
         // 回跳登录前地址
         String backurl = request.getParameter("backurl");
         if (StringUtils.isBlank(backurl)) {
@@ -256,9 +268,9 @@ public class SSOController extends BaseController {
 
         UpmsUser user = getUpmsUser(userName);
 
-        if (user != null){
+        if (user != null) {
             return new UpmsResult(UpmsResultConstant.FAILED, "用户名已存在");
-        }else {
+        } else {
             return new UpmsResult(UpmsResultConstant.SUCCESS, "用户名可用");
         }
     }
@@ -293,12 +305,12 @@ public class SSOController extends BaseController {
         String code = request.getParameter("code");
 
         UpmsUser user = getUpmsUser(userName);
-        if (user != null){
+        if (user != null) {
             return new UpmsResult(UpmsResultConstant.FAILED, "用户名已存在");
         }
 
         String resCode = checkVerifyCode(phone, code);
-        if (!"200".equals(resCode)){
+        if (!"200".equals(resCode)) {
             return new UpmsResult(UpmsResultConstant.FAILED, "验证码不正确");
         }
 
@@ -334,8 +346,8 @@ public class SSOController extends BaseController {
         int roleId = 1;
         List<UpmsUser> users = upmsApiService.selectUpmsUserByUpmsRoleId(roleId);
         JSONArray phones = new JSONArray();
-        for(UpmsUser user : users){
-            if (!StringUtils.isEmpty(user.getPhone())){
+        for (UpmsUser user : users) {
+            if (!StringUtils.isEmpty(user.getPhone())) {
                 phones.add(user.getPhone());
             }
         }
@@ -348,7 +360,7 @@ public class SSOController extends BaseController {
         params.add(argUser.getPhone());
         params.add(argUser.getEmail());
 
-        if (phones.size() > 0){
+        if (phones.size() > 0) {
             SMSUtil.sendTemplate(templateId, phones.toString(), params.toString());
         }
     }
@@ -356,8 +368,9 @@ public class SSOController extends BaseController {
     private String checkVerifyCode(String phone, String code) {
         String resData = SMSUtil.verifyCode(phone, code);
         Gson gson = new Gson();
-        Type type = new TypeToken<Map<String, String>>(){}.getType();
-        Map<String,String> map = gson.fromJson(resData, type);
+        Type type = new TypeToken<Map<String, String>>() {
+        }.getType();
+        Map<String, String> map = gson.fromJson(resData, type);
 
         return map.get("code");
     }
@@ -366,7 +379,7 @@ public class SSOController extends BaseController {
 
         List<UpmsPermission> permissionList = getPermissions();
 
-        for(UpmsPermission permission : permissionList){
+        for (UpmsPermission permission : permissionList) {
             UpmsUserPermission userPermission = new UpmsUserPermission();
             userPermission.setUserId(upmsUser.getUserId());
             userPermission.setPermissionId(permission.getPermissionId());
@@ -382,11 +395,11 @@ public class SSOController extends BaseController {
         return upmsPermissionService.selectByExample(example);
     }
 
-    private void handleUserOrganization(String organization, UpmsUser upmsUser){
+    private void handleUserOrganization(String organization, UpmsUser upmsUser) {
 
         UpmsOrganization org = getUpmsOrganization(organization);
 
-        if (org == null){
+        if (org == null) {
             org = createOrganization(organization);
         }
 
@@ -412,16 +425,16 @@ public class SSOController extends BaseController {
         return upmsOrganizationService.selectFirstByExample(orgExample);
     }
 
-    private int getUserId(UpmsUser upmsUser){
-        if (upmsUser.getUserId() == null){
+    private int getUserId(UpmsUser upmsUser) {
+        if (upmsUser.getUserId() == null) {
             UpmsUser upmsUserNew = getUpmsUser(upmsUser.getUsername());
             upmsUser.setUserId(upmsUserNew.getUserId());
         }
         return upmsUser.getUserId();
     }
 
-    private int getOrganizationId(UpmsOrganization org){
-        if (org.getOrganizationId() == null){
+    private int getOrganizationId(UpmsOrganization org) {
+        if (org.getOrganizationId() == null) {
             org = getUpmsOrganization(org.getName());
         }
         return org.getOrganizationId();

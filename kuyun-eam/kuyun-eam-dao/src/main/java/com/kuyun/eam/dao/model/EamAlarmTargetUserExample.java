@@ -306,6 +306,11 @@ public class EamAlarmTargetUserExample implements Serializable {
             addCriterion("user_id not between", value1, value2, "userId");
             return (Criteria) this;
         }
+
+        public Criteria addConditionSql(String conditionSql) {
+            addCriterion(conditionSql);
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria implements Serializable {

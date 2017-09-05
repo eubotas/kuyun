@@ -2,6 +2,7 @@ package com.kuyun.eam.dao.model;
 
 import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 public class EamSensor extends BaseEntity implements Serializable {
     private Integer sensorId;
@@ -87,10 +88,39 @@ public class EamSensor extends BaseEntity implements Serializable {
 
     /**
      * 巨控 读写变量顺序
+
      *
      * @mbg.generated
      */
     private Integer grmVariableOrder;
+
+    /**
+     * 换算结果的高限
+     *
+     * @mbg.generated
+     */
+    private BigDecimal osh;
+
+    /**
+     * 换算结果的低限
+     *
+     * @mbg.generated
+     */
+    private BigDecimal osl;
+
+    /**
+     * 换算对象的高限
+     *
+     * @mbg.generated
+     */
+    private BigDecimal ish;
+
+    /**
+     * 换算对象的低限
+     *
+     * @mbg.generated
+     */
+    private BigDecimal isl;
 
     private static final long serialVersionUID = 1L;
 
@@ -206,6 +236,38 @@ public class EamSensor extends BaseEntity implements Serializable {
         this.grmVariableOrder = grmVariableOrder;
     }
 
+    public BigDecimal getOsh() {
+        return osh;
+    }
+
+    public void setOsh(BigDecimal osh) {
+        this.osh = osh;
+    }
+
+    public BigDecimal getOsl() {
+        return osl;
+    }
+
+    public void setOsl(BigDecimal osl) {
+        this.osl = osl;
+    }
+
+    public BigDecimal getIsh() {
+        return ish;
+    }
+
+    public void setIsh(BigDecimal ish) {
+        this.ish = ish;
+    }
+
+    public BigDecimal getIsl() {
+        return isl;
+    }
+
+    public void setIsl(BigDecimal isl) {
+        this.isl = isl;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -226,6 +288,10 @@ public class EamSensor extends BaseEntity implements Serializable {
         sb.append(", grmVariable=").append(grmVariable);
         sb.append(", grmVariableValue=").append(grmVariableValue);
         sb.append(", grmVariableOrder=").append(grmVariableOrder);
+        sb.append(", osh=").append(osh);
+        sb.append(", osl=").append(osl);
+        sb.append(", ish=").append(ish);
+        sb.append(", isl=").append(isl);
         sb.append("]");
         return sb.toString();
     }
@@ -261,7 +327,11 @@ public class EamSensor extends BaseEntity implements Serializable {
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getOrganizationId() == null ? other.getOrganizationId() == null : this.getOrganizationId().equals(other.getOrganizationId()));
+            && (this.getOrganizationId() == null ? other.getOrganizationId() == null : this.getOrganizationId().equals(other.getOrganizationId()))
+            && (this.getOsh() == null ? other.getOsh() == null : this.getOsh().equals(other.getOsh()))
+            && (this.getOsl() == null ? other.getOsl() == null : this.getOsl().equals(other.getOsl()))
+            && (this.getIsh() == null ? other.getIsh() == null : this.getIsh().equals(other.getIsh()))
+            && (this.getIsl() == null ? other.getIsl() == null : this.getIsl().equals(other.getIsl()));
     }
 
     @Override
@@ -288,6 +358,10 @@ public class EamSensor extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getOrganizationId() == null) ? 0 : getOrganizationId().hashCode());
+        result = prime * result + ((getOsh() == null) ? 0 : getOsh().hashCode());
+        result = prime * result + ((getOsl() == null) ? 0 : getOsl().hashCode());
+        result = prime * result + ((getIsh() == null) ? 0 : getIsh().hashCode());
+        result = prime * result + ((getIsl() == null) ? 0 : getIsl().hashCode());
         return result;
     }
 }

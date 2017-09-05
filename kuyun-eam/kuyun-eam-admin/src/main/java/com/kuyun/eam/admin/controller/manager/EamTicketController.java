@@ -1,5 +1,6 @@
 package com.kuyun.eam.admin.controller.manager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
+import com.google.common.base.Splitter;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.common.constant.EamResult;
@@ -82,6 +84,8 @@ public class EamTicketController extends BaseController {
 	@Autowired
 	private EamTicketRecordService eamTicketRecordService;
 
+	@Autowired
+	private com.kuyun.fileuploader.rpc.api.FileUploaderService fileUploaderService;
 
 	@ApiOperation(value = "工单管理首页")
 	@RequiresPermissions("eam:ticket:read")
@@ -94,6 +98,7 @@ public class EamTicketController extends BaseController {
 //		}
 //		modelMap.put("typeKeyValue", typeKeyValue);
 		modelMap.put("category", category);
+		
 		
 		return "/manage/ticket/index.jsp";
 	}
@@ -111,19 +116,22 @@ public class EamTicketController extends BaseController {
 		EamTicketExample eamTicketExample = new EamTicketExample();
 		eamTicketExample.setOffset(offset);
 		eamTicketExample.setLimit(limit);
+		EamTicketExample.Criteria criteria = eamTicketExample.createCriteria();
+		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			eamTicketExample.setOrderByClause(sort + " " + order);
 		}
 
 		switch (TicketSearchCategory.getCategroy(category)) {
 		case MY_OPEN:
-			eamTicketExample.createCriteria().andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId()).andStatusNotEqualTo(TicketStatus.NO_DEAL_WITH.getName()).andStatusNotEqualTo(TicketStatus.RESOLVED.getName());
+			criteria.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId()).andStatusNotEqualTo(TicketStatus.NO_DEAL_WITH.getName()).andStatusNotEqualTo(TicketStatus.RESOLVED.getName());
 			break;
 		case MY_ALL:
-			eamTicketExample.createCriteria().andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
+			criteria.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
 			break;
 		case OPEN:
-			eamTicketExample.createCriteria().andStatusNotEqualTo(TicketStatus.NO_DEAL_WITH.getName()).andStatusNotEqualTo(TicketStatus.RESOLVED.getName());
+			criteria.andStatusNotEqualTo(TicketStatus.NO_DEAL_WITH.getName()).andStatusNotEqualTo(TicketStatus.RESOLVED.getName());
 			break;
 		case ALL:
 		default:
@@ -133,17 +141,13 @@ public class EamTicketController extends BaseController {
 		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
 		if (organization != null){
-			eamTicketExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId())
-			.andDeleteFlagEqualTo(Boolean.FALSE);
+			criteria.andOrganizationIdEqualTo(organization.getOrganizationId());
 		}
 		
 
 
 		List<EamTicketVO> rows = eamApiService.selectTicket(eamTicketExample);
-//		System.out.println("rows:");
-//		for (EamTicket ticket : rows) {
-//			System.out.println(ticket.toString());
-//		}
+
 		long total = eamTicketService.countByExample(eamTicketExample);
 		Map<String, Object> result = new HashMap<>();
 		result.put("rows", rows);
@@ -163,7 +167,7 @@ public class EamTicketController extends BaseController {
 		modelMap.put("users", users);
 		List<EamTicketType> types = eamTicketTypeService.selectByExample(new EamTicketTypeExample());
 		modelMap.put("ticketTypes", types);
-		
+		modelMap.put("uploadServer", fileUploaderService.getServerInfo());
 		
 		
 		return "/manage/ticket/create.jsp";
@@ -206,6 +210,17 @@ public class EamTicketController extends BaseController {
 		ete.createCriteria().andTicketIdEqualTo(id);
 		EamTicketVO eamTicket = eamApiService.selectTicket(ete).get(0);
 		modelMap.put("ticket", eamTicket);
+		
+		//retrieve the image list
+		List<String> imageList =  new ArrayList<String>();
+		for ( String uuid : Splitter.on(',')
+			    .trimResults()
+			    .omitEmptyStrings()
+			    .split(eamTicket.getImagePath1()) ) {
+			imageList.add(fileUploaderService.getServerInfo().getEndpoint_show()+"/"+uuid);
+		}
+		
+		modelMap.put("imageList", imageList);
 		
 		EamTicketRecordExample etre = new EamTicketRecordExample();
 		etre.createCriteria().andTicketIdEqualTo(id);

@@ -957,6 +957,11 @@ public class EamPartsExample implements Serializable {
             addCriterion("organization_id not between", value1, value2, "organizationId");
             return (Criteria) this;
         }
+
+        public Criteria addConditionSql(String conditionSql) {
+            addCriterion(conditionSql);
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria implements Serializable {

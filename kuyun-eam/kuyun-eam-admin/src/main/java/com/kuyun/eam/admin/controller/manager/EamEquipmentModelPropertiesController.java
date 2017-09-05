@@ -14,6 +14,7 @@ import com.kuyun.eam.rpc.api.EamEquipmentModelPropertiesService;
 import com.kuyun.eam.rpc.api.EamEquipmentModelService;
 import com.kuyun.eam.rpc.api.EamEquipmentService;
 import com.kuyun.upms.client.util.BaseEntityUtil;
+import com.kuyun.upms.dao.model.UpmsOrganization;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -56,8 +57,6 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 	private BaseEntityUtil baseEntityUtil;
 
 
-
-
 	@ApiOperation(value = "设备模型参数首页")
 	@RequiresPermissions("eam:equipmentModelProperty:read")
 	@RequestMapping(value = "/index/{id}", method = RequestMethod.GET)
@@ -79,18 +78,19 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 		EamEquipmentModelPropertiesExample equipmentModelPropertiesExample = new EamEquipmentModelPropertiesExample();
 		equipmentModelPropertiesExample.setOffset(offset);
 		equipmentModelPropertiesExample.setLimit(limit);
+		EamEquipmentModelPropertiesExample.Criteria criteria = equipmentModelPropertiesExample.createCriteria();
+		criteria.andEquipmentModelIdEqualTo(id);
+		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			equipmentModelPropertiesExample.setOrderByClause(sort + " " + order);
 		}
-		equipmentModelPropertiesExample.createCriteria().andEquipmentModelIdEqualTo(id)
-		.andDeleteFlagEqualTo(Boolean.FALSE);
+		
+		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
-
-//		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
-//
-//		if (organization != null){
-//			equipmentModelPropertiesExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId());
-//		}
+		if (organization != null){
+			criteria.andOrganizationIdEqualTo(organization.getOrganizationId());
+		}
 		List<EamEquipmentModelProperties> rows = eamEquipmentModelPropertiesService.selectByExample(equipmentModelPropertiesExample);
 		long total = eamEquipmentModelPropertiesService.countByExample(equipmentModelPropertiesExample);
 		Map<String, Object> result = new HashMap<>();

@@ -32,16 +32,16 @@ public class BaseEntityUtil {
             if (record.getCreateUserId() == null){
                 record.setCreateUserId(user.getUserId());
             }
+
             record.setUpdateUserId(user.getUserId());
             UpmsOrganization organization = upmsApiService.selectParentOrganizationByUserId(user.getUserId());
 
             if (organization != null){
-
                 record.setOrganizationId(organization.getOrganizationId());
             }
         }
 
-    
+        record.setDeleteFlag(Boolean.FALSE);
 
     }
 

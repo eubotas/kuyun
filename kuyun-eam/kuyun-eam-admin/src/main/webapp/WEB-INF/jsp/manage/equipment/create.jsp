@@ -134,7 +134,7 @@
             element : document.getElementById("fine-uploader-gallery"),
             template : 'qq-template-gallery',
             request : {
-                endpoint : 'http://fd.kuyun.cn:9498/fd/upload',
+                endpoint : '${uploadServer.endpoint_upload}',
                 params : {
                     kuyunModule : "eam"
                 }
@@ -154,14 +154,14 @@
                     enabled : true
                 },
                 success : {
-                    endpoint : 'http://fd.kuyun.cn:9498/fd/uploadDone'
+                    endpoint : '${uploadServer.endpoint_uploadDone}'
                 },
                 mandatory : true
             },
             deleteFile : {
                 enabled : true,
                 forceConfirm : true,
-                endpoint : 'http://fd.kuyun.cn:9498/fd/delete'
+                endpoint : '${uploadServer.endpoint_delete}'
             },
             cors : {
                 //all requests are expected to be cross-domain requests
@@ -172,8 +172,8 @@
             }
 			/* init file list
 			 session:{
-			 endpoint: '/fd/list?ids=7,8,10'
-			 }, */
+			 endpoint: '${uploadServer.endpoint_list}?ids=${uuids}'
+		 }, */
         });
 </script>
 <script>

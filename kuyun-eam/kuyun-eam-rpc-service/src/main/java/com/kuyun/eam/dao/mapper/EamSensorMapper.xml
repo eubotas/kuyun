@@ -22,6 +22,10 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
     <result column="organization_id" jdbcType="INTEGER" property="organizationId" />
+    <result column="osh" jdbcType="DECIMAL" property="osh" />
+    <result column="osl" jdbcType="DECIMAL" property="osl" />
+    <result column="ish" jdbcType="DECIMAL" property="ish" />
+    <result column="isl" jdbcType="DECIMAL" property="isl" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -82,10 +86,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    sensor_id, equipment_model_property_id, salve_id, function_code, address, data_format, 
-    bit_order, period, quantity, write_number, grm_action, grm_variable, grm_variable_value, 
-    grm_variable_order, create_user_id, create_time, update_user_id, update_time, delete_flag, 
-    organization_id
+    sensor_id, equipment_id, equipment_model_property_id, salve_id, function_code, address, 
+    data_format, bit_order, period, quantity, write_number, grm_action, grm_variable, 
+    grm_variable_value, grm_variable_order, create_user_id, create_time, update_user_id, 
+    update_time, delete_flag, organization_id, osh, osl, ish, isl
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamSensorExample" resultMap="BaseResultMap">
     select
@@ -116,11 +120,11 @@
     where sensor_id = #{sensorId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from eam_sensor
+    update eam_sensor set delete_flag = 1 
     where sensor_id = #{sensorId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamSensorExample">
-    delete from eam_sensor
+    update eam_sensor set delete_flag = 1 
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -131,16 +135,18 @@
       data_format, bit_order, period, 
       quantity, write_number, grm_action, 
       grm_variable, grm_variable_value, grm_variable_order, 
-      create_user_id, create_time, update_user_id, 
-      update_time, delete_flag, organization_id
+      create_user_id, create_time, update_user_id,
+      update_time, delete_flag, organization_id, 
+      osh, osl, ish, isl
       )
     values (#{sensorId,jdbcType=INTEGER}, #{equipmentModelPropertyId,jdbcType=INTEGER}, 
       #{salveId,jdbcType=INTEGER}, #{functionCode,jdbcType=INTEGER}, #{address,jdbcType=INTEGER}, 
       #{dataFormat,jdbcType=VARCHAR}, #{bitOrder,jdbcType=VARCHAR}, #{period,jdbcType=INTEGER}, 
       #{quantity,jdbcType=INTEGER}, #{writeNumber,jdbcType=INTEGER}, #{grmAction,jdbcType=VARCHAR}, 
       #{grmVariable,jdbcType=VARCHAR}, #{grmVariableValue,jdbcType=VARCHAR}, #{grmVariableOrder,jdbcType=INTEGER}, 
-      #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{organizationId,jdbcType=INTEGER}
+      #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER},
+      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{organizationId,jdbcType=INTEGER}, 
+      #{osh,jdbcType=DECIMAL}, #{osl,jdbcType=DECIMAL}, #{ish,jdbcType=DECIMAL}, #{isl,jdbcType=DECIMAL}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamSensor">
@@ -206,6 +212,18 @@
       <if test="organizationId != null">
         organization_id,
       </if>
+      <if test="osh != null">
+        osh,
+      </if>
+      <if test="osl != null">
+        osl,
+      </if>
+      <if test="ish != null">
+        ish,
+      </if>
+      <if test="isl != null">
+        isl,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="sensorId != null">
@@ -267,6 +285,18 @@
       </if>
       <if test="organizationId != null">
         #{organizationId,jdbcType=INTEGER},
+      </if>
+      <if test="osh != null">
+        #{osh,jdbcType=DECIMAL},
+      </if>
+      <if test="osl != null">
+        #{osl,jdbcType=DECIMAL},
+      </if>
+      <if test="ish != null">
+        #{ish,jdbcType=DECIMAL},
+      </if>
+      <if test="isl != null">
+        #{isl,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -339,6 +369,18 @@
       <if test="record.organizationId != null">
         organization_id = #{record.organizationId,jdbcType=INTEGER},
       </if>
+      <if test="record.osh != null">
+        osh = #{record.osh,jdbcType=DECIMAL},
+      </if>
+      <if test="record.osl != null">
+        osl = #{record.osl,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ish != null">
+        ish = #{record.ish,jdbcType=DECIMAL},
+      </if>
+      <if test="record.isl != null">
+        isl = #{record.isl,jdbcType=DECIMAL},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -365,7 +407,11 @@
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      organization_id = #{record.organizationId,jdbcType=INTEGER}
+      organization_id = #{record.organizationId,jdbcType=INTEGER},
+      osh = #{record.osh,jdbcType=DECIMAL},
+      osl = #{record.osl,jdbcType=DECIMAL},
+      ish = #{record.ish,jdbcType=DECIMAL},
+      isl = #{record.isl,jdbcType=DECIMAL}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -430,6 +476,18 @@
       <if test="organizationId != null">
         organization_id = #{organizationId,jdbcType=INTEGER},
       </if>
+      <if test="osh != null">
+        osh = #{osh,jdbcType=DECIMAL},
+      </if>
+      <if test="osl != null">
+        osl = #{osl,jdbcType=DECIMAL},
+      </if>
+      <if test="ish != null">
+        ish = #{ish,jdbcType=DECIMAL},
+      </if>
+      <if test="isl != null">
+        isl = #{isl,jdbcType=DECIMAL},
+      </if>
     </set>
     where sensor_id = #{sensorId,jdbcType=INTEGER}
   </update>
@@ -453,8 +511,37 @@
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
-      organization_id = #{organizationId,jdbcType=INTEGER}
+      organization_id = #{organizationId,jdbcType=INTEGER},
+      osh = #{osh,jdbcType=DECIMAL},
+      osl = #{osl,jdbcType=DECIMAL},
+      ish = #{ish,jdbcType=DECIMAL},
+      isl = #{isl,jdbcType=DECIMAL}
     where sensor_id = #{sensorId,jdbcType=INTEGER}
   </update>
+  <insert id="batchInsert">
+    <if test="items.get(0) != null">
+            insert into eam_sensor  (sensor_id, equipment_id, equipment_model_property_id, 
+        salve_id, function_code, address, 
+        data_format, bit_order, period, 
+        quantity, write_number, grm_action, 
+        grm_variable, grm_variable_value, grm_variable_order, 
+        create_user_id, create_time, update_user_id, 
+        update_time, delete_flag, organization_id, 
+        osh, osl, ish, isl
+        )
+      values
+      <foreach collection="items" item="item" index="index" separator=",">
+      (#{item.sensorId,jdbcType=INTEGER}, #{item.equipmentId,jdbcType=VARCHAR}, #{item.equipmentModelPropertyId,jdbcType=INTEGER}, 
+        #{item.salveId,jdbcType=INTEGER}, #{item.functionCode,jdbcType=INTEGER}, #{item.address,jdbcType=INTEGER}, 
+        #{item.dataFormat,jdbcType=VARCHAR}, #{item.bitOrder,jdbcType=VARCHAR}, #{item.period,jdbcType=INTEGER}, 
+        #{item.quantity,jdbcType=INTEGER}, #{item.writeNumber,jdbcType=INTEGER}, #{item.grmAction,jdbcType=VARCHAR}, 
+        #{item.grmVariable,jdbcType=VARCHAR}, #{item.grmVariableValue,jdbcType=VARCHAR}, #{item.grmVariableOrder,jdbcType=INTEGER}, 
+        #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, 
+        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, #{item.organizationId,jdbcType=INTEGER}, 
+        #{item.osh,jdbcType=DECIMAL}, #{item.osl,jdbcType=DECIMAL}, #{item.ish,jdbcType=DECIMAL}, #{item.isl,jdbcType=DECIMAL}
+        )
+      </foreach>
+    </if>
+  </insert>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>

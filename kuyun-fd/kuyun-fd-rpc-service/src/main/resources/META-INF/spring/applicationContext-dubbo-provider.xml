@@ -11,7 +11,7 @@
 
     <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
 
-    <dubbo:protocol name="dubbo" port="20884"/>
+    <dubbo:protocol name="dubbo" port="20885"/>
 
     <bean id="fdFilesService" class="com.kuyun.fileuploader.rpc.service.impl.FdFilesServiceImpl"/>
     <dubbo:service interface="com.kuyun.fileuploader.rpc.api.FdFilesService" ref="fdFilesService" timeout="10000"/>

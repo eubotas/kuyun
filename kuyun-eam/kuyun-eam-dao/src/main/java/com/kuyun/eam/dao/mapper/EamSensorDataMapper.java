@@ -27,4 +27,6 @@ public interface EamSensorDataMapper {
     int updateByPrimaryKeySelective(EamSensorData record);
 
     int updateByPrimaryKey(EamSensorData record);
+
+    void batchInsert(@Param("items") List<EamSensorData> items);
 }

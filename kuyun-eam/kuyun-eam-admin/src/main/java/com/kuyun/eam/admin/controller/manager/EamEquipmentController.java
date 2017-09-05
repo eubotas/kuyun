@@ -3,6 +3,7 @@ package com.kuyun.eam.admin.controller.manager;
 import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
+import com.google.gson.Gson;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.admin.util.ModbusFunctionCode;
@@ -10,6 +11,7 @@ import com.kuyun.eam.common.constant.BitOrder;
 import com.kuyun.eam.common.constant.DataFormat;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.*;
+import com.kuyun.eam.pojo.IDS;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.pojo.tree.Tree;
 import com.kuyun.eam.rpc.api.*;
@@ -31,6 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.kuyun.eam.common.constant.CollectStatus.NO_START;
 import static com.kuyun.eam.common.constant.EamResultConstant.INVALID_LENGTH;
 import static com.kuyun.eam.common.constant.EamResultConstant.SUCCESS;
 
@@ -85,6 +88,9 @@ public class EamEquipmentController extends BaseController {
 		EamEquipmentExample eamEquipmentExample = new EamEquipmentExample();
 		eamEquipmentExample.setOffset(offset);
 		eamEquipmentExample.setLimit(limit);
+		EamEquipmentExample.Criteria criteria = eamEquipmentExample.createCriteria();
+		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			eamEquipmentExample.setOrderByClause(sort + " " + order);
 		}
@@ -92,7 +98,7 @@ public class EamEquipmentController extends BaseController {
 		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
 		if (organization != null){
-			eamEquipmentExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId());
+			criteria.andOrganizationIdEqualTo(organization.getOrganizationId());
 		}
 
 		List<EamEquipment> rows = eamEquipmentService.selectByExample(eamEquipmentExample);
@@ -136,8 +142,18 @@ public class EamEquipmentController extends BaseController {
 	@RequestMapping(value = "/delete/{ids}",method = RequestMethod.GET)
 	@ResponseBody
 	public Object delete(@PathVariable("ids") String ids) {
+		String jsonString = covertToJson(ids);
+
+		eamApiService.handleEquimpmentCollect(jsonString, NO_START);
 		int count = eamEquipmentService.deleteByPrimaryKeys(ids);
 		return new EamResult(SUCCESS, count);
+	}
+
+	private String covertToJson(String ids) {
+		IDS idsObj = new IDS();
+		idsObj.setIds(ids);
+		Gson gson = new Gson();
+		return gson.toJson(idsObj);
 	}
 
 	@ApiOperation(value = "修改设备")
@@ -177,13 +193,106 @@ public class EamEquipmentController extends BaseController {
 		}
 		equipment.setEquipmentId(id);
 		baseEntityUtil.updateAddtionalValue(equipment);
+		//handleSensor(id, equipment);
 		int count = eamEquipmentService.updateByPrimaryKeySelective(equipment);
 		return new EamResult(SUCCESS, count);
 	}
 
 
+	/*private void handleSensor(String id, EamEquipment equipment){
+		EamEquipment equipmentFromDB = eamEquipmentService.selectByPrimaryKey(id);
+		if (!equipmentFromDB.getEquipmentModelId().equals(equipment.getEquipmentModelId())){
+			EamSensorExample example = new EamSensorExample();
+			example.createCriteria().andEquipmentIdEqualTo(id);
+			eamSensorService.deleteByExample(example);
+		}
+
+	}*/
+
+	@ApiOperation(value = "设备接入")
+	@RequiresPermissions("eam:equipment:update")
+	@RequestMapping(value = "/connect/{id}", method = RequestMethod.GET)
+	public String connect(@PathVariable("id") String id, ModelMap modelMap) {
+		EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(id);
+		modelMap.put("equipment", equipment);
+		modelMap.put("protocols", protocolService.selectByExample(new EamProtocolExample()));
+		return "/manage/equipment/connect.jsp";
+	}
+
+	@ApiOperation(value = "设备接入")
+	@RequiresPermissions("eam:equipment:update")
+	@RequestMapping(value = "/connect/{id}", method = RequestMethod.POST)
+	@ResponseBody
+	public Object connect(@PathVariable("id") String id, EamEquipment equipment) {
+
+		equipment.setEquipmentId(id);
+		int count = eamEquipmentService.updateByPrimaryKeySelective(equipment);
+		return new EamResult(SUCCESS, count);
+	}
+
+	private void buildModelMap(@PathVariable("eId") String eId, @PathVariable("pId") int pId, ModelMap modelMap) {
+		EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(eId);
+		EamEquipmentModelProperties eamEquipmentModelProperties = eamEquipmentModelPropertiesService.selectByPrimaryKey(pId);
+		//EamSensor sensor = getSensor(equipment, eamEquipmentModelProperties);
+
+		modelMap.put("equipment", equipment);
+		modelMap.put("equipmentModelProperties", eamEquipmentModelProperties);
+//		if (sensor != null){
+//			modelMap.put("sensor", sensor);
+//		}
+	}
+
+	@RequiresPermissions("eam:equipment:update")
+	@RequestMapping(value = "/grm/{eId}/{pId}", method = RequestMethod.GET)
+	public Object grm(@PathVariable("eId") String eId, @PathVariable("pId") int pId, ModelMap modelMap) {
+		buildModelMap(eId, pId, modelMap);
+		modelMap.put("grmActions", Action.values());
+		modelMap.put("modbusFunctionCodes", ModbusFunctionCode.values());
+		modelMap.put("dataFormats", DataFormat.values());
+		modelMap.put("bitOrders", BitOrder.values());
+		return modelMap;
+	}
+
+	@RequiresPermissions("eam:equipment:update")
+	@RequestMapping(value = "/data/change/{eId}/{pId}", method = RequestMethod.GET)
+	public String dataChange(@PathVariable("eId") String eId, @PathVariable("pId") int pId, ModelMap modelMap) {
+		buildModelMap(eId, pId, modelMap);
+
+		return "/manage/equipment/datachange.jsp";
+	}
+
+    @ApiOperation(value = "巨控传感器参数")
+    @RequiresPermissions("eam:equipment:update")
+    @RequestMapping(value = "/sensor/grm/{eId}/{pId}", method = RequestMethod.GET)
+    @ResponseBody
+    public Object sensorGrm(@PathVariable("eId") String eId, @PathVariable("pId") int pId) {
+        Map<String, Object> result = buildHashMap(eId, pId);
+
+        result.put("grmActions", Action.values());
+        return result;
+    }
+
+    private Map<String, Object> buildHashMap(@PathVariable("eId") String eId, @PathVariable("pId") int pId) {
+        EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(eId);
+        EamEquipmentModelProperties eamEquipmentModelProperties = eamEquipmentModelPropertiesService.selectByPrimaryKey(pId);
+//        EamSensor sensor = getSensor(equipment, eamEquipmentModelProperties);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("equipment", equipment);
+        result.put("equipmentModelProperties", eamEquipmentModelProperties);
+//        result.put("sensor", sensor);
+        return result;
+    }
 
 
+//    public EamSensor getSensor(EamEquipment equipment, EamEquipmentModelProperties eamEquipmentModelProperties){
+//		EamSensorExample example = new EamSensorExample();
+//		example.createCriteria().andEquipmentIdEqualTo(equipment.getEquipmentId())
+//				.andEquipmentModelPropertyIdEqualTo(eamEquipmentModelProperties.getEquipmentModelPropertyId()).andDeleteFlagEqualTo(Boolean.FALSE);
+//
+//
+//		return eamSensorService.selectFirstByExample(example);
+//	}
 
 	@ApiOperation(value = "CityTree")
 	@RequiresPermissions("eam:equipment:read")

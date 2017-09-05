@@ -27,4 +27,6 @@ public interface EamEquipmentMapper {
     int updateByPrimaryKeySelective(EamEquipment record);
 
     int updateByPrimaryKey(EamEquipment record);
+
+    void batchInsert(@Param("items") List<EamEquipment> items);
 }

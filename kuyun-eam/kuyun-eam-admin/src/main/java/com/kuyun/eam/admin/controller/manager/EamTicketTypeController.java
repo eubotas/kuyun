@@ -75,6 +75,9 @@ public class EamTicketTypeController extends BaseController {
 		EamTicketTypeExample eamTicketTypeExample = new EamTicketTypeExample();
 		eamTicketTypeExample.setOffset(offset);
 		eamTicketTypeExample.setLimit(limit);
+		EamTicketTypeExample.Criteria criteria = eamTicketTypeExample.createCriteria();
+		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			eamTicketTypeExample.setOrderByClause(sort + " " + order);
 		}
@@ -82,8 +85,7 @@ public class EamTicketTypeController extends BaseController {
 		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
 		if (organization != null){
-			eamTicketTypeExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId())
-			.andDeleteFlagEqualTo(Boolean.FALSE);
+			criteria.andOrganizationIdEqualTo(organization.getOrganizationId());
 		}
 
 
