@@ -233,10 +233,11 @@ public class EamApiServiceImpl implements EamApiService {
     private List<EamEquipment> getEquipments(UpmsOrganization org){
 
         EamEquipmentExample example = new EamEquipmentExample();
+        EamEquipmentExample.Criteria criteria = example.createCriteria();
         if (org != null){
-            example.createCriteria().andOrganizationIdEqualTo(org.getOrganizationId());
+            criteria.andOrganizationIdEqualTo(org.getOrganizationId());
         }
-        example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE);
+        criteria.andDeleteFlagEqualTo(Boolean.FALSE);
         example.setOrderByClause("province, city asc");
         return eamEquipmentService.selectByExample(example);
     }
