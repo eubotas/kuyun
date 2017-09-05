@@ -69,10 +69,10 @@ function createSubmit() {
         url: '${basePath}/manage/sensor/update',
         data: $('#sensorForm').serialize(),
         beforeSend: function() {
-            if ($('#osl').val() == '') {
-                $('#osl').focus();
-                return false;
-            }
+//            if ($('#osl').val() == '') {
+//                $('#osl').focus();
+//                return false;
+//            }
         },
         success: function(result) {
 			if (result.code != 1) {
