@@ -11,15 +11,14 @@ import com.kuyun.eam.pojo.tree.CityData;
 import com.kuyun.eam.pojo.tree.Device;
 import com.kuyun.eam.pojo.tree.ProvinceData;
 import com.kuyun.eam.pojo.tree.Tree;
-import com.kuyun.eam.rpc.api.EamApiService;
-import com.kuyun.eam.rpc.api.EamEquipmentService;
-import com.kuyun.eam.rpc.api.EamInventoryService;
+import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.rpc.mapper.EamApiMapper;
 import com.kuyun.eam.util.AreaUtil;
 import com.kuyun.eam.util.ProtocolEnum;
 import com.kuyun.eam.vo.*;
 import com.kuyun.grm.rpc.api.GrmApiService;
 import com.kuyun.modbus.rpc.api.ModbusSlaveRtuApiService;
+import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsOrganization;
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
@@ -29,10 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.kuyun.eam.common.constant.CollectStatus.NO_START;
@@ -65,6 +61,12 @@ public class EamApiServiceImpl implements EamApiService {
 
     @Autowired
     private ModbusSlaveRtuApiService modbusSlaveRtuApiService;
+
+    @Autowired
+    private EamAlarmService eamAlarmService;
+
+    @Autowired
+    private EamAlarmTargetUserService eamAlarmTargetUserService;
 
 
     @Override
@@ -302,6 +304,8 @@ public class EamApiServiceImpl implements EamApiService {
         return eamEquipmentService.updateByExampleSelective(equipment, example);
     }
 
+
+
     private void handleCollectAction(CollectStatus collectStatus, EamEquipmentExample example){
         List<EamEquipment> eamEquipments = eamEquipmentService.selectByExample(example);
         // handle GRM
@@ -350,5 +354,37 @@ public class EamApiServiceImpl implements EamApiService {
         }else if (WORKING.getCode().equalsIgnoreCase(collectStatus.getCode())){
             modbusSlaveRtuApiService.startJob(equipment.getEquipmentId());
         }
+    }
+
+    @Override
+    public Integer createAlarm(String targetUserId, EamAlarm alarm) {
+        int alarmId = eamAlarmService.insertSelective(alarm);
+        createEamAlarmTargetUser(alarmId, Integer.valueOf(targetUserId));
+        return alarmId;
+    }
+
+    private void createEamAlarmTargetUser(int alarmId, int userId){
+        EamAlarmTargetUser result = new EamAlarmTargetUser();
+        result.setAlarmId(alarmId);
+        result.setUserId(userId);
+        result.setDeleteFlag(Boolean.FALSE);
+        result.setCreateTime(new Date());
+        result.setUpdateTime(new Date());
+        eamAlarmTargetUserService.insertSelective(result);
+    }
+
+    @Override
+    public Integer updateAlarm(String targetUserId, EamAlarm alarm) {
+        int result = eamAlarmService.updateByPrimaryKeySelective(alarm);
+        updateEamAlarmTargetUser(alarm.getAlarmId(), Integer.valueOf(targetUserId));
+        return result;
+    }
+
+    private void updateEamAlarmTargetUser(int alarmId, int userId){
+        EamAlarmTargetUserExample example = new EamAlarmTargetUserExample();
+        example.createCriteria().andAlarmIdEqualTo(alarmId);
+        eamAlarmTargetUserService.deleteByExample(example);
+
+        createEamAlarmTargetUser(alarmId, userId);
     }
 }

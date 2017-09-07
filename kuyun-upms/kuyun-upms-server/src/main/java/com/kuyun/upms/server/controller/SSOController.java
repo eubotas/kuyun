@@ -456,10 +456,15 @@ public class SSOController extends BaseController {
             return new UpmsResult(UpmsResultConstant.FAILED, "验证码不正确");
         }
         String password = request.getParameter("password");
+        String confirmPassword = request.getParameter("confirmPassword");
 
         UpmsUser user = getUpmsUser(phone);
         if (user == null) {
-            return new UpmsResult(UpmsResultConstant.FAILED, "用户名不存在");
+            return new UpmsResult(UpmsResultConstant.FAILED, "用户不存在");
+        }
+
+        if (!password.equals(confirmPassword)){
+            return new UpmsResult(UpmsResultConstant.FAILED, "两次密码不一致");
         }
 
         user.setLocked(Byte.decode("0"));

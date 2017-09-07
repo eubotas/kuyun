@@ -3,6 +3,7 @@ package com.kuyun.eam.rpc.api;
 import java.util.List;
 
 import com.kuyun.eam.common.constant.CollectStatus;
+import com.kuyun.eam.dao.model.EamAlarm;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.pojo.tree.Tree;
 import com.kuyun.upms.dao.model.UpmsOrganization;
@@ -80,5 +81,15 @@ public class EamApiServiceMock implements EamApiService {
     @Override
     public int handleEquimpmentCollect(String jsonString, CollectStatus collectStatus) {
         return 0;
+    }
+
+    @Override
+    public Integer createAlarm(String targetUserId, EamAlarm alarm) {
+        return null;
+    }
+
+    @Override
+    public Integer updateAlarm(String targetUserId, EamAlarm alarm) {
+        return null;
     }
 }

@@ -3,6 +3,7 @@ package com.kuyun.eam.rpc.api;
 import java.util.List;
 
 import com.kuyun.eam.common.constant.CollectStatus;
+import com.kuyun.eam.dao.model.EamAlarm;
 import com.kuyun.eam.dao.model.EamInventory;
 import com.kuyun.eam.dao.model.EamTicketExample;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
@@ -42,4 +43,9 @@ public interface EamApiService {
     List<SensorGroup> getSensorData(String equipmentId);
 
     int handleEquimpmentCollect(String jsonString, CollectStatus collectStatus);
+
+    Integer createAlarm(String targetUserId, EamAlarm alarm);
+
+    Integer updateAlarm(String targetUserId, EamAlarm alarm);
+
 }

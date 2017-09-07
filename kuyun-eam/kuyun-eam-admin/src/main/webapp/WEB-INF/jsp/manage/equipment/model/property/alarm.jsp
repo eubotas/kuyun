@@ -8,10 +8,8 @@
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 <div id="alarmDialog" class="crudDialog">
 	<form id="sensorForm" method="post">
-		<input type="hidden" name="equipmentModelId" value="${equipmentModel.equipmentModelId}">
-		<input type="hidden" name="equipmentModelPropertyId" value="${equipmentModelProperties.equipmentModelPropertyId}">
-		<c:if test="${sensor != null}">
-			<input type="hidden" name="sensorId" value="${sensor.sensorId}">
+		<c:if test="${alarm != null}">
+			<input type="hidden" name="alarmId" value="${alarm.alarmId}">
 		</c:if>
 
 

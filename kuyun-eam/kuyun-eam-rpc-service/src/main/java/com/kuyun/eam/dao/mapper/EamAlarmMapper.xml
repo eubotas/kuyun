@@ -117,23 +117,26 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamAlarm">
-    insert into eam_alarm (alarm_id, alarm_type, upper_Bound, 
-      lower_Bound, duration, alarm_target, 
-      equipment_model_property_id, create_user_id, 
-      create_time, update_user_id, update_time, 
-      delete_flag, organization_id)
-    values (#{alarmId,jdbcType=INTEGER}, #{alarmType,jdbcType=VARCHAR}, #{upperBound,jdbcType=DECIMAL}, 
-      #{lowerBound,jdbcType=DECIMAL}, #{duration,jdbcType=DECIMAL}, #{alarmTarget,jdbcType=VARCHAR}, 
-      #{equipmentModelPropertyId,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlag,jdbcType=BIT}, #{organizationId,jdbcType=INTEGER})
+    <selectKey keyProperty="alarmId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into eam_alarm (alarm_type, upper_Bound, lower_Bound, 
+      duration, alarm_target, equipment_model_property_id, 
+      create_user_id, create_time, update_user_id, 
+      update_time, delete_flag, organization_id
+      )
+    values (#{alarmType,jdbcType=VARCHAR}, #{upperBound,jdbcType=DECIMAL}, #{lowerBound,jdbcType=DECIMAL}, 
+      #{duration,jdbcType=DECIMAL}, #{alarmTarget,jdbcType=VARCHAR}, #{equipmentModelPropertyId,jdbcType=INTEGER}, 
+      #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{organizationId,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamAlarm">
+    <selectKey keyProperty="alarmId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into eam_alarm
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="alarmId != null">
-        alarm_id,
-      </if>
       <if test="alarmType != null">
         alarm_type,
       </if>
@@ -172,9 +175,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="alarmId != null">
-        #{alarmId,jdbcType=INTEGER},
-      </if>
       <if test="alarmType != null">
         #{alarmType,jdbcType=VARCHAR},
       </if>
@@ -345,18 +345,18 @@
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into eam_alarm  (alarm_id, alarm_type, upper_Bound, 
-        lower_Bound, duration, alarm_target, 
-        equipment_model_property_id, create_user_id, 
-        create_time, update_user_id, update_time, 
-        delete_flag, organization_id)
+            insert into eam_alarm  (alarm_type, upper_Bound, lower_Bound, 
+        duration, alarm_target, equipment_model_property_id, 
+        create_user_id, create_time, update_user_id, 
+        update_time, delete_flag, organization_id
+        )
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.alarmId,jdbcType=INTEGER}, #{item.alarmType,jdbcType=VARCHAR}, #{item.upperBound,jdbcType=DECIMAL}, 
-        #{item.lowerBound,jdbcType=DECIMAL}, #{item.duration,jdbcType=DECIMAL}, #{item.alarmTarget,jdbcType=VARCHAR}, 
-        #{item.equipmentModelPropertyId,jdbcType=INTEGER}, #{item.createUserId,jdbcType=INTEGER}, 
-        #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
-        #{item.deleteFlag,jdbcType=BIT}, #{item.organizationId,jdbcType=INTEGER})
+      (#{item.alarmType,jdbcType=VARCHAR}, #{item.upperBound,jdbcType=DECIMAL}, #{item.lowerBound,jdbcType=DECIMAL}, 
+        #{item.duration,jdbcType=DECIMAL}, #{item.alarmTarget,jdbcType=VARCHAR}, #{item.equipmentModelPropertyId,jdbcType=INTEGER}, 
+        #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, 
+        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, #{item.organizationId,jdbcType=INTEGER}
+        )
       </foreach>
     </if>
   </insert>
