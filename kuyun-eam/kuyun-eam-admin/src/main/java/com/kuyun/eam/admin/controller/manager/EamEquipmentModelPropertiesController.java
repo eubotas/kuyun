@@ -8,13 +8,12 @@ import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.admin.util.ModbusFunctionCode;
 import com.kuyun.eam.common.constant.*;
 import com.kuyun.eam.dao.model.*;
-import com.kuyun.eam.rpc.api.EamEquipmentModelPropertiesService;
-import com.kuyun.eam.rpc.api.EamEquipmentModelService;
-import com.kuyun.eam.rpc.api.EamEquipmentService;
-import com.kuyun.eam.rpc.api.EamSensorService;
+import com.kuyun.eam.rpc.api.*;
 import com.kuyun.grm.common.Action;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsOrganization;
+import com.kuyun.upms.dao.model.UpmsUser;
+import com.kuyun.upms.rpc.api.UpmsApiService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -26,6 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,6 +55,15 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 
 	@Autowired
 	private EamSensorService eamSensorService;
+
+	@Autowired
+	private EamAlarmService eamAlarmService;
+
+	@Autowired
+	private EamAlarmTargetUserService eamAlarmTargetUserService;
+
+	@Autowired
+	private UpmsApiService upmsApiService;
 
 
 	@ApiOperation(value = "设备模型参数首页")
@@ -174,15 +183,17 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 		EamEquipmentModel equipmentModel = eamEquipmentModelService.selectByPrimaryKey(mId);
 		EamEquipmentModelProperties eamEquipmentModelProperties = eamEquipmentModelPropertiesService.selectByPrimaryKey(pId);
 		EamSensor sensor = getSensor(eamEquipmentModelProperties);
+		EamAlarm alarm = getAlarm(eamEquipmentModelProperties);
+		List<EamAlarmTargetUser> targetUsers = getAlarmTargetUsers(alarm);
 
 		modelMap.put("equipmentModel", equipmentModel);
 		modelMap.put("equipmentModelProperties", eamEquipmentModelProperties);
-		if (sensor != null){
-			modelMap.put("sensor", sensor);
-		}
+		modelMap.put("sensor", sensor);
+		modelMap.put("alarm", alarm);
+		modelMap.put("targetUsers", targetUsers);
 	}
 
-	@RequiresPermissions("eam:equipment:update")
+	@RequiresPermissions("eam:equipmentModelProperty:update")
 	@RequestMapping(value = "/grm/{mId}/{pId}", method = RequestMethod.GET)
 	public String grm(@PathVariable("mId") int mId, @PathVariable("pId") int pId, ModelMap modelMap) {
 		buildModelMap(mId, pId, modelMap);
@@ -191,7 +202,7 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 		return "/manage/equipment/model/property/grm.jsp";
 	}
 
-	@RequiresPermissions("eam:equipment:update")
+	@RequiresPermissions("eam:equipmentModelProperty:update")
 	@RequestMapping(value = "/modbus/{mId}/{pId}", method = RequestMethod.GET)
 	public String modbus(@PathVariable("mId") int mId, @PathVariable("pId") int pId, ModelMap modelMap) {
 		buildModelMap(mId, pId, modelMap);
@@ -203,7 +214,7 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 	}
 
 	@ApiOperation(value = "Modbus传感器参数")
-	@RequiresPermissions("eam:equipment:update")
+	@RequiresPermissions("eam:equipmentModelProperty:update")
 	@RequestMapping(value = "/sensor/modbus/{mId}/{pId}", method = RequestMethod.GET)
 	@ResponseBody
 	public Object sensorModbus(@PathVariable("mId") int mId, @PathVariable("pId") int pId) {
@@ -216,7 +227,7 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 	}
 
 	@ApiOperation(value = "巨控传感器参数")
-	@RequiresPermissions("eam:equipment:update")
+	@RequiresPermissions("eam:equipmentModelProperty:update")
 	@RequestMapping(value = "/sensor/grm/{mId}/{pId}", method = RequestMethod.GET)
 	@ResponseBody
 	public Object sensorGrm(@PathVariable("mId") int mId, @PathVariable("pId") int pId) {
@@ -230,26 +241,79 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 		EamEquipmentModel equipmentModel = eamEquipmentModelService.selectByPrimaryKey(mId);
 		EamEquipmentModelProperties eamEquipmentModelProperties = eamEquipmentModelPropertiesService.selectByPrimaryKey(pId);
 		EamSensor sensor = getSensor(eamEquipmentModelProperties);
+		EamAlarm alarm = getAlarm(eamEquipmentModelProperties);
+		List<EamAlarmTargetUser> targetUsers = getAlarmTargetUsers(alarm);
 
 		Map<String, Object> result = new HashMap<>();
 		result.put("equipmentModel", equipmentModel);
 		result.put("equipmentModelProperties", eamEquipmentModelProperties);
 		result.put("sensor", sensor);
+		result.put("alarm", alarm);
+		result.put("targetUsers", targetUsers);
 		return result;
 	}
 
 
 	public EamSensor getSensor(EamEquipmentModelProperties eamEquipmentModelProperties){
 		EamSensorExample example = new EamSensorExample();
-		example.createCriteria().andEquipmentModelPropertyIdEqualTo(eamEquipmentModelProperties.getEquipmentModelPropertyId());
+		example.createCriteria().andEquipmentModelPropertyIdEqualTo(eamEquipmentModelProperties.getEquipmentModelPropertyId())
+								.andDeleteFlagEqualTo(Boolean.FALSE);
 		return eamSensorService.selectFirstByExample(example);
 	}
 
-	@RequiresPermissions("eam:equipment:update")
+	public EamAlarm getAlarm(EamEquipmentModelProperties eamEquipmentModelProperties){
+		EamAlarmExample example = new EamAlarmExample();
+		example.createCriteria().andEquipmentModelPropertyIdEqualTo(eamEquipmentModelProperties.getEquipmentModelPropertyId())
+								.andDeleteFlagEqualTo(Boolean.FALSE);
+		return eamAlarmService.selectFirstByExample(example);
+	}
+
+	public List<EamAlarmTargetUser> getAlarmTargetUsers(EamAlarm alarm){
+		List<EamAlarmTargetUser> result = new ArrayList<>();
+
+		if (alarm != null){
+			EamAlarmTargetUserExample example = new EamAlarmTargetUserExample();
+			example.createCriteria().andAlarmIdEqualTo(alarm.getAlarmId())
+									.andDeleteFlagEqualTo(Boolean.FALSE);
+			result = eamAlarmTargetUserService.selectByExample(example);
+		}
+		return result;
+	}
+
+	@RequiresPermissions("eam:equipmentModelProperty:update")
 	@RequestMapping(value = "/data/change/{mId}/{pId}", method = RequestMethod.GET)
 	public String dataChange(@PathVariable("mId") int mId, @PathVariable("pId") int pId, ModelMap modelMap) {
 		buildModelMap(mId, pId, modelMap);
 		return "/manage/equipment/model/property/datachange.jsp";
+	}
+
+	@RequiresPermissions("eam:equipmentModelProperty:update")
+	@RequestMapping(value = "/alarm/{mId}/{pId}", method = RequestMethod.GET)
+	public String alarm(@PathVariable("mId") int mId, @PathVariable("pId") int pId, ModelMap modelMap) {
+		buildModelMap(mId, pId, modelMap);
+		modelMap.put("alarmTypes", AlarmType.values());
+		modelMap.put("alarmTargets", AlarmTarget.values());
+		modelMap.put("users", getUsers());
+
+		return "/manage/equipment/model/property/alarm.jsp";
+	}
+
+	private List<UpmsUser> getUsers(){
+		UpmsUser user = baseEntityUtil.getCurrentUser();
+		return upmsApiService.selectUsersByUserId(user.getUserId());
+	}
+
+	@ApiOperation(value = "报警设置")
+	@RequiresPermissions("eam:equipmentModelProperty:update")
+	@RequestMapping(value = "/sensor/alarm/{mId}/{pId}", method = RequestMethod.GET)
+	@ResponseBody
+	public Object sensorAlarm(@PathVariable("mId") int mId, @PathVariable("pId") int pId) {
+		Map<String, Object> result = buildHashMap(mId, pId);
+
+		result.put("alarmTypes", AlarmType.values());
+		result.put("alarmTargets", AlarmTarget.values());
+		result.put("users", getUsers());
+		return result;
 	}
 
 }

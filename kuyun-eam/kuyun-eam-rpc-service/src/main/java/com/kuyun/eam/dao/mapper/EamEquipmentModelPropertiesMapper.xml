@@ -10,7 +10,6 @@
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="data_type" jdbcType="VARCHAR" property="dataType" />
     <result column="display_type" jdbcType="VARCHAR" property="displayType" />
-    <result column="alarm_type" jdbcType="VARCHAR" property="alarmType" />
     <result column="refresh_period" jdbcType="VARCHAR" property="refreshPeriod" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -79,8 +78,8 @@
   </sql>
   <sql id="Base_Column_List">
     equipment_model_property_id, equipment_model_id, name, label, unit, address, data_type, 
-    display_type, alarm_type, refresh_period, create_user_id, create_time, update_user_id, 
-    update_time, delete_flag, organization_id
+    display_type, refresh_period, create_user_id, create_time, update_user_id, update_time, 
+    delete_flag, organization_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentModelPropertiesExample" resultMap="BaseResultMap">
     select
@@ -124,15 +123,15 @@
     insert into eam_equipment_model_properties (equipment_model_property_id, equipment_model_id, 
       name, label, unit, 
       address, data_type, display_type, 
-      alarm_type, refresh_period, create_user_id, 
-      create_time, update_user_id, update_time, 
-      delete_flag, organization_id)
+      refresh_period, create_user_id, create_time, 
+      update_user_id, update_time, delete_flag, 
+      organization_id)
     values (#{equipmentModelPropertyId,jdbcType=INTEGER}, #{equipmentModelId,jdbcType=INTEGER}, 
       #{name,jdbcType=VARCHAR}, #{label,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
       #{address,jdbcType=VARCHAR}, #{dataType,jdbcType=VARCHAR}, #{displayType,jdbcType=VARCHAR}, 
-      #{alarmType,jdbcType=VARCHAR}, #{refreshPeriod,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlag,jdbcType=BIT}, #{organizationId,jdbcType=INTEGER})
+      #{refreshPeriod,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
+      #{organizationId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamEquipmentModelProperties">
     insert into eam_equipment_model_properties
@@ -160,9 +159,6 @@
       </if>
       <if test="displayType != null">
         display_type,
-      </if>
-      <if test="alarmType != null">
-        alarm_type,
       </if>
       <if test="refreshPeriod != null">
         refresh_period,
@@ -210,9 +206,6 @@
       </if>
       <if test="displayType != null">
         #{displayType,jdbcType=VARCHAR},
-      </if>
-      <if test="alarmType != null">
-        #{alarmType,jdbcType=VARCHAR},
       </if>
       <if test="refreshPeriod != null">
         #{refreshPeriod,jdbcType=VARCHAR},
@@ -270,9 +263,6 @@
       <if test="record.displayType != null">
         display_type = #{record.displayType,jdbcType=VARCHAR},
       </if>
-      <if test="record.alarmType != null">
-        alarm_type = #{record.alarmType,jdbcType=VARCHAR},
-      </if>
       <if test="record.refreshPeriod != null">
         refresh_period = #{record.refreshPeriod,jdbcType=VARCHAR},
       </if>
@@ -309,7 +299,6 @@
       address = #{record.address,jdbcType=VARCHAR},
       data_type = #{record.dataType,jdbcType=VARCHAR},
       display_type = #{record.displayType,jdbcType=VARCHAR},
-      alarm_type = #{record.alarmType,jdbcType=VARCHAR},
       refresh_period = #{record.refreshPeriod,jdbcType=VARCHAR},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -345,9 +334,6 @@
       <if test="displayType != null">
         display_type = #{displayType,jdbcType=VARCHAR},
       </if>
-      <if test="alarmType != null">
-        alarm_type = #{alarmType,jdbcType=VARCHAR},
-      </if>
       <if test="refreshPeriod != null">
         refresh_period = #{refreshPeriod,jdbcType=VARCHAR},
       </if>
@@ -381,7 +367,6 @@
       address = #{address,jdbcType=VARCHAR},
       data_type = #{dataType,jdbcType=VARCHAR},
       display_type = #{displayType,jdbcType=VARCHAR},
-      alarm_type = #{alarmType,jdbcType=VARCHAR},
       refresh_period = #{refreshPeriod,jdbcType=VARCHAR},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -396,17 +381,17 @@
             insert into eam_equipment_model_properties  (equipment_model_property_id, equipment_model_id, 
         name, label, unit, 
         address, data_type, display_type, 
-        alarm_type, refresh_period, create_user_id, 
-        create_time, update_user_id, update_time, 
-        delete_flag, organization_id)
+        refresh_period, create_user_id, create_time, 
+        update_user_id, update_time, delete_flag, 
+        organization_id)
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.equipmentModelPropertyId,jdbcType=INTEGER}, #{item.equipmentModelId,jdbcType=INTEGER}, 
         #{item.name,jdbcType=VARCHAR}, #{item.label,jdbcType=VARCHAR}, #{item.unit,jdbcType=VARCHAR}, 
         #{item.address,jdbcType=VARCHAR}, #{item.dataType,jdbcType=VARCHAR}, #{item.displayType,jdbcType=VARCHAR}, 
-        #{item.alarmType,jdbcType=VARCHAR}, #{item.refreshPeriod,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER}, 
-        #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
-        #{item.deleteFlag,jdbcType=BIT}, #{item.organizationId,jdbcType=INTEGER})
+        #{item.refreshPeriod,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, 
+        #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, 
+        #{item.organizationId,jdbcType=INTEGER})
       </foreach>
     </if>
   </insert>

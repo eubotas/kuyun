@@ -440,4 +440,98 @@ public class SSOController extends BaseController {
         return org.getOrganizationId();
     }
 
+
+    @RequestMapping(value = "/password_find", method = RequestMethod.GET)
+    public String passwordFind(HttpServletRequest request) {
+        return "/sso/back_step_1.jsp";
+    }
+
+    @RequestMapping(value = "/back", method = RequestMethod.POST)
+    @ResponseBody
+    public Object back(HttpServletRequest request, ModelMap modelMap) {
+        String phone = request.getParameter("phone");
+        String code = request.getParameter("code");
+        String resCode = checkVerifyCode(phone, code);
+        if (!"200".equals(resCode)) {
+            return new UpmsResult(UpmsResultConstant.FAILED, "验证码不正确");
+        }
+        String password = request.getParameter("password");
+
+        UpmsUser user = getUpmsUser(phone);
+        if (user == null) {
+            return new UpmsResult(UpmsResultConstant.FAILED, "用户名不存在");
+        }
+
+        user.setLocked(Byte.decode("0"));
+
+        String salt = UUID.randomUUID().toString().replaceAll("-", "");
+        user.setSalt(salt);
+        user.setPassword(MD5Util.MD5(password + salt));
+
+        int count = upmsUserService.updateByPrimaryKeySelective(user);
+
+        return new UpmsResult(UpmsResultConstant.SUCCESS, count);
+    }
+
+    @RequestMapping(value = "/back_step1", method = RequestMethod.POST)
+    @ResponseBody
+    public Object backStep1(HttpServletRequest request, ModelMap modelMap) {
+        String username = request.getParameter("account");
+        String phone = "";
+
+        UpmsUser user = getUpmsUser(username);
+        if (user == null) {
+            return new UpmsResult(UpmsResultConstant.FAILED, "用户名不存在");
+        }else {
+            phone = user.getPhone();
+        }
+        modelMap.put("maskPhone", replacePhone(phone));
+        modelMap.put("phone", phone);
+        modelMap.put("username", username);
+
+        return new UpmsResult(UpmsResultConstant.SUCCESS, modelMap);
+    }
+
+    @RequestMapping(value = "/back_step2", method = RequestMethod.POST)
+    @ResponseBody
+    public Object backStep2(HttpServletRequest request, ModelMap modelMap) {
+        String username = request.getParameter("username");
+        String phone = request.getParameter("phone");
+        String code = request.getParameter("code");
+        String resCode = checkVerifyCode(phone, code);
+        if (!"200".equals(resCode)) {
+            return new UpmsResult(UpmsResultConstant.FAILED, "验证码不正确");
+        }
+        modelMap.put("username", username);
+        return new UpmsResult(UpmsResultConstant.SUCCESS, modelMap);
+    }
+
+    private String replacePhone(String phone){
+        StringBuilder result = new StringBuilder(11);
+        result.append("*******");
+        result.append(StringUtils.substring(phone,7));
+        return result.toString();
+    }
+
+    @RequestMapping(value = "/back_step3", method = RequestMethod.POST)
+    @ResponseBody
+    public Object backStep3(HttpServletRequest request, ModelMap modelMap) {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+
+        UpmsUser user = getUpmsUser(username);
+        if (user == null) {
+            return new UpmsResult(UpmsResultConstant.FAILED, "用户名不存在");
+        }
+
+        user.setLocked(Byte.decode("0"));
+
+        String salt = UUID.randomUUID().toString().replaceAll("-", "");
+        user.setSalt(salt);
+        user.setPassword(MD5Util.MD5(password + salt));
+
+        int count = upmsUserService.updateByPrimaryKeySelective(user);
+
+        return new UpmsResult(UpmsResultConstant.SUCCESS, count);
+    }
 }

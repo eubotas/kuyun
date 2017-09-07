@@ -45,6 +45,7 @@
 
     <div class="">
         <a href="reg">用户注册</a>
+        <a href="password_find">忘记密码</a>
     </div>
     <a id="login-bt" href="javascript:;" class="waves-effect waves-button waves-float"><i class="zmdi zmdi-arrow-forward"></i></a>
 </div>

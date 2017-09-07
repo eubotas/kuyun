@@ -189,136 +189,6 @@ public class EamAlarmExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andEquipmentIdIsNull() {
-            addCriterion("equipment_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentIdIsNotNull() {
-            addCriterion("equipment_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentIdEqualTo(String value) {
-            addCriterion("equipment_id =", value, "equipmentId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentIdNotEqualTo(String value) {
-            addCriterion("equipment_id <>", value, "equipmentId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentIdGreaterThan(String value) {
-            addCriterion("equipment_id >", value, "equipmentId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentIdGreaterThanOrEqualTo(String value) {
-            addCriterion("equipment_id >=", value, "equipmentId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentIdLessThan(String value) {
-            addCriterion("equipment_id <", value, "equipmentId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentIdLessThanOrEqualTo(String value) {
-            addCriterion("equipment_id <=", value, "equipmentId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentIdLike(String value) {
-            addCriterion("equipment_id like", value, "equipmentId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentIdNotLike(String value) {
-            addCriterion("equipment_id not like", value, "equipmentId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentIdIn(List<String> values) {
-            addCriterion("equipment_id in", values, "equipmentId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentIdNotIn(List<String> values) {
-            addCriterion("equipment_id not in", values, "equipmentId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentIdBetween(String value1, String value2) {
-            addCriterion("equipment_id between", value1, value2, "equipmentId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentIdNotBetween(String value1, String value2) {
-            addCriterion("equipment_id not between", value1, value2, "equipmentId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSensorIdIsNull() {
-            addCriterion("sensor_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSensorIdIsNotNull() {
-            addCriterion("sensor_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSensorIdEqualTo(Integer value) {
-            addCriterion("sensor_id =", value, "sensorId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSensorIdNotEqualTo(Integer value) {
-            addCriterion("sensor_id <>", value, "sensorId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSensorIdGreaterThan(Integer value) {
-            addCriterion("sensor_id >", value, "sensorId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSensorIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("sensor_id >=", value, "sensorId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSensorIdLessThan(Integer value) {
-            addCriterion("sensor_id <", value, "sensorId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSensorIdLessThanOrEqualTo(Integer value) {
-            addCriterion("sensor_id <=", value, "sensorId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSensorIdIn(List<Integer> values) {
-            addCriterion("sensor_id in", values, "sensorId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSensorIdNotIn(List<Integer> values) {
-            addCriterion("sensor_id not in", values, "sensorId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSensorIdBetween(Integer value1, Integer value2) {
-            addCriterion("sensor_id between", value1, value2, "sensorId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSensorIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("sensor_id not between", value1, value2, "sensorId");
-            return (Criteria) this;
-        }
-
         public Criteria andAlarmTypeIsNull() {
             addCriterion("alarm_type is null");
             return (Criteria) this;
@@ -636,6 +506,66 @@ public class EamAlarmExample implements Serializable {
 
         public Criteria andAlarmTargetNotBetween(String value1, String value2) {
             addCriterion("alarm_target not between", value1, value2, "alarmTarget");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentModelPropertyIdIsNull() {
+            addCriterion("equipment_model_property_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentModelPropertyIdIsNotNull() {
+            addCriterion("equipment_model_property_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentModelPropertyIdEqualTo(Integer value) {
+            addCriterion("equipment_model_property_id =", value, "equipmentModelPropertyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentModelPropertyIdNotEqualTo(Integer value) {
+            addCriterion("equipment_model_property_id <>", value, "equipmentModelPropertyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentModelPropertyIdGreaterThan(Integer value) {
+            addCriterion("equipment_model_property_id >", value, "equipmentModelPropertyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentModelPropertyIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("equipment_model_property_id >=", value, "equipmentModelPropertyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentModelPropertyIdLessThan(Integer value) {
+            addCriterion("equipment_model_property_id <", value, "equipmentModelPropertyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentModelPropertyIdLessThanOrEqualTo(Integer value) {
+            addCriterion("equipment_model_property_id <=", value, "equipmentModelPropertyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentModelPropertyIdIn(List<Integer> values) {
+            addCriterion("equipment_model_property_id in", values, "equipmentModelPropertyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentModelPropertyIdNotIn(List<Integer> values) {
+            addCriterion("equipment_model_property_id not in", values, "equipmentModelPropertyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentModelPropertyIdBetween(Integer value1, Integer value2) {
+            addCriterion("equipment_model_property_id between", value1, value2, "equipmentModelPropertyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentModelPropertyIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("equipment_model_property_id not between", value1, value2, "equipmentModelPropertyId");
             return (Criteria) this;
         }
 

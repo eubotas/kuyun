@@ -40,13 +40,6 @@ public class EamEquipmentModelProperties extends BaseEntity implements Serializa
      */
     private String displayType;
 
-    /**
-     * 报警类型(val_above, val_below, ...)
-     *
-     * @mbg.generated
-     */
-    private String alarmType;
-
     private String refreshPeriod;
 
     private static final long serialVersionUID = 1L;
@@ -115,14 +108,6 @@ public class EamEquipmentModelProperties extends BaseEntity implements Serializa
         this.displayType = displayType;
     }
 
-    public String getAlarmType() {
-        return alarmType;
-    }
-
-    public void setAlarmType(String alarmType) {
-        this.alarmType = alarmType;
-    }
-
     public String getRefreshPeriod() {
         return refreshPeriod;
     }
@@ -145,7 +130,6 @@ public class EamEquipmentModelProperties extends BaseEntity implements Serializa
         sb.append(", address=").append(address);
         sb.append(", dataType=").append(dataType);
         sb.append(", displayType=").append(displayType);
-        sb.append(", alarmType=").append(alarmType);
         sb.append(", refreshPeriod=").append(refreshPeriod);
         sb.append("]");
         return sb.toString();
@@ -171,7 +155,6 @@ public class EamEquipmentModelProperties extends BaseEntity implements Serializa
             && (this.getAddress() == null ? other.getAddress() == null : this.getAddress().equals(other.getAddress()))
             && (this.getDataType() == null ? other.getDataType() == null : this.getDataType().equals(other.getDataType()))
             && (this.getDisplayType() == null ? other.getDisplayType() == null : this.getDisplayType().equals(other.getDisplayType()))
-            && (this.getAlarmType() == null ? other.getAlarmType() == null : this.getAlarmType().equals(other.getAlarmType()))
             && (this.getRefreshPeriod() == null ? other.getRefreshPeriod() == null : this.getRefreshPeriod().equals(other.getRefreshPeriod()))
             && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
@@ -193,7 +176,6 @@ public class EamEquipmentModelProperties extends BaseEntity implements Serializa
         result = prime * result + ((getAddress() == null) ? 0 : getAddress().hashCode());
         result = prime * result + ((getDataType() == null) ? 0 : getDataType().hashCode());
         result = prime * result + ((getDisplayType() == null) ? 0 : getDisplayType().hashCode());
-        result = prime * result + ((getAlarmType() == null) ? 0 : getAlarmType().hashCode());
         result = prime * result + ((getRefreshPeriod() == null) ? 0 : getRefreshPeriod().hashCode());
         result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());

@@ -458,16 +458,16 @@
       <if test="grmVariableOrder != null">
         grm_variable_order = #{grmVariableOrder,jdbcType=INTEGER},
       </if>
-      <if test="osh != null or osh == null">
+      <if test="osh != null">
         osh = #{osh,jdbcType=DECIMAL},
       </if>
-      <if test="osl != null or osl == null">
+      <if test="osl != null">
         osl = #{osl,jdbcType=DECIMAL},
       </if>
-      <if test="ish != null or ish == null">
+      <if test="ish != null">
         ish = #{ish,jdbcType=DECIMAL},
       </if>
-      <if test="isl != null or isl == null">
+      <if test="isl != null">
         isl = #{isl,jdbcType=DECIMAL},
       </if>
       <if test="createUserId != null">

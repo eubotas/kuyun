@@ -74,4 +74,12 @@
 	<bean id="eamTicketTypeServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamTicketTypeServiceImpl"  />
 	<dubbo:service interface="com.kuyun.eam.rpc.api.EamTicketTypeService" ref="eamTicketTypeServiceImpl" timeout="10000" />
 
+    <!-- 报警 -->
+    <bean id="eamAlarmServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamAlarmServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamAlarmService" ref="eamAlarmServiceImpl" timeout="10000"/>
+    <bean id="eamAlarmTargetUserServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamAlarmTargetUserServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamAlarmTargetUserService" ref="eamAlarmTargetUserServiceImpl" timeout="10000"/>
+    <bean id="eamAlarmRecordServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamAlarmRecordServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamAlarmRecordService" ref="eamAlarmRecordServiceImpl" timeout="10000"/>
+
 </beans>

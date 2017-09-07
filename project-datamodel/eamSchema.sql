@@ -358,7 +358,7 @@ CREATE TABLE `eam_alarm_target_user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `eam_alarm_data` (
+CREATE TABLE `eam_alarm_record` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `alarm_id`            int(11),
    equipment_id         varchar(32),

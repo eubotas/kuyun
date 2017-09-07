@@ -8,6 +8,10 @@ public class EamAlarmData extends BaseEntity implements Serializable {
 
     private Integer alarmId;
 
+    private String equipmentId;
+
+    private Integer equipmentModelPropertyId;
+
     private Integer sensorDataId;
 
     private static final long serialVersionUID = 1L;
@@ -28,6 +32,22 @@ public class EamAlarmData extends BaseEntity implements Serializable {
         this.alarmId = alarmId;
     }
 
+    public String getEquipmentId() {
+        return equipmentId;
+    }
+
+    public void setEquipmentId(String equipmentId) {
+        this.equipmentId = equipmentId;
+    }
+
+    public Integer getEquipmentModelPropertyId() {
+        return equipmentModelPropertyId;
+    }
+
+    public void setEquipmentModelPropertyId(Integer equipmentModelPropertyId) {
+        this.equipmentModelPropertyId = equipmentModelPropertyId;
+    }
+
     public Integer getSensorDataId() {
         return sensorDataId;
     }
@@ -44,6 +64,8 @@ public class EamAlarmData extends BaseEntity implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", alarmId=").append(alarmId);
+        sb.append(", equipmentId=").append(equipmentId);
+        sb.append(", equipmentModelPropertyId=").append(equipmentModelPropertyId);
         sb.append(", sensorDataId=").append(sensorDataId);
         sb.append("]");
         return sb.toString();
@@ -63,6 +85,8 @@ public class EamAlarmData extends BaseEntity implements Serializable {
         EamAlarmData other = (EamAlarmData) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getAlarmId() == null ? other.getAlarmId() == null : this.getAlarmId().equals(other.getAlarmId()))
+            && (this.getEquipmentId() == null ? other.getEquipmentId() == null : this.getEquipmentId().equals(other.getEquipmentId()))
+            && (this.getEquipmentModelPropertyId() == null ? other.getEquipmentModelPropertyId() == null : this.getEquipmentModelPropertyId().equals(other.getEquipmentModelPropertyId()))
             && (this.getSensorDataId() == null ? other.getSensorDataId() == null : this.getSensorDataId().equals(other.getSensorDataId()))
             && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
@@ -78,6 +102,8 @@ public class EamAlarmData extends BaseEntity implements Serializable {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getAlarmId() == null) ? 0 : getAlarmId().hashCode());
+        result = prime * result + ((getEquipmentId() == null) ? 0 : getEquipmentId().hashCode());
+        result = prime * result + ((getEquipmentModelPropertyId() == null) ? 0 : getEquipmentModelPropertyId().hashCode());
         result = prime * result + ((getSensorDataId() == null) ? 0 : getSensorDataId().hashCode());
         result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());

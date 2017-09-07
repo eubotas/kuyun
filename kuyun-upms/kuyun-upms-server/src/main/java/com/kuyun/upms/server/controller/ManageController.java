@@ -47,9 +47,14 @@ public class ManageController extends BaseController {
 		// 当前登录用户权限
 		Subject subject = SecurityUtils.getSubject();
 		String username = (String) subject.getPrincipal();
+		_log.info("username="+username);
 		UpmsUser upmsUser = upmsApiService.selectUpmsUserByUsername(username);
-		List<UpmsPermission> upmsPermissions = upmsApiService.selectUpmsPermissionByUpmsUserId(upmsUser.getUserId());
-		modelMap.put("upmsPermissions", upmsPermissions);
+
+		if(upmsUser != null){
+			List<UpmsPermission> upmsPermissions = upmsApiService.selectUpmsPermissionByUpmsUserId(upmsUser.getUserId());
+			modelMap.put("upmsPermissions", upmsPermissions);
+		}
+
 		return "/manage/index.jsp";
 	}
 
