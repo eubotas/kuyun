@@ -8,6 +8,7 @@
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 <div id="alarmDialog" class="crudDialog">
 	<form id="sensorForm" method="post">
+		<input type="hidden" name="equipmentModelPropertyId" value="${equipmentModelProperties.equipmentModelPropertyId}">
 		<c:if test="${alarm != null}">
 			<input type="hidden" name="alarmId" value="${alarm.alarmId}">
 		</c:if>
@@ -62,7 +63,7 @@
 					<div class="fg-line">
 						<select id="alarmTarget" name="alarmTarget" style="width: 100%">
 							<c:forEach var="alarmTarget" items="${alarmTargets}">
-								<option value="${alarmTarget.code}" >${alarmTarget.name}</option>
+								<option value="${alarmTarget.code}" ${alarm != null && alarm.alarmTarget == alarmTarget.code ? 'selected' : ''}>${alarmTarget.name}</option>
 							</c:forEach>
 						</select>
 					</div>

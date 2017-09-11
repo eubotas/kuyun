@@ -4,21 +4,16 @@ import java.util.List;
 
 import com.kuyun.eam.common.constant.CollectStatus;
 import com.kuyun.eam.dao.model.EamAlarm;
+import com.kuyun.eam.dao.model.EamSensorData;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.pojo.tree.Tree;
+import com.kuyun.eam.vo.*;
 import com.kuyun.upms.dao.model.UpmsOrganization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.kuyun.eam.dao.model.EamInventory;
 import com.kuyun.eam.dao.model.EamTicketExample;
-import com.kuyun.eam.vo.EamInventoryVO;
-import com.kuyun.eam.vo.EamLocationVO;
-import com.kuyun.eam.vo.EamMaintenanceVO;
-import com.kuyun.eam.vo.EamPartVO;
-import com.kuyun.eam.vo.EamSensorDataVO;
-import com.kuyun.eam.vo.EamSensorVO;
-import com.kuyun.eam.vo.EamTicketVO;
 
 /**
  * Created by user on 4/24/2017.
@@ -90,6 +85,21 @@ public class EamApiServiceMock implements EamApiService {
 
     @Override
     public Integer updateAlarm(String targetUserId, EamAlarm alarm) {
+        return null;
+    }
+
+    @Override
+    public void handleAlarm(EamSensorData sensorData) {
+
+    }
+
+    @Override
+    public void handleAlarmOffline(String deviceId) {
+
+    }
+
+    @Override
+    public List<EamAlarmRecordVO> selectAlarmRecords(EamAlarmRecordVO eamAlarmRecordVO) {
         return null;
     }
 }

@@ -27,6 +27,10 @@ public enum AlarmTarget {
         return null;
     }
 
+    public boolean match(String code){
+        return this.getCode().equalsIgnoreCase(code);
+    }
+
     public String getCode() {
         return code;
     }

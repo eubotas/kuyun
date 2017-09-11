@@ -174,14 +174,13 @@
 
 
 	<resultMap id="EamSensorDataVOResultMap" type="com.kuyun.eam.vo.EamSensorDataVO" extends="com.kuyun.eam.dao.mapper.EamSensorDataMapper.BaseResultMap">
-		<result column="equipment_id" jdbcType="VARCHAR" property="equipmentId" />
 		<result column="equipment_name" jdbcType="VARCHAR" property="equipmentName" />
 		<result column="equipment_model_property_id" jdbcType="VARCHAR" property="equipmentModelPropertyId" />
 		<result column="equipment_model_property_name" jdbcType="VARCHAR" property="equipmentModelPropertyName" />
 	</resultMap>
 
 	<sql id="Sensor_Data_Column_List">
-		t.sensor_data_id, t.sensor_id, t.string_value, t.number_value, t.boolean_value, t.longitude_value,
+		t.sensor_data_id, t.equipment_id, t.sensor_id, t.string_value, t.number_value, t.boolean_value, t.longitude_value,
 		t.latitude_value, t.create_user_id, t.create_time, t.update_user_id, t.update_time, t.delete_flag,
 		t.organization_id,
 	</sql>
@@ -189,20 +188,16 @@
 	<select id="selectEamSensorData" parameterType="com.kuyun.eam.vo.EamSensorVO" resultMap="EamSensorDataVOResultMap">
 		select
 		<include refid="Sensor_Data_Column_List" />
-		e.equipment_id,
 		e.name as equipment_name,
 		p.equipment_model_property_id,
 		p.name as equipment_model_property_name
 		from eam_sensor_data t
 		LEFT JOIN eam_sensor s ON t.sensor_id = s.sensor_id
 		LEFT JOIN eam_equipment_model_properties p ON p.equipment_model_property_id = s.equipment_model_property_id
-		LEFT JOIN eam_equipment e ON e.equipment_id = s.equipment_id
+		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
 		WHERE t.delete_flag = 0
 		<if test="sensorId != null and sensorId != ''">
 			AND s.sensor_id = #{sensorId}
-		</if>
-		<if test="equipmentId != null and equipmentId != ''">
-			AND s.equipment_id = #{equipmentId}
 		</if>
 		<if test="equipmentModelPropertyId != null and equipmentModelPropertyId != ''">
 			AND s.equipment_model_property_id = #{equipmentModelPropertyId}
@@ -227,9 +222,10 @@
 	</select>
 
 	<sql id="Sensor_Column_List">
-		s.sensor_id, s.equipment_id, s.equipment_model_property_id, s.salve_id, s.function_code, s.address,
-		s.data_format, s.period, s.quantity, s.write_number, s.grm_action, s.grm_variable, s.grm_variable_value,
-		s.create_user_id, s.create_time, s.update_user_id, s.update_time, s.delete_flag, s.organization_id,
+		s.sensor_id, s.equipment_model_property_id, s.salve_id, s.function_code, s.address, s.data_format,
+		s.bit_order, s.period, s.quantity, s.write_number, s.grm_action, s.grm_variable, s.grm_variable_value,
+		s.grm_variable_order, s.osh, s.osl, s.ish, s.isl, s.create_user_id, s.create_time, s.update_user_id,
+		s.update_time, s.delete_flag, s.organization_id,
 	</sql>
 
 	<resultMap id="EamSensorVOResultMap" type="com.kuyun.eam.vo.EamSensorVO" extends="com.kuyun.eam.dao.mapper.EamSensorMapper.BaseResultMap">
@@ -250,11 +246,10 @@
 		d.string_value
 		FROM eam_sensor s
 		LEFT JOIN eam_equipment_model_properties p ON s.equipment_model_property_id = p.equipment_model_property_id
-		LEFT JOIN eam_equipment e on s.equipment_id = e.equipment_id
 		LEFT JOIN eam_sensor_data d On s.sensor_id = d.sensor_id
 		AND d.sensor_data_id = (select sensor_data_id from eam_sensor_data t where t.sensor_id = s.sensor_id order by t.create_time desc limit 1)
 
-		WHERE s.delete_flag = 0 AND s.equipment_id = #{equipmentId}
+		WHERE s.delete_flag = 0 AND d.string_value is not null AND d.equipment_id = #{equipmentId}
 
 	</select>
 
@@ -274,6 +269,99 @@
 		LEFT OUTER JOIN upms_user uu ON eam_ticket.executor_id = uu.user_id
 		<if test="_parameter != null">
       		<include refid="com.kuyun.eam.dao.mapper.EamTicketMapper.Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+	<select id="selectAlarm" parameterType="com.kuyun.eam.dao.model.EamSensorData" resultMap="com.kuyun.eam.dao.mapper.EamAlarmMapper.BaseResultMap">
+		select
+		a.alarm_id, a.alarm_type, a.upper_Bound, a.lower_Bound, a.duration, a.alarm_target, a.equipment_model_property_id,
+		a.create_user_id, a.create_time, a.update_user_id, a.update_time, a.delete_flag, a.organization_id
+		from eam_alarm a
+		left join eam_equipment_model_properties p on a.equipment_model_property_id = p.equipment_model_property_id
+		left join eam_sensor s on s.equipment_model_property_id = p.equipment_model_property_id
+		left join eam_sensor_data d on d.sensor_id = s.sensor_id
+		WHERE a.delete_flag = 0
+		<if test="sensorId != null and sensorId != ''">
+			AND d.sensor_id = #{sensorId}
+		</if>
+	</select>
+
+	<select id="selectAlarms" parameterType="String" resultMap="com.kuyun.eam.dao.mapper.EamAlarmMapper.BaseResultMap">
+		select
+		a.alarm_id, a.alarm_type, a.upper_Bound, a.lower_Bound, a.duration, a.alarm_target, a.equipment_model_property_id,
+		a.create_user_id, a.create_time, a.update_user_id, a.update_time, a.delete_flag, a.organization_id
+		from eam_alarm a
+		left join eam_equipment_model_properties p on a.equipment_model_property_id = p.equipment_model_property_id
+		left join eam_equipment_model m on m.equipment_model_id = p.equipment_model_id
+		left join eam_equipment e on e.equipment_model_id = m.equipment_model_id
+		WHERE a.delete_flag = 0 and d.equipment_id = #{deviceId}
+	</select>
+
+	<resultMap id="EamAlarmRecordVOResultMap" type="com.kuyun.eam.vo.EamAlarmRecordVO" extends="com.kuyun.eam.dao.mapper.EamAlarmRecordMapper.BaseResultMap">
+		<result column="alarm_value" jdbcType="VARCHAR" property="alarmValue" />
+		<result column="alarm_type" jdbcType="VARCHAR" property="alarmType" />
+		<result column="upper_Bound" jdbcType="DECIMAL" property="upperBound" />
+		<result column="lower_Bound" jdbcType="DECIMAL" property="lowerBound" />
+		<result column="duration" jdbcType="DECIMAL" property="duration" />
+		<result column="alarm_target" jdbcType="VARCHAR" property="alarmTarget" />
+		<result column="phone" jdbcType="VARCHAR" property="phone" />
+		<result column="email" jdbcType="VARCHAR" property="email" />
+		<result column="user_name" jdbcType="VARCHAR" property="userName" />
+		<result column="equipment_name" jdbcType="VARCHAR" property="equipmentName" />
+		<result column="equipment_number" jdbcType="VARCHAR" property="equipmentNumber" />
+		<result column="equipment_model_property_name" jdbcType="VARCHAR" property="equipmentModelPropertyName" />
+	</resultMap>
+
+	<sql id="Alarm_Record_Column_List">
+		t.id, t.alarm_id, t.equipment_id, t.equipment_model_property_id, t.sensor_data_id, t.create_user_id,
+        t.create_time, t.update_user_id, t.update_time, t.delete_flag, t.organization_id,
+	</sql>
+
+	<select id="selectAlarmRecords" parameterType="com.kuyun.eam.vo.EamAlarmRecordVO" resultMap="EamAlarmRecordVOResultMap">
+		select DISTINCT
+		<include refid="Alarm_Record_Column_List" />
+		s.string_value as alarm_value,
+		a.alarm_type,
+		a.upper_Bound,
+		a.lower_Bound,
+		a.duration,
+		a.alarm_target,
+		uu.phone,
+		uu.email,
+		uu.realname as user_name,
+		e.name as equipment_name,
+		e.number as equipment_number,
+		p.name as equipment_model_property_name
+		from eam_alarm_record t
+		LEFT JOIN eam_alarm a ON t.alarm_id = a.alarm_id
+		LEFT JOIN eam_alarm_target_user u ON t.alarm_id = u.alarm_id
+		LEFT JOIN upms_user uu ON uu.user_id = u.user_id
+		LEFT JOIN eam_sensor_data s ON t.sensor_data_id = s.sensor_data_id
+		LEFT JOIN eam_equipment_model_properties p ON p.equipment_model_property_id = t.equipment_model_property_id
+		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
+		WHERE t.delete_flag = 0 AND s.delete_flag = 0
+		<if test="equipmentId != null and equipmentId != ''">
+			AND t.equipment_id = #{equipmentId}
+		</if>
+		<if test="equipmentModelPropertyId != null and equipmentModelPropertyId != ''">
+			AND t.equipment_model_property_id = #{equipmentModelPropertyId}
+		</if>
+		<if test="startDate != null">
+			AND t.create_time <![CDATA[>=]]> #{startDate}
+		</if>
+		<if test="endDate != null">
+			AND t.create_time <![CDATA[<=]]>#{endDate}
 		</if>
 		<if test="orderByClause != null">
 			order by ${orderByClause}

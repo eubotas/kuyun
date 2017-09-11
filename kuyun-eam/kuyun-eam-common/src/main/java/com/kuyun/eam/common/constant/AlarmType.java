@@ -16,7 +16,7 @@ public enum AlarmType {
 
     VAL_BELOW_BOUND("val_below_bound", "数值超过M分钟低于Y"),
     OFFLINE("offline", "传感器断开"),
-    OFFLINE_FOR_MINUTES("offline_for_minutes", "超过M分钟断开"),
+//    OFFLINE_FOR_MINUTES("offline_for_minutes", "超过M分钟断开"),
     SWITCH_ON("switch_on", "开关开启"),
     SWITCH_OFF("switch_off", "开关关闭");
 

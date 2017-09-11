@@ -1,8 +1,10 @@
 package com.kuyun.eam.rpc.service;
 
 
+import com.kuyun.eam.dao.model.EamSensorData;
 import com.kuyun.eam.dao.model.EamTicketExample;
 import com.kuyun.eam.rpc.api.*;
+import com.kuyun.eam.vo.EamAlarmRecordVO;
 import com.kuyun.eam.vo.EamTicketVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,6 +22,8 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({
+        "classpath:META-INF/spring/applicationContext-dubbo-provider.xml",
+        "classpath:META-INF/spring/applicationContext-dubbo-consumer.xml",
         "classpath:META-INF/spring/applicationContext.xml",
         "classpath:applicationContext.xml",
         "classpath:META-INF/spring/applicationContext-jdbc.xml",
@@ -27,9 +32,9 @@ import java.util.List;
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 public class EamServiceTest {
 
-//    @SuppressWarnings("SpringJavaAutowiringInspection")
-//    @Autowired
-//    private EamApiService eamApiService;
+    @SuppressWarnings("SpringJavaAutowiringInspection")
+    @Autowired
+    private EamApiService eamApiService;
 
     @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
@@ -50,6 +55,8 @@ public class EamServiceTest {
     @SuppressWarnings("SpringJavaAutowiringInspection")
     @Autowired
     private EamTicketTypeService eamTicketTypeService;
+    @Autowired
+    private EamSensorDataService eamSensorDataService;
     
 
     @Test
@@ -125,6 +132,33 @@ public class EamServiceTest {
     		
     		
     		 
+    }
+
+    @Test
+    public void testAlarm() {
+
+        EamSensorData sensorData = new EamSensorData();
+        sensorData.setSensorDataId(1);
+        sensorData.setEquipmentId("WemeYoTZgUzPHNNk");
+        sensorData.setStringValue("130");
+        sensorData.setSensorId(1);
+        sensorData.setDeleteFlag(Boolean.FALSE);
+
+//        eamSensorDataService.insertSelective(sensorData);
+
+
+
+        eamApiService.handleAlarm(sensorData);
+
+    }
+
+    @Test
+    public void testSelectAlarmRecords() {
+        EamAlarmRecordVO recordVO = new EamAlarmRecordVO();
+        recordVO.setStartDate(new Date("207/09/01"));
+        recordVO.setEndDate(new Date("207/09/11"));
+        List<EamAlarmRecordVO> result = eamApiService.selectAlarmRecords(recordVO);
+
     }
 
 }

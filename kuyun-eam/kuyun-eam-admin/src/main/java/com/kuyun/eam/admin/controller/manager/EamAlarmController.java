@@ -157,15 +157,15 @@ public class EamAlarmController extends BaseController {
 
 		}else if (AlarmType.OFFLINE.match(alarm.getAlarmType())){
 			//do nothing
-		}else if (AlarmType.OFFLINE_FOR_MINUTES.match(alarm.getAlarmType())){
-			result = FluentValidator.checkAll()
-					.on(alarm.getDuration(), new NotNullValidator("M值"))
-					.doValidate()
-					.result(ResultCollectors.toComplex());
-
-		}else if (AlarmType.VAL_ABOVE.match(alarm.getAlarmType())){
-			//do nothing
-		}else if (AlarmType.SWITCH_ON.match(alarm.getAlarmType())){
+		}
+//		else if (AlarmType.OFFLINE_FOR_MINUTES.match(alarm.getAlarmType())){
+//			result = FluentValidator.checkAll()
+//					.on(alarm.getDuration(), new NotNullValidator("M值"))
+//					.doValidate()
+//					.result(ResultCollectors.toComplex());
+//
+//		}
+		else if (AlarmType.SWITCH_ON.match(alarm.getAlarmType())){
 			//do nothing
 		}else if (AlarmType.SWITCH_OFF.match(alarm.getAlarmType())){
 			//do nothing

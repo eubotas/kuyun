@@ -31,7 +31,7 @@ drop table if exists eam_warehouse;
 
 drop table if exists eam_alarm;
 
-drop table if exists eam_alarm_data;
+drop table if exists eam_alarm_record;
 
 drop table if exists eam_alarm_target_user;
 

@@ -90,6 +90,8 @@ public class EamEquipmentController extends BaseController {
 
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			eamEquipmentExample.setOrderByClause(sort + " " + order);
+		}else {
+			eamEquipmentExample.setOrderByClause("equipment_model_id desc");
 		}
 
 		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();

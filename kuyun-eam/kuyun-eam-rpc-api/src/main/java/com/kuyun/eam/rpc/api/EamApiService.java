@@ -5,16 +5,11 @@ import java.util.List;
 import com.kuyun.eam.common.constant.CollectStatus;
 import com.kuyun.eam.dao.model.EamAlarm;
 import com.kuyun.eam.dao.model.EamInventory;
+import com.kuyun.eam.dao.model.EamSensorData;
 import com.kuyun.eam.dao.model.EamTicketExample;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.pojo.tree.Tree;
-import com.kuyun.eam.vo.EamInventoryVO;
-import com.kuyun.eam.vo.EamLocationVO;
-import com.kuyun.eam.vo.EamMaintenanceVO;
-import com.kuyun.eam.vo.EamPartVO;
-import com.kuyun.eam.vo.EamSensorDataVO;
-import com.kuyun.eam.vo.EamSensorVO;
-import com.kuyun.eam.vo.EamTicketVO;
+import com.kuyun.eam.vo.*;
 import com.kuyun.upms.dao.model.UpmsOrganization;
 
 /**
@@ -47,5 +42,11 @@ public interface EamApiService {
     Integer createAlarm(String targetUserId, EamAlarm alarm);
 
     Integer updateAlarm(String targetUserId, EamAlarm alarm);
+
+    void handleAlarm(EamSensorData sensorData);
+
+    void handleAlarmOffline(String deviceId);
+
+    List<EamAlarmRecordVO> selectAlarmRecords(EamAlarmRecordVO eamAlarmRecordVO);
 
 }

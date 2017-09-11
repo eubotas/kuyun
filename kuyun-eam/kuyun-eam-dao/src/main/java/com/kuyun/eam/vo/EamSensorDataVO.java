@@ -6,7 +6,6 @@ import com.kuyun.eam.dao.model.EamSensorData;
  * Created by user on 2017-08-01.
  */
 public class EamSensorDataVO extends EamSensorData {
-    private String equipmentId;
 
     private String equipmentName;
 
@@ -14,13 +13,6 @@ public class EamSensorDataVO extends EamSensorData {
 
     private String equipmentModelPropertyName;
 
-    public String getEquipmentId() {
-        return equipmentId;
-    }
-
-    public void setEquipmentId(String equipmentId) {
-        this.equipmentId = equipmentId;
-    }
 
     public String getEquipmentName() {
         return equipmentName;
