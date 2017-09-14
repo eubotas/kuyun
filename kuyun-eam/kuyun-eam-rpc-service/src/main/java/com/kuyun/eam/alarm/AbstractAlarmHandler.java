@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 public abstract class AbstractAlarmHandler {
     private static Logger _log = LoggerFactory.getLogger(AbstractAlarmHandler.class);
 
-    private final static String TEMPLATE_ID = "1111";
+    private final static String TEMPLATE_ID = "3084134";
     @Autowired
     private EamAlarmRecordService eamAlarmRecordService;
 
@@ -77,16 +77,16 @@ public abstract class AbstractAlarmHandler {
     }
 
     public void sendAlarmMessage(EamSensorData sensorData, EamAlarm alarm) {
-        String message = buildMessage(sensorData, alarm);
-
         if (AlarmTarget.SMS.match(alarm.getAlarmTarget())) {
-            handleSms(message, alarm);
+            handleSms(sensorData, alarm);
         } else if (AlarmTarget.EMAIL.match(alarm.getAlarmTarget())) {
-            handleEmail(message, alarm);
+            handleEmail(sensorData, alarm);
         }
     }
 
-    private void handleEmail(String message, EamAlarm alarm) {
+    private void handleEmail(EamSensorData sensorData, EamAlarm alarm) {
+        String message = buildEmailMessage(sensorData, alarm);
+
         List<String> emails = getEmails(alarm);
         for (String email : emails) {
             try {
@@ -97,8 +97,9 @@ public abstract class AbstractAlarmHandler {
         }
     }
 
-    private void handleSms(String message, EamAlarm alarm) {
+    private void handleSms(EamSensorData sensorData, EamAlarm alarm) {
         String mobiles = getMobiles(alarm);
+        String message = buildSmsMessage(sensorData, alarm);
         SMSUtil.sendTemplate(TEMPLATE_ID, mobiles, message);
     }
 
@@ -195,7 +196,7 @@ public abstract class AbstractAlarmHandler {
         return eamEquipmentModelPropertiesService.selectByPrimaryKey(alarm.getEquipmentModelPropertyId());
     }
 
-    protected String buildMessage(EamSensorData sensorData, EamAlarm alarm) {
+    protected String buildEmailMessage(EamSensorData sensorData, EamAlarm alarm) {
         StringBuilder stringBuilder = new StringBuilder();
         EamEquipment equipment = getEquipment(sensorData);
         EamEquipmentModelProperties eamEquipmentModelProperties = getEamEquipmentModelProperties(alarm);
@@ -215,6 +216,36 @@ public abstract class AbstractAlarmHandler {
         stringBuilder.append(getCurrentTimeStamp());
 
         return stringBuilder.toString();
+    }
+
+    protected String buildSmsMessage(EamSensorData sensorData, EamAlarm alarm) {
+
+        EamEquipment equipment = getEquipment(sensorData);
+        EamEquipmentModelProperties eamEquipmentModelProperties = getEamEquipmentModelProperties(alarm);
+
+        JSONArray msg = new JSONArray();
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(equipment.getName());
+        stringBuilder.append("(");
+        stringBuilder.append(equipment.getNumber());
+        stringBuilder.append(")  ");
+        msg.add(stringBuilder.toString());
+
+        stringBuilder = new StringBuilder();
+        stringBuilder.append(eamEquipmentModelProperties.getName() + "  ");
+        stringBuilder.append(buildAlarmMessage(sensorData, alarm));
+        msg.add(stringBuilder.toString());
+
+        stringBuilder = new StringBuilder();
+        stringBuilder.append("报警值：");
+        stringBuilder.append(sensorData.getStringValue());
+        msg.add(stringBuilder.toString());
+
+        stringBuilder = new StringBuilder();
+        stringBuilder.append(getCurrentTimeStamp());
+        msg.add(stringBuilder.toString());
+
+        return msg.toString();
     }
 
     public static String getCurrentTimeStamp() {

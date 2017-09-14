@@ -23,7 +23,8 @@ public class Generator {
     // 需要insert后返回主键的表配置，key:表名,value:主键名
     private static Map<String, String> LAST_INSERT_ID_TABLES = new HashMap<String, String>();
     static {
-
+        LAST_INSERT_ID_TABLES.put("eam_alarm", "alarm_id");
+        LAST_INSERT_ID_TABLES.put("eam_sensor_data", "sensor_data_id");
     }
     private static Map<String, String> ALIAS_NEEDED_TABLES = new HashMap<String,String>();
     static {

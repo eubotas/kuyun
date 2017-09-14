@@ -246,10 +246,14 @@
 		d.string_value
 		FROM eam_sensor s
 		LEFT JOIN eam_equipment_model_properties p ON s.equipment_model_property_id = p.equipment_model_property_id
+		LEFT JOIN eam_equipment_model m ON m.equipment_model_id = p.equipment_model_id
+		LEFT JOIN eam_equipment e ON e.equipment_model_id = m.equipment_model_id
 		LEFT JOIN eam_sensor_data d On s.sensor_id = d.sensor_id
 		AND d.sensor_data_id = (select sensor_data_id from eam_sensor_data t where t.sensor_id = s.sensor_id order by t.create_time desc limit 1)
+		AND d.equipment_id = e.equipment_id
+		WHERE s.delete_flag = 0 AND e.equipment_id = #{equipmentId}
 
-		WHERE s.delete_flag = 0 AND d.string_value is not null AND d.equipment_id = #{equipmentId}
+		ORDER BY s.sensor_id ASC
 
 	</select>
 
@@ -290,10 +294,9 @@
 		from eam_alarm a
 		left join eam_equipment_model_properties p on a.equipment_model_property_id = p.equipment_model_property_id
 		left join eam_sensor s on s.equipment_model_property_id = p.equipment_model_property_id
-		left join eam_sensor_data d on d.sensor_id = s.sensor_id
 		WHERE a.delete_flag = 0
 		<if test="sensorId != null and sensorId != ''">
-			AND d.sensor_id = #{sensorId}
+			AND s.sensor_id = #{sensorId}
 		</if>
 	</select>
 
@@ -305,7 +308,7 @@
 		left join eam_equipment_model_properties p on a.equipment_model_property_id = p.equipment_model_property_id
 		left join eam_equipment_model m on m.equipment_model_id = p.equipment_model_id
 		left join eam_equipment e on e.equipment_model_id = m.equipment_model_id
-		WHERE a.delete_flag = 0 and d.equipment_id = #{deviceId}
+		WHERE a.delete_flag = 0 and e.equipment_id = #{deviceId}
 	</select>
 
 	<resultMap id="EamAlarmRecordVOResultMap" type="com.kuyun.eam.vo.EamAlarmRecordVO" extends="com.kuyun.eam.dao.mapper.EamAlarmRecordMapper.BaseResultMap">

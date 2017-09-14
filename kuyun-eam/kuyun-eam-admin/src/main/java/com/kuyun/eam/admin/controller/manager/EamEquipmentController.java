@@ -66,6 +66,9 @@ public class EamEquipmentController extends BaseController {
 	@Autowired
 	private EamApiService eamApiService;
 
+	@Autowired
+	private com.kuyun.fileuploader.rpc.api.FileUploaderService fileUploaderService;
+
 	@ApiOperation(value = "设备首页")
 	@RequiresPermissions("eam:equipment:read")
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
@@ -124,6 +127,7 @@ public class EamEquipmentController extends BaseController {
 
 		List<EamEquipmentModel> equipmentModels = eamEquipmentModelService.selectByExample(example);
 		modelMap.put("equipmentModels", equipmentModels);
+		modelMap.put("uploadServer", fileUploaderService.getServerInfo());
 
 		return "/manage/equipment/create.jsp";
 	}
