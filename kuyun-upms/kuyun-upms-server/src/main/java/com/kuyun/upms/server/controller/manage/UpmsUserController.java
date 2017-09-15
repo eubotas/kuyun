@@ -283,4 +283,15 @@ public class UpmsUserController extends BaseController {
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
     }
 
+    @ApiOperation(value = "查找用户")
+    @RequiresPermissions("upms:user:read")
+    @RequestMapping(value = "/find/{phone}", method = RequestMethod.GET)
+    @ResponseBody
+    public Object find(@PathVariable("phone") String phone) {
+        UpmsUserExample upmsUserExample = new UpmsUserExample();
+        upmsUserExample.createCriteria().andPhoneEqualTo(phone);
+        UpmsUser upmsUser = upmsUserService.selectFirstByExample(upmsUserExample);
+        return new UpmsResult(UpmsResultConstant.SUCCESS, upmsUser);
+    }
+
 }

@@ -90,6 +90,7 @@ public abstract class AbstractAlarmHandler {
         List<String> emails = getEmails(alarm);
         for (String email : emails) {
             try {
+                _log.info("Send Email To : [ {} ], Message: [ {} ]", email, message);
                 emailService.sendSimpleMail(message, email);
             } catch (MessagingException e) {
                 _log.error("Send Email Error:" + e.getMessage());
@@ -100,6 +101,7 @@ public abstract class AbstractAlarmHandler {
     private void handleSms(EamSensorData sensorData, EamAlarm alarm) {
         String mobiles = getMobiles(alarm);
         String message = buildSmsMessage(sensorData, alarm);
+        _log.info("Send SMS To : [ {} ], Message: [ {} ]", mobiles, message);
         SMSUtil.sendTemplate(TEMPLATE_ID, mobiles, message);
     }
 

@@ -87,6 +87,9 @@ public class EamApiServiceImpl implements EamApiService {
     @Autowired
     private OfflineHandler offlineHandler;
 
+    @Autowired
+    private EamSensorDataService eamSensorDataService;
+
 
     @Override
     public List<EamMaintenanceVO> selectMaintenance(EamMaintenanceVO maintenanceVO) {
@@ -406,6 +409,8 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     public void handleAlarm(EamSensorData sensorData) {
+        eamSensorDataService.insertSelective(sensorData);
+
         EamAlarm alarm = eamApiMapper.selectAlarm(sensorData);
         if (alarm != null) {
             AbstractAlarmHandler alarmHandler = alarmTypeFactory.buildAlarmHandler(alarm);

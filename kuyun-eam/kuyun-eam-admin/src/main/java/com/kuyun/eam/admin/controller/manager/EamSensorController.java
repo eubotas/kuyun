@@ -8,10 +8,8 @@ import com.kuyun.common.util.StringUtil;
 import com.kuyun.common.validator.NotNullValidator;
 import com.kuyun.eam.common.constant.DataFormat;
 import com.kuyun.eam.common.constant.EamResult;
-import com.kuyun.eam.dao.model.EamEquipment;
-import com.kuyun.eam.dao.model.EamEquipmentExample;
-import com.kuyun.eam.dao.model.EamEquipmentModel;
-import com.kuyun.eam.dao.model.EamSensor;
+import com.kuyun.eam.dao.model.*;
+import com.kuyun.eam.rpc.api.EamEquipmentModelPropertiesService;
 import com.kuyun.eam.rpc.api.EamEquipmentModelService;
 import com.kuyun.eam.rpc.api.EamEquipmentService;
 import com.kuyun.eam.rpc.api.EamSensorService;
@@ -54,6 +52,9 @@ public class EamSensorController extends BaseController {
 	@Autowired
 	private EamEquipmentModelService eamEquipmentModelService;
 
+	@Autowired
+	private EamEquipmentModelPropertiesService eamEquipmentModelPropertiesService;
+
 	@ApiOperation(value = "新增设备传感器")
 	@RequiresPermissions("eam:equipment:create")
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -90,35 +91,38 @@ public class EamSensorController extends BaseController {
 	}
 
 	private Object validateSensor(EamSensor sensor) {
-		EamEquipmentModel equipmentModel = eamEquipmentModelService.selectByPrimaryKey(sensor.getEquipmentModelPropertyId());
+		EamEquipmentModelProperties eamEquipmentModelProperties = eamEquipmentModelPropertiesService.selectByPrimaryKey(sensor.getEquipmentModelPropertyId());
+		if (eamEquipmentModelProperties != null){
+			EamEquipmentModel equipmentModel = eamEquipmentModelService.selectByPrimaryKey(eamEquipmentModelProperties.getEquipmentModelId());
 
-		if (equipmentModel != null){
-			//check modbus
-			if ("1".equalsIgnoreCase(String.valueOf(equipmentModel.getProtocolId()))){
-				ComplexResult result = FluentValidator.checkAll()
-						.on(sensor.getSalveId(), new NotNullValidator("从站地址"))
-						.on(sensor.getAddress(), new NotNullValidator("地址"))
-						.on(sensor.getPeriod(), new NotNullValidator("采集周期"))
-						.doValidate()
-						.result(ResultCollectors.toComplex());
-				if (!result.isSuccess()) {
-					return new EamResult(INVALID_LENGTH, result.getErrors());
+			if (equipmentModel != null){
+				//check modbus
+				if ("1".equalsIgnoreCase(String.valueOf(equipmentModel.getProtocolId()))){
+					ComplexResult result = FluentValidator.checkAll()
+							.on(sensor.getSalveId(), new NotNullValidator("从站地址"))
+							.on(sensor.getAddress(), new NotNullValidator("地址"))
+							.on(sensor.getPeriod(), new NotNullValidator("采集周期"))
+							.doValidate()
+							.result(ResultCollectors.toComplex());
+					if (!result.isSuccess()) {
+						return new EamResult(INVALID_LENGTH, result.getErrors());
+					}
+				}else if ("4".equalsIgnoreCase(String.valueOf(equipmentModel.getProtocolId()))){
+					ComplexResult result = FluentValidator.checkAll()
+							.on(sensor.getGrmAction(), new NotNullValidator("巨控 读写指令"))
+							.on(sensor.getGrmVariable(), new NotNullValidator("巨控 变量名"))
+							.on(sensor.getGrmVariableOrder(), new NotNullValidator("巨控 读写变量顺序"))
+							.doValidate()
+							.result(ResultCollectors.toComplex());
+					if (!result.isSuccess()) {
+						return new EamResult(INVALID_LENGTH, result.getErrors());
+					}
 				}
-			}else if ("4".equalsIgnoreCase(String.valueOf(equipmentModel.getProtocolId()))){
-				ComplexResult result = FluentValidator.checkAll()
-						.on(sensor.getGrmAction(), new NotNullValidator("巨控 读写指令"))
-						.on(sensor.getGrmVariable(), new NotNullValidator("巨控 变量名"))
-						.on(sensor.getGrmVariableOrder(), new NotNullValidator("巨控 读写变量顺序"))
-						.doValidate()
-						.result(ResultCollectors.toComplex());
-				if (!result.isSuccess()) {
-					return new EamResult(INVALID_LENGTH, result.getErrors());
-				}
+
+
 			}
 
-
 		}
-
 
 		return null;
 	}

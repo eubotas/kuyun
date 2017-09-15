@@ -119,23 +119,26 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamSensorData">
-    insert into eam_sensor_data (sensor_data_id, equipment_id, sensor_id, 
-      string_value, number_value, boolean_value, 
-      longitude_value, latitude_value, create_user_id, 
-      create_time, update_user_id, update_time, 
-      delete_flag, organization_id)
-    values (#{sensorDataId,jdbcType=INTEGER}, #{equipmentId,jdbcType=VARCHAR}, #{sensorId,jdbcType=INTEGER}, 
-      #{stringValue,jdbcType=VARCHAR}, #{numberValue,jdbcType=DECIMAL}, #{booleanValue,jdbcType=BIT}, 
-      #{longitudeValue,jdbcType=DECIMAL}, #{latitudeValue,jdbcType=DECIMAL}, #{createUserId,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlag,jdbcType=BIT}, #{organizationId,jdbcType=INTEGER})
+    <selectKey keyProperty="sensorDataId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into eam_sensor_data (equipment_id, sensor_id, string_value, 
+      number_value, boolean_value, longitude_value, 
+      latitude_value, create_user_id, create_time, 
+      update_user_id, update_time, delete_flag, 
+      organization_id)
+    values (#{equipmentId,jdbcType=VARCHAR}, #{sensorId,jdbcType=INTEGER}, #{stringValue,jdbcType=VARCHAR}, 
+      #{numberValue,jdbcType=DECIMAL}, #{booleanValue,jdbcType=BIT}, #{longitudeValue,jdbcType=DECIMAL}, 
+      #{latitudeValue,jdbcType=DECIMAL}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
+      #{organizationId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamSensorData">
+    <selectKey keyProperty="sensorDataId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into eam_sensor_data
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="sensorDataId != null">
-        sensor_data_id,
-      </if>
       <if test="equipmentId != null">
         equipment_id,
       </if>
@@ -177,9 +180,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="sensorDataId != null">
-        #{sensorDataId,jdbcType=INTEGER},
-      </if>
       <if test="equipmentId != null">
         #{equipmentId,jdbcType=VARCHAR},
       </if>
@@ -361,18 +361,18 @@
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into eam_sensor_data  (sensor_data_id, equipment_id, sensor_id, 
-        string_value, number_value, boolean_value, 
-        longitude_value, latitude_value, create_user_id, 
-        create_time, update_user_id, update_time, 
-        delete_flag, organization_id)
+            insert into eam_sensor_data  (equipment_id, sensor_id, string_value, 
+        number_value, boolean_value, longitude_value, 
+        latitude_value, create_user_id, create_time, 
+        update_user_id, update_time, delete_flag, 
+        organization_id)
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.sensorDataId,jdbcType=INTEGER}, #{item.equipmentId,jdbcType=VARCHAR}, #{item.sensorId,jdbcType=INTEGER}, 
-        #{item.stringValue,jdbcType=VARCHAR}, #{item.numberValue,jdbcType=DECIMAL}, #{item.booleanValue,jdbcType=BIT}, 
-        #{item.longitudeValue,jdbcType=DECIMAL}, #{item.latitudeValue,jdbcType=DECIMAL}, #{item.createUserId,jdbcType=INTEGER}, 
-        #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
-        #{item.deleteFlag,jdbcType=BIT}, #{item.organizationId,jdbcType=INTEGER})
+      (#{item.equipmentId,jdbcType=VARCHAR}, #{item.sensorId,jdbcType=INTEGER}, #{item.stringValue,jdbcType=VARCHAR}, 
+        #{item.numberValue,jdbcType=DECIMAL}, #{item.booleanValue,jdbcType=BIT}, #{item.longitudeValue,jdbcType=DECIMAL}, 
+        #{item.latitudeValue,jdbcType=DECIMAL}, #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, 
+        #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, 
+        #{item.organizationId,jdbcType=INTEGER})
       </foreach>
     </if>
   </insert>

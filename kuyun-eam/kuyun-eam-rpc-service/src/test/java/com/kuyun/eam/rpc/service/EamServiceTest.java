@@ -138,8 +138,8 @@ public class EamServiceTest {
     public void testAlarm() {
 
         EamSensorData sensorData = new EamSensorData();
-        sensorData.setSensorDataId(1);
-        sensorData.setEquipmentId("WemeYoTZgUzPHNNk");
+//        sensorData.setSensorDataId(1);
+        sensorData.setEquipmentId("qMrJ5KqVwFUj1bkz");
         sensorData.setStringValue("130");
         sensorData.setSensorId(1);
         sensorData.setDeleteFlag(Boolean.FALSE);
