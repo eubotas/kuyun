@@ -74,7 +74,8 @@ public class UpmsAuthenticationFilter extends AuthenticationFilter {
         // server需要登录
         String upmsType = PropertiesFileUtil.getInstance("kuyun-upms-client").get("upms.type");
         if ("server".equals(upmsType)) {
-            WebUtils.toHttp(response).sendRedirect(sso_server_url.append("/sso/login").toString());
+//            WebUtils.toHttp(response).sendRedirect(sso_server_url.append("/sso/login").toString());
+            WebUtils.toHttp(response).sendRedirect(sso_server_url.append("/sso/session_time_out").toString());
             return false;
         }
         sso_server_url.append("/sso/index").append("?").append("appid").append("=").append(PropertiesFileUtil.getInstance("kuyun-upms-client").get("appID"));

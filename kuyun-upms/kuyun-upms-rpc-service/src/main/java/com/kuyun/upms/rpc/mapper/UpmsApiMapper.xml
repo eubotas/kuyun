@@ -118,7 +118,7 @@
 		select
 		<include refid="UpmsOrganization_Column_List" />
 		from upms_organization uo
-		where FIND_IN_SET(uo.organization_id,getParentList(#{organizationId,jdbcType=INTEGER}));
+		where FIND_IN_SET(uo.organization_id,getChildList(#{organizationId,jdbcType=INTEGER}));
 	</select>
 
 	<!-- 缓存 -->

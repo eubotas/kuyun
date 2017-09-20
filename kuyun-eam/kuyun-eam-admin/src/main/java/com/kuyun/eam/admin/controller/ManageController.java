@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 后台controller
@@ -20,6 +21,8 @@ public class ManageController extends BaseController {
 
 	private static Logger _log = LoggerFactory.getLogger(ManageController.class);
 
+
+
 	/**
 	 * 后台首页
 	 * @return
@@ -27,6 +30,14 @@ public class ManageController extends BaseController {
 	@ApiOperation(value = "后台首页")
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index() {
+		return "/manage/index.jsp";
+	}
+
+	@ApiOperation(value = "Dashboard")
+	@RequestMapping(value = "/dashboard", method = RequestMethod.GET)
+	@ResponseBody
+	public Object  dashboard() {
+
 		return "/manage/index.jsp";
 	}
 

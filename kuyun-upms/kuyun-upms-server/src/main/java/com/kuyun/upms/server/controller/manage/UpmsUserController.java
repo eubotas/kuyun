@@ -57,6 +57,9 @@ public class UpmsUserController extends BaseController {
     @Autowired
     private UpmsUserPermissionService upmsUserPermissionService;
 
+    @Autowired
+    private UpmsApiService upmsApiService;
+
     @ApiOperation(value = "用户首页")
     @RequiresPermissions("upms:user:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
@@ -284,14 +287,23 @@ public class UpmsUserController extends BaseController {
     }
 
     @ApiOperation(value = "查找用户")
-    @RequiresPermissions("upms:user:read")
+//    @RequiresPermissions("upms:user:read")
     @RequestMapping(value = "/find/{phone}", method = RequestMethod.GET)
     @ResponseBody
     public Object find(@PathVariable("phone") String phone) {
         UpmsUserExample upmsUserExample = new UpmsUserExample();
         upmsUserExample.createCriteria().andPhoneEqualTo(phone);
         UpmsUser upmsUser = upmsUserService.selectFirstByExample(upmsUserExample);
-        return new UpmsResult(UpmsResultConstant.SUCCESS, upmsUser);
+        UpmsOrganization organization = new UpmsOrganization();
+        if (upmsUser != null){
+            organization = upmsApiService.selectParentOrganizationByUserId(upmsUser.getUserId());
+        }
+
+        HashMap<String, Object> objectHashMap = new HashMap<>();
+        objectHashMap.put("user", upmsUser);
+        objectHashMap.put("organization", organization);
+
+        return new UpmsResult(UpmsResultConstant.SUCCESS, objectHashMap);
     }
 
 }

@@ -141,6 +141,11 @@ public class SSOController extends BaseController {
 
     }
 
+    @RequestMapping(value = "/session_time_out", method = RequestMethod.GET)
+    public void sessionTimeOut(HttpServletRequest request, ServletResponse response) {
+        handleSessionTimeOut(response);
+    }
+
     private void handleSessionTimeOut(ServletResponse response) {
         BaseResult result = new BaseResult(403, "Session Timeout", null);
         String json = new Gson().toJson(result);
@@ -390,7 +395,8 @@ public class SSOController extends BaseController {
 
     private List<UpmsPermission> getPermissions() {
         UpmsPermissionExample example = new UpmsPermissionExample();
-        example.createCriteria().andPermissionIdGreaterThanOrEqualTo(200);
+        example.createCriteria().andPermissionIdGreaterThanOrEqualTo(200)
+        .andPermissionIdLessThan(500);
 
         return upmsPermissionService.selectByExample(example);
     }
