@@ -50,14 +50,14 @@
 			</div>
 
 
-			<div class="col-sm-12">
-				<div class="form-group">
-					<div class="fg-line">
-						<label for="grmVariableOrder">巨控 读写变量顺序</label>
-						<input id="grmVariableOrder" type="text" class="form-control" name="grmVariableOrder" maxlength="20" <c:if test="${sensor != null}"> value="${sensor.grmVariableOrder}"</c:if>>
-					</div>
-				</div>
-			</div>
+			<%--<div class="col-sm-12">--%>
+				<%--<div class="form-group">--%>
+					<%--<div class="fg-line">--%>
+						<%--<label for="grmVariableOrder">巨控 读写变量顺序</label>--%>
+						<%--<input id="grmVariableOrder" type="text" class="form-control" name="grmVariableOrder" maxlength="20" <c:if test="${sensor != null}"> value="${sensor.grmVariableOrder}"</c:if>>--%>
+					<%--</div>--%>
+				<%--</div>--%>
+			<%--</div>--%>
 
 		</div>
 

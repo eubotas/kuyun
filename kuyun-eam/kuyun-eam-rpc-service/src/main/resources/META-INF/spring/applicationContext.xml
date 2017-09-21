@@ -6,6 +6,7 @@
 
     <!-- ApplicationContext -->
     <bean id="springContextUtil" class="com.kuyun.common.util.SpringContextUtil"></bean>
+    <bean id="jpushUtil" class="com.kuyun.common.jpush.JpushUtil"></bean>
     <bean id="areaUtil" class="com.kuyun.eam.util.AreaUtil"></bean>
     <bean id="springMailConfig" class="com.kuyun.common.mail.SpringMailConfig"></bean>
     <bean id="emailService" class="com.kuyun.common.mail.service.EmailService"></bean>

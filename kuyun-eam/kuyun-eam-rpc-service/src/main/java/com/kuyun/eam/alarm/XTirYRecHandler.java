@@ -27,7 +27,7 @@ public class XTirYRecHandler extends AbstractAlarmHandler {
         BigDecimal value = covertToBigDecimal(sensorData.getStringValue());
         // value less than X and great than Y
         if (value != null) {
-            if (value.compareTo(x) == -1 && value.compareTo(y) == 1) {
+            if (value.compareTo(x) == 1 && value.compareTo(y) == -1) {
                 result = true;
             }
         }

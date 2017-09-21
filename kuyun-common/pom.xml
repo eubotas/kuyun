@@ -348,6 +348,16 @@
             <artifactId>mybatis3-generator-plugin</artifactId>
             <version>0.4.0</version>
         </dependency>
+        <dependency>
+            <groupId>cn.jpush.api</groupId>
+            <artifactId>jiguang-common</artifactId>
+            <version>1.0.8</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.jpush.api</groupId>
+            <artifactId>jpush-client</artifactId>
+            <version>3.3.1</version>
+        </dependency>
     </dependencies>
 
     <build>

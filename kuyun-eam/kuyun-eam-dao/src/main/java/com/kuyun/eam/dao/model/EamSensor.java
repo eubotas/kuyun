@@ -87,13 +87,6 @@ public class EamSensor extends BaseEntity implements Serializable {
     private String grmVariableValue;
 
     /**
-     * 巨控 读写变量顺序
-     *
-     * @mbg.generated
-     */
-    private Integer grmVariableOrder;
-
-    /**
      * 换算结果的高限
      *
      * @mbg.generated
@@ -227,14 +220,6 @@ public class EamSensor extends BaseEntity implements Serializable {
         this.grmVariableValue = grmVariableValue;
     }
 
-    public Integer getGrmVariableOrder() {
-        return grmVariableOrder;
-    }
-
-    public void setGrmVariableOrder(Integer grmVariableOrder) {
-        this.grmVariableOrder = grmVariableOrder;
-    }
-
     public BigDecimal getOsh() {
         return osh;
     }
@@ -286,7 +271,6 @@ public class EamSensor extends BaseEntity implements Serializable {
         sb.append(", grmAction=").append(grmAction);
         sb.append(", grmVariable=").append(grmVariable);
         sb.append(", grmVariableValue=").append(grmVariableValue);
-        sb.append(", grmVariableOrder=").append(grmVariableOrder);
         sb.append(", osh=").append(osh);
         sb.append(", osl=").append(osl);
         sb.append(", ish=").append(ish);
@@ -320,7 +304,6 @@ public class EamSensor extends BaseEntity implements Serializable {
             && (this.getGrmAction() == null ? other.getGrmAction() == null : this.getGrmAction().equals(other.getGrmAction()))
             && (this.getGrmVariable() == null ? other.getGrmVariable() == null : this.getGrmVariable().equals(other.getGrmVariable()))
             && (this.getGrmVariableValue() == null ? other.getGrmVariableValue() == null : this.getGrmVariableValue().equals(other.getGrmVariableValue()))
-            && (this.getGrmVariableOrder() == null ? other.getGrmVariableOrder() == null : this.getGrmVariableOrder().equals(other.getGrmVariableOrder()))
             && (this.getOsh() == null ? other.getOsh() == null : this.getOsh().equals(other.getOsh()))
             && (this.getOsl() == null ? other.getOsl() == null : this.getOsl().equals(other.getOsl()))
             && (this.getIsh() == null ? other.getIsh() == null : this.getIsh().equals(other.getIsh()))
@@ -350,7 +333,6 @@ public class EamSensor extends BaseEntity implements Serializable {
         result = prime * result + ((getGrmAction() == null) ? 0 : getGrmAction().hashCode());
         result = prime * result + ((getGrmVariable() == null) ? 0 : getGrmVariable().hashCode());
         result = prime * result + ((getGrmVariableValue() == null) ? 0 : getGrmVariableValue().hashCode());
-        result = prime * result + ((getGrmVariableOrder() == null) ? 0 : getGrmVariableOrder().hashCode());
         result = prime * result + ((getOsh() == null) ? 0 : getOsh().hashCode());
         result = prime * result + ((getOsl() == null) ? 0 : getOsl().hashCode());
         result = prime * result + ((getIsh() == null) ? 0 : getIsh().hashCode());

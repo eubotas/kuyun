@@ -111,7 +111,6 @@ public class EamSensorController extends BaseController {
 					ComplexResult result = FluentValidator.checkAll()
 							.on(sensor.getGrmAction(), new NotNullValidator("巨控 读写指令"))
 							.on(sensor.getGrmVariable(), new NotNullValidator("巨控 变量名"))
-							.on(sensor.getGrmVariableOrder(), new NotNullValidator("巨控 读写变量顺序"))
 							.doValidate()
 							.result(ResultCollectors.toComplex());
 					if (!result.isSuccess()) {

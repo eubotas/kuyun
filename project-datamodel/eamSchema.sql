@@ -143,7 +143,7 @@ create table eam_sensor
    grm_action           varchar(5) comment '巨控 读写指令',
    grm_variable         varchar(20) comment '巨控 变量名',
    grm_variable_value   varchar(20) comment '巨控 写变量值',
-   grm_variable_order   int comment '巨控 读写变量顺序',
+   --grm_variable_order   int comment '巨控 读写变量顺序',
    osh                  decimal(10,2) comment '换算结果的高限',
    osl                  decimal(10,2) comment '换算结果的低限',
    ish                  decimal(10,2) comment '换算对象的高限',

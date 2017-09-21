@@ -15,7 +15,6 @@
     <result column="grm_action" jdbcType="VARCHAR" property="grmAction" />
     <result column="grm_variable" jdbcType="VARCHAR" property="grmVariable" />
     <result column="grm_variable_value" jdbcType="VARCHAR" property="grmVariableValue" />
-    <result column="grm_variable_order" jdbcType="INTEGER" property="grmVariableOrder" />
     <result column="osh" jdbcType="DECIMAL" property="osh" />
     <result column="osl" jdbcType="DECIMAL" property="osl" />
     <result column="ish" jdbcType="DECIMAL" property="ish" />
@@ -88,8 +87,8 @@
   <sql id="Base_Column_List">
     sensor_id, equipment_model_property_id, salve_id, function_code, address, data_format, 
     bit_order, period, quantity, write_number, grm_action, grm_variable, grm_variable_value, 
-    grm_variable_order, osh, osl, ish, isl, create_user_id, create_time, update_user_id, 
-    update_time, delete_flag, organization_id
+    osh, osl, ish, isl, create_user_id, create_time, update_user_id, update_time, delete_flag, 
+    organization_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamSensorExample" resultMap="BaseResultMap">
     select
@@ -134,20 +133,18 @@
       salve_id, function_code, address, 
       data_format, bit_order, period, 
       quantity, write_number, grm_action, 
-      grm_variable, grm_variable_value, grm_variable_order, 
-      osh, osl, ish, isl, 
-      create_user_id, create_time, update_user_id, 
-      update_time, delete_flag, organization_id
-      )
+      grm_variable, grm_variable_value, osh, 
+      osl, ish, isl, create_user_id, 
+      create_time, update_user_id, update_time, 
+      delete_flag, organization_id)
     values (#{sensorId,jdbcType=INTEGER}, #{equipmentModelPropertyId,jdbcType=INTEGER}, 
       #{salveId,jdbcType=INTEGER}, #{functionCode,jdbcType=INTEGER}, #{address,jdbcType=INTEGER}, 
       #{dataFormat,jdbcType=VARCHAR}, #{bitOrder,jdbcType=VARCHAR}, #{period,jdbcType=INTEGER}, 
       #{quantity,jdbcType=INTEGER}, #{writeNumber,jdbcType=INTEGER}, #{grmAction,jdbcType=VARCHAR}, 
-      #{grmVariable,jdbcType=VARCHAR}, #{grmVariableValue,jdbcType=VARCHAR}, #{grmVariableOrder,jdbcType=INTEGER}, 
-      #{osh,jdbcType=DECIMAL}, #{osl,jdbcType=DECIMAL}, #{ish,jdbcType=DECIMAL}, #{isl,jdbcType=DECIMAL}, 
-      #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{organizationId,jdbcType=INTEGER}
-      )
+      #{grmVariable,jdbcType=VARCHAR}, #{grmVariableValue,jdbcType=VARCHAR}, #{osh,jdbcType=DECIMAL}, 
+      #{osl,jdbcType=DECIMAL}, #{ish,jdbcType=DECIMAL}, #{isl,jdbcType=DECIMAL}, #{createUserId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{deleteFlag,jdbcType=BIT}, #{organizationId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamSensor">
     insert into eam_sensor
@@ -190,9 +187,6 @@
       </if>
       <if test="grmVariableValue != null">
         grm_variable_value,
-      </if>
-      <if test="grmVariableOrder != null">
-        grm_variable_order,
       </if>
       <if test="osh != null">
         osh,
@@ -264,9 +258,6 @@
       </if>
       <if test="grmVariableValue != null">
         #{grmVariableValue,jdbcType=VARCHAR},
-      </if>
-      <if test="grmVariableOrder != null">
-        #{grmVariableOrder,jdbcType=INTEGER},
       </if>
       <if test="osh != null">
         #{osh,jdbcType=DECIMAL},
@@ -348,9 +339,6 @@
       <if test="record.grmVariableValue != null">
         grm_variable_value = #{record.grmVariableValue,jdbcType=VARCHAR},
       </if>
-      <if test="record.grmVariableOrder != null">
-        grm_variable_order = #{record.grmVariableOrder,jdbcType=INTEGER},
-      </if>
       <if test="record.osh != null">
         osh = #{record.osh,jdbcType=DECIMAL},
       </if>
@@ -401,7 +389,6 @@
       grm_action = #{record.grmAction,jdbcType=VARCHAR},
       grm_variable = #{record.grmVariable,jdbcType=VARCHAR},
       grm_variable_value = #{record.grmVariableValue,jdbcType=VARCHAR},
-      grm_variable_order = #{record.grmVariableOrder,jdbcType=INTEGER},
       osh = #{record.osh,jdbcType=DECIMAL},
       osl = #{record.osl,jdbcType=DECIMAL},
       ish = #{record.ish,jdbcType=DECIMAL},
@@ -455,19 +442,16 @@
       <if test="grmVariableValue != null">
         grm_variable_value = #{grmVariableValue,jdbcType=VARCHAR},
       </if>
-      <if test="grmVariableOrder != null">
-        grm_variable_order = #{grmVariableOrder,jdbcType=INTEGER},
-      </if>
-      <if test="osh != null or osh == null">
+      <if test="osh != null">
         osh = #{osh,jdbcType=DECIMAL},
       </if>
-      <if test="osl != null or osl == null">
+      <if test="osl != null">
         osl = #{osl,jdbcType=DECIMAL},
       </if>
-      <if test="ish != null or ish == null">
+      <if test="ish != null">
         ish = #{ish,jdbcType=DECIMAL},
       </if>
-      <if test="isl != null or isl == null">
+      <if test="isl != null">
         isl = #{isl,jdbcType=DECIMAL},
       </if>
       <if test="createUserId != null">
@@ -505,7 +489,6 @@
       grm_action = #{grmAction,jdbcType=VARCHAR},
       grm_variable = #{grmVariable,jdbcType=VARCHAR},
       grm_variable_value = #{grmVariableValue,jdbcType=VARCHAR},
-      grm_variable_order = #{grmVariableOrder,jdbcType=INTEGER},
       osh = #{osh,jdbcType=DECIMAL},
       osl = #{osl,jdbcType=DECIMAL},
       ish = #{ish,jdbcType=DECIMAL},
@@ -524,22 +507,20 @@
         salve_id, function_code, address, 
         data_format, bit_order, period, 
         quantity, write_number, grm_action, 
-        grm_variable, grm_variable_value, grm_variable_order, 
-        osh, osl, ish, isl, 
-        create_user_id, create_time, update_user_id, 
-        update_time, delete_flag, organization_id
-        )
+        grm_variable, grm_variable_value, osh, 
+        osl, ish, isl, create_user_id, 
+        create_time, update_user_id, update_time, 
+        delete_flag, organization_id)
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.sensorId,jdbcType=INTEGER}, #{item.equipmentModelPropertyId,jdbcType=INTEGER}, 
         #{item.salveId,jdbcType=INTEGER}, #{item.functionCode,jdbcType=INTEGER}, #{item.address,jdbcType=INTEGER}, 
         #{item.dataFormat,jdbcType=VARCHAR}, #{item.bitOrder,jdbcType=VARCHAR}, #{item.period,jdbcType=INTEGER}, 
         #{item.quantity,jdbcType=INTEGER}, #{item.writeNumber,jdbcType=INTEGER}, #{item.grmAction,jdbcType=VARCHAR}, 
-        #{item.grmVariable,jdbcType=VARCHAR}, #{item.grmVariableValue,jdbcType=VARCHAR}, #{item.grmVariableOrder,jdbcType=INTEGER}, 
-        #{item.osh,jdbcType=DECIMAL}, #{item.osl,jdbcType=DECIMAL}, #{item.ish,jdbcType=DECIMAL}, #{item.isl,jdbcType=DECIMAL}, 
-        #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, 
-        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, #{item.organizationId,jdbcType=INTEGER}
-        )
+        #{item.grmVariable,jdbcType=VARCHAR}, #{item.grmVariableValue,jdbcType=VARCHAR}, #{item.osh,jdbcType=DECIMAL}, 
+        #{item.osl,jdbcType=DECIMAL}, #{item.ish,jdbcType=DECIMAL}, #{item.isl,jdbcType=DECIMAL}, #{item.createUserId,jdbcType=INTEGER}, 
+        #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
+        #{item.deleteFlag,jdbcType=BIT}, #{item.organizationId,jdbcType=INTEGER})
       </foreach>
     </if>
   </insert>

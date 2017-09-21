@@ -7,18 +7,17 @@ public enum AlarmType {
 
     VAL_ABOVE("val_above", "数值高于X"),
     VAL_BELOW("val_below", "数值低于Y"),
-    VAL_ABOVE_BELOW("val_above_below", "数值高于X低于Y"),
-    VAL_ABOVE_BELOW_OFM("val_above_below_ofm", "数值高于X低于Y超过M分钟"),
-    X_TIR_Y_REC("x_tir_y_rec", "数值高于X报警低于Y恢复"),
-
     VAL_BETWEEN("val_between", "数值在X和Y之间"),
+    VAL_ABOVE_BELOW_OFM("val_above_below_ofm", "数值在X和Y之间超过M分钟"),
     VAL_ABOVE_BOUND("val_above_bound", "数值超过M分钟高于X"),
-
     VAL_BELOW_BOUND("val_below_bound", "数值超过M分钟低于Y"),
     OFFLINE("offline", "传感器断开"),
-//    OFFLINE_FOR_MINUTES("offline_for_minutes", "超过M分钟断开"),
     SWITCH_ON("switch_on", "开关开启"),
     SWITCH_OFF("switch_off", "开关关闭");
+
+//    OFFLINE_FOR_MINUTES("offline_for_minutes", "超过M分钟断开"),
+//    X_TIR_Y_REC("x_tir_y_rec", "数值高于X报警低于Y恢复"),
+//    VAL_ABOVE_BELOW("val_above_below", "数值高于X低于Y"),
 
 
     private String code;

@@ -959,66 +959,6 @@ public class EamSensorExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andGrmVariableOrderIsNull() {
-            addCriterion("grm_variable_order is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrmVariableOrderIsNotNull() {
-            addCriterion("grm_variable_order is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrmVariableOrderEqualTo(Integer value) {
-            addCriterion("grm_variable_order =", value, "grmVariableOrder");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrmVariableOrderNotEqualTo(Integer value) {
-            addCriterion("grm_variable_order <>", value, "grmVariableOrder");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrmVariableOrderGreaterThan(Integer value) {
-            addCriterion("grm_variable_order >", value, "grmVariableOrder");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrmVariableOrderGreaterThanOrEqualTo(Integer value) {
-            addCriterion("grm_variable_order >=", value, "grmVariableOrder");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrmVariableOrderLessThan(Integer value) {
-            addCriterion("grm_variable_order <", value, "grmVariableOrder");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrmVariableOrderLessThanOrEqualTo(Integer value) {
-            addCriterion("grm_variable_order <=", value, "grmVariableOrder");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrmVariableOrderIn(List<Integer> values) {
-            addCriterion("grm_variable_order in", values, "grmVariableOrder");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrmVariableOrderNotIn(List<Integer> values) {
-            addCriterion("grm_variable_order not in", values, "grmVariableOrder");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrmVariableOrderBetween(Integer value1, Integer value2) {
-            addCriterion("grm_variable_order between", value1, value2, "grmVariableOrder");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrmVariableOrderNotBetween(Integer value1, Integer value2) {
-            addCriterion("grm_variable_order not between", value1, value2, "grmVariableOrder");
-            return (Criteria) this;
-        }
-
         public Criteria andOshIsNull() {
             addCriterion("osh is null");
             return (Criteria) this;

@@ -54,16 +54,20 @@ public class AlarmTypeFactory {
         } else if (AlarmType.VAL_BELOW.match(alarm.getAlarmType())) {
             handler = valBelowHandler;
 
-        } else if (AlarmType.VAL_ABOVE_BELOW.match(alarm.getAlarmType())) {
-            handler = valAboveBelowHandler;
-
-        } else if (AlarmType.VAL_ABOVE_BELOW_OFM.match(alarm.getAlarmType())) {
+        }
+//        else if (AlarmType.VAL_ABOVE_BELOW.match(alarm.getAlarmType())) {
+//            handler = valAboveBelowHandler;
+//
+//        }
+        else if (AlarmType.VAL_ABOVE_BELOW_OFM.match(alarm.getAlarmType())) {
             handler = valAboveBelowOFMHandler;
 
-        } else if (AlarmType.X_TIR_Y_REC.match(alarm.getAlarmType())) {
-            handler = xTirYRecHandler;
-
-        } else if (AlarmType.VAL_BETWEEN.match(alarm.getAlarmType())) {
+        }
+//        else if (AlarmType.X_TIR_Y_REC.match(alarm.getAlarmType())) {
+//            handler = xTirYRecHandler;
+//
+//        }
+        else if (AlarmType.VAL_BETWEEN.match(alarm.getAlarmType())) {
             handler = valBetweenHandler;
 
         } else if (AlarmType.VAL_ABOVE_BOUND.match(alarm.getAlarmType())) {

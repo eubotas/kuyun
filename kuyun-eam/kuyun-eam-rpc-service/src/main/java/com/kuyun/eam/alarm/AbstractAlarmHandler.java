@@ -1,5 +1,6 @@
 package com.kuyun.eam.alarm;
 
+import com.kuyun.common.jpush.JpushUtil;
 import com.kuyun.common.mail.service.EmailService;
 import com.kuyun.common.netease.SMSUtil;
 import com.kuyun.eam.common.constant.AlarmTarget;
@@ -55,6 +56,9 @@ public abstract class AbstractAlarmHandler {
     @Autowired
     private EamEquipmentModelPropertiesService eamEquipmentModelPropertiesService;
 
+    @Autowired
+    private JpushUtil jpushUtil;
+
     public void process(EamSensorData sensorData, EamAlarm alarm) {
         if (metAlarmCondition(sensorData, alarm)) {
             //1. create alarm record
@@ -82,6 +86,8 @@ public abstract class AbstractAlarmHandler {
         } else if (AlarmTarget.EMAIL.match(alarm.getAlarmTarget())) {
             handleEmail(sensorData, alarm);
         }
+        //send APP notification
+        handleJpush(sensorData, alarm);
     }
 
     private void handleEmail(EamSensorData sensorData, EamAlarm alarm) {
@@ -99,10 +105,17 @@ public abstract class AbstractAlarmHandler {
     }
 
     private void handleSms(EamSensorData sensorData, EamAlarm alarm) {
-        String mobiles = getMobiles(alarm);
+        String mobiles = getJsonMobiles(alarm);
         String message = buildSmsMessage(sensorData, alarm);
         _log.info("Send SMS To : [ {} ], Message: [ {} ]", mobiles, message);
         SMSUtil.sendTemplate(TEMPLATE_ID, mobiles, message);
+    }
+
+    private void handleJpush(EamSensorData sensorData, EamAlarm alarm) {
+        List<String> mobiles = getMobiles(alarm);
+        String message = buildJpushMessage(sensorData, alarm);
+        _log.info("Send APP To : [ {} ], Message: [ {} ]", mobiles, message);
+        jpushUtil.sendPush(mobiles, message);
     }
 
     private List<String> getEmails(EamAlarm alarm) {
@@ -117,7 +130,7 @@ public abstract class AbstractAlarmHandler {
         return result;
     }
 
-    private String getMobiles(EamAlarm alarm) {
+    private String getJsonMobiles(EamAlarm alarm) {
         List<UpmsUser> users = getUpmsUsers(alarm);
 
         JSONArray phones = new JSONArray();
@@ -128,6 +141,19 @@ public abstract class AbstractAlarmHandler {
         }
 
         return phones.toString();
+    }
+
+    private List<String> getMobiles(EamAlarm alarm) {
+        List<String> result = new ArrayList<>();
+        List<UpmsUser> users = getUpmsUsers(alarm);
+
+        for (UpmsUser user : users) {
+            if (!StringUtils.isEmpty(user.getPhone())) {
+                result.add(user.getPhone());
+            }
+        }
+
+        return result;
     }
 
     private List<UpmsUser> getUpmsUsers(EamAlarm alarm) {
@@ -248,6 +274,31 @@ public abstract class AbstractAlarmHandler {
         msg.add(stringBuilder.toString());
 
         return msg.toString();
+    }
+
+    protected String buildJpushMessage(EamSensorData sensorData, EamAlarm alarm) {
+
+        EamEquipment equipment = getEquipment(sensorData);
+        EamEquipmentModelProperties eamEquipmentModelProperties = getEamEquipmentModelProperties(alarm);
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("报警设备：");
+        stringBuilder.append(equipment.getName());
+        stringBuilder.append("(");
+        stringBuilder.append(equipment.getNumber());
+        stringBuilder.append(")  ");
+
+        stringBuilder.append("\n触发条件：");
+        stringBuilder.append(eamEquipmentModelProperties.getName() + "  ");
+        stringBuilder.append(buildAlarmMessage(sensorData, alarm));
+
+        stringBuilder.append("\n报警值：");
+        stringBuilder.append(sensorData.getStringValue());
+
+        stringBuilder.append("\n报警时间：");
+        stringBuilder.append(getCurrentTimeStamp());
+
+        return stringBuilder.toString();
     }
 
     public static String getCurrentTimeStamp() {

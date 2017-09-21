@@ -143,6 +143,7 @@ public class EamServiceTest {
         sensorData.setStringValue("130");
         sensorData.setSensorId(1);
         sensorData.setDeleteFlag(Boolean.FALSE);
+        sensorData.setCreateTime(new Date());
 
 //        eamSensorDataService.insertSelective(sensorData);
 
