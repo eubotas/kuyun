@@ -104,11 +104,11 @@
     where user_id = #{userId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from upms_user
+    update upms_user set delete_flag = 1 
     where user_id = #{userId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.upms.dao.model.UpmsUserExample">
-    delete from upms_user
+    update upms_user set delete_flag = 1 
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -310,5 +310,20 @@
       ctime = #{ctime,jdbcType=BIGINT}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
+  <insert id="batchInsert">
+    <if test="items.get(0) != null">
+            insert into upms_user  (username, password, salt, 
+        realname, avatar, phone, 
+        email, sex, locked, 
+        ctime)
+      values
+      <foreach collection="items" item="item" index="index" separator=",">
+      (#{item.username,jdbcType=VARCHAR}, #{item.password,jdbcType=VARCHAR}, #{item.salt,jdbcType=VARCHAR}, 
+        #{item.realname,jdbcType=VARCHAR}, #{item.avatar,jdbcType=VARCHAR}, #{item.phone,jdbcType=VARCHAR}, 
+        #{item.email,jdbcType=VARCHAR}, #{item.sex,jdbcType=TINYINT}, #{item.locked,jdbcType=TINYINT}, 
+        #{item.ctime,jdbcType=BIGINT})
+      </foreach>
+    </if>
+  </insert>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>

@@ -105,11 +105,11 @@
     where system_id = #{systemId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from upms_system
+    update upms_system set delete_flag = 1 
     where system_id = #{systemId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.upms.dao.model.UpmsSystemExample">
-    delete from upms_system
+    update upms_system set delete_flag = 1 
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -311,5 +311,20 @@
       orders = #{orders,jdbcType=BIGINT}
     where system_id = #{systemId,jdbcType=INTEGER}
   </update>
+  <insert id="batchInsert">
+    <if test="items.get(0) != null">
+            insert into upms_system  (system_id, icon, banner, 
+        theme, basepath, status, 
+        name, title, description, 
+        ctime, orders)
+      values
+      <foreach collection="items" item="item" index="index" separator=",">
+      (#{item.systemId,jdbcType=INTEGER}, #{item.icon,jdbcType=VARCHAR}, #{item.banner,jdbcType=VARCHAR}, 
+        #{item.theme,jdbcType=VARCHAR}, #{item.basepath,jdbcType=VARCHAR}, #{item.status,jdbcType=TINYINT}, 
+        #{item.name,jdbcType=VARCHAR}, #{item.title,jdbcType=VARCHAR}, #{item.description,jdbcType=VARCHAR}, 
+        #{item.ctime,jdbcType=BIGINT}, #{item.orders,jdbcType=BIGINT})
+      </foreach>
+    </if>
+  </insert>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>

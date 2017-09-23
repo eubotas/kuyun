@@ -306,6 +306,11 @@ public class UpmsRolePermissionExample implements Serializable {
             addCriterion("permission_id not between", value1, value2, "permissionId");
             return (Criteria) this;
         }
+
+        public Criteria addConditionSql(String conditionSql) {
+            addCriterion(conditionSql);
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria implements Serializable {

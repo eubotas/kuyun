@@ -193,20 +193,24 @@ public class EamAlarmRecordVO extends EamAlarmRecord {
         } else if (AlarmType.VAL_BELOW.match(alarmType)) {
             result = AlarmType.VAL_BELOW.getName().replace("Y", String.valueOf(getLowerBound()));
 
-        } else if (AlarmType.VAL_ABOVE_BELOW.match(alarmType)) {
-            result = AlarmType.VAL_ABOVE_BELOW.getName().replace("X", String.valueOf(getUpperBound()))
-                    .replace("Y", String.valueOf(getLowerBound()));
-
-        } else if (AlarmType.VAL_ABOVE_BELOW_OFM.match(alarmType)) {
+        }
+//        else if (AlarmType.VAL_ABOVE_BELOW.match(alarmType)) {
+//            result = AlarmType.VAL_ABOVE_BELOW.getName().replace("X", String.valueOf(getUpperBound()))
+//                    .replace("Y", String.valueOf(getLowerBound()));
+//
+//        }
+        else if (AlarmType.VAL_ABOVE_BELOW_OFM.match(alarmType)) {
             result = AlarmType.VAL_ABOVE_BELOW_OFM.getName().replace("X", String.valueOf(getUpperBound()))
                     .replace("Y", String.valueOf(getLowerBound()))
                     .replace("M", String.valueOf(getDuration()));
 
-        } else if (AlarmType.X_TIR_Y_REC.match(alarmType)) {
-            result = AlarmType.X_TIR_Y_REC.getName().replace("X", String.valueOf(getUpperBound()))
-                    .replace("Y", String.valueOf(getLowerBound()));
-
-        } else if (AlarmType.VAL_BETWEEN.match(alarmType)) {
+        }
+//        else if (AlarmType.X_TIR_Y_REC.match(alarmType)) {
+//            result = AlarmType.X_TIR_Y_REC.getName().replace("X", String.valueOf(getUpperBound()))
+//                    .replace("Y", String.valueOf(getLowerBound()));
+//
+//        }
+        else if (AlarmType.VAL_BETWEEN.match(alarmType)) {
             result = AlarmType.VAL_BETWEEN.getName().replace("X", String.valueOf(getUpperBound()))
                     .replace("Y", String.valueOf(getLowerBound()));
 

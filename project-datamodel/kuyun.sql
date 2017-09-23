@@ -496,6 +496,7 @@ CREATE TABLE `upms_log` (
 DROP TABLE IF EXISTS `upms_organization`;
 CREATE TABLE `upms_organization` (
   `organization_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `company_id` int(11) NOT NULL,
   `pid` int(10) DEFAULT NULL COMMENT '所属上级',
   `name` varchar(20) DEFAULT NULL COMMENT '组织名称',
   `description` varchar(1000) DEFAULT NULL COMMENT '组织描述',

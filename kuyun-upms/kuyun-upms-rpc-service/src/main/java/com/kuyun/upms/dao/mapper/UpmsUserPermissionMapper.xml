@@ -97,11 +97,11 @@
     where user_permission_id = #{userPermissionId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from upms_user_permission
+    update upms_user_permission set delete_flag = 1 
     where user_permission_id = #{userPermissionId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.upms.dao.model.UpmsUserPermissionExample">
-    delete from upms_user_permission
+    update upms_user_permission set delete_flag = 1 
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -201,5 +201,16 @@
       type = #{type,jdbcType=TINYINT}
     where user_permission_id = #{userPermissionId,jdbcType=INTEGER}
   </update>
+  <insert id="batchInsert">
+    <if test="items.get(0) != null">
+            insert into upms_user_permission  (user_permission_id, user_id, permission_id, 
+        type)
+      values
+      <foreach collection="items" item="item" index="index" separator=",">
+      (#{item.userPermissionId,jdbcType=INTEGER}, #{item.userId,jdbcType=INTEGER}, #{item.permissionId,jdbcType=INTEGER}, 
+        #{item.type,jdbcType=TINYINT})
+      </foreach>
+    </if>
+  </insert>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>

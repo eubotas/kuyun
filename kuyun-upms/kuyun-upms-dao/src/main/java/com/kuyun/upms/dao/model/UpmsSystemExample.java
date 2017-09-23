@@ -856,6 +856,11 @@ public class UpmsSystemExample implements Serializable {
             addCriterion("orders not between", value1, value2, "orders");
             return (Criteria) this;
         }
+
+        public Criteria addConditionSql(String conditionSql) {
+            addCriterion(conditionSql);
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria implements Serializable {

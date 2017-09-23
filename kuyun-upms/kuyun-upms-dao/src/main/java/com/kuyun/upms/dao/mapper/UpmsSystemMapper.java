@@ -27,4 +27,6 @@ public interface UpmsSystemMapper {
     int updateByPrimaryKeySelective(UpmsSystem record);
 
     int updateByPrimaryKey(UpmsSystem record);
+
+    void batchInsert(@Param("items") List<UpmsSystem> items);
 }

@@ -27,4 +27,6 @@ public interface UpmsOrganizationMapper {
     int updateByPrimaryKeySelective(UpmsOrganization record);
 
     int updateByPrimaryKey(UpmsOrganization record);
+
+    void batchInsert(@Param("items") List<UpmsOrganization> items);
 }

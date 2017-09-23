@@ -27,4 +27,6 @@ public interface UpmsRolePermissionMapper {
     int updateByPrimaryKeySelective(UpmsRolePermission record);
 
     int updateByPrimaryKey(UpmsRolePermission record);
+
+    void batchInsert(@Param("items") List<UpmsRolePermission> items);
 }

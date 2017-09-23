@@ -33,4 +33,6 @@ public interface UpmsLogMapper {
     int updateByPrimaryKeyWithBLOBs(UpmsLog record);
 
     int updateByPrimaryKey(UpmsLog record);
+
+    void batchInsert(@Param("items") List<UpmsLog> items);
 }

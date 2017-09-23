@@ -306,6 +306,11 @@ public class UpmsUserRoleExample implements Serializable {
             addCriterion("role_id not between", value1, value2, "roleId");
             return (Criteria) this;
         }
+
+        public Criteria addConditionSql(String conditionSql) {
+            addCriterion(conditionSql);
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria implements Serializable {

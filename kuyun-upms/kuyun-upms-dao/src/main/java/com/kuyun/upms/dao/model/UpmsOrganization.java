@@ -1,15 +1,9 @@
 package com.kuyun.upms.dao.model;
 
+import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
 
-public class UpmsOrganization implements Serializable {
-    /**
-     * 编号
-     *
-     * @mbg.generated
-     */
-    private Integer organizationId;
-
+public class UpmsOrganization extends BaseEntity implements Serializable {
     /**
      * 所属上级
      *
@@ -38,15 +32,9 @@ public class UpmsOrganization implements Serializable {
      */
     private Long ctime;
 
+    private Integer companyId;
+
     private static final long serialVersionUID = 1L;
-
-    public Integer getOrganizationId() {
-        return organizationId;
-    }
-
-    public void setOrganizationId(Integer organizationId) {
-        this.organizationId = organizationId;
-    }
 
     public Integer getPid() {
         return pid;
@@ -80,17 +68,25 @@ public class UpmsOrganization implements Serializable {
         this.ctime = ctime;
     }
 
+    public Integer getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", organizationId=").append(organizationId);
         sb.append(", pid=").append(pid);
         sb.append(", name=").append(name);
         sb.append(", description=").append(description);
         sb.append(", ctime=").append(ctime);
+        sb.append(", companyId=").append(companyId);
         sb.append("]");
         return sb.toString();
     }
@@ -111,7 +107,8 @@ public class UpmsOrganization implements Serializable {
             && (this.getPid() == null ? other.getPid() == null : this.getPid().equals(other.getPid()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
             && (this.getDescription() == null ? other.getDescription() == null : this.getDescription().equals(other.getDescription()))
-            && (this.getCtime() == null ? other.getCtime() == null : this.getCtime().equals(other.getCtime()));
+            && (this.getCtime() == null ? other.getCtime() == null : this.getCtime().equals(other.getCtime()))
+            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()));
     }
 
     @Override
@@ -123,6 +120,7 @@ public class UpmsOrganization implements Serializable {
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         result = prime * result + ((getDescription() == null) ? 0 : getDescription().hashCode());
         result = prime * result + ((getCtime() == null) ? 0 : getCtime().hashCode());
+        result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
         return result;
     }
 }

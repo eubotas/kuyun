@@ -27,4 +27,6 @@ public interface UpmsUserMapper {
     int updateByPrimaryKeySelective(UpmsUser record);
 
     int updateByPrimaryKey(UpmsUser record);
+
+    void batchInsert(@Param("items") List<UpmsUser> items);
 }
