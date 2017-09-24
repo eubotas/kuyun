@@ -5,6 +5,13 @@ import java.io.Serializable;
 
 public class UpmsOrganization extends BaseEntity implements Serializable {
     /**
+     * 编号
+     *
+     * @mbg.generated
+     */
+    private Integer organizationId;
+
+    /**
      * 所属上级
      *
      * @mbg.generated
@@ -32,9 +39,15 @@ public class UpmsOrganization extends BaseEntity implements Serializable {
      */
     private Long ctime;
 
-    private Integer companyId;
-
     private static final long serialVersionUID = 1L;
+
+    public Integer getOrganizationId() {
+        return organizationId;
+    }
+
+    public void setOrganizationId(Integer organizationId) {
+        this.organizationId = organizationId;
+    }
 
     public Integer getPid() {
         return pid;
@@ -68,25 +81,17 @@ public class UpmsOrganization extends BaseEntity implements Serializable {
         this.ctime = ctime;
     }
 
-    public Integer getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(Integer companyId) {
-        this.companyId = companyId;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
+        sb.append(", organizationId=").append(organizationId);
         sb.append(", pid=").append(pid);
         sb.append(", name=").append(name);
         sb.append(", description=").append(description);
         sb.append(", ctime=").append(ctime);
-        sb.append(", companyId=").append(companyId);
         sb.append("]");
         return sb.toString();
     }

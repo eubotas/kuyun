@@ -27,4 +27,6 @@ public interface FdFilesMapper {
     int updateByPrimaryKeySelective(FdFiles record);
 
     int updateByPrimaryKey(FdFiles record);
+
+    void batchInsert(@Param("items") List<FdFiles> items);
 }

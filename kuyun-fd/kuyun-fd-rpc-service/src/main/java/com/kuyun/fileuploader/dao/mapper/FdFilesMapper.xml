@@ -9,7 +9,7 @@
     <result column="fd_files_saved_file_name" jdbcType="VARCHAR" property="savedFileName" />
     <result column="fd_files_moudle_name" jdbcType="VARCHAR" property="moudleName" />
     <result column="fd_files_oss_id" jdbcType="INTEGER" property="ossId" />
-    <result column="fd_files_organization_id" jdbcType="INTEGER" property="organizationId" />
+    <result column="fd_files_company_id" jdbcType="INTEGER" property="companyId" />
     <result column="fd_files_create_user_id" jdbcType="INTEGER" property="createUserId" />
     <result column="fd_files_create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="fd_files_update_user_id" jdbcType="INTEGER" property="updateUserId" />
@@ -78,7 +78,7 @@
     fd_files.uuid as fd_files_uuid, fd_files.file_name as fd_files_file_name, fd_files.mime as fd_files_mime, 
     fd_files.size as fd_files_size, fd_files.saved_file_name as fd_files_saved_file_name, 
     fd_files.moudle_name as fd_files_moudle_name, fd_files.oss_id as fd_files_oss_id, 
-    fd_files.organization_id as fd_files_organization_id, fd_files.create_user_id as fd_files_create_user_id, 
+    fd_files.company_id as fd_files_company_id, fd_files.create_user_id as fd_files_create_user_id, 
     fd_files.create_time as fd_files_create_time, fd_files.update_user_id as fd_files_update_user_id, 
     fd_files.update_time as fd_files_update_time, fd_files.delete_flag as fd_files_delete_flag
   </sql>
@@ -111,11 +111,11 @@
     where fd_files.uuid = #{uuid,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from fd_files
+    update fd_files fd_files set delete_flag = 1 
     where uuid = #{uuid,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.fileuploader.dao.model.FdFilesExample">
-    delete from fd_files fd_files
+    update fd_files fd_files set delete_flag = 1 
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -123,12 +123,12 @@
   <insert id="insert" parameterType="com.kuyun.fileuploader.dao.model.FdFiles">
     insert into fd_files (uuid, file_name, mime, 
       size, saved_file_name, moudle_name, 
-      oss_id, organization_id, create_user_id, 
+      oss_id, company_id, create_user_id, 
       create_time, update_user_id, update_time, 
       delete_flag)
     values (#{uuid,jdbcType=VARCHAR}, #{fileName,jdbcType=VARCHAR}, #{mime,jdbcType=VARCHAR}, 
       #{size,jdbcType=BIGINT}, #{savedFileName,jdbcType=VARCHAR}, #{moudleName,jdbcType=VARCHAR}, 
-      #{ossId,jdbcType=INTEGER}, #{organizationId,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, 
+      #{ossId,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{deleteFlag,jdbcType=BIT})
   </insert>
@@ -156,8 +156,8 @@
       <if test="ossId != null">
         oss_id,
       </if>
-      <if test="organizationId != null">
-        organization_id,
+      <if test="companyId != null">
+        company_id,
       </if>
       <if test="createUserId != null">
         create_user_id,
@@ -197,8 +197,8 @@
       <if test="ossId != null">
         #{ossId,jdbcType=INTEGER},
       </if>
-      <if test="organizationId != null">
-        #{organizationId,jdbcType=INTEGER},
+      <if test="companyId != null">
+        #{companyId,jdbcType=INTEGER},
       </if>
       <if test="createUserId != null">
         #{createUserId,jdbcType=INTEGER},
@@ -247,8 +247,8 @@
       <if test="record.ossId != null">
         fd_files.oss_id = #{record.ossId,jdbcType=INTEGER},
       </if>
-      <if test="record.organizationId != null">
-        fd_files.organization_id = #{record.organizationId,jdbcType=INTEGER},
+      <if test="record.companyId != null">
+        fd_files.company_id = #{record.companyId,jdbcType=INTEGER},
       </if>
       <if test="record.createUserId != null">
         fd_files.create_user_id = #{record.createUserId,jdbcType=INTEGER},
@@ -279,7 +279,7 @@
       fd_files.saved_file_name = #{record.savedFileName,jdbcType=VARCHAR},
       fd_files.moudle_name = #{record.moudleName,jdbcType=VARCHAR},
       fd_files.oss_id = #{record.ossId,jdbcType=INTEGER},
-      fd_files.organization_id = #{record.organizationId,jdbcType=INTEGER},
+      fd_files.company_id = #{record.companyId,jdbcType=INTEGER},
       fd_files.create_user_id = #{record.createUserId,jdbcType=INTEGER},
       fd_files.create_time = #{record.createTime,jdbcType=TIMESTAMP},
       fd_files.update_user_id = #{record.updateUserId,jdbcType=INTEGER},
@@ -310,8 +310,8 @@
       <if test="ossId != null">
         oss_id = #{ossId,jdbcType=INTEGER},
       </if>
-      <if test="organizationId != null">
-        organization_id = #{organizationId,jdbcType=INTEGER},
+      <if test="companyId != null">
+        company_id = #{companyId,jdbcType=INTEGER},
       </if>
       <if test="createUserId != null">
         create_user_id = #{createUserId,jdbcType=INTEGER},
@@ -339,7 +339,7 @@
       saved_file_name = #{savedFileName,jdbcType=VARCHAR},
       moudle_name = #{moudleName,jdbcType=VARCHAR},
       oss_id = #{ossId,jdbcType=INTEGER},
-      organization_id = #{organizationId,jdbcType=INTEGER},
+      company_id = #{companyId,jdbcType=INTEGER},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=INTEGER},
@@ -347,5 +347,22 @@
       delete_flag = #{deleteFlag,jdbcType=BIT}
     where uuid = #{uuid,jdbcType=VARCHAR}
   </update>
+  <insert id="batchInsert">
+    <if test="items.get(0) != null">
+            insert into fd_files  (uuid, file_name, mime, 
+        size, saved_file_name, moudle_name, 
+        oss_id, company_id, create_user_id, 
+        create_time, update_user_id, update_time, 
+        delete_flag)
+      values
+      <foreach collection="items" item="item" index="index" separator=",">
+      (#{item.uuid,jdbcType=VARCHAR}, #{item.fileName,jdbcType=VARCHAR}, #{item.mime,jdbcType=VARCHAR}, 
+        #{item.size,jdbcType=BIGINT}, #{item.savedFileName,jdbcType=VARCHAR}, #{item.moudleName,jdbcType=VARCHAR}, 
+        #{item.ossId,jdbcType=INTEGER}, #{item.companyId,jdbcType=INTEGER}, #{item.createUserId,jdbcType=INTEGER}, 
+        #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
+        #{item.deleteFlag,jdbcType=BIT})
+      </foreach>
+    </if>
+  </insert>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>

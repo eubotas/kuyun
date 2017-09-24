@@ -5,7 +5,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="sms_id" jdbcType="INTEGER" property="smsId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="organization_id" jdbcType="INTEGER" property="organizationId" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
@@ -71,8 +71,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, sms_id, user_id, organization_id, create_user_id, create_time, update_user_id, 
-    update_time, delete_flag
+    id, sms_id, user_id, company_id, create_user_id, create_time, update_user_id, update_time, 
+    delete_flag
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.marketing.dao.model.MktSmsUserExample" resultMap="BaseResultMap">
     select
@@ -103,22 +103,22 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from mkt_sms_user
+    update mkt_sms_user set delete_flag = 1 
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.marketing.dao.model.MktSmsUserExample">
-    delete from mkt_sms_user
+    update mkt_sms_user set delete_flag = 1 
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.marketing.dao.model.MktSmsUser">
     insert into mkt_sms_user (id, sms_id, user_id, 
-      organization_id, create_user_id, create_time, 
+      company_id, create_user_id, create_time, 
       update_user_id, update_time, delete_flag
       )
     values (#{id,jdbcType=INTEGER}, #{smsId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
-      #{organizationId,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{companyId,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}
       )
   </insert>
@@ -134,8 +134,8 @@
       <if test="userId != null">
         user_id,
       </if>
-      <if test="organizationId != null">
-        organization_id,
+      <if test="companyId != null">
+        company_id,
       </if>
       <if test="createUserId != null">
         create_user_id,
@@ -163,8 +163,8 @@
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="organizationId != null">
-        #{organizationId,jdbcType=INTEGER},
+      <if test="companyId != null">
+        #{companyId,jdbcType=INTEGER},
       </if>
       <if test="createUserId != null">
         #{createUserId,jdbcType=INTEGER},
@@ -201,8 +201,8 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
-      <if test="record.organizationId != null">
-        organization_id = #{record.organizationId,jdbcType=INTEGER},
+      <if test="record.companyId != null">
+        company_id = #{record.companyId,jdbcType=INTEGER},
       </if>
       <if test="record.createUserId != null">
         create_user_id = #{record.createUserId,jdbcType=INTEGER},
@@ -229,7 +229,7 @@
     set id = #{record.id,jdbcType=INTEGER},
       sms_id = #{record.smsId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
-      organization_id = #{record.organizationId,jdbcType=INTEGER},
+      company_id = #{record.companyId,jdbcType=INTEGER},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
@@ -248,8 +248,8 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="organizationId != null">
-        organization_id = #{organizationId,jdbcType=INTEGER},
+      <if test="companyId != null">
+        company_id = #{companyId,jdbcType=INTEGER},
       </if>
       <if test="createUserId != null">
         create_user_id = #{createUserId,jdbcType=INTEGER},
@@ -273,7 +273,7 @@
     update mkt_sms_user
     set sms_id = #{smsId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
-      organization_id = #{organizationId,jdbcType=INTEGER},
+      company_id = #{companyId,jdbcType=INTEGER},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=INTEGER},
@@ -281,5 +281,20 @@
       delete_flag = #{deleteFlag,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <insert id="batchInsert">
+    <if test="items.get(0) != null">
+            insert into mkt_sms_user  (id, sms_id, user_id, 
+        company_id, create_user_id, create_time, 
+        update_user_id, update_time, delete_flag
+        )
+      values
+      <foreach collection="items" item="item" index="index" separator=",">
+      (#{item.id,jdbcType=INTEGER}, #{item.smsId,jdbcType=INTEGER}, #{item.userId,jdbcType=INTEGER}, 
+        #{item.companyId,jdbcType=INTEGER}, #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, 
+        #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}
+        )
+      </foreach>
+    </if>
+  </insert>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>

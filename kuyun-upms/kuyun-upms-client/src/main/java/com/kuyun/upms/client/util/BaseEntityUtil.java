@@ -3,7 +3,10 @@ package com.kuyun.upms.client.util;
 import com.kuyun.common.dao.model.BaseEntity;
 import com.kuyun.upms.dao.model.UpmsOrganization;
 import com.kuyun.upms.dao.model.UpmsUser;
+import com.kuyun.upms.dao.model.UpmsUserCompany;
+import com.kuyun.upms.dao.model.UpmsUserCompanyExample;
 import com.kuyun.upms.rpc.api.UpmsApiService;
+import com.kuyun.upms.rpc.api.UpmsUserCompanyService;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
@@ -17,6 +20,9 @@ public class BaseEntityUtil {
 
     @Autowired
     UpmsApiService upmsApiService;
+
+    @Autowired
+    UpmsUserCompanyService upmsUserCompanyService;
 
 
     public void addAddtionalValue(BaseEntity record){
@@ -34,10 +40,9 @@ public class BaseEntityUtil {
             }
 
             record.setUpdateUserId(user.getUserId());
-            UpmsOrganization organization = upmsApiService.selectParentOrganizationByUserId(user.getUserId());
-
-            if (organization != null){
-                record.setOrganizationId(organization.getOrganizationId());
+            UpmsUserCompany userCompany = getUserCompany(user);
+            if (userCompany != null){
+                record.setCompanyId(userCompany.getCompanyId());
             }
         }
 
@@ -66,11 +71,17 @@ public class BaseEntityUtil {
         return result;
     }
 
-    public UpmsOrganization getCurrentUserParentOrignization(){
-        UpmsOrganization result = null;
+    private UpmsUserCompany getUserCompany(UpmsUser user){
+        UpmsUserCompanyExample example = new UpmsUserCompanyExample();
+        example.createCriteria().andUserIdEqualTo(user.getUserId());
+        return upmsUserCompanyService.selectFirstByExample(example);
+    }
+
+    public UpmsUserCompany getCurrentUserCompany(){
+        UpmsUserCompany result = null;
         UpmsUser user = getCurrentUser();
         if (user != null){
-            result = upmsApiService.selectParentOrganizationByUserId(user.getUserId());
+            result = getUserCompany(user);
         }
         return result;
 

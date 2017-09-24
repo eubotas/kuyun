@@ -30,8 +30,8 @@
 		LEFT JOIN eam_parts p on  t.part_id = p.part_id
 		LEFT JOIN upms_user u on t.maintain_user_id = u.user_id
 		WHERE t.delete_flag = 0
-		<if test="organizationId != null and organizationId != ''">
-			AND t.organization_id = #{organizationId}
+		<if test="companyId != null and companyId != ''">
+			AND t.company_id = #{companyId}
 		</if>
 
 		<if test="orderByClause != null">
@@ -56,7 +56,7 @@
 	<sql id="Location_Column_List">
 		t.location_id, t.warehouse_id, t.number, t.comments,
 		t.create_user_id, t.create_time, t.update_user_id, t.update_time, t.delete_flag,
-		t.organization_id,
+		t.company_id,
 	</sql>
 
 
@@ -69,8 +69,8 @@
 		from eam_Location t
 		LEFT JOIN eam_warehouse e ON t.warehouse_id = e.warehouse_id
 		WHERE t.delete_flag = 0
-		<if test="organizationId != null and organizationId != ''">
-			AND t.organization_id = #{organizationId}
+		<if test="companyId != null and companyId != ''">
+			AND t.company_id = #{companyId}
 		</if>
 		<if test="warehouseId != null">
 			AND t.warehouse_id = #{warehouseId}
@@ -98,7 +98,7 @@
 	<sql id="Part_Column_List">
 		t.part_id, t.category_id, t.name, t.spec, t.model, t.unit, t.brand,
 		t.create_user_id, t.create_time, t.update_user_id, t.update_time, t.delete_flag,
-		t.organization_id,
+		t.company_id,
 	</sql>
 
 
@@ -111,8 +111,8 @@
 		from eam_parts t
 		LEFT JOIN eam_parts_category e ON t.category_id = e.category_id
 		WHERE t.delete_flag = 0
-		<if test="organizationId != null and organizationId != ''">
-			AND t.organization_id = #{organizationId}
+		<if test="companyId != null and companyId != ''">
+			AND t.company_id = #{companyId}
 		</if>
 		<if test="orderByClause != null">
 			order by ${orderByClause}
@@ -139,7 +139,7 @@
 	<sql id="Inventory_Column_List">
 		t.inventory_id, t.warehouse_id, t.location_id, t.part_id, t.quantity, t.in_task_date,
 		t.create_user_id, t.create_time, t.update_user_id, t.update_time, t.delete_flag,
-		t.organization_id,
+		t.company_id,
 	</sql>
 
 
@@ -156,8 +156,8 @@
 		LEFT JOIN eam_location l ON t.location_id = l.location_id
 		LEFT JOIN eam_parts p ON t.part_id = p.part_id
 		WHERE t.delete_flag = 0
-		<if test="organizationId != null and organizationId != ''">
-			AND t.organization_id = #{organizationId}
+		<if test="companyId != null and companyId != ''">
+			AND t.company_id = #{companyId}
 		</if>
 		<if test="orderByClause != null">
 			order by ${orderByClause}
@@ -182,7 +182,7 @@
 	<sql id="Sensor_Data_Column_List">
 		t.sensor_data_id, t.equipment_id, t.sensor_id, t.string_value, t.number_value, t.boolean_value, t.longitude_value,
 		t.latitude_value, t.create_user_id, t.create_time, t.update_user_id, t.update_time, t.delete_flag,
-		t.organization_id,
+		t.company_id,
 	</sql>
 
 	<select id="selectEamSensorData" parameterType="com.kuyun.eam.vo.EamSensorVO" resultMap="EamSensorDataVOResultMap">
@@ -225,7 +225,7 @@
 		s.sensor_id, s.equipment_model_property_id, s.salve_id, s.function_code, s.address, s.data_format,
 		s.bit_order, s.period, s.quantity, s.write_number, s.grm_action, s.grm_variable, s.grm_variable_value,
 		s.grm_variable_order, s.osh, s.osl, s.ish, s.isl, s.create_user_id, s.create_time, s.update_user_id,
-		s.update_time, s.delete_flag, s.organization_id,
+		s.update_time, s.delete_flag, s.company_id,
 	</sql>
 
 	<resultMap id="EamSensorVOResultMap" type="com.kuyun.eam.vo.EamSensorVO" extends="com.kuyun.eam.dao.mapper.EamSensorMapper.BaseResultMap">
@@ -290,7 +290,7 @@
 	<select id="selectAlarm" parameterType="com.kuyun.eam.dao.model.EamSensorData" resultMap="com.kuyun.eam.dao.mapper.EamAlarmMapper.BaseResultMap">
 		select
 		a.alarm_id, a.alarm_type, a.upper_Bound, a.lower_Bound, a.duration, a.alarm_target, a.equipment_model_property_id,
-		a.create_user_id, a.create_time, a.update_user_id, a.update_time, a.delete_flag, a.organization_id
+		a.create_user_id, a.create_time, a.update_user_id, a.update_time, a.delete_flag, a.company_id
 		from eam_alarm a
 		left join eam_equipment_model_properties p on a.equipment_model_property_id = p.equipment_model_property_id
 		left join eam_sensor s on s.equipment_model_property_id = p.equipment_model_property_id
@@ -303,7 +303,7 @@
 	<select id="selectAlarms" parameterType="String" resultMap="com.kuyun.eam.dao.mapper.EamAlarmMapper.BaseResultMap">
 		select
 		a.alarm_id, a.alarm_type, a.upper_Bound, a.lower_Bound, a.duration, a.alarm_target, a.equipment_model_property_id,
-		a.create_user_id, a.create_time, a.update_user_id, a.update_time, a.delete_flag, a.organization_id
+		a.create_user_id, a.create_time, a.update_user_id, a.update_time, a.delete_flag, a.company_id
 		from eam_alarm a
 		left join eam_equipment_model_properties p on a.equipment_model_property_id = p.equipment_model_property_id
 		left join eam_equipment_model m on m.equipment_model_id = p.equipment_model_id
@@ -328,7 +328,7 @@
 
 	<sql id="Alarm_Record_Column_List">
 		t.id, t.alarm_id, t.equipment_id, t.equipment_model_property_id, t.sensor_data_id, t.create_user_id,
-        t.create_time, t.update_user_id, t.update_time, t.delete_flag, t.organization_id,
+        t.create_time, t.update_user_id, t.update_time, t.delete_flag, t.company_id,
 	</sql>
 
 	<select id="selectAlarmRecords" parameterType="com.kuyun.eam.vo.EamAlarmRecordVO" resultMap="EamAlarmRecordVOResultMap">

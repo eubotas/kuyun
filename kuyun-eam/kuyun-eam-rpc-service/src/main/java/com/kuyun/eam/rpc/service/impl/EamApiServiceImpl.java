@@ -27,6 +27,7 @@ import com.kuyun.grm.rpc.api.GrmApiService;
 import com.kuyun.modbus.rpc.api.ModbusSlaveRtuApiService;
 import com.kuyun.upms.dao.model.UpmsOrganization;
 import com.kuyun.upms.dao.model.UpmsUser;
+import com.kuyun.upms.dao.model.UpmsUserCompany;
 import com.kuyun.upms.dao.model.UpmsUserExample;
 import com.kuyun.upms.rpc.api.UpmsUserService;
 import net.sf.json.JSONArray;
@@ -156,9 +157,9 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     @Override
-    public Tree getCityTree(UpmsOrganization org) {
+    public Tree getCityTree(UpmsUserCompany company) {
         Tree tree = new Tree();
-        List<EamEquipment> allEquipments = getEquipments(org);
+        List<EamEquipment> allEquipments = getEquipments(company);
 
         Map<String, List<EamEquipment>> groupByProvinceMap =
                 allEquipments.stream().filter(equipment -> equipment.getProvince() != null).collect(Collectors.groupingBy(EamEquipment::getProvince));
@@ -253,12 +254,12 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
 
-    private List<EamEquipment> getEquipments(UpmsOrganization org) {
+    private List<EamEquipment> getEquipments(UpmsUserCompany company) {
 
         EamEquipmentExample example = new EamEquipmentExample();
         EamEquipmentExample.Criteria criteria = example.createCriteria();
-        if (org != null) {
-            criteria.andOrganizationIdEqualTo(org.getOrganizationId());
+        if (company != null){
+            criteria.andCompanyIdEqualTo(company.getCompanyId());
         }
         criteria.andDeleteFlagEqualTo(Boolean.FALSE);
         example.setOrderByClause("province, city asc");

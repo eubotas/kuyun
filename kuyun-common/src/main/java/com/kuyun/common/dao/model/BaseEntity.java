@@ -18,7 +18,7 @@ public class BaseEntity implements Serializable {
 
     private Boolean deleteFlag;
 
-    private Integer organizationId;
+    private Integer companyId;
 
     public Integer getCreateUserId() {
         return createUserId;
@@ -60,11 +60,11 @@ public class BaseEntity implements Serializable {
         this.deleteFlag = deleteFlag;
     }
 
-    public Integer getOrganizationId() {
-        return organizationId;
+    public Integer getCompanyId() {
+        return companyId;
     }
 
-    public void setOrganizationId(Integer organizationId) {
-        this.organizationId = organizationId;
+    public void setCompanyId(Integer companyId) {
+        this.companyId = companyId;
     }
 }

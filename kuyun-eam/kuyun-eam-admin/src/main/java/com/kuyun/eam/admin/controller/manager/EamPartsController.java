@@ -11,6 +11,7 @@ import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.vo.EamPartVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsOrganization;
+import com.kuyun.upms.dao.model.UpmsUserCompany;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -88,11 +89,11 @@ public class EamPartsController extends BaseController {
 		EamPartsExample.Criteria criteria = partExample.createCriteria();
 		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
 
-		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
+		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
 
-		if (organization != null){
-			partVO.setOrganizationId(organization.getOrganizationId());
-			criteria.andOrganizationIdEqualTo(organization.getOrganizationId());
+		if (company != null){
+			partVO.setCompanyId(company.getCompanyId());
+			criteria.andCompanyIdEqualTo(company.getCompanyId());
 		}
 
 		List<EamPartVO> rows = eamApiService.selectPart(partVO);

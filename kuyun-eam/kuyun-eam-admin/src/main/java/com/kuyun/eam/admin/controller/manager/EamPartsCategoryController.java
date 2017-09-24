@@ -10,7 +10,7 @@ import com.kuyun.eam.dao.model.EamPartsCategory;
 import com.kuyun.eam.dao.model.EamPartsCategoryExample;
 import com.kuyun.eam.rpc.api.EamPartsCategoryService;
 import com.kuyun.upms.client.util.BaseEntityUtil;
-import com.kuyun.upms.dao.model.UpmsOrganization;
+import com.kuyun.upms.dao.model.UpmsUserCompany;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -73,11 +73,14 @@ public class EamPartsCategoryController extends BaseController {
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			partsCategoryExample.setOrderByClause(sort + " " + order);
 		}
-		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
-		if (organization != null){
-			criteria.andOrganizationIdEqualTo(organization.getOrganizationId());
+
+		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+
+		if (company != null){
+			criteria.andCompanyIdEqualTo(company.getCompanyId());
 		}
+
 		List<EamPartsCategory> rows = eamPartsCategoryService.selectByExample(partsCategoryExample);
 		long total = eamPartsCategoryService.countByExample(partsCategoryExample);
 		Map<String, Object> result = new HashMap<>();

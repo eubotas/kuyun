@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamEquipment">
     <id column="equipment_id" jdbcType="VARCHAR" property="equipmentId" />
     <result column="equipment_model_id" jdbcType="INTEGER" property="equipmentModelId" />
-    <result column="organization_id" jdbcType="INTEGER" property="organizationId" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="number" jdbcType="VARCHAR" property="number" />
     <result column="serial_number" jdbcType="VARCHAR" property="serialNumber" />
@@ -91,7 +91,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    equipment_id, equipment_model_id, organization_id, name, number, serial_number, image_path, 
+    equipment_id, equipment_model_id, company_id, name, number, serial_number, image_path, 
     longitude, latitude, province, city, user, collect_status, heart_data, grm, grm_password, 
     grm_period, factory_date, commissioning_date, warranty_start_date, warranty_end_date, 
     maintenance_period, create_user_id, create_time, update_user_id, update_time, delete_flag, 
@@ -136,7 +136,7 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamEquipment">
-    insert into eam_equipment (equipment_id, equipment_model_id, organization_id, 
+    insert into eam_equipment (equipment_id, equipment_model_id, company_id, 
       name, number, serial_number, 
       image_path, longitude, latitude, 
       province, city, user, 
@@ -146,7 +146,7 @@
       warranty_end_date, maintenance_period, create_user_id, 
       create_time, update_user_id, update_time, 
       delete_flag, is_online)
-    values (#{equipmentId,jdbcType=VARCHAR}, #{equipmentModelId,jdbcType=INTEGER}, #{organizationId,jdbcType=INTEGER}, 
+    values (#{equipmentId,jdbcType=VARCHAR}, #{equipmentModelId,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}, 
       #{name,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, #{serialNumber,jdbcType=VARCHAR}, 
       #{imagePath,jdbcType=VARCHAR}, #{longitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}, 
       #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{user,jdbcType=VARCHAR}, 
@@ -166,8 +166,8 @@
       <if test="equipmentModelId != null">
         equipment_model_id,
       </if>
-      <if test="organizationId != null">
-        organization_id,
+      <if test="companyId != null">
+        company_id,
       </if>
       <if test="name != null">
         name,
@@ -252,8 +252,8 @@
       <if test="equipmentModelId != null">
         #{equipmentModelId,jdbcType=INTEGER},
       </if>
-      <if test="organizationId != null">
-        #{organizationId,jdbcType=INTEGER},
+      <if test="companyId != null">
+        #{companyId,jdbcType=INTEGER},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -347,8 +347,8 @@
       <if test="record.equipmentModelId != null">
         equipment_model_id = #{record.equipmentModelId,jdbcType=INTEGER},
       </if>
-      <if test="record.organizationId != null">
-        organization_id = #{record.organizationId,jdbcType=INTEGER},
+      <if test="record.companyId != null">
+        company_id = #{record.companyId,jdbcType=INTEGER},
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
@@ -434,7 +434,7 @@
     update eam_equipment
     set equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
       equipment_model_id = #{record.equipmentModelId,jdbcType=INTEGER},
-      organization_id = #{record.organizationId,jdbcType=INTEGER},
+      company_id = #{record.companyId,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       number = #{record.number,jdbcType=VARCHAR},
       serial_number = #{record.serialNumber,jdbcType=VARCHAR},
@@ -470,8 +470,8 @@
       <if test="equipmentModelId != null">
         equipment_model_id = #{equipmentModelId,jdbcType=INTEGER},
       </if>
-      <if test="organizationId != null">
-        organization_id = #{organizationId,jdbcType=INTEGER},
+      <if test="companyId != null">
+        company_id = #{companyId,jdbcType=INTEGER},
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
@@ -554,7 +554,7 @@
   <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamEquipment">
     update eam_equipment
     set equipment_model_id = #{equipmentModelId,jdbcType=INTEGER},
-      organization_id = #{organizationId,jdbcType=INTEGER},
+      company_id = #{companyId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       number = #{number,jdbcType=VARCHAR},
       serial_number = #{serialNumber,jdbcType=VARCHAR},
@@ -584,7 +584,7 @@
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into eam_equipment  (equipment_id, equipment_model_id, organization_id, 
+            insert into eam_equipment  (equipment_id, equipment_model_id, company_id, 
         name, number, serial_number, 
         image_path, longitude, latitude, 
         province, city, user, 
@@ -596,7 +596,7 @@
         delete_flag, is_online)
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.equipmentId,jdbcType=VARCHAR}, #{item.equipmentModelId,jdbcType=INTEGER}, #{item.organizationId,jdbcType=INTEGER}, 
+      (#{item.equipmentId,jdbcType=VARCHAR}, #{item.equipmentModelId,jdbcType=INTEGER}, #{item.companyId,jdbcType=INTEGER}, 
         #{item.name,jdbcType=VARCHAR}, #{item.number,jdbcType=VARCHAR}, #{item.serialNumber,jdbcType=VARCHAR}, 
         #{item.imagePath,jdbcType=VARCHAR}, #{item.longitude,jdbcType=DECIMAL}, #{item.latitude,jdbcType=DECIMAL}, 
         #{item.province,jdbcType=VARCHAR}, #{item.city,jdbcType=VARCHAR}, #{item.user,jdbcType=VARCHAR}, 

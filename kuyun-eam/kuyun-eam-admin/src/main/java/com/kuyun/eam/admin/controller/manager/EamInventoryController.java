@@ -6,7 +6,7 @@ import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.vo.EamInventoryVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
-import com.kuyun.upms.dao.model.UpmsOrganization;
+import com.kuyun.upms.dao.model.UpmsUserCompany;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -77,12 +77,17 @@ public class EamInventoryController extends BaseController {
 			inventoryVO.setOrderByClause(sort + " " + order);
 		}
 		EamInventoryExample inventoryExample = new EamInventoryExample();
-		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
+		EamInventoryExample.Criteria criteria = inventoryExample.createCriteria();
+		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
 
-		if (organization != null){
-			inventoryVO.setOrganizationId(organization.getOrganizationId());
-			inventoryExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId()).andDeleteFlagEqualTo(Boolean.FALSE);
+		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+
+		if (company != null){
+			inventoryVO.setCompanyId(company.getCompanyId());
+			criteria.andCompanyIdEqualTo(company.getCompanyId());
 		}
+
+
 		List<EamInventoryVO> rows = eamApiService.selectInventory(inventoryVO);
 		int total = eamInventoryService.countByExample(inventoryExample);
 

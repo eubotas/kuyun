@@ -7,7 +7,7 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="status" jdbcType="VARCHAR" property="status" />
-    <result column="organization_id" jdbcType="INTEGER" property="organizationId" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
@@ -73,7 +73,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, template_id, name, content, status, organization_id, create_user_id, create_time, 
+    id, template_id, name, content, status, company_id, create_user_id, create_time, 
     update_user_id, update_time, delete_flag
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.marketing.dao.model.MktSmsTemplateExample" resultMap="BaseResultMap">
@@ -105,22 +105,22 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from mkt_sms_template
+    update mkt_sms_template set delete_flag = 1 
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.marketing.dao.model.MktSmsTemplateExample">
-    delete from mkt_sms_template
+    update mkt_sms_template set delete_flag = 1 
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.marketing.dao.model.MktSmsTemplate">
     insert into mkt_sms_template (id, template_id, name, 
-      content, status, organization_id, 
+      content, status, company_id, 
       create_user_id, create_time, update_user_id, 
       update_time, delete_flag)
     values (#{id,jdbcType=INTEGER}, #{templateId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{content,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{organizationId,jdbcType=INTEGER}, 
+      #{content,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{companyId,jdbcType=INTEGER}, 
       #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT})
   </insert>
@@ -142,8 +142,8 @@
       <if test="status != null">
         status,
       </if>
-      <if test="organizationId != null">
-        organization_id,
+      <if test="companyId != null">
+        company_id,
       </if>
       <if test="createUserId != null">
         create_user_id,
@@ -177,8 +177,8 @@
       <if test="status != null">
         #{status,jdbcType=VARCHAR},
       </if>
-      <if test="organizationId != null">
-        #{organizationId,jdbcType=INTEGER},
+      <if test="companyId != null">
+        #{companyId,jdbcType=INTEGER},
       </if>
       <if test="createUserId != null">
         #{createUserId,jdbcType=INTEGER},
@@ -221,8 +221,8 @@
       <if test="record.status != null">
         status = #{record.status,jdbcType=VARCHAR},
       </if>
-      <if test="record.organizationId != null">
-        organization_id = #{record.organizationId,jdbcType=INTEGER},
+      <if test="record.companyId != null">
+        company_id = #{record.companyId,jdbcType=INTEGER},
       </if>
       <if test="record.createUserId != null">
         create_user_id = #{record.createUserId,jdbcType=INTEGER},
@@ -251,7 +251,7 @@
       name = #{record.name,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=VARCHAR},
       status = #{record.status,jdbcType=VARCHAR},
-      organization_id = #{record.organizationId,jdbcType=INTEGER},
+      company_id = #{record.companyId,jdbcType=INTEGER},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
@@ -276,8 +276,8 @@
       <if test="status != null">
         status = #{status,jdbcType=VARCHAR},
       </if>
-      <if test="organizationId != null">
-        organization_id = #{organizationId,jdbcType=INTEGER},
+      <if test="companyId != null">
+        company_id = #{companyId,jdbcType=INTEGER},
       </if>
       <if test="createUserId != null">
         create_user_id = #{createUserId,jdbcType=INTEGER},
@@ -303,7 +303,7 @@
       name = #{name,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
       status = #{status,jdbcType=VARCHAR},
-      organization_id = #{organizationId,jdbcType=INTEGER},
+      company_id = #{companyId,jdbcType=INTEGER},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=INTEGER},
@@ -311,5 +311,20 @@
       delete_flag = #{deleteFlag,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <insert id="batchInsert">
+    <if test="items.get(0) != null">
+            insert into mkt_sms_template  (id, template_id, name, 
+        content, status, company_id, 
+        create_user_id, create_time, update_user_id, 
+        update_time, delete_flag)
+      values
+      <foreach collection="items" item="item" index="index" separator=",">
+      (#{item.id,jdbcType=INTEGER}, #{item.templateId,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, 
+        #{item.content,jdbcType=VARCHAR}, #{item.status,jdbcType=VARCHAR}, #{item.companyId,jdbcType=INTEGER}, 
+        #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, 
+        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT})
+      </foreach>
+    </if>
+  </insert>
   <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 </mapper>

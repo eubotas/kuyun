@@ -19,7 +19,6 @@
     <bean id="offlineHandler" class="com.kuyun.eam.alarm.OfflineHandler"></bean>
     <bean id="switchOffHandler" class="com.kuyun.eam.alarm.SwitchOffHandler"></bean>
     <bean id="switchOnHandler" class="com.kuyun.eam.alarm.SwitchOnHandler"></bean>
-    <bean id="valAboveBelowHandler" class="com.kuyun.eam.alarm.ValAboveBelowHandler"></bean>
     <bean id="valAboveBelowOFMHandler" class="com.kuyun.eam.alarm.ValAboveBelowOFMHandler"></bean>
     <bean id="valAboveBoundHandler" class="com.kuyun.eam.alarm.ValAboveBoundHandler"></bean>
     <bean id="valBelowBoundHandler" class="com.kuyun.eam.alarm.ValBelowBoundHandler"></bean>

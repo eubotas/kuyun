@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamPartsCategory">
     <id column="category_id" jdbcType="INTEGER" property="categoryId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="organization_id" jdbcType="INTEGER" property="organizationId" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
@@ -70,8 +70,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    category_id, name, organization_id, create_user_id, create_time, update_user_id, 
-    update_time, delete_flag
+    category_id, name, company_id, create_user_id, create_time, update_user_id, update_time, 
+    delete_flag
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamPartsCategoryExample" resultMap="BaseResultMap">
     select
@@ -112,10 +112,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamPartsCategory">
-    insert into eam_parts_category (category_id, name, organization_id, 
+    insert into eam_parts_category (category_id, name, company_id, 
       create_user_id, create_time, update_user_id, 
       update_time, delete_flag)
-    values (#{categoryId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{organizationId,jdbcType=INTEGER}, 
+    values (#{categoryId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{companyId,jdbcType=INTEGER}, 
       #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT})
   </insert>
@@ -128,8 +128,8 @@
       <if test="name != null">
         name,
       </if>
-      <if test="organizationId != null">
-        organization_id,
+      <if test="companyId != null">
+        company_id,
       </if>
       <if test="createUserId != null">
         create_user_id,
@@ -154,8 +154,8 @@
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="organizationId != null">
-        #{organizationId,jdbcType=INTEGER},
+      <if test="companyId != null">
+        #{companyId,jdbcType=INTEGER},
       </if>
       <if test="createUserId != null">
         #{createUserId,jdbcType=INTEGER},
@@ -189,8 +189,8 @@
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.organizationId != null">
-        organization_id = #{record.organizationId,jdbcType=INTEGER},
+      <if test="record.companyId != null">
+        company_id = #{record.companyId,jdbcType=INTEGER},
       </if>
       <if test="record.createUserId != null">
         create_user_id = #{record.createUserId,jdbcType=INTEGER},
@@ -216,7 +216,7 @@
     update eam_parts_category
     set category_id = #{record.categoryId,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
-      organization_id = #{record.organizationId,jdbcType=INTEGER},
+      company_id = #{record.companyId,jdbcType=INTEGER},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
@@ -232,8 +232,8 @@
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="organizationId != null">
-        organization_id = #{organizationId,jdbcType=INTEGER},
+      <if test="companyId != null">
+        company_id = #{companyId,jdbcType=INTEGER},
       </if>
       <if test="createUserId != null">
         create_user_id = #{createUserId,jdbcType=INTEGER},
@@ -256,7 +256,7 @@
   <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamPartsCategory">
     update eam_parts_category
     set name = #{name,jdbcType=VARCHAR},
-      organization_id = #{organizationId,jdbcType=INTEGER},
+      company_id = #{companyId,jdbcType=INTEGER},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=INTEGER},
@@ -266,12 +266,12 @@
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into eam_parts_category  (category_id, name, organization_id, 
+            insert into eam_parts_category  (category_id, name, company_id, 
         create_user_id, create_time, update_user_id, 
         update_time, delete_flag)
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.categoryId,jdbcType=INTEGER}, #{item.name,jdbcType=VARCHAR}, #{item.organizationId,jdbcType=INTEGER}, 
+      (#{item.categoryId,jdbcType=INTEGER}, #{item.name,jdbcType=VARCHAR}, #{item.companyId,jdbcType=INTEGER}, 
         #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, 
         #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT})
       </foreach>

@@ -4,8 +4,6 @@ import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
 
 public class UpmsCompany extends BaseEntity implements Serializable {
-    private Integer companyId;
-
     private Integer parentId;
 
     private String name;
@@ -21,14 +19,6 @@ public class UpmsCompany extends BaseEntity implements Serializable {
     private String www;
 
     private static final long serialVersionUID = 1L;
-
-    public Integer getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(Integer companyId) {
-        this.companyId = companyId;
-    }
 
     public Integer getParentId() {
         return parentId;
@@ -92,7 +82,6 @@ public class UpmsCompany extends BaseEntity implements Serializable {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", companyId=").append(companyId);
         sb.append(", parentId=").append(parentId);
         sb.append(", name=").append(name);
         sb.append(", address=").append(address);

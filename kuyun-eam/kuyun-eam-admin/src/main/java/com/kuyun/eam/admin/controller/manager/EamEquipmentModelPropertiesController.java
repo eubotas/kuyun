@@ -13,6 +13,7 @@ import com.kuyun.grm.common.Action;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsOrganization;
 import com.kuyun.upms.dao.model.UpmsUser;
+import com.kuyun.upms.dao.model.UpmsUserCompany;
 import com.kuyun.upms.rpc.api.UpmsApiService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -95,11 +96,11 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			equipmentModelPropertiesExample.setOrderByClause(sort + " " + order);
 		}
-		
-		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
-		if (organization != null){
-			criteria.andOrganizationIdEqualTo(organization.getOrganizationId());
+		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+
+		if (company != null){
+			criteria.andCompanyIdEqualTo(company.getCompanyId());
 		}
 		List<EamEquipmentModelProperties> rows = eamEquipmentModelPropertiesService.selectByExample(equipmentModelPropertiesExample);
 		long total = eamEquipmentModelPropertiesService.countByExample(equipmentModelPropertiesExample);

@@ -27,4 +27,6 @@ public interface MktSmsSettingMapper {
     int updateByPrimaryKeySelective(MktSmsSetting record);
 
     int updateByPrimaryKey(MktSmsSetting record);
+
+    void batchInsert(@Param("items") List<MktSmsSetting> items);
 }

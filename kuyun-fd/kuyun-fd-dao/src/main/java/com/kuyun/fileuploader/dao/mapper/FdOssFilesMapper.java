@@ -27,4 +27,6 @@ public interface FdOssFilesMapper {
     int updateByPrimaryKeySelective(FdOssFiles record);
 
     int updateByPrimaryKey(FdOssFiles record);
+
+    void batchInsert(@Param("items") List<FdOssFiles> items);
 }

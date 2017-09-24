@@ -13,8 +13,8 @@ import com.kuyun.eam.rpc.api.EamMaintenanceService;
 import com.kuyun.eam.rpc.api.EamPartsService;
 import com.kuyun.eam.vo.EamMaintenanceVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
-import com.kuyun.upms.dao.model.UpmsOrganization;
 import com.kuyun.upms.dao.model.UpmsUser;
+import com.kuyun.upms.dao.model.UpmsUserCompany;
 import com.kuyun.upms.rpc.api.UpmsApiService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -90,12 +90,13 @@ public class EamMaintenanceController extends BaseController {
 		EamMaintenanceExample.Criteria criteria = example.createCriteria();
 		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
 
-		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
+		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
 
-		if (organization != null){
-			eamMaintenanceVO.setOrganizationId(organization.getOrganizationId());
-			criteria.andOrganizationIdEqualTo(organization.getOrganizationId());
+		if (company != null){
+			eamMaintenanceVO.setCompanyId(company.getCompanyId());
+			criteria.andCompanyIdEqualTo(company.getCompanyId());
 		}
+
 		List<EamMaintenanceVO> rows = eamApiService.selectMaintenance(eamMaintenanceVO);
 
 		int total = eamMaintenanceService.countByExample(example);

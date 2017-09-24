@@ -11,6 +11,7 @@ import com.kuyun.eam.dao.model.EamWarehouseExample;
 import com.kuyun.eam.rpc.api.EamWarehouseService;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsOrganization;
+import com.kuyun.upms.dao.model.UpmsUserCompany;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -74,10 +75,10 @@ public class EamWarehouseController extends BaseController {
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			warehousesExample.setOrderByClause(sort + " " + order);
 		}
-		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
+		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
 
-		if (organization != null){
-			criteria.andOrganizationIdEqualTo(organization.getOrganizationId());
+		if (company != null){
+			criteria.andCompanyIdEqualTo(company.getCompanyId());
 		}
 		List<EamWarehouse> rows = eamWarehouseService.selectByExample(warehousesExample);
 		long total = eamWarehouseService.countByExample(warehousesExample);

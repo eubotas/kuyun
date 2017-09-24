@@ -11,6 +11,7 @@ import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.pojo.tree.Tree;
 import com.kuyun.eam.vo.*;
 import com.kuyun.upms.dao.model.UpmsOrganization;
+import com.kuyun.upms.dao.model.UpmsUserCompany;
 
 /**
  * Created by user on 4/24/2017.
@@ -33,7 +34,7 @@ public interface EamApiService {
 
     List<EamSensorDataVO> selectEamSensorData(EamSensorVO sensorVO);
 
-    Tree getCityTree(UpmsOrganization org);
+    Tree getCityTree(UpmsUserCompany company);
 
     List<SensorGroup> getSensorData(String equipmentId);
 

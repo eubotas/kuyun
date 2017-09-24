@@ -6,15 +6,14 @@ import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.marketing.common.constant.MktResult;
-import com.kuyun.marketing.dao.model.MktSmsTemplateExample;
 import com.kuyun.marketing.dao.model.MktSmsTemplate;
+import com.kuyun.marketing.dao.model.MktSmsTemplateExample;
 import com.kuyun.marketing.rpc.api.MktApiService;
 import com.kuyun.marketing.rpc.api.MktSmsTemplateService;
 import com.kuyun.upms.client.util.BaseEntityUtil;
-import com.kuyun.upms.dao.model.UpmsOrganization;
+import com.kuyun.upms.dao.model.UpmsUserCompany;
 import com.kuyun.upms.dao.model.UpmsUserExample;
 import com.kuyun.upms.dao.vo.UpmsUserVo;
-import com.kuyun.upms.rpc.api.UpmsApiService;
 import com.kuyun.upms.rpc.api.UpmsUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -77,15 +76,17 @@ public class MktSmsTemplateController extends BaseController {
 		MktSmsTemplateExample smsTemplateExample = new MktSmsTemplateExample();
 		smsTemplateExample.setOffset(offset);
 		smsTemplateExample.setLimit(limit);
+		MktSmsTemplateExample.Criteria criteria = smsTemplateExample.createCriteria();
+		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
 		
 		
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			smsTemplateExample.setOrderByClause(sort + " " + order);
 		}
-		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
+		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
 
-		if (organization != null){
-			smsTemplateExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId());
+		if (company != null){
+			criteria.andCompanyIdEqualTo(company.getCompanyId());
 		}
 		List<MktSmsTemplate> rows = mktSmsTemplateService.selectByExample(smsTemplateExample);
 		long total = mktSmsTemplateService.countByExample(smsTemplateExample);

@@ -628,63 +628,63 @@ public class EamWarehouseExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andOrganizationIdIsNull() {
-            addCriterion("organization_id is null");
+        public Criteria andCompanyIdIsNull() {
+            addCriterion("company_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andOrganizationIdIsNotNull() {
-            addCriterion("organization_id is not null");
+        public Criteria andCompanyIdIsNotNull() {
+            addCriterion("company_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andOrganizationIdEqualTo(Integer value) {
-            addCriterion("organization_id =", value, "organizationId");
+        public Criteria andCompanyIdEqualTo(Integer value) {
+            addCriterion("company_id =", value, "companyId");
             return (Criteria) this;
         }
 
-        public Criteria andOrganizationIdNotEqualTo(Integer value) {
-            addCriterion("organization_id <>", value, "organizationId");
+        public Criteria andCompanyIdNotEqualTo(Integer value) {
+            addCriterion("company_id <>", value, "companyId");
             return (Criteria) this;
         }
 
-        public Criteria andOrganizationIdGreaterThan(Integer value) {
-            addCriterion("organization_id >", value, "organizationId");
+        public Criteria andCompanyIdGreaterThan(Integer value) {
+            addCriterion("company_id >", value, "companyId");
             return (Criteria) this;
         }
 
-        public Criteria andOrganizationIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("organization_id >=", value, "organizationId");
+        public Criteria andCompanyIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("company_id >=", value, "companyId");
             return (Criteria) this;
         }
 
-        public Criteria andOrganizationIdLessThan(Integer value) {
-            addCriterion("organization_id <", value, "organizationId");
+        public Criteria andCompanyIdLessThan(Integer value) {
+            addCriterion("company_id <", value, "companyId");
             return (Criteria) this;
         }
 
-        public Criteria andOrganizationIdLessThanOrEqualTo(Integer value) {
-            addCriterion("organization_id <=", value, "organizationId");
+        public Criteria andCompanyIdLessThanOrEqualTo(Integer value) {
+            addCriterion("company_id <=", value, "companyId");
             return (Criteria) this;
         }
 
-        public Criteria andOrganizationIdIn(List<Integer> values) {
-            addCriterion("organization_id in", values, "organizationId");
+        public Criteria andCompanyIdIn(List<Integer> values) {
+            addCriterion("company_id in", values, "companyId");
             return (Criteria) this;
         }
 
-        public Criteria andOrganizationIdNotIn(List<Integer> values) {
-            addCriterion("organization_id not in", values, "organizationId");
+        public Criteria andCompanyIdNotIn(List<Integer> values) {
+            addCriterion("company_id not in", values, "companyId");
             return (Criteria) this;
         }
 
-        public Criteria andOrganizationIdBetween(Integer value1, Integer value2) {
-            addCriterion("organization_id between", value1, value2, "organizationId");
+        public Criteria andCompanyIdBetween(Integer value1, Integer value2) {
+            addCriterion("company_id between", value1, value2, "companyId");
             return (Criteria) this;
         }
 
-        public Criteria andOrganizationIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("organization_id not between", value1, value2, "organizationId");
+        public Criteria andCompanyIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("company_id not between", value1, value2, "companyId");
             return (Criteria) this;
         }
 

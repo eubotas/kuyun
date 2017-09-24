@@ -14,8 +14,6 @@ public class AlarmTypeFactory {
     @Autowired
     private ValBelowHandler valBelowHandler;
 
-    @Autowired
-    private ValAboveBelowHandler valAboveBelowHandler;
 
     @Autowired
     private ValAboveBelowOFMHandler valAboveBelowOFMHandler;
@@ -55,10 +53,6 @@ public class AlarmTypeFactory {
             handler = valBelowHandler;
 
         }
-//        else if (AlarmType.VAL_ABOVE_BELOW.match(alarm.getAlarmType())) {
-//            handler = valAboveBelowHandler;
-//
-//        }
         else if (AlarmType.VAL_ABOVE_BELOW_OFM.match(alarm.getAlarmType())) {
             handler = valAboveBelowOFMHandler;
 

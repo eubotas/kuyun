@@ -8,8 +8,6 @@ import com.kuyun.common.validator.NotNullValidator;
 import com.kuyun.eam.common.constant.AlarmType;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.EamAlarm;
-import com.kuyun.eam.rpc.api.EamAlarmService;
-import com.kuyun.eam.rpc.api.EamAlarmTargetUserService;
 import com.kuyun.eam.rpc.api.EamApiService;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import io.swagger.annotations.Api;
@@ -112,14 +110,16 @@ public class EamAlarmController extends BaseController {
 					.doValidate()
 					.result(ResultCollectors.toComplex());
 
-		}else if (AlarmType.VAL_ABOVE_BELOW.match(alarm.getAlarmType())){
-			result = FluentValidator.checkAll()
-					.on(alarm.getUpperBound(), new NotNullValidator("X值"))
-					.on(alarm.getLowerBound(), new NotNullValidator("Y值"))
-					.doValidate()
-					.result(ResultCollectors.toComplex());
-
-		}else if (AlarmType.VAL_ABOVE_BELOW_OFM.match(alarm.getAlarmType())){
+		}
+//		else if (AlarmType.VAL_ABOVE_BELOW.match(alarm.getAlarmType())){
+//			result = FluentValidator.checkAll()
+//					.on(alarm.getUpperBound(), new NotNullValidator("X值"))
+//					.on(alarm.getLowerBound(), new NotNullValidator("Y值"))
+//					.doValidate()
+//					.result(ResultCollectors.toComplex());
+//
+//		}
+		else if (AlarmType.VAL_ABOVE_BELOW_OFM.match(alarm.getAlarmType())){
 			result = FluentValidator.checkAll()
 					.on(alarm.getUpperBound(), new NotNullValidator("X值"))
 					.on(alarm.getLowerBound(), new NotNullValidator("Y值"))
@@ -127,14 +127,16 @@ public class EamAlarmController extends BaseController {
 					.doValidate()
 					.result(ResultCollectors.toComplex());
 
-		}else if (AlarmType.X_TIR_Y_REC.match(alarm.getAlarmType())){
-			result = FluentValidator.checkAll()
-					.on(alarm.getUpperBound(), new NotNullValidator("X值"))
-					.on(alarm.getLowerBound(), new NotNullValidator("Y值"))
-					.doValidate()
-					.result(ResultCollectors.toComplex());
-
-		}else if (AlarmType.VAL_BETWEEN.match(alarm.getAlarmType())){
+		}
+//		else if (AlarmType.X_TIR_Y_REC.match(alarm.getAlarmType())){
+//			result = FluentValidator.checkAll()
+//					.on(alarm.getUpperBound(), new NotNullValidator("X值"))
+//					.on(alarm.getLowerBound(), new NotNullValidator("Y值"))
+//					.doValidate()
+//					.result(ResultCollectors.toComplex());
+//
+//		}
+		else if (AlarmType.VAL_BETWEEN.match(alarm.getAlarmType())){
 			result = FluentValidator.checkAll()
 					.on(alarm.getUpperBound(), new NotNullValidator("X值"))
 					.on(alarm.getLowerBound(), new NotNullValidator("Y值"))

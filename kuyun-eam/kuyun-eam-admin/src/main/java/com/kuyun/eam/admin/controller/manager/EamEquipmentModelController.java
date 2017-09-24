@@ -5,15 +5,12 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
-import com.kuyun.eam.admin.util.ModbusFunctionCode;
-import com.kuyun.eam.common.constant.BitOrder;
-import com.kuyun.eam.common.constant.DataFormat;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
-import com.kuyun.grm.common.Action;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsOrganization;
+import com.kuyun.upms.dao.model.UpmsUserCompany;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -73,16 +70,17 @@ public class EamEquipmentModelController extends BaseController {
 		eamEquipmentModelExample.setOffset(offset);
 		eamEquipmentModelExample.setLimit(limit);
 
+		EamEquipmentModelExample.Criteria criteria = eamEquipmentModelExample.createCriteria();
+		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
 
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			eamEquipmentModelExample.setOrderByClause(sort + " " + order);
 		}
 
-		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
+		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
 
-		if (organization != null){
-			eamEquipmentModelExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId())
-			.andDeleteFlagEqualTo(Boolean.FALSE);
+		if (company != null){
+			criteria.andCompanyIdEqualTo(company.getCompanyId());
 		}
 
 
@@ -157,25 +155,5 @@ public class EamEquipmentModelController extends BaseController {
 		int count = eamEquipmentModelService.updateByPrimaryKeySelective(equipmentModel);
 		return new EamResult(SUCCESS, count);
 	}
-
-//	@ApiOperation(value = "设置连接")
-//	@RequiresPermissions("eam:equipmentModel:update")
-//	@RequestMapping(value = "/connect/{id}", method = RequestMethod.GET)
-//	public String connect(@PathVariable("id") int id, ModelMap modelMap) {
-//		EamEquipmentModel equipmentModel = eamEquipmentModelService.selectByPrimaryKey(id);
-//		modelMap.put("equipmentModel", equipmentModel);
-//		modelMap.put("protocols", protocolService.selectByExample(new EamProtocolExample()));
-//		return "/manage/equipment/model/connect.jsp";
-//	}
-//
-//	@ApiOperation(value = "设置连接")
-//	@RequiresPermissions("eam:equipmentModel:update")
-//	@RequestMapping(value = "/connect/{id}", method = RequestMethod.POST)
-//	@ResponseBody
-//	public Object connect(@PathVariable("id") int id, EamEquipmentModel equipmentModel) {
-//		equipmentModel.setEquipmentModelId(id);
-//		int count = eamEquipmentModelService.updateByPrimaryKeySelective(equipmentModel);
-//		return new EamResult(SUCCESS, count);
-//	}
 
 }

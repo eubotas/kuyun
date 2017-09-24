@@ -60,3 +60,12 @@ ALTER TABLE eam_ticket_type change organization_id company_id int;
 ALTER TABLE eam_ticket change organization_id company_id int;
 ALTER TABLE eam_ticket_record change organization_id company_id int;
 
+ALTER TABLE mkt_sms_setting change organization_id company_id int;
+ALTER TABLE mkt_sms_template change organization_id company_id int;
+ALTER TABLE mkt_sms change organization_id company_id int;
+ALTER TABLE mkt_sms_user change organization_id company_id int;
+
+ALTER TABLE fd_files change organization_id company_id int;
+ALTER TABLE fd_oss_files change organization_id company_id int;
+
+

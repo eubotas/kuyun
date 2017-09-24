@@ -1,6 +1,5 @@
 package com.kuyun.eam.alarm;
 
-import com.kuyun.eam.common.constant.AlarmType;
 import com.kuyun.eam.dao.model.EamAlarm;
 import com.kuyun.eam.dao.model.EamSensorData;
 
@@ -13,8 +12,10 @@ public class XTirYRecHandler extends AbstractAlarmHandler {
     @Override
     protected String buildAlarmMessage(EamSensorData sensorData, EamAlarm alarm) {
 
-        return AlarmType.X_TIR_Y_REC.getName().replace("X", String.valueOf(alarm.getUpperBound()))
-                .replace("Y", String.valueOf(alarm.getLowerBound()));
+//        return AlarmType.X_TIR_Y_REC.getName().replace("X", String.valueOf(alarm.getUpperBound()))
+//                .replace("Y", String.valueOf(alarm.getLowerBound()));
+
+        return "";
     }
 
     @Override

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.kuyun.upms.dao.model.UpmsUserCompany;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -82,10 +83,10 @@ public class EamTicketTypeController extends BaseController {
 			eamTicketTypeExample.setOrderByClause(sort + " " + order);
 		}
 
-		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
+		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
 
-		if (organization != null){
-			criteria.andOrganizationIdEqualTo(organization.getOrganizationId());
+		if (company != null){
+			criteria.andCompanyIdEqualTo(company.getCompanyId());
 		}
 
 

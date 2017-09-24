@@ -15,7 +15,7 @@ import com.kuyun.eam.rpc.api.EamLocationService;
 import com.kuyun.eam.rpc.api.EamWarehouseService;
 import com.kuyun.eam.vo.EamLocationVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
-import com.kuyun.upms.dao.model.UpmsOrganization;
+import com.kuyun.upms.dao.model.UpmsUserCompany;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -94,12 +94,13 @@ public class EamLocationController extends BaseController {
 			criteria.andWarehouseIdEqualTo(Integer.valueOf(warehouseId));
 		}
 
-		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
+		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
 
-		if (organization != null){
-			locationVO.setOrganizationId(organization.getOrganizationId());
-			criteria.andOrganizationIdEqualTo(organization.getOrganizationId());
+		if (company != null){
+			locationVO.setCompanyId(company.getCompanyId());
+			criteria.andCompanyIdEqualTo(company.getCompanyId());
 		}
+
 		List<EamLocationVO> rows = eamApiService.selectLocation(locationVO);
 		int total = eamLocationService.countByExample(example);
 		Map<String, Object> result = new HashMap<>();

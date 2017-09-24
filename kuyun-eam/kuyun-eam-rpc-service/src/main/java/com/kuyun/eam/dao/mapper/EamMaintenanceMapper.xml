@@ -15,7 +15,7 @@
     <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
-    <result column="organization_id" jdbcType="INTEGER" property="organizationId" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -78,7 +78,7 @@
   <sql id="Base_Column_List">
     maintenance_id, equipment_id, part_id, reason, content, part_quantity, maintain_user_id, 
     maintain_time, create_user_id, create_time, update_user_id, update_time, delete_flag, 
-    organization_id
+    company_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamMaintenanceExample" resultMap="BaseResultMap">
     select
@@ -123,12 +123,12 @@
       reason, content, part_quantity, 
       maintain_user_id, maintain_time, create_user_id, 
       create_time, update_user_id, update_time, 
-      delete_flag, organization_id)
+      delete_flag, company_id)
     values (#{maintenanceId,jdbcType=INTEGER}, #{equipmentId,jdbcType=VARCHAR}, #{partId,jdbcType=INTEGER}, 
       #{reason,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{partQuantity,jdbcType=DECIMAL}, 
       #{maintainUserId,jdbcType=INTEGER}, #{maintainTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlag,jdbcType=BIT}, #{organizationId,jdbcType=INTEGER})
+      #{deleteFlag,jdbcType=BIT}, #{companyId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamMaintenance">
     insert into eam_maintenance
@@ -172,8 +172,8 @@
       <if test="deleteFlag != null">
         delete_flag,
       </if>
-      <if test="organizationId != null">
-        organization_id,
+      <if test="companyId != null">
+        company_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -216,8 +216,8 @@
       <if test="deleteFlag != null">
         #{deleteFlag,jdbcType=BIT},
       </if>
-      <if test="organizationId != null">
-        #{organizationId,jdbcType=INTEGER},
+      <if test="companyId != null">
+        #{companyId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -269,8 +269,8 @@
       <if test="record.deleteFlag != null">
         delete_flag = #{record.deleteFlag,jdbcType=BIT},
       </if>
-      <if test="record.organizationId != null">
-        organization_id = #{record.organizationId,jdbcType=INTEGER},
+      <if test="record.companyId != null">
+        company_id = #{record.companyId,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -292,7 +292,7 @@
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      organization_id = #{record.organizationId,jdbcType=INTEGER}
+      company_id = #{record.companyId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -336,8 +336,8 @@
       <if test="deleteFlag != null">
         delete_flag = #{deleteFlag,jdbcType=BIT},
       </if>
-      <if test="organizationId != null">
-        organization_id = #{organizationId,jdbcType=INTEGER},
+      <if test="companyId != null">
+        company_id = #{companyId,jdbcType=INTEGER},
       </if>
     </set>
     where maintenance_id = #{maintenanceId,jdbcType=INTEGER}
@@ -356,7 +356,7 @@
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
-      organization_id = #{organizationId,jdbcType=INTEGER}
+      company_id = #{companyId,jdbcType=INTEGER}
     where maintenance_id = #{maintenanceId,jdbcType=INTEGER}
   </update>
   <insert id="batchInsert">
@@ -365,14 +365,14 @@
         reason, content, part_quantity, 
         maintain_user_id, maintain_time, create_user_id, 
         create_time, update_user_id, update_time, 
-        delete_flag, organization_id)
+        delete_flag, company_id)
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.maintenanceId,jdbcType=INTEGER}, #{item.equipmentId,jdbcType=VARCHAR}, #{item.partId,jdbcType=INTEGER}, 
         #{item.reason,jdbcType=VARCHAR}, #{item.content,jdbcType=VARCHAR}, #{item.partQuantity,jdbcType=DECIMAL}, 
         #{item.maintainUserId,jdbcType=INTEGER}, #{item.maintainTime,jdbcType=TIMESTAMP}, #{item.createUserId,jdbcType=INTEGER}, 
         #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
-        #{item.deleteFlag,jdbcType=BIT}, #{item.organizationId,jdbcType=INTEGER})
+        #{item.deleteFlag,jdbcType=BIT}, #{item.companyId,jdbcType=INTEGER})
       </foreach>
     </if>
   </insert>

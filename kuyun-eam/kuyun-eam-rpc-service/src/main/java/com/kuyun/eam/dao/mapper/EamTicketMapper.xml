@@ -18,7 +18,7 @@
     <result column="eam_ticket_update_user_id" jdbcType="INTEGER" property="updateUserId" />
     <result column="eam_ticket_update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="eam_ticket_delete_flag" jdbcType="BIT" property="deleteFlag" />
-    <result column="eam_ticket_organization_id" jdbcType="INTEGER" property="organizationId" />
+    <result column="eam_ticket_company_id" jdbcType="INTEGER" property="companyId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -87,7 +87,7 @@
     eam_ticket.end_date as eam_ticket_end_date, eam_ticket.create_user_id as eam_ticket_create_user_id, 
     eam_ticket.create_time as eam_ticket_create_time, eam_ticket.update_user_id as eam_ticket_update_user_id, 
     eam_ticket.update_time as eam_ticket_update_time, eam_ticket.delete_flag as eam_ticket_delete_flag, 
-    eam_ticket.organization_id as eam_ticket_organization_id
+    eam_ticket.company_id as eam_ticket_company_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamTicketExample" resultMap="BaseResultMap">
     select
@@ -133,13 +133,13 @@
       image_path_4, priority, executor_id, 
       status, end_date, create_user_id, 
       create_time, update_user_id, update_time, 
-      delete_flag, organization_id)
+      delete_flag, company_id)
     values (#{ticketId,jdbcType=INTEGER}, #{ticketTypeId,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, 
       #{imagePath1,jdbcType=VARCHAR}, #{imagePath2,jdbcType=VARCHAR}, #{imagePath3,jdbcType=VARCHAR}, 
       #{imagePath4,jdbcType=VARCHAR}, #{priority,jdbcType=VARCHAR}, #{executorId,jdbcType=INTEGER}, 
       #{status,jdbcType=VARCHAR}, #{endDate,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlag,jdbcType=BIT}, #{organizationId,jdbcType=INTEGER})
+      #{deleteFlag,jdbcType=BIT}, #{companyId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamTicket">
     insert into eam_ticket
@@ -192,8 +192,8 @@
       <if test="deleteFlag != null">
         delete_flag,
       </if>
-      <if test="organizationId != null">
-        organization_id,
+      <if test="companyId != null">
+        company_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -245,8 +245,8 @@
       <if test="deleteFlag != null">
         #{deleteFlag,jdbcType=BIT},
       </if>
-      <if test="organizationId != null">
-        #{organizationId,jdbcType=INTEGER},
+      <if test="companyId != null">
+        #{companyId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -307,8 +307,8 @@
       <if test="record.deleteFlag != null">
         eam_ticket.delete_flag = #{record.deleteFlag,jdbcType=BIT},
       </if>
-      <if test="record.organizationId != null">
-        eam_ticket.organization_id = #{record.organizationId,jdbcType=INTEGER},
+      <if test="record.companyId != null">
+        eam_ticket.company_id = #{record.companyId,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -333,7 +333,7 @@
       eam_ticket.update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       eam_ticket.update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       eam_ticket.delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      eam_ticket.organization_id = #{record.organizationId,jdbcType=INTEGER}
+      eam_ticket.company_id = #{record.companyId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -386,8 +386,8 @@
       <if test="deleteFlag != null">
         delete_flag = #{deleteFlag,jdbcType=BIT},
       </if>
-      <if test="organizationId != null">
-        organization_id = #{organizationId,jdbcType=INTEGER},
+      <if test="companyId != null">
+        company_id = #{companyId,jdbcType=INTEGER},
       </if>
     </set>
     where ticket_id = #{ticketId,jdbcType=INTEGER}
@@ -409,7 +409,7 @@
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
-      organization_id = #{organizationId,jdbcType=INTEGER}
+      company_id = #{companyId,jdbcType=INTEGER}
     where ticket_id = #{ticketId,jdbcType=INTEGER}
   </update>
   <insert id="batchInsert">
@@ -419,7 +419,7 @@
         image_path_4, priority, executor_id, 
         status, end_date, create_user_id, 
         create_time, update_user_id, update_time, 
-        delete_flag, organization_id)
+        delete_flag, company_id)
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.ticketId,jdbcType=INTEGER}, #{item.ticketTypeId,jdbcType=INTEGER}, #{item.description,jdbcType=VARCHAR}, 
@@ -427,7 +427,7 @@
         #{item.imagePath4,jdbcType=VARCHAR}, #{item.priority,jdbcType=VARCHAR}, #{item.executorId,jdbcType=INTEGER}, 
         #{item.status,jdbcType=VARCHAR}, #{item.endDate,jdbcType=TIMESTAMP}, #{item.createUserId,jdbcType=INTEGER}, 
         #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
-        #{item.deleteFlag,jdbcType=BIT}, #{item.organizationId,jdbcType=INTEGER})
+        #{item.deleteFlag,jdbcType=BIT}, #{item.companyId,jdbcType=INTEGER})
       </foreach>
     </if>
   </insert>

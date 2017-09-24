@@ -10,7 +10,7 @@ import com.kuyun.marketing.dao.model.MktSmsSetting;
 import com.kuyun.marketing.dao.model.MktSmsSettingExample;
 import com.kuyun.marketing.rpc.api.MktSmsSettingService;
 import com.kuyun.upms.client.util.BaseEntityUtil;
-import com.kuyun.upms.dao.model.UpmsOrganization;
+import com.kuyun.upms.dao.model.UpmsUserCompany;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -67,16 +67,20 @@ public class MktSmsSettingController extends BaseController {
 		MktSmsSettingExample mktSmsSettingExample = new MktSmsSettingExample();
 		mktSmsSettingExample.setOffset(offset);
 		mktSmsSettingExample.setLimit(limit);
-		
+		MktSmsSettingExample.Criteria criteria = mktSmsSettingExample.createCriteria();
+		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
 		
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			mktSmsSettingExample.setOrderByClause(sort + " " + order);
 		}
-		UpmsOrganization organization = baseEntityUtil.getCurrentUserParentOrignization();
 
-		if (organization != null){
-			mktSmsSettingExample.createCriteria().andOrganizationIdEqualTo(organization.getOrganizationId());
+
+		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+
+		if (company != null){
+			criteria.andCompanyIdEqualTo(company.getCompanyId());
 		}
+
 		List<MktSmsSetting> rows = mktSmsSettingService.selectByExample(mktSmsSettingExample);
 		long total = mktSmsSettingService.countByExample(mktSmsSettingExample);
 		Map<String, Object> result = new HashMap<String, Object>();

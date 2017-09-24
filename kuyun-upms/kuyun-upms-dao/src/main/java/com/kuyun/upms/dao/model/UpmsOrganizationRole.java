@@ -1,15 +1,21 @@
 package com.kuyun.upms.dao.model;
 
-import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
 
-public class UpmsOrganizationRole extends BaseEntity implements Serializable {
+public class UpmsOrganizationRole implements Serializable {
     /**
      * 编号
      *
      * @mbg.generated
      */
     private Integer organizationRoleId;
+
+    /**
+     * 组织编号
+     *
+     * @mbg.generated
+     */
+    private Integer organizationId;
 
     /**
      * 角色编号
@@ -28,6 +34,14 @@ public class UpmsOrganizationRole extends BaseEntity implements Serializable {
         this.organizationRoleId = organizationRoleId;
     }
 
+    public Integer getOrganizationId() {
+        return organizationId;
+    }
+
+    public void setOrganizationId(Integer organizationId) {
+        this.organizationId = organizationId;
+    }
+
     public Integer getRoleId() {
         return roleId;
     }
@@ -43,6 +57,7 @@ public class UpmsOrganizationRole extends BaseEntity implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", organizationRoleId=").append(organizationRoleId);
+        sb.append(", organizationId=").append(organizationId);
         sb.append(", roleId=").append(roleId);
         sb.append("]");
         return sb.toString();
