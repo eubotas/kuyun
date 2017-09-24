@@ -102,4 +102,6 @@ public interface UpmsApiService {
 
     boolean validateToken(String token);
 
+    void handleReg(String userName, String name, String password, String email, String phone, String company);
+
 }

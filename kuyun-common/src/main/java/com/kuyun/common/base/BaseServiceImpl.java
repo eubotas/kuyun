@@ -80,7 +80,8 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 		if (items != null && !items.isEmpty()){
 			try {
 				DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
-				Method batchInsert = mapper.getClass().getDeclaredMethod("batchInsert", items.get(0).getClass());
+
+				Method batchInsert = mapper.getClass().getDeclaredMethod("batchInsert", List.class);
 				batchInsert.invoke(mapper, items);
 			} catch (Exception e) {
 				e.printStackTrace();

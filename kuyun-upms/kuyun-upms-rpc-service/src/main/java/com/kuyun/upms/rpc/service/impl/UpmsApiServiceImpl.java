@@ -1,22 +1,23 @@
 package com.kuyun.upms.rpc.service.impl;
 
+import com.kuyun.common.netease.SMSUtil;
+import com.kuyun.common.util.MD5Util;
 import com.kuyun.upms.dao.mapper.*;
 import com.kuyun.upms.dao.model.*;
-import com.kuyun.upms.rpc.api.UpmsApiService;
-import com.kuyun.upms.rpc.api.UpmsUserOrganizationService;
-import com.kuyun.upms.rpc.api.UpmsUserService;
+import com.kuyun.upms.rpc.api.*;
 import com.kuyun.upms.rpc.mapper.UpmsApiMapper;
 import com.nimbusds.jose.*;
 import com.nimbusds.jose.crypto.MACSigner;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
+import net.sf.json.JSONArray;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -62,6 +63,18 @@ public class UpmsApiServiceImpl implements UpmsApiService {
 
     @Autowired
     UpmsUserOrganizationService upmsUserOrganizationService;
+
+    @Autowired
+    private UpmsCompanyService upmsCompanyService;
+
+    @Autowired
+    private UpmsUserCompanyService upmsUserCompanyService;
+
+    @Autowired
+    private UpmsUserPermissionService upmsUserPermissionService;
+
+    @Autowired
+    private UpmsPermissionService upmsPermissionService;
 
     /**
      * 根据用户id获取所拥有的权限
@@ -316,4 +329,108 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         }
 
     }
+
+    public void handleReg(String userName, String name, String password, String email, String phone, String company){
+        UpmsUser upmsUser = new UpmsUser();
+        upmsUser.setUsername(userName);
+        upmsUser.setRealname(name);
+        upmsUser.setEmail(email);
+        upmsUser.setPhone(phone);
+        upmsUser.setLocked(Byte.decode("0"));
+
+        long time = System.currentTimeMillis();
+        String salt = UUID.randomUUID().toString().replaceAll("-", "");
+        upmsUser.setSalt(salt);
+        upmsUser.setPassword(MD5Util.MD5(password + upmsUser.getSalt()));
+        upmsUser.setCtime(time);
+
+        upmsUserService.insertSelective(upmsUser);
+        _log.info("新增用户，主键：userId={}", upmsUser.getUserId());
+
+        handleUserCompany(company, upmsUser);
+
+        assignPermission(upmsUser);
+
+        //sendSMSToManager(upmsUser, company);
+    }
+
+    private void sendSMSToManager(UpmsUser argUser, String company) {
+        //TODO: send sms to manager
+        int roleId = 1;
+        List<UpmsUser> users = selectUpmsUserByUpmsRoleId(roleId);
+        JSONArray phones = new JSONArray();
+        for (UpmsUser user : users) {
+            if (!StringUtils.isEmpty(user.getPhone())) {
+                phones.add(user.getPhone());
+            }
+        }
+
+        String templateId = "3056289";
+        //有新用户注册！姓名：%s，公司：%s，电话：%s，邮箱：%s。
+        JSONArray params = new JSONArray();
+        params.add(argUser.getRealname());
+        params.add(company);
+        params.add(argUser.getPhone());
+        params.add(argUser.getEmail());
+
+        if (phones.size() > 0) {
+            SMSUtil.sendTemplate(templateId, phones.toString(), params.toString());
+        }
+    }
+
+    private void assignPermission(UpmsUser upmsUser) {
+
+        List<UpmsPermission> permissionList = getPermissions();
+        List<UpmsUserPermission> items = new ArrayList<>();
+
+        for (UpmsPermission permission : permissionList) {
+            UpmsUserPermission userPermission = new UpmsUserPermission();
+            userPermission.setUserId(upmsUser.getUserId());
+            userPermission.setPermissionId(permission.getPermissionId());
+            userPermission.setType(Byte.decode("1"));
+            items.add(userPermission);
+        }
+        upmsUserPermissionService.batchInsert(items);
+    }
+
+    private List<UpmsPermission> getPermissions() {
+        UpmsPermissionExample example = new UpmsPermissionExample();
+        example.createCriteria().andPermissionIdGreaterThanOrEqualTo(200)
+                .andPermissionIdLessThan(500);
+
+        return upmsPermissionService.selectByExample(example);
+    }
+
+    private void handleUserCompany(String company, UpmsUser upmsUser) {
+
+        UpmsCompany upmsCompany = getUpmsCompany(company);
+
+        if (upmsCompany == null) {
+            upmsCompany = createCompany(company);
+        }
+
+        UpmsUserCompany upmsUserCompany = new UpmsUserCompany();
+        upmsUserCompany.setCompanyId(upmsCompany.getCompanyId());
+        upmsUserCompany.setUserId(upmsUser.getUserId());
+        upmsUserCompany.setCreateTime(new Date());
+        upmsUserCompany.setDeleteFlag(Boolean.FALSE);
+
+        upmsUserCompanyService.insert(upmsUserCompany);
+    }
+
+    private UpmsCompany createCompany(String company) {
+        UpmsCompany result = new UpmsCompany();
+        result.setName(company);
+        result.setCreateTime(new Date());
+        result.setDeleteFlag(Boolean.FALSE);
+        upmsCompanyService.insertSelective(result);
+        return result;
+    }
+
+    private UpmsCompany getUpmsCompany(String company) {
+        UpmsCompanyExample companyExample = new UpmsCompanyExample();
+        companyExample.createCriteria().andNameEqualTo(company);
+        return upmsCompanyService.selectFirstByExample(companyExample);
+    }
+
 }

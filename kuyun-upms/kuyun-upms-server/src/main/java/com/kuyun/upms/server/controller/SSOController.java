@@ -11,11 +11,14 @@ import com.kuyun.upms.client.shiro.session.UpmsSession;
 import com.kuyun.upms.client.shiro.session.UpmsSessionDao;
 import com.kuyun.upms.common.constant.UpmsResult;
 import com.kuyun.upms.common.constant.UpmsResultConstant;
-import com.kuyun.upms.dao.model.*;
-import com.kuyun.upms.rpc.api.*;
+import com.kuyun.upms.dao.model.UpmsSystemExample;
+import com.kuyun.upms.dao.model.UpmsUser;
+import com.kuyun.upms.dao.model.UpmsUserExample;
+import com.kuyun.upms.rpc.api.UpmsApiService;
+import com.kuyun.upms.rpc.api.UpmsSystemService;
+import com.kuyun.upms.rpc.api.UpmsUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import net.sf.json.JSONArray;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -40,7 +43,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URLEncoder;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -69,18 +71,6 @@ public class SSOController extends BaseController {
 
     @Autowired
     UpmsSessionDao upmsSessionDao;
-
-    @Autowired
-    private UpmsOrganizationService upmsOrganizationService;
-
-    @Autowired
-    private UpmsUserOrganizationService upmsUserOrganizationService;
-
-    @Autowired
-    private UpmsPermissionService upmsPermissionService;
-
-    @Autowired
-    private UpmsUserPermissionService upmsUserPermissionService;
 
     @Autowired
     private UpmsApiService upmsApiService;
@@ -319,55 +309,9 @@ public class SSOController extends BaseController {
             return new UpmsResult(UpmsResultConstant.FAILED, "验证码不正确");
         }
 
+        upmsApiService.handleReg(userName, name, password, email, phone, company);
 
-        UpmsUser upmsUser = new UpmsUser();
-        upmsUser.setUsername(userName);
-        upmsUser.setRealname(name);
-        upmsUser.setEmail(email);
-        upmsUser.setPhone(phone);
-        upmsUser.setLocked(Byte.decode("0"));
-
-
-        long time = System.currentTimeMillis();
-        String salt = UUID.randomUUID().toString().replaceAll("-", "");
-        upmsUser.setSalt(salt);
-        upmsUser.setPassword(MD5Util.MD5(password + upmsUser.getSalt()));
-        upmsUser.setCtime(time);
-        int count = upmsUserService.insertSelective(upmsUser);
-        _log.info("新增用户，主键：userId={}", upmsUser.getUserId());
-
-        handleUserOrganization(company, upmsUser);
-
-        assignPermission(upmsUser);
-
-        sendSMSToManager(upmsUser, company);
-
-        return new UpmsResult(UpmsResultConstant.SUCCESS, count);
-
-    }
-
-    private void sendSMSToManager(UpmsUser argUser, String company) {
-        //TODO: send sms to manager
-        int roleId = 1;
-        List<UpmsUser> users = upmsApiService.selectUpmsUserByUpmsRoleId(roleId);
-        JSONArray phones = new JSONArray();
-        for (UpmsUser user : users) {
-            if (!StringUtils.isEmpty(user.getPhone())) {
-                phones.add(user.getPhone());
-            }
-        }
-
-        String templateId = "3056289";
-        //有新用户注册！姓名：%s，公司：%s，电话：%s，邮箱：%s。
-        JSONArray params = new JSONArray();
-        params.add(argUser.getRealname());
-        params.add(company);
-        params.add(argUser.getPhone());
-        params.add(argUser.getEmail());
-
-        if (phones.size() > 0) {
-            SMSUtil.sendTemplate(templateId, phones.toString(), params.toString());
-        }
+        return new UpmsResult(UpmsResultConstant.SUCCESS, null);
     }
 
     private String checkVerifyCode(String phone, String code) {
@@ -378,72 +322,6 @@ public class SSOController extends BaseController {
         Map<String, String> map = gson.fromJson(resData, type);
 
         return map.get("code");
-    }
-
-    private void assignPermission(UpmsUser upmsUser) {
-
-        List<UpmsPermission> permissionList = getPermissions();
-
-        for (UpmsPermission permission : permissionList) {
-            UpmsUserPermission userPermission = new UpmsUserPermission();
-            userPermission.setUserId(upmsUser.getUserId());
-            userPermission.setPermissionId(permission.getPermissionId());
-            userPermission.setType(Byte.decode("1"));
-            upmsUserPermissionService.insertSelective(userPermission);
-        }
-    }
-
-    private List<UpmsPermission> getPermissions() {
-        UpmsPermissionExample example = new UpmsPermissionExample();
-        example.createCriteria().andPermissionIdGreaterThanOrEqualTo(200)
-        .andPermissionIdLessThan(500);
-
-        return upmsPermissionService.selectByExample(example);
-    }
-
-    private void handleUserOrganization(String organization, UpmsUser upmsUser) {
-
-        UpmsOrganization org = getUpmsOrganization(organization);
-
-        if (org == null) {
-            org = createOrganization(organization);
-        }
-
-        UpmsUserOrganization upmsUserOrganization = new UpmsUserOrganization();
-        upmsUserOrganization.setUserId(getUserId(upmsUser));
-        upmsUserOrganization.setOrganizationId(getOrganizationId(org));
-        upmsUserOrganizationService.insertSelective(upmsUserOrganization);
-    }
-
-    private UpmsOrganization createOrganization(String organization) {
-        UpmsOrganization org;
-        org = new UpmsOrganization();
-        org.setName(organization);
-        org.setDescription(organization);
-        org.setCtime(System.currentTimeMillis());
-        upmsOrganizationService.insertSelective(org);
-        return org;
-    }
-
-    private UpmsOrganization getUpmsOrganization(String organization) {
-        UpmsOrganizationExample orgExample = new UpmsOrganizationExample();
-        orgExample.createCriteria().andNameEqualTo(organization);
-        return upmsOrganizationService.selectFirstByExample(orgExample);
-    }
-
-    private int getUserId(UpmsUser upmsUser) {
-        if (upmsUser.getUserId() == null) {
-            UpmsUser upmsUserNew = getUpmsUser(upmsUser.getUsername());
-            upmsUser.setUserId(upmsUserNew.getUserId());
-        }
-        return upmsUser.getUserId();
-    }
-
-    private int getOrganizationId(UpmsOrganization org) {
-        if (org.getOrganizationId() == null) {
-            org = getUpmsOrganization(org.getName());
-        }
-        return org.getOrganizationId();
     }
 
 

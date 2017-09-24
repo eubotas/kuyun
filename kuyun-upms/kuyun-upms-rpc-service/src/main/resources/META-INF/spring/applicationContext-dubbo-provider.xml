@@ -54,9 +54,16 @@
     <bean id="upmsUserRoleService" class="com.kuyun.upms.rpc.service.impl.UpmsUserRoleServiceImpl"/>
     <dubbo:service interface="com.kuyun.upms.rpc.api.UpmsUserRoleService" ref="upmsUserRoleService" timeout="10000"/>
 
-    <!-- 用户角色 -->
+    <!-- 公司 -->
     <bean id="upmsCompanyService" class="com.kuyun.upms.rpc.service.impl.UpmsCompanyServiceImpl"/>
     <dubbo:service interface="com.kuyun.upms.rpc.api.UpmsCompanyService" ref="upmsCompanyService" timeout="10000"/>
+
+    <!-- 用户公司 -->
+    <bean id="upmsUserCompanyService" class="com.kuyun.upms.rpc.service.impl.UpmsUserCompanyServiceImpl"/>
+    <dubbo:service interface="com.kuyun.upms.rpc.api.UpmsUserCompanyService" ref="upmsUserCompanyService" timeout="10000"/>
+    <!-- 组织角色 -->
+    <bean id="upmsOrganizationRoleService" class="com.kuyun.upms.rpc.service.impl.UpmsOrganizationRoleServiceImpl"/>
+    <dubbo:service interface="com.kuyun.upms.rpc.api.UpmsOrganizationRoleService" ref="upmsOrganizationRoleService" timeout="10000"/>
 
     <!-- 操作日志 -->
     <bean id="upmsLogService" class="com.kuyun.upms.rpc.service.impl.UpmsLogServiceImpl"/>
