@@ -73,7 +73,7 @@
                 {field: 'ck', checkbox: true},
                 {field: 'realname', title: '姓名', sortable: true, align: 'center'},
                 {field: 'phone', title: '电话'},
-				{field: 'orgName', title: '公司名称'},
+				{field: 'companyName', title: '公司名称'},
                 {field: 'ctime', title: '注册时间', formatter: 'timeFormatter'},
             ]
         });

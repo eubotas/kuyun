@@ -34,6 +34,14 @@
 							</div>
 						</div>
 					</div>
+					<div class="col-sm-12">
+						<div class="form-group">
+							<div class="fg-line">
+								<label for="modbusRtuPeriod">采集频率</label>
+								<input id="modbusRtuPeriod" type="text" class="form-control" name="modbusRtuPeriod" maxlength="10" <c:if test="${equipment.modbusRtuPeriod != null}"> value="${equipment.modbusRtuPeriod}"</c:if>>
+							</div>
+						</div>
+					</div>
 
 					<div class="col-sm-12">
 						<div class="form-group">

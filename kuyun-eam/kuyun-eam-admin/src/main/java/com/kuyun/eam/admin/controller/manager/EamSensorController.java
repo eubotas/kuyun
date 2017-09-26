@@ -101,7 +101,7 @@ public class EamSensorController extends BaseController {
 					ComplexResult result = FluentValidator.checkAll()
 							.on(sensor.getSalveId(), new NotNullValidator("从站地址"))
 							.on(sensor.getAddress(), new NotNullValidator("地址"))
-							.on(sensor.getPeriod(), new NotNullValidator("采集周期"))
+//							.on(sensor.getPeriod(), new NotNullValidator("采集周期"))
 							.doValidate()
 							.result(ResultCollectors.toComplex());
 					if (!result.isSuccess()) {

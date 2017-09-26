@@ -121,6 +121,16 @@
 		where FIND_IN_SET(uo.organization_id,getChildList(#{organizationId,jdbcType=INTEGER}));
 	</select>
 
+	<select id="selectUpmsCompany" parameterType="java.lang.Integer" resultMap="com.kuyun.upms.dao.mapper.UpmsCompanyMapper.BaseResultMap">
+		select
+		<include refid="com.kuyun.upms.dao.mapper.UpmsCompanyMapper.Base_Column_List" />
+		from upms_company c,
+		upms_user_company uc
+		where c.company_id = uc.company_id
+		and uc.user_id=#{userId,jdbcType=INTEGER}
+		limit 1
+	</select>
+
 	<!-- 缓存 -->
 	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 

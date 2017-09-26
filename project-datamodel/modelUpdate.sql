@@ -39,6 +39,7 @@ CREATE TABLE `upms_organization_role` (
   PRIMARY KEY (`organization_role_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COMMENT='组织角色关联表';
 
+ALTER TABLE eam_equipment ADD modbus_rtu_period  int;
 
 ALTER TABLE upms_organization ADD company_id  int;
 

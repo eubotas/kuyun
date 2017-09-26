@@ -28,6 +28,7 @@
 
     <!-- 接口服务 -->
     <dubbo:reference id="upmsApiService" interface="com.kuyun.upms.rpc.api.UpmsApiService" mock="true" registry="upmsRegistry"/>
+    <dubbo:reference id="upmsUserCompanyService" interface="com.kuyun.upms.rpc.api.UpmsUserCompanyService" mock="true" registry="upmsRegistry"/>
 
     <dubbo:reference id="upmsUserService" interface="com.kuyun.upms.rpc.api.UpmsUserService" mock="true" registry="upmsRegistry"/>
 

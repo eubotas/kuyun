@@ -1,7 +1,6 @@
 package com.kuyun.eam.dao.model;
 
 import com.kuyun.common.dao.model.BaseEntity;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collections;
@@ -77,6 +76,8 @@ public class EamEquipment extends BaseEntity implements Serializable {
     private String maintenancePeriod;
 
     private Boolean isOnline;
+
+    private Integer modbusRtuPeriod;
 
     private static final long serialVersionUID = 1L;
 
@@ -276,6 +277,14 @@ public class EamEquipment extends BaseEntity implements Serializable {
         this.isOnline = isOnline;
     }
 
+    public Integer getModbusRtuPeriod() {
+        return modbusRtuPeriod;
+    }
+
+    public void setModbusRtuPeriod(Integer modbusRtuPeriod) {
+        this.modbusRtuPeriod = modbusRtuPeriod;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -304,6 +313,7 @@ public class EamEquipment extends BaseEntity implements Serializable {
         sb.append(", warrantyEndDate=").append(warrantyEndDate);
         sb.append(", maintenancePeriod=").append(maintenancePeriod);
         sb.append(", isOnline=").append(isOnline);
+        sb.append(", modbusRtuPeriod=").append(modbusRtuPeriod);
         sb.append("]");
         return sb.toString();
     }
@@ -347,7 +357,8 @@ public class EamEquipment extends BaseEntity implements Serializable {
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getIsOnline() == null ? other.getIsOnline() == null : this.getIsOnline().equals(other.getIsOnline()));
+            && (this.getIsOnline() == null ? other.getIsOnline() == null : this.getIsOnline().equals(other.getIsOnline()))
+            && (this.getModbusRtuPeriod() == null ? other.getModbusRtuPeriod() == null : this.getModbusRtuPeriod().equals(other.getModbusRtuPeriod()));
     }
 
     @Override
@@ -382,6 +393,7 @@ public class EamEquipment extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getIsOnline() == null) ? 0 : getIsOnline().hashCode());
+        result = prime * result + ((getModbusRtuPeriod() == null) ? 0 : getModbusRtuPeriod().hashCode());
         return result;
     }
 }

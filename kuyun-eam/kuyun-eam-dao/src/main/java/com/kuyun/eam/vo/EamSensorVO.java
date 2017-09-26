@@ -17,6 +17,8 @@ public class EamSensorVO extends EamSensor {
     private String stringValue;
     private String displayType;
 
+    private String equipmentId;
+
 
 
     private Integer limit;
@@ -103,5 +105,13 @@ public class EamSensorVO extends EamSensor {
 
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
+    }
+
+    public String getEquipmentId() {
+        return equipmentId;
+    }
+
+    public void setEquipmentId(String equipmentId) {
+        this.equipmentId = equipmentId;
     }
 }

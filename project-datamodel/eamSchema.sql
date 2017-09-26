@@ -60,6 +60,7 @@ create table eam_equipment
    user                 varchar(30),
    collect_status       varchar(10) comment '采集状态',
    heart_data           varchar(50) comment 'Modbus RTU',
+   modbus_rtu_period    int  comment 'Modbus RTU',
    grm                  varchar(50) comment '巨控设备ID',
    grm_password         varchar(50) comment '巨控设备密码',
    grm_period           int         comment '巨控采集频率单位秒',

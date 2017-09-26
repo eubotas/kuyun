@@ -5,6 +5,7 @@ import com.kuyun.marketing.dao.model.*;
 import com.kuyun.marketing.rpc.api.*;
 import com.kuyun.marketing.rpc.mapper.MktApiMapper;
 import com.kuyun.marketing.vo.MktSmsVo;
+import com.kuyun.upms.dao.model.UpmsCompany;
 import com.kuyun.upms.dao.model.UpmsOrganization;
 import com.kuyun.upms.dao.model.UpmsUser;
 import com.kuyun.upms.dao.model.UpmsUserExample;
@@ -67,12 +68,12 @@ public class MktApiServiceImpl implements MktApiService {
         List<UpmsUserVo> result = new ArrayList<>();
         List<UpmsUser> users = upmsUserService.selectByExample(example);
         for(UpmsUser user : users){
-            UpmsOrganization org = upmsApiService.selectParentOrganizationByUserId(user.getUserId());
+            UpmsCompany company = upmsApiService.getUpmsCompany(user.getUserId());
             UpmsUserVo vo = new UpmsUserVo();
             vo.setUserId(user.getUserId());
             vo.setRealname(user.getRealname());
             vo.setPhone(user.getPhone());
-            vo.setOrgName(org.getName());
+            vo.setCompanyName(company.getName());
             result.add(vo);
         }
         return result;

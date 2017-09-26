@@ -7,7 +7,7 @@ import com.kuyun.upms.dao.model.UpmsUser;
  */
 public class UpmsUserVo extends UpmsUser {
 
-    private String orgName;
+    private String companyName;
 
     private Integer limit;
 
@@ -39,11 +39,11 @@ public class UpmsUserVo extends UpmsUser {
         this.orderByClause = orderByClause;
     }
 
-    public String getOrgName() {
-        return orgName;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public void setOrgName(String orgName) {
-        this.orgName = orgName;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 }

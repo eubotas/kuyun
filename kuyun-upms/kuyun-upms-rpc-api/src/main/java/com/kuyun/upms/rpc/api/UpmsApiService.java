@@ -104,4 +104,5 @@ public interface UpmsApiService {
 
     void handleReg(String userName, String name, String password, String email, String phone, String company);
 
+    UpmsCompany getUpmsCompany(Integer userId);
 }

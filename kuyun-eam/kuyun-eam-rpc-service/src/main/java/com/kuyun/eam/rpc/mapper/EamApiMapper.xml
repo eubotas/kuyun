@@ -196,8 +196,11 @@
 		LEFT JOIN eam_equipment_model_properties p ON p.equipment_model_property_id = s.equipment_model_property_id
 		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
 		WHERE t.delete_flag = 0
+		<if test="equipmentId != null and equipmentId != ''">
+			AND t.equipment_id = #{equipmentId}
+		</if>
 		<if test="sensorId != null and sensorId != ''">
-			AND s.sensor_id = #{sensorId}
+			AND t.sensor_id = #{sensorId}
 		</if>
 		<if test="equipmentModelPropertyId != null and equipmentModelPropertyId != ''">
 			AND s.equipment_model_property_id = #{equipmentModelPropertyId}
@@ -251,7 +254,11 @@
 		LEFT JOIN eam_sensor_data d On s.sensor_id = d.sensor_id
 		AND d.sensor_data_id = (select sensor_data_id from eam_sensor_data t where t.sensor_id = s.sensor_id order by t.create_time desc limit 1)
 		AND d.equipment_id = e.equipment_id
-		WHERE s.delete_flag = 0 AND e.equipment_id = #{equipmentId}
+		WHERE s.delete_flag = 0
+		AND p.delete_flag = 0
+		AND m.delete_flag = 0
+		AND e.delete_flag = 0
+		AND e.equipment_id = #{equipmentId}
 
 		ORDER BY s.sensor_id ASC
 

@@ -1,7 +1,6 @@
 package com.kuyun.upms.client.util;
 
 import com.kuyun.common.dao.model.BaseEntity;
-import com.kuyun.upms.dao.model.UpmsOrganization;
 import com.kuyun.upms.dao.model.UpmsUser;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
 import com.kuyun.upms.dao.model.UpmsUserCompanyExample;

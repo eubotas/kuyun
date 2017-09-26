@@ -1,10 +1,7 @@
 package com.kuyun.upms.rpc.mapper;
 
 
-import com.kuyun.upms.dao.model.UpmsOrganization;
-import com.kuyun.upms.dao.model.UpmsPermission;
-import com.kuyun.upms.dao.model.UpmsRole;
-import com.kuyun.upms.dao.model.UpmsUser;
+import com.kuyun.upms.dao.model.*;
 
 import java.util.List;
 
@@ -36,5 +33,8 @@ public interface UpmsApiMapper {
 	 * @return
 	 */
 	List<UpmsOrganization> selectAllChildOrganizationById(Integer organizationId);
+
+
+	UpmsCompany selectUpmsCompany(Integer userId);
 	
 }
