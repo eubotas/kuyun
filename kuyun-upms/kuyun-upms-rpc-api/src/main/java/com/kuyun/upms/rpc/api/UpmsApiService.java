@@ -1,6 +1,7 @@
 package com.kuyun.upms.rpc.api;
 
 import com.kuyun.upms.dao.model.*;
+import com.kuyun.upms.dao.vo.UpmsUserVo;
 
 import java.util.List;
 
@@ -105,4 +106,6 @@ public interface UpmsApiService {
     void handleReg(String userName, String name, String password, String email, String phone, String company);
 
     UpmsCompany getUpmsCompany(Integer userId);
+
+    List<UpmsUserVo> selectLoginUsers(UpmsUserVo upmsUserVo);
 }

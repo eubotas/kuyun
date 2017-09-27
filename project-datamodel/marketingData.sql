@@ -25,3 +25,6 @@ INSERT INTO `upms_permission` VALUES ('511', '7', '509', '编辑短信记录', '
 INSERT INTO `upms_permission` VALUES ('512', '7', '509', '删除短信记录', '3', 'mkt:sms:delete', '/manage/sms/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
 
 
+INSERT INTO `upms_permission` VALUES ('520', '7', '0', '运营统计', '1', null, null, 'zmdi zmdi-collection-text', '1', '520', '520');
+INSERT INTO `upms_permission` VALUES ('521', '7', '520', '访问统计', '2', 'mkt:marketing:read',   '/manage/marketing/user/index', null, '1', '521', '521');
+INSERT INTO `upms_permission` VALUES ('522', '7', '520', '设备统计', '2', 'mkt:marketing:read',   '/manage/marketing/equipment/index', null, '1', '522', '522');

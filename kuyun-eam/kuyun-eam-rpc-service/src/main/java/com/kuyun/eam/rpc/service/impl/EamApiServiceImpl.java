@@ -317,6 +317,8 @@ public class EamApiServiceImpl implements EamApiService {
         String[] idArray = ids.getIds().split("-");
         EamEquipment equipment = new EamEquipment();
         equipment.setCollectStatus(collectStatus.getCode());
+        boolean isOnline = WORKING.getCode().equalsIgnoreCase(collectStatus.getCode()) ? true : false;
+        equipment.setIsOnline(isOnline);
 
         EamEquipmentExample example = new EamEquipmentExample();
         example.createCriteria().andEquipmentIdIn(Arrays.asList(idArray));

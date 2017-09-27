@@ -123,12 +123,50 @@
 
 	<select id="selectUpmsCompany" parameterType="java.lang.Integer" resultMap="com.kuyun.upms.dao.mapper.UpmsCompanyMapper.BaseResultMap">
 		select
-		<include refid="com.kuyun.upms.dao.mapper.UpmsCompanyMapper.Base_Column_List" />
+
+		c.company_id, c.parent_id, c.name, c.address, c.phone, c.fax, c.zip, c.www, c.create_user_id, c.create_time,
+		c.update_user_id, c.update_time, c.delete_flag
+
 		from upms_company c,
 		upms_user_company uc
 		where c.company_id = uc.company_id
 		and uc.user_id=#{userId,jdbcType=INTEGER}
 		limit 1
+	</select>
+
+	<resultMap id="UpmsUserVoResultMap" type="com.kuyun.upms.dao.vo.UpmsUserVo">
+		<id column="user_id" jdbcType="INTEGER" property="userId" />
+		<result column="realname" jdbcType="VARCHAR" property="realname" />
+		<result column="phone" jdbcType="VARCHAR" property="phone" />
+		<result column="email" jdbcType="VARCHAR" property="email" />
+		<result column="company_name" jdbcType="VARCHAR" property="companyName" />
+		<result column="login_time" jdbcType="BIGINT" property="loginTime" />
+		<result column="login_number" jdbcType="INTEGER" property="loginNumber" />
+	</resultMap>
+
+	<select id="selectLoginUsers" parameterType="com.kuyun.upms.dao.vo.UpmsUserVo" resultMap="UpmsUserVoResultMap">
+		select uu.user_id, uu.realname, uu.phone, uu.email,
+			   uc.name as company_name,
+		       max(ul.start_time) as login_time,
+		       count(ul.log_id) as login_number
+		from upms_user uu
+		left join upms_user_company uuc on uu.user_id = uuc.user_id
+		left join upms_company uc on uc.company_id = uuc.company_id
+		left join upms_log ul on uu.username = ul.username and
+		method = 'POST' AND description = '登录'
+		GROUP BY
+				uu.user_id, uu.realname, uu.phone, uu.email, uc.name
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
 	</select>
 
 	<!-- 缓存 -->

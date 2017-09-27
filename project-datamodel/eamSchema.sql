@@ -48,7 +48,7 @@ create table eam_equipment
 (
    equipment_id         varchar(32),
    equipment_model_id   int,
-   organization_id      int,
+   --company_id      int,
    name                 varchar(30),
    number               varchar(30),
    serial_number        varchar(50),
@@ -94,7 +94,7 @@ create table eam_equipment_model
    update_user_id       int,
    update_time          datetime,
    delete_flag          boolean,
-   organization_id      int,
+   company_id      int,
    primary key (equipment_model_id)
 );
 
@@ -119,7 +119,7 @@ create table eam_equipment_model_properties
    update_user_id       int,
    update_time          datetime,
    delete_flag          boolean,
-   organization_id      int,
+   company_id      int,
    primary key (equipment_model_property_id)
 );
 
@@ -154,7 +154,7 @@ create table eam_sensor
    update_user_id       int,
    update_time          datetime,
    delete_flag          boolean,
-   organization_id      int,
+   company_id      int,
    primary key (sensor_id)
 );
 
@@ -179,7 +179,7 @@ create table eam_sensor_data
    update_user_id       int,
    update_time          datetime,
    delete_flag          boolean,
-   organization_id      int,
+   company_id      int,
    primary key (sensor_data_id)
 );
 
@@ -201,7 +201,7 @@ create table eam_inventory
    update_user_id       int,
    update_time          datetime,
    delete_flag          boolean,
-   organization_id      int,
+   company_id      int,
    primary key (inventory_id)
 );
 
@@ -220,7 +220,7 @@ create table eam_warehouse
    update_user_id       int,
    update_time          datetime,
    delete_flag          boolean,
-   organization_id      int,
+   company_id      int,
    primary key (warehouse_id)
 );
 
@@ -240,7 +240,7 @@ create table eam_location
    update_user_id       int,
    update_time          datetime,
    delete_flag          boolean,
-   organization_id      int,
+   company_id      int,
    primary key (location_id)
 );
 
@@ -264,7 +264,7 @@ create table eam_maintenance
    update_user_id       int,
    update_time          datetime,
    delete_flag          boolean,
-   organization_id      int,
+   company_id      int,
    primary key (maintenance_id)
 );
 
@@ -287,7 +287,7 @@ create table eam_parts
    update_user_id       int,
    update_time          datetime,
    delete_flag          boolean,
-   organization_id      int,
+   company_id      int,
    primary key (part_id)
 );
 
@@ -341,7 +341,7 @@ CREATE TABLE `eam_alarm` (
    update_user_id       int,
    update_time          datetime,
    delete_flag          boolean,
-   organization_id      int,
+   company_id      int,
   PRIMARY KEY (`alarm_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -355,7 +355,7 @@ CREATE TABLE `eam_alarm_target_user` (
    update_user_id       int,
    update_time          datetime,
    delete_flag          boolean,
-   organization_id      int,
+   company_id      int,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -370,7 +370,7 @@ CREATE TABLE `eam_alarm_record` (
    update_user_id       int,
    update_time          datetime,
    delete_flag          boolean,
-   organization_id      int,
+   company_id      int,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -385,7 +385,7 @@ create table eam_ticket_type
    update_user_id       int,
    update_time          datetime,
    delete_flag          boolean,
-   organization_id      int,
+   company_id      int,
    primary key (id)
 );
 
@@ -408,7 +408,7 @@ create table eam_ticket
    update_user_id       int,
    update_time          datetime,
    delete_flag          boolean,
-   organization_id      int,
+   company_id      int,
    primary key (ticket_id)
 );
 
@@ -424,7 +424,7 @@ create table eam_ticket_record
    update_user_id       int,
    update_time          datetime,
    delete_flag          boolean,
-   organization_id      int,
+   company_id      int,
    primary key (id)
 );
 

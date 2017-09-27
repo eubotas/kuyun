@@ -9,6 +9,10 @@ public class UpmsUserVo extends UpmsUser {
 
     private String companyName;
 
+    private Long loginTime;
+
+    private Integer loginNumber;
+
     private Integer limit;
 
     private Integer offset;
@@ -25,6 +29,22 @@ public class UpmsUserVo extends UpmsUser {
 
     public Integer getOffset() {
         return offset;
+    }
+
+    public Long getLoginTime() {
+        return loginTime;
+    }
+
+    public void setLoginTime(Long loginTime) {
+        this.loginTime = loginTime;
+    }
+
+    public Integer getLoginNumber() {
+        return loginNumber;
+    }
+
+    public void setLoginNumber(Integer loginNumber) {
+        this.loginNumber = loginNumber;
     }
 
     public void setOffset(Integer offset) {

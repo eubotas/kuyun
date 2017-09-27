@@ -4,6 +4,7 @@ import com.kuyun.common.netease.SMSUtil;
 import com.kuyun.common.util.MD5Util;
 import com.kuyun.upms.dao.mapper.*;
 import com.kuyun.upms.dao.model.*;
+import com.kuyun.upms.dao.vo.UpmsUserVo;
 import com.kuyun.upms.rpc.api.*;
 import com.kuyun.upms.rpc.mapper.UpmsApiMapper;
 import com.nimbusds.jose.*;
@@ -432,6 +433,11 @@ public class UpmsApiServiceImpl implements UpmsApiService {
 
     public UpmsCompany getUpmsCompany(Integer userId){
         return upmsApiMapper.selectUpmsCompany(userId);
+    }
+
+    @Override
+    public List<UpmsUserVo> selectLoginUsers(UpmsUserVo upmsUserVo) {
+        return upmsApiMapper.selectLoginUsers(upmsUserVo);
     }
 
 }
