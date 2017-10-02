@@ -108,14 +108,18 @@ public abstract class AbstractAlarmHandler {
         String mobiles = getJsonMobiles(alarm);
         String message = buildSmsMessage(sensorData, alarm);
         _log.info("Send SMS To : [ {} ], Message: [ {} ]", mobiles, message);
-        SMSUtil.sendTemplate(TEMPLATE_ID, mobiles, message);
+        if (!StringUtils.isEmpty(mobiles) && !StringUtils.isEmpty(message) ){
+             SMSUtil.sendTemplate(TEMPLATE_ID, mobiles, message);
+        }
     }
 
     private void handleJpush(EamSensorData sensorData, EamAlarm alarm) {
         List<String> mobiles = getMobiles(alarm);
         String message = buildJpushMessage(sensorData, alarm);
         _log.info("Send APP To : [ {} ], Message: [ {} ]", mobiles, message);
-        jpushUtil.sendPush(mobiles, message);
+        if (!mobiles.isEmpty() && !StringUtils.isEmpty(message) ){
+            jpushUtil.sendPush(mobiles, message);
+        }
     }
 
     private List<String> getEmails(EamAlarm alarm) {

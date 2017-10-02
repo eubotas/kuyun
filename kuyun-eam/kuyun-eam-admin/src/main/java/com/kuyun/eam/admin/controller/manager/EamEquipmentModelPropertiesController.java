@@ -299,6 +299,18 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 		return "/manage/equipment/model/property/alarm.jsp";
 	}
 
+	@ApiOperation(value = "报警通知人列表")
+	@RequiresPermissions("eam:equipmentModelProperty:update")
+	@RequestMapping(value = "/alarmUsers/", method = RequestMethod.GET)
+	@ResponseBody
+	public Object alarmUsers(ModelMap modelMap) {
+		HashMap<String, Object> map = new HashMap<>(3);
+		map.put("alarmTypes", AlarmType.values());
+		map.put("alarmTargets", AlarmTarget.values());
+		map.put("users", getUsers());
+		return map;
+	}
+
 	private List<UpmsUser> getUsers(){
 		UpmsUser user = baseEntityUtil.getCurrentUser();
 		return upmsApiService.selectUsersByUserId(user.getUserId());

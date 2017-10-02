@@ -50,4 +50,8 @@ public interface EamApiService {
 
     List<EamAlarmRecordVO> selectAlarmRecords(EamAlarmRecordVO eamAlarmRecordVO);
 
+    List<EamEquipmentVO> selectEquipments(EamEquipmentVO eamEquipmentVO);
+
+    Long countEquipments(EamEquipmentVO eamEquipmentVO);
+
 }

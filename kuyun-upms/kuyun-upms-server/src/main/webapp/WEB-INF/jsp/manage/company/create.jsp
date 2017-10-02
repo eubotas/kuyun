@@ -12,6 +12,7 @@
 			<label for="name">公司名称</label>
 			<input id="name" type="text" class="form-control" name="name" maxlength="50">
 		</div>
+		
 		<div class="form-group">
 			<label for="name">地址</label>
 			<input id="address" type="text" class="form-control" name="address" maxlength="50">
@@ -43,7 +44,7 @@
 function createSubmit() {
     $.ajax({
         type: 'post',
-        url: '${basePath}/manage/organization/create',
+        url: '${basePath}/manage/company/create',
         data: $('#createForm').serialize(),
         beforeSend: function() {
             if ($('#name').val() == '') {

@@ -45,6 +45,11 @@ create table eam_equipment_company
    equipment_company_id int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '编号',
    equipment_id         varchar(32),
    company_id           int,
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
    primary key (equipment_company_id)
 );
 
@@ -77,5 +82,17 @@ ALTER TABLE mkt_sms_user change organization_id company_id int;
 
 ALTER TABLE fd_files change organization_id company_id int;
 ALTER TABLE fd_oss_files change organization_id company_id int;
+
+
+insert eam_equipment_company(equipment_id, company_id)
+select equipment_id, company_id from eam_equipment;
+
+ALTER TABLE eam_equipment DROP COLUMN company_id;
+
+INSERT INTO `upms_permission` VALUES ('90', '1', '1', '公司管理', '2', 'upms:company:read', '/manage/company/index', '', '1', '2', '2');
+INSERT INTO `upms_permission` VALUES ('91', '1', '90', '新增公司', '3', 'upms:company:create', '/manage/company/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
+INSERT INTO `upms_permission` VALUES ('92', '1', '90', '编辑公司', '3', 'upms:company:update', '/manage/company/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
+INSERT INTO `upms_permission` VALUES ('93', '1', '90', '删除公司', '3', 'upms:company:delete', '/manage/company/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
+
 
 

@@ -8,6 +8,7 @@ import com.kuyun.common.validator.NotNullValidator;
 import com.kuyun.eam.common.constant.AlarmType;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.EamAlarm;
+import com.kuyun.eam.rpc.api.EamAlarmService;
 import com.kuyun.eam.rpc.api.EamApiService;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import io.swagger.annotations.Api;
@@ -17,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,7 +33,7 @@ import static com.kuyun.eam.common.constant.EamResultConstant.SUCCESS;
  * Created by kuyun on 2017/4/9.
  */
 @Controller
-@Api(value = "报警管理", description = "传感器管理")
+@Api(value = "报警管理", description = "报警管理")
 @RequestMapping("/manage/alarm")
 public class EamAlarmController extends BaseController {
 
@@ -42,6 +44,9 @@ public class EamAlarmController extends BaseController {
 
 	@Autowired
 	private BaseEntityUtil baseEntityUtil;
+
+	@Autowired
+	private EamAlarmService eamAlarmService;
 
 	@ApiOperation(value = "新增报警设置")
 	@RequiresPermissions("eam:alarm:create")
@@ -79,23 +84,6 @@ public class EamAlarmController extends BaseController {
 	}
 
 	private Object validateAlarm(EamAlarm alarm) {
-
-/*
-		        ("val_above", "数值高于X"),
-				("val_below", "数值低于Y"),
-				("val_above_below", "数值高于X低于Y"),
-				("val_above_below_ofm", "数值高于X低于Y超过M分钟"),
-				("x_tir_y_rec", "数值高于X报警低于Y恢复"),
-
-				("val_between", "数值在X和Y之间"),
-				("val_above_bound", "数值超过M分钟高于X"),
-
-				("val_below_bound", "数值超过M分钟低于Y"),
-				("offline", "传感器断开"),
-				("offline_for_minutes", "超过M分钟断开"),
-				("switch_on", "开关开启"),
-				("switch_off", "开关关闭");
-**/
 		ComplexResult result = null;
 
 		if (AlarmType.VAL_ABOVE.match(alarm.getAlarmType())){
@@ -111,14 +99,7 @@ public class EamAlarmController extends BaseController {
 					.result(ResultCollectors.toComplex());
 
 		}
-//		else if (AlarmType.VAL_ABOVE_BELOW.match(alarm.getAlarmType())){
-//			result = FluentValidator.checkAll()
-//					.on(alarm.getUpperBound(), new NotNullValidator("X值"))
-//					.on(alarm.getLowerBound(), new NotNullValidator("Y值"))
-//					.doValidate()
-//					.result(ResultCollectors.toComplex());
-//
-//		}
+
 		else if (AlarmType.VAL_ABOVE_BELOW_OFM.match(alarm.getAlarmType())){
 			result = FluentValidator.checkAll()
 					.on(alarm.getUpperBound(), new NotNullValidator("X值"))
@@ -128,14 +109,7 @@ public class EamAlarmController extends BaseController {
 					.result(ResultCollectors.toComplex());
 
 		}
-//		else if (AlarmType.X_TIR_Y_REC.match(alarm.getAlarmType())){
-//			result = FluentValidator.checkAll()
-//					.on(alarm.getUpperBound(), new NotNullValidator("X值"))
-//					.on(alarm.getLowerBound(), new NotNullValidator("Y值"))
-//					.doValidate()
-//					.result(ResultCollectors.toComplex());
-//
-//		}
+
 		else if (AlarmType.VAL_BETWEEN.match(alarm.getAlarmType())){
 			result = FluentValidator.checkAll()
 					.on(alarm.getUpperBound(), new NotNullValidator("X值"))
@@ -160,13 +134,7 @@ public class EamAlarmController extends BaseController {
 		}else if (AlarmType.OFFLINE.match(alarm.getAlarmType())){
 			//do nothing
 		}
-//		else if (AlarmType.OFFLINE_FOR_MINUTES.match(alarm.getAlarmType())){
-//			result = FluentValidator.checkAll()
-//					.on(alarm.getDuration(), new NotNullValidator("M值"))
-//					.doValidate()
-//					.result(ResultCollectors.toComplex());
-//
-//		}
+
 		else if (AlarmType.SWITCH_ON.match(alarm.getAlarmType())){
 			//do nothing
 		}else if (AlarmType.SWITCH_OFF.match(alarm.getAlarmType())){
@@ -180,5 +148,13 @@ public class EamAlarmController extends BaseController {
 		return null;
 	}
 
+	@ApiOperation(value = "删除报警设置")
+	@RequiresPermissions("eam:alarm:update")
+	@RequestMapping(value = "/delete/{ids}",method = RequestMethod.GET)
+	@ResponseBody
+	public Object delete(@PathVariable("ids") String ids) {
+		int count = eamAlarmService.deleteByPrimaryKeys(ids);
+		return new EamResult(SUCCESS, count);
+	}
 
 }

@@ -5,10 +5,12 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
+import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.common.constant.UpmsResult;
 import com.kuyun.upms.common.constant.UpmsResultConstant;
 import com.kuyun.upms.dao.model.UpmsCompany;
 import com.kuyun.upms.dao.model.UpmsCompanyExample;
+import com.kuyun.upms.dao.model.UpmsUserCompany;
 import com.kuyun.upms.rpc.api.UpmsCompanyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,6 +42,9 @@ public class UpmsCompanyController extends BaseController {
     @Autowired
     private UpmsCompanyService upmsCompanyService;
 
+    @Autowired
+    private BaseEntityUtil baseEntityUtil;
+
     @ApiOperation(value = "公司首页")
     @RequiresPermissions("upms:company:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
@@ -57,18 +62,28 @@ public class UpmsCompanyController extends BaseController {
             @RequestParam(required = false, defaultValue = "", value = "search") String search,
             @RequestParam(required = false, value = "sort") String sort,
             @RequestParam(required = false, value = "order") String order) {
-        UpmsCompanyExample UpmsCompanyExample = new UpmsCompanyExample();
-        UpmsCompanyExample.setOffset(offset);
-        UpmsCompanyExample.setLimit(limit);
+        UpmsCompanyExample companyExample = new UpmsCompanyExample();
+        companyExample.setOffset(offset);
+        companyExample.setLimit(limit);
         if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
-            UpmsCompanyExample.setOrderByClause(sort + " " + order);
+            companyExample.setOrderByClause(sort + " " + order);
         }
         if (StringUtils.isNotBlank(search)) {
-            UpmsCompanyExample.or()
+            companyExample.or()
                     .andNameLike("%" + search + "%");
         }
-        List<UpmsCompany> rows = upmsCompanyService.selectByExample(UpmsCompanyExample);
-        long total = upmsCompanyService.countByExample(UpmsCompanyExample);
+
+        UpmsCompanyExample.Criteria criteria = companyExample.createCriteria();
+        criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+
+
+        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+        if (company != null){
+            criteria.andCompanyIdEqualTo(company.getCompanyId());
+        }
+
+        List<UpmsCompany> rows = upmsCompanyService.selectByExample(companyExample);
+        long total = upmsCompanyService.countByExample(companyExample);
         Map<String, Object> result = new HashMap<>();
         result.put("rows", rows);
         result.put("total", total);
@@ -133,6 +148,7 @@ public class UpmsCompanyController extends BaseController {
         }
         upmsCompany.setUpdateTime(new Date());
         upmsCompany.setDeleteFlag(Boolean.FALSE);
+        upmsCompany.setCompanyId(id);
         int count = upmsCompanyService.updateByPrimaryKeySelective(upmsCompany);
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
     }

@@ -1,16 +1,6 @@
 package com.kuyun.marketing.admin.controller.manager;
 
-import com.baidu.unbiz.fluentvalidator.ComplexResult;
-import com.baidu.unbiz.fluentvalidator.FluentValidator;
-import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
-import com.kuyun.common.validator.LengthValidator;
-import com.kuyun.marketing.common.constant.MktResult;
-import com.kuyun.marketing.dao.model.MktSmsSetting;
-import com.kuyun.marketing.dao.model.MktSmsSettingExample;
-import com.kuyun.marketing.rpc.api.MktSmsSettingService;
-import com.kuyun.upms.client.util.BaseEntityUtil;
-import com.kuyun.upms.dao.model.UpmsUserCompany;
 import com.kuyun.upms.dao.model.UpmsUserExample;
 import com.kuyun.upms.dao.vo.UpmsUserVo;
 import com.kuyun.upms.rpc.api.UpmsApiService;
@@ -23,22 +13,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static com.kuyun.marketing.common.constant.MktResultConstant.INVALID_LENGTH;
-import static com.kuyun.marketing.common.constant.MktResultConstant.SUCCESS;
 
 /**
  * 访问统计控制器
  * Created by kuyun on 2017/4/20.
  */
 @Controller
-@Api(value = "访问统计管理", description = "访问统计管理")
+@Api(value = "访问统计", description = "访问统计")
 @RequestMapping("/manage/marketing/user")
 public class MktUserLoginController extends BaseController {
 

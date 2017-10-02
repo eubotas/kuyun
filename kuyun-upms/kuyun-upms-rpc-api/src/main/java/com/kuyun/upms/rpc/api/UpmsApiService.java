@@ -1,6 +1,7 @@
 package com.kuyun.upms.rpc.api;
 
 import com.kuyun.upms.dao.model.*;
+import com.kuyun.upms.dao.vo.UpmsCompanyVo;
 import com.kuyun.upms.dao.vo.UpmsUserVo;
 
 import java.util.List;
@@ -108,4 +109,11 @@ public interface UpmsApiService {
     UpmsCompany getUpmsCompany(Integer userId);
 
     List<UpmsUserVo> selectLoginUsers(UpmsUserVo upmsUserVo);
+
+    UpmsUserCompany getUserCompany(UpmsUser user);
+
+    List<UpmsCompanyVo> selectCompanyEquipments(UpmsCompanyVo upmsCompanyVo);
+
+    Long countCompanyEquipments(UpmsCompanyVo upmsCompanyVo);
+
 }

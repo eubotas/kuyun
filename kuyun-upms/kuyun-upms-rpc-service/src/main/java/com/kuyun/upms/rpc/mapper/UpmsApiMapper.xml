@@ -169,6 +169,40 @@
 		</if>
 	</select>
 
+	<resultMap id="UpmsCompanyVoResultMap" type="com.kuyun.upms.dao.vo.UpmsCompanyVo" extends="com.kuyun.upms.dao.mapper.UpmsCompanyMapper.BaseResultMap">
+			<result column="equipment_number" jdbcType="INTEGER" property="equipmentNumber" />
+			<result column="online_number" jdbcType="INTEGER" property="onlineNumber" />
+			<result column="offline_number" jdbcType="INTEGER" property="offlineNumber" />
+	</resultMap>
+	<select id="selectCompanyEquipments" parameterType="com.kuyun.upms.dao.vo.UpmsCompanyVo" resultMap="UpmsCompanyVoResultMap">
+		select uc.name,
+		count(ee.equipment_id) as equipment_number,
+		sum(case is_online when 1 then 1 else 0 end) as online_number,
+		count(ee.equipment_id) - sum(case is_online when 1 then 1 else 0 end) as offline_number
+		from upms_company uc
+		left join eam_equipment_company eec on uc.company_id = eec.company_id and eec.delete_flag = 0
+		left join eam_equipment ee on eec.equipment_id = ee.equipment_id and ee.delete_flag = 0
+		where uc.delete_flag = 0
+		group by uc.name
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+	<select id="countCompanyEquipments" parameterType="com.kuyun.upms.dao.vo.UpmsCompanyVo" resultType="java.lang.Long">
+		select count(distinct name)
+		from upms_company
+		where delete_flag = 0
+	</select>
+
 	<!-- 缓存 -->
 	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 

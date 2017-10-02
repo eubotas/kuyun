@@ -13,6 +13,7 @@
 <script src="${basePath}/resources/kuyun-admin/plugins/bootstrap-table-1.11.0/locale/bootstrap-table-zh-CN.min.js"></script>
 <script src="${basePath}/resources/kuyun-admin/plugins/waves-0.7.5/waves.min.js"></script>
 <script src="${basePath}/resources/kuyun-admin/plugins/jquery-confirm/jquery-confirm.min.js"></script>
+<script src="${basePath}/resources/kuyun-admin/plugins/jquery-redirect/jquery.redirect.js"></script>
 <script src="${basePath}/resources/kuyun-admin/plugins/select2/js/select2.min.js"></script>
 <script src="${basePath}/resources/kuyun-admin/plugins/zTree_v3/js/jquery.ztree.all.min.js"></script>
 <script src="${basePath}/resources/kuyun-admin/js/common.js"></script>

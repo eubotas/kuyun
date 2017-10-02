@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -117,7 +118,7 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 			e.printStackTrace();
 		}
 		DynamicDataSource.clearDataSource();
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
@@ -131,7 +132,7 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 			e.printStackTrace();
 		}
 		DynamicDataSource.clearDataSource();
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import com.kuyun.eam.pojo.IDS;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.pojo.tree.Tree;
 import com.kuyun.eam.rpc.api.*;
+import com.kuyun.eam.vo.EamEquipmentVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
 import io.swagger.annotations.Api;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,6 +64,9 @@ public class EamEquipmentController extends BaseController {
 	@Autowired
 	private EamApiService eamApiService;
 
+//	@Autowired
+//	private EamEquipmentCompanyService eamEquipmentCompanyService;
+
 	@Autowired
 	private com.kuyun.fileuploader.rpc.api.FileUploaderService fileUploaderService;
 
@@ -81,26 +86,27 @@ public class EamEquipmentController extends BaseController {
 			@RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
 			@RequestParam(required = false, value = "sort") String sort,
 			@RequestParam(required = false, value = "order") String order) {
-		EamEquipmentExample eamEquipmentExample = new EamEquipmentExample();
-		eamEquipmentExample.setOffset(offset);
-		eamEquipmentExample.setLimit(limit);
-		EamEquipmentExample.Criteria criteria = eamEquipmentExample.createCriteria();
-		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+		EamEquipmentVO equipmentVO = new EamEquipmentVO();
+		equipmentVO.setOffset(offset);
+		equipmentVO.setLimit(limit);
+		equipmentVO.setDeleteFlag(Boolean.FALSE);
 
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
-			eamEquipmentExample.setOrderByClause(sort + " " + order);
+			equipmentVO.setOrderByClause(sort + " " + order);
 		}else {
-			eamEquipmentExample.setOrderByClause("equipment_model_id desc");
+			equipmentVO.setOrderByClause("equipment_model_id desc");
 		}
 
 		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
 
 		if (company != null){
-			criteria.andCompanyIdEqualTo(company.getCompanyId());
+			equipmentVO.setCompanyId(company.getCompanyId());
 		}
 
-		List<EamEquipment> rows = eamEquipmentService.selectByExample(eamEquipmentExample);
-		long total = eamEquipmentService.countByExample(eamEquipmentExample);
+		List<EamEquipmentVO> rows = eamApiService.selectEquipments(equipmentVO);
+		long total = eamApiService.countEquipments(equipmentVO);
+
+
 		Map<String, Object> result = new HashMap<>();
 		result.put("rows", rows);
 		result.put("total", total);
@@ -141,6 +147,7 @@ public class EamEquipmentController extends BaseController {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
 		baseEntityUtil.addAddtionalValue(eamEquipment);
+		eamEquipment.setIsOnline(Boolean.FALSE);
 		int count = eamEquipmentService.insertSelective(eamEquipment);
 		return new EamResult(SUCCESS, count);
 	}
@@ -247,4 +254,5 @@ public class EamEquipmentController extends BaseController {
 		List<SensorGroup> sensorGroups = eamApiService.getSensorData(eId);
 		return new EamResult(SUCCESS, sensorGroups);
 	}
+
 }

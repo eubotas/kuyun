@@ -54,11 +54,14 @@
     <!-- 传感器数据 -->
     <dubbo:reference id="eamSensorDataService" interface="com.kuyun.eam.rpc.api.EamSensorDataService" mock="true"/>
 
+    <dubbo:reference id="eamEquipmentCompanyService" interface="com.kuyun.eam.rpc.api.EamEquipmentCompanyService" mock="true"/>
+
 
 
     <!-- 接口服务 -->
     <dubbo:reference id="upmsApiService" interface="com.kuyun.upms.rpc.api.UpmsApiService" mock="true" registry="upmsRegistry"/>
     <dubbo:reference id="upmsUserCompanyService" interface="com.kuyun.upms.rpc.api.UpmsUserCompanyService" mock="true" registry="upmsRegistry"/>
+    <dubbo:reference id="upmsCompanyService" interface="com.kuyun.upms.rpc.api.UpmsCompanyService" mock="true" registry="upmsRegistry"/>
 
     <!-- 工单相关 -->
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamTicketService" id="eamTicketService" mock="true" />

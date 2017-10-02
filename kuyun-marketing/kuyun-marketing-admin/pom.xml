@@ -54,6 +54,16 @@
             <artifactId>kuyun-marketing-dao</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.kuyun</groupId>
+            <artifactId>kuyun-eam-dao</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kuyun</groupId>
+            <artifactId>kuyun-eam-rpc-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
         <!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-catalina -->
         <!--<dependency>-->
         <!--<groupId>org.apache.tomcat</groupId>-->

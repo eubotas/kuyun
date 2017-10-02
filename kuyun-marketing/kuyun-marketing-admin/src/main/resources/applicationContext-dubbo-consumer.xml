@@ -31,6 +31,6 @@
     <dubbo:reference id="upmsUserCompanyService" interface="com.kuyun.upms.rpc.api.UpmsUserCompanyService" mock="true" registry="upmsRegistry"/>
 
     <dubbo:reference id="upmsUserService" interface="com.kuyun.upms.rpc.api.UpmsUserService" mock="true" registry="upmsRegistry"/>
-
+    <dubbo:reference id="eamEquipmentService" interface="com.kuyun.eam.rpc.api.EamEquipmentService" mock="true"/>
     <dubbo:reference id="mktApiService" interface="com.kuyun.marketing.rpc.api.MktApiService" mock="true" />
 </beans>

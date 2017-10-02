@@ -18,9 +18,9 @@
 <body>
 <div id="main">
 	<div id="toolbar">
-		<shiro:hasPermission name="upms:company:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增组织</a></shiro:hasPermission>
-		<shiro:hasPermission name="upms:company:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑组织</a></shiro:hasPermission>
-		<shiro:hasPermission name="upms:company:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()"><i class="zmdi zmdi-close"></i> 删除组织</a></shiro:hasPermission>
+		<shiro:hasPermission name="upms:company:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增公司</a></shiro:hasPermission>
+		<shiro:hasPermission name="upms:company:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑公司</a></shiro:hasPermission>
+		<shiro:hasPermission name="upms:company:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()"><i class="zmdi zmdi-close"></i> 删除公司</a></shiro:hasPermission>
 	</div>
 	<table id="table"></table>
 </div>
@@ -101,7 +101,7 @@ function updateAction() {
 	} else {
 		updateDialog = $.dialog({
 			animationSpeed: 300,
-			title: '编辑组织',
+			title: '编辑公司',
 			content: 'url:${basePath}/manage/company/update/' + rows[0].companyId,
 			onContentReady: function () {
 				initMaterialInput();
@@ -131,7 +131,7 @@ function deleteAction() {
 			type: 'red',
 			animationSpeed: 300,
 			title: false,
-			content: '确认删除该组织吗？',
+			content: '确认删除该公司吗？',
 			buttons: {
 				confirm: {
 					text: '确认',

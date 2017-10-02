@@ -4,6 +4,7 @@ import com.kuyun.common.netease.SMSUtil;
 import com.kuyun.common.util.MD5Util;
 import com.kuyun.upms.dao.mapper.*;
 import com.kuyun.upms.dao.model.*;
+import com.kuyun.upms.dao.vo.UpmsCompanyVo;
 import com.kuyun.upms.dao.vo.UpmsUserVo;
 import com.kuyun.upms.rpc.api.*;
 import com.kuyun.upms.rpc.mapper.UpmsApiMapper;
@@ -13,6 +14,7 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import net.sf.json.JSONArray;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -438,6 +440,22 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     @Override
     public List<UpmsUserVo> selectLoginUsers(UpmsUserVo upmsUserVo) {
         return upmsApiMapper.selectLoginUsers(upmsUserVo);
+    }
+
+    public UpmsUserCompany getUserCompany(UpmsUser user){
+        UpmsUserCompanyExample example = new UpmsUserCompanyExample();
+        example.createCriteria().andUserIdEqualTo(user.getUserId());
+        return upmsUserCompanyService.selectFirstByExample(example);
+    }
+
+    @Override
+    public List<UpmsCompanyVo> selectCompanyEquipments(UpmsCompanyVo upmsCompanyVo) {
+        return upmsApiMapper.selectCompanyEquipments(upmsCompanyVo);
+    }
+
+    @Override
+    public Long countCompanyEquipments(UpmsCompanyVo upmsCompanyVo) {
+        return upmsApiMapper.countCompanyEquipments(upmsCompanyVo);
     }
 
 }

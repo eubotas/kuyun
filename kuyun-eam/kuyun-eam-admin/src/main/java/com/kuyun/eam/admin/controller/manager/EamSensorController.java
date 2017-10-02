@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -45,9 +46,6 @@ public class EamSensorController extends BaseController {
 
 	@Autowired
 	private EamSensorService eamSensorService;
-
-	@Autowired
-	private EamEquipmentService eamEquipmentService;
 
 	@Autowired
 	private EamEquipmentModelService eamEquipmentModelService;
@@ -131,5 +129,14 @@ public class EamSensorController extends BaseController {
 			int quantity = DataFormat.getQuantity(sensor.getDataFormat());
 			sensor.setQuantity(quantity);
 		}
+	}
+
+	@ApiOperation(value = "删除设备传感器")
+	@RequiresPermissions("eam:equipment:delete")
+	@RequestMapping(value = "/delete/{ids}",method = RequestMethod.GET)
+	@ResponseBody
+	public Object delete(@PathVariable("ids") String ids) {
+		int count = eamSensorService.deleteByPrimaryKeys(ids);
+		return new EamResult(SUCCESS, count);
 	}
 }

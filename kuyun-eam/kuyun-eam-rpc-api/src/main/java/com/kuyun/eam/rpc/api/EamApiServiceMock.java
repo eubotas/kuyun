@@ -103,4 +103,14 @@ public class EamApiServiceMock implements EamApiService {
     public List<EamAlarmRecordVO> selectAlarmRecords(EamAlarmRecordVO eamAlarmRecordVO) {
         return null;
     }
+
+    @Override
+    public List<EamEquipmentVO> selectEquipments(EamEquipmentVO eamEquipmentVO) {
+        return null;
+    }
+
+    @Override
+    public Long countEquipments(EamEquipmentVO eamEquipmentVO) {
+        return null;
+    }
 }

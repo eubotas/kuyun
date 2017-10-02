@@ -15,23 +15,23 @@
 		</div>
 		<div class="form-group">
 			<label for="name">地址</label>
-			<input id="address" type="text" class="form-control" name="address" maxlength="50" value="${company.name}">
+			<input id="address" type="text" class="form-control" name="address" maxlength="50" value="${company.address}">
 		</div>
 		<div class="form-group">
 			<label for="phone">电话</label>
-			<input id="phone" type="text" class="form-control" name="phone" maxlength="15" value="${company.name}">
+			<input id="phone" type="text" class="form-control" name="phone" maxlength="15" value="${company.phone}">
 		</div>
 		<div class="form-group">
 			<label for="fax">传真</label>
-			<input id="fax" type="text" class="form-control" name="fax" maxlength="15" value="${company.name}">
+			<input id="fax" type="text" class="form-control" name="fax" maxlength="15" value="${company.fax}">
 		</div>
 		<div class="form-group">
 			<label for="zip">邮编</label>
-			<input id="zip" type="text" class="form-control" name="zip" maxlength="10" value="${company.name}">
+			<input id="zip" type="text" class="form-control" name="zip" maxlength="10" value="${company.zip}">
 		</div>
 		<div class="form-group">
 			<label for="www">网址</label>
-			<input id="www" type="text" class="form-control" name="www" maxlength="15" value="${company.name}">
+			<input id="www" type="text" class="form-control" name="www" maxlength="15" value="${company.www}">
 		</div>
 		
 		<div class="form-group text-right dialog-buttons">

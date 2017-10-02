@@ -13,6 +13,5 @@
 </head>
 <body>
 <a href="${basePath}/manage/index">后台首页</a>
-ddd
 </body>
 </html>

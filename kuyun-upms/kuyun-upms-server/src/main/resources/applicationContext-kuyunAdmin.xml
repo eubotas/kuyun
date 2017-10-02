@@ -5,5 +5,5 @@
 
     <!-- 启动解压kuyunAdmin-x.x.x.jar到resources目录 -->
     <bean id="kuyunAdminUtil" class="com.kuyun.common.util.KuyunAdminUtil"></bean>
-
+    <bean id="baseEntityUtil" class="com.kuyun.upms.client.util.BaseEntityUtil"></bean>
 </beans>

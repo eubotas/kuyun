@@ -159,7 +159,7 @@ public class EamApiServiceImpl implements EamApiService {
     @Override
     public Tree getCityTree(UpmsUserCompany company) {
         Tree tree = new Tree();
-        List<EamEquipment> allEquipments = getEquipments(company);
+        List<EamEquipmentVO> allEquipments = getEquipments(company);
 
         Map<String, List<EamEquipment>> groupByProvinceMap =
                 allEquipments.stream().filter(equipment -> equipment.getProvince() != null).collect(Collectors.groupingBy(EamEquipment::getProvince));
@@ -254,16 +254,12 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
 
-    private List<EamEquipment> getEquipments(UpmsUserCompany company) {
-
-        EamEquipmentExample example = new EamEquipmentExample();
-        EamEquipmentExample.Criteria criteria = example.createCriteria();
-        if (company != null){
-            criteria.andCompanyIdEqualTo(company.getCompanyId());
-        }
-        criteria.andDeleteFlagEqualTo(Boolean.FALSE);
-        example.setOrderByClause("province, city asc");
-        return eamEquipmentService.selectByExample(example);
+    private List<EamEquipmentVO> getEquipments(UpmsUserCompany company) {
+        EamEquipmentVO equipmentVO = new EamEquipmentVO();
+        equipmentVO.setDeleteFlag(Boolean.FALSE);
+        equipmentVO.setCompanyId(company.getCompanyId());
+        equipmentVO.setOrderByClause("province, city asc");
+        return selectEquipments(equipmentVO);
     }
 
     public List<SensorGroup> getSensorData(String equipmentId) {
@@ -450,6 +446,16 @@ public class EamApiServiceImpl implements EamApiService {
 
     public List<EamAlarmRecordVO> selectAlarmRecords(EamAlarmRecordVO eamAlarmRecordVO){
         return eamApiMapper.selectAlarmRecords(eamAlarmRecordVO);
+    }
+
+    @Override
+    public List<EamEquipmentVO> selectEquipments(EamEquipmentVO eamEquipmentVO) {
+        return eamApiMapper.selectEquipments(eamEquipmentVO);
+    }
+
+    @Override
+    public Long countEquipments(EamEquipmentVO eamEquipmentVO) {
+        return eamApiMapper.countEquipments(eamEquipmentVO);
     }
 
 }

@@ -2,6 +2,7 @@ package com.kuyun.upms.rpc.mapper;
 
 
 import com.kuyun.upms.dao.model.*;
+import com.kuyun.upms.dao.vo.UpmsCompanyVo;
 import com.kuyun.upms.dao.vo.UpmsUserVo;
 
 import java.util.List;
@@ -39,5 +40,9 @@ public interface UpmsApiMapper {
 	UpmsCompany selectUpmsCompany(Integer userId);
 
 	List<UpmsUserVo> selectLoginUsers(UpmsUserVo upmsUserVo);
-	
+
+	List<UpmsCompanyVo> selectCompanyEquipments(UpmsCompanyVo upmsCompanyVo);
+
+	Long countCompanyEquipments(UpmsCompanyVo upmsCompanyVo);
+
 }

@@ -32,31 +32,31 @@ import java.util.List;
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 public class EamServiceTest {
 
-    @SuppressWarnings("SpringJavaAutowiringInspection")
-    @Autowired
-    private EamApiService eamApiService;
-
-    @SuppressWarnings("SpringJavaAutowiringInspection")
-    @Autowired
-    private EamEquipmentModelService eamEquipmentModelService;
-
-    @SuppressWarnings("SpringJavaAutowiringInspection")
-    @Autowired
-    private EamWarehouseService warehouseService;
-    
-    @SuppressWarnings("SpringJavaAutowiringInspection")
-    @Autowired
-    private EamTicketService eamTicketService;
-    
-    @SuppressWarnings("SpringJavaAutowiringInspection")
-    @Autowired
-    private EamTicketRecordService eamTicketRecordService;
-    
-    @SuppressWarnings("SpringJavaAutowiringInspection")
-    @Autowired
-    private EamTicketTypeService eamTicketTypeService;
-    @Autowired
-    private EamSensorDataService eamSensorDataService;
+//    @SuppressWarnings("SpringJavaAutowiringInspection")
+//    @Autowired
+//    private EamApiService eamApiService;
+//
+//    @SuppressWarnings("SpringJavaAutowiringInspection")
+//    @Autowired
+//    private EamEquipmentModelService eamEquipmentModelService;
+//
+//    @SuppressWarnings("SpringJavaAutowiringInspection")
+//    @Autowired
+//    private EamWarehouseService warehouseService;
+//
+//    @SuppressWarnings("SpringJavaAutowiringInspection")
+//    @Autowired
+//    private EamTicketService eamTicketService;
+//
+//    @SuppressWarnings("SpringJavaAutowiringInspection")
+//    @Autowired
+//    private EamTicketRecordService eamTicketRecordService;
+//
+//    @SuppressWarnings("SpringJavaAutowiringInspection")
+//    @Autowired
+//    private EamTicketTypeService eamTicketTypeService;
+//    @Autowired
+//    private EamSensorDataService eamSensorDataService;
     
 
     @Test
@@ -119,9 +119,9 @@ public class EamServiceTest {
 //    		result.put("rows", rows);
 //    		result.put("total", total);
 //    		
-    		EamTicketExample eamTicketExample = new EamTicketExample();
-    		eamTicketExample.setOffset(0);
-    		eamTicketExample.setLimit(10);
+//    		EamTicketExample eamTicketExample = new EamTicketExample();
+//    		eamTicketExample.setOffset(0);
+//    		eamTicketExample.setLimit(10);
 //    		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 //    			eamTicketExample.setOrderByClause(sort + " " + order);
 //    		}
@@ -134,32 +134,32 @@ public class EamServiceTest {
     		 
     }
 
-    @Test
-    public void testAlarm() {
-
-        EamSensorData sensorData = new EamSensorData();
-//        sensorData.setSensorDataId(1);
-        sensorData.setEquipmentId("qMrJ5KqVwFUj1bkz");
-        sensorData.setStringValue("130");
-        sensorData.setSensorId(1);
-        sensorData.setDeleteFlag(Boolean.FALSE);
-        sensorData.setCreateTime(new Date());
-
-//        eamSensorDataService.insertSelective(sensorData);
-
-
-
-        eamApiService.handleAlarm(sensorData);
-
-    }
-
-    @Test
-    public void testSelectAlarmRecords() {
-        EamAlarmRecordVO recordVO = new EamAlarmRecordVO();
-        recordVO.setStartDate(new Date("207/09/01"));
-        recordVO.setEndDate(new Date("207/09/11"));
-        List<EamAlarmRecordVO> result = eamApiService.selectAlarmRecords(recordVO);
-
-    }
+//    @Test
+//    public void testAlarm() {
+//
+//        EamSensorData sensorData = new EamSensorData();
+////        sensorData.setSensorDataId(1);
+//        sensorData.setEquipmentId("qMrJ5KqVwFUj1bkz");
+//        sensorData.setStringValue("130");
+//        sensorData.setSensorId(1);
+//        sensorData.setDeleteFlag(Boolean.FALSE);
+//        sensorData.setCreateTime(new Date());
+//
+////        eamSensorDataService.insertSelective(sensorData);
+//
+//
+//
+//        eamApiService.handleAlarm(sensorData);
+//
+//    }
+//
+//    @Test
+//    public void testSelectAlarmRecords() {
+//        EamAlarmRecordVO recordVO = new EamAlarmRecordVO();
+//        recordVO.setStartDate(new Date("207/09/01"));
+//        recordVO.setEndDate(new Date("207/09/11"));
+//        List<EamAlarmRecordVO> result = eamApiService.selectAlarmRecords(recordVO);
+//
+//    }
 
 }
