@@ -91,6 +91,9 @@ public class EamApiServiceImpl implements EamApiService {
     @Autowired
     private EamSensorDataService eamSensorDataService;
 
+    @Autowired
+    private EamEquipmentCompanyService eamEquipmentCompanyService;
+
 
     @Override
     public List<EamMaintenanceVO> selectMaintenance(EamMaintenanceVO maintenanceVO) {
@@ -458,4 +461,16 @@ public class EamApiServiceImpl implements EamApiService {
         return eamApiMapper.countEquipments(eamEquipmentVO);
     }
 
+    public int persistEquipment(UpmsUserCompany upmsUserCompany, EamEquipment equipment){
+        eamEquipmentService.insertSelective(equipment);
+
+        EamEquipmentCompany equipmentCompany = new EamEquipmentCompany();
+        equipmentCompany.setCreateTime(new Date());
+        equipmentCompany.setDeleteFlag(Boolean.FALSE);
+        equipmentCompany.setCompanyId(upmsUserCompany.getCompanyId());
+        equipmentCompany.setEquipmentId(equipment.getEquipmentId());
+
+        return eamEquipmentCompanyService.insertSelective(equipmentCompany);
+
+    }
 }

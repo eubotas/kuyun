@@ -30,6 +30,7 @@
     <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
     <result column="is_online" jdbcType="BIT" property="isOnline" />
     <result column="modbus_rtu_period" jdbcType="INTEGER" property="modbusRtuPeriod" />
+    <association property="eamEquipmentModel" javaType="com.kuyun.eam.dao.model.EamEquipmentModel" column="equipment_model_id" select="com.kuyun.eam.dao.mapper.EamEquipmentModelMapper.selectByPrimaryKey"/>
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>

@@ -148,7 +148,8 @@ public class EamEquipmentController extends BaseController {
 		}
 		baseEntityUtil.addAddtionalValue(eamEquipment);
 		eamEquipment.setIsOnline(Boolean.FALSE);
-		int count = eamEquipmentService.insertSelective(eamEquipment);
+		UpmsUserCompany upmsUserCompany = baseEntityUtil.getCurrentUserCompany();
+		int count = eamApiService.persistEquipment(upmsUserCompany, eamEquipment);
 		return new EamResult(SUCCESS, count);
 	}
 

@@ -89,10 +89,22 @@ select equipment_id, company_id from eam_equipment;
 
 ALTER TABLE eam_equipment DROP COLUMN company_id;
 
+insert upms_company (company_id, name)
+SELECT organization_id, name FROM upms_organization;
+
+insert upms_user_company(user_id, company_id)
+select user_id, organization_id from upms_user_organization;
+
+
 INSERT INTO `upms_permission` VALUES ('90', '1', '1', '公司管理', '2', 'upms:company:read', '/manage/company/index', '', '1', '2', '2');
 INSERT INTO `upms_permission` VALUES ('91', '1', '90', '新增公司', '3', 'upms:company:create', '/manage/company/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
 INSERT INTO `upms_permission` VALUES ('92', '1', '90', '编辑公司', '3', 'upms:company:update', '/manage/company/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
 INSERT INTO `upms_permission` VALUES ('93', '1', '90', '删除公司', '3', 'upms:company:delete', '/manage/company/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
 
+INSERT INTO `upms_permission` VALUES ('219', '6', '0', ' 客户管理', '1', null, null, 'zmdi zmdi-collection-text', '1', '219', '219');
+INSERT INTO `upms_permission` VALUES ('270', '6', '219', '客户管理', '2', 'eam:company:read',   '/manage/company/index', null, '1', '270', '270');
+INSERT INTO `upms_permission` VALUES ('271', '6', '270', '新增客户', '3', 'eam:company:create', '/manage/company/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
+INSERT INTO `upms_permission` VALUES ('272', '6', '270', '编辑客户', '3', 'eam:company:update', '/manage/company/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
+INSERT INTO `upms_permission` VALUES ('273', '6', '270', '删除客户', '3', 'eam:company:delete', '/manage/company/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
 
 

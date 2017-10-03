@@ -3,10 +3,7 @@ package com.kuyun.eam.rpc.api;
 import java.util.List;
 
 import com.kuyun.eam.common.constant.CollectStatus;
-import com.kuyun.eam.dao.model.EamAlarm;
-import com.kuyun.eam.dao.model.EamInventory;
-import com.kuyun.eam.dao.model.EamSensorData;
-import com.kuyun.eam.dao.model.EamTicketExample;
+import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.pojo.tree.Tree;
 import com.kuyun.eam.vo.*;
@@ -53,5 +50,7 @@ public interface EamApiService {
     List<EamEquipmentVO> selectEquipments(EamEquipmentVO eamEquipmentVO);
 
     Long countEquipments(EamEquipmentVO eamEquipmentVO);
+
+    int persistEquipment(UpmsUserCompany upmsUserCompany, EamEquipment equipment);
 
 }

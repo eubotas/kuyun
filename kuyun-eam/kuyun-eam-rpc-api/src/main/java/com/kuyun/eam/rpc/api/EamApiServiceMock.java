@@ -3,8 +3,7 @@ package com.kuyun.eam.rpc.api;
 import java.util.List;
 
 import com.kuyun.eam.common.constant.CollectStatus;
-import com.kuyun.eam.dao.model.EamAlarm;
-import com.kuyun.eam.dao.model.EamSensorData;
+import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.pojo.tree.Tree;
 import com.kuyun.eam.vo.*;
@@ -12,9 +11,6 @@ import com.kuyun.upms.dao.model.UpmsOrganization;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.kuyun.eam.dao.model.EamInventory;
-import com.kuyun.eam.dao.model.EamTicketExample;
 
 /**
  * Created by user on 4/24/2017.
@@ -112,5 +108,10 @@ public class EamApiServiceMock implements EamApiService {
     @Override
     public Long countEquipments(EamEquipmentVO eamEquipmentVO) {
         return null;
+    }
+
+    @Override
+    public int persistEquipment(UpmsUserCompany upmsUserCompany, EamEquipment equipment) {
+        return 0;
     }
 }
