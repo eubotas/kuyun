@@ -46,10 +46,11 @@ public class EamSensorDataController extends BaseController {
 	@ResponseBody
 	public Object listCurve(
 			@RequestParam(required = true, value = "eId") String eId,
+			@RequestParam(required = true, value = "sensorId") String sensorId,
 			@RequestParam(required = true, value = "startDate") Date startDate,
 			@RequestParam(required = true, value = "endDate") Date endDate) {
 
-		List<EamSensorDataVO> rows = getEamSensorData(eId, startDate, endDate, "t.create_time asc");
+		List<EamSensorDataVO> rows = getEamSensorData(eId, sensorId,  startDate, endDate, "t.create_time asc");
 		return buildCurveData(rows);
 	}
 
@@ -60,15 +61,17 @@ public class EamSensorDataController extends BaseController {
 	@ResponseBody
 	public Object list(
 			@RequestParam(required = true, value = "eId") String eId,
+			@RequestParam(required = true, value = "sensorId") String sensorId,
 			@RequestParam(required = true, value = "startDate") Date startDate,
 			@RequestParam(required = true, value = "endDate") Date endDate) {
-		List<EamSensorDataVO> rows = getEamSensorData(eId, startDate, endDate, "t.create_time desc");
+		List<EamSensorDataVO> rows = getEamSensorData(eId, sensorId, startDate, endDate, "t.create_time desc");
 		return rows;
 	}
 
-	private List<EamSensorDataVO> getEamSensorData(String eId, Date startDate, Date endDate, String order) {
+	private List<EamSensorDataVO> getEamSensorData(String eId, String sensorId,  Date startDate, Date endDate, String order) {
 		EamSensorVO sensorVO = new EamSensorVO();
 		sensorVO.setEquipmentId(eId);
+		sensorVO.setSensorId(Integer.valueOf(sensorId));
 		sensorVO.setOrderByClause(order);
 
 		if (startDate != null){

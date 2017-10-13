@@ -185,6 +185,8 @@ create table eam_sensor_data
 
 alter table eam_sensor_data comment '设备传感器数据';
 
+create index eam_sensor_data_create_time on eam_sensor_data (create_time desc); 
+
 /*==============================================================*/
 /* Table: eam_inventory                                         */
 /*==============================================================*/

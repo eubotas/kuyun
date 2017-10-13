@@ -4,6 +4,7 @@ import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
+import com.kuyun.common.base.BaseResult;
 import com.kuyun.common.util.StringUtil;
 import com.kuyun.common.validator.NotNullValidator;
 import com.kuyun.eam.common.constant.DataFormat;
@@ -85,6 +86,11 @@ public class EamSensorController extends BaseController {
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
 	public Object update(EamSensor sensor) {
+		//Ish - Isl != 0
+		if (sensor.getIsh() != null && sensor.getIsl() != null && sensor.getIsh().compareTo(sensor.getIsl()) == 0){
+			return new BaseResult(0, "Ish should not equals Isl, please setting the correct value!", null);
+		}
+
 		return createOrUpate(sensor);
 	}
 

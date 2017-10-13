@@ -380,7 +380,8 @@ public class EamApiServiceImpl implements EamApiService {
 
     @Override
     public Integer createAlarm(String targetUserId, EamAlarm alarm) {
-        int alarmId = eamAlarmService.insertSelective(alarm);
+        eamAlarmService.insertSelective(alarm);
+        Integer alarmId = alarm.getAlarmId();
         createEamAlarmTargetUser(alarmId, Integer.valueOf(targetUserId));
         return alarmId;
     }

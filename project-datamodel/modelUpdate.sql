@@ -53,6 +53,8 @@ create table eam_equipment_company
    primary key (equipment_company_id)
 );
 
+create index eam_sensor_data_create_time on eam_sensor_data (create_time desc); 
+  
 ALTER TABLE eam_equipment ADD modbus_rtu_period  int;
 
 ALTER TABLE upms_organization ADD company_id  int;
@@ -84,13 +86,15 @@ ALTER TABLE fd_files change organization_id company_id int;
 ALTER TABLE fd_oss_files change organization_id company_id int;
 
 
-insert eam_equipment_company(equipment_id, company_id)
-select equipment_id, company_id from eam_equipment;
+insert eam_equipment_company(equipment_id, company_id, delete_flag)
+select equipment_id, company_id, 0 from eam_equipment;
 
 ALTER TABLE eam_equipment DROP COLUMN company_id;
 
-insert upms_company (company_id, name)
-SELECT organization_id, name FROM upms_organization;
+ALTER TABLE eam_sensor DROP grm_variable_order;
+
+insert upms_company (company_id, name, delete_flag)
+SELECT organization_id, name, 0 FROM upms_organization;
 
 insert upms_user_company(user_id, company_id)
 select user_id, organization_id from upms_user_organization;
