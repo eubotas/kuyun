@@ -358,6 +358,73 @@
 		LEFT JOIN eam_equipment_model_properties p ON p.equipment_model_property_id = t.equipment_model_property_id
 		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
 		WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0
+
+		<if test="equipmentIds != null">
+			AND t.equipment_id IN
+			<foreach item="item" index="index" collection="equipmentIds"
+					 open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+
+		<if test="equipmentId != null and equipmentId != ''">
+			AND t.equipment_id = #{equipmentId}
+		</if>
+		<if test="equipmentModelPropertyId != null and equipmentModelPropertyId != ''">
+			AND t.equipment_model_property_id = #{equipmentModelPropertyId}
+		</if>
+		<if test="startDate != null">
+			AND t.create_time <![CDATA[>=]]> #{startDate}
+		</if>
+		<if test="endDate != null">
+			AND t.create_time <![CDATA[<=]]>#{endDate}
+		</if>
+		<if test="alarmStatus != null and alarmStatus != ''">
+			AND t.alarm_status = #{alarmStatus}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+	<select id="selectAlarmRecordHistoies" parameterType="com.kuyun.eam.vo.EamAlarmRecordVO" resultMap="EamAlarmRecordVOResultMap">
+		select DISTINCT
+		<include refid="Alarm_Record_Column_List" />
+		a.alarm_type,
+		a.upper_Bound,
+		a.lower_Bound,
+		a.duration,
+		a.alarm_target,
+		uu.phone,
+		uu.email,
+		uu.realname as user_name,
+		e.name as equipment_name,
+		e.number as equipment_number,
+		p.name as equipment_model_property_name
+		from eam_alarm_record_history t
+		LEFT JOIN eam_alarm a ON t.alarm_id = a.alarm_id
+		LEFT JOIN eam_alarm_target_user u ON t.alarm_id = u.alarm_id
+		LEFT JOIN upms_user uu ON uu.user_id = u.user_id
+		LEFT JOIN eam_equipment_model_properties p ON p.equipment_model_property_id = t.equipment_model_property_id
+		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
+		WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0
+
+		<if test="equipmentIds != null">
+			AND t.equipment_id IN
+			<foreach item="item" index="index" collection="equipmentIds"
+					 open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+
 		<if test="equipmentId != null and equipmentId != ''">
 			AND t.equipment_id = #{equipmentId}
 		</if>

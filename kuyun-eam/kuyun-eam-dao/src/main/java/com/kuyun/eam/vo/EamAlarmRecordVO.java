@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by user on 2017-09-11.
@@ -21,7 +22,6 @@ public class EamAlarmRecordVO extends EamAlarmRecord {
 
     private String orderByClause;
 
-    private String alarmValue;
     private String alarmType;
     private BigDecimal upperBound;
     private BigDecimal lowerBound;
@@ -33,6 +33,15 @@ public class EamAlarmRecordVO extends EamAlarmRecord {
     private String equipmentName;
     private String equipmentNumber;
     private String equipmentModelPropertyName;
+    private List<String> equipmentIds;
+
+    public List<String> getEquipmentIds() {
+        return equipmentIds;
+    }
+
+    public void setEquipmentIds(List<String> equipmentIds) {
+        this.equipmentIds = equipmentIds;
+    }
 
     public Date getStartDate() {
         return startDate;
@@ -144,14 +153,6 @@ public class EamAlarmRecordVO extends EamAlarmRecord {
 
     public void setEquipmentModelPropertyName(String equipmentModelPropertyName) {
         this.equipmentModelPropertyName = equipmentModelPropertyName;
-    }
-
-    public String getAlarmValue() {
-        return alarmValue;
-    }
-
-    public void setAlarmValue(String alarmValue) {
-        this.alarmValue = alarmValue;
     }
 
     public Date getAlarmTime(){

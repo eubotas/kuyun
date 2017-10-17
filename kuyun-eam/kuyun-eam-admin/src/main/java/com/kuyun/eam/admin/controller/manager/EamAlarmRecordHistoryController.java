@@ -29,25 +29,19 @@ import static com.kuyun.eam.common.constant.EamResultConstant.SUCCESS;
  * Created by kuyun on 2017/4/9.
  */
 @Controller
-@Api(value = "报警记录管理", description = "报警记录管理")
-@RequestMapping("/manage/alarm/record")
-public class EamAlarmRecordController extends BaseController {
+@Api(value = "报警历史记录管理", description = "报警历史记录管理")
+@RequestMapping("/manage/alarm/record/history")
+public class EamAlarmRecordHistoryController extends BaseController {
 
-	private static Logger _log = LoggerFactory.getLogger(EamAlarmRecordController.class);
+	private static Logger _log = LoggerFactory.getLogger(EamAlarmRecordHistoryController.class);
 
 	@Autowired
 	private EamApiService eamApiService;
 
 	@Autowired
-	private BaseEntityUtil baseEntityUtil;
-
-	@Autowired
-	private EamAlarmRecordService eamAlarmRecordService;
-
-	@Autowired
 	private EamUtil eamUtil;
 
-	@ApiOperation(value = "报警记录列表")
+	@ApiOperation(value = "报警历史记录列表")
 	@RequiresPermissions("eam:equipment:read")
 	@RequestMapping(value = "/list/", method = RequestMethod.GET)
 	@ResponseBody
@@ -72,26 +66,13 @@ public class EamAlarmRecordController extends BaseController {
 		if (endDate != null){
 			recordVO.setEndDate(endDate);
 		}
-		recordVO.setAlarmStatus(AlarmStatus.ANU.getCode());
 
 		List<String> equipmentIds = eamUtil.getEquipmentIds();
 		if (!equipmentIds.isEmpty()){
 			recordVO.setEquipmentIds(equipmentIds);
 		}
 
-		return eamApiService.selectAlarmRecords(recordVO);
+		return eamApiService.selectAlarmRecordHistoies(recordVO);
 	}
 
-
-
-	@ApiOperation(value = "修改报警记录")
-	@RequiresPermissions("eam:equipment:update")
-	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
-	@ResponseBody
-	public Object update(@PathVariable("id") int id, EamAlarmRecord alarmRecord) {
-		alarmRecord.setId(id);
-		baseEntityUtil.updateAddtionalValue(alarmRecord);
-		int count = eamAlarmRecordService.updateByPrimaryKeySelective(alarmRecord);
-		return new EamResult(SUCCESS, count);
-	}
 }

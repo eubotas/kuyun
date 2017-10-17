@@ -1,12 +1,9 @@
 package com.kuyun.eam.rpc.service.impl;
 
 import com.google.gson.Gson;
-import com.kuyun.common.mail.service.EmailService;
-import com.kuyun.common.netease.SMSUtil;
 import com.kuyun.eam.alarm.AbstractAlarmHandler;
 import com.kuyun.eam.alarm.AlarmTypeFactory;
 import com.kuyun.eam.alarm.OfflineHandler;
-import com.kuyun.eam.common.constant.AlarmTarget;
 import com.kuyun.eam.common.constant.AlarmType;
 import com.kuyun.eam.common.constant.CollectStatus;
 import com.kuyun.eam.common.constant.DataType;
@@ -25,14 +22,7 @@ import com.kuyun.eam.util.ProtocolEnum;
 import com.kuyun.eam.vo.*;
 import com.kuyun.grm.rpc.api.GrmApiService;
 import com.kuyun.modbus.rpc.api.ModbusSlaveRtuApiService;
-import com.kuyun.upms.dao.model.UpmsOrganization;
-import com.kuyun.upms.dao.model.UpmsUser;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
-import com.kuyun.upms.dao.model.UpmsUserExample;
-import com.kuyun.upms.rpc.api.UpmsUserService;
-import net.sf.json.JSONArray;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +30,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.mail.MessagingException;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -268,6 +257,7 @@ public class EamApiServiceImpl implements EamApiService {
         return selectEquipments(equipmentVO);
     }
 
+    @Override
     public List<SensorGroup> getSensorData(String equipmentId) {
         List<SensorGroup> result = new ArrayList<>();
         List<EamSensorVO> sensors = eamApiMapper.selectSensorData(equipmentId);
@@ -308,7 +298,7 @@ public class EamApiServiceImpl implements EamApiService {
         return data;
     }
 
-
+    @Override
     public int handleEquimpmentCollect(String jsonString, CollectStatus collectStatus) {
 
         _log.info("json=" + jsonString);
@@ -415,6 +405,7 @@ public class EamApiServiceImpl implements EamApiService {
         createEamAlarmTargetUser(alarmId, userId);
     }
 
+    @Override
     public void handleAlarm(EamSensorData sensorData) {
         EamAlarm alarm = eamApiMapper.selectAlarm(sensorData);
         if (alarm != null) {
@@ -425,6 +416,7 @@ public class EamApiServiceImpl implements EamApiService {
         }
     }
 
+    @Override
     public void handleAlarmOffline(String deviceId){
         EamAlarm alarm = getOfflineAlarmType(deviceId);
         if (alarm != null){
@@ -452,8 +444,14 @@ public class EamApiServiceImpl implements EamApiService {
         return result;
     }
 
+    @Override
     public List<EamAlarmRecordVO> selectAlarmRecords(EamAlarmRecordVO eamAlarmRecordVO){
         return eamApiMapper.selectAlarmRecords(eamAlarmRecordVO);
+    }
+
+    @Override
+    public List<EamAlarmRecordVO> selectAlarmRecordHistoies(EamAlarmRecordVO eamAlarmRecordVO){
+        return eamApiMapper.selectAlarmRecordHistoies(eamAlarmRecordVO);
     }
 
     @Override
@@ -466,6 +464,7 @@ public class EamApiServiceImpl implements EamApiService {
         return eamApiMapper.countEquipments(eamEquipmentVO);
     }
 
+    @Override
     public int persistEquipment(UpmsUserCompany upmsUserCompany, EamEquipment equipment){
         eamEquipmentService.insertSelective(equipment);
 
@@ -479,6 +478,7 @@ public class EamApiServiceImpl implements EamApiService {
 
     }
 
+    @Override
     public void processData(String deviceId, Integer sensorId, String data){
         EamSensorData sensorData = handleSensorData(deviceId, sensorId, data);
         handleSensorDataHistory(deviceId, sensorId, data);

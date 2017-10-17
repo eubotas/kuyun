@@ -89,4 +89,8 @@
     <bean id="eamAlarmRecordServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamAlarmRecordServiceImpl"/>
     <dubbo:service interface="com.kuyun.eam.rpc.api.EamAlarmRecordService" ref="eamAlarmRecordServiceImpl" timeout="10000"/>
 
+    <bean id="eamAlarmRecordHistoryServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamAlarmRecordHistoryServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamAlarmRecordHistoryService" ref="eamAlarmRecordHistoryServiceImpl" timeout="10000"/>
+
+
 </beans>

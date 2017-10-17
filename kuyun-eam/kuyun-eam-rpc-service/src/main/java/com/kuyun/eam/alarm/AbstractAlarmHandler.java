@@ -41,6 +41,9 @@ public abstract class AbstractAlarmHandler {
     private EamAlarmRecordService eamAlarmRecordService;
 
     @Autowired
+    private EamAlarmRecordHistoryService eamAlarmRecordHistoryService;
+
+    @Autowired
     private EamAlarmTargetUserService eamAlarmTargetUserService;
 
     @Autowired
@@ -70,14 +73,18 @@ public abstract class AbstractAlarmHandler {
         if (metAlarmCondition(sensorData, alarm) && alarmRecord == null) {
             //1. create alarm record
             createAlarmRecord(sensorData, alarm);
-            //2. send message
+            //2. create alarm record history
+            createAlarmRecordHistory(sensorData, alarm, AlarmStatus.ANU);
+            //3. send message
             sendAlarmMessage(sensorData, alarm, false);
         }
 
         if (!metAlarmCondition(sensorData, alarm) && alarmRecord != null){
             //1. update alarm record
             updateAlarmRecord(alarmRecord, sensorData);
-            //2. send clear message
+            //2. create alarm record history
+            createAlarmRecordHistory(sensorData, alarm, AlarmStatus.CNU);
+            //3. send clear message
             sendAlarmMessage(sensorData, alarm, true);
         }
     }
@@ -112,6 +119,22 @@ public abstract class AbstractAlarmHandler {
         record.setDeleteFlag(Boolean.FALSE);
 
         eamAlarmRecordService.insertSelective(record);
+
+
+    }
+
+    private void createAlarmRecordHistory(EamSensorData sensorData, EamAlarm alarm, AlarmStatus alarmStatus) {
+        //Create a alarm history
+        EamAlarmRecordHistory recordHistory = new EamAlarmRecordHistory();
+        recordHistory.setAlarmId(alarm.getAlarmId());
+        recordHistory.setAlarmValue(sensorData.getStringValue());
+        recordHistory.setAlarmStatus(alarmStatus.getCode());
+        recordHistory.setEquipmentId(sensorData.getEquipmentId());
+        recordHistory.setEquipmentModelPropertyId(alarm.getEquipmentModelPropertyId());
+        recordHistory.setCreateTime(new Date());
+        recordHistory.setDeleteFlag(Boolean.FALSE);
+
+        eamAlarmRecordHistoryService.insertSelective(recordHistory);
     }
 
     private void updateAlarmRecord(EamAlarmRecord alarmRecord, EamSensorData sensorData){
@@ -119,7 +142,9 @@ public abstract class AbstractAlarmHandler {
         alarmRecord.setAlarmValue(sensorData.getStringValue());
         alarmRecord.setUpdateTime(new Date());
 
-        eamAlarmRecordService.updateByPrimaryKey(alarmRecord);
+        eamAlarmRecordService.updateByPrimaryKeySelective(alarmRecord);
+
+
     }
 
     public void sendAlarmMessage(EamSensorData sensorData, EamAlarm alarm, boolean isClearMessage) {
