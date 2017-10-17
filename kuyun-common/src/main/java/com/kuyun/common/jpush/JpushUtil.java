@@ -22,7 +22,6 @@ public class JpushUtil {
 
     protected static final String APP_KEY ="2862c4d46161656aa7ef7cc0";
     protected static final String MASTER_SECRET = "5c04a4b71214f7ad1af23b17";
-    public static final String TITLE = "设备报警通知";
 
     public void sendPush(List<String> mobiles, String alter){
         ClientConfig clientConfig = ClientConfig.getInstance();

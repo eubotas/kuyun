@@ -3,6 +3,7 @@ package com.kuyun.eam.alarm;
 import com.kuyun.eam.common.constant.AlarmType;
 import com.kuyun.eam.dao.model.EamAlarm;
 import com.kuyun.eam.dao.model.EamSensorData;
+import com.kuyun.eam.dao.model.EamSensorDataHistory;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -23,8 +24,8 @@ public class ValAboveBoundHandler extends AbstractAlarmHandler {
         boolean result = false;
         BigDecimal x = alarm.getUpperBound();
 
-        List<EamSensorData> sensorDatas = getSensorDates(sensorData, alarm);
-        for(EamSensorData data : sensorDatas){
+        List<EamSensorDataHistory> sensorDataHistories = getSensorDataHistories(sensorData, alarm);
+        for(EamSensorDataHistory data : sensorDataHistories){
             BigDecimal value = covertToBigDecimal(data.getStringValue());
             // value great than X
             if (value != null) {

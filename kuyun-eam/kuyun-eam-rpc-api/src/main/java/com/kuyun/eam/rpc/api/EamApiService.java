@@ -53,4 +53,6 @@ public interface EamApiService {
 
     int persistEquipment(UpmsUserCompany upmsUserCompany, EamEquipment equipment);
 
+    void processData(String deviceId, Integer sensorId, String data);
+
 }

@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kuyun.eam.dao.mapper.EamAlarmRecordMapper">
-  <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamAlarmRecord">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="alarm_id" jdbcType="INTEGER" property="alarmId" />
+<mapper namespace="com.kuyun.eam.dao.mapper.EamSensorDataHistoryMapper">
+  <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamSensorDataHistory">
+    <id column="sensor_data_id" jdbcType="INTEGER" property="sensorDataId" />
     <result column="equipment_id" jdbcType="VARCHAR" property="equipmentId" />
-    <result column="equipment_model_property_id" jdbcType="INTEGER" property="equipmentModelPropertyId" />
+    <result column="sensor_id" jdbcType="INTEGER" property="sensorId" />
+    <result column="string_value" jdbcType="VARCHAR" property="stringValue" />
+    <result column="number_value" jdbcType="DECIMAL" property="numberValue" />
+    <result column="boolean_value" jdbcType="BIT" property="booleanValue" />
+    <result column="longitude_value" jdbcType="DECIMAL" property="longitudeValue" />
+    <result column="latitude_value" jdbcType="DECIMAL" property="latitudeValue" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
-    <result column="alarm_value" jdbcType="VARCHAR" property="alarmValue" />
-    <result column="alarm_status" jdbcType="VARCHAR" property="alarmStatus" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -74,16 +76,17 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, alarm_id, equipment_id, equipment_model_property_id, create_user_id, create_time, 
-    update_user_id, update_time, delete_flag, company_id, alarm_value, alarm_status
+    sensor_data_id, equipment_id, sensor_id, string_value, number_value, boolean_value, 
+    longitude_value, latitude_value, create_user_id, create_time, update_user_id, update_time, 
+    delete_flag, company_id
   </sql>
-  <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamAlarmRecordExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamSensorDataHistoryExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from eam_alarm_record
+    from eam_sensor_data_history
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -102,45 +105,60 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from eam_alarm_record
-    where id = #{id,jdbcType=INTEGER}
+    from eam_sensor_data_history
+    where sensor_data_id = #{sensorDataId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    update eam_alarm_record set delete_flag = 1 
-    where id = #{id,jdbcType=INTEGER}
+    update eam_sensor_data_history set delete_flag = 1 
+    where sensor_data_id = #{sensorDataId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamAlarmRecordExample">
-    update eam_alarm_record set delete_flag = 1 
+  <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamSensorDataHistoryExample">
+    update eam_sensor_data_history set delete_flag = 1 
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamAlarmRecord">
-    insert into eam_alarm_record (id, alarm_id, equipment_id, 
-      equipment_model_property_id, create_user_id, 
-      create_time, update_user_id, update_time, 
-      delete_flag, company_id, alarm_value, 
-      alarm_status)
-    values (#{id,jdbcType=INTEGER}, #{alarmId,jdbcType=INTEGER}, #{equipmentId,jdbcType=VARCHAR}, 
-      #{equipmentModelPropertyId,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlag,jdbcType=BIT}, #{companyId,jdbcType=INTEGER}, #{alarmValue,jdbcType=VARCHAR}, 
-      #{alarmStatus,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamSensorDataHistory">
+    <selectKey keyProperty="sensorDataId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into eam_sensor_data_history (equipment_id, sensor_id, string_value, 
+      number_value, boolean_value, longitude_value, 
+      latitude_value, create_user_id, create_time, 
+      update_user_id, update_time, delete_flag, 
+      company_id)
+    values (#{equipmentId,jdbcType=VARCHAR}, #{sensorId,jdbcType=INTEGER}, #{stringValue,jdbcType=VARCHAR}, 
+      #{numberValue,jdbcType=DECIMAL}, #{booleanValue,jdbcType=BIT}, #{longitudeValue,jdbcType=DECIMAL}, 
+      #{latitudeValue,jdbcType=DECIMAL}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
+      #{companyId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamAlarmRecord">
-    insert into eam_alarm_record
+  <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamSensorDataHistory">
+    <selectKey keyProperty="sensorDataId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into eam_sensor_data_history
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
-      <if test="alarmId != null">
-        alarm_id,
-      </if>
       <if test="equipmentId != null">
         equipment_id,
       </if>
-      <if test="equipmentModelPropertyId != null">
-        equipment_model_property_id,
+      <if test="sensorId != null">
+        sensor_id,
+      </if>
+      <if test="stringValue != null">
+        string_value,
+      </if>
+      <if test="numberValue != null">
+        number_value,
+      </if>
+      <if test="booleanValue != null">
+        boolean_value,
+      </if>
+      <if test="longitudeValue != null">
+        longitude_value,
+      </if>
+      <if test="latitudeValue != null">
+        latitude_value,
       </if>
       <if test="createUserId != null">
         create_user_id,
@@ -160,25 +178,28 @@
       <if test="companyId != null">
         company_id,
       </if>
-      <if test="alarmValue != null">
-        alarm_value,
-      </if>
-      <if test="alarmStatus != null">
-        alarm_status,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="alarmId != null">
-        #{alarmId,jdbcType=INTEGER},
-      </if>
       <if test="equipmentId != null">
         #{equipmentId,jdbcType=VARCHAR},
       </if>
-      <if test="equipmentModelPropertyId != null">
-        #{equipmentModelPropertyId,jdbcType=INTEGER},
+      <if test="sensorId != null">
+        #{sensorId,jdbcType=INTEGER},
+      </if>
+      <if test="stringValue != null">
+        #{stringValue,jdbcType=VARCHAR},
+      </if>
+      <if test="numberValue != null">
+        #{numberValue,jdbcType=DECIMAL},
+      </if>
+      <if test="booleanValue != null">
+        #{booleanValue,jdbcType=BIT},
+      </if>
+      <if test="longitudeValue != null">
+        #{longitudeValue,jdbcType=DECIMAL},
+      </if>
+      <if test="latitudeValue != null">
+        #{latitudeValue,jdbcType=DECIMAL},
       </if>
       <if test="createUserId != null">
         #{createUserId,jdbcType=INTEGER},
@@ -198,34 +219,40 @@
       <if test="companyId != null">
         #{companyId,jdbcType=INTEGER},
       </if>
-      <if test="alarmValue != null">
-        #{alarmValue,jdbcType=VARCHAR},
-      </if>
-      <if test="alarmStatus != null">
-        #{alarmStatus,jdbcType=VARCHAR},
-      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamAlarmRecordExample" resultType="java.lang.Long">
-    select count(*) from eam_alarm_record
+  <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamSensorDataHistoryExample" resultType="java.lang.Long">
+    select count(*) from eam_sensor_data_history
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update eam_alarm_record
+    update eam_sensor_data_history
     <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
-      </if>
-      <if test="record.alarmId != null">
-        alarm_id = #{record.alarmId,jdbcType=INTEGER},
+      <if test="record.sensorDataId != null">
+        sensor_data_id = #{record.sensorDataId,jdbcType=INTEGER},
       </if>
       <if test="record.equipmentId != null">
         equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
       </if>
-      <if test="record.equipmentModelPropertyId != null">
-        equipment_model_property_id = #{record.equipmentModelPropertyId,jdbcType=INTEGER},
+      <if test="record.sensorId != null">
+        sensor_id = #{record.sensorId,jdbcType=INTEGER},
+      </if>
+      <if test="record.stringValue != null">
+        string_value = #{record.stringValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.numberValue != null">
+        number_value = #{record.numberValue,jdbcType=DECIMAL},
+      </if>
+      <if test="record.booleanValue != null">
+        boolean_value = #{record.booleanValue,jdbcType=BIT},
+      </if>
+      <if test="record.longitudeValue != null">
+        longitude_value = #{record.longitudeValue,jdbcType=DECIMAL},
+      </if>
+      <if test="record.latitudeValue != null">
+        latitude_value = #{record.latitudeValue,jdbcType=DECIMAL},
       </if>
       <if test="record.createUserId != null">
         create_user_id = #{record.createUserId,jdbcType=INTEGER},
@@ -245,46 +272,54 @@
       <if test="record.companyId != null">
         company_id = #{record.companyId,jdbcType=INTEGER},
       </if>
-      <if test="record.alarmValue != null">
-        alarm_value = #{record.alarmValue,jdbcType=VARCHAR},
-      </if>
-      <if test="record.alarmStatus != null">
-        alarm_status = #{record.alarmStatus,jdbcType=VARCHAR},
-      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update eam_alarm_record
-    set id = #{record.id,jdbcType=INTEGER},
-      alarm_id = #{record.alarmId,jdbcType=INTEGER},
+    update eam_sensor_data_history
+    set sensor_data_id = #{record.sensorDataId,jdbcType=INTEGER},
       equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
-      equipment_model_property_id = #{record.equipmentModelPropertyId,jdbcType=INTEGER},
+      sensor_id = #{record.sensorId,jdbcType=INTEGER},
+      string_value = #{record.stringValue,jdbcType=VARCHAR},
+      number_value = #{record.numberValue,jdbcType=DECIMAL},
+      boolean_value = #{record.booleanValue,jdbcType=BIT},
+      longitude_value = #{record.longitudeValue,jdbcType=DECIMAL},
+      latitude_value = #{record.latitudeValue,jdbcType=DECIMAL},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      company_id = #{record.companyId,jdbcType=INTEGER},
-      alarm_value = #{record.alarmValue,jdbcType=VARCHAR},
-      alarm_status = #{record.alarmStatus,jdbcType=VARCHAR}
+      company_id = #{record.companyId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.kuyun.eam.dao.model.EamAlarmRecord">
-    update eam_alarm_record
+  <update id="updateByPrimaryKeySelective" parameterType="com.kuyun.eam.dao.model.EamSensorDataHistory">
+    update eam_sensor_data_history
     <set>
-      <if test="alarmId != null">
-        alarm_id = #{alarmId,jdbcType=INTEGER},
-      </if>
       <if test="equipmentId != null">
         equipment_id = #{equipmentId,jdbcType=VARCHAR},
       </if>
-      <if test="equipmentModelPropertyId != null">
-        equipment_model_property_id = #{equipmentModelPropertyId,jdbcType=INTEGER},
+      <if test="sensorId != null">
+        sensor_id = #{sensorId,jdbcType=INTEGER},
+      </if>
+      <if test="stringValue != null">
+        string_value = #{stringValue,jdbcType=VARCHAR},
+      </if>
+      <if test="numberValue != null">
+        number_value = #{numberValue,jdbcType=DECIMAL},
+      </if>
+      <if test="booleanValue != null">
+        boolean_value = #{booleanValue,jdbcType=BIT},
+      </if>
+      <if test="longitudeValue != null">
+        longitude_value = #{longitudeValue,jdbcType=DECIMAL},
+      </if>
+      <if test="latitudeValue != null">
+        latitude_value = #{latitudeValue,jdbcType=DECIMAL},
       </if>
       <if test="createUserId != null">
         create_user_id = #{createUserId,jdbcType=INTEGER},
@@ -304,44 +339,40 @@
       <if test="companyId != null">
         company_id = #{companyId,jdbcType=INTEGER},
       </if>
-      <if test="alarmValue != null">
-        alarm_value = #{alarmValue,jdbcType=VARCHAR},
-      </if>
-      <if test="alarmStatus != null">
-        alarm_status = #{alarmStatus,jdbcType=VARCHAR},
-      </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where sensor_data_id = #{sensorDataId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamAlarmRecord">
-    update eam_alarm_record
-    set alarm_id = #{alarmId,jdbcType=INTEGER},
-      equipment_id = #{equipmentId,jdbcType=VARCHAR},
-      equipment_model_property_id = #{equipmentModelPropertyId,jdbcType=INTEGER},
+  <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamSensorDataHistory">
+    update eam_sensor_data_history
+    set equipment_id = #{equipmentId,jdbcType=VARCHAR},
+      sensor_id = #{sensorId,jdbcType=INTEGER},
+      string_value = #{stringValue,jdbcType=VARCHAR},
+      number_value = #{numberValue,jdbcType=DECIMAL},
+      boolean_value = #{booleanValue,jdbcType=BIT},
+      longitude_value = #{longitudeValue,jdbcType=DECIMAL},
+      latitude_value = #{latitudeValue,jdbcType=DECIMAL},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
-      company_id = #{companyId,jdbcType=INTEGER},
-      alarm_value = #{alarmValue,jdbcType=VARCHAR},
-      alarm_status = #{alarmStatus,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+      company_id = #{companyId,jdbcType=INTEGER}
+    where sensor_data_id = #{sensorDataId,jdbcType=INTEGER}
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into eam_alarm_record  (id, alarm_id, equipment_id, 
-        equipment_model_property_id, create_user_id, 
-        create_time, update_user_id, update_time, 
-        delete_flag, company_id, alarm_value, 
-        alarm_status)
+            insert into eam_sensor_data_history  (equipment_id, sensor_id, string_value, 
+        number_value, boolean_value, longitude_value, 
+        latitude_value, create_user_id, create_time, 
+        update_user_id, update_time, delete_flag, 
+        company_id)
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.id,jdbcType=INTEGER}, #{item.alarmId,jdbcType=INTEGER}, #{item.equipmentId,jdbcType=VARCHAR}, 
-        #{item.equipmentModelPropertyId,jdbcType=INTEGER}, #{item.createUserId,jdbcType=INTEGER}, 
-        #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
-        #{item.deleteFlag,jdbcType=BIT}, #{item.companyId,jdbcType=INTEGER}, #{item.alarmValue,jdbcType=VARCHAR}, 
-        #{item.alarmStatus,jdbcType=VARCHAR})
+      (#{item.equipmentId,jdbcType=VARCHAR}, #{item.sensorId,jdbcType=INTEGER}, #{item.stringValue,jdbcType=VARCHAR}, 
+        #{item.numberValue,jdbcType=DECIMAL}, #{item.booleanValue,jdbcType=BIT}, #{item.longitudeValue,jdbcType=DECIMAL}, 
+        #{item.latitudeValue,jdbcType=DECIMAL}, #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, 
+        #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, 
+        #{item.companyId,jdbcType=INTEGER})
       </foreach>
     </if>
   </insert>

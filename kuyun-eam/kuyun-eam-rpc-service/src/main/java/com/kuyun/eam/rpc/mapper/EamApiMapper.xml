@@ -191,11 +191,11 @@
 		e.name as equipment_name,
 		p.equipment_model_property_id,
 		p.name as equipment_model_property_name
-		from eam_sensor_data t
+		from eam_sensor_data_history t
 		LEFT JOIN eam_sensor s ON t.sensor_id = s.sensor_id
 		LEFT JOIN eam_equipment_model_properties p ON p.equipment_model_property_id = s.equipment_model_property_id
 		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
-		WHERE t.delete_flag = 0
+		WHERE t.delete_flag = 0 AND s.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0
 		<if test="equipmentId != null and equipmentId != ''">
 			AND t.equipment_id = #{equipmentId}
 		</if>
@@ -240,20 +240,18 @@
 	</resultMap>
 
 	<select id="selectSensorData" parameterType="String" resultMap="EamSensorVOResultMap">
-		SELECT
+		SELECT DISTINCT
 		<include refid="Sensor_Column_List" />
 		p.name,
 		p.unit,
 		p.data_type,
 		p.display_type,
-		d.string_value
+		case when e.is_online = 1 then d.string_value else null END string_value
 		FROM eam_sensor s
 		LEFT JOIN eam_equipment_model_properties p ON s.equipment_model_property_id = p.equipment_model_property_id
 		LEFT JOIN eam_equipment_model m ON m.equipment_model_id = p.equipment_model_id
 		LEFT JOIN eam_equipment e ON e.equipment_model_id = m.equipment_model_id
 		LEFT JOIN eam_sensor_data d On s.sensor_id = d.sensor_id
-		AND d.sensor_data_id = (select sensor_data_id from eam_sensor_data t where t.sensor_id = s.sensor_id order by t.create_time desc limit 1)
-		AND d.equipment_id = e.equipment_id
 		WHERE s.delete_flag = 0
 		AND p.delete_flag = 0
 		AND m.delete_flag = 0
@@ -301,7 +299,7 @@
 		from eam_alarm a
 		left join eam_equipment_model_properties p on a.equipment_model_property_id = p.equipment_model_property_id
 		left join eam_sensor s on s.equipment_model_property_id = p.equipment_model_property_id
-		WHERE a.delete_flag = 0
+		WHERE a.delete_flag = 0 and p.delete_flag = 0 and s.delete_flag = 0
 		<if test="sensorId != null and sensorId != ''">
 			AND s.sensor_id = #{sensorId}
 		</if>
@@ -315,7 +313,8 @@
 		left join eam_equipment_model_properties p on a.equipment_model_property_id = p.equipment_model_property_id
 		left join eam_equipment_model m on m.equipment_model_id = p.equipment_model_id
 		left join eam_equipment e on e.equipment_model_id = m.equipment_model_id
-		WHERE a.delete_flag = 0 and e.equipment_id = #{deviceId}
+		WHERE a.delete_flag = 0 and p.delete_flag = 0 and m.delete_flag = 0 and e.delete_flag = 0
+		 and e.equipment_id = #{deviceId}
 	</select>
 
 	<resultMap id="EamAlarmRecordVOResultMap" type="com.kuyun.eam.vo.EamAlarmRecordVO" extends="com.kuyun.eam.dao.mapper.EamAlarmRecordMapper.BaseResultMap">
@@ -334,14 +333,13 @@
 	</resultMap>
 
 	<sql id="Alarm_Record_Column_List">
-		t.id, t.alarm_id, t.equipment_id, t.equipment_model_property_id, t.sensor_data_id, t.create_user_id,
+		t.id, t.alarm_id, t.equipment_id, t.equipment_model_property_id, t.alarm_value, t.alarm_status, t.create_user_id,
         t.create_time, t.update_user_id, t.update_time, t.delete_flag, t.company_id,
 	</sql>
 
 	<select id="selectAlarmRecords" parameterType="com.kuyun.eam.vo.EamAlarmRecordVO" resultMap="EamAlarmRecordVOResultMap">
 		select DISTINCT
 		<include refid="Alarm_Record_Column_List" />
-		s.string_value as alarm_value,
 		a.alarm_type,
 		a.upper_Bound,
 		a.lower_Bound,
@@ -357,10 +355,9 @@
 		LEFT JOIN eam_alarm a ON t.alarm_id = a.alarm_id
 		LEFT JOIN eam_alarm_target_user u ON t.alarm_id = u.alarm_id
 		LEFT JOIN upms_user uu ON uu.user_id = u.user_id
-		LEFT JOIN eam_sensor_data s ON t.sensor_data_id = s.sensor_data_id
 		LEFT JOIN eam_equipment_model_properties p ON p.equipment_model_property_id = t.equipment_model_property_id
 		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
-		WHERE t.delete_flag = 0 AND s.delete_flag = 0
+		WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0
 		<if test="equipmentId != null and equipmentId != ''">
 			AND t.equipment_id = #{equipmentId}
 		</if>
@@ -372,6 +369,9 @@
 		</if>
 		<if test="endDate != null">
 			AND t.create_time <![CDATA[<=]]>#{endDate}
+		</if>
+		<if test="alarmStatus != null and alarmStatus != ''">
+			AND t.alarm_status = #{alarmStatus}
 		</if>
 		<if test="orderByClause != null">
 			order by ${orderByClause}

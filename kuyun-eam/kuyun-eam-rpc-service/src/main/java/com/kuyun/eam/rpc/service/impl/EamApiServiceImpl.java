@@ -92,6 +92,9 @@ public class EamApiServiceImpl implements EamApiService {
     private EamSensorDataService eamSensorDataService;
 
     @Autowired
+    private EamSensorDataHistoryServiceImpl eamSensorDataHistoryService;
+
+    @Autowired
     private EamEquipmentCompanyService eamEquipmentCompanyService;
 
 
@@ -316,8 +319,9 @@ public class EamApiServiceImpl implements EamApiService {
         String[] idArray = ids.getIds().split("-");
         EamEquipment equipment = new EamEquipment();
         equipment.setCollectStatus(collectStatus.getCode());
-        boolean isOnline = WORKING.getCode().equalsIgnoreCase(collectStatus.getCode()) ? true : false;
-        equipment.setIsOnline(isOnline);
+
+        //boolean isOnline = WORKING.getCode().equalsIgnoreCase(collectStatus.getCode()) ? true : false;
+        //equipment.setIsOnline(isOnline);
 
         EamEquipmentExample example = new EamEquipmentExample();
         example.createCriteria().andEquipmentIdIn(Arrays.asList(idArray));
@@ -412,13 +416,12 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     public void handleAlarm(EamSensorData sensorData) {
-        eamSensorDataService.insertSelective(sensorData);
-
         EamAlarm alarm = eamApiMapper.selectAlarm(sensorData);
         if (alarm != null) {
             AbstractAlarmHandler alarmHandler = alarmTypeFactory.buildAlarmHandler(alarm);
-
-            alarmHandler.process(sensorData, alarm);
+            if (alarmHandler != null){
+                alarmHandler.process(sensorData, alarm);
+            }
         }
     }
 
@@ -427,8 +430,9 @@ public class EamApiServiceImpl implements EamApiService {
         if (alarm != null){
             EamSensorData sensorData = new EamSensorData();
             sensorData.setEquipmentId(deviceId);
+
             offlineHandler.createAlarmRecord(sensorData, alarm);
-            offlineHandler.sendAlarmMessage(sensorData, alarm);
+            offlineHandler.sendAlarmMessage(sensorData, alarm, false);
         }
     }
 
@@ -473,5 +477,62 @@ public class EamApiServiceImpl implements EamApiService {
 
         return eamEquipmentCompanyService.insertSelective(equipmentCompany);
 
+    }
+
+    public void processData(String deviceId, Integer sensorId, String data){
+        EamSensorData sensorData = handleSensorData(deviceId, sensorId, data);
+        handleSensorDataHistory(deviceId, sensorId, data);
+
+        handleAlarm(sensorData);
+    }
+
+
+    private EamSensorData handleSensorData(String deviceId, Integer sensorId, String data){
+        EamSensorDataExample example = new EamSensorDataExample();
+        example.createCriteria().andEquipmentIdEqualTo(deviceId)
+                .andSensorIdEqualTo(sensorId)
+                .andDeleteFlagEqualTo(Boolean.FALSE);
+
+        EamSensorData sensorData = eamSensorDataService.selectFirstByExample(example);
+        if (sensorData == null){
+            sensorData = createSensorData(deviceId, sensorId, data);
+            eamSensorDataService.insertSelective(sensorData);
+        }else {
+            Date now = new Date();
+            sensorData.setCreateTime(now);
+            sensorData.setUpdateTime(now);
+            sensorData.setStringValue(data);
+            eamSensorDataService.updateByPrimaryKeySelective(sensorData);
+        }
+        return sensorData;
+    }
+
+    private void handleSensorDataHistory(String deviceId, Integer sensorId, String data){
+        EamSensorDataHistory dataHistory = createSensorDataHistory(deviceId, sensorId, data);
+        eamSensorDataHistoryService.insertSelective(dataHistory);
+    }
+
+    private EamSensorDataHistory createSensorDataHistory(String deviceId, Integer sensorId, String data) {
+        EamSensorDataHistory result = new EamSensorDataHistory();
+        result.setEquipmentId(deviceId);
+        result.setSensorId(sensorId);
+        result.setStringValue(data);
+        Date now = new Date();
+        result.setCreateTime(now);
+        result.setUpdateTime(now);
+        result.setDeleteFlag(Boolean.FALSE);
+        return result;
+    }
+
+    private EamSensorData createSensorData(String deviceId, Integer sensorId, String data) {
+        EamSensorData result = new EamSensorData();
+        result.setEquipmentId(deviceId);
+        result.setSensorId(sensorId);
+        result.setStringValue(data);
+        Date now = new Date();
+        result.setCreateTime(now);
+        result.setUpdateTime(now);
+        result.setDeleteFlag(Boolean.FALSE);
+        return result;
     }
 }

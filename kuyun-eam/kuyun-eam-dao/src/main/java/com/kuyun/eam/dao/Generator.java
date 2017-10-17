@@ -25,6 +25,7 @@ public class Generator {
     static {
         LAST_INSERT_ID_TABLES.put("eam_alarm", "alarm_id");
         LAST_INSERT_ID_TABLES.put("eam_sensor_data", "sensor_data_id");
+        LAST_INSERT_ID_TABLES.put("eam_sensor_data_history", "sensor_data_id");
     }
     private static Map<String, String> ALIAS_NEEDED_TABLES = new HashMap<String,String>();
     static {

@@ -108,7 +108,7 @@ public class EmailService {
      * Send HTML mail (simple) 
      */
     public void sendSimpleMail(
-            final String content, final String recipientEmail)
+            final String content, final String recipientEmail, boolean isClearMessage)
         throws MessagingException {
 
         // Prepare the evaluation context
@@ -118,7 +118,8 @@ public class EmailService {
         // Prepare message using a Spring helper
         final MimeMessage mimeMessage = this.mailSender.createMimeMessage();
         final MimeMessageHelper message = new MimeMessageHelper(mimeMessage, "UTF-8");
-        message.setSubject("报警通知");
+        String subject = isClearMessage ? "报警清除通知" : "报警通知";
+        message.setSubject(subject);
         message.setFrom(((JavaMailSenderImpl )mailSender).getUsername());
 
 //        message.setFrom("bob.shi@coderise.cn");

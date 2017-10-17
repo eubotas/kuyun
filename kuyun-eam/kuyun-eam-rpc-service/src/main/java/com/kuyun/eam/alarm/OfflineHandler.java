@@ -12,7 +12,7 @@ import net.sf.json.JSONArray;
  */
 public class OfflineHandler extends AbstractAlarmHandler {
     @Override
-    protected String buildEmailMessage(EamSensorData sensorData, EamAlarm alarm) {
+    protected String buildEmailMessage(EamSensorData sensorData, EamAlarm alarm, boolean isClearMessage) {
 
         StringBuilder stringBuilder = new StringBuilder();
         EamEquipment equipment = getEquipment(sensorData);
@@ -32,7 +32,7 @@ public class OfflineHandler extends AbstractAlarmHandler {
         return stringBuilder.toString();
     }
 
-    protected String buildSmsMessage(EamSensorData sensorData, EamAlarm alarm) {
+    protected String buildSmsMessage(EamSensorData sensorData, EamAlarm alarm, boolean isClearMessage) {
 
         EamEquipment equipment = getEquipment(sensorData);
         EamEquipmentModelProperties eamEquipmentModelProperties = getEamEquipmentModelProperties(alarm);

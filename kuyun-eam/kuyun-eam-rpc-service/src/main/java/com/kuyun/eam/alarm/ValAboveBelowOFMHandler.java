@@ -3,6 +3,7 @@ package com.kuyun.eam.alarm;
 import com.kuyun.eam.common.constant.AlarmType;
 import com.kuyun.eam.dao.model.EamAlarm;
 import com.kuyun.eam.dao.model.EamSensorData;
+import com.kuyun.eam.dao.model.EamSensorDataHistory;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -26,8 +27,8 @@ public class ValAboveBelowOFMHandler extends AbstractAlarmHandler {
         BigDecimal x = alarm.getUpperBound();
         BigDecimal y = alarm.getLowerBound();
 
-        List<EamSensorData> sensorDatas = getSensorDates(sensorData, alarm);
-        for(EamSensorData data : sensorDatas){
+        List<EamSensorDataHistory> sensorDataHistoryList = getSensorDataHistories(sensorData, alarm);
+        for(EamSensorDataHistory data : sensorDataHistoryList){
             BigDecimal value = covertToBigDecimal(data.getStringValue());
             // value great than X and less than Y
             if (value != null) {

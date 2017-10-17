@@ -61,6 +61,9 @@
     <bean id="eamSensorDataServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamSensorDataServiceImpl"/>
     <dubbo:service interface="com.kuyun.eam.rpc.api.EamSensorDataService" ref="eamSensorDataServiceImpl" timeout="10000"/>
 
+    <bean id="eamSensorDataHistoryServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamSensorDataHistoryServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamSensorDataHistoryService" ref="eamSensorDataHistoryServiceImpl" timeout="10000"/>
+
     <!-- 维保 -->
     <bean id="eamMaintenanceServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamMaintenanceServiceImpl"/>
     <dubbo:service interface="com.kuyun.eam.rpc.api.EamMaintenanceService" ref="eamMaintenanceServiceImpl" timeout="10000"/>

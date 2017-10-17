@@ -53,7 +53,7 @@ create table eam_equipment_company
    primary key (equipment_company_id)
 );
 
-create index eam_sensor_data_create_time on eam_sensor_data (create_time desc); 
+create index eam_sensor_data_create_time on eam_sensor_data_history (create_time desc); 
   
 ALTER TABLE eam_equipment ADD modbus_rtu_period  int;
 
@@ -112,3 +112,43 @@ INSERT INTO `upms_permission` VALUES ('272', '6', '270', '编辑客户', '3', 'e
 INSERT INTO `upms_permission` VALUES ('273', '6', '270', '删除客户', '3', 'eam:company:delete', '/manage/company/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
 
 
+RENAME TABLE  eam_sensor_data TO  eam_sensor_data_history;
+
+create table eam_sensor_data
+(
+   sensor_data_id       int not null auto_increment,
+   equipment_id         varchar(32),
+   sensor_id            int,
+   string_value         varchar(50),
+   number_value         decimal(10,2),
+   boolean_value        boolean,
+   longitude_value      decimal(10,5),
+   latitude_value       decimal(10,5),
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   company_id      int,
+   primary key (sensor_data_id)
+);
+
+CREATE TABLE `eam_alarm_record_history` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `alarm_id`            int(11),
+   equipment_id         varchar(32),
+   equipment_model_property_id int,
+   alarm_value          varchar(50),
+   alarm_status         varchar(10),
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   company_id      int,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE eam_alarm_record ADD alarm_value varchar(50);
+ALTER TABLE eam_alarm_record ADD alarm_status varchar(10);
+ALTER TABLE eam_alarm_record DROP COLUMN sensor_data_id;

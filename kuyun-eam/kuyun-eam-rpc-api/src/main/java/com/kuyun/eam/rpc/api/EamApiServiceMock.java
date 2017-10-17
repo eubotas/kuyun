@@ -114,4 +114,9 @@ public class EamApiServiceMock implements EamApiService {
     public int persistEquipment(UpmsUserCompany upmsUserCompany, EamEquipment equipment) {
         return 0;
     }
+
+    @Override
+    public void processData(String deviceId, Integer sensorId, String data) {
+
+    }
 }
