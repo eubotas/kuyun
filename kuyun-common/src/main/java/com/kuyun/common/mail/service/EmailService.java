@@ -122,7 +122,6 @@ public class EmailService {
         message.setSubject(subject);
         message.setFrom(((JavaMailSenderImpl )mailSender).getUsername());
 
-//        message.setFrom("bob.shi@coderise.cn");
         message.setTo(recipientEmail);
 
         // Create the HTML body using Thymeleaf

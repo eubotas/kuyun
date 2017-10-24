@@ -20,7 +20,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.kuyun.eam.common.constant.EamResultConstant.SUCCESS;
 
@@ -61,6 +63,7 @@ public class EamAlarmRecordController extends BaseController {
 		EamAlarmRecordVO recordVO = new EamAlarmRecordVO();
 		recordVO.setOffset(offset);
 		recordVO.setLimit(limit);
+
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			recordVO.setOrderByClause(sort + " " + order);
 		}else {
@@ -78,8 +81,12 @@ public class EamAlarmRecordController extends BaseController {
 		if (!equipmentIds.isEmpty()){
 			recordVO.setEquipmentIds(equipmentIds);
 		}
-
-		return eamApiService.selectAlarmRecords(recordVO);
+		List<EamAlarmRecordVO> rows = eamApiService.selectAlarmRecords(recordVO);
+		Long total = eamApiService.countAlarmRecords(recordVO);
+		Map<String, Object> result = new HashMap<>();
+		result.put("rows", rows);
+		result.put("total", total);
+		return result;
 	}
 
 

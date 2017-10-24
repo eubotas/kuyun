@@ -47,7 +47,11 @@ public interface EamApiService {
 
     List<EamAlarmRecordVO> selectAlarmRecords(EamAlarmRecordVO eamAlarmRecordVO);
 
+    Long countAlarmRecords(EamAlarmRecordVO eamAlarmRecordVO);
+
     List<EamAlarmRecordVO> selectAlarmRecordHistoies(EamAlarmRecordVO eamAlarmRecordVO);
+
+    Long countAlarmRecordHistoies(EamAlarmRecordVO eamAlarmRecordVO);
 
     List<EamEquipmentVO> selectEquipments(EamEquipmentVO eamEquipmentVO);
 
@@ -56,5 +60,9 @@ public interface EamApiService {
     int persistEquipment(UpmsUserCompany upmsUserCompany, EamEquipment equipment);
 
     void processData(String deviceId, Integer sensorId, String data);
+
+    List<EamEquipmentModelPropertiesVO> selectEquipmentModelProperties(String equipmentId);
+
+    boolean sensorWrite(EamEquipmentModelPropertiesVO equipmentModelPropertiesVO);
 
 }

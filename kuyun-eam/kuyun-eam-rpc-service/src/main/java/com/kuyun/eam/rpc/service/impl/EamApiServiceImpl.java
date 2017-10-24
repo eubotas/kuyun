@@ -30,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -55,6 +56,12 @@ public class EamApiServiceImpl implements EamApiService {
 
     @Autowired
     EamEquipmentService eamEquipmentService;
+
+    @Autowired
+    EamEquipmentModelService equipmentModelService;
+
+    @Autowired
+    EamSensorService eamSensorService;
 
     @Autowired
     AreaUtil areaUtil;
@@ -310,8 +317,9 @@ public class EamApiServiceImpl implements EamApiService {
         EamEquipment equipment = new EamEquipment();
         equipment.setCollectStatus(collectStatus.getCode());
 
-        //boolean isOnline = WORKING.getCode().equalsIgnoreCase(collectStatus.getCode()) ? true : false;
-        //equipment.setIsOnline(isOnline);
+        if (NO_START.getCode().equalsIgnoreCase(collectStatus.getCode())){
+            equipment.setIsOnline(false);
+        }
 
         EamEquipmentExample example = new EamEquipmentExample();
         example.createCriteria().andEquipmentIdIn(Arrays.asList(idArray));
@@ -450,8 +458,18 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     @Override
+    public Long countAlarmRecords(EamAlarmRecordVO eamAlarmRecordVO) {
+        return eamApiMapper.countAlarmRecords(eamAlarmRecordVO);
+    }
+
+    @Override
     public List<EamAlarmRecordVO> selectAlarmRecordHistoies(EamAlarmRecordVO eamAlarmRecordVO){
         return eamApiMapper.selectAlarmRecordHistoies(eamAlarmRecordVO);
+    }
+
+    @Override
+    public Long countAlarmRecordHistoies(EamAlarmRecordVO eamAlarmRecordVO) {
+        return eamApiMapper.countAlarmRecordHistoies(eamAlarmRecordVO);
     }
 
     @Override
@@ -484,6 +502,71 @@ public class EamApiServiceImpl implements EamApiService {
         handleSensorDataHistory(deviceId, sensorId, data);
 
         handleAlarm(sensorData);
+    }
+
+    @Override
+    public List<EamEquipmentModelPropertiesVO> selectEquipmentModelProperties(String equipmentId) {
+        return eamApiMapper.selectEquipmentModelProperties(equipmentId);
+    }
+
+    @Override
+    public boolean sensorWrite(EamEquipmentModelPropertiesVO equipmentModelPropertiesVO) {
+        boolean result = false;
+        EamEquipmentModel equipmentModel = equipmentModelService.selectByPrimaryKey(equipmentModelPropertiesVO.getEquipmentModelId());
+        EamSensor sensor = eamSensorService.selectByPrimaryKey(equipmentModelPropertiesVO.getSensorId());
+
+        if (ProtocolEnum.GRM.getId() == equipmentModel.getProtocolId()){
+            //1. handle grm write
+            result = handleGrmWrite(equipmentModelPropertiesVO, equipmentModel, sensor);
+        }else if (ProtocolEnum.MODBUS_RTU.getId() == equipmentModel.getProtocolId()){
+            //2. handle modbus write
+            result = handleModbusRtuWrite(equipmentModelPropertiesVO, equipmentModel, sensor);
+        }
+
+        return result;
+    }
+
+    private boolean handleModbusRtuWrite(EamEquipmentModelPropertiesVO equipmentModelPropertiesVO, EamEquipmentModel equipmentModel, EamSensor sensor) {
+        boolean result = false;
+        String deviceId = equipmentModelPropertiesVO.getEquipmentId();
+        String writeValue = equipmentModelPropertiesVO.getWriteValue();
+        int value = 0;
+        try {
+            value = Integer.parseInt(writeValue);
+        }catch (Exception e){
+            _log.error("Write Value Parse To Int Error, write value is {}", writeValue);
+        }
+
+        //TODO: change me!
+        sensor.setWriteNumber(value);
+
+        modbusSlaveRtuApiService.writeData(deviceId, sensor);
+
+        return result;
+    }
+
+    private boolean handleGrmWrite(EamEquipmentModelPropertiesVO equipmentModelPropertiesVO, EamEquipmentModel equipmentModel, EamSensor sensor) {
+        boolean result = false;
+        String deviceId = equipmentModelPropertiesVO.getEquipmentId();
+        String sensorName = sensor.getGrmVariable();
+        String writeValue = equipmentModelPropertiesVO.getWriteValue();
+        StringBuilder requestData = new StringBuilder();
+        requestData.append(1).append("\r");
+        requestData.append(sensorName).append(" ").append(writeValue);
+
+        try {
+            String[] rows = grmApiService.writeData(deviceId, requestData.toString());
+            if (rows != null && rows.length == 3
+                    && "OK".equalsIgnoreCase(rows[0])
+                    && "1".equalsIgnoreCase(rows[1])
+                    && "0".equalsIgnoreCase(rows[2])){
+                result = true;
+            }
+        } catch (IOException e) {
+            _log.error("GRM Write Error:" + e.getMessage());
+        }
+
+        return result;
     }
 
 

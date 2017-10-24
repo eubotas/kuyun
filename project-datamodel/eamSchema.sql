@@ -160,6 +160,41 @@ create table eam_sensor
 
 alter table eam_sensor comment '设备传感器';
 
+drop table if exists eam_sensor_write_data;
+create table eam_sensor_write_data
+(
+   id       int not null auto_increment,
+   equipment_id         varchar(32),
+   sensor_id            int,
+   equipment_model_id   int,
+   equipment_model_property_id int,
+   write_value         varchar(50),
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   company_id      int,
+   primary key (id)
+);
+
+drop table if exists eam_sensor_write_data_history;
+create table eam_sensor_write_data_history
+(
+   id       int not null auto_increment,
+   equipment_id         varchar(32),
+   sensor_id            int,
+   equipment_model_id   int,
+   equipment_model_property_id int,
+   write_value         varchar(50),
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   company_id      int,
+   primary key (id)
+);
 
 /*==============================================================*/
 /* Table: eam_sensor_data                                       */
@@ -387,13 +422,29 @@ CREATE TABLE `eam_alarm_record` (
   `alarm_id`            int(11),
    equipment_id         varchar(32),
    equipment_model_property_id int,
-   --sensor_data_id       int,
    alarm_value          varchar(50),
    alarm_status         varchar(10),
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,
    update_time          datetime,
+   delete_flag          boolean,
+   company_id      int,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `eam_alarm_record_history` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `alarm_id`            int(11),
+   equipment_id         varchar(32),
+   equipment_model_property_id int,
+   alarm_value          varchar(50),
+   alarm_status         varchar(10),
+   alarm_clear_value    varchar(50),
+   create_user_id       int,
+   create_time          datetime comment '报警发生时间',
+   update_user_id       int,
+   update_time          datetime comment '报警清除时间',
    delete_flag          boolean,
    company_id      int,
   PRIMARY KEY (`id`)

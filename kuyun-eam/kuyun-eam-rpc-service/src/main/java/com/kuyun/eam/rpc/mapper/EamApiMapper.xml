@@ -195,7 +195,10 @@
 		LEFT JOIN eam_sensor s ON t.sensor_id = s.sensor_id
 		LEFT JOIN eam_equipment_model_properties p ON p.equipment_model_property_id = s.equipment_model_property_id
 		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
-		WHERE t.delete_flag = 0 AND s.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0
+		WHERE t.delete_flag = 0
+		AND s.delete_flag = 0
+		AND p.delete_flag = 0
+		AND e.delete_flag = 0
 		<if test="equipmentId != null and equipmentId != ''">
 			AND t.equipment_id = #{equipmentId}
 		</if>
@@ -256,6 +259,7 @@
 		AND p.delete_flag = 0
 		AND m.delete_flag = 0
 		AND e.delete_flag = 0
+		AND e.equipment_id = d.equipment_id
 		AND e.equipment_id = #{equipmentId}
 
 		ORDER BY s.sensor_id ASC
@@ -296,10 +300,9 @@
 		select
 		a.alarm_id, a.alarm_type, a.upper_Bound, a.lower_Bound, a.duration, a.alarm_target, a.equipment_model_property_id,
 		a.create_user_id, a.create_time, a.update_user_id, a.update_time, a.delete_flag, a.company_id
-		from eam_alarm a
-		left join eam_equipment_model_properties p on a.equipment_model_property_id = p.equipment_model_property_id
-		left join eam_sensor s on s.equipment_model_property_id = p.equipment_model_property_id
-		WHERE a.delete_flag = 0 and p.delete_flag = 0 and s.delete_flag = 0
+		from eam_alarm a, eam_sensor s
+		WHERE s.equipment_model_property_id = a.equipment_model_property_id
+		AND a.delete_flag = 0 AND s.delete_flag = 0
 		<if test="sensorId != null and sensorId != ''">
 			AND s.sensor_id = #{sensorId}
 		</if>
@@ -395,6 +398,45 @@
 		</if>
 	</select>
 
+	<select id="countAlarmRecords" parameterType="com.kuyun.eam.vo.EamAlarmRecordVO" resultType="java.lang.Long">
+		select
+		count(DISTINCT t.id)
+		from eam_alarm_record t
+		LEFT JOIN eam_alarm a ON t.alarm_id = a.alarm_id
+		LEFT JOIN eam_alarm_target_user u ON t.alarm_id = u.alarm_id
+		LEFT JOIN upms_user uu ON uu.user_id = u.user_id
+		LEFT JOIN eam_equipment_model_properties p ON p.equipment_model_property_id = t.equipment_model_property_id
+		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
+		WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0
+
+		<if test="equipmentIds != null">
+			AND t.equipment_id IN
+			<foreach item="item" index="index" collection="equipmentIds"
+					 open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+
+		<if test="equipmentId != null and equipmentId != ''">
+			AND t.equipment_id = #{equipmentId}
+		</if>
+		<if test="equipmentModelPropertyId != null and equipmentModelPropertyId != ''">
+			AND t.equipment_model_property_id = #{equipmentModelPropertyId}
+		</if>
+		<if test="startDate != null">
+			AND t.create_time <![CDATA[>=]]> #{startDate}
+		</if>
+		<if test="endDate != null">
+			AND t.create_time <![CDATA[<=]]>#{endDate}
+		</if>
+		<if test="alarmStatus != null and alarmStatus != ''">
+			AND t.alarm_status = #{alarmStatus}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+
 	<select id="selectAlarmRecordHistoies" parameterType="com.kuyun.eam.vo.EamAlarmRecordVO" resultMap="EamAlarmRecordVOResultMap">
 		select DISTINCT
 		<include refid="Alarm_Record_Column_List" />
@@ -453,6 +495,46 @@
 		</if>
 	</select>
 
+	<select id="countAlarmRecordHistoies" parameterType="com.kuyun.eam.vo.EamAlarmRecordVO" resultType="java.lang.Long">
+		select
+		count(DISTINCT t.id)
+		from eam_alarm_record_history t
+		LEFT JOIN eam_alarm a ON t.alarm_id = a.alarm_id
+		LEFT JOIN eam_alarm_target_user u ON t.alarm_id = u.alarm_id
+		LEFT JOIN upms_user uu ON uu.user_id = u.user_id
+		LEFT JOIN eam_equipment_model_properties p ON p.equipment_model_property_id = t.equipment_model_property_id
+		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
+		WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0
+
+		<if test="equipmentIds != null">
+			AND t.equipment_id IN
+			<foreach item="item" index="index" collection="equipmentIds"
+					 open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+
+		<if test="equipmentId != null and equipmentId != ''">
+			AND t.equipment_id = #{equipmentId}
+		</if>
+		<if test="equipmentModelPropertyId != null and equipmentModelPropertyId != ''">
+			AND t.equipment_model_property_id = #{equipmentModelPropertyId}
+		</if>
+		<if test="startDate != null">
+			AND t.create_time <![CDATA[>=]]> #{startDate}
+		</if>
+		<if test="endDate != null">
+			AND t.create_time <![CDATA[<=]]>#{endDate}
+		</if>
+		<if test="alarmStatus != null and alarmStatus != ''">
+			AND t.alarm_status = #{alarmStatus}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+
+	</select>
+
 	<sql id="Equipment_Column_List">
 		t.equipment_id, t.equipment_model_id, t.name, t.number, t.serial_number, t.image_path, t.longitude,
 		t.latitude, t.province, t.city, t.user, t.collect_status, t.heart_data, t.grm, t.grm_password, t.grm_period,
@@ -497,6 +579,38 @@
 		<if test="orderByClause != null">
 			order by ${orderByClause}
 		</if>
+	</select>
+
+	<resultMap id="EquipmentModelPropertiesVOResultMap" type="com.kuyun.eam.vo.EamEquipmentModelPropertiesVO" extends="com.kuyun.eam.dao.mapper.EamEquipmentModelPropertiesMapper.BaseResultMap">
+		<result column="write_value" jdbcType="VARCHAR" property="writeValue" />
+		<result column="equipment_id" jdbcType="VARCHAR" property="equipmentId" />
+		<result column="sensor_id" jdbcType="INTEGER" property="sensorId" />
+	</resultMap>
+
+	<sql id="EquipmentModelProperties_Column_List">
+		p.equipment_model_property_id, p.equipment_model_id, p.name, p.label, p.unit, p.address, p.data_type,
+    	p.display_type, p.refresh_period, p.create_user_id, p.create_time, p.update_user_id, p.update_time,
+    	p.delete_flag, p.company_id,
+	</sql>
+
+	<select id="selectEquipmentModelProperties" parameterType="String" resultMap="EquipmentModelPropertiesVOResultMap">
+		select DISTINCT
+		<include refid="EquipmentModelProperties_Column_List" />
+		s.sensor_id,
+		e.equipment_id,
+		d.write_value
+		from eam_equipment_model_properties p
+		left join eam_sensor s on s.equipment_model_property_id = p.equipment_model_property_id
+		left join eam_equipment e on e.equipment_model_id = p.equipment_model_id
+		left join eam_sensor_write_data d on
+		d.equipment_model_property_id = p.equipment_model_property_id
+		AND d.equipment_id = e.equipment_id
+		AND d.delete_flag = 0
+		WHERE s.delete_flag = 0
+		AND p.delete_flag = 0
+		AND e.delete_flag = 0
+		and e.equipment_id = #{equipmentId}
+		ORDER BY p.equipment_model_property_id ASC
 	</select>
 
 	<!-- 缓存 -->

@@ -101,7 +101,17 @@ public class EamApiServiceMock implements EamApiService {
     }
 
     @Override
+    public Long countAlarmRecords(EamAlarmRecordVO eamAlarmRecordVO) {
+        return null;
+    }
+
+    @Override
     public List<EamAlarmRecordVO> selectAlarmRecordHistoies(EamAlarmRecordVO eamAlarmRecordVO) {
+        return null;
+    }
+
+    @Override
+    public Long countAlarmRecordHistoies(EamAlarmRecordVO eamAlarmRecordVO) {
         return null;
     }
 
@@ -123,5 +133,15 @@ public class EamApiServiceMock implements EamApiService {
     @Override
     public void processData(String deviceId, Integer sensorId, String data) {
 
+    }
+
+    @Override
+    public List<EamEquipmentModelPropertiesVO> selectEquipmentModelProperties(String equipmentId) {
+        return null;
+    }
+
+    @Override
+    public boolean sensorWrite(EamEquipmentModelPropertiesVO equipmentModelPropertiesVO) {
+        return false;
     }
 }

@@ -6,9 +6,9 @@ package com.kuyun.eam.common.constant;
 public enum AlarmStatus {
 
     ANU("ANU", "Active and Unacked"),
-    ANA("ANA", "Active and Acked"),
-    CNU("CNU", "Clear and Unacked"),
-    CNA("CNA", "Clear and Acked");
+//    ANA("ANA", "Active and Acked"),
+    CNU("CNU", "Clear and Unacked");
+//    CNA("CNA", "Clear and Acked");
 
     private String code;
     private String name;

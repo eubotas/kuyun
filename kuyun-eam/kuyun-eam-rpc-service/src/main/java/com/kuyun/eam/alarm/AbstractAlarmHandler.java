@@ -180,7 +180,12 @@ public abstract class AbstractAlarmHandler {
         if (!StringUtils.isEmpty(mobiles) && !StringUtils.isEmpty(message) ){
 
             String templateId = isClearMessage ? CLEAR_TEMPLATE_ID : TEMPLATE_ID;
-            SMSUtil.sendTemplate(templateId, mobiles, message);
+            try{
+                SMSUtil.sendTemplate(templateId, mobiles, message);
+            }catch (Exception e){
+                _log.error("Send SMS Error: Send SMS To : [ {} ], Message: [ {} ]", mobiles, message);
+            }
+
         }
     }
 

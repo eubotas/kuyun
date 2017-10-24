@@ -20,7 +20,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.kuyun.eam.common.constant.EamResultConstant.SUCCESS;
 
@@ -72,7 +74,14 @@ public class EamAlarmRecordHistoryController extends BaseController {
 			recordVO.setEquipmentIds(equipmentIds);
 		}
 
-		return eamApiService.selectAlarmRecordHistoies(recordVO);
+		List<EamAlarmRecordVO> rows = eamApiService.selectAlarmRecordHistoies(recordVO);
+		Long total = eamApiService.countAlarmRecordHistoies(recordVO);
+
+		Map<String, Object> result = new HashMap<>();
+		result.put("rows", rows);
+		result.put("total", total);
+		return result;
+
 	}
 
 }

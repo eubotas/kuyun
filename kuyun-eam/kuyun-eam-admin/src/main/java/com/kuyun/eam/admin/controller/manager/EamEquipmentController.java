@@ -7,11 +7,13 @@ import com.google.gson.Gson;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.common.constant.EamResult;
+import com.kuyun.eam.common.constant.EamResultConstant;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.pojo.IDS;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.pojo.tree.Tree;
 import com.kuyun.eam.rpc.api.*;
+import com.kuyun.eam.vo.EamEquipmentModelPropertiesVO;
 import com.kuyun.eam.vo.EamEquipmentVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
@@ -26,12 +28,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.kuyun.eam.common.constant.CollectStatus.NO_START;
+import static com.kuyun.eam.common.constant.EamResultConstant.FAILED;
 import static com.kuyun.eam.common.constant.EamResultConstant.INVALID_LENGTH;
 import static com.kuyun.eam.common.constant.EamResultConstant.SUCCESS;
 
@@ -254,6 +256,41 @@ public class EamEquipmentController extends BaseController {
 	public Object getSensorData(@PathVariable("eId") String eId) {
 		List<SensorGroup> sensorGroups = eamApiService.getSensorData(eId);
 		return new EamResult(SUCCESS, sensorGroups);
+	}
+
+	@RequiresPermissions("eam:equipmentSensor:write")
+	@RequestMapping(value = "/sensor/{eId}", method = RequestMethod.GET)
+	public String sensor(@PathVariable("eId") String eId, ModelMap modelMap) {
+		EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(eId);
+
+		modelMap.put("equipment", equipment);
+		return "/manage/equipment/sensor/index.jsp";
+	}
+
+	@ApiOperation(value = "设备参数列表")
+	@RequiresPermissions("eam:equipmentSensor:write")
+	@RequestMapping(value = "/sensor/list/{eId}", method = RequestMethod.GET)
+	@ResponseBody
+	public Object sensorList(@PathVariable("eId") String eId) {
+		Map<String, Object> result = new HashMap<>();
+		result.put("rows", eamApiService.selectEquipmentModelProperties(eId));
+		return result;
+	}
+
+	@ApiOperation(value = "设备参数列表")
+	@RequiresPermissions("eam:equipmentSensor:write")
+	@RequestMapping(value = "/sensor/write", method = RequestMethod.POST)
+	@ResponseBody
+	public Object sensorWrite(String json) {
+		Gson gson = new Gson();
+		EamEquipmentModelPropertiesVO vo = gson.fromJson(json, EamEquipmentModelPropertiesVO.class);
+		boolean success = eamApiService.sensorWrite(vo);
+
+		if (success){
+			return new EamResult(SUCCESS, null);
+		}else {
+			return new EamResult(FAILED, null);
+		}
 	}
 
 }

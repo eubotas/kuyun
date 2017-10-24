@@ -33,9 +33,17 @@ public interface EamApiMapper {
 
     List<EamAlarmRecordVO> selectAlarmRecords(EamAlarmRecordVO eamAlarmRecordVO);
 
+    Long countAlarmRecords(EamAlarmRecordVO eamAlarmRecordVO);
+
     List<EamAlarmRecordVO> selectAlarmRecordHistoies(EamAlarmRecordVO eamAlarmRecordVO);
+
+    Long countAlarmRecordHistoies(EamAlarmRecordVO eamAlarmRecordVO);
 
     List<EamEquipmentVO> selectEquipments(EamEquipmentVO eamEquipmentVO);
 
     Long countEquipments(EamEquipmentVO eamEquipmentVO);
+
+    List<EamEquipmentModelPropertiesVO> selectEquipmentModelProperties(String equipmentId);
+
+
 }
