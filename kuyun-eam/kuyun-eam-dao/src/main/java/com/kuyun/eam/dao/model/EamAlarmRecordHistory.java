@@ -16,6 +16,8 @@ public class EamAlarmRecordHistory extends BaseEntity implements Serializable {
 
     private String alarmStatus;
 
+    private String alarmClearValue;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -66,6 +68,14 @@ public class EamAlarmRecordHistory extends BaseEntity implements Serializable {
         this.alarmStatus = alarmStatus;
     }
 
+    public String getAlarmClearValue() {
+        return alarmClearValue;
+    }
+
+    public void setAlarmClearValue(String alarmClearValue) {
+        this.alarmClearValue = alarmClearValue;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -78,6 +88,7 @@ public class EamAlarmRecordHistory extends BaseEntity implements Serializable {
         sb.append(", equipmentModelPropertyId=").append(equipmentModelPropertyId);
         sb.append(", alarmValue=").append(alarmValue);
         sb.append(", alarmStatus=").append(alarmStatus);
+        sb.append(", alarmClearValue=").append(alarmClearValue);
         sb.append("]");
         return sb.toString();
     }
@@ -100,6 +111,7 @@ public class EamAlarmRecordHistory extends BaseEntity implements Serializable {
             && (this.getEquipmentModelPropertyId() == null ? other.getEquipmentModelPropertyId() == null : this.getEquipmentModelPropertyId().equals(other.getEquipmentModelPropertyId()))
             && (this.getAlarmValue() == null ? other.getAlarmValue() == null : this.getAlarmValue().equals(other.getAlarmValue()))
             && (this.getAlarmStatus() == null ? other.getAlarmStatus() == null : this.getAlarmStatus().equals(other.getAlarmStatus()))
+            && (this.getAlarmClearValue() == null ? other.getAlarmClearValue() == null : this.getAlarmClearValue().equals(other.getAlarmClearValue()))
             && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
@@ -118,6 +130,7 @@ public class EamAlarmRecordHistory extends BaseEntity implements Serializable {
         result = prime * result + ((getEquipmentModelPropertyId() == null) ? 0 : getEquipmentModelPropertyId().hashCode());
         result = prime * result + ((getAlarmValue() == null) ? 0 : getAlarmValue().hashCode());
         result = prime * result + ((getAlarmStatus() == null) ? 0 : getAlarmStatus().hashCode());
+        result = prime * result + ((getAlarmClearValue() == null) ? 0 : getAlarmClearValue().hashCode());
         result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());

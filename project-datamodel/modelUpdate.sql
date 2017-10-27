@@ -157,6 +157,8 @@ ALTER TABLE eam_alarm_record ADD alarm_value varchar(50);
 ALTER TABLE eam_alarm_record ADD alarm_status varchar(10);
 ALTER TABLE eam_alarm_record DROP COLUMN sensor_data_id;
 
+ALTER TABLE eam_alarm_record_history ADD alarm_clear_value    varchar(50);
+
 
 create table eam_sensor_write_data
 (

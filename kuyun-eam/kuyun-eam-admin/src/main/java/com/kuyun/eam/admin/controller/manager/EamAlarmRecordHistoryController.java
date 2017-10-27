@@ -45,33 +45,18 @@ public class EamAlarmRecordHistoryController extends BaseController {
 
 	@ApiOperation(value = "报警历史记录列表")
 	@RequiresPermissions("eam:equipment:read")
-	@RequestMapping(value = "/list/", method = RequestMethod.GET)
+	@RequestMapping(value = "/list/", method = RequestMethod.POST)
 	@ResponseBody
-	public Object list(
-			@RequestParam(required = false, defaultValue = "0", value = "offset") int offset,
-			@RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
-			@RequestParam(required = false, value = "sort") String sort,
-			@RequestParam(required = false, value = "order") String order,
-			@RequestParam(required = false, value = "startDate") Date startDate,
-			@RequestParam(required = false, value = "endDate") Date endDate) {
-		EamAlarmRecordVO recordVO = new EamAlarmRecordVO();
-		recordVO.setOffset(offset);
-		recordVO.setLimit(limit);
-		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
-			recordVO.setOrderByClause(sort + " " + order);
-		}else {
+	public Object list(EamAlarmRecordVO recordVO) {
+		if (StringUtils.isEmpty(recordVO.getOrderByClause())){
 			recordVO.setOrderByClause("t.equipment_id, t.create_time desc");
 		}
-		if (startDate != null){
-			recordVO.setStartDate(startDate);
-		}
-		if (endDate != null){
-			recordVO.setEndDate(endDate);
-		}
 
-		List<String> equipmentIds = eamUtil.getEquipmentIds();
-		if (!equipmentIds.isEmpty()){
-			recordVO.setEquipmentIds(equipmentIds);
+		if (recordVO.getEquipmentIds() == null){
+			List<String> equipmentIds = eamUtil.getEquipmentIds();
+			if (!equipmentIds.isEmpty()){
+				recordVO.setEquipmentIds(equipmentIds);
+			}
 		}
 
 		List<EamAlarmRecordVO> rows = eamApiService.selectAlarmRecordHistoies(recordVO);

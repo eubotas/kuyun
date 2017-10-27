@@ -518,6 +518,76 @@ public class EamAlarmRecordHistoryExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andAlarmClearValueIsNull() {
+            addCriterion("alarm_clear_value is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlarmClearValueIsNotNull() {
+            addCriterion("alarm_clear_value is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlarmClearValueEqualTo(String value) {
+            addCriterion("alarm_clear_value =", value, "alarmClearValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlarmClearValueNotEqualTo(String value) {
+            addCriterion("alarm_clear_value <>", value, "alarmClearValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlarmClearValueGreaterThan(String value) {
+            addCriterion("alarm_clear_value >", value, "alarmClearValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlarmClearValueGreaterThanOrEqualTo(String value) {
+            addCriterion("alarm_clear_value >=", value, "alarmClearValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlarmClearValueLessThan(String value) {
+            addCriterion("alarm_clear_value <", value, "alarmClearValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlarmClearValueLessThanOrEqualTo(String value) {
+            addCriterion("alarm_clear_value <=", value, "alarmClearValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlarmClearValueLike(String value) {
+            addCriterion("alarm_clear_value like", value, "alarmClearValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlarmClearValueNotLike(String value) {
+            addCriterion("alarm_clear_value not like", value, "alarmClearValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlarmClearValueIn(List<String> values) {
+            addCriterion("alarm_clear_value in", values, "alarmClearValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlarmClearValueNotIn(List<String> values) {
+            addCriterion("alarm_clear_value not in", values, "alarmClearValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlarmClearValueBetween(String value1, String value2) {
+            addCriterion("alarm_clear_value between", value1, value2, "alarmClearValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlarmClearValueNotBetween(String value1, String value2) {
+            addCriterion("alarm_clear_value not between", value1, value2, "alarmClearValue");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateUserIdIsNull() {
             addCriterion("create_user_id is null");
             return (Criteria) this;

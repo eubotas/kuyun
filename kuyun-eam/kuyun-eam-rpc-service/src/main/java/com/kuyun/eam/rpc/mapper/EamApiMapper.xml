@@ -322,6 +322,7 @@
 
 	<resultMap id="EamAlarmRecordVOResultMap" type="com.kuyun.eam.vo.EamAlarmRecordVO" extends="com.kuyun.eam.dao.mapper.EamAlarmRecordMapper.BaseResultMap">
 		<result column="alarm_value" jdbcType="VARCHAR" property="alarmValue" />
+		<result column="alarm_clear_value" jdbcType="VARCHAR" property="alarmClearValue" />
 		<result column="alarm_type" jdbcType="VARCHAR" property="alarmType" />
 		<result column="upper_Bound" jdbcType="DECIMAL" property="upperBound" />
 		<result column="lower_Bound" jdbcType="DECIMAL" property="lowerBound" />
@@ -360,7 +361,7 @@
 		LEFT JOIN upms_user uu ON uu.user_id = u.user_id
 		LEFT JOIN eam_equipment_model_properties p ON p.equipment_model_property_id = t.equipment_model_property_id
 		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
-		WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0
+		WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0 AND u.delete_flag = 0
 
 		<if test="equipmentIds != null">
 			AND t.equipment_id IN
@@ -407,7 +408,7 @@
 		LEFT JOIN upms_user uu ON uu.user_id = u.user_id
 		LEFT JOIN eam_equipment_model_properties p ON p.equipment_model_property_id = t.equipment_model_property_id
 		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
-		WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0
+		WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0 AND u.delete_flag = 0
 
 		<if test="equipmentIds != null">
 			AND t.equipment_id IN
@@ -437,9 +438,15 @@
 		</if>
 	</select>
 
+	<sql id="Alarm_Record_History_Column_List">
+		t.id, t.alarm_id, t.equipment_id, t.equipment_model_property_id, t.alarm_value, t.alarm_status,
+		t.alarm_clear_value, t.create_user_id, t.create_time, t.update_user_id, t.update_time, t.delete_flag,
+		t.company_id,
+	</sql>
+
 	<select id="selectAlarmRecordHistoies" parameterType="com.kuyun.eam.vo.EamAlarmRecordVO" resultMap="EamAlarmRecordVOResultMap">
 		select DISTINCT
-		<include refid="Alarm_Record_Column_List" />
+		<include refid="Alarm_Record_History_Column_List" />
 		a.alarm_type,
 		a.upper_Bound,
 		a.lower_Bound,
@@ -457,7 +464,7 @@
 		LEFT JOIN upms_user uu ON uu.user_id = u.user_id
 		LEFT JOIN eam_equipment_model_properties p ON p.equipment_model_property_id = t.equipment_model_property_id
 		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
-		WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0
+		WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0 AND u.delete_flag = 0
 
 		<if test="equipmentIds != null">
 			AND t.equipment_id IN
@@ -504,7 +511,7 @@
 		LEFT JOIN upms_user uu ON uu.user_id = u.user_id
 		LEFT JOIN eam_equipment_model_properties p ON p.equipment_model_property_id = t.equipment_model_property_id
 		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
-		WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0
+		WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0 AND u.delete_flag = 0
 
 		<if test="equipmentIds != null">
 			AND t.equipment_id IN

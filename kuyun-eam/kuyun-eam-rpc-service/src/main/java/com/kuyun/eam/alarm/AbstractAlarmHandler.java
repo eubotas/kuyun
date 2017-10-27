@@ -83,10 +83,22 @@ public abstract class AbstractAlarmHandler {
             //1. update alarm record
             updateAlarmRecord(alarmRecord, sensorData);
             //2. create alarm record history
-            createAlarmRecordHistory(sensorData, alarm, AlarmStatus.CNU);
+            updateAlarmRecordHistory(sensorData, alarm, AlarmStatus.CNU);
             //3. send clear message
             sendAlarmMessage(sensorData, alarm, true);
         }
+    }
+
+    private void updateAlarmRecordHistory(EamSensorData sensorData, EamAlarm alarm, AlarmStatus alarmStatus) {
+        EamAlarmRecordHistory alarmRecordHistory = getAlarmRecordHistory(sensorData, alarm);
+        if (alarmRecordHistory != null){
+            alarmRecordHistory.setAlarmStatus(alarmStatus.getCode());
+            alarmRecordHistory.setAlarmClearValue(sensorData.getStringValue());
+            alarmRecordHistory.setUpdateTime(new Date());
+
+            eamAlarmRecordHistoryService.updateByPrimaryKeySelective(alarmRecordHistory);
+        }
+
     }
 
     private EamAlarmRecord getAlarmRecord(EamSensorData sensorData, EamAlarm alarm){
@@ -106,6 +118,25 @@ public abstract class AbstractAlarmHandler {
         example.or(criteria2);
 
         return eamAlarmRecordService.selectFirstByExample(example);
+    }
+
+    private EamAlarmRecordHistory getAlarmRecordHistory(EamSensorData sensorData, EamAlarm alarm){
+        EamAlarmRecordHistoryExample example = new EamAlarmRecordHistoryExample();
+        EamAlarmRecordHistoryExample.Criteria criteria1 = example.createCriteria();
+        criteria1.andAlarmIdEqualTo(alarm.getAlarmId())
+                .andEquipmentIdEqualTo(sensorData.getEquipmentId())
+                .andEquipmentModelPropertyIdEqualTo(alarm.getEquipmentModelPropertyId())
+                .andAlarmStatusEqualTo(AlarmStatus.ANU.getCode());
+
+        EamAlarmRecordHistoryExample.Criteria criteria2 = example.createCriteria();
+        criteria2.andAlarmIdEqualTo(alarm.getAlarmId())
+                .andEquipmentIdEqualTo(sensorData.getEquipmentId())
+                .andEquipmentModelPropertyIdEqualTo(alarm.getEquipmentModelPropertyId())
+                .andAlarmStatusEqualTo(AlarmStatus.ANA.getCode());
+
+        example.or(criteria2);
+
+        return eamAlarmRecordHistoryService.selectFirstByExample(example);
     }
 
     public void createAlarmRecord(EamSensorData sensorData, EamAlarm alarm) {
