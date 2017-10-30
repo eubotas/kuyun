@@ -35,7 +35,7 @@
             <groupId>com.kuyun</groupId>
             <artifactId>kuyun-grm</artifactId>
             <version>1.0.0</version>
-        </dependency> 
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -58,6 +58,18 @@
             <groupId>com.kuyun</groupId>
             <artifactId>kuyun-eam-common</artifactId>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-elasticsearch -->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.data</groupId>-->
+            <!--<artifactId>spring-data-elasticsearch</artifactId>-->
+            <!--<version>3.0.0.RELEASE</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.data</groupId>-->
+            <!--<artifactId>spring-data-commons</artifactId>-->
+            <!--<version>2.0.0.RELEASE</version>-->
+        <!--</dependency>-->
+
         <!-- https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-catalina -->
         <!--<dependency>-->
             <!--<groupId>org.apache.tomcat</groupId>-->
