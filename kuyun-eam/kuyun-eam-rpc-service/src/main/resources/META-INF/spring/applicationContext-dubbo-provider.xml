@@ -72,7 +72,10 @@
     <!-- 接口服务 -->
     <bean id="eamApiServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamApiServiceImpl"/>
     <dubbo:service interface="com.kuyun.eam.rpc.api.EamApiService" ref="eamApiServiceImpl" timeout="10000"/>
-    
+
+    <bean id="eamWriteDataServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamWriteDataServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamWriteDataService" ref="eamWriteDataServiceImpl" timeout="30000"/>
+
     <!-- 工单相关 -->
 	<bean id="eamTicketServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamTicketServiceImpl" />
 	<dubbo:service interface="com.kuyun.eam.rpc.api.EamTicketService" ref="eamTicketServiceImpl" timeout="10000" />
@@ -91,6 +94,12 @@
 
     <bean id="eamAlarmRecordHistoryServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamAlarmRecordHistoryServiceImpl"/>
     <dubbo:service interface="com.kuyun.eam.rpc.api.EamAlarmRecordHistoryService" ref="eamAlarmRecordHistoryServiceImpl" timeout="10000"/>
+
+    <bean id="eamSensorWriteDataServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamSensorWriteDataServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamSensorWriteDataService" ref="eamSensorWriteDataServiceImpl" timeout="10000"/>
+
+    <bean id="eamSensorWriteDataHistoryServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamSensorWriteDataHistoryServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamSensorWriteDataHistoryService" ref="eamSensorWriteDataHistoryServiceImpl" timeout="10000"/>
 
 
 </beans>

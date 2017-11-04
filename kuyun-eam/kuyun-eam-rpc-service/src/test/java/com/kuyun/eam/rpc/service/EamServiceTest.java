@@ -1,20 +1,10 @@
 package com.kuyun.eam.rpc.service;
 
 
-import com.kuyun.eam.dao.model.EamSensorData;
-import com.kuyun.eam.dao.model.EamTicketExample;
-import com.kuyun.eam.rpc.api.*;
-import com.kuyun.eam.vo.EamAlarmRecordVO;
-import com.kuyun.eam.vo.EamTicketVO;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-
-import java.util.Date;
-import java.util.List;
 
 /**
  * 单元测试
@@ -29,7 +19,7 @@ import java.util.List;
         "classpath:META-INF/spring/applicationContext-jdbc.xml",
         "classpath:META-INF/spring/applicationContext-listener.xml"
 })
-@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
+//@TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
 public class EamServiceTest {
 
 //    @SuppressWarnings("SpringJavaAutowiringInspection")

@@ -140,8 +140,4 @@ public class EamApiServiceMock implements EamApiService {
         return null;
     }
 
-    @Override
-    public boolean sensorWrite(EamEquipmentModelPropertiesVO equipmentModelPropertiesVO) {
-        return false;
-    }
 }

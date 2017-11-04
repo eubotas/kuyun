@@ -66,6 +66,9 @@ public class EamEquipmentController extends BaseController {
 	@Autowired
 	private EamApiService eamApiService;
 
+	@Autowired
+	private EamWriteDataService eamWriteDataService;
+
 //	@Autowired
 //	private EamEquipmentCompanyService eamEquipmentCompanyService;
 
@@ -281,15 +284,13 @@ public class EamEquipmentController extends BaseController {
 	@RequiresPermissions("eam:equipmentSensor:write")
 	@RequestMapping(value = "/sensor/write", method = RequestMethod.POST)
 	@ResponseBody
-	public Object sensorWrite(String json) {
-		Gson gson = new Gson();
-		EamEquipmentModelPropertiesVO vo = gson.fromJson(json, EamEquipmentModelPropertiesVO.class);
-		boolean success = eamApiService.sensorWrite(vo);
-
+	public Object sensorWrite(@RequestBody EamEquipmentModelPropertiesVO vo) {
+		_log.info("Equipment Model Id = " + vo.getEquipmentModelId());
+		boolean success = eamWriteDataService.sensorWrite(vo);
 		if (success){
-			return new EamResult(SUCCESS, null);
+			return new EamResult(SUCCESS, "写入数据成功");
 		}else {
-			return new EamResult(FAILED, null);
+			return new EamResult(FAILED, "写入数据失败");
 		}
 	}
 

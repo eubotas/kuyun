@@ -8,21 +8,24 @@
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 <div id="updateDialog" class="crudDialog">
 	<form id="updateForm" method="post">
+		<input type="hidden" name="createUserId" value="${video.createUserId}">
+		<input type="hidden" name="createTime" value="${video.createTime}">
+		<input type="hidden" name="companyId" value="${video.companyId}">
 
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group">
 					<div class="fg-line">
-						<label for="name">标题</label>
-						<input id="name" type="text" class="form-control" name="title" maxlength="20" value="${video.title}">
+						<label for="title">标题</label>
+						<input id="title" type="text" class="form-control" name="title" maxlength="20" value="${video.title}">
 					</div>
 				</div>
 			</div>
 			<div class="col-sm-12">
 				<div class="form-group">
 					<div class="fg-line">
-						<label for="comments">标签</label>
-						<input id="comments" type="text" class="form-control" name="tag" maxlength="20" value="${video.tag}">
+						<label for="tag">标签</label>
+						<input id="tag" type="text" class="form-control" name="tag" maxlength="20" value="${video.tag}">
 					</div>
 				</div>
 			</div>
@@ -38,11 +41,11 @@
 function updateSubmit() {
     $.ajax({
         type: 'post',
-        url: '${basePath}/manage/warehouse/update/${video.id}',
+        url: '${basePath}/manage/training/video/update/${video.id}',
         data: $('#updateForm').serialize(),
         beforeSend: function() {
-			if ($('#name').val() == '') {
-				$('#name').focus();
+			if ($('#title').val() == '') {
+				$('#title').focus();
 				return false;
 			}
         },

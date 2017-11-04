@@ -44,6 +44,8 @@
 
     <!-- 设备管理 -->
     <dubbo:reference id="eamApiService" interface="com.kuyun.eam.rpc.api.EamApiService" mock="true"/>
+    <dubbo:reference id="eamWriteDataService" interface="com.kuyun.eam.rpc.api.EamWriteDataService" mock="true"/>
+
 
     <!-- 接入协议 -->
     <dubbo:reference id="eamProtocolService" interface="com.kuyun.eam.rpc.api.EamProtocolService" mock="true"/>

@@ -509,65 +509,7 @@ public class EamApiServiceImpl implements EamApiService {
         return eamApiMapper.selectEquipmentModelProperties(equipmentId);
     }
 
-    @Override
-    public boolean sensorWrite(EamEquipmentModelPropertiesVO equipmentModelPropertiesVO) {
-        boolean result = false;
-        EamEquipmentModel equipmentModel = equipmentModelService.selectByPrimaryKey(equipmentModelPropertiesVO.getEquipmentModelId());
-        EamSensor sensor = eamSensorService.selectByPrimaryKey(equipmentModelPropertiesVO.getSensorId());
 
-        if (ProtocolEnum.GRM.getId() == equipmentModel.getProtocolId()){
-            //1. handle grm write
-            result = handleGrmWrite(equipmentModelPropertiesVO, equipmentModel, sensor);
-        }else if (ProtocolEnum.MODBUS_RTU.getId() == equipmentModel.getProtocolId()){
-            //2. handle modbus write
-            result = handleModbusRtuWrite(equipmentModelPropertiesVO, equipmentModel, sensor);
-        }
-
-        return result;
-    }
-
-    private boolean handleModbusRtuWrite(EamEquipmentModelPropertiesVO equipmentModelPropertiesVO, EamEquipmentModel equipmentModel, EamSensor sensor) {
-        boolean result = false;
-        String deviceId = equipmentModelPropertiesVO.getEquipmentId();
-        String writeValue = equipmentModelPropertiesVO.getWriteValue();
-        int value = 0;
-        try {
-            value = Integer.parseInt(writeValue);
-        }catch (Exception e){
-            _log.error("Write Value Parse To Int Error, write value is {}", writeValue);
-        }
-
-        //TODO: change me!
-        sensor.setWriteNumber(value);
-
-        modbusSlaveRtuApiService.writeData(deviceId, sensor);
-
-        return result;
-    }
-
-    private boolean handleGrmWrite(EamEquipmentModelPropertiesVO equipmentModelPropertiesVO, EamEquipmentModel equipmentModel, EamSensor sensor) {
-        boolean result = false;
-        String deviceId = equipmentModelPropertiesVO.getEquipmentId();
-        String sensorName = sensor.getGrmVariable();
-        String writeValue = equipmentModelPropertiesVO.getWriteValue();
-        StringBuilder requestData = new StringBuilder();
-        requestData.append(1).append("\r");
-        requestData.append(sensorName).append(" ").append(writeValue);
-
-        try {
-            String[] rows = grmApiService.writeData(deviceId, requestData.toString());
-            if (rows != null && rows.length == 3
-                    && "OK".equalsIgnoreCase(rows[0])
-                    && "1".equalsIgnoreCase(rows[1])
-                    && "0".equalsIgnoreCase(rows[2])){
-                result = true;
-            }
-        } catch (IOException e) {
-            _log.error("GRM Write Error:" + e.getMessage());
-        }
-
-        return result;
-    }
 
 
     private EamSensorData handleSensorData(String deviceId, Integer sensorId, String data){

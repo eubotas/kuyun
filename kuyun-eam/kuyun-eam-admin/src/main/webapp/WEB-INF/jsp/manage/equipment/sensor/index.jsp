@@ -74,19 +74,19 @@ $(function() {
             // oldValue:修改前的值
             // -------------------------------------------------
             // 可用ajax方法去更新資料
-			console.log(row);
              $.ajax({
                  type: "post",
                  url: '${basePath}/manage/equipment/sensor/write',
-                 data: row,
+                 data: JSON.stringify(row),
+                 contentType:"application/json",
                  dataType: 'JSON',
                  success: function(data, status) {
                      if (status == "success") {
-                         alert('修改成功');
+                         alert(data.data);
                      }
                  },
                  error: function() {
-                     alert('修改失敗');
+                     alert('写入数据失败');
                  },
                  complete: function() {
 

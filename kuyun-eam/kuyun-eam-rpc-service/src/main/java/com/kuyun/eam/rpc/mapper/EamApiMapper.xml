@@ -464,7 +464,7 @@
 		LEFT JOIN upms_user uu ON uu.user_id = u.user_id
 		LEFT JOIN eam_equipment_model_properties p ON p.equipment_model_property_id = t.equipment_model_property_id
 		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
-		WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0 AND u.delete_flag = 0
+		WHERE t.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0 AND u.delete_flag = 0
 
 		<if test="equipmentIds != null">
 			AND t.equipment_id IN

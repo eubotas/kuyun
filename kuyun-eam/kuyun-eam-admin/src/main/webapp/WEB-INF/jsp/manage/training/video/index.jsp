@@ -153,7 +153,7 @@ function deleteAction() {
                         }
                         $.ajax({
                             type: 'get',
-                            url: '${basePath}/manage/training/video/delete/' + ids.join("-"),
+                            url: '${basePath}/manage/training/video/delete/' + ids.join("::"),
                             success: function(result) {
                                 if (result.code != 1) {
                                     if (result.data instanceof Array) {

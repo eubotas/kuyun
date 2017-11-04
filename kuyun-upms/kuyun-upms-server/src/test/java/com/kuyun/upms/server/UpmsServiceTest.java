@@ -1,6 +1,5 @@
 package com.kuyun.upms.server;
 
-import com.kuyun.upms.dao.model.UpmsSystemExample;
 import com.kuyun.upms.dao.model.UpmsUser;
 import com.kuyun.upms.rpc.api.UpmsSystemService;
 import com.kuyun.upms.rpc.api.UpmsUserService;
@@ -9,7 +8,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
 
 /**
  * 单元测试

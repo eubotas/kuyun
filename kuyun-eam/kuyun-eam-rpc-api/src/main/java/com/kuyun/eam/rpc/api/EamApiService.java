@@ -63,6 +63,6 @@ public interface EamApiService {
 
     List<EamEquipmentModelPropertiesVO> selectEquipmentModelProperties(String equipmentId);
 
-    boolean sensorWrite(EamEquipmentModelPropertiesVO equipmentModelPropertiesVO);
+
 
 }
