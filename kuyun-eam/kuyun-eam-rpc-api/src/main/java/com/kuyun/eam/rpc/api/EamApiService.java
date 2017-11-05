@@ -57,6 +57,10 @@ public interface EamApiService {
 
     Long countEquipments(EamEquipmentVO eamEquipmentVO);
 
+    List<EamEquipmentVO> selectUnConnectDtuEquipments(EamEquipmentVO eamEquipmentVO);
+
+    Long countUnConnectDtuEquipments(EamEquipmentVO eamEquipmentVO);
+
     int persistEquipment(UpmsUserCompany upmsUserCompany, EamEquipment equipment);
 
     void processData(String deviceId, Integer sensorId, String data);

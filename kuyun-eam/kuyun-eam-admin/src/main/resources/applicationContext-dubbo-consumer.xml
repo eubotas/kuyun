@@ -72,6 +72,9 @@
 	
 	<dubbo:reference interface="com.kuyun.eam.rpc.api.EamTicketTypeService" id="eamTicketTypeService" mock="true" />
 
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamDtuService" id="eamDtuService" mock="true" />
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamDtuEquipmentService" id="eamDtuEquipmentService" mock="true" />
+
      <!--报警 -->
     <dubbo:reference id="eamAlarmService" interface="com.kuyun.eam.rpc.api.EamAlarmService" mock="false" />
     <dubbo:reference id="eamAlarmTargetUserService" interface="com.kuyun.eam.rpc.api.EamAlarmTargetUserService" mock="false" />

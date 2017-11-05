@@ -103,7 +103,7 @@ public class EamSensorController extends BaseController {
 				//check modbus
 				if ("1".equalsIgnoreCase(String.valueOf(equipmentModel.getProtocolId()))){
 					ComplexResult result = FluentValidator.checkAll()
-							.on(sensor.getSalveId(), new NotNullValidator("从站地址"))
+							//.on(sensor.getSalveId(), new NotNullValidator("从站地址"))
 							.on(sensor.getAddress(), new NotNullValidator("地址"))
 //							.on(sensor.getPeriod(), new NotNullValidator("采集周期"))
 							.doValidate()

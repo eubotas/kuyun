@@ -4,7 +4,6 @@
   <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamSensor">
     <id column="sensor_id" jdbcType="INTEGER" property="sensorId" />
     <result column="equipment_model_property_id" jdbcType="INTEGER" property="equipmentModelPropertyId" />
-    <result column="salve_id" jdbcType="INTEGER" property="salveId" />
     <result column="function_code" jdbcType="INTEGER" property="functionCode" />
     <result column="address" jdbcType="INTEGER" property="address" />
     <result column="data_format" jdbcType="VARCHAR" property="dataFormat" />
@@ -85,9 +84,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    sensor_id, equipment_model_property_id, salve_id, function_code, address, data_format, 
-    bit_order, period, quantity, write_number, grm_action, grm_variable, grm_variable_value, 
-    osh, osl, ish, isl, create_user_id, create_time, update_user_id, update_time, delete_flag, 
+    sensor_id, equipment_model_property_id, function_code, address, data_format, bit_order, 
+    period, quantity, write_number, grm_action, grm_variable, grm_variable_value, osh, 
+    osl, ish, isl, create_user_id, create_time, update_user_id, update_time, delete_flag, 
     company_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamSensorExample" resultMap="BaseResultMap">
@@ -130,19 +129,19 @@
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamSensor">
     insert into eam_sensor (sensor_id, equipment_model_property_id, 
-      salve_id, function_code, address, 
-      data_format, bit_order, period, 
-      quantity, write_number, grm_action, 
-      grm_variable, grm_variable_value, osh, 
-      osl, ish, isl, create_user_id, 
+      function_code, address, data_format, 
+      bit_order, period, quantity, 
+      write_number, grm_action, grm_variable, 
+      grm_variable_value, osh, osl, 
+      ish, isl, create_user_id, 
       create_time, update_user_id, update_time, 
       delete_flag, company_id)
     values (#{sensorId,jdbcType=INTEGER}, #{equipmentModelPropertyId,jdbcType=INTEGER}, 
-      #{salveId,jdbcType=INTEGER}, #{functionCode,jdbcType=INTEGER}, #{address,jdbcType=INTEGER}, 
-      #{dataFormat,jdbcType=VARCHAR}, #{bitOrder,jdbcType=VARCHAR}, #{period,jdbcType=INTEGER}, 
-      #{quantity,jdbcType=INTEGER}, #{writeNumber,jdbcType=INTEGER}, #{grmAction,jdbcType=VARCHAR}, 
-      #{grmVariable,jdbcType=VARCHAR}, #{grmVariableValue,jdbcType=VARCHAR}, #{osh,jdbcType=DECIMAL}, 
-      #{osl,jdbcType=DECIMAL}, #{ish,jdbcType=DECIMAL}, #{isl,jdbcType=DECIMAL}, #{createUserId,jdbcType=INTEGER}, 
+      #{functionCode,jdbcType=INTEGER}, #{address,jdbcType=INTEGER}, #{dataFormat,jdbcType=VARCHAR}, 
+      #{bitOrder,jdbcType=VARCHAR}, #{period,jdbcType=INTEGER}, #{quantity,jdbcType=INTEGER}, 
+      #{writeNumber,jdbcType=INTEGER}, #{grmAction,jdbcType=VARCHAR}, #{grmVariable,jdbcType=VARCHAR}, 
+      #{grmVariableValue,jdbcType=VARCHAR}, #{osh,jdbcType=DECIMAL}, #{osl,jdbcType=DECIMAL}, 
+      #{ish,jdbcType=DECIMAL}, #{isl,jdbcType=DECIMAL}, #{createUserId,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{deleteFlag,jdbcType=BIT}, #{companyId,jdbcType=INTEGER})
   </insert>
@@ -154,9 +153,6 @@
       </if>
       <if test="equipmentModelPropertyId != null">
         equipment_model_property_id,
-      </if>
-      <if test="salveId != null">
-        salve_id,
       </if>
       <if test="functionCode != null">
         function_code,
@@ -225,9 +221,6 @@
       </if>
       <if test="equipmentModelPropertyId != null">
         #{equipmentModelPropertyId,jdbcType=INTEGER},
-      </if>
-      <if test="salveId != null">
-        #{salveId,jdbcType=INTEGER},
       </if>
       <if test="functionCode != null">
         #{functionCode,jdbcType=INTEGER},
@@ -306,9 +299,6 @@
       <if test="record.equipmentModelPropertyId != null">
         equipment_model_property_id = #{record.equipmentModelPropertyId,jdbcType=INTEGER},
       </if>
-      <if test="record.salveId != null">
-        salve_id = #{record.salveId,jdbcType=INTEGER},
-      </if>
       <if test="record.functionCode != null">
         function_code = #{record.functionCode,jdbcType=INTEGER},
       </if>
@@ -378,7 +368,6 @@
     update eam_sensor
     set sensor_id = #{record.sensorId,jdbcType=INTEGER},
       equipment_model_property_id = #{record.equipmentModelPropertyId,jdbcType=INTEGER},
-      salve_id = #{record.salveId,jdbcType=INTEGER},
       function_code = #{record.functionCode,jdbcType=INTEGER},
       address = #{record.address,jdbcType=INTEGER},
       data_format = #{record.dataFormat,jdbcType=VARCHAR},
@@ -408,9 +397,6 @@
     <set>
       <if test="equipmentModelPropertyId != null">
         equipment_model_property_id = #{equipmentModelPropertyId,jdbcType=INTEGER},
-      </if>
-      <if test="salveId != null">
-        salve_id = #{salveId,jdbcType=INTEGER},
       </if>
       <if test="functionCode != null">
         function_code = #{functionCode,jdbcType=INTEGER},
@@ -442,16 +428,16 @@
       <if test="grmVariableValue != null">
         grm_variable_value = #{grmVariableValue,jdbcType=VARCHAR},
       </if>
-      <if test="osh != null or osh == null">
+      <if test="osh != null">
         osh = #{osh,jdbcType=DECIMAL},
       </if>
-      <if test="osl != null or osl == null">
+      <if test="osl != null">
         osl = #{osl,jdbcType=DECIMAL},
       </if>
-      <if test="ish != null or ish == null">
+      <if test="ish != null">
         ish = #{ish,jdbcType=DECIMAL},
       </if>
-      <if test="isl != null or isl == null">
+      <if test="isl != null">
         isl = #{isl,jdbcType=DECIMAL},
       </if>
       <if test="createUserId != null">
@@ -478,7 +464,6 @@
   <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamSensor">
     update eam_sensor
     set equipment_model_property_id = #{equipmentModelPropertyId,jdbcType=INTEGER},
-      salve_id = #{salveId,jdbcType=INTEGER},
       function_code = #{functionCode,jdbcType=INTEGER},
       address = #{address,jdbcType=INTEGER},
       data_format = #{dataFormat,jdbcType=VARCHAR},
@@ -504,21 +489,21 @@
   <insert id="batchInsert">
     <if test="items.get(0) != null">
             insert into eam_sensor  (sensor_id, equipment_model_property_id, 
-        salve_id, function_code, address, 
-        data_format, bit_order, period, 
-        quantity, write_number, grm_action, 
-        grm_variable, grm_variable_value, osh, 
-        osl, ish, isl, create_user_id, 
+        function_code, address, data_format, 
+        bit_order, period, quantity, 
+        write_number, grm_action, grm_variable, 
+        grm_variable_value, osh, osl, 
+        ish, isl, create_user_id, 
         create_time, update_user_id, update_time, 
         delete_flag, company_id)
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.sensorId,jdbcType=INTEGER}, #{item.equipmentModelPropertyId,jdbcType=INTEGER}, 
-        #{item.salveId,jdbcType=INTEGER}, #{item.functionCode,jdbcType=INTEGER}, #{item.address,jdbcType=INTEGER}, 
-        #{item.dataFormat,jdbcType=VARCHAR}, #{item.bitOrder,jdbcType=VARCHAR}, #{item.period,jdbcType=INTEGER}, 
-        #{item.quantity,jdbcType=INTEGER}, #{item.writeNumber,jdbcType=INTEGER}, #{item.grmAction,jdbcType=VARCHAR}, 
-        #{item.grmVariable,jdbcType=VARCHAR}, #{item.grmVariableValue,jdbcType=VARCHAR}, #{item.osh,jdbcType=DECIMAL}, 
-        #{item.osl,jdbcType=DECIMAL}, #{item.ish,jdbcType=DECIMAL}, #{item.isl,jdbcType=DECIMAL}, #{item.createUserId,jdbcType=INTEGER}, 
+        #{item.functionCode,jdbcType=INTEGER}, #{item.address,jdbcType=INTEGER}, #{item.dataFormat,jdbcType=VARCHAR}, 
+        #{item.bitOrder,jdbcType=VARCHAR}, #{item.period,jdbcType=INTEGER}, #{item.quantity,jdbcType=INTEGER}, 
+        #{item.writeNumber,jdbcType=INTEGER}, #{item.grmAction,jdbcType=VARCHAR}, #{item.grmVariable,jdbcType=VARCHAR}, 
+        #{item.grmVariableValue,jdbcType=VARCHAR}, #{item.osh,jdbcType=DECIMAL}, #{item.osl,jdbcType=DECIMAL}, 
+        #{item.ish,jdbcType=DECIMAL}, #{item.isl,jdbcType=DECIMAL}, #{item.createUserId,jdbcType=INTEGER}, 
         #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
         #{item.deleteFlag,jdbcType=BIT}, #{item.companyId,jdbcType=INTEGER})
       </foreach>

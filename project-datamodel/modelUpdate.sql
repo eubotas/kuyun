@@ -220,3 +220,35 @@ INSERT INTO `upms_permission` VALUES ('417', '6', '400', '设备手册', '2', 'e
 INSERT INTO `upms_permission` VALUES ('418', '6', '417', '新增设备手册', '3', 'eam:equipmentManual:create', '/manage/equipment/manual/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
 INSERT INTO `upms_permission` VALUES ('419', '6', '417', '编辑设备手册', '3', 'eam:equipmentManual:update', '/manage/equipment/manual/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
 INSERT INTO `upms_permission` VALUES ('420', '6', '417', '删除设备手册', '3', 'eam:equipmentManual:delete', '/manage/equipment/manual/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
+
+ALTER TABLE eam_equipment ADD salve_id  int  comment 'Modbus RTU 从站地址';
+--ALTER TABLE eam_sensor DROP COLUMN salve_id;
+
+create table eam_dtu
+(
+   dtu_id         varchar(32),
+   heart_data           varchar(50) comment '心跳包',
+   modbus_rtu_period    int  comment '采集频率',
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   company_id      int,
+   primary key (dtu_id)
+);
+
+create table eam_dtu_equipment
+(
+   id                   int not null auto_increment,
+   dtu_id               varchar(32),
+   equipment_id         varchar(32),
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   company_id      int,
+   primary key (id)
+);
+

@@ -1939,6 +1939,66 @@ public class EamEquipmentExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andSalveIdIsNull() {
+            addCriterion("salve_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSalveIdIsNotNull() {
+            addCriterion("salve_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSalveIdEqualTo(Integer value) {
+            addCriterion("salve_id =", value, "salveId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSalveIdNotEqualTo(Integer value) {
+            addCriterion("salve_id <>", value, "salveId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSalveIdGreaterThan(Integer value) {
+            addCriterion("salve_id >", value, "salveId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSalveIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("salve_id >=", value, "salveId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSalveIdLessThan(Integer value) {
+            addCriterion("salve_id <", value, "salveId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSalveIdLessThanOrEqualTo(Integer value) {
+            addCriterion("salve_id <=", value, "salveId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSalveIdIn(List<Integer> values) {
+            addCriterion("salve_id in", values, "salveId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSalveIdNotIn(List<Integer> values) {
+            addCriterion("salve_id not in", values, "salveId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSalveIdBetween(Integer value1, Integer value2) {
+            addCriterion("salve_id between", value1, value2, "salveId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSalveIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("salve_id not between", value1, value2, "salveId");
+            return (Criteria) this;
+        }
+
         public Criteria addConditionSql(String conditionSql) {
             addCriterion(conditionSql);
             return (Criteria) this;

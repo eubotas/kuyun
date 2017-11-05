@@ -45,5 +45,7 @@ public interface EamApiMapper {
 
     List<EamEquipmentModelPropertiesVO> selectEquipmentModelProperties(String equipmentId);
 
+    List<EamEquipmentVO> selectUnConnectDtuEquipments(EamEquipmentVO eamEquipmentVO);
 
+    Long countUnConnectDtuEquipments(EamEquipmentVO eamEquipmentVO);
 }

@@ -59,6 +59,7 @@ create table eam_equipment
    city                 varchar(10),
    user                 varchar(30),
    collect_status       varchar(10) comment '采集状态',
+   salve_id             int  comment 'Modbus RTU 从站地址',  
    heart_data           varchar(50) comment 'Modbus RTU',
    modbus_rtu_period    int  comment 'Modbus RTU',
    grm                  varchar(50) comment '巨控设备ID',
@@ -133,7 +134,7 @@ create table eam_sensor
 (
    sensor_id            int not null auto_increment,
    equipment_model_property_id int,
-   salve_id             int  comment 'Modbus RTU 从站地址',   
+   --salve_id             int  comment 'Modbus RTU 从站地址',   
    function_code        int  comment 'Modbus RTU 功能码',
    address              int  comment 'Modbus RTU 起始地址',
    data_format          varchar(15) comment 'Modbus RTU 数据格式',
@@ -432,6 +433,8 @@ CREATE TABLE `eam_alarm_record` (
    company_id      int,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+drop table if exists eam_alarm_record_history;
 
 CREATE TABLE `eam_alarm_record_history` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

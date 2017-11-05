@@ -13,6 +13,8 @@ public class EamEquipmentVO extends EamEquipment {
 
     private String orderByClause;
 
+    private String dtuId;
+
     private Boolean checked;
 
     public Integer getLimit() {
@@ -45,5 +47,13 @@ public class EamEquipmentVO extends EamEquipment {
 
     public void setChecked(Boolean checked) {
         this.checked = checked;
+    }
+
+    public String getDtuId() {
+        return dtuId;
+    }
+
+    public void setDtuId(String dtuId) {
+        this.dtuId = dtuId;
     }
 }

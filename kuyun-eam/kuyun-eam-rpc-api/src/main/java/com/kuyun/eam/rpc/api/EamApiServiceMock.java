@@ -126,6 +126,16 @@ public class EamApiServiceMock implements EamApiService {
     }
 
     @Override
+    public List<EamEquipmentVO> selectUnConnectDtuEquipments(EamEquipmentVO eamEquipmentVO) {
+        return null;
+    }
+
+    @Override
+    public Long countUnConnectDtuEquipments(EamEquipmentVO eamEquipmentVO) {
+        return null;
+    }
+
+    @Override
     public int persistEquipment(UpmsUserCompany upmsUserCompany, EamEquipment equipment) {
         return 0;
     }

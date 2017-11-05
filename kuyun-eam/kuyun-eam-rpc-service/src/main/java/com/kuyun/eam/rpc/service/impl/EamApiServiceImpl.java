@@ -483,6 +483,16 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     @Override
+    public List<EamEquipmentVO> selectUnConnectDtuEquipments(EamEquipmentVO eamEquipmentVO) {
+        return eamApiMapper.selectUnConnectDtuEquipments(eamEquipmentVO);
+    }
+
+    @Override
+    public Long countUnConnectDtuEquipments(EamEquipmentVO eamEquipmentVO) {
+        return eamApiMapper.countUnConnectDtuEquipments(eamEquipmentVO);
+    }
+
+    @Override
     public int persistEquipment(UpmsUserCompany upmsUserCompany, EamEquipment equipment){
         eamEquipmentService.insertSelective(equipment);
 

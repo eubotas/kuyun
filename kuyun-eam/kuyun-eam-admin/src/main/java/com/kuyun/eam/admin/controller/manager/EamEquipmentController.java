@@ -280,7 +280,7 @@ public class EamEquipmentController extends BaseController {
 		return result;
 	}
 
-	@ApiOperation(value = "设备参数列表")
+	@ApiOperation(value = "设备写入数据")
 	@RequiresPermissions("eam:equipmentSensor:write")
 	@RequestMapping(value = "/sensor/write", method = RequestMethod.POST)
 	@ResponseBody

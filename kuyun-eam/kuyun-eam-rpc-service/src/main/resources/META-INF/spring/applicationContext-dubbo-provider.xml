@@ -101,5 +101,10 @@
     <bean id="eamSensorWriteDataHistoryServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamSensorWriteDataHistoryServiceImpl"/>
     <dubbo:service interface="com.kuyun.eam.rpc.api.EamSensorWriteDataHistoryService" ref="eamSensorWriteDataHistoryServiceImpl" timeout="10000"/>
 
+    <bean id="eamDtuServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamDtuServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamDtuService" ref="eamDtuServiceImpl" timeout="10000"/>
+
+    <bean id="eamDtuEquipmentServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamDtuEquipmentServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamDtuEquipmentService" ref="eamDtuEquipmentServiceImpl" timeout="10000"/>
 
 </beans>
