@@ -24,6 +24,14 @@
 			<div class="col-sm-12">
 				<div class="form-group">
 					<div class="fg-line">
+						<label for="description">描述</label>
+						<input id="description" type="text" class="form-control" name="description" maxlength="20" value="${video.description}">
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-12">
+				<div class="form-group">
+					<div class="fg-line">
 						<label for="tag">标签</label>
 						<input id="tag" type="text" class="form-control" name="tag" maxlength="20" value="${video.tag}">
 					</div>

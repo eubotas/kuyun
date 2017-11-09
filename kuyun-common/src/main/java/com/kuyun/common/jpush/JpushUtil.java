@@ -5,6 +5,7 @@ import cn.jiguang.common.resp.APIConnectionException;
 import cn.jiguang.common.resp.APIRequestException;
 import cn.jpush.api.JPushClient;
 import cn.jpush.api.push.PushResult;
+import cn.jpush.api.push.model.Options;
 import cn.jpush.api.push.model.Platform;
 import cn.jpush.api.push.model.PushPayload;
 import cn.jpush.api.push.model.audience.Audience;
@@ -19,6 +20,7 @@ import java.util.List;
  */
 public class JpushUtil {
     private static Logger LOG = LoggerFactory.getLogger(JpushUtil.class);
+    private static boolean isTest = false;
 
     protected static final String APP_KEY ="2862c4d46161656aa7ef7cc0";
     protected static final String MASTER_SECRET = "5c04a4b71214f7ad1af23b17";
@@ -47,6 +49,7 @@ public class JpushUtil {
     private static PushPayload buildPushObject_all_alias_alert(List<String> mobiles, String alter) {
         return PushPayload.newBuilder()
                 .setPlatform(Platform.all())
+                .setOptions(Options.newBuilder().setApnsProduction(!isTest).build())
                 .setAudience(Audience.alias(mobiles))
                 .setNotification(Notification.alert(alter))
                 .build();

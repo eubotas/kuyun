@@ -29,6 +29,14 @@
 			<div class="col-sm-12">
 				<div class="form-group">
 					<div class="fg-line">
+						<label for="content">内容</label>
+						<input id="content" type="text" class="form-control" name="content" maxlength="20">
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-12">
+				<div class="form-group">
+					<div class="fg-line">
 						<label for="tag">标签</label>
 						<input id="tag" type="text" class="form-control" name="tag" maxlength="20">
 					</div>

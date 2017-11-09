@@ -8,6 +8,8 @@ import com.kuyun.upms.dao.model.UpmsPermissionExample;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
+
 /**
 * 降级实现UpmsPermissionService接口
 * Created by kuyun on 2017/3/20.
@@ -25,6 +27,11 @@ public class UpmsPermissionServiceMock extends BaseServiceMock<UpmsPermissionMap
     @Override
     public JSONArray getTreeByUserId(Integer usereId, Byte type) {
         _log.info("UpmsPermissionServiceMock => getTreeByUserId");
+        return null;
+    }
+
+    @Override
+    public List<Integer> getPermissionIdsByUserId(Integer usereId, byte type) {
         return null;
     }
 

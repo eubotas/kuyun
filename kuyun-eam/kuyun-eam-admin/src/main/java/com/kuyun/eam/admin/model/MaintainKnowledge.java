@@ -8,16 +8,20 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 /**
  * Created by user on 2017-10-27.
  */
-@Document(indexName="knowledge",type="training-video")
-public class TrainingVideo extends BaseModel{
+@Document(indexName="knowledge",type="maintain-knowledge")
+public class MaintainKnowledge extends BaseModel{
     @Field(type = FieldType.text, fielddata = true, analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
     private String tag;
 
     @Field(type = FieldType.text, fielddata = true, analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
-    private String description;
+    private String title;
 
     @Field(type = FieldType.text, fielddata = true, analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
-    private String title;
+    private String description;
+
+
+    @Field(type = FieldType.text, fielddata = true, analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
+    private String content;
 
     private String path;
 
@@ -53,6 +57,14 @@ public class TrainingVideo extends BaseModel{
 
     public void setOrder(Integer order) {
         this.order = order;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getDescription() {

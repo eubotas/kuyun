@@ -49,7 +49,7 @@ public class EamAlarmRecordHistoryController extends BaseController {
 	@ResponseBody
 	public Object list(EamAlarmRecordVO recordVO) {
 		if (StringUtils.isEmpty(recordVO.getOrderByClause())){
-			recordVO.setOrderByClause("t.equipment_id, t.create_time desc");
+			recordVO.setOrderByClause("t.create_time desc");
 		}
 
 		if (recordVO.getEquipmentIds() == null){

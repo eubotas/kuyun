@@ -5,8 +5,8 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
-import com.kuyun.eam.admin.model.TrainingVideo;
-import com.kuyun.eam.admin.repository.TrainingVideoRepository;
+import com.kuyun.eam.admin.model.TrainingDoc;
+import com.kuyun.eam.admin.repository.TrainingDocRepository;
 import com.kuyun.eam.admin.util.BaseModelUtil;
 import com.kuyun.eam.admin.util.TagUtil;
 import com.kuyun.eam.common.constant.EamResult;
@@ -39,13 +39,13 @@ import static com.kuyun.eam.common.constant.EamResultConstant.SUCCESS;
  * Created by user on 2017-10-27.
  */
 @Controller
-@Api(value = "培训视频管理", description = "培训视频管理")
-@RequestMapping("/manage/training/video")
-public class TrainingVideoController extends BaseController {
-    private static Logger _log = LoggerFactory.getLogger(TrainingVideoController.class);
+@Api(value = "培训文档管理", description = "培训文档管理")
+@RequestMapping("/manage/training/doc")
+public class TrainingDocController extends BaseController {
+    private static Logger _log = LoggerFactory.getLogger(TrainingDocController.class);
 
     @Resource
-    private TrainingVideoRepository trainingVideoRepository;
+    private TrainingDocRepository trainingDocRepository;
 
     @Resource
     private ElasticsearchTemplate elasticsearchTemplate;
@@ -56,15 +56,15 @@ public class TrainingVideoController extends BaseController {
     @Autowired
     private BaseModelUtil baseModelUtil;
 
-    @ApiOperation(value = "培训视频首页")
-    @RequiresPermissions("eam:trainingVideo:read")
+    @ApiOperation(value = "培训文档首页")
+    @RequiresPermissions("eam:trainingDoc:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index() {
-        return "/manage/training/video/index.jsp";
+        return "/manage/training/doc/index.jsp";
     }
 
-    @ApiOperation(value = "培训视频列表")
-    @RequiresPermissions("eam:trainingVideo:read")
+    @ApiOperation(value = "培训文档列表")
+    @RequiresPermissions("eam:trainingDoc:read")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public Object list(
@@ -77,12 +77,12 @@ public class TrainingVideoController extends BaseController {
         _log.info("search content [ {} ]", search);
 
         Pageable pageable = new PageRequest(page, size);
-        Page<TrainingVideo> pageObj = new PageImpl<TrainingVideo>(new ArrayList<TrainingVideo>());
+        Page<TrainingDoc> pageObj = new PageImpl<TrainingDoc>(new ArrayList<TrainingDoc>());
 
         if (StringUtils.isEmpty(search)){
-            pageObj = trainingVideoRepository.findAll(pageable);
+            pageObj = trainingDocRepository.findAll(pageable);
         }else {
-            pageObj = trainingVideoRepository.findByTitleContainingOrTagContainingOrDescriptionContainingOrderByCreateTimeDesc(search, search, search, pageable);
+            pageObj = trainingDocRepository.findByTitleContainingOrTagContainingOrDescriptionContainingOrderByCreateTimeDesc(search, search, search, pageable);
         }
 
         Map<String, Object> result = new HashMap<>();
@@ -91,34 +91,34 @@ public class TrainingVideoController extends BaseController {
         return result;
     }
 
-    @ApiOperation(value = "新增培训视频")
-    @RequiresPermissions("eam:trainingVideo:create")
+    @ApiOperation(value = "新增培训文档")
+    @RequiresPermissions("eam:trainingDoc:create")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create() {
-        return "/manage/training/video/create.jsp";
+        return "/manage/training/doc/create.jsp";
     }
 
-    @ApiOperation(value = "新增培训视频")
-    @RequiresPermissions("eam:trainingVideo:create")
+    @ApiOperation(value = "新增培训文档")
+    @RequiresPermissions("eam:trainingDoc:create")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
-    public Object create(TrainingVideo video) {
+    public Object create(TrainingDoc doc) {
         ComplexResult result = FluentValidator.checkAll()
-                .on(video.getTitle(), new LengthValidator(1, 20, "培训视频标题"))
+                .on(doc.getTitle(), new LengthValidator(1, 20, "培训文档标题"))
                 .doValidate()
                 .result(ResultCollectors.toComplex());
         if (!result.isSuccess()) {
             return new EamResult(INVALID_LENGTH, result.getErrors());
         }
-        baseModelUtil.addAddtionalValue(video);
+        baseModelUtil.addAddtionalValue(doc);
 
-        tagUtil.handleTag(video.getTag());
-        trainingVideoRepository.save(video);
+        tagUtil.handleTag(doc.getTag());
+        trainingDocRepository.save(doc);
         return new EamResult(SUCCESS, 1);
     }
 
-    @ApiOperation(value = "删除培训视频")
-    @RequiresPermissions("eam:trainingVideo:delete")
+    @ApiOperation(value = "删除培训文档")
+    @RequiresPermissions("eam:trainingDoc:delete")
     @RequestMapping(value = "/delete/{ids}",method = RequestMethod.GET)
     @ResponseBody
     public Object delete(@PathVariable("ids") String ids) {
@@ -128,40 +128,40 @@ public class TrainingVideoController extends BaseController {
                 if (StringUtils.isBlank(id)) {
                     continue;
                 }
-                trainingVideoRepository.deleteById(id);
+                trainingDocRepository.deleteById(id);
             }
         }
         return new EamResult(SUCCESS, 1);
     }
 
-    @ApiOperation(value = "修改培训视频")
-    @RequiresPermissions("eam:trainingVideo:update")
+    @ApiOperation(value = "修改培训文档")
+    @RequiresPermissions("eam:trainingDoc:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable("id") String id, ModelMap modelMap) {
 
-        Optional<TrainingVideo> video = trainingVideoRepository.findById(id);
-        if (video.isPresent()){
-            modelMap.put("video", video.orElse(null));
+        Optional<TrainingDoc> doc = trainingDocRepository.findById(id);
+        if (doc.isPresent()){
+            modelMap.put("doc", doc.orElse(null));
         }
 
-        return "/manage/training/video/update.jsp";
+        return "/manage/training/doc/update.jsp";
     }
 
-    @ApiOperation(value = "修改培训视频")
-    @RequiresPermissions("eam:trainingVideo:update")
+    @ApiOperation(value = "修改培训文档")
+    @RequiresPermissions("eam:trainingDoc:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public Object update(@PathVariable("id") String id, TrainingVideo video) {
+    public Object update(@PathVariable("id") String id, TrainingDoc doc) {
         ComplexResult result = FluentValidator.checkAll()
-                .on(video.getTitle(), new LengthValidator(1, 20, "培训视频标题"))
+                .on(doc.getTitle(), new LengthValidator(1, 20, "培训文档标题"))
                 .doValidate()
                 .result(ResultCollectors.toComplex());
         if (!result.isSuccess()) {
             return new EamResult(INVALID_LENGTH, result.getErrors());
         }
-        baseModelUtil.updateAddtionalValue(video);
-        tagUtil.handleTag(video.getTag());
-        trainingVideoRepository.save(video);
+        baseModelUtil.updateAddtionalValue(doc);
+        tagUtil.handleTag(doc.getTag());
+        trainingDocRepository.save(doc);
         return new EamResult(SUCCESS, 1);
     }
 

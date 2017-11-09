@@ -16,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
 * UpmsPermissionService实现
@@ -233,6 +235,22 @@ public class UpmsPermissionServiceImpl extends BaseServiceImpl<UpmsPermissionMap
             }
         }
         return systems;
+    }
+
+    @Override
+    public List<Integer> getPermissionIdsByUserId(Integer usereId, byte type) {
+        List<Integer> result = new ArrayList<>();
+        UpmsUserPermissionExample upmsUserPermissionExample = new UpmsUserPermissionExample();
+        upmsUserPermissionExample.createCriteria()
+                .andUserIdEqualTo(usereId)
+                .andTypeEqualTo(type);
+        List<UpmsUserPermission> upmsUserPermissions = upmsUserPermissionMapper.selectByExample(upmsUserPermissionExample);
+
+        if (upmsUserPermissions != null){
+            result = upmsUserPermissions.stream().map(UpmsUserPermission::getPermissionId).collect(Collectors.toList());
+        }
+
+        return result;
     }
 
 }

@@ -8,18 +8,19 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 /**
  * Created by user on 2017-10-27.
  */
-@Document(indexName="knowledge",type="training-video")
-public class TrainingVideo extends BaseModel{
+@Document(indexName="knowledge",type="repair-knowledge")
+public class RepairKnowledge extends BaseModel{
     @Field(type = FieldType.text, fielddata = true, analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
     private String tag;
+
+    @Field(type = FieldType.text, fielddata = true, analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
+    private String code;
 
     @Field(type = FieldType.text, fielddata = true, analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
     private String description;
 
     @Field(type = FieldType.text, fielddata = true, analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
-    private String title;
-
-    private String path;
+    private String method;
 
     private Integer order;
 
@@ -31,28 +32,12 @@ public class TrainingVideo extends BaseModel{
         this.tag = tag;
     }
 
-    public String getTitle() {
-        return title;
+    public String getCode() {
+        return code;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public Integer getOrder() {
-        return order;
-    }
-
-    public void setOrder(Integer order) {
-        this.order = order;
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getDescription() {
@@ -61,5 +46,21 @@ public class TrainingVideo extends BaseModel{
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
+    public Integer getOrder() {
+        return order;
+    }
+
+    public void setOrder(Integer order) {
+        this.order = order;
     }
 }

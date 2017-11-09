@@ -354,7 +354,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
 
         assignPermission(upmsUser);
 
-        //sendSMSToManager(upmsUser, company);
+        sendSMSToManager(upmsUser, company);
     }
 
     private void sendSMSToManager(UpmsUser argUser, String company) {

@@ -16,14 +16,14 @@
 
 
 		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group">
-					<div class="fg-line">
-						<label for="salveId">从站地址</label>
-						<input id="salveId" type="text" placeholder="地址范围 1 - 247" class="form-control" name="salveId" maxlength="200" <c:if test="${sensor != null}"> value="${sensor.salveId}" </c:if>>
-					</div>
-				</div>
-			</div>
+			<%--<div class="col-sm-12">--%>
+				<%--<div class="form-group">--%>
+					<%--<div class="fg-line">--%>
+						<%--<label for="salveId">从站地址</label>--%>
+						<%--<input id="salveId" type="text" placeholder="地址范围 1 - 247" class="form-control" name="salveId" maxlength="200" <c:if test="${sensor != null}"> value="${sensor.salveId}" </c:if>>--%>
+					<%--</div>--%>
+				<%--</div>--%>
+			<%--</div>--%>
 
 			<div class="col-sm-12">
 				<div class="form-group">

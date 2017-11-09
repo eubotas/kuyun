@@ -1,7 +1,5 @@
 package com.kuyun.upms.server.controller.manage;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
@@ -108,6 +106,14 @@ public class UpmsPermissionController extends BaseController {
     @ResponseBody
     public Object user(@PathVariable("id") int id, HttpServletRequest request) {
         return upmsPermissionService.getTreeByUserId(id, NumberUtils.toByte(request.getParameter("type")));
+    }
+
+    @ApiOperation(value = "用户权限ID列表")
+    @RequiresPermissions("upms:permission:read")
+    @RequestMapping(value = "/ids/user/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public Object permissionIds(@PathVariable("id") int id, HttpServletRequest request) {
+        return upmsPermissionService.getPermissionIdsByUserId(id, NumberUtils.toByte(request.getParameter("type")));
     }
 
     @ApiOperation(value = "新增权限")
