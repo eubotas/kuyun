@@ -8,16 +8,16 @@
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 <div id="updateDialog" class="crudDialog">
 	<form id="updateForm" method="post">
-		<input type="hidden" name="createUserId" value="${doc.createUserId}">
-		<input type="hidden" name="createTime" value="${doc.createTime}">
-		<input type="hidden" name="companyId" value="${doc.companyId}">
+		<input type="hidden" name="createUserId" value="${video.createUserId}">
+		<input type="hidden" name="createTime" value="${video.createTime}">
+		<input type="hidden" name="companyId" value="${video.companyId}">
 
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group">
 					<div class="fg-line">
 						<label for="title">标题</label>
-						<input id="title" type="text" class="form-control" name="title" maxlength="20" value="${doc.title}">
+						<input id="title" type="text" class="form-control" name="title" maxlength="20" value="${video.title}">
 					</div>
 				</div>
 			</div>
@@ -25,15 +25,7 @@
 				<div class="form-group">
 					<div class="fg-line">
 						<label for="description">描述</label>
-						<input id="description" type="text" class="form-control" name="description" maxlength="20" value="${doc.description}">
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-12">
-				<div class="form-group">
-					<div class="fg-line">
-						<label for="content">内容</label>
-						<input id="content" type="text" class="form-control" name="content" maxlength="20" value="${doc.content}">
+						<input id="description" type="text" class="form-control" name="description" maxlength="20" value="${video.description}">
 					</div>
 				</div>
 			</div>
@@ -41,7 +33,7 @@
 				<div class="form-group">
 					<div class="fg-line">
 						<label for="tag">标签</label>
-						<input id="tag" type="text" class="form-control" name="tag" maxlength="20" value="${doc.tag}">
+						<input id="tag" type="text" class="form-control" name="tag" maxlength="20" value="${video.tag}">
 					</div>
 				</div>
 			</div>
@@ -57,7 +49,7 @@
 function updateSubmit() {
     $.ajax({
         type: 'post',
-        url: '${basePath}/manage/training/doc/update/${doc.id}',
+        url: '${basePath}/manage/knowledge/training/video/update/${video.id}',
         data: $('#updateForm').serialize(),
         beforeSend: function() {
 			if ($('#title').val() == '') {

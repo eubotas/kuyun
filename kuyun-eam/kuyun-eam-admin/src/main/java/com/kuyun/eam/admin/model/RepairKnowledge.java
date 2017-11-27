@@ -10,11 +10,11 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  */
 @Document(indexName="knowledge",type="repair-knowledge")
 public class RepairKnowledge extends BaseModel{
-    @Field(type = FieldType.text, fielddata = true, analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
+    @Field(type = FieldType.text, analyzer = "keyword")
     private String tag;
 
     @Field(type = FieldType.text, fielddata = true, analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
-    private String code;
+    private String codes;
 
     @Field(type = FieldType.text, fielddata = true, analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
     private String description;
@@ -32,12 +32,12 @@ public class RepairKnowledge extends BaseModel{
         this.tag = tag;
     }
 
-    public String getCode() {
-        return code;
+    public String getCodes() {
+        return codes;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setCodes(String codes) {
+        this.codes = codes;
     }
 
     public String getDescription() {

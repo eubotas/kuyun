@@ -40,7 +40,7 @@ import static com.kuyun.eam.common.constant.EamResultConstant.SUCCESS;
  */
 @Controller
 @Api(value = "培训文档管理", description = "培训文档管理")
-@RequestMapping("/manage/training/doc")
+@RequestMapping("/manage/knowledge/training/doc")
 public class TrainingDocController extends BaseController {
     private static Logger _log = LoggerFactory.getLogger(TrainingDocController.class);
 
@@ -60,7 +60,7 @@ public class TrainingDocController extends BaseController {
     @RequiresPermissions("eam:trainingDoc:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index() {
-        return "/manage/training/doc/index.jsp";
+        return "/manage/knowledge/training/doc/index.jsp";
     }
 
     @ApiOperation(value = "培训文档列表")
@@ -95,7 +95,7 @@ public class TrainingDocController extends BaseController {
     @RequiresPermissions("eam:trainingDoc:create")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create() {
-        return "/manage/training/doc/create.jsp";
+        return "/manage/knowledge/training/doc/create.jsp";
     }
 
     @ApiOperation(value = "新增培训文档")
@@ -144,7 +144,7 @@ public class TrainingDocController extends BaseController {
             modelMap.put("doc", doc.orElse(null));
         }
 
-        return "/manage/training/doc/update.jsp";
+        return "/manage/knowledge/training/doc/update.jsp";
     }
 
     @ApiOperation(value = "修改培训文档")

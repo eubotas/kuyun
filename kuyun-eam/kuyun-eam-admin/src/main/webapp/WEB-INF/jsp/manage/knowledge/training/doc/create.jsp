@@ -6,18 +6,15 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
-<div id="updateDialog" class="crudDialog">
-	<form id="updateForm" method="post">
-		<input type="hidden" name="createUserId" value="${video.createUserId}">
-		<input type="hidden" name="createTime" value="${video.createTime}">
-		<input type="hidden" name="companyId" value="${video.companyId}">
+<div id="createDialog" class="crudDialog">
+	<form id="createForm" method="post">
 
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group">
 					<div class="fg-line">
 						<label for="title">标题</label>
-						<input id="title" type="text" class="form-control" name="title" maxlength="20" value="${video.title}">
+						<input id="title" type="text" class="form-control" name="title" maxlength="20">
 					</div>
 				</div>
 			</div>
@@ -25,7 +22,15 @@
 				<div class="form-group">
 					<div class="fg-line">
 						<label for="description">描述</label>
-						<input id="description" type="text" class="form-control" name="description" maxlength="20" value="${video.description}">
+						<input id="description" type="text" class="form-control" name="description" maxlength="20">
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-12">
+				<div class="form-group">
+					<div class="fg-line">
+						<label for="content">内容</label>
+						<input id="content" type="text" class="form-control" name="content" maxlength="20">
 					</div>
 				</div>
 			</div>
@@ -33,29 +38,29 @@
 				<div class="form-group">
 					<div class="fg-line">
 						<label for="tag">标签</label>
-						<input id="tag" type="text" class="form-control" name="tag" maxlength="20" value="${video.tag}">
+						<input id="tag" type="text" class="form-control" name="tag" maxlength="20">
 					</div>
 				</div>
 			</div>
 		</div>
 
 		<div class="form-group text-right dialog-buttons">
-			<a class="waves-effect waves-button" href="javascript:;" onclick="updateSubmit();">保存</a>
-			<a class="waves-effect waves-button" href="javascript:;" onclick="updateDialog.close();">取消</a>
+			<a class="waves-effect waves-button" href="javascript:;" onclick="createSubmit();">保存</a>
+			<a class="waves-effect waves-button" href="javascript:;" onclick="createDialog.close();">取消</a>
 		</div>
 	</form>
 </div>
 <script>
-function updateSubmit() {
+function createSubmit() {
     $.ajax({
         type: 'post',
-        url: '${basePath}/manage/training/video/update/${video.id}',
-        data: $('#updateForm').serialize(),
+        url: '${basePath}/manage/knowledge/training/doc/create',
+        data: $('#createForm').serialize(),
         beforeSend: function() {
-			if ($('#title').val() == '') {
-				$('#title').focus();
-				return false;
-			}
+            if ($('#title').val() == '') {
+                $('#title').focus();
+                return false;
+            }
         },
         success: function(result) {
 			if (result.code != 1) {
@@ -91,7 +96,7 @@ function updateSubmit() {
 						});
 				}
 			} else {
-				updateDialog.close();
+				createDialog.close();
 				$table.bootstrapTable('refresh');
 			}
         },

@@ -239,16 +239,44 @@ public class EamDtuController extends BaseController {
 		//add new
 		List<EamDtuEquipment> dtuEquipments = new ArrayList<>();
 		for(String eId : eIdList){
-			EamDtuEquipment dtuEquipment = new EamDtuEquipment();
-			dtuEquipment.setEquipmentId(eId);
-			dtuEquipment.setDtuId(dtuId);
-			dtuEquipment.setDeleteFlag(Boolean.FALSE);
-			dtuEquipment.setCreateTime(new Date());
-			dtuEquipment.setCreateUserId(baseEntityUtil.getCurrentUser().getUserId());
+			EamDtuEquipment dtuEquipment = buildEamDtuEquipment(dtuId, eId);
 			dtuEquipments.add(dtuEquipment);
 		}
 		eamDtuEquipmentService.batchInsert(dtuEquipments);
 		return new UpmsResult(UpmsResultConstant.SUCCESS, 1);
+	}
+
+	@ApiOperation(value = "接入单个设备")
+	@RequiresPermissions("eam:dtu:update")
+	@RequestMapping(value = "/connect/one", method = RequestMethod.POST)
+	@ResponseBody
+	public Object connectOne(String eId, String dtuId) {
+		_log.info("eIds="+eId);
+		_log.info("dtuId="+ dtuId);
+		EamDtuEquipment dtuEquipment = buildEamDtuEquipment(dtuId, eId);
+		eamDtuEquipmentService.insert(dtuEquipment);
+		return new UpmsResult(UpmsResultConstant.SUCCESS, 1);
+	}
+
+	@ApiOperation(value = "移除单个设备")
+	@RequiresPermissions("eam:dtu:update")
+	@RequestMapping(value = "/unconnected/one", method = RequestMethod.POST)
+	@ResponseBody
+	public Object unconnected(String eId) {
+		EamDtuEquipmentExample example = new EamDtuEquipmentExample();
+		example.createCriteria().andEquipmentIdEqualTo(eId);
+		eamDtuEquipmentService.deleteByExample(example);
+		return new UpmsResult(UpmsResultConstant.SUCCESS, 1);
+	}
+
+	private EamDtuEquipment buildEamDtuEquipment(String dtuId, String eId) {
+		EamDtuEquipment dtuEquipment = new EamDtuEquipment();
+		dtuEquipment.setEquipmentId(eId);
+		dtuEquipment.setDtuId(dtuId);
+		dtuEquipment.setDeleteFlag(Boolean.FALSE);
+		dtuEquipment.setCreateTime(new Date());
+		dtuEquipment.setCreateUserId(baseEntityUtil.getCurrentUser().getUserId());
+		return dtuEquipment;
 	}
 
 	@ApiOperation(value = "写入从站地址")

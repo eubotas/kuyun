@@ -222,6 +222,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         return upmsUserOrganizationService.selectFirstByExample(userOrganizationExample);
     }
 
+    @Override
     public List<UpmsUser> selectUsersByUserId(Integer upmsUserId){
         List<UpmsUser> result = new ArrayList<>();
         UpmsOrganization organization = selectParentOrganizationByUserId(upmsUserId);
@@ -251,6 +252,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     }
 
     // 根据角色id获取所属的用户
+    @Override
     public List<UpmsUser> selectUpmsUserByUpmsRoleId(Integer upmsRoleId){
         return upmsApiMapper.selectUpmsUserByUpmsRoleId(upmsRoleId);
     }
@@ -288,6 +290,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     }
 
 
+    @Override
     public String createToken(Object userId) {
         try {
             JWTClaimsSet.Builder builder = new JWTClaimsSet.Builder();
@@ -315,6 +318,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         }
     }
 
+    @Override
     public boolean validateToken(String token) {
 
         try {
@@ -333,6 +337,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
 
     }
 
+    @Override
     public void handleReg(String userName, String name, String password, String email, String phone, String company){
         UpmsUser upmsUser = new UpmsUser();
         upmsUser.setUsername(userName);
@@ -433,6 +438,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         return upmsCompanyService.selectFirstByExample(companyExample);
     }
 
+    @Override
     public UpmsCompany getUpmsCompany(Integer userId){
         return upmsApiMapper.selectUpmsCompany(userId);
     }
@@ -442,6 +448,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         return upmsApiMapper.selectLoginUsers(upmsUserVo);
     }
 
+    @Override
     public UpmsUserCompany getUserCompany(UpmsUser user){
         UpmsUserCompanyExample example = new UpmsUserCompanyExample();
         example.createCriteria().andUserIdEqualTo(user.getUserId());

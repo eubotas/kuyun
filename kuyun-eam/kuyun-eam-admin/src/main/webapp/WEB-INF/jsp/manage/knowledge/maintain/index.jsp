@@ -12,15 +12,15 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>培训视频管理</title>
+	<title>保养知识</title>
 	<jsp:include page="/resources/inc/head.jsp" flush="true"/>
 </head>
 <body>
 <div id="main">
 	<div id="toolbar">
-		<shiro:hasPermission name="eam:trainingVideo:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增培训视频</a></shiro:hasPermission>
-		<shiro:hasPermission name="eam:trainingVideo:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑培训视频</a></shiro:hasPermission>
-		<shiro:hasPermission name="eam:trainingVideo:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()"><i class="zmdi zmdi-close"></i> 删除培训视频</a></shiro:hasPermission>
+		<shiro:hasPermission name="eam:maintainKnowledge:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增保养知识</a></shiro:hasPermission>
+		<shiro:hasPermission name="eam:maintainKnowledge:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑保养知识</a></shiro:hasPermission>
+		<shiro:hasPermission name="eam:maintainKnowledge:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()"><i class="zmdi zmdi-close"></i> 删除保养知识</a></shiro:hasPermission>
 	</div>
 	<table id="table"></table>
 </div>
@@ -30,7 +30,7 @@ var $table = $('#table');
 $(function() {
 	// bootstrap table初始化
 	$table.bootstrapTable({
-		url: '${basePath}/manage/training/video/list',
+		url: '${basePath}/manage/knowledge/maintain/list',
         queryParams:function(p){
 		    console.info("search:"+p.search);
             return {
@@ -58,8 +58,8 @@ $(function() {
 		escape: true,
 		searchOnEnterKey: true,
 		idField: 'id',
-//		sortName: 'orders',
-//        sortOrder: 'desc',
+		sortName: 'orders',
+        sortOrder: 'desc',
 		maintainSelected: true,
 		toolbar: '#toolbar',
 		columns: [
@@ -89,9 +89,9 @@ var createDialog;
 function createAction() {
 	createDialog = $.dialog({
 		animationSpeed: 300,
-		title: '新增培训视频',
+		title: '新增保养知识',
 		columnClass: 'xlarge',
-		content: 'url:${basePath}/manage/training/video/create',
+		content: 'url:${basePath}/manage/knowledge/maintain/create',
 		onContentReady: function () {
 			initMaterialInput();
 			$('select').select2();
@@ -118,9 +118,9 @@ function updateAction() {
 	} else {
 		updateDialog = $.dialog({
 			animationSpeed: 300,
-			title: '编辑培训视频',
+			title: '编辑保养知识',
 			columnClass: 'xlarge',
-			content: 'url:${basePath}/manage/training/video/update/' + rows[0].id,
+			content: 'url:${basePath}/manage/knowledge/maintain/update/' + rows[0].id,
 			onContentReady: function () {
 				initMaterialInput();
 				$('select').select2();
@@ -151,7 +151,7 @@ function deleteAction() {
             type: 'red',
             animationSpeed: 300,
             title: false,
-            content: '确认删除该培训视频吗？',
+            content: '确认删除该保养知识吗？',
             buttons: {
                 confirm: {
                     text: '确认',
@@ -163,7 +163,7 @@ function deleteAction() {
                         }
                         $.ajax({
                             type: 'get',
-                            url: '${basePath}/manage/training/video/delete/' + ids.join("::"),
+                            url: '${basePath}/manage/knowledge/maintain/delete/' + ids.join("::"),
                             success: function(result) {
                                 if (result.code != 1) {
                                     if (result.data instanceof Array) {

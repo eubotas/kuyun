@@ -6,15 +6,18 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
-<div id="createDialog" class="crudDialog">
-	<form id="createForm" method="post">
+<div id="updateDialog" class="crudDialog">
+	<form id="updateForm" method="post">
+		<input type="hidden" name="createUserId" value="${maintain.createUserId}">
+		<input type="hidden" name="createTime" value="${maintain.createTime}">
+		<input type="hidden" name="companyId" value="${maintain.companyId}">
 
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group">
 					<div class="fg-line">
 						<label for="title">标题</label>
-						<input id="title" type="text" class="form-control" name="title" maxlength="20">
+						<input id="title" type="text" class="form-control" name="title" maxlength="20" value="${maintain.title}">
 					</div>
 				</div>
 			</div>
@@ -22,7 +25,7 @@
 				<div class="form-group">
 					<div class="fg-line">
 						<label for="description">描述</label>
-						<input id="description" type="text" class="form-control" name="description" maxlength="20">
+						<input id="description" type="text" class="form-control" name="description" maxlength="20" value="${maintain.description}">
 					</div>
 				</div>
 			</div>
@@ -30,7 +33,7 @@
 				<div class="form-group">
 					<div class="fg-line">
 						<label for="content">内容</label>
-						<input id="content" type="text" class="form-control" name="content" maxlength="20">
+						<input id="content" type="text" class="form-control" name="content" maxlength="20" value="${maintain.content}">
 					</div>
 				</div>
 			</div>
@@ -38,29 +41,29 @@
 				<div class="form-group">
 					<div class="fg-line">
 						<label for="tag">标签</label>
-						<input id="tag" type="text" class="form-control" name="tag" maxlength="20">
+						<input id="tag" type="text" class="form-control" name="tag" maxlength="20" value="${maintain.tag}">
 					</div>
 				</div>
 			</div>
 		</div>
 
 		<div class="form-group text-right dialog-buttons">
-			<a class="waves-effect waves-button" href="javascript:;" onclick="createSubmit();">保存</a>
-			<a class="waves-effect waves-button" href="javascript:;" onclick="createDialog.close();">取消</a>
+			<a class="waves-effect waves-button" href="javascript:;" onclick="updateSubmit();">保存</a>
+			<a class="waves-effect waves-button" href="javascript:;" onclick="updateDialog.close();">取消</a>
 		</div>
 	</form>
 </div>
 <script>
-function createSubmit() {
+function updateSubmit() {
     $.ajax({
         type: 'post',
-        url: '${basePath}/manage/training/video/create',
-        data: $('#createForm').serialize(),
+        url: '${basePath}/manage/knowledge/maintain/update/${maintain.id}',
+        data: $('#updateForm').serialize(),
         beforeSend: function() {
-            if ($('#title').val() == '') {
-                $('#title').focus();
-                return false;
-            }
+			if ($('#title').val() == '') {
+				$('#title').focus();
+				return false;
+			}
         },
         success: function(result) {
 			if (result.code != 1) {
@@ -96,7 +99,7 @@ function createSubmit() {
 						});
 				}
 			} else {
-				createDialog.close();
+				updateDialog.close();
 				$table.bootstrapTable('refresh');
 			}
         },

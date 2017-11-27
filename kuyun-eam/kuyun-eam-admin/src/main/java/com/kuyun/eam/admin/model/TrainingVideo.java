@@ -10,7 +10,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  */
 @Document(indexName="knowledge",type="training-video")
 public class TrainingVideo extends BaseModel{
-    @Field(type = FieldType.text, fielddata = true, analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
+    @Field(type = FieldType.text, analyzer = "keyword")
     private String tag;
 
     @Field(type = FieldType.text, fielddata = true, analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")

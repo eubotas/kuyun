@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface TrainingDocRepository extends ElasticsearchRepository<TrainingDoc, String> {
-    Page<TrainingDoc> findAll(Pageable pageable);
 
     Page<TrainingDoc> findByTitleContainingOrTagContainingOrDescriptionContainingOrderByCreateTimeDesc(String title, String tag, String description, Pageable pageable);
 

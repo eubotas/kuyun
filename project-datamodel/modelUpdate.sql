@@ -196,30 +196,32 @@ create table eam_sensor_write_data_history
 
 
 INSERT INTO `upms_permission` VALUES ('400', '6', '0', '知识管理', '1', null, null, 'zmdi zmdi-collection-text', '1', '400', '400');
-INSERT INTO `upms_permission` VALUES ('401', '6', '400', '培训视频', '2', 'eam:trainingVideo:read',   '/manage/training/video/index', null, '1', '270', '270');
-INSERT INTO `upms_permission` VALUES ('402', '6', '401', '新增培训视频', '3', 'eam:trainingVideo:create', '/manage/training/video/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
-INSERT INTO `upms_permission` VALUES ('403', '6', '401', '编辑培训视频', '3', 'eam:trainingVideo:update', '/manage/training/video/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
-INSERT INTO `upms_permission` VALUES ('404', '6', '401', '删除培训视频', '3', 'eam:trainingVideo:delete', '/manage/training/video/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
+INSERT INTO `upms_permission` VALUES ('401', '6', '400', '知识搜索', '2', 'eam:knowledge:read',   '/manage/knowledge/index', null, '1', '270', '270');
+INSERT INTO `upms_permission` VALUES ('402', '6', '400', '培训视频', '2', 'eam:trainingVideo:read',   '/manage/knowledge/training/video/index', null, '1', '270', '270');
+INSERT INTO `upms_permission` VALUES ('403', '6', '402', '新增培训视频', '3', 'eam:trainingVideo:create', '/manage/knowledge/training/video/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
+INSERT INTO `upms_permission` VALUES ('404', '6', '402', '编辑培训视频', '3', 'eam:trainingVideo:update', '/manage/knowledge/training/video/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
+INSERT INTO `upms_permission` VALUES ('405', '6', '402', '删除培训视频', '3', 'eam:trainingVideo:delete', '/manage/knowledge/training/video/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
 
-INSERT INTO `upms_permission` VALUES ('405', '6', '400', '培训文档', '2', 'eam:trainingDoc:read',   '/manage/training/doc/index', null, '1', '270', '270');
-INSERT INTO `upms_permission` VALUES ('406', '6', '405', '新增培训文档', '3', 'eam:trainingDoc:create', '/manage/training/doc/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
-INSERT INTO `upms_permission` VALUES ('407', '6', '405', '编辑培训文档', '3', 'eam:trainingDoc:update', '/manage/training/doc/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
-INSERT INTO `upms_permission` VALUES ('408', '6', '405', '删除培训文档', '3', 'eam:trainingDoc:delete', '/manage/training/doc/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
+INSERT INTO `upms_permission` VALUES ('406', '6', '400', '培训文档', '2', 'eam:trainingDoc:read',   '/manage/knowledge/training/doc/index', null, '1', '270', '270');
+INSERT INTO `upms_permission` VALUES ('407', '6', '406', '新增培训文档', '3', 'eam:trainingDoc:create', '/manage/knowledge/training/doc/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
+INSERT INTO `upms_permission` VALUES ('408', '6', '406', '编辑培训文档', '3', 'eam:trainingDoc:update', '/manage/knowledge/training/doc/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
+INSERT INTO `upms_permission` VALUES ('409', '6', '406', '删除培训文档', '3', 'eam:trainingDoc:delete', '/manage/knowledge/training/doc/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
 
-INSERT INTO `upms_permission` VALUES ('409', '6', '400', '保养知识', '2', 'eam:maintainKnowledge:read',   '/manage/maintain/knowledge/index', null, '1', '270', '270');
-INSERT INTO `upms_permission` VALUES ('410', '6', '409', '新增保养知识', '3', 'eam:maintainKnowledge:create', '/manage/maintain/knowledge/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
-INSERT INTO `upms_permission` VALUES ('411', '6', '409', '编辑保养知识', '3', 'eam:maintainKnowledge:update', '/manage/maintain/knowledge/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
-INSERT INTO `upms_permission` VALUES ('412', '6', '409', '删除保养知识', '3', 'eam:maintainKnowledge:delete', '/manage/maintain/knowledge/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
+INSERT INTO `upms_permission` VALUES ('410', '6', '400', '保养知识', '2', 'eam:maintainKnowledge:read',   '/manage/knowledge/maintain/index', null, '1', '270', '270');
+INSERT INTO `upms_permission` VALUES ('411', '6', '410', '新增保养知识', '3', 'eam:maintainKnowledge:create', '/manage/knowledge/maintain/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
+INSERT INTO `upms_permission` VALUES ('412', '6', '410', '编辑保养知识', '3', 'eam:maintainKnowledge:update', '/manage/knowledge/maintain/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
+INSERT INTO `upms_permission` VALUES ('413', '6', '410', '删除保养知识', '3', 'eam:maintainKnowledge:delete', '/manage/knowledge/maintain/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
 
-INSERT INTO `upms_permission` VALUES ('413', '6', '400', '维修知识', '2', 'eam:repairKnowledge:read',   '/manage/repair/knowledge/index', null, '1', '270', '270');
-INSERT INTO `upms_permission` VALUES ('414', '6', '413', '新增维修知识', '3', 'eam:repairKnowledge:create', '/manage/repair/knowledge/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
-INSERT INTO `upms_permission` VALUES ('415', '6', '413', '编辑维修知识', '3', 'eam:repairKnowledge:update', '/manage/repair/knowledge/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
-INSERT INTO `upms_permission` VALUES ('416', '6', '413', '删除维修知识', '3', 'eam:repairKnowledge:delete', '/manage/repair/knowledge/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
+INSERT INTO `upms_permission` VALUES ('414', '6', '400', '维修知识', '2', 'eam:repairKnowledge:read',   '/manage/knowledge/repair/index', null, '1', '270', '270');
+INSERT INTO `upms_permission` VALUES ('415', '6', '414', '新增维修知识', '3', 'eam:repairKnowledge:create', '/manage/knowledge/repair/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
+INSERT INTO `upms_permission` VALUES ('416', '6', '414', '编辑维修知识', '3', 'eam:repairKnowledge:update', '/manage/knowledge/repair/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
+INSERT INTO `upms_permission` VALUES ('417', '6', '414', '删除维修知识', '3', 'eam:repairKnowledge:delete', '/manage/knowledge/repair/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
 
-INSERT INTO `upms_permission` VALUES ('417', '6', '400', '设备手册', '2', 'eam:equipmentManual:read',   '/manage/equipment/manual/index', null, '1', '270', '270');
-INSERT INTO `upms_permission` VALUES ('418', '6', '417', '新增设备手册', '3', 'eam:equipmentManual:create', '/manage/equipment/manual/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
-INSERT INTO `upms_permission` VALUES ('419', '6', '417', '编辑设备手册', '3', 'eam:equipmentManual:update', '/manage/equipment/manual/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
-INSERT INTO `upms_permission` VALUES ('420', '6', '417', '删除设备手册', '3', 'eam:equipmentManual:delete', '/manage/equipment/manual/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
+INSERT INTO `upms_permission` VALUES ('418', '6', '400', '设备手册', '2', 'eam:equipmentManual:read',   '/manage/knowledge/manual/index', null, '1', '270', '270');
+INSERT INTO `upms_permission` VALUES ('419', '6', '418', '新增设备手册', '3', 'eam:equipmentManual:create', '/manage/knowledge/manual/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
+INSERT INTO `upms_permission` VALUES ('420', '6', '418', '编辑设备手册', '3', 'eam:equipmentManual:update', '/manage/knowledge/manual/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
+INSERT INTO `upms_permission` VALUES ('421', '6', '418', '删除设备手册', '3', 'eam:equipmentManual:delete', '/manage/knowledge/manual/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
+
 
 ALTER TABLE eam_equipment ADD salve_id  int  comment 'Modbus RTU 从站地址';
 --ALTER TABLE eam_sensor DROP COLUMN salve_id;
@@ -227,6 +229,7 @@ ALTER TABLE eam_equipment ADD salve_id  int  comment 'Modbus RTU 从站地址';
 create table eam_dtu
 (
    dtu_id         varchar(32),
+   name           varchar(50),
    heart_data           varchar(50) comment '心跳包',
    modbus_rtu_period    int  comment '采集频率',
    create_user_id       int,
@@ -251,4 +254,10 @@ create table eam_dtu_equipment
    company_id      int,
    primary key (id)
 );
+
+INSERT INTO `upms_permission` VALUES ('290', '6', '0', ' DTU管理', '1', null, null, 'zmdi zmdi-collection-text', '1', '205', '205');
+INSERT INTO `upms_permission` VALUES ('291', '6', '290', 'DTU管理', '2', 'eam:dtu:read',   '/manage/dtu/index', null, '1', '291', '291');
+INSERT INTO `upms_permission` VALUES ('292', '6', '291', '新增DTU', '3', 'eam:dtu:create', '/manage/dtu/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
+INSERT INTO `upms_permission` VALUES ('293', '6', '291', '编辑DTU', '3', 'eam:dtu:update', '/manage/dtu/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
+INSERT INTO `upms_permission` VALUES ('294', '6', '291', '删除DTU', '3', 'eam:dtu:delete', '/manage/dtu/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
 
