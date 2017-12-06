@@ -8,32 +8,38 @@ import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.admin.model.TrainingDoc;
 import com.kuyun.eam.admin.repository.TrainingDocRepository;
 import com.kuyun.eam.admin.util.BaseModelUtil;
+import com.kuyun.eam.admin.util.KnowledgeCategory;
 import com.kuyun.eam.admin.util.TagUtil;
 import com.kuyun.eam.common.constant.EamResult;
+import com.kuyun.upms.client.util.BaseEntityUtil;
+import com.kuyun.upms.dao.model.UpmsUserCompany;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
+import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+import static com.kuyun.eam.admin.controller.manager.KnowledgeController.*;
 import static com.kuyun.eam.common.constant.EamResultConstant.INVALID_LENGTH;
 import static com.kuyun.eam.common.constant.EamResultConstant.SUCCESS;
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Created by user on 2017-10-27.
@@ -56,6 +62,9 @@ public class TrainingDocController extends BaseController {
     @Autowired
     private BaseModelUtil baseModelUtil;
 
+    @Autowired
+    private BaseEntityUtil baseEntityUtil;
+
     @ApiOperation(value = "培训文档首页")
     @RequiresPermissions("eam:trainingDoc:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
@@ -76,14 +85,32 @@ public class TrainingDocController extends BaseController {
 
         _log.info("search content [ {} ]", search);
 
-        Pageable pageable = new PageRequest(page, size);
-        Page<TrainingDoc> pageObj = new PageImpl<TrainingDoc>(new ArrayList<TrainingDoc>());
+        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+        _log.info("companyId="+company.getCompanyId());
 
-        if (StringUtils.isEmpty(search)){
-            pageObj = trainingDocRepository.findAll(pageable);
+        SearchQuery searchQuery = null;
+
+        if (StringUtils.isNotEmpty(search)){
+            searchQuery = new NativeSearchQueryBuilder()
+                    .withIndices(INDEX_NAME)
+                    .withTypes(KnowledgeCategory.TRAINING_DOC.getName())
+                    .withQuery(multiMatchQuery(search, TITLE, DESCRIPTION, TAG))
+                    .withFilter(boolQuery().filter(termQuery("companyId", company.getCompanyId())))
+                    .withSort(SortBuilders.fieldSort(CREATE_TIME).order(SortOrder.DESC))
+                    .withPageable(new PageRequest(page, size))
+                    .build();
         }else {
-            pageObj = trainingDocRepository.findByTitleContainingOrTagContainingOrDescriptionContainingOrderByCreateTimeDesc(search, search, search, pageable);
+            searchQuery = new NativeSearchQueryBuilder()
+                    .withIndices(INDEX_NAME)
+                    .withTypes(KnowledgeCategory.TRAINING_DOC.getName())
+                    .withFilter(boolQuery().filter(termQuery("companyId", company.getCompanyId())))
+                    .withSort(SortBuilders.fieldSort(CREATE_TIME).order(SortOrder.DESC))
+                    .withPageable(new PageRequest(page, size))
+                    .build();
         }
+
+        Page<TrainingDoc> pageObj = elasticsearchTemplate.queryForPage(searchQuery, TrainingDoc.class);
+
 
         Map<String, Object> result = new HashMap<>();
         result.put("rows", pageObj.getContent());

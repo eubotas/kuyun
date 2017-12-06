@@ -551,13 +551,16 @@
 	</sql>
 
 	<resultMap id="EamEquipmentVOResultMap" type="com.kuyun.eam.vo.EamEquipmentVO" extends="com.kuyun.eam.dao.mapper.EamEquipmentMapper.BaseResultMap">
+		<result column="dtu_id" jdbcType="VARCHAR" property="dtuId" />
 	</resultMap>
 
 	<select id="selectEquipments" parameterType="com.kuyun.eam.vo.EamEquipmentVO" resultMap="EamEquipmentVOResultMap">
 		select
+		d.dtu_id,
 		<include refid="Equipment_Column_List" />
 		from eam_equipment t
 		LEFT JOIN eam_equipment_company e ON t.equipment_id = e.equipment_id
+		LEFT JOIN eam_dtu_equipment d ON t.equipment_id = d.equipment_id AND d.delete_flag = 0
 		WHERE t.delete_flag = 0 AND e.delete_flag = 0
 		<if test="companyId != null and companyId != ''">
 			AND e.company_id = #{companyId}
@@ -579,6 +582,7 @@
 		select count(*)
 		from eam_equipment t
 		LEFT JOIN eam_equipment_company e ON t.equipment_id = e.equipment_id
+		LEFT JOIN eam_dtu_equipment d ON t.equipment_id = d.equipment_id AND d.delete_flag = 0
 		WHERE t.delete_flag = 0 AND e.delete_flag = 0
 		<if test="companyId != null and companyId != ''">
 			AND e.company_id = #{companyId}

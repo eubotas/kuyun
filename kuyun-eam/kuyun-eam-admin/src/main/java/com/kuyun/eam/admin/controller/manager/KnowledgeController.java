@@ -1,19 +1,14 @@
 package com.kuyun.eam.admin.controller.manager;
 
-import com.baidu.unbiz.fluentvalidator.ComplexResult;
-import com.baidu.unbiz.fluentvalidator.FluentValidator;
-import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
-import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.admin.model.BaseModel;
-import com.kuyun.eam.admin.model.MaintainKnowledge;
 import com.kuyun.eam.admin.model.ResultAggregator;
-import com.kuyun.eam.admin.repository.MaintainKnowledgeRepository;
 import com.kuyun.eam.admin.repository.TagRepository;
 import com.kuyun.eam.admin.util.BaseModelUtil;
 import com.kuyun.eam.admin.util.KnowledgeCategory;
 import com.kuyun.eam.admin.util.TagUtil;
-import com.kuyun.eam.common.constant.EamResult;
+import com.kuyun.upms.client.util.BaseEntityUtil;
+import com.kuyun.upms.dao.model.UpmsUserCompany;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -22,32 +17,35 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
+import org.elasticsearch.search.sort.SortBuilders;
+import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.SearchResultMapper;
 import org.springframework.data.elasticsearch.core.aggregation.AggregatedPage;
 import org.springframework.data.elasticsearch.core.aggregation.impl.AggregatedPageImpl;
+import org.springframework.data.elasticsearch.core.query.GetQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-import static com.kuyun.eam.common.constant.EamResultConstant.INVALID_LENGTH;
-import static com.kuyun.eam.common.constant.EamResultConstant.SUCCESS;
-import static org.elasticsearch.index.query.QueryBuilders.matchAllQuery;
-import static org.elasticsearch.index.query.QueryBuilders.multiMatchQuery;
-import static org.elasticsearch.index.query.QueryBuilders.termQuery;
+import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Created by user on 2017-10-27.
@@ -65,25 +63,31 @@ public class KnowledgeController extends BaseController {
     private ElasticsearchTemplate elasticsearchTemplate;
 
     @Autowired
+    private BaseEntityUtil baseEntityUtil;
+
+    @Autowired
     private TagUtil tagUtil;
 
     @Autowired
     private BaseModelUtil baseModelUtil;
 
-    private static final String INDEX_NAME = "knowledge";
-    private static final String DESCRIPTION = "description";
-    private static final String TITLE = "title";
-    private static final String CODE = "codes";
+    public static final String INDEX_NAME = "knowledge";
+    public static final String DESCRIPTION = "description";
+    public static final String TITLE = "title";
+    public static final String CODE = "codes";
     private static final String PRE_TAGS = "<span class='keyword-highlight'>";
     private static final String POST_TAGS = "</span>";
-    private static final String TAG = "tag";
+    public static final String TAG = "tag";
+    public static final String CREATE_TIME = "createTime";
 
 
     @ApiOperation(value = "知识搜索首页")
     @RequiresPermissions("eam:knowledge:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index(ModelMap modelMap) {
-        modelMap.put("tags", tagRepository.findAll());
+        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+        _log.info("companyId="+company.getCompanyId());
+        modelMap.put("tags", tagRepository.findByCompanyId(company.getCompanyId()));
         return "/manage/knowledge/index.jsp";
     }
 
@@ -120,13 +124,19 @@ public class KnowledgeController extends BaseController {
         HighlightBuilder.Field titleField = new HighlightBuilder.Field(TITLE).preTags(PRE_TAGS).postTags(POST_TAGS);
         HighlightBuilder.Field codeField = new HighlightBuilder.Field(CODE).preTags(PRE_TAGS).postTags(POST_TAGS);
 
+        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+
+
         if (!StringUtils.isEmpty(k)){
             searchQuery = new NativeSearchQueryBuilder()
                     .withIndices(INDEX_NAME)
                     .withTypes(types.toArray(new String[types.size()]))
                     .withQuery(multiMatchQuery(k, TITLE, DESCRIPTION, CODE))
+                    .withFilter(boolQuery().filter(termQuery("companyId", company.getCompanyId())))
+//                    .withQuery(termQuery("companyId", company.getCompanyId()))
                     .withHighlightFields(codeField, descriptionField, titleField)
 //                    .withHighlightFields(fields.toArray(new HighlightBuilder.Field[fields.size()]))
+                    .withSort(SortBuilders.fieldSort(CREATE_TIME).order(SortOrder.DESC))
                     .withPageable(new PageRequest(page, size))
                     .build();
         }else if (!StringUtils.isEmpty(t)){
@@ -134,6 +144,8 @@ public class KnowledgeController extends BaseController {
                     .withIndices(INDEX_NAME)
                     .withTypes(types.toArray(new String[types.size()]))
                     .withQuery(termQuery(TAG, t))
+                    .withFilter(boolQuery().filter(termQuery("companyId", company.getCompanyId())))
+                    .withSort(SortBuilders.fieldSort(CREATE_TIME).order(SortOrder.DESC))
                     .withPageable(new PageRequest(page, size))
                     .build();
         }
@@ -227,6 +239,22 @@ public class KnowledgeController extends BaseController {
         }
 
         return result;
+    }
+
+    @ApiOperation(value = "显示知识内容")
+    @RequiresPermissions("eam:knowledge:read")
+    @RequestMapping(value = "/{category}/{id}", method = RequestMethod.GET)
+    public String show(@PathVariable("category") String category, @PathVariable("id") String id, ModelMap modelMap) {
+        KnowledgeCategory knowledge = KnowledgeCategory.getKnowledge(category);
+        if (knowledge != null && StringUtils.isNotEmpty(id)){
+            GetQuery query = new GetQuery();
+            query.setId(id);
+            BaseModel model = (BaseModel) elasticsearchTemplate.queryForObject(query, knowledge.getClazz());
+            modelMap.put("model", model);
+            modelMap.put("category", knowledge.getName());
+        }
+
+        return "/manage/knowledge/show.jsp";
     }
 
 }

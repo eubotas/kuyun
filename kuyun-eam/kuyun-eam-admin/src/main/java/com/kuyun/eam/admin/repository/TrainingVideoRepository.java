@@ -14,4 +14,5 @@ public interface TrainingVideoRepository extends ElasticsearchRepository<Trainin
 
     Page<TrainingVideo> findByTitleContainingOrTagContainingOrDescriptionContainingOrderByCreateTimeDesc(String title, String tag, String description, Pageable pageable);
 
+    Page<TrainingVideo> findByCompanyId(Pageable var1);
 }

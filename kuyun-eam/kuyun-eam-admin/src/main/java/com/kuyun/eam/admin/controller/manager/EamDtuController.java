@@ -145,10 +145,11 @@ public class EamDtuController extends BaseController {
 
 	@ApiOperation(value = "修改DTU")
 	@RequiresPermissions("eam:dtu:update")
-	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+	@RequestMapping(value= "/update/{id}", method = RequestMethod.POST)
 	@ResponseBody
 	public Object update(@PathVariable("id") String id, EamDtu dtu) {
 		baseEntityUtil.updateAddtionalValue(dtu);
+		dtu.setDtuId(id);
 		int count = eamDtuService.updateByPrimaryKeySelective(dtu);
 		return new EamResult(SUCCESS, count);
 	}

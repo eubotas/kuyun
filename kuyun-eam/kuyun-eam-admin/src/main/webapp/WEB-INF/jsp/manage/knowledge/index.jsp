@@ -95,7 +95,7 @@
 
 <div class="index-tags">
     <div class="index-tags-wrapper clearfix">
-        <c:forEach var="tag" items="${tags.content}">
+        <c:forEach var="tag" items="${tags}">
             <a href="${basePath}/manage/knowledge/search?k=&t=${tag.tag}">${tag.tag}  </a>
         </c:forEach>
     </div>

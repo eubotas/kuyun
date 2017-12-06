@@ -20,6 +20,8 @@ public class EamDtu extends BaseEntity implements Serializable {
      */
     private Integer modbusRtuPeriod;
 
+    private String name;
+
     private static final long serialVersionUID = 1L;
 
     public String getDtuId() {
@@ -46,6 +48,14 @@ public class EamDtu extends BaseEntity implements Serializable {
         this.modbusRtuPeriod = modbusRtuPeriod;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -55,6 +65,7 @@ public class EamDtu extends BaseEntity implements Serializable {
         sb.append(", dtuId=").append(dtuId);
         sb.append(", heartData=").append(heartData);
         sb.append(", modbusRtuPeriod=").append(modbusRtuPeriod);
+        sb.append(", name=").append(name);
         sb.append("]");
         return sb.toString();
     }
@@ -79,7 +90,8 @@ public class EamDtu extends BaseEntity implements Serializable {
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()));
+            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()))
+            && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()));
     }
 
     @Override
@@ -95,6 +107,7 @@ public class EamDtu extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
+        result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         return result;
     }
 }

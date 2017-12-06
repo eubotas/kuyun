@@ -255,7 +255,7 @@ create table eam_dtu_equipment
    primary key (id)
 );
 
-INSERT INTO `upms_permission` VALUES ('290', '6', '0', ' DTU管理', '1', null, null, 'zmdi zmdi-collection-text', '1', '205', '205');
+INSERT INTO `upms_permission` VALUES ('290', '6', '0', 'DTU管理', '1', null, null, 'zmdi zmdi-collection-text', '1', '205', '205');
 INSERT INTO `upms_permission` VALUES ('291', '6', '290', 'DTU管理', '2', 'eam:dtu:read',   '/manage/dtu/index', null, '1', '291', '291');
 INSERT INTO `upms_permission` VALUES ('292', '6', '291', '新增DTU', '3', 'eam:dtu:create', '/manage/dtu/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
 INSERT INTO `upms_permission` VALUES ('293', '6', '291', '编辑DTU', '3', 'eam:dtu:update', '/manage/dtu/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');

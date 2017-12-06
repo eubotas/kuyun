@@ -42,6 +42,12 @@
 					</div>
 				</div>
 			</div>
+
+			<div class="col-sm-12">
+				<div id="fine-uploader-gallery">附件</div>
+				<input id="path" class="form-control"  name="path" maxlength="500">
+			</div>
+
 		</div>
 
 		<div class="form-group text-right dialog-buttons">

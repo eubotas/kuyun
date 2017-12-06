@@ -59,6 +59,7 @@ $(function() {
 		columns: [
 			{field: 'ck', checkbox: true},
 			{field: 'dtuId', title: '注册包', sortable: true, align: 'center'},
+			{field: 'name', title: '名称'},
 			{field: 'heartData', title: '心跳包'},
 			{field: 'modbusRtuPeriod', title: '采集频率'},
 			{field: 'createTime', title: '创建时间', formatter: 'timeFormatter'},

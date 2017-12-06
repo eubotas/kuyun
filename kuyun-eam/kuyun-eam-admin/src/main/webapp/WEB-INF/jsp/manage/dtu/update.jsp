@@ -13,19 +13,27 @@
 			<div class="col-sm-12">
 				<div class="form-group">
 					<div class="fg-line">
-						<label for="heartData">心跳包</label>
-						<input id="heartData" type="text" class="form-control" name="heartData" maxlength="20" value="${dtu.heartData}">
+						<label for="name">名称</label>
+						<input id="name" type="text" class="form-control" name="name" maxlength="20" value="${dtu.name}">
 					</div>
 				</div>
 			</div>
 			<div class="col-sm-12">
 				<div class="form-group">
 					<div class="fg-line">
-						<label for="modbusRtuPeriod">采集频率<label>
-						<input id="modbusRtuPeriod" type="text" class="form-control" name="modbusRtuPeriod" maxlength="20" value="${dtu.modbusRtuPeriod}">
+						<label for="heartData">心跳包</label>
+						<input id="heartData" type="text" class="form-control" name="heartData" maxlength="20" value="${dtu.heartData}">
 					</div>
 				</div>
 			</div>
+			<%--<div class="col-sm-12">--%>
+				<%--<div class="form-group">--%>
+					<%--<div class="fg-line">--%>
+						<%--<label for="modbusRtuPeriod">采集频率</label>--%>
+						<%--<input id="modbusRtuPeriod" type="text" class="form-control" name="modbusRtuPeriod" maxlength="20" value="${dtu.modbusRtuPeriod}">--%>
+					<%--</div>--%>
+				<%--</div>--%>
+			<%--</div>--%>
 		</div>
 
 		<div class="form-group text-right dialog-buttons">

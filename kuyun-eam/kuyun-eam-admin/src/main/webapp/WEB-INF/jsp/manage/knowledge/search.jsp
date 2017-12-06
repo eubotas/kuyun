@@ -40,7 +40,7 @@
                 <ul>
                     <li class="search-item">
                         <c:forEach var="row" items="${rows}">
-                            <h4>${row.title}</h4>
+                            <a href="${basePath}/manage/knowledge/${row.type}/${row.id}"><h4>${row.title}</h4>  </a>
                             <p class="desc">${row.description}</p>
                             <div class="info"></div>
                         </c:forEach>
