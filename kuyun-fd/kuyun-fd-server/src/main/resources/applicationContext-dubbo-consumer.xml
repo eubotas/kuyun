@@ -8,9 +8,9 @@
 
 	<dubbo:application name="kuyun-fd-server" />
 
-	<dubbo:registry address="zookeeper://127.0.0.1:2181"
+	<dubbo:registry address="zookeeper://${zkserver}:2181"
 		default="false" />
-	<dubbo:registry id="upmsRegistry" address="zookeeper://127.0.0.1:2181" />
+	<dubbo:registry id="upmsRegistry" address="zookeeper://${zkserver}:2181" />
 
 	<!-- 订阅服务 -->
 	<dubbo:consumer check="false" />

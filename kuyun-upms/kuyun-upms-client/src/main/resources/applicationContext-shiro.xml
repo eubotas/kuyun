@@ -7,14 +7,20 @@
 
     <description>kuyun-upms</description>
 
-    <context:property-placeholder location="classpath*:kuyun-upms-client.properties"/>
+    <bean id="propertyConfigurer" class="com.kuyun.common.plugin.EncryptPropertyPlaceholderConfigurer">
+    <property name="locations">
+        <list>
+            <value>classpath:kuyun-upms-client.properties</value>
+        </list>
+    </property>
+</bean>
 
     <!-- Shiro的Web过滤器 -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
-        <property name="loginUrl" value="${sso.server.url}"/>
-        <property name="successUrl" value="${upms.successUrl}"/>
-        <property name="unauthorizedUrl" value="${upms.unauthorizedUrl}"/>
+        <property name="loginUrl" value="${kuyun.upms.sso.server.url}"/>
+        <property name="successUrl" value="${kuyun.upms.successUrl}"/>
+        <property name="unauthorizedUrl" value="${kuyun.upms.unauthorizedUrl}"/>
         <property name="filters">
             <util:map>
                 <!--<entry key="authc" value-ref="upmsAuthenticationFilter"/>-->
@@ -84,7 +90,7 @@
     <!-- 会话管理器 -->
     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
         <!-- 全局session超时时间 -->
-        <property name="globalSessionTimeout" value="${upms.session.timeout}"/>
+        <property name="globalSessionTimeout" value="${kuyun.upms.session.timeout}"/>
         <!-- sessionDAO -->
         <property name="sessionDAO" ref="sessionDAO"/>
         <property name="sessionIdCookieEnabled" value="true"/>
@@ -109,7 +115,7 @@
         <!-- 设置Cookie的过期时间，秒为单位，默认-1表示关闭浏览器时过期Cookie -->
         <property name="maxAge" value="-1"/>
         <!-- Cookie名称 -->
-        <property name="name" value="${upms.session.id}"/>
+        <property name="name" value="${kuyun.upms.session.id}"/>
     </bean>
 
     <!-- 会话监听器 -->
@@ -131,7 +137,7 @@
         <!-- 不会暴露给客户端 -->
         <property name="httpOnly" value="true"/>
         <!-- 记住我cookie生效时间 -->
-        <property name="maxAge" value="${upms.rememberMe.timeout}"/>
+        <property name="maxAge" value="${kuyun.upms.rememberMe.timeout}"/>
     </bean>
 
     <!-- 设置SecurityUtils，相当于调用SecurityUtils.setSecurityManager(securityManager) -->

@@ -57,7 +57,7 @@ public class UpmsAuthenticationFilter extends AuthenticationFilter {
         Subject subject = getSubject(request, response);
         Session session = subject.getSession();
         // 判断请求类型
-        String upmsType = PropertiesFileUtil.getInstance("kuyun-upms-client").get("upms.type");
+        String upmsType = PropertiesFileUtil.getInstance("kuyun-upms-client").get("kuyun.upms.type");
         session.setAttribute(UpmsConstant.UPMS_TYPE, upmsType);
         if ("client".equals(upmsType)) {
             return validateClient(request, response);
@@ -70,9 +70,9 @@ public class UpmsAuthenticationFilter extends AuthenticationFilter {
 
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
-        StringBuffer sso_server_url = new StringBuffer(PropertiesFileUtil.getInstance("kuyun-upms-client").get("sso.server.url"));
+        StringBuffer sso_server_url = new StringBuffer(PropertiesFileUtil.getInstance("kuyun-upms-client").get("kuyun.sso.server.url"));
         // server需要登录
-        String upmsType = PropertiesFileUtil.getInstance("kuyun-upms-client").get("upms.type");
+        String upmsType = PropertiesFileUtil.getInstance("kuyun-upms-client").get("kuyun.upms.type");
         if ("server".equals(upmsType)) {
 //            WebUtils.toHttp(response).sendRedirect(sso_server_url.append("/sso/login").toString());
             WebUtils.toHttp(response).sendRedirect(sso_server_url.append("/sso/session_time_out").toString());
@@ -127,7 +127,7 @@ public class UpmsAuthenticationFilter extends AuthenticationFilter {
         if (StringUtils.isNotBlank(code)) {
             // HttpPost去校验code
             try {
-                StringBuffer sso_server_url = new StringBuffer(PropertiesFileUtil.getInstance("kuyun-upms-client").get("sso.server.url"));
+                StringBuffer sso_server_url = new StringBuffer(PropertiesFileUtil.getInstance("kuyun-upms-client").get("kuyun.sso.server.url"));
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpPost httpPost = new HttpPost(sso_server_url.toString() + "/sso/code");
 

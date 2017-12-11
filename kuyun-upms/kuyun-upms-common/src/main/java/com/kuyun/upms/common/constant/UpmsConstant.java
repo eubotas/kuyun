@@ -8,6 +8,6 @@ import com.kuyun.common.base.BaseConstants;
  */
 public class UpmsConstant extends BaseConstants {
 
-    public static final String UPMS_TYPE = "upms.type";
+    public static final String UPMS_TYPE = "kuyun.upms.type";
 
 }
