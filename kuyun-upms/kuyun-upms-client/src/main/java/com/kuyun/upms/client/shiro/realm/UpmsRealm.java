@@ -76,7 +76,7 @@ public class UpmsRealm extends AuthorizingRealm {
         String username = (String) authenticationToken.getPrincipal();
         String password = new String((char[]) authenticationToken.getCredentials());
         // client无密认证
-        String upmsType = PropertiesFileUtil.getInstance("kuyun-upms-client").get("upms.type");
+        String upmsType = PropertiesFileUtil.getInstance("kuyun-upms-client").get("kuyun.upms.type");
         if ("client".equals(upmsType)) {
             return new SimpleAuthenticationInfo(username, password, getName());
         }
@@ -87,7 +87,7 @@ public class UpmsRealm extends AuthorizingRealm {
         if (null == upmsUser) {
             throw new UnknownAccountException();
         }
-        if (!upmsUser.getPassword().equals(MD5Util.MD5(password + upmsUser.getSalt()))) {
+        if (!upmsUser.getPassword().equals(MD5Util.md5(password + upmsUser.getSalt()))) {
             throw new IncorrectCredentialsException();
         }
         if (upmsUser.getLocked() == 1) {

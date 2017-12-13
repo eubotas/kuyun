@@ -349,7 +349,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         long time = System.currentTimeMillis();
         String salt = UUID.randomUUID().toString().replaceAll("-", "");
         upmsUser.setSalt(salt);
-        upmsUser.setPassword(MD5Util.MD5(password + upmsUser.getSalt()));
+        upmsUser.setPassword(MD5Util.md5(password + upmsUser.getSalt()));
         upmsUser.setCtime(time);
 
         upmsUserService.insertSelective(upmsUser);

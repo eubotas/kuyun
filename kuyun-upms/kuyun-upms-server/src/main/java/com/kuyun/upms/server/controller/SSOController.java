@@ -355,7 +355,7 @@ public class SSOController extends BaseController {
 
         String salt = UUID.randomUUID().toString().replaceAll("-", "");
         user.setSalt(salt);
-        user.setPassword(MD5Util.MD5(password + salt));
+        user.setPassword(MD5Util.md5(password + salt));
 
         int count = upmsUserService.updateByPrimaryKeySelective(user);
 
@@ -417,7 +417,7 @@ public class SSOController extends BaseController {
 
         String salt = UUID.randomUUID().toString().replaceAll("-", "");
         user.setSalt(salt);
-        user.setPassword(MD5Util.MD5(password + salt));
+        user.setPassword(MD5Util.md5(password + salt));
 
         int count = upmsUserService.updateByPrimaryKeySelective(user);
 
