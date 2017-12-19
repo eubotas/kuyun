@@ -261,3 +261,114 @@ INSERT INTO `upms_permission` VALUES ('292', '6', '291', '新增DTU', '3', 'eam:
 INSERT INTO `upms_permission` VALUES ('293', '6', '291', '编辑DTU', '3', 'eam:dtu:update', '/manage/dtu/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
 INSERT INTO `upms_permission` VALUES ('294', '6', '291', '删除DTU', '3', 'eam:dtu:delete', '/manage/dtu/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
 
+
+create table eam_equipment_category
+(
+   equipment_category_id   int not null auto_increment,
+   name                 varchar(30),
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   company_id           int,
+   primary key (equipment_category_id)
+);
+
+ALTER TABLE eam_equipment ADD equipment_category_id int;
+ALTER TABLE eam_ticket ADD equipment_category_id int;
+ALTER TABLE eam_ticket ADD equipment_id int;
+ALTER TABLE eam_ticket ADD voice_path int;
+
+INSERT INTO `upms_permission` VALUES ('295', '6', '200', '设备类别', '2', 'eam:equipmentCategory:read',   '/manage/equipment/category/index', null, '1', '202', '202');
+INSERT INTO `upms_permission` VALUES ('296', '6', '295', '新增设备类别', '3', 'eam:equipmentCategory:create', '/manage/equipment/category/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
+INSERT INTO `upms_permission` VALUES ('297', '6', '295', '编辑设备类别', '3', 'eam:equipmentCategory:update', '/manage/equipment/category/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
+INSERT INTO `upms_permission` VALUES ('298', '6', '295', '删除设备类别', '3', 'eam:equipmentCategory:delete', '/manage/equipment/category/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
+
+
+delete from upms_permission where permission_id >= 2000;
+
+
+DELIMITER //  
+
+CREATE PROCEDURE update_user_permissions()
+BEGIN
+  
+
+  DECLARE v_user_id int;
+  DECLARE v_permission_id int;
+
+  DECLARE done int;
+
+  delete from upms_user_permission;
+
+  DECLARE cursor_user CURSOR FOR SELECT user_id FROM upms_user;
+  DECLARE curson_permission CURSOR FOR SELECT permission_id FROM upms_permission WHERE permission_id >=200 and permission_id <2000;
+  
+  DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
+  
+
+  OPEN cursor_user;
+out_loop:
+LOOP
+  FETCH cursor_user INTO v_user_id;
+  IF done = 1 THEN
+    LEAVE out_loop;
+  END IF;
+  
+  open curson_permission;
+  inner_loop:LOOP
+     
+    FETCH curson_permission INTO v_permission_id; 
+    IF done = 1 THEN
+       LEAVE inner_loop;
+     end IF;
+     
+
+   set v_line_count  = v_line_count + 1;
+
+   SELECT SUM(purchase_quantity) FROM order_orderline WHERE documentLineItem_id = v_doc_line_id into v_total_purch_qty;   
+
+   if v_total_purch_qty > 0 then
+    
+    
+    if v_expected_quantity > 0 then 
+           SET v_quantity = v_expected_quantity;
+         end if;
+
+        if v_audit_quantity > 0 then 
+           SET v_quantity = v_audit_quantity;
+         end if;
+    
+    
+    if v_quantity = v_total_purch_qty then
+      SET v_count = v_count +1;
+    end if;
+    
+        if v_total_purch_qty < v_quantity then
+      set v_status = '采购中';
+    end if;
+
+     end if;
+  
+  end LOOP inner_loop;
+  CLOSE curson_permission; 
+   
+  /** SET @output_string = concat('count:', v_count, ',line_count:', v_line_count, ',document:', v_doc_id, ',document_line:', v_doc_line_id);
+  SELECT @output_string;
+  **/
+
+  if v_count = v_line_count then
+     set v_status = '采购完成';
+   end if;
+  
+  if v_count > 0 and v_count < v_line_count then
+     set v_status = '采购中';
+   end if;
+   
+
+  update document_document set purch_status = v_status where id = v_doc_id;
+  SET done=0;
+END LOOP out_loop;
+  CLOSE cursor_user;
+END//

@@ -86,6 +86,8 @@ public class EamEquipment extends BaseEntity implements Serializable {
      */
     private Integer salveId;
 
+    private Integer equipmentCategoryId;
+
     private static final long serialVersionUID = 1L;
 
     private EamEquipmentModel eamEquipmentModel;
@@ -300,6 +302,14 @@ public class EamEquipment extends BaseEntity implements Serializable {
         this.salveId = salveId;
     }
 
+    public Integer getEquipmentCategoryId() {
+        return equipmentCategoryId;
+    }
+
+    public void setEquipmentCategoryId(Integer equipmentCategoryId) {
+        this.equipmentCategoryId = equipmentCategoryId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -330,6 +340,7 @@ public class EamEquipment extends BaseEntity implements Serializable {
         sb.append(", isOnline=").append(isOnline);
         sb.append(", modbusRtuPeriod=").append(modbusRtuPeriod);
         sb.append(", salveId=").append(salveId);
+        sb.append(", equipmentCategoryId=").append(equipmentCategoryId);
         sb.append("]");
         return sb.toString();
     }
@@ -374,7 +385,8 @@ public class EamEquipment extends BaseEntity implements Serializable {
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
             && (this.getIsOnline() == null ? other.getIsOnline() == null : this.getIsOnline().equals(other.getIsOnline()))
             && (this.getModbusRtuPeriod() == null ? other.getModbusRtuPeriod() == null : this.getModbusRtuPeriod().equals(other.getModbusRtuPeriod()))
-            && (this.getSalveId() == null ? other.getSalveId() == null : this.getSalveId().equals(other.getSalveId()));
+            && (this.getSalveId() == null ? other.getSalveId() == null : this.getSalveId().equals(other.getSalveId()))
+            && (this.getEquipmentCategoryId() == null ? other.getEquipmentCategoryId() == null : this.getEquipmentCategoryId().equals(other.getEquipmentCategoryId()));
     }
 
     @Override
@@ -410,6 +422,7 @@ public class EamEquipment extends BaseEntity implements Serializable {
         result = prime * result + ((getIsOnline() == null) ? 0 : getIsOnline().hashCode());
         result = prime * result + ((getModbusRtuPeriod() == null) ? 0 : getModbusRtuPeriod().hashCode());
         result = prime * result + ((getSalveId() == null) ? 0 : getSalveId().hashCode());
+        result = prime * result + ((getEquipmentCategoryId() == null) ? 0 : getEquipmentCategoryId().hashCode());
         return result;
     }
 }

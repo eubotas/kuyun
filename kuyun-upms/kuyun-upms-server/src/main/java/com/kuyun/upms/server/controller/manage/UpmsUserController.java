@@ -294,14 +294,14 @@ public class UpmsUserController extends BaseController {
         UpmsUserExample upmsUserExample = new UpmsUserExample();
         upmsUserExample.createCriteria().andPhoneEqualTo(phone);
         UpmsUser upmsUser = upmsUserService.selectFirstByExample(upmsUserExample);
-        UpmsOrganization organization = new UpmsOrganization();
+        UpmsCompany company = new UpmsCompany();
         if (upmsUser != null){
-            organization = upmsApiService.selectParentOrganizationByUserId(upmsUser.getUserId());
+            company = upmsApiService.getUpmsCompany(upmsUser.getUserId());
         }
 
         HashMap<String, Object> objectHashMap = new HashMap<>();
         objectHashMap.put("user", upmsUser);
-        objectHashMap.put("organization", organization);
+        objectHashMap.put("company", company);
 
         return new UpmsResult(UpmsResultConstant.SUCCESS, objectHashMap);
     }

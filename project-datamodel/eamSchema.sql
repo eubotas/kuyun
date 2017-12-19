@@ -41,6 +41,20 @@ drop table if exists eam_ticket;
 
 drop table if exists eam_ticket_record;
 
+drop table if exists eam_equipment_category;
+create table eam_equipment_category
+(
+   equipment_category_id   int not null auto_increment,
+   name                 varchar(30),
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   company_id           int,
+   primary key (equipment_category_id)
+);
+
 /*==============================================================*/
 /* Table: eam_equipment                                         */
 /*==============================================================*/
@@ -48,7 +62,7 @@ create table eam_equipment
 (
    equipment_id         varchar(32),
    equipment_model_id   int,
-   --company_id      int,
+   equipment_category_id  int,
    name                 varchar(30),
    number               varchar(30),
    serial_number        varchar(50),
@@ -473,7 +487,10 @@ create table eam_ticket
 (
    ticket_id            int not null auto_increment,
    ticket_type_id       int,
+   equipment_category_id  int,
+   equipment_id         int,
    description          varchar(200)  COMMENT '描述',
+   voice_path           varchar(20000)  COMMENT '语音',
    image_path_1         varchar(20000)  COMMENT '上传图片',
    image_path_2         varchar(100)  COMMENT '上传图片',
    image_path_3         varchar(100)  COMMENT '上传图片',

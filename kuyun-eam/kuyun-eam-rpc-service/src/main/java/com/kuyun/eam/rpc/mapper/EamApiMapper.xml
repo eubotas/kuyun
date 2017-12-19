@@ -543,7 +543,7 @@
 	</select>
 
 	<sql id="Equipment_Column_List">
-		t.equipment_id, t.equipment_model_id, t.name, t.number, t.serial_number, t.image_path, t.longitude,
+		t.equipment_id, t.equipment_model_id, t.equipment_category_id, t.name, t.number, t.serial_number, t.image_path, t.longitude,
 		t.latitude, t.province, t.city, t.user, t.collect_status, t.heart_data, t.grm, t.grm_password, t.grm_period,
 		t.factory_date, t.commissioning_date, t.warranty_start_date, t.warranty_end_date, t.maintenance_period,
 		t.create_user_id, t.create_time, t.update_user_id, t.update_time, t.delete_flag, t.is_online,
@@ -562,6 +562,9 @@
 		LEFT JOIN eam_equipment_company e ON t.equipment_id = e.equipment_id
 		LEFT JOIN eam_dtu_equipment d ON t.equipment_id = d.equipment_id AND d.delete_flag = 0
 		WHERE t.delete_flag = 0 AND e.delete_flag = 0
+		<if test="equipmentCategoryId != null and equipmentCategoryId != ''">
+			AND e.equipment_category_id = #{equipmentCategoryId}
+		</if>
 		<if test="companyId != null and companyId != ''">
 			AND e.company_id = #{companyId}
 		</if>
@@ -584,6 +587,9 @@
 		LEFT JOIN eam_equipment_company e ON t.equipment_id = e.equipment_id
 		LEFT JOIN eam_dtu_equipment d ON t.equipment_id = d.equipment_id AND d.delete_flag = 0
 		WHERE t.delete_flag = 0 AND e.delete_flag = 0
+		<if test="equipmentCategoryId != null and equipmentCategoryId != ''">
+			AND e.equipment_category_id = #{equipmentCategoryId}
+		</if>
 		<if test="companyId != null and companyId != ''">
 			AND e.company_id = #{companyId}
 		</if>

@@ -36,12 +36,22 @@
 				</div>
 			</div>
 
+			<div class="col-sm-12">
+				<div class="form-group">
+					<div class="fg-line">
+						<select id="equipmentCategoryId" name="equipmentCategoryId" style="width: 100%">
+							<c:forEach var="category" items="${equipmentCategories}">
+								<option value="${category.equipmentCategoryId}">${category.name}</option>
+							</c:forEach>
+						</select>
+					</div>
+				</div>
+			</div>
 
 			<div class="col-sm-12">
 				<div class="form-group">
 					<div class="fg-line">
 						<select id="equipmentModelId" name="equipmentModelId" style="width: 100%">
-							<%--<option value="0">设备模型</option>--%>
 							<c:forEach var="equipmentModel" items="${equipmentModels}">
 								<option value="${equipmentModel.equipmentModelId}">${equipmentModel.name}</option>
 							</c:forEach>

@@ -16,6 +16,10 @@
     <dubbo:consumer check="false"/>
 
     <!-- 设备 -->
+    <dubbo:reference id="eamEquipmentCategoryService" interface="com.kuyun.eam.rpc.api.EamEquipmentCategoryService" mock="true"/>
+
+
+    <!-- 设备 -->
     <dubbo:reference id="eamEquipmentService" interface="com.kuyun.eam.rpc.api.EamEquipmentService" mock="true"/>
 
     <!-- 设备模型 -->

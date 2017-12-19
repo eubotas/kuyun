@@ -67,6 +67,12 @@ public class EamTicket extends BaseEntity implements Serializable {
 
     private Date endDate;
 
+    private Integer equipmentCategoryId;
+
+    private Integer equipmentId;
+
+    private Integer voicePath;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getTicketId() {
@@ -157,6 +163,30 @@ public class EamTicket extends BaseEntity implements Serializable {
         this.endDate = endDate;
     }
 
+    public Integer getEquipmentCategoryId() {
+        return equipmentCategoryId;
+    }
+
+    public void setEquipmentCategoryId(Integer equipmentCategoryId) {
+        this.equipmentCategoryId = equipmentCategoryId;
+    }
+
+    public Integer getEquipmentId() {
+        return equipmentId;
+    }
+
+    public void setEquipmentId(Integer equipmentId) {
+        this.equipmentId = equipmentId;
+    }
+
+    public Integer getVoicePath() {
+        return voicePath;
+    }
+
+    public void setVoicePath(Integer voicePath) {
+        this.voicePath = voicePath;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -174,6 +204,9 @@ public class EamTicket extends BaseEntity implements Serializable {
         sb.append(", executorId=").append(executorId);
         sb.append(", status=").append(status);
         sb.append(", endDate=").append(endDate);
+        sb.append(", equipmentCategoryId=").append(equipmentCategoryId);
+        sb.append(", equipmentId=").append(equipmentId);
+        sb.append(", voicePath=").append(voicePath);
         sb.append("]");
         return sb.toString();
     }
@@ -206,7 +239,10 @@ public class EamTicket extends BaseEntity implements Serializable {
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()));
+            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()))
+            && (this.getEquipmentCategoryId() == null ? other.getEquipmentCategoryId() == null : this.getEquipmentCategoryId().equals(other.getEquipmentCategoryId()))
+            && (this.getEquipmentId() == null ? other.getEquipmentId() == null : this.getEquipmentId().equals(other.getEquipmentId()))
+            && (this.getVoicePath() == null ? other.getVoicePath() == null : this.getVoicePath().equals(other.getVoicePath()));
     }
 
     @Override
@@ -230,6 +266,9 @@ public class EamTicket extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
+        result = prime * result + ((getEquipmentCategoryId() == null) ? 0 : getEquipmentCategoryId().hashCode());
+        result = prime * result + ((getEquipmentId() == null) ? 0 : getEquipmentId().hashCode());
+        result = prime * result + ((getVoicePath() == null) ? 0 : getVoicePath().hashCode());
         return result;
     }
 }

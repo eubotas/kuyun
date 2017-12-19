@@ -23,7 +23,7 @@ public class KuyunAdminUtil implements InitializingBean, ServletContextAware {
     @Override
     public void setServletContext(ServletContext servletContext) {
         _log.info("===== 开始解压kuyun-admin =====");
-        String version = PropertiesFileUtil.getInstance().get("kuyun-admin.version");
+        String version = PropertiesFileUtil.getInstance().get("kuyun.admin.version");
         _log.info("kuyun-admin.jar 版本: {}", version);
         String jarPath = servletContext.getRealPath("/WEB-INF/lib/kuyun-admin-" + version + ".jar");
         _log.info("kuyun-admin.jar 包路径: {}", jarPath);
