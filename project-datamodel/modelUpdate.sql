@@ -286,89 +286,130 @@ INSERT INTO `upms_permission` VALUES ('297', '6', '295', '编辑设备类别', '
 INSERT INTO `upms_permission` VALUES ('298', '6', '295', '删除设备类别', '3', 'eam:equipmentCategory:delete', '/manage/equipment/category/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
 
 
-delete from upms_permission where permission_id >= 2000;
+delete from upms_permission where permission_id >= 500;
 
 
-DELIMITER //  
+drop table if exists eam_ticket_type;
+drop table if exists eam_ticket;
+drop table if exists eam_ticket_record;
+drop table if exists eam_ticket_assessment;
+drop table if exists eam_ticket_assessment_tag;
+drop table if exists eam_ticket_tag;
+drop table if exists eam_ticket_appointed_record;
 
-CREATE PROCEDURE update_user_permissions()
-BEGIN
-  
+#工单分类
+create table eam_ticket_type
+(
+   id                   int not null auto_increment,
+   name                 varchar(30),
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   company_id      int,
+   primary key (id)
+);
 
-  DECLARE v_user_id int;
-  DECLARE v_permission_id int;
+#工单
+create table eam_ticket
+(
+   ticket_id            int not null auto_increment,
+   ticket_type_id       int,
+   equipment_category_id  int,
+   equipment_id         int,
+   description          varchar(200)  COMMENT '描述',
+   voice_path           varchar(2000)  COMMENT '语音',
+   image_path           varchar(2000)  COMMENT '上传图片',
+   priority             varchar(10)   COMMENT '优先级（一般，紧急, 非常紧急）',
+   executor_id          int           COMMENT '处理人',
+   status               varchar(10)   COMMENT '状态（待派工, 待维修, 维修中, 待评价, 评价完成）',
+   end_date             datetime,
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   company_id      int,
+   primary key (ticket_id)
+);
 
-  DECLARE done int;
+#工单记录
+create table eam_ticket_record
+(
+   id                   int not null auto_increment,
+   ticket_id            int,
+   step                 varchar(20) COMMENT '处理步骤',
+   comments             varchar(200) COMMENT '处理内容',
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   company_id      int,
+   primary key (id)
+);
 
-  delete from upms_user_permission;
+#评价
+create table eam_ticket_assessment
+(
+   id                   int not null auto_increment,
+   ticket_id          int,
+   assessment_user_id int         COMMENT '评价人ID',
+   assessment_level   int       COMMENT '评价星级',
+   description      varchar(2000)   COMMENT '评价描述',
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   company_id           int,
+   primary key (id)
+);
 
-  DECLARE cursor_user CURSOR FOR SELECT user_id FROM upms_user;
-  DECLARE curson_permission CURSOR FOR SELECT permission_id FROM upms_permission WHERE permission_id >=200 and permission_id <2000;
-  
-  DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = 1;
-  
+#评价标签
+create table eam_ticket_assessment_tag
+(
+   id                   int not null auto_increment,
+   ticket_id          int,
+   assessment_id        int,
+   tag_id       int         COMMENT '评价标签ID，from eam_tag',
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   company_id      int,
+   primary key (id)
+);
 
-  OPEN cursor_user;
-out_loop:
-LOOP
-  FETCH cursor_user INTO v_user_id;
-  IF done = 1 THEN
-    LEAVE out_loop;
-  END IF;
-  
-  open curson_permission;
-  inner_loop:LOOP
-     
-    FETCH curson_permission INTO v_permission_id; 
-    IF done = 1 THEN
-       LEAVE inner_loop;
-     end IF;
-     
+#评价标签
+create table eam_ticket_tag
+(
+   id                   int not null auto_increment,
+   name                 varchar(30) COMMENT '标签名',
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   company_id      int,
+   primary key (id)
+);
 
-   set v_line_count  = v_line_count + 1;
 
-   SELECT SUM(purchase_quantity) FROM order_orderline WHERE documentLineItem_id = v_doc_line_id into v_total_purch_qty;   
+#工单委派
+create table eam_ticket_appointed_record
+(
+   id                   int not null auto_increment,
+   ticket_id      int,
+   order_taker_id       int           COMMENT '接单人',
+   reject_commont   varchar(100)  COMMENT '拒单原因，可为空',
+   create_user_id       int,
+   create_time          datetime,
+   delete_flag          boolean,
+   company_id      int,
+   primary key (id)
+);
 
-   if v_total_purch_qty > 0 then
-    
-    
-    if v_expected_quantity > 0 then 
-           SET v_quantity = v_expected_quantity;
-         end if;
 
-        if v_audit_quantity > 0 then 
-           SET v_quantity = v_audit_quantity;
-         end if;
-    
-    
-    if v_quantity = v_total_purch_qty then
-      SET v_count = v_count +1;
-    end if;
-    
-        if v_total_purch_qty < v_quantity then
-      set v_status = '采购中';
-    end if;
-
-     end if;
-  
-  end LOOP inner_loop;
-  CLOSE curson_permission; 
-   
-  /** SET @output_string = concat('count:', v_count, ',line_count:', v_line_count, ',document:', v_doc_id, ',document_line:', v_doc_line_id);
-  SELECT @output_string;
-  **/
-
-  if v_count = v_line_count then
-     set v_status = '采购完成';
-   end if;
-  
-  if v_count > 0 and v_count < v_line_count then
-     set v_status = '采购中';
-   end if;
-   
-
-  update document_document set purch_status = v_status where id = v_doc_id;
-  SET done=0;
-END LOOP out_loop;
-  CLOSE cursor_user;
-END//

@@ -35,12 +35,6 @@ drop table if exists eam_alarm_record;
 
 drop table if exists eam_alarm_target_user;
 
-drop table if exists eam_ticket_type;
-
-drop table if exists eam_ticket;
-
-drop table if exists eam_ticket_record;
-
 drop table if exists eam_equipment_category;
 create table eam_equipment_category
 (
@@ -148,7 +142,7 @@ create table eam_sensor
 (
    sensor_id            int not null auto_increment,
    equipment_model_property_id int,
-   --salve_id             int  comment 'Modbus RTU 从站地址',   
+   #salve_id             int  comment 'Modbus RTU 从站地址',   
    function_code        int  comment 'Modbus RTU 功能码',
    address              int  comment 'Modbus RTU 起始地址',
    data_format          varchar(15) comment 'Modbus RTU 数据格式',
@@ -159,7 +153,7 @@ create table eam_sensor
    grm_action           varchar(5) comment '巨控 读写指令',
    grm_variable         varchar(20) comment '巨控 变量名',
    grm_variable_value   varchar(20) comment '巨控 写变量值',
-   --grm_variable_order   int comment '巨控 读写变量顺序',
+   #grm_variable_order   int comment '巨控 读写变量顺序',
    osh                  decimal(10,2) comment '换算结果的高限',
    osl                  decimal(10,2) comment '换算结果的低限',
    ish                  decimal(10,2) comment '换算对象的高限',
@@ -468,6 +462,14 @@ CREATE TABLE `eam_alarm_record_history` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+drop table if exists eam_ticket_type;
+drop table if exists eam_ticket;
+drop table if exists eam_ticket_record;
+drop table if exists eam_ticket_assessment;
+drop table if exists eam_ticket_assessment_tag;
+drop table if exists eam_ticket_tag;
+drop table if exists eam_ticket_appointed_record;
+
 #工单分类
 create table eam_ticket_type
 (
@@ -488,16 +490,13 @@ create table eam_ticket
    ticket_id            int not null auto_increment,
    ticket_type_id       int,
    equipment_category_id  int,
-   equipment_id         int,
+   equipment_id         varchar(32),
    description          varchar(200)  COMMENT '描述',
-   voice_path           varchar(20000)  COMMENT '语音',
-   image_path_1         varchar(20000)  COMMENT '上传图片',
-   image_path_2         varchar(100)  COMMENT '上传图片',
-   image_path_3         varchar(100)  COMMENT '上传图片',
-   image_path_4         varchar(100)  COMMENT '上传图片',
+   voice_path           varchar(2000)  COMMENT '语音',
+   image_path           varchar(2000)  COMMENT '上传图片',
    priority             varchar(10)   COMMENT '优先级（一般，紧急, 非常紧急）',
    executor_id          int           COMMENT '处理人',
-   status               varchar(10)   COMMENT '状态（未解决, 处理中, 已解决, 不需处理）',
+   status               varchar(10)   COMMENT '状态（待派工, 待维修, 维修中, 待评价, 评价完成）',
    end_date             datetime,
    create_user_id       int,
    create_time          datetime,
@@ -519,6 +518,68 @@ create table eam_ticket_record
    create_time          datetime,
    update_user_id       int,
    update_time          datetime,
+   delete_flag          boolean,
+   company_id      int,
+   primary key (id)
+);
+
+#评价
+create table eam_ticket_assessment
+(
+   id                   int not null auto_increment,
+   ticket_id          int,
+   assessment_user_id int         COMMENT '评价人ID',
+   assessment_level   int       COMMENT '评价星级',
+   description      varchar(2000)   COMMENT '评价描述',
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   company_id           int,
+   primary key (id)
+);
+
+#评价标签
+create table eam_ticket_assessment_tag
+(
+   id                   int not null auto_increment,
+   ticket_id          int,
+   assessment_id        int,
+   tag_id       int         COMMENT '评价标签ID，from eam_tag',
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   company_id      int,
+   primary key (id)
+);
+
+#评价标签
+create table eam_ticket_tag
+(
+   id                   int not null auto_increment,
+   name                 varchar(30) COMMENT '标签名',
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   company_id      int,
+   primary key (id)
+);
+
+
+#工单委派
+create table eam_ticket_appointed_record
+(
+   id                   int not null auto_increment,
+   ticket_id      int,
+   order_taker_id       int           COMMENT '接单人',
+   reject_commont   varchar(100)  COMMENT '拒单原因，可为空',
+   create_user_id       int,
+   create_time          datetime,
    delete_flag          boolean,
    company_id      int,
    primary key (id)

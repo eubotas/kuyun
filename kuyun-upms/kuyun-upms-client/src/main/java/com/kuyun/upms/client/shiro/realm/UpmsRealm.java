@@ -7,6 +7,7 @@ import com.kuyun.upms.dao.model.UpmsRole;
 import com.kuyun.upms.dao.model.UpmsUser;
 import com.kuyun.upms.rpc.api.UpmsApiService;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -97,4 +98,8 @@ public class UpmsRealm extends AuthorizingRealm {
         return new SimpleAuthenticationInfo(username, password, getName());
     }
 
+    public void clearCached() {
+        PrincipalCollection principals = SecurityUtils.getSubject().getPrincipals();
+        super.clearCache(principals);
+    }
 }

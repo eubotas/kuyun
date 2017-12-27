@@ -404,7 +404,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     private List<UpmsPermission> getPermissions() {
         UpmsPermissionExample example = new UpmsPermissionExample();
         example.createCriteria().andPermissionIdGreaterThanOrEqualTo(200)
-                .andPermissionIdLessThan(500);
+                .andPermissionIdLessThan(2000);
 
         return upmsPermissionService.selectByExample(example);
     }

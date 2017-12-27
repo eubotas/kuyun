@@ -47,12 +47,15 @@
             </properties>
 
         </profile>
+
         <profile>
             <id>test</id>
             <properties>
                 <env>test</env>
             </properties>
+
         </profile>
+
         <profile>
             <id>prod</id>
             <properties>
@@ -62,6 +65,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
         </profile>
+
     </profiles>
 
     <build>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ehcache name="shirocache">
 
-    <diskStore path="java.io.tmpdir/kuyun-upms-server/shiro-ehcache"/>
+    <diskStore path="java.io.tmpdir/kuyun-marking-admin/shiro-ehcache"/>
     <defaultCache
             maxElementsInMemory="10000"
             eternal="false"

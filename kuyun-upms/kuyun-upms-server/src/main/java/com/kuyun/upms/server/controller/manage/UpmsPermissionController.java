@@ -109,7 +109,6 @@ public class UpmsPermissionController extends BaseController {
     }
 
     @ApiOperation(value = "用户权限ID列表")
-    @RequiresPermissions("upms:permission:read")
     @RequestMapping(value = "/ids/user/{id}", method = RequestMethod.POST)
     @ResponseBody
     public Object permissionIds(@PathVariable("id") int id, HttpServletRequest request) {

@@ -1,38 +1,3 @@
-/** menu setting
-设备管理
-   创建设备模型
-   添加设备
-
- 设备维保
-
- 仓储管理
-   仓库
-   仓位
-   库存明细
-
-备品备件
-   配件类别
-   配件
-   配件入库
-   配件出库
-
-
- CREATE TABLE `upms_permission` (
-  `permission_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '编号',
-  `system_id` int(10) unsigned NOT NULL COMMENT '所属系统',
-  `pid` int(10) DEFAULT NULL COMMENT '所属上级',
-  `name` varchar(20) DEFAULT NULL COMMENT '名称',
-  `type` tinyint(4) DEFAULT NULL COMMENT '类型(1:目录,2:菜单,3:按钮)',
-  `permission_value` varchar(50) DEFAULT NULL COMMENT '权限值',
-  `uri` varchar(100) DEFAULT NULL COMMENT '路径',
-  `icon` varchar(50) DEFAULT NULL COMMENT '图标',
-  `status` tinyint(4) DEFAULT NULL COMMENT '状态(0:禁止,1:正常)',
-  `ctime` bigint(20) DEFAULT NULL COMMENT '创建时间',
-  `orders` bigint(20) DEFAULT NULL COMMENT '排序',
-  PRIMARY KEY (`permission_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8mb4 COMMENT='权限';
-**/
-
 use kuyun;
 SET SQL_SAFE_UPDATES = 0;
 SET FOREIGN_KEY_CHECKS=0;

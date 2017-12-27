@@ -428,16 +428,16 @@
       <if test="grmVariableValue != null">
         grm_variable_value = #{grmVariableValue,jdbcType=VARCHAR},
       </if>
-      <if test="osh != null">
+      <if test="osh != null or osh == null">
         osh = #{osh,jdbcType=DECIMAL},
       </if>
-      <if test="osl != null">
+      <if test="osl != null or osl == null">
         osl = #{osl,jdbcType=DECIMAL},
       </if>
-      <if test="ish != null">
+      <if test="ish != null or ish == null">
         ish = #{ish,jdbcType=DECIMAL},
       </if>
-      <if test="isl != null">
+      <if test="isl != null or isl == null">
         isl = #{isl,jdbcType=DECIMAL},
       </if>
       <if test="createUserId != null">

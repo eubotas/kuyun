@@ -75,6 +75,7 @@
                 }, align: 'center'}
             ],
             onEditableSave: function(field, row, oldValue, $el) {
+                console.log(JSON.stringify(row));
                 // field:修改的欄位
                 // row:修改後的資料(JSON Object)
                 // oldValue:修改前的值

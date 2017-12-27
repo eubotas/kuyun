@@ -7,8 +7,13 @@
 
     <description>kuyun-upms</description>
 
-    <context:property-placeholder location="classpath*:kuyun-upms-client.properties"/>
-
+    <bean id="propertyConfigurer" class="com.kuyun.common.plugin.EncryptPropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:kuyun-upms-client.properties</value>
+            </list>
+        </property>
+    </bean>
 
     <!-- Shiro的Web过滤器 -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
@@ -56,8 +61,13 @@
         <property name="sessionManager" ref="sessionManager"/>
         <property name="rememberMeManager" ref="rememberMeManager"/>
         <property name="authenticator" ref="authenticator" />
+        <property name="cacheManager" ref="shiroCacheManager"/>
         <!--<property name="subjectFactory" ref="subjectFactory"/>-->
         <!--<property name="subjectDAO.sessionStorageEvaluator.sessionStorageEnabled" value="false"/>-->
+    </bean>
+
+    <bean id="shiroCacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+        <property name="cacheManagerConfigFile" value="classpath:shiro-ehcache.xml"/>
     </bean>
 
     <bean id="passwordMatcher" class="org.apache.shiro.authc.credential.PasswordMatcher"/>

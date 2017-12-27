@@ -282,6 +282,7 @@ public class EamDtuController extends BaseController {
 
 	@ApiOperation(value = "写入从站地址")
 	@RequiresPermissions("eam:equipment:update")
+	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/equipment/write", method = RequestMethod.POST)
 	@ResponseBody
 	public Object equipmentWrite(@RequestBody EamEquipment equipment) {

@@ -496,7 +496,7 @@ CREATE TABLE `upms_log` (
 DROP TABLE IF EXISTS `upms_organization`;
 CREATE TABLE `upms_organization` (
   `organization_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '编号',
-  `company_id` int(11) NOT NULL,
+  `company_id` int(11),
   `pid` int(10) DEFAULT NULL COMMENT '所属上级',
   `name` varchar(20) DEFAULT NULL COMMENT '组织名称',
   `description` varchar(1000) DEFAULT NULL COMMENT '组织描述',
@@ -507,11 +507,11 @@ CREATE TABLE `upms_organization` (
 -- ----------------------------
 -- Records of upms_organization
 -- ----------------------------
-INSERT INTO `upms_organization` VALUES ('1', null, '总部', '北京总部', '1');
-INSERT INTO `upms_organization` VALUES ('4', null, '河北分部', '河北石家庄', '1488122466236');
-INSERT INTO `upms_organization` VALUES ('5', null, '河南分部', '河南郑州', '1488122480265');
-INSERT INTO `upms_organization` VALUES ('6', null, '湖北分部', '湖北武汉', '1488122493265');
-INSERT INTO `upms_organization` VALUES ('7', null, '湖南分部', '湖南长沙', '1488122502752');
+INSERT INTO `upms_organization` VALUES ('1', null, null, '总部', '北京总部', '1');
+INSERT INTO `upms_organization` VALUES ('4', null, 1, '河北分部', '河北石家庄', '1488122466236');
+INSERT INTO `upms_organization` VALUES ('5', null, 1, '河南分部', '河南郑州', '1488122480265');
+INSERT INTO `upms_organization` VALUES ('6', null, 1, '湖北分部', '湖北武汉', '1488122493265');
+INSERT INTO `upms_organization` VALUES ('7', null, 1, '湖南分部', '湖南长沙', '1488122502752');
 
 -- ----------------------------
 -- Table structure for upms_permission
@@ -764,7 +764,7 @@ CREATE TABLE `upms_system` (
   `theme` varchar(50) DEFAULT NULL COMMENT '主题',
   `basepath` varchar(100) DEFAULT NULL COMMENT '根目录',
   `status` tinyint(4) DEFAULT NULL COMMENT '状态(-1:黑名单,1:正常)',
-  `name` varchar(20) DEFAULT NULL COMMENT '系统名称',
+  `name` varchar(30) DEFAULT NULL COMMENT '系统名称',
   `title` varchar(20) DEFAULT NULL COMMENT '系统标题',
   `description` varchar(300) DEFAULT NULL COMMENT '系统描述',
   `ctime` bigint(20) DEFAULT NULL COMMENT '创建时间',
