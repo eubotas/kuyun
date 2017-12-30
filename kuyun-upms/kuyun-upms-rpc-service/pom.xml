@@ -45,7 +45,9 @@
             <properties>
                 <env>dev</env>
             </properties>
-
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
         </profile>
 
         <profile>
@@ -61,9 +63,7 @@
             <properties>
                 <env>prod</env>
             </properties>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
+
         </profile>
 
     </profiles>

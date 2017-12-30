@@ -252,6 +252,8 @@ create table eam_sensor_data_history
    primary key (sensor_data_id)
 );
 
+alter table eam_sensor_data_history add index idx_eam_sensor_data_history (equipment_id,sensor_id,create_time);
+
 /*==============================================================*/
 /* Table: eam_inventory                                         */
 /*==============================================================*/
@@ -635,6 +637,38 @@ create table eam_equipment_company
    delete_flag          boolean,
    primary key (equipment_company_id)
 );
+
+DROP TABLE IF EXISTS `eam_dtu`;
+create table eam_dtu
+(
+   dtu_id         varchar(32),
+   name           varchar(50),
+   heart_data           varchar(50) comment '心跳包',
+   modbus_rtu_period    int  comment '采集频率',
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   company_id      int,
+   primary key (dtu_id)
+);
+
+DROP TABLE IF EXISTS `eam_dtu_equipment`;
+create table eam_dtu_equipment
+(
+   id                   int not null auto_increment,
+   dtu_id               varchar(32),
+   equipment_id         varchar(32),
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   company_id      int,
+   primary key (id)
+);
+
 
 
 

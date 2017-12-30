@@ -24,6 +24,8 @@
         </mvc:interceptor>
     </mvc:interceptors>
 
+
+
     <!-- Jsp视图 -->
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="order" value="1"/>

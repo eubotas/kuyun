@@ -81,7 +81,12 @@ public class EamSensorDataController extends BaseController {
 		if (endDate != null){
 			sensorVO.setEndDate(endDate);
 		}
-		return eamApiService.selectEamSensorData(sensorVO);
+
+		List<EamSensorDataVO> result = eamApiService.selectEamSensorData(sensorVO);
+		if (result == null){
+			result = new ArrayList<>();
+		}
+		return result;
 	}
 
 

@@ -49,8 +49,8 @@ public class EamServiceTest {
 //    private EamSensorDataService eamSensorDataService;
     
 
-    @Test
-    public void list() {
+//    @Test
+//    public void list() {
 
 
 //        List<EamMaintenanceVO> maintenances = eamApiService.selectMaintenance(new EamMaintenanceExample());
@@ -122,7 +122,7 @@ public class EamServiceTest {
     		
     		
     		 
-    }
+//    }
 
 //    @Test
 //    public void testAlarm() {
