@@ -7,9 +7,13 @@ import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.upms.common.constant.UpmsResult;
 import com.kuyun.upms.common.constant.UpmsResultConstant;
-import com.kuyun.upms.dao.model.UpmsOrganization;
-import com.kuyun.upms.dao.model.UpmsOrganizationExample;
+import com.kuyun.upms.dao.model.*;
+import com.kuyun.upms.dao.vo.UpmsOrgUserVo;
+import com.kuyun.upms.dao.vo.UpmsUserVo;
+import com.kuyun.upms.rpc.api.UpmsApiService;
 import com.kuyun.upms.rpc.api.UpmsOrganizationService;
+import com.kuyun.upms.rpc.api.UpmsUserOrganizationService;
+import com.kuyun.upms.rpc.api.UpmsUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -21,6 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +43,12 @@ public class UpmsOrganizationController extends BaseController {
 
     @Autowired
     private UpmsOrganizationService upmsOrganizationService;
+
+    @Autowired
+    private UpmsUserOrganizationService upmsUserOrganizationService;
+
+    @Autowired
+    private UpmsApiService upmsApiService;
 
     @ApiOperation(value = "组织首页")
     @RequiresPermissions("upms:organization:read")
@@ -72,6 +83,83 @@ public class UpmsOrganizationController extends BaseController {
         result.put("rows", rows);
         result.put("total", total);
         return result;
+    }
+
+    @ApiOperation(value = "分配人员")
+    @RequiresPermissions("upms:organization:create")
+    @RequestMapping(value = "/assign/{id}", method = RequestMethod.GET)
+    public String assign(@PathVariable("id") int id, ModelMap modelMap) {
+        modelMap.put("orgId", id);
+        return "/manage/organization/assign.jsp";
+    }
+
+    @ApiOperation(value = "分配人员")
+    @RequiresPermissions("upms:organization:create")
+    @RequestMapping(value = "/assign/{id}", method = RequestMethod.POST)
+    public Object assign(@PathVariable("id") int id, String eIds, ModelMap modelMap) {
+        UpmsUserOrganization uo=null;
+        List<UpmsUserOrganization> list=new ArrayList<UpmsUserOrganization>();
+        if(eIds != null) {
+            String[] userId = eIds.split("::");
+            for (String uid : userId) {
+                uo = new UpmsUserOrganization();
+                uo.setOrganizationId(id);
+                uo.setUserId(Integer.parseInt(uid));
+                list.add(uo);
+            }
+            upmsUserOrganizationService.batchInsert(id, list);
+//            UpmsUserOrganizationExample example= new UpmsUserOrganizationExample();
+//            UpmsUserOrganizationExample.Criteria  criteria =example.createCriteria();
+//            criteria.andOrganizationIdEqualTo(id);
+//            upmsUserOrganizationService.deleteByExample(example);
+//            upmsUserOrganizationService.batchInsert(list);
+        }
+        return new UpmsResult(UpmsResultConstant.SUCCESS, 1);
+    }
+
+    @ApiOperation(value = "员工列表")
+    @RequiresPermissions("upms:organization:read")
+    @RequestMapping(value = "/assign/{id}/listStaff", method = RequestMethod.GET)
+    @ResponseBody
+    public Object staffList(@PathVariable("id") int id,
+            @RequestParam(required = false, defaultValue = "0", value = "offset") int offset,
+            @RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
+            @RequestParam(required = false, value = "sort") String sort,
+            @RequestParam(required = false, value = "order") String order) {
+
+        UpmsOrgUserVo vo = new UpmsOrgUserVo();
+        vo.setOrgId(id);
+        vo.setOffset(offset);
+        vo.setLimit(limit);
+        if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
+            vo.setOrderByClause(sort + " " + order);
+        }
+
+        List<UpmsOrgUserVo> rows = upmsApiService.selectUsersByOrg(vo);
+        handleCheckedFlag(id, rows);
+
+        long total = upmsApiService.getUsersCountByOrg(id);
+        Map<String, Object> result = new HashMap<>();
+        result.put("rows", rows);
+        result.put("total", total);
+        return result;
+    }
+
+    private void handleCheckedFlag(int orgId, List<UpmsOrgUserVo> rows) {
+        UpmsUserOrganizationExample example = new UpmsUserOrganizationExample();
+        example.createCriteria().andOrganizationIdEqualTo(orgId);
+        List<UpmsUserOrganization> userOrgs = upmsUserOrganizationService.selectByExample(example);
+
+        if (userOrgs != null && rows != null){
+            for(UpmsOrgUserVo vo : rows){
+                for (UpmsUserOrganization uo : userOrgs){
+                    if (uo.getUserId().equals(vo.getUserId())){
+                        vo.setChecked(true);
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     @ApiOperation(value = "新增组织")

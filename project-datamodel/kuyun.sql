@@ -505,13 +505,13 @@ CREATE TABLE `upms_organization` (
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COMMENT='组织';
 
 -- ----------------------------
--- Records of upms_organization
+-- Records of upms_organization   tyler remove
 -- ----------------------------
-INSERT INTO `upms_organization` VALUES ('1', null, '总部', '北京总部', '1');
-INSERT INTO `upms_organization` VALUES ('4', null, '河北分部', '河北石家庄', '1488122466236');
-INSERT INTO `upms_organization` VALUES ('5', null, '河南分部', '河南郑州', '1488122480265');
-INSERT INTO `upms_organization` VALUES ('6', null, '湖北分部', '湖北武汉', '1488122493265');
-INSERT INTO `upms_organization` VALUES ('7', null, '湖南分部', '湖南长沙', '1488122502752');
+-- INSERT INTO `upms_organization` VALUES ('1', null, '总部', '北京总部', '1');
+-- INSERT INTO `upms_organization` VALUES ('4', null, '河北分部', '河北石家庄', '1488122466236');
+-- INSERT INTO `upms_organization` VALUES ('5', null, '河南分部', '河南郑州', '1488122480265');
+-- INSERT INTO `upms_organization` VALUES ('6', null, '湖北分部', '湖北武汉', '1488122493265');
+-- INSERT INTO `upms_organization` VALUES ('7', null, '湖南分部', '湖南长沙', '1488122502752');
 
 -- ----------------------------
 -- Table structure for upms_permission
@@ -803,7 +803,7 @@ CREATE TABLE `upms_user` (
 -- ----------------------------
 -- Records of upms_user
 -- ----------------------------
-INSERT INTO `upms_user` VALUES ('1', 'admin', '3038D9CB63B3152A79B8153FB06C02F7', '66f1b370c660445a8657bf8bf1794486', 'kuyun', '/resources/kuyun-admin/images/avatar.jpg', '', '469741414@qq.com', '1', '0', '1');
+INSERT INTO `upms_user` VALUES ('1', 'admin', '3038D9CB63B3152A79B8153FB06C02F7', '66f1b370c660445a8657bf8bf1794486', 'kuyun', '/resources/kuyun-admin/images/avatar.jpg', '13915516826', '469741414@qq.com', '1', '0', '1');
 
 -- ----------------------------
 -- Table structure for upms_user_organization

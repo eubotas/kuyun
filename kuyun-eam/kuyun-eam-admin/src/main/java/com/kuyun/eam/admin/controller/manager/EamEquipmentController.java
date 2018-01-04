@@ -69,8 +69,8 @@ public class EamEquipmentController extends BaseController {
 	@Autowired
 	private EamWriteDataService eamWriteDataService;
 
-	@Autowired
-	private EamEquipmentCategoryService eamEquipmentCategoryService;
+//	@Autowired
+//	private EamEquipmentCompanyService eamEquipmentCompanyService;
 
 	@Autowired
 	private com.kuyun.fileuploader.rpc.api.FileUploaderService fileUploaderService;
@@ -89,17 +89,12 @@ public class EamEquipmentController extends BaseController {
 	public Object list(
 			@RequestParam(required = false, defaultValue = "0", value = "offset") int offset,
 			@RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
-			@RequestParam(required = false, value = "categoryId") String categoryId,
 			@RequestParam(required = false, value = "sort") String sort,
 			@RequestParam(required = false, value = "order") String order) {
 		EamEquipmentVO equipmentVO = new EamEquipmentVO();
 		equipmentVO.setOffset(offset);
 		equipmentVO.setLimit(limit);
 		equipmentVO.setDeleteFlag(Boolean.FALSE);
-
-		if (StringUtils.isNotEmpty(categoryId)){
-			equipmentVO.setEquipmentCategoryId(Integer.valueOf(categoryId));
-		}
 
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			equipmentVO.setOrderByClause(sort + " " + order);
@@ -127,36 +122,21 @@ public class EamEquipmentController extends BaseController {
 	@RequiresPermissions("eam:equipment:create")
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public String create( ModelMap modelMap) {
-		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
-
-		modelMap.put("equipmentModels", getEamEquipmentModels(company));
-		modelMap.put("equipmentCategories", getEamEquipmentCategories(company));
-		modelMap.put("uploadServer", fileUploaderService.getServerInfo());
-
-		return "/manage/equipment/create.jsp";
-	}
-
-	private List<EamEquipmentCategory> getEamEquipmentCategories(UpmsUserCompany company) {
-		EamEquipmentCategoryExample categoryExample = new EamEquipmentCategoryExample();
-		EamEquipmentCategoryExample.Criteria categoryCriteria = categoryExample.createCriteria();
-		categoryCriteria.andDeleteFlagEqualTo(Boolean.FALSE);
-
-		if (company != null){
-			categoryCriteria.andCompanyIdEqualTo(company.getCompanyId());
-		}
-
-		return eamEquipmentCategoryService.selectByExample(categoryExample);
-	}
-
-	private List<EamEquipmentModel> getEamEquipmentModels(UpmsUserCompany company) {
 		EamEquipmentModelExample example = new EamEquipmentModelExample();
 		EamEquipmentModelExample.Criteria criteria = example.createCriteria();
 		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
 
+		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+
 		if (company != null){
 			criteria.andCompanyIdEqualTo(company.getCompanyId());
 		}
-		return eamEquipmentModelService.selectByExample(example);
+
+		List<EamEquipmentModel> equipmentModels = eamEquipmentModelService.selectByExample(example);
+		modelMap.put("equipmentModels", equipmentModels);
+		modelMap.put("uploadServer", fileUploaderService.getServerInfo());
+
+		return "/manage/equipment/create.jsp";
 	}
 
 	@ApiOperation(value = "新增设备")
@@ -201,10 +181,10 @@ public class EamEquipmentController extends BaseController {
 	@RequiresPermissions("eam:equipment:update")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
 	public String update(@PathVariable("id") String id, ModelMap modelMap) {
-		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
-
-		modelMap.put("equipmentModels", getEamEquipmentModels(company));
-		modelMap.put("equipmentCategories", getEamEquipmentCategories(company));
+		EamEquipmentModelExample equipmentModelExample = new EamEquipmentModelExample();
+		equipmentModelExample.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE);
+		List<EamEquipmentModel> equipmentModels = eamEquipmentModelService.selectByExample(equipmentModelExample);
+		modelMap.put("equipmentModels", equipmentModels);
 
 		EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(id);
 		modelMap.put("equipment", equipment);

@@ -53,18 +53,6 @@
 			<div class="col-sm-12">
 				<div class="form-group">
 					<div class="fg-line">
-						<select id="equipmentCategoryId" name="equipmentCategoryId" style="width: 100%">
-							<c:forEach var="category" items="${equipmentCategories}">
-								<option value="${category.equipmentCategoryId}" ${equipment.equipmentCategoryId==category.equipmentCategoryId ? 'selected' : ''}>${category.name}</option>
-							</c:forEach>
-						</select>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-sm-12">
-				<div class="form-group">
-					<div class="fg-line">
 						<label for="imagePath">设备图片</label>
 						<input id="imagePath" type="text" class="form-control" name="imagePath" maxlength="300" value="${equipment.imagePath}">
 					</div>

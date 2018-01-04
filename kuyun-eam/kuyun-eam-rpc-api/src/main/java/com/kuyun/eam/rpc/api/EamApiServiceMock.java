@@ -46,6 +46,16 @@ public class EamApiServiceMock implements EamApiService {
     }
 
     @Override
+    public List<EamTicketAssessmentTagVO> selectTicketAssessmentTags(EamTicketAssessmentTagVO example) {
+        return null;
+    }
+
+    @Override
+    public List<EamTicketAppointVO> selectTicketAppointRecord(EamTicketAppointedRecordExample example) {
+        return null;
+    }
+
+    @Override
     public Integer inTask(EamInventory inventory) {
         return null;
     }

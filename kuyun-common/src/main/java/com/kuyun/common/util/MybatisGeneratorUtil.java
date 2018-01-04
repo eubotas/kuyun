@@ -19,14 +19,15 @@ import static com.kuyun.common.util.StringUtil.lineToHump;
  */
 public class MybatisGeneratorUtil {
 
+	static String settingPath="";//"D:\\project\\kuyun\\";
 	// generatorConfig模板路径
-	private static String generatorConfig_vm = "kuyun-common/src/main/resources/template/generatorConfig.vm";
+	private static String generatorConfig_vm = settingPath+ "kuyun-common\\src\\main\\resources\\template\\generatorConfig.vm";
 	// Service模板路径
-	private static String service_vm = "kuyun-common/src/main/resources/template/Service.vm";
+	private static String service_vm = settingPath+ "kuyun-common\\src\\main\\resources\\template\\Service.vm";
 	// ServiceMock模板路径
-	private static String serviceMock_vm = "kuyun-common/src/main/resources/template/ServiceMock.vm";
+	private static String serviceMock_vm =settingPath+  "kuyun-common\\src\\main\\resources\\template\\ServiceMock.vm";
 	// ServiceImpl模板路径
-	private static String serviceImpl_vm = "kuyun-common/src/main/resources/template/ServiceImpl.vm";
+	private static String serviceImpl_vm =settingPath+  "kuyun-common\\src\\main\\resources\\template\\ServiceImpl.vm";
 
 	/**
 	 * 根据模板生成generatorConfig.xml文件
@@ -52,7 +53,7 @@ public class MybatisGeneratorUtil {
 
 		String targetProject = module + "/" + module + "-dao";
 		String module_path = module + "/" + module + "-dao/src/main/resources/generatorConfig.xml";
-		String sql = "SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '" + database + "' AND table_name LIKE '" + table_prefix + "_%';";
+		String sql = "SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '" + database + "' AND table_name LIKE '" + table_prefix + "%';";
 
 		System.out.println("========== 开始生成generatorConfig.xml文件 ==========");
 		List<Map<String, Object>> tables = new ArrayList<>();
@@ -183,11 +184,37 @@ public class MybatisGeneratorUtil {
 			String table_prefix,
 			String package_name,
 			Map<String, String> last_insert_id_tables,
-			Map<String, String> alias_needed_tables) throws Exception{
+			Map<String, String> alias_needed_tables) throws Exception {
+
+		generator(
+				 jdbc_driver,
+				 jdbc_url,
+				 jdbc_username,
+				 jdbc_password,
+				 module,
+				 database,
+				 table_prefix,
+				 package_name,
+				 last_insert_id_tables,
+				 alias_needed_tables,
+				"");
+	}
+	public static void generator(
+			String jdbc_driver,
+			String jdbc_url,
+			String jdbc_username,
+			String jdbc_password,
+			String module,
+			String database,
+			String table_prefix,
+			String package_name,
+			Map<String, String> last_insert_id_tables,
+			Map<String, String> alias_needed_tables,
+			String basePath) throws Exception{
 	
-		String targetProject = module + "/" + module + "-dao";
-		String module_path = module + "/" + module + "-dao/src/main/resources/generatorConfig.xml";
-		String sql = "SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '" + database + "' AND table_name LIKE '" + table_prefix + "_%';";
+		String targetProject = basePath+ module + "/" + module + "-dao";
+		String module_path = basePath+ module + "/" + module + "-dao/src/main/resources/generatorConfig.xml";
+		String sql = "SELECT table_name FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '" + database + "' AND table_name LIKE '" + table_prefix + "%';";
 	
 		System.out.println("========== 开始生成generatorConfig.xml文件 ==========");
 		List<Map<String, Object>> tables = new ArrayList<>();
@@ -211,7 +238,7 @@ public class MybatisGeneratorUtil {
 			}
 			jdbcUtil.release();
 	
-			String targetProject_sqlMap = module + "/" + module + "-rpc-service";
+			String targetProject_sqlMap = basePath+ module + "/" + module + "-rpc-service";
 			context.put("tables", tables);
 			context.put("generator_javaModelGenerator_targetPackage", package_name + ".dao.model");
 			context.put("generator_sqlMapGenerator_targetPackage", package_name + ".dao.mapper");
@@ -245,8 +272,8 @@ public class MybatisGeneratorUtil {
 	
 		System.out.println("========== 开始生成Service ==========");
 		String ctime = new SimpleDateFormat("yyyy/M/d").format(new Date());
-		String servicePath = module + "/" + module + "-rpc-api" + "/src/main/java/" + package_name.replaceAll("\\.", "/") + "/rpc/api";
-		String serviceImplPath = module + "/" + module + "-rpc-service" + "/src/main/java/" + package_name.replaceAll("\\.", "/") + "/rpc/service/impl";
+		String servicePath =basePath+ module + "/" + module + "-rpc-api" + "/src/main/java/" + package_name.replaceAll("\\.", "/") + "/rpc/api";
+		String serviceImplPath =basePath+ module + "/" + module + "-rpc-service" + "/src/main/java/" + package_name.replaceAll("\\.", "/") + "/rpc/service/impl";
 		for (int i = 0; i < tables.size(); i++) {
 			String model = StringUtil.lineToHump(ObjectUtils.toString(tables.get(i).get("table_name")));
 			String service = servicePath + "/" + model + "Service.java";

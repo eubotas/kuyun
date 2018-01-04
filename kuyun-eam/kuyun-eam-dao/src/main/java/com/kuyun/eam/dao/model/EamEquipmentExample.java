@@ -1999,66 +1999,6 @@ public class EamEquipmentExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andEquipmentCategoryIdIsNull() {
-            addCriterion("equipment_category_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentCategoryIdIsNotNull() {
-            addCriterion("equipment_category_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentCategoryIdEqualTo(Integer value) {
-            addCriterion("equipment_category_id =", value, "equipmentCategoryId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentCategoryIdNotEqualTo(Integer value) {
-            addCriterion("equipment_category_id <>", value, "equipmentCategoryId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentCategoryIdGreaterThan(Integer value) {
-            addCriterion("equipment_category_id >", value, "equipmentCategoryId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentCategoryIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("equipment_category_id >=", value, "equipmentCategoryId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentCategoryIdLessThan(Integer value) {
-            addCriterion("equipment_category_id <", value, "equipmentCategoryId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentCategoryIdLessThanOrEqualTo(Integer value) {
-            addCriterion("equipment_category_id <=", value, "equipmentCategoryId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentCategoryIdIn(List<Integer> values) {
-            addCriterion("equipment_category_id in", values, "equipmentCategoryId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentCategoryIdNotIn(List<Integer> values) {
-            addCriterion("equipment_category_id not in", values, "equipmentCategoryId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentCategoryIdBetween(Integer value1, Integer value2) {
-            addCriterion("equipment_category_id between", value1, value2, "equipmentCategoryId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentCategoryIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("equipment_category_id not between", value1, value2, "equipmentCategoryId");
-            return (Criteria) this;
-        }
-
         public Criteria addConditionSql(String conditionSql) {
             addCriterion(conditionSql);
             return (Criteria) this;

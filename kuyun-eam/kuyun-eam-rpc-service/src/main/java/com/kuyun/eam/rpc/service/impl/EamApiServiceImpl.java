@@ -121,6 +121,16 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     @Override
+    public List<EamTicketAssessmentTagVO> selectTicketAssessmentTags(EamTicketAssessmentTagVO vo){
+        return eamApiMapper.selectTicketAssessmentTags(vo);
+    }
+
+    @Override
+    public List<EamTicketAppointVO> selectTicketAppointRecord(EamTicketAppointedRecordExample example){
+        return eamApiMapper.selectTicketAppointRecord(example);
+    }
+
+    @Override
     public Integer inTask(EamInventory eamInventory) {
         EamInventory inventory = getInventory(eamInventory);
         if (inventory != null) {

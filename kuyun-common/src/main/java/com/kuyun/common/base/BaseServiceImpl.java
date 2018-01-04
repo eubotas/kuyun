@@ -98,6 +98,7 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 			DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
 			Method insertSelective = mapper.getClass().getDeclaredMethod("insertSelective", record.getClass());
 			Object result = insertSelective.invoke(mapper, record);
+			System.out.println("****id: "+record);
 			return Integer.parseInt(String.valueOf(result));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -105,7 +106,6 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 		DynamicDataSource.clearDataSource();
 		return 0;
 	}
-
 
 	@Override
 	public List<Record> selectByExampleWithBLOBs(Example example) {
@@ -301,7 +301,14 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 	 * @return
 	 */
 	public Class<Mapper> getMapperClass() {
-		return (Class<Mapper>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        Object  obj=getClass().getGenericSuperclass();
+        if(!(obj instanceof  ParameterizedType) )
+            return getSuperMapperClass();
+        else
+		    return (Class<Mapper>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 
+    public Class<Mapper> getSuperMapperClass() {
+        return (Class<Mapper>) ((ParameterizedType) getClass().getSuperclass().getGenericSuperclass()).getActualTypeArguments()[0];
+    }
 }

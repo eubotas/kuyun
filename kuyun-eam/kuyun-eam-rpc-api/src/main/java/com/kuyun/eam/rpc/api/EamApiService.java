@@ -25,6 +25,10 @@ public interface EamApiService {
     
     List<EamTicketVO> selectTicket(EamTicketExample example);
 
+    List<EamTicketAssessmentTagVO> selectTicketAssessmentTags(EamTicketAssessmentTagVO vo);
+
+    List<EamTicketAppointVO> selectTicketAppointRecord(EamTicketAppointedRecordExample example);
+
     Integer inTask(EamInventory inventory);
 
     Integer outTask(EamInventory inventory);

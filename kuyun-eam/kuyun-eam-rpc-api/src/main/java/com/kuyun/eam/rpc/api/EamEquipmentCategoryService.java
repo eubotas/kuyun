@@ -6,7 +6,7 @@ import com.kuyun.eam.dao.model.EamEquipmentCategoryExample;
 
 /**
 * EamEquipmentCategoryService接口
-* Created by kuyun on 2017/12/14.
+* Created by kuyun on 2017/12/21.
 */
 public interface EamEquipmentCategoryService extends BaseService<EamEquipmentCategory, EamEquipmentCategoryExample> {
 

@@ -9,6 +9,10 @@ public class EamTicket extends BaseEntity implements Serializable {
 
     private Integer ticketTypeId;
 
+    private Integer equipmentCategoryId;
+
+    private String equipmentId;
+
     /**
      * 描述
      *
@@ -17,32 +21,18 @@ public class EamTicket extends BaseEntity implements Serializable {
     private String description;
 
     /**
-     * 上传图片
+     * 语音
      *
      * @mbg.generated
      */
-    private String imagePath1;
+    private String voicePath;
 
     /**
      * 上传图片
      *
      * @mbg.generated
      */
-    private String imagePath2;
-
-    /**
-     * 上传图片
-     *
-     * @mbg.generated
-     */
-    private String imagePath3;
-
-    /**
-     * 上传图片
-     *
-     * @mbg.generated
-     */
-    private String imagePath4;
+    private String imagePath;
 
     /**
      * 优先级（一般，紧急, 非常紧急）
@@ -59,19 +49,13 @@ public class EamTicket extends BaseEntity implements Serializable {
     private Integer executorId;
 
     /**
-     * 状态（未解决, 处理中, 已解决, 不需处理）
+     * 状态（待派工, 待维修, 维修中, 待评价, 评价完成）
      *
      * @mbg.generated
      */
     private String status;
 
     private Date endDate;
-
-    private Integer equipmentCategoryId;
-
-    private Integer equipmentId;
-
-    private Integer voicePath;
 
     private static final long serialVersionUID = 1L;
 
@@ -91,6 +75,22 @@ public class EamTicket extends BaseEntity implements Serializable {
         this.ticketTypeId = ticketTypeId;
     }
 
+    public Integer getEquipmentCategoryId() {
+        return equipmentCategoryId;
+    }
+
+    public void setEquipmentCategoryId(Integer equipmentCategoryId) {
+        this.equipmentCategoryId = equipmentCategoryId;
+    }
+
+    public String getEquipmentId() {
+        return equipmentId;
+    }
+
+    public void setEquipmentId(String equipmentId) {
+        this.equipmentId = equipmentId;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -99,36 +99,20 @@ public class EamTicket extends BaseEntity implements Serializable {
         this.description = description;
     }
 
-    public String getImagePath1() {
-        return imagePath1;
+    public String getVoicePath() {
+        return voicePath;
     }
 
-    public void setImagePath1(String imagePath1) {
-        this.imagePath1 = imagePath1;
+    public void setVoicePath(String voicePath) {
+        this.voicePath = voicePath;
     }
 
-    public String getImagePath2() {
-        return imagePath2;
+    public String getImagePath() {
+        return imagePath;
     }
 
-    public void setImagePath2(String imagePath2) {
-        this.imagePath2 = imagePath2;
-    }
-
-    public String getImagePath3() {
-        return imagePath3;
-    }
-
-    public void setImagePath3(String imagePath3) {
-        this.imagePath3 = imagePath3;
-    }
-
-    public String getImagePath4() {
-        return imagePath4;
-    }
-
-    public void setImagePath4(String imagePath4) {
-        this.imagePath4 = imagePath4;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     public String getPriority() {
@@ -163,30 +147,6 @@ public class EamTicket extends BaseEntity implements Serializable {
         this.endDate = endDate;
     }
 
-    public Integer getEquipmentCategoryId() {
-        return equipmentCategoryId;
-    }
-
-    public void setEquipmentCategoryId(Integer equipmentCategoryId) {
-        this.equipmentCategoryId = equipmentCategoryId;
-    }
-
-    public Integer getEquipmentId() {
-        return equipmentId;
-    }
-
-    public void setEquipmentId(Integer equipmentId) {
-        this.equipmentId = equipmentId;
-    }
-
-    public Integer getVoicePath() {
-        return voicePath;
-    }
-
-    public void setVoicePath(Integer voicePath) {
-        this.voicePath = voicePath;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -195,18 +155,15 @@ public class EamTicket extends BaseEntity implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", ticketId=").append(ticketId);
         sb.append(", ticketTypeId=").append(ticketTypeId);
+        sb.append(", equipmentCategoryId=").append(equipmentCategoryId);
+        sb.append(", equipmentId=").append(equipmentId);
         sb.append(", description=").append(description);
-        sb.append(", imagePath1=").append(imagePath1);
-        sb.append(", imagePath2=").append(imagePath2);
-        sb.append(", imagePath3=").append(imagePath3);
-        sb.append(", imagePath4=").append(imagePath4);
+        sb.append(", voicePath=").append(voicePath);
+        sb.append(", imagePath=").append(imagePath);
         sb.append(", priority=").append(priority);
         sb.append(", executorId=").append(executorId);
         sb.append(", status=").append(status);
         sb.append(", endDate=").append(endDate);
-        sb.append(", equipmentCategoryId=").append(equipmentCategoryId);
-        sb.append(", equipmentId=").append(equipmentId);
-        sb.append(", voicePath=").append(voicePath);
         sb.append("]");
         return sb.toString();
     }
@@ -225,11 +182,11 @@ public class EamTicket extends BaseEntity implements Serializable {
         EamTicket other = (EamTicket) that;
         return (this.getTicketId() == null ? other.getTicketId() == null : this.getTicketId().equals(other.getTicketId()))
             && (this.getTicketTypeId() == null ? other.getTicketTypeId() == null : this.getTicketTypeId().equals(other.getTicketTypeId()))
+            && (this.getEquipmentCategoryId() == null ? other.getEquipmentCategoryId() == null : this.getEquipmentCategoryId().equals(other.getEquipmentCategoryId()))
+            && (this.getEquipmentId() == null ? other.getEquipmentId() == null : this.getEquipmentId().equals(other.getEquipmentId()))
             && (this.getDescription() == null ? other.getDescription() == null : this.getDescription().equals(other.getDescription()))
-            && (this.getImagePath1() == null ? other.getImagePath1() == null : this.getImagePath1().equals(other.getImagePath1()))
-            && (this.getImagePath2() == null ? other.getImagePath2() == null : this.getImagePath2().equals(other.getImagePath2()))
-            && (this.getImagePath3() == null ? other.getImagePath3() == null : this.getImagePath3().equals(other.getImagePath3()))
-            && (this.getImagePath4() == null ? other.getImagePath4() == null : this.getImagePath4().equals(other.getImagePath4()))
+            && (this.getVoicePath() == null ? other.getVoicePath() == null : this.getVoicePath().equals(other.getVoicePath()))
+            && (this.getImagePath() == null ? other.getImagePath() == null : this.getImagePath().equals(other.getImagePath()))
             && (this.getPriority() == null ? other.getPriority() == null : this.getPriority().equals(other.getPriority()))
             && (this.getExecutorId() == null ? other.getExecutorId() == null : this.getExecutorId().equals(other.getExecutorId()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
@@ -239,10 +196,7 @@ public class EamTicket extends BaseEntity implements Serializable {
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()))
-            && (this.getEquipmentCategoryId() == null ? other.getEquipmentCategoryId() == null : this.getEquipmentCategoryId().equals(other.getEquipmentCategoryId()))
-            && (this.getEquipmentId() == null ? other.getEquipmentId() == null : this.getEquipmentId().equals(other.getEquipmentId()))
-            && (this.getVoicePath() == null ? other.getVoicePath() == null : this.getVoicePath().equals(other.getVoicePath()));
+            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()));
     }
 
     @Override
@@ -251,11 +205,11 @@ public class EamTicket extends BaseEntity implements Serializable {
         int result = 1;
         result = prime * result + ((getTicketId() == null) ? 0 : getTicketId().hashCode());
         result = prime * result + ((getTicketTypeId() == null) ? 0 : getTicketTypeId().hashCode());
+        result = prime * result + ((getEquipmentCategoryId() == null) ? 0 : getEquipmentCategoryId().hashCode());
+        result = prime * result + ((getEquipmentId() == null) ? 0 : getEquipmentId().hashCode());
         result = prime * result + ((getDescription() == null) ? 0 : getDescription().hashCode());
-        result = prime * result + ((getImagePath1() == null) ? 0 : getImagePath1().hashCode());
-        result = prime * result + ((getImagePath2() == null) ? 0 : getImagePath2().hashCode());
-        result = prime * result + ((getImagePath3() == null) ? 0 : getImagePath3().hashCode());
-        result = prime * result + ((getImagePath4() == null) ? 0 : getImagePath4().hashCode());
+        result = prime * result + ((getVoicePath() == null) ? 0 : getVoicePath().hashCode());
+        result = prime * result + ((getImagePath() == null) ? 0 : getImagePath().hashCode());
         result = prime * result + ((getPriority() == null) ? 0 : getPriority().hashCode());
         result = prime * result + ((getExecutorId() == null) ? 0 : getExecutorId().hashCode());
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
@@ -266,9 +220,6 @@ public class EamTicket extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
-        result = prime * result + ((getEquipmentCategoryId() == null) ? 0 : getEquipmentCategoryId().hashCode());
-        result = prime * result + ((getEquipmentId() == null) ? 0 : getEquipmentId().hashCode());
-        result = prime * result + ((getVoicePath() == null) ? 0 : getVoicePath().hashCode());
         return result;
     }
 }

@@ -1,8 +1,9 @@
 package com.kuyun.upms.dao.model;
 
+import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
 
-public class UpmsSystem implements Serializable {
+public class UpmsSystem extends BaseEntity implements Serializable {
     /**
      * 编号
      *
@@ -45,11 +46,6 @@ public class UpmsSystem implements Serializable {
      */
     private Byte status;
 
-    /**
-     * 系统名称
-     *
-     * @mbg.generated
-     */
     private String name;
 
     /**
