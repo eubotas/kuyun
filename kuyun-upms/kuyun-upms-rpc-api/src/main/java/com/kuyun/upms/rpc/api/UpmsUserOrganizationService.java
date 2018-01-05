@@ -8,6 +8,6 @@ import com.kuyun.upms.dao.model.UpmsUserOrganizationExample;
 * UpmsUserOrganizationService接口
 * Created by kuyun on 2017/3/20.
 */
-public interface UpmsUserOrganizationService extends CustUserOrganizationService {
+public interface UpmsUserOrganizationService extends BaseService<UpmsUserOrganization, UpmsUserOrganizationExample> {
 
 }

@@ -11,8 +11,14 @@ import com.kuyun.eam.dao.model.EamTicketAssessmentExample;
 */
 public class EamTicketAssessmentServiceMock extends BaseServiceMock<EamTicketAssessmentMapper, EamTicketAssessment, EamTicketAssessmentExample> implements EamTicketAssessmentService {
 
+
     @Override
-    public EamTicketAssessment insertSelective2(EamTicketAssessment record) {
-        return null;
+    public void createTicketAssessment(EamTicketAssessment record, int[] ticketTag) {
+
+    }
+
+    @Override
+    public int updateTicketAssessment(EamTicketAssessment record, int[] ticketTags) {
+        return 0;
     }
 }

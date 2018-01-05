@@ -15,6 +15,7 @@ import com.kuyun.eam.rpc.api.EamTicketAppointedRecordService;
 import com.kuyun.eam.rpc.api.EamTicketService;
 import com.kuyun.eam.vo.EamTicketAppointVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
+import com.kuyun.upms.common.constant.OrgDepartment;
 import com.kuyun.upms.dao.model.UpmsUser;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
 import com.kuyun.upms.dao.vo.UpmsOrgUserVo;
@@ -118,7 +119,7 @@ public class EamTicketAppointController extends EamTicketBaseController {
         if (company != null){
             orgUserVo.setCompanyId(company.getCompanyId());
         }
-        orgUserVo.setOrgName("维修部");
+        orgUserVo.setOrgName(OrgDepartment.MAINTENANCE_DEPARTMENT.getName());
 
 		List<UpmsOrgUserVo> users = upmsApiService.selectOrgUsersByOrgNameCompanyId( orgUserVo);
 		modelMap.put("users", users);
@@ -132,8 +133,13 @@ public class EamTicketAppointController extends EamTicketBaseController {
 	@ResponseBody
 	public Object create(EamTicketAppointedRecord ticketAppointRecord) {
 		baseEntityUtil.addAddtionalValue(ticketAppointRecord);
-		int count = eamTicketAppointRecordService.insertSelective(ticketAppointRecord);
-		ticketToProcess(ticketAppointRecord.getTicketId());
+
+        EamTicket ticket=new EamTicket();
+        ticket.setTicketId(ticketAppointRecord.getTicketId());
+        ticket.setStatus(TicketStatus.TO_PROCESS.getName());
+        ticket.setExecutorId(ticketAppointRecord.getOrderTakerId());
+        baseEntityUtil.updateAddtionalValue(ticket);
+		int count = eamApiService.createTicketAppoint(ticketAppointRecord, ticket);
 		return new EamResult(SUCCESS, count);
 	}
 
@@ -149,19 +155,8 @@ public class EamTicketAppointController extends EamTicketBaseController {
 		if (!result.isSuccess()) {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
-		baseEntityUtil.addAddtionalValue(ticketAppointRecord);
-		int count = eamTicketAppointRecordService.insertSelective(ticketAppointRecord);
-		int c2= ticketInit(ticketAppointRecord.getTicketId());
-		return new EamResult(SUCCESS, count);
-	}
-
-	@ApiOperation(value = "删除工单委派")
-	@RequiresPermissions("eam:ticketAppointedRecord:delete")
-	@RequestMapping(value = "/delete/{ids}",method = RequestMethod.GET)
-	@ResponseBody
-	public Object delete(@PathVariable("ticketId") int ticketId, @PathVariable("ids") String ids) {
-		int count = eamTicketAppointRecordService.deleteByPrimaryKeys(ids);
-		ticketInit(ticketId);
+		baseEntityUtil.updateAddtionalValue(ticketAppointRecord);
+		int count = eamApiService.rejectTicketAppoint(ticketAppointRecord);
 		return new EamResult(SUCCESS, count);
 	}
 
@@ -174,45 +169,11 @@ public class EamTicketAppointController extends EamTicketBaseController {
 		EamTicketAppointedRecordExample.Criteria criteria = eamTicketAppointRecordExample.createCriteria();
 		criteria.andTicketIdEqualTo(ticketId);
 		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
-		int count = eamTicketAppointRecordService.deleteByExample(eamTicketAppointRecordExample);
-		int c2=ticketInit(ticketId);
+		int count = eamApiService.deleteTicketAppoint(eamTicketAppointRecordExample, ticketId);
 		return new EamResult(SUCCESS, count);
 	}
 
-//	@ApiOperation(value = "修改工单委派")
-//	@RequiresPermissions("eam:ticketAppointedRecord:update")
-//	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-//	public String update(@PathVariable("id") int id, ModelMap modelMap) {
-//		EamTicketAppointedRecord eamTicketAppointRecord = eamTicketAppointRecordService.selectByPrimaryKey(id);
-//		modelMap.put("ticketAppointRecord", eamTicketAppointRecord);
-//		return "/manage/ticket/appoint/update.jsp";
-//	}
-//
-//	@ApiOperation(value = "修改工单委派")
-//	@RequiresPermissions("eam:ticketAppointedRecord:update")
-//	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
-//	@ResponseBody
-//	public Object update(@PathVariable("id") int id, EamTicketAppointedRecord ticketAppointRecord) {
-//		ComplexResult result = FluentValidator.checkAll()
-//				.on(ticketAppointRecord.getRejectCommont(), new LengthValidator(1, 20, "工单委派拒绝原因不能为空"))
-//				.doValidate()
-//				.result(ResultCollectors.toComplex());
-//		if (!result.isSuccess()) {
-//			return new EamResult(INVALID_LENGTH, result.getErrors());
-//		}
-//		ticketAppointRecord.setId(id);
-//		baseEntityUtil.updateAddtionalValue(ticketAppointRecord);
-//		int count = eamTicketAppointRecordService.updateByPrimaryKeySelective(ticketAppointRecord);
-//		return new EamResult(SUCCESS, count);
-//	}
 
-	public int ticketInit(int ticketId){
-		return updateTicketStatus( ticketId, TicketStatus.INIT.getName());
-	}
-
-	public int ticketToProcess(int ticketId){
-		return updateTicketStatus( ticketId, TicketStatus.TO_PROCESS.getName());
-	}
 	public int ticketProcess(int ticketId){
 		return updateTicketStatus( ticketId, TicketStatus.PROCESSING.getName());
 	}

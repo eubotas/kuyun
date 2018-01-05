@@ -13,8 +13,4 @@ import java.util.List;
 */
 public class UpmsUserOrganizationServiceMock extends BaseServiceMock<UpmsUserOrganizationMapper, UpmsUserOrganization, UpmsUserOrganizationExample> implements UpmsUserOrganizationService {
 
-    @Override
-    public void batchInsert(int orgId, List<UpmsUserOrganization> list) {
-
-    }
 }

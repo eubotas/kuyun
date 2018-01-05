@@ -23,25 +23,11 @@ import java.lang.reflect.Method;
 @Service
 @Transactional
 @BaseService
-public class EamTicketAssessmentServiceImpl extends BaseServiceImpl<EamTicketAssessmentMapper, EamTicketAssessment, EamTicketAssessmentExample> implements EamTicketAssessmentService {
+public class EamTicketAssessmentServiceImpl extends CustTicketAssessmentServiceImpl implements EamTicketAssessmentService {
 
     private static Logger _log = LoggerFactory.getLogger(EamTicketAssessmentServiceImpl.class);
 
     @Autowired
     EamTicketAssessmentMapper eamTicketAssessmentMapper;
 
-    @Override
-    public EamTicketAssessment insertSelective2(EamTicketAssessment record) {
-        try {
-            DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
-            Method insertSelective = mapper.getClass().getDeclaredMethod("insertSelective", record.getClass());
-            Object result = insertSelective.invoke(mapper, record);
-
-            return record;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        DynamicDataSource.clearDataSource();
-        return record;
-    }
 }

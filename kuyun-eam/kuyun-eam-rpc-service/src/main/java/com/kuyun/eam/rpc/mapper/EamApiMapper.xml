@@ -268,20 +268,25 @@
 
 
 	<resultMap id="EamTicketVOResultMap" type="com.kuyun.eam.vo.EamTicketVO" extends="com.kuyun.eam.dao.mapper.EamTicketMapper.BaseResultMap">
-	    <result column="realname" jdbcType="VARCHAR" property="realname" />
-		<result column="phone" jdbcType="VARCHAR" property="phone" />
+	    <result column="serviceman" jdbcType="VARCHAR" property="serviceman" />
+		<result column="servicePhone" jdbcType="VARCHAR" property="servicePhone" />
+        <result column="customerContacts" jdbcType="VARCHAR" property="customerContacts" />
+        <result column="customerPhone" jdbcType="VARCHAR" property="customerPhone" />
 		<association property="ticketType" resultMap="com.kuyun.eam.dao.mapper.EamTicketTypeMapper.BaseResultMap"></association>
 	</resultMap>
 
 	<select id="selectTicket" parameterType="com.kuyun.eam.dao.model.EamTicketExample" resultMap="EamTicketVOResultMap">
 		select
 		<include refid="com.kuyun.eam.dao.mapper.EamTicketMapper.Base_Column_List" /> ,
-		uu.realname as realname,
-		uu.phone,
+		uu.realname as serviceman,
+		uu.phone as servicePhone,
+        cu.realname as customerContacts,
+        cu.phone as customerPhone,
 		<include refid="com.kuyun.eam.dao.mapper.EamTicketTypeMapper.Base_Column_List"/>
 		from eam_ticket
 		LEFT OUTER JOIN eam_ticket_type  ON eam_ticket.ticket_type_id = eam_ticket_type.id
 		LEFT OUTER JOIN upms_user uu ON eam_ticket.executor_id = uu.user_id
+        LEFT OUTER JOIN upms_user cu ON eam_ticket.create_user_id = cu.user_id
 		<if test="_parameter != null">
       		<include refid="com.kuyun.eam.dao.mapper.EamTicketMapper.Example_Where_Clause" />
 		</if>

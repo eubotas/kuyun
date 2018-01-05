@@ -1,12 +1,15 @@
 package com.kuyun.eam.rpc.service.impl;
 
 import com.google.gson.Gson;
+import com.kuyun.common.db.DataSourceEnum;
+import com.kuyun.common.db.DynamicDataSource;
 import com.kuyun.eam.alarm.AbstractAlarmHandler;
 import com.kuyun.eam.alarm.AlarmTypeFactory;
 import com.kuyun.eam.alarm.OfflineHandler;
 import com.kuyun.eam.common.constant.AlarmType;
 import com.kuyun.eam.common.constant.CollectStatus;
 import com.kuyun.eam.common.constant.DataType;
+import com.kuyun.eam.common.constant.TicketStatus;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.pojo.IDS;
 import com.kuyun.eam.pojo.sensor.SensorData;
@@ -31,6 +34,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -93,6 +97,11 @@ public class EamApiServiceImpl implements EamApiService {
     @Autowired
     private EamEquipmentCompanyService eamEquipmentCompanyService;
 
+    @Autowired
+    private EamTicketService eamTicketService;
+
+    @Autowired
+    private EamTicketAppointedRecordService eamTicketAppointRecordService;
 
     @Override
     public List<EamMaintenanceVO> selectMaintenance(EamMaintenanceVO maintenanceVO) {
@@ -579,5 +588,37 @@ public class EamApiServiceImpl implements EamApiService {
         result.setUpdateTime(now);
         result.setDeleteFlag(Boolean.FALSE);
         return result;
+    }
+
+    /************************  Ticket   ******************************/
+    @Override
+    public int createTicketAppoint(EamTicketAppointedRecord record, EamTicket ticket){
+        int i= eamTicketAppointRecordService.insertSelective(record);
+        eamTicketService.updateByPrimaryKeySelective(ticket);
+        return i;
+    }
+
+    @Override
+    public int rejectTicketAppoint(EamTicketAppointedRecord ticketAppointRecord){
+        int count = eamTicketAppointRecordService.insertSelective(ticketAppointRecord);
+        updateTicketStatus(ticketAppointRecord.getTicketId(), TicketStatus.INIT.getName());
+        return count;
+    }
+    @Override
+    public int deleteTicketAppoint(EamTicketAppointedRecordExample eamTicketAppointRecordExample, int ticketId){
+        int i= eamTicketAppointRecordService.deleteByExample(eamTicketAppointRecordExample);
+        updateTicketStatus(ticketId, TicketStatus.INIT.getName());
+        return i;
+    }
+
+    private int updateTicketStatus(int ticketId, String status){
+        EamTicket ticket=new EamTicket();
+        ticket.setTicketId(ticketId);
+        ticket.setStatus(status);
+        return updateTicketStatus(ticket);
+    }
+
+    private int updateTicketStatus(EamTicket ticket){
+        return eamTicketService.updateByPrimaryKeySelective(ticket);
     }
 }

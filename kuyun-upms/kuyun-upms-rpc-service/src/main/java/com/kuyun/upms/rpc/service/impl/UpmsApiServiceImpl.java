@@ -483,4 +483,12 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         return upmsApiMapper.selectOrgUsersByOrgNameCompanyId(orgUserVo);
     }
 
+    @Override
+    public void CreateOrgUser(int orgId, List<UpmsUserOrganization> list){
+        UpmsUserOrganizationExample example= new UpmsUserOrganizationExample();
+        UpmsUserOrganizationExample.Criteria  criteria =example.createCriteria();
+        criteria.andOrganizationIdEqualTo(orgId);
+        upmsUserOrganizationService.deleteByExample(example);
+        upmsUserOrganizationService.batchInsert(list);
+    }
 }

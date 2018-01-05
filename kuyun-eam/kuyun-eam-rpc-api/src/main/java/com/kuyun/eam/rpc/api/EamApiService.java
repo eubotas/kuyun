@@ -71,6 +71,8 @@ public interface EamApiService {
 
     List<EamEquipmentModelPropertiesVO> selectEquipmentModelProperties(String equipmentId);
 
-
+    public int createTicketAppoint(EamTicketAppointedRecord record, EamTicket ticket);
+    public int rejectTicketAppoint(EamTicketAppointedRecord ticketAppointRecord);
+    public int deleteTicketAppoint(EamTicketAppointedRecordExample eamTicketAppointRecordExample, int ticketId);
 
 }

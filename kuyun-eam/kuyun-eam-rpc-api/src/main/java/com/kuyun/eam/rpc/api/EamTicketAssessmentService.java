@@ -12,7 +12,6 @@ import java.lang.reflect.Method;
 * EamTicketAssessmentService接口
 * Created by kuyun on 2017/12/26.
 */
-public interface EamTicketAssessmentService extends BaseService<EamTicketAssessment, EamTicketAssessmentExample> {
+public interface EamTicketAssessmentService extends CustTicketAssessmentService {
 
-    public EamTicketAssessment insertSelective2(EamTicketAssessment record);
 }

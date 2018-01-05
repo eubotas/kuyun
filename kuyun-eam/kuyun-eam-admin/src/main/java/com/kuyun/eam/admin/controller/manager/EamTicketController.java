@@ -238,72 +238,6 @@ public class EamTicketController extends EamTicketBaseController {
         return new EamResult(SUCCESS, count);
     }
 
-//	@ApiOperation(value = "处理工单")
-//	@RequiresPermissions("eam:ticket:process")
-//	@RequestMapping(value = "/process/{id}", method = RequestMethod.GET)
-//	public String process(@PathVariable("id") int id, ModelMap modelMap) {
-//		EamTicketExample ete = new EamTicketExample();
-//		ete.createCriteria().andTicketIdEqualTo(id);
-//		EamTicketVO eamTicket = eamApiService.selectTicket(ete).get(0);
-//		modelMap.put("ticket", eamTicket);
-//
-//		//retrieve the image list
-//		List<String> imageList =  new ArrayList<String>();
-//		if(eamTicket.getImagePath() != null) {
-//			for (String uuid : Splitter.on(',')
-//					.trimResults()
-//					.omitEmptyStrings()
-//					.split(eamTicket.getImagePath())) {
-//				imageList.add(fileUploaderService.getServerInfo().getEndpoint_show() + "/" + uuid);
-//			}
-//		}
-//		modelMap.put("imageList", imageList);
-//
-//		//retrieve the voice list
-//		List<String> voiceList =  new ArrayList<String>();
-//		if(eamTicket.getVoicePath() != null) {
-//			for (String uuid : Splitter.on(',')
-//					.trimResults()
-//					.omitEmptyStrings()
-//					.split(eamTicket.getVoicePath())) {
-//				voiceList.add(fileUploaderService.getServerInfo().getEndpoint_show() + "/" + uuid);
-//			}
-//		}
-//		modelMap.put("voiceList", voiceList);
-//
-//		EamTicketRecordExample etre = new EamTicketRecordExample();
-//		etre.createCriteria().andTicketIdEqualTo(id);
-//		etre.setOrderByClause("eam_ticket_record_create_time desc");
-//
-//		List<EamTicketRecord> records = eamTicketRecordService.selectByExample(etre);
-//		modelMap.put("records", records);
-//		return "/manage/ticket/process.jsp";
-//	}
-//
-//	@ApiOperation(value = "处理工单")
-//	@RequiresPermissions("eam:ticket:process")
-//	@RequestMapping(value = "/process/{id}", method = RequestMethod.POST)
-//	@ResponseBody
-//	public Object process(@PathVariable("id") int id, EamTicketRecord ticketRecord) {
-//		ComplexResult result = FluentValidator.checkAll()
-//				.on(ticketRecord.getComments(), new LengthValidator(1, 200, "工单处理注释"))
-//				.doValidate()
-//				.result(ResultCollectors.toComplex());
-//		if (!result.isSuccess()) {
-//			return new EamResult(EamResultConstant.INVALID_LENGTH, result.getErrors());
-//		}
-//		ticketRecord.setTicketId(id);
-//		ticketRecord.setId(null);
-//		baseEntityUtil.addAddtionalValue(ticketRecord);
-//		int count = eamTicketRecordService.insertSelective(ticketRecord);
-//
-//		// change the ticket status according to the record step value
-//		EamTicket ticket = eamTicketService.selectByPrimaryKey(id);
-//		ticket.setStatus(ticketRecord.getStep());
-//		eamTicketService.updateByPrimaryKeySelective(ticket);
-//
-//		return new EamResult(EamResultConstant.SUCCESS, count);
-//	}
 
 	@ApiOperation(value = "完成工单")
 	@RequiresPermissions("eam:ticket:update")
@@ -313,19 +247,6 @@ public class EamTicketController extends EamTicketBaseController {
 		EamTicket ticket=new EamTicket();
 		ticket.setTicketId(id);
 		ticket.setStatus(TicketStatus.COMPLETE.getName());
-		ticket.setEndDate(new Date());
-		int count= eamTicketService.updateByPrimaryKeySelective(ticket);
-		return new EamResult(EamResultConstant.SUCCESS, count);
-	}
-
-	@ApiOperation(value = "接受工单")
-	@RequiresPermissions("eam:ticket:update")
-	@RequestMapping(value = "/accept/{id}", method = RequestMethod.GET)
-	@ResponseBody
-	public Object accept(@PathVariable("id") int id ) {
-		EamTicket ticket=new EamTicket();
-		ticket.setTicketId(id);
-		ticket.setExecutorId(getCurrUserId());
 		int count= eamTicketService.updateByPrimaryKeySelective(ticket);
 		return new EamResult(EamResultConstant.SUCCESS, count);
 	}

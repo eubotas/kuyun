@@ -107,12 +107,7 @@ public class UpmsOrganizationController extends BaseController {
                 uo.setUserId(Integer.parseInt(uid));
                 list.add(uo);
             }
-            upmsUserOrganizationService.batchInsert(id, list);
-//            UpmsUserOrganizationExample example= new UpmsUserOrganizationExample();
-//            UpmsUserOrganizationExample.Criteria  criteria =example.createCriteria();
-//            criteria.andOrganizationIdEqualTo(id);
-//            upmsUserOrganizationService.deleteByExample(example);
-//            upmsUserOrganizationService.batchInsert(list);
+            upmsApiService.CreateOrgUser(id, list);
         }
         return new UpmsResult(UpmsResultConstant.SUCCESS, 1);
     }

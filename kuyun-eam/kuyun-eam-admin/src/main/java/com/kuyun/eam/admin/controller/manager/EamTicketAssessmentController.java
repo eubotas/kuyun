@@ -165,9 +165,7 @@ public class EamTicketAssessmentController extends EamTicketBaseController {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
 		baseEntityUtil.addAddtionalValue(ticketAssessment);
-		EamTicketAssessment assessment = eamTicketAssessmentService.insertSelective2(ticketAssessment);
-		Integer id=assessment.getId();
-		insertTag(id, assessment.getTicketId(), ticketTag);
+		eamTicketAssessmentService.createTicketAssessment(ticketAssessment, ticketTag);
 		return new EamResult(SUCCESS, 1);
 	}
 
@@ -213,15 +211,9 @@ public class EamTicketAssessmentController extends EamTicketBaseController {
 		if (!result.isSuccess()) {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
-        //delete tag
-		deleteTag(id);
-
-        //insert tag
-		insertTag(id,ticketId, ticketTag);
-
 		ticketAssessment.setId(id);
 		baseEntityUtil.updateAddtionalValue(ticketAssessment);
-		int count = eamTicketAssessmentService.updateByPrimaryKeySelective(ticketAssessment);
+		int count = eamTicketAssessmentService.updateTicketAssessment(ticketAssessment, ticketTag);
 		return new EamResult(SUCCESS, count);
 	}
 

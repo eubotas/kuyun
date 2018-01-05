@@ -121,4 +121,5 @@ public interface UpmsApiService {
     Long getUsersCountByOrg(int orgId);
     List<UpmsOrgUserVo> selectOrgUsersByOrgNameCompanyId(UpmsOrgUserVo orgUserVo);
 
+    public void CreateOrgUser(int orgId, List<UpmsUserOrganization> list);
 }

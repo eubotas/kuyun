@@ -160,4 +160,19 @@ public class EamApiServiceMock implements EamApiService {
         return null;
     }
 
+    @Override
+    public int createTicketAppoint(EamTicketAppointedRecord record, EamTicket ticket) {
+        return 0;
+    }
+
+    @Override
+    public int rejectTicketAppoint(EamTicketAppointedRecord ticketAppointRecord) {
+        return 0;
+    }
+
+    @Override
+    public int deleteTicketAppoint(EamTicketAppointedRecordExample eamTicketAppointRecordExample, int ticketId) {
+        return 0;
+    }
+
 }

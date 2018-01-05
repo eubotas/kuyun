@@ -169,4 +169,9 @@ public class UpmsApiServiceMock implements UpmsApiService {
         return null;
     }
 
+    @Override
+    public void CreateOrgUser(int orgId, List<UpmsUserOrganization> list) {
+
+    }
+
 }
