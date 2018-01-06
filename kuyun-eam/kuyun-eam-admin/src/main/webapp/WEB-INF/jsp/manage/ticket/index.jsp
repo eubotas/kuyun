@@ -105,8 +105,7 @@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 
         <!-- 维修人员 -->
         <shiro:hasPermission name="eam:ticket:create"><a class="waves-effect waves-button" href="javascript:;" onclick="toaction('REJECT')"><i class="zmdi zmdi-edit"></i> 拒绝工单</a></shiro:hasPermission>
-        <shiro:hasPermission name="eam:ticket:create"><a class="waves-effect waves-button" href="javascript:;" onclick="toaction('TORECORD')"><i class="zmdi zmdi-edit"></i> 处理工单</a></shiro:hasPermission>
-        <shiro:hasPermission name="eam:ticket:create"><a class="waves-effect waves-button" href="javascript:;" onclick="toaction('ACCEPT')"><i class="zmdi zmdi-edit"></i> 接受工单</a></shiro:hasPermission>
+        <shiro:hasPermission name="eam:ticketAppointedRecord:create"><a class="waves-effect waves-button" href="javascript:;" onclick="toaction('TORECORD')"><i class="zmdi zmdi-edit"></i> 处理工单</a></shiro:hasPermission>
         <shiro:hasPermission name="eam:ticket:create"><a class="waves-effect waves-button" href="javascript:;" onclick="toaction('COMPLETE')"><i class="zmdi zmdi-edit"></i> 完成工单</a></shiro:hasPermission>
 
         <!-- manager -->
@@ -251,11 +250,9 @@ function toaction(type) {
         else if('TORECORD'==type)
             createChildWindow('处理工单', '${basePath}/manage/ticket/' +ticketId  + '/record/create');
         else if('REJECT'==type)
-            directlyAction('拒绝工单', '${basePath}/manage/ticket/' + ticketId + '/appoint/reject');
+            createChildWindow('拒绝工单', '${basePath}/manage/ticket/' + ticketId + '/appoint/toreject');
         else if('COMPLETE'==type)
             directlyAction('完成工单',  '${basePath}/manage/ticket/complete/' + ticketId);
-        else if('ACCEPT'==type)
-            directlyAction('接受工单',  '${basePath}/manage/ticket/accept/' + ticketId);
     }
 }
 
@@ -290,10 +287,11 @@ function directlyAction(name,url) {
                             url: url,
                             success: function(result) {
                                 if (result.code != 1) {
-                                    showInfo(textStatus);
+                                    showInfo('failure');
                                 } else {
                                     directlyOperateDialog.close();
                                     showInfo('success');
+                                    $table.bootstrapTable('refresh');
                                 }
                             },
                             error: function(XMLHttpRequest, textStatus, errorThrown) {

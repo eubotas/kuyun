@@ -100,16 +100,15 @@
 <body>
 <div id="main">
     <div id="toolbar">
-
         <shiro:hasPermission name="eam:ticket:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增工单</a></shiro:hasPermission>
         <shiro:hasPermission name="eam:ticket:create"><a class="waves-effect waves-button" href="javascript:;" onclick="toaction('TOASSESSMENT')"><i class="zmdi zmdi-edit"></i> 评价工单</a></shiro:hasPermission>
-
 
         <!-- 维修人员 -->
         <shiro:hasPermission name="eam:ticket:create"><a class="waves-effect waves-button" href="javascript:;" onclick="toaction('REJECT')"><i class="zmdi zmdi-edit"></i> 拒绝工单</a></shiro:hasPermission>
         <shiro:hasPermission name="eam:ticket:create"><a class="waves-effect waves-button" href="javascript:;" onclick="toaction('TORECORD')"><i class="zmdi zmdi-edit"></i> 处理工单</a></shiro:hasPermission>
-        <shiro:hasPermission name="eam:ticket:create"><a class="waves-effect waves-button" href="javascript:;" onclick="toaction('ACCEPT')"><i class="zmdi zmdi-edit"></i> 接受工单</a></shiro:hasPermission>
         <shiro:hasPermission name="eam:ticket:create"><a class="waves-effect waves-button" href="javascript:;" onclick="toaction('COMPLETE')"><i class="zmdi zmdi-edit"></i> 完成工单</a></shiro:hasPermission>
+
+
     </div>
     <table id="table"></table>
 </div>
@@ -147,7 +146,10 @@
                 {field: 'description', title: '工单描述', sortable: true, align: 'center'},
                 {field: 'priority', title: '优先级'},
                 {field: 'ticketType.name', title: '工单类型'},
-                {field: 'realname', title: '执行人'},
+                {field: 'serviceman', title: '执行人'},
+                {field: 'servicePhone', title: '执行人电话'},
+                {field: 'customerContacts', title: '顾客'},
+                {field: 'customerPhone', title: '顾客电话'},
                 {field: 'status', title: '当前状态'},
                 {field: 'endDate', title: '指定完成日期', formatter:'timeFormatter'},
                 {field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
@@ -243,11 +245,9 @@
             else if('TORECORD'==type)
                 createChildWindow('处理工单', '${basePath}/manage/ticket/' +ticketId  + '/record/create');
             else if('REJECT'==type)
-                directlyAction('拒绝工单', '${basePath}/manage/ticket/' + ticketId + '/appoint/reject');
+                createChildWindow('拒绝工单', '${basePath}/manage/ticket/' + ticketId + '/appoint/toreject');
             else if('COMPLETE'==type)
                 directlyAction('完成工单',  '${basePath}/manage/ticket/complete/' + ticketId);
-            else if('ACCEPT'==type)
-                directlyAction('接受工单',  '${basePath}/manage/ticket/accept/' + ticketId);
         }
     }
 
@@ -282,10 +282,11 @@
                             url: url,
                             success: function(result) {
                                 if (result.code != 1) {
-                                    showInfo(textStatus);
+                                    showInfo('failure');
                                 } else {
                                     directlyOperateDialog.close();
                                     showInfo('success');
+                                    $table.bootstrapTable('refresh');
                                 }
                             },
                             error: function(XMLHttpRequest, textStatus, errorThrown) {

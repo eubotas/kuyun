@@ -2,6 +2,7 @@ package com.kuyun.eam.admin.controller.manager;
 
 import java.util.*;
 
+import com.kuyun.common.validator.NotNullValidator;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.vo.EamEquipmentVO;
@@ -165,6 +166,7 @@ public class EamTicketController extends EamTicketBaseController {
 	public Object create(EamTicket ticket) {
 		ComplexResult result = FluentValidator.checkAll()
 				.on(ticket.getDescription(), new LengthValidator(1, 2000, "工单问题描述"))
+                .on(ticket.getTicketTypeId(), new NotNullValidator("工单类型"))
 				.doValidate()
 				.result(ResultCollectors.toComplex());
 		if (!result.isSuccess()) {
@@ -224,7 +226,7 @@ public class EamTicketController extends EamTicketBaseController {
             return new EamResult(EamResultConstant.INVALID_LENGTH, result.getErrors());
         }
         baseEntityUtil.addAddtionalValue(eamTicket);
-        int count = eamTicketService.updateByPrimaryKey(eamTicket);
+        int count = eamTicketService.updateByPrimaryKeySelective(eamTicket);
 
         return new EamResult(EamResultConstant.SUCCESS, count);
     }

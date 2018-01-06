@@ -34,22 +34,41 @@
 	<div class="col-sm-12">
 		<label for="description">故障描述</label> <span id="description">${ticket.description }</span>
 	</div>
+</div>
+    <div class="row">
 	<div class="col-sm-6">
-		<label for="ticketTypeId">工单类型</label> <span>${ticket.ticketType.name }</span>
+		<label >工单类型</label> <span>${ticket.ticketType.name }</span>
 	</div>
 	<div class="col-sm-6">
-		<label for="priority">优先级</label> <span>${ticket.priority }</span>
+		<label>优先级</label> <span>${ticket.priority }</span>
 	</div>
+    </div>
+<div class="row">
+    <div class="col-sm-6">
+		<label >执行人</label> <span>${ticket.serviceman}</span>
+	</div>
+    <div class="col-sm-6">
+        <label >执行人电话</label> <span>${ticket.servicePhone}</span>
+    </div>
 
-	<div class="col-sm-12">
-		<label for="executorId">执行人</label> <span>${ticket.realname}</span>
-	</div>
-	<div class="col-sm-12">
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <label >顾客联系人</label> <span>${ticket.customerContacts}</span>
+    </div>
+    <div class="col-sm-6">
+        <label >顾客电话</label> <span>${ticket.customerPhone}</span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
 		<label for="endDate">指定完成日期</label> <span id="endDate">${ticket.endDate}</span>
 	</div>
-	<div class="col-sm-12">
+	<div class="col-sm-6">
 		<label for="createTime">创建时间</label> <span id="createTime">${ticket.createTime}</span>
 	</div>
+</div>
+<div class="row">
 	<div class="col-sm-12">
 		<!-- image list  -->
 		<c:forEach var="image" items="${imageList}">
@@ -83,4 +102,13 @@
 	function timeFormatter(value, row, index) {
 		return new Date(value).toLocaleString();
 	}
+
+	function closeBtn(refreshtable){
+        if(createDialog) {
+            createDialog.close();
+            if(refreshtable)
+                refreshtable.bootstrapTable('refresh');
+        }else if(processDialog)
+            processDialog.close();
+    }
 </script>

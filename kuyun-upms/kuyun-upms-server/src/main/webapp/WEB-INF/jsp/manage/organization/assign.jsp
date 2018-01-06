@@ -17,7 +17,7 @@
 
 <div id="assignDialog" class="crudDialog">
     <div class="form-group text-right dialog-buttons">
-        <a class="waves-effect waves-button" href="javascript:;" onclick="createSubmit();">确认分配</a>
+        <a class="waves-effect waves-button" href="javascript:;" onclick="assignSubmit();">确认分配</a>
         <a class="waves-effect waves-button" href="javascript:;" onclick="cancelAction();">取消</a>
     </div>
 
@@ -26,7 +26,7 @@
     </div>
 
     <div class="form-group text-right dialog-buttons">
-        <a class="waves-effect waves-button" href="javascript:;" onclick="createSubmit();">确认分配</a>
+        <a class="waves-effect waves-button" href="javascript:;" onclick="assignSubmit();">确认分配</a>
         <a class="waves-effect waves-button" href="javascript:;" onclick="cancelAction();">取消</a>
     </div>
 
@@ -84,7 +84,7 @@
     }
 
 
-    function createSubmit() {
+    function assignSubmit() {
         var rows = tableStaff.bootstrapTable('getSelections');
         if (rows.length == 0) {
             $.confirm({

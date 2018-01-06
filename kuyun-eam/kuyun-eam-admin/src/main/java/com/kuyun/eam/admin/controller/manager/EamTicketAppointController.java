@@ -143,9 +143,20 @@ public class EamTicketAppointController extends EamTicketBaseController {
 		return new EamResult(SUCCESS, count);
 	}
 
+    @ApiOperation(value = "拒绝工单委派")
+    @RequiresPermissions("eam:ticketAppointedRecord:create")
+    @RequestMapping(value = "/toreject", method = RequestMethod.GET)
+    public String toreject(@PathVariable("ticketId") int ticketId, ModelMap modelMap) {
+        UpmsUser user = baseEntityUtil.getCurrentUser();
+        modelMap.put("orderTakerId", user.getUserId());
+        modelMap.put("ticketId", ticketId);
+
+        return "/manage/ticket/appoint/reject.jsp";
+    }
+
 	@ApiOperation(value = "拒绝工单委派")
 	@RequiresPermissions("eam:ticketAppointedRecord:create")
-	@RequestMapping(value = "/reject", method = RequestMethod.GET)
+	@RequestMapping(value = "/reject", method = RequestMethod.POST)
 	@ResponseBody
 	public Object reject(EamTicketAppointedRecord ticketAppointRecord) {
 		ComplexResult result = FluentValidator.checkAll()

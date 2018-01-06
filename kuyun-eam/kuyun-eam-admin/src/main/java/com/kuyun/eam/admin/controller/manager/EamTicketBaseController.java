@@ -69,26 +69,26 @@ public abstract class EamTicketBaseController extends BaseController {
 		
 		//retrieve the image list
 		List<String> imageList =  new ArrayList<String>();
-		if(eamTicket.getImagePath() != null) {
-			for (String uuid : Splitter.on(',')
-					.trimResults()
-					.omitEmptyStrings()
-					.split(eamTicket.getImagePath())) {
-				imageList.add(fileUploaderService.getServerInfo().getEndpoint_show() + "/" + uuid);
-			}
-		}
+//		if(eamTicket.getImagePath() != null) {
+//			for (String uuid : Splitter.on(',')
+//					.trimResults()
+//					.omitEmptyStrings()
+//					.split(eamTicket.getImagePath())) {
+//				imageList.add(fileUploaderService.getServerInfo().getEndpoint_show() + "/" + uuid);
+//			}
+//		}
 		modelMap.put("imageList", imageList);
 
 		//retrieve the voice list
 		List<String> voiceList =  new ArrayList<String>();
-		if(eamTicket.getVoicePath() != null) {
-			for (String uuid : Splitter.on(',')
-					.trimResults()
-					.omitEmptyStrings()
-					.split(eamTicket.getVoicePath())) {
-				voiceList.add(fileUploaderService.getServerInfo().getEndpoint_show() + "/" + uuid);
-			}
-		}
+//		if(eamTicket.getVoicePath() != null) {
+//			for (String uuid : Splitter.on(',')
+//					.trimResults()
+//					.omitEmptyStrings()
+//					.split(eamTicket.getVoicePath())) {
+//				voiceList.add(fileUploaderService.getServerInfo().getEndpoint_show() + "/" + uuid);
+//			}
+//		}
 		modelMap.put("voiceList", voiceList);
 
         EamTicketRecordExample etre = new EamTicketRecordExample();

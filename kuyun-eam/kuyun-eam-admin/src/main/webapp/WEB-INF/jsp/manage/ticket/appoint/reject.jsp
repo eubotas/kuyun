@@ -9,21 +9,9 @@
 <div id="createDialog" class="crudDialog">
 	<form id="createForm" method="post">
 		<div class="row">
-			<div class="col-sm-6">
-                <label for="orderTakerId">工单执行人</label>
 				<div class="form-group">
 					<div class="fg-line">
-                        <select id="orderTakerId" name="orderTakerId" style="width: 100%">
-							<c:forEach var="user" items="${users}">
-								<option value="${user.userId}">${user.realname}</option>
-							</c:forEach>
-                        </select>
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-6">
-				<div class="form-group">
-					<div class="fg-line">
+                        <input type="hidden" name="orderTakerId" value="${orderTakerId}">
 						<label for="rejectCommont">工单委派备注/拒绝原因</label>
 						<input id="rejectCommont" type="text" class="form-control" name="rejectCommont" maxlength="200">
 					</div>
@@ -43,7 +31,7 @@
 function createSubmit() {
     $.ajax({
         type: 'post',
-        url: '${basePath}/manage/ticket/${ticketId}/appoint/create',
+        url: '${basePath}/manage/ticket/${ticketId}/appoint/reject',
         data: $('#createForm').serialize(),
         beforeSend: function() {
             if ($('#name').val() == '') {
@@ -85,7 +73,12 @@ function createSubmit() {
 						});
 				}
 			} else {
-                closeBtn($table);
+			    if(createDialog) {
+                    createDialog.close();
+                    $table.bootstrapTable('refresh');
+                }else if(processDialog)
+                    processDialog.close();
+
 			}
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {

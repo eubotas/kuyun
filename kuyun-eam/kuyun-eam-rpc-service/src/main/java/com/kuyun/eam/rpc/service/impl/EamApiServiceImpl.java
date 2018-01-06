@@ -615,6 +615,7 @@ public class EamApiServiceImpl implements EamApiService {
         EamTicket ticket=new EamTicket();
         ticket.setTicketId(ticketId);
         ticket.setStatus(status);
+        ticket.setExecutorId(-1); //remove executor
         return updateTicketStatus(ticket);
     }
 
