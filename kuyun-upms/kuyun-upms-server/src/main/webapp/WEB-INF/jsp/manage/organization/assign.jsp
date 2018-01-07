@@ -17,7 +17,7 @@
 
 <div id="assignDialog" class="crudDialog">
     <div class="form-group text-right dialog-buttons">
-        <a class="waves-effect waves-button" href="javascript:;" onclick="assignSubmit();">确认分配</a>
+        <a class="waves-effect waves-button" href="javascript:;" onclick="assignSubmit(${orgId});">确认分配</a>
         <a class="waves-effect waves-button" href="javascript:;" onclick="cancelAction();">取消</a>
     </div>
 
@@ -26,7 +26,7 @@
     </div>
 
     <div class="form-group text-right dialog-buttons">
-        <a class="waves-effect waves-button" href="javascript:;" onclick="assignSubmit();">确认分配</a>
+        <a class="waves-effect waves-button" href="javascript:;" onclick="assignSubmit(${orgId});">确认分配</a>
         <a class="waves-effect waves-button" href="javascript:;" onclick="cancelAction();">取消</a>
     </div>
 
@@ -84,7 +84,7 @@
     }
 
 
-    function assignSubmit() {
+    function assignSubmit(orgId) {
         var rows = tableStaff.bootstrapTable('getSelections');
         if (rows.length == 0) {
             $.confirm({
@@ -114,7 +114,7 @@
 
             $.ajax({
                 type: 'post',
-                url: '${basePath}/manage/organization/assign/${orgId}',
+                url: '${basePath}/manage/organization/assign/'+orgId,
                 data: {orgId: '${orgId}', eIds: ids.join("::")},
                 success: function(result) {
                     if (result.code != 1) {
@@ -154,22 +154,23 @@
                     }
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
-//                    $.confirm({
-//                        theme: 'dark',
-//                        animation: 'rotateX',
-//                        closeAnimation: 'rotateX',
-//                        title: false,
-//                        content: textStatus +': '+errorThrown,
-//                        buttons: {
-//                            confirm: {
-//                                text: '确认',
-//                                btnClass: 'waves-effect waves-button waves-light'
-//                            }
-//                        }
-//                    });
+                    $.confirm({
+                        theme: 'dark',
+                        animation: 'rotateX',
+                        closeAnimation: 'rotateX',
+                        title: false,
+                        content: textStatus +': '+errorThrown,
+                        buttons: {
+                            confirm: {
+                                text: '确认',
+                                btnClass: 'waves-effect waves-button waves-light'
+                            }
+                        }
+                    });
                 }
             });
         }
 
     }
+
 </script>

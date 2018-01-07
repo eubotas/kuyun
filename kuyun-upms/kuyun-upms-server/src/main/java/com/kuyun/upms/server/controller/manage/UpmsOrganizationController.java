@@ -95,6 +95,7 @@ public class UpmsOrganizationController extends BaseController {
 
     @ApiOperation(value = "分配人员")
     @RequiresPermissions("upms:organization:create")
+    @ResponseBody
     @RequestMapping(value = "/assign/{id}", method = RequestMethod.POST)
     public Object assign(@PathVariable("id") int id, String eIds, ModelMap modelMap) {
         UpmsUserOrganization uo=null;
