@@ -101,7 +101,8 @@
 		<shiro:hasPermission name="eam:equipment:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增设备</a></shiro:hasPermission>
 		<shiro:hasPermission name="eam:equipment:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑设备</a></shiro:hasPermission>
 		<shiro:hasPermission name="eam:equipment:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()"><i class="zmdi zmdi-close"></i> 删除设备</a></shiro:hasPermission>
-		<%--<shiro:hasPermission name="eam:equipment:update"><a class="waves-effect waves-button" href="javascript:;" onclick="connectAction()"><i class="zmdi zmdi-plus"></i> 设备接入</a></shiro:hasPermission>--%>
+		<shiro:hasPermission name="eam:equipment:update"><a class="waves-effect waves-button" href="javascript:;" onclick="connectAction()"><i class="zmdi zmdi-plus"></i> 设备接入</a></shiro:hasPermission>
+		<shiro:hasPermission name="eam:equipment:update"><a class="waves-effect waves-button" href="javascript:;" onclick="grmAction()"><i class="zmdi zmdi-plus"></i> 选择数据点</a></shiro:hasPermission>
 		<shiro:hasPermission name="eam:equipmentSensor:write"><a class="waves-effect waves-button" href="javascript:;" onclick="sensorAction()"><i class="zmdi zmdi-plus"></i> 数据写入</a></shiro:hasPermission>
 	</div>
 	<table id="table"></table>
@@ -348,6 +349,35 @@ function sensorAction() {
     } else {
 
         window.location = "${basePath}/manage/equipment/sensor/" + rows[0].equipmentId;
+    }
+}
+
+var grmDialog;
+function grmAction() {
+    var rows = $table.bootstrapTable('getSelections');
+    if (rows.length != 1) {
+        $.confirm({
+            title: false,
+            content: '请选择一条记录！',
+            autoClose: 'cancel|3000',
+            backgroundDismiss: true,
+            buttons: {
+                cancel: {
+                    text: '取消',
+                    btnClass: 'waves-effect waves-button'
+                }
+            }
+        });
+    } else {
+        grmDialog = $.dialog({
+            animationSpeed: 300,
+            title: '选择数据点',
+            columnClass: 'xlarge',
+            content: 'url:${basePath}/manage/equipment/grm/' + rows[0].equipmentId,
+            onContentReady: function () {
+                initMaterialInput();
+            }
+        });
     }
 }
 

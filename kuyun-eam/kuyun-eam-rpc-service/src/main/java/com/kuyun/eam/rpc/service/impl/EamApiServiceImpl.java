@@ -23,6 +23,7 @@ import com.kuyun.eam.vo.*;
 import com.kuyun.grm.rpc.api.GrmApiService;
 import com.kuyun.modbus.rpc.api.ModbusSlaveRtuApiService;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
+import javafx.util.Pair;
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -515,11 +516,25 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     @Override
+    public void processData(List<Pair<EamGrmEquipmentVariable, String>> pairs) {
+
+    }
+
+    @Override
     public List<EamEquipmentModelPropertiesVO> selectEquipmentModelProperties(String equipmentId) {
         return eamApiMapper.selectEquipmentModelProperties(equipmentId);
     }
 
-
+    @Override
+    public List<EamGrmEquipmentVariableVO> selectGrmEquipmentVariables(String equipmentId) {
+        List<EamGrmEquipmentVariableVO> result = new ArrayList<>();
+        try {
+            result = grmApiService.getAllVariable(equipmentId);
+        } catch (IOException e) {
+            _log.error("Select Grm Equipment Variables Error: {}", e.getMessage());
+        }
+        return result;
+    }
 
 
     private EamSensorData handleSensorData(String deviceId, Integer sensorId, String data){

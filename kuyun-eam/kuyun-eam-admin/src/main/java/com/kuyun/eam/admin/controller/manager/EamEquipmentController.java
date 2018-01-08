@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.common.constant.EamResult;
-import com.kuyun.eam.common.constant.EamResultConstant;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.pojo.IDS;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
@@ -15,7 +14,10 @@ import com.kuyun.eam.pojo.tree.Tree;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.vo.EamEquipmentModelPropertiesVO;
 import com.kuyun.eam.vo.EamEquipmentVO;
+import com.kuyun.eam.vo.EamGrmEquipmentVariableVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
+import com.kuyun.upms.common.constant.UpmsResult;
+import com.kuyun.upms.common.constant.UpmsResultConstant;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,14 +30,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.kuyun.eam.common.constant.CollectStatus.NO_START;
-import static com.kuyun.eam.common.constant.EamResultConstant.FAILED;
-import static com.kuyun.eam.common.constant.EamResultConstant.INVALID_LENGTH;
-import static com.kuyun.eam.common.constant.EamResultConstant.SUCCESS;
+import static com.kuyun.eam.common.constant.EamResultConstant.*;
 
 /**
  * 设备控制器
@@ -71,6 +72,9 @@ public class EamEquipmentController extends BaseController {
 
 	@Autowired
 	private EamEquipmentCategoryService eamEquipmentCategoryService;
+
+	@Autowired
+	private EamGrmEquipmentVariableService eamGrmEquipmentVariableService;
 
 	@Autowired
 	private com.kuyun.fileuploader.rpc.api.FileUploaderService fileUploaderService;
@@ -312,6 +316,86 @@ public class EamEquipmentController extends BaseController {
 		}else {
 			return new EamResult(FAILED, "写入数据失败");
 		}
+	}
+
+	@ApiOperation(value = "选择数据点")
+	@RequiresPermissions("eam:equipment:update")
+	@RequestMapping(value = "/grm/{id}", method = RequestMethod.GET)
+	public String grmIndex(@PathVariable("id") String id, ModelMap modelMap) {
+		modelMap.put("equipmentId", id);
+		return "/manage/equipment/grm_variable.jsp";
+	}
+
+
+	@ApiOperation(value = "数据点列表")
+	@RequiresPermissions("eam:equipment:update")
+	@RequestMapping(value = "/grm/list", method = RequestMethod.GET)
+	@ResponseBody
+	public Object grmList(@RequestParam(required = false, value = "equipmentId") String equipmentId) {
+		List<EamGrmEquipmentVariableVO> rows = eamApiService.selectGrmEquipmentVariables(equipmentId);
+
+		handlerCheckedFlag(equipmentId, rows);
+
+		Map<String, Object> result = new HashMap<>();
+		result.put("rows", rows);
+		return result;
+	}
+
+	private void handlerCheckedFlag(String equipmentId, List<EamGrmEquipmentVariableVO> rows) {
+		EamGrmEquipmentVariableExample example = new EamGrmEquipmentVariableExample();
+		example.createCriteria().andEquipmentIdEqualTo(equipmentId).andDeleteFlagEqualTo(Boolean.FALSE);
+		List<EamGrmEquipmentVariable> variables = eamGrmEquipmentVariableService.selectByExample(example);
+		if (variables != null && !variables.isEmpty()){
+			for(EamGrmEquipmentVariableVO row : rows){
+				for(EamGrmEquipmentVariable variable : variables){
+					if (row.getName().equals(variable.getName())){
+						row.setChecked(Boolean.TRUE);
+						break;
+					}
+				}
+			}
+		}
+
+	}
+
+	@ApiOperation(value = "确认数据点")
+	@RequiresPermissions("eam:equipment:update")
+	@RequestMapping(value = "/grm/confirm", method = RequestMethod.POST)
+	@ResponseBody
+	public Object grmConfirm(String equipmentId, String names, ModelMap modelMap) {
+
+		List<EamGrmEquipmentVariable> vos = buildVariables(equipmentId, names);
+
+		if (!vos.isEmpty()){
+			//remove already exist data
+			EamGrmEquipmentVariableExample example = new EamGrmEquipmentVariableExample();
+			example.createCriteria().andEquipmentIdEqualTo(equipmentId);
+			eamGrmEquipmentVariableService.deleteByExample(example);
+
+			//add new
+			eamGrmEquipmentVariableService.batchInsert(vos);
+		}
+
+		return new UpmsResult(UpmsResultConstant.SUCCESS, 1);
+	}
+
+	private List<EamGrmEquipmentVariable> buildVariables(String equipmentId, String names){
+		List<EamGrmEquipmentVariable> result = new ArrayList<>();
+		String [] nameArray = names.split("::");
+
+		List<EamGrmEquipmentVariableVO> rows = eamApiService.selectGrmEquipmentVariables(equipmentId);
+		for (String name : nameArray){
+			for (EamGrmEquipmentVariableVO vo : rows){
+				if (name.equals(vo.getName())){
+					vo.setEquipmentId(equipmentId);
+					baseEntityUtil.addAddtionalValue(vo);
+					result.add(vo);
+					break;
+				}
+			}
+		}
+
+		return result;
 	}
 
 }

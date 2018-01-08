@@ -9,6 +9,7 @@ import com.kuyun.eam.pojo.tree.Tree;
 import com.kuyun.eam.vo.*;
 import com.kuyun.upms.dao.model.UpmsOrganization;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
+import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -146,7 +147,17 @@ public class EamApiServiceMock implements EamApiService {
     }
 
     @Override
+    public void processData(List<Pair<EamGrmEquipmentVariable, String>> pairs) {
+
+    }
+
+    @Override
     public List<EamEquipmentModelPropertiesVO> selectEquipmentModelProperties(String equipmentId) {
+        return null;
+    }
+
+    @Override
+    public List<EamGrmEquipmentVariableVO> selectGrmEquipmentVariables(String equipmentId) {
         return null;
     }
 

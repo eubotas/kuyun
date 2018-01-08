@@ -1,14 +1,14 @@
 package com.kuyun.eam.rpc.api;
 
-import java.util.List;
-
 import com.kuyun.eam.common.constant.CollectStatus;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.pojo.tree.Tree;
 import com.kuyun.eam.vo.*;
-import com.kuyun.upms.dao.model.UpmsOrganization;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
+import javafx.util.Pair;
+
+import java.util.List;
 
 /**
  * Created by user on 4/24/2017.
@@ -65,7 +65,12 @@ public interface EamApiService {
 
     void processData(String deviceId, Integer sensorId, String data);
 
+    void processData(List<Pair<EamGrmEquipmentVariable, String>> pairs);
+
     List<EamEquipmentModelPropertiesVO> selectEquipmentModelProperties(String equipmentId);
+
+
+    List<EamGrmEquipmentVariableVO> selectGrmEquipmentVariables(String equipmentId);
 
 
 
