@@ -96,9 +96,9 @@
 			<div class="col-sm-6">
 				<label for="endDate">指定完成日期</label>
 				<div class="form-group">
-                    <div class="input-append date form_datetime">
-                        <input size="16" type="text" id="endDate" name="endDate" value="">
-                        <span class="add-on"><i class="icon-th"></i></span>
+                    <div class="fg-line">
+                        <input id="endDate"
+                               type="date" name="endDate" class="form-control"></input>
                     </div>
 				</div>
 			</div>

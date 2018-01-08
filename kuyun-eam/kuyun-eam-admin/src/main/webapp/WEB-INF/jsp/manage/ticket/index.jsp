@@ -237,22 +237,39 @@ function toaction(type) {
         });
     } else {
         var ticketId= rows[0].ticketId;
+        var status= rows[0].status;
         if('RECORD'==type)
             window.location = '${basePath}/manage/ticket/' +ticketId  + '/record/index';
         else if('APPOINT'==type)
             window.location = '${basePath}/manage/ticket/' + ticketId + '/appoint/index';
-        else if('ASSESSMENT'==type)
+        else if('ASSESSMENT'==type){
             window.location = '${basePath}/manage/ticket/' + ticketId + '/assessment/index';
-        else if('TOAPPOINT'==type)
-            createChildWindow('委派工单', '${basePath}/manage/ticket/' + ticketId + '/appoint/create');
-        else if('TOASSESSMENT'==type)
-            createChildWindow('评价', '${basePath}/manage/ticket/' + ticketId + '/assessment/assess');
+        }
+        else if('TOAPPOINT'==type){
+            if(status == '待评价' || status == '待维修')
+                createChildWindow('委派工单', '${basePath}/manage/ticket/' + ticketId + '/appoint/create');
+            else
+                showInfo('未委派的订单才能委派');
+        }else if('TOASSESSMENT'==type){
+            if(status == '待评价')
+                createChildWindow('评价', '${basePath}/manage/ticket/' + ticketId + '/assessment/assess');
+            else
+                showInfo('完成的订单才能评价');
+        }
         else if('TORECORD'==type)
             createChildWindow('处理工单', '${basePath}/manage/ticket/' +ticketId  + '/record/create');
-        else if('REJECT'==type)
-            createChildWindow('拒绝工单', '${basePath}/manage/ticket/' + ticketId + '/appoint/toreject');
-        else if('COMPLETE'==type)
-            directlyAction('完成工单',  '${basePath}/manage/ticket/complete/' + ticketId);
+        else if('REJECT'==type){
+            if(status == '待维修')
+                createChildWindow('拒绝工单', '${basePath}/manage/ticket/' + ticketId + '/appoint/toreject');
+            else
+                showInfo('委派的订单才能拒绝');
+        }
+        else if('COMPLETE'==type){
+            if(status == '维修中')
+                directlyAction('完成工单',  '${basePath}/manage/ticket/complete/' + ticketId);
+            else
+                showInfo('维修的订单才能完成工单');
+        }
     }
 }
 
