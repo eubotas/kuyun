@@ -71,10 +71,12 @@
 
     <!-- 工单相关 -->
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamTicketService" id="eamTicketService" mock="true" />
-	
 	<dubbo:reference interface="com.kuyun.eam.rpc.api.EamTicketRecordService" id="eamTicketRecordService" mock="true" />
-	
 	<dubbo:reference interface="com.kuyun.eam.rpc.api.EamTicketTypeService" id="eamTicketTypeService" mock="true" />
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamTicketTagService" id="eamTicketTagService" mock="true" />
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamTicketAppointedRecordService" id="eamTicketAppointedRecordService" mock="true" />
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamTicketAssessmentService" id="eamTicketAssessmentService" mock="true" />
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamTicketAssessmentTagService" id="eamTicketAssessmentTagService" mock="true" />
 
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamDtuService" id="eamDtuService" mock="true" />
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamDtuEquipmentService" id="eamDtuEquipmentService" mock="true" />

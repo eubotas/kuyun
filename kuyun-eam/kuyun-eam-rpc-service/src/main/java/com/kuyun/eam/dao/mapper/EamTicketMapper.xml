@@ -4,11 +4,11 @@
   <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamTicket">
     <id column="eam_ticket_ticket_id" jdbcType="INTEGER" property="ticketId" />
     <result column="eam_ticket_ticket_type_id" jdbcType="INTEGER" property="ticketTypeId" />
+    <result column="eam_ticket_equipment_category_id" jdbcType="INTEGER" property="equipmentCategoryId" />
+    <result column="eam_ticket_equipment_id" jdbcType="VARCHAR" property="equipmentId" />
     <result column="eam_ticket_description" jdbcType="VARCHAR" property="description" />
-    <result column="eam_ticket_image_path_1" jdbcType="VARCHAR" property="imagePath1" />
-    <result column="eam_ticket_image_path_2" jdbcType="VARCHAR" property="imagePath2" />
-    <result column="eam_ticket_image_path_3" jdbcType="VARCHAR" property="imagePath3" />
-    <result column="eam_ticket_image_path_4" jdbcType="VARCHAR" property="imagePath4" />
+    <result column="eam_ticket_voice_path" jdbcType="VARCHAR" property="voicePath" />
+    <result column="eam_ticket_image_path" jdbcType="VARCHAR" property="imagePath" />
     <result column="eam_ticket_priority" jdbcType="VARCHAR" property="priority" />
     <result column="eam_ticket_executor_id" jdbcType="INTEGER" property="executorId" />
     <result column="eam_ticket_status" jdbcType="VARCHAR" property="status" />
@@ -19,9 +19,6 @@
     <result column="eam_ticket_update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="eam_ticket_delete_flag" jdbcType="BIT" property="deleteFlag" />
     <result column="eam_ticket_company_id" jdbcType="INTEGER" property="companyId" />
-    <result column="eam_ticket_equipment_category_id" jdbcType="INTEGER" property="equipmentCategoryId" />
-    <result column="eam_ticket_equipment_id" jdbcType="INTEGER" property="equipmentId" />
-    <result column="eam_ticket_voice_path" jdbcType="INTEGER" property="voicePath" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -83,15 +80,14 @@
   </sql>
   <sql id="Base_Column_List">
     eam_ticket.ticket_id as eam_ticket_ticket_id, eam_ticket.ticket_type_id as eam_ticket_ticket_type_id, 
-    eam_ticket.description as eam_ticket_description, eam_ticket.image_path_1 as eam_ticket_image_path_1, 
-    eam_ticket.image_path_2 as eam_ticket_image_path_2, eam_ticket.image_path_3 as eam_ticket_image_path_3, 
-    eam_ticket.image_path_4 as eam_ticket_image_path_4, eam_ticket.priority as eam_ticket_priority, 
+    eam_ticket.equipment_category_id as eam_ticket_equipment_category_id, eam_ticket.equipment_id as eam_ticket_equipment_id, 
+    eam_ticket.description as eam_ticket_description, eam_ticket.voice_path as eam_ticket_voice_path, 
+    eam_ticket.image_path as eam_ticket_image_path, eam_ticket.priority as eam_ticket_priority, 
     eam_ticket.executor_id as eam_ticket_executor_id, eam_ticket.status as eam_ticket_status, 
     eam_ticket.end_date as eam_ticket_end_date, eam_ticket.create_user_id as eam_ticket_create_user_id, 
     eam_ticket.create_time as eam_ticket_create_time, eam_ticket.update_user_id as eam_ticket_update_user_id, 
     eam_ticket.update_time as eam_ticket_update_time, eam_ticket.delete_flag as eam_ticket_delete_flag, 
-    eam_ticket.company_id as eam_ticket_company_id, eam_ticket.equipment_category_id as eam_ticket_equipment_category_id, 
-    eam_ticket.equipment_id as eam_ticket_equipment_id, eam_ticket.voice_path as eam_ticket_voice_path
+    eam_ticket.company_id as eam_ticket_company_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamTicketExample" resultMap="BaseResultMap">
     select
@@ -132,20 +128,18 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamTicket">
-    insert into eam_ticket (ticket_id, ticket_type_id, description, 
-      image_path_1, image_path_2, image_path_3, 
-      image_path_4, priority, executor_id, 
+    insert into eam_ticket (ticket_id, ticket_type_id, equipment_category_id, 
+      equipment_id, description, voice_path, 
+      image_path, priority, executor_id, 
       status, end_date, create_user_id, 
       create_time, update_user_id, update_time, 
-      delete_flag, company_id, equipment_category_id, 
-      equipment_id, voice_path)
-    values (#{ticketId,jdbcType=INTEGER}, #{ticketTypeId,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, 
-      #{imagePath1,jdbcType=VARCHAR}, #{imagePath2,jdbcType=VARCHAR}, #{imagePath3,jdbcType=VARCHAR}, 
-      #{imagePath4,jdbcType=VARCHAR}, #{priority,jdbcType=VARCHAR}, #{executorId,jdbcType=INTEGER}, 
+      delete_flag, company_id)
+    values (#{ticketId,jdbcType=INTEGER}, #{ticketTypeId,jdbcType=INTEGER}, #{equipmentCategoryId,jdbcType=INTEGER}, 
+      #{equipmentId,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{voicePath,jdbcType=VARCHAR}, 
+      #{imagePath,jdbcType=VARCHAR}, #{priority,jdbcType=VARCHAR}, #{executorId,jdbcType=INTEGER}, 
       #{status,jdbcType=VARCHAR}, #{endDate,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlag,jdbcType=BIT}, #{companyId,jdbcType=INTEGER}, #{equipmentCategoryId,jdbcType=INTEGER}, 
-      #{equipmentId,jdbcType=INTEGER}, #{voicePath,jdbcType=INTEGER})
+      #{deleteFlag,jdbcType=BIT}, #{companyId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamTicket">
     insert into eam_ticket
@@ -156,20 +150,20 @@
       <if test="ticketTypeId != null">
         ticket_type_id,
       </if>
+      <if test="equipmentCategoryId != null">
+        equipment_category_id,
+      </if>
+      <if test="equipmentId != null">
+        equipment_id,
+      </if>
       <if test="description != null">
         description,
       </if>
-      <if test="imagePath1 != null">
-        image_path_1,
+      <if test="voicePath != null">
+        voice_path,
       </if>
-      <if test="imagePath2 != null">
-        image_path_2,
-      </if>
-      <if test="imagePath3 != null">
-        image_path_3,
-      </if>
-      <if test="imagePath4 != null">
-        image_path_4,
+      <if test="imagePath != null">
+        image_path,
       </if>
       <if test="priority != null">
         priority,
@@ -201,15 +195,6 @@
       <if test="companyId != null">
         company_id,
       </if>
-      <if test="equipmentCategoryId != null">
-        equipment_category_id,
-      </if>
-      <if test="equipmentId != null">
-        equipment_id,
-      </if>
-      <if test="voicePath != null">
-        voice_path,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="ticketId != null">
@@ -218,20 +203,20 @@
       <if test="ticketTypeId != null">
         #{ticketTypeId,jdbcType=INTEGER},
       </if>
+      <if test="equipmentCategoryId != null">
+        #{equipmentCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentId != null">
+        #{equipmentId,jdbcType=VARCHAR},
+      </if>
       <if test="description != null">
         #{description,jdbcType=VARCHAR},
       </if>
-      <if test="imagePath1 != null">
-        #{imagePath1,jdbcType=VARCHAR},
+      <if test="voicePath != null">
+        #{voicePath,jdbcType=VARCHAR},
       </if>
-      <if test="imagePath2 != null">
-        #{imagePath2,jdbcType=VARCHAR},
-      </if>
-      <if test="imagePath3 != null">
-        #{imagePath3,jdbcType=VARCHAR},
-      </if>
-      <if test="imagePath4 != null">
-        #{imagePath4,jdbcType=VARCHAR},
+      <if test="imagePath != null">
+        #{imagePath,jdbcType=VARCHAR},
       </if>
       <if test="priority != null">
         #{priority,jdbcType=VARCHAR},
@@ -263,15 +248,6 @@
       <if test="companyId != null">
         #{companyId,jdbcType=INTEGER},
       </if>
-      <if test="equipmentCategoryId != null">
-        #{equipmentCategoryId,jdbcType=INTEGER},
-      </if>
-      <if test="equipmentId != null">
-        #{equipmentId,jdbcType=INTEGER},
-      </if>
-      <if test="voicePath != null">
-        #{voicePath,jdbcType=INTEGER},
-      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamTicketExample" resultType="java.lang.Long">
@@ -289,20 +265,20 @@
       <if test="record.ticketTypeId != null">
         eam_ticket.ticket_type_id = #{record.ticketTypeId,jdbcType=INTEGER},
       </if>
+      <if test="record.equipmentCategoryId != null">
+        eam_ticket.equipment_category_id = #{record.equipmentCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.equipmentId != null">
+        eam_ticket.equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
+      </if>
       <if test="record.description != null">
         eam_ticket.description = #{record.description,jdbcType=VARCHAR},
       </if>
-      <if test="record.imagePath1 != null">
-        eam_ticket.image_path_1 = #{record.imagePath1,jdbcType=VARCHAR},
+      <if test="record.voicePath != null">
+        eam_ticket.voice_path = #{record.voicePath,jdbcType=VARCHAR},
       </if>
-      <if test="record.imagePath2 != null">
-        eam_ticket.image_path_2 = #{record.imagePath2,jdbcType=VARCHAR},
-      </if>
-      <if test="record.imagePath3 != null">
-        eam_ticket.image_path_3 = #{record.imagePath3,jdbcType=VARCHAR},
-      </if>
-      <if test="record.imagePath4 != null">
-        eam_ticket.image_path_4 = #{record.imagePath4,jdbcType=VARCHAR},
+      <if test="record.imagePath != null">
+        eam_ticket.image_path = #{record.imagePath,jdbcType=VARCHAR},
       </if>
       <if test="record.priority != null">
         eam_ticket.priority = #{record.priority,jdbcType=VARCHAR},
@@ -334,15 +310,6 @@
       <if test="record.companyId != null">
         eam_ticket.company_id = #{record.companyId,jdbcType=INTEGER},
       </if>
-      <if test="record.equipmentCategoryId != null">
-        eam_ticket.equipment_category_id = #{record.equipmentCategoryId,jdbcType=INTEGER},
-      </if>
-      <if test="record.equipmentId != null">
-        eam_ticket.equipment_id = #{record.equipmentId,jdbcType=INTEGER},
-      </if>
-      <if test="record.voicePath != null">
-        eam_ticket.voice_path = #{record.voicePath,jdbcType=INTEGER},
-      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -352,11 +319,11 @@
     update eam_ticket eam_ticket
     set eam_ticket.ticket_id = #{record.ticketId,jdbcType=INTEGER},
       eam_ticket.ticket_type_id = #{record.ticketTypeId,jdbcType=INTEGER},
+      eam_ticket.equipment_category_id = #{record.equipmentCategoryId,jdbcType=INTEGER},
+      eam_ticket.equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
       eam_ticket.description = #{record.description,jdbcType=VARCHAR},
-      eam_ticket.image_path_1 = #{record.imagePath1,jdbcType=VARCHAR},
-      eam_ticket.image_path_2 = #{record.imagePath2,jdbcType=VARCHAR},
-      eam_ticket.image_path_3 = #{record.imagePath3,jdbcType=VARCHAR},
-      eam_ticket.image_path_4 = #{record.imagePath4,jdbcType=VARCHAR},
+      eam_ticket.voice_path = #{record.voicePath,jdbcType=VARCHAR},
+      eam_ticket.image_path = #{record.imagePath,jdbcType=VARCHAR},
       eam_ticket.priority = #{record.priority,jdbcType=VARCHAR},
       eam_ticket.executor_id = #{record.executorId,jdbcType=INTEGER},
       eam_ticket.status = #{record.status,jdbcType=VARCHAR},
@@ -366,10 +333,7 @@
       eam_ticket.update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       eam_ticket.update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       eam_ticket.delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      eam_ticket.company_id = #{record.companyId,jdbcType=INTEGER},
-      eam_ticket.equipment_category_id = #{record.equipmentCategoryId,jdbcType=INTEGER},
-      eam_ticket.equipment_id = #{record.equipmentId,jdbcType=INTEGER},
-      eam_ticket.voice_path = #{record.voicePath,jdbcType=INTEGER}
+      eam_ticket.company_id = #{record.companyId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -380,20 +344,20 @@
       <if test="ticketTypeId != null">
         ticket_type_id = #{ticketTypeId,jdbcType=INTEGER},
       </if>
+      <if test="equipmentCategoryId != null">
+        equipment_category_id = #{equipmentCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentId != null">
+        equipment_id = #{equipmentId,jdbcType=VARCHAR},
+      </if>
       <if test="description != null">
         description = #{description,jdbcType=VARCHAR},
       </if>
-      <if test="imagePath1 != null">
-        image_path_1 = #{imagePath1,jdbcType=VARCHAR},
+      <if test="voicePath != null">
+        voice_path = #{voicePath,jdbcType=VARCHAR},
       </if>
-      <if test="imagePath2 != null">
-        image_path_2 = #{imagePath2,jdbcType=VARCHAR},
-      </if>
-      <if test="imagePath3 != null">
-        image_path_3 = #{imagePath3,jdbcType=VARCHAR},
-      </if>
-      <if test="imagePath4 != null">
-        image_path_4 = #{imagePath4,jdbcType=VARCHAR},
+      <if test="imagePath != null">
+        image_path = #{imagePath,jdbcType=VARCHAR},
       </if>
       <if test="priority != null">
         priority = #{priority,jdbcType=VARCHAR},
@@ -425,26 +389,17 @@
       <if test="companyId != null">
         company_id = #{companyId,jdbcType=INTEGER},
       </if>
-      <if test="equipmentCategoryId != null">
-        equipment_category_id = #{equipmentCategoryId,jdbcType=INTEGER},
-      </if>
-      <if test="equipmentId != null">
-        equipment_id = #{equipmentId,jdbcType=INTEGER},
-      </if>
-      <if test="voicePath != null">
-        voice_path = #{voicePath,jdbcType=INTEGER},
-      </if>
     </set>
     where ticket_id = #{ticketId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamTicket">
     update eam_ticket
     set ticket_type_id = #{ticketTypeId,jdbcType=INTEGER},
+      equipment_category_id = #{equipmentCategoryId,jdbcType=INTEGER},
+      equipment_id = #{equipmentId,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
-      image_path_1 = #{imagePath1,jdbcType=VARCHAR},
-      image_path_2 = #{imagePath2,jdbcType=VARCHAR},
-      image_path_3 = #{imagePath3,jdbcType=VARCHAR},
-      image_path_4 = #{imagePath4,jdbcType=VARCHAR},
+      voice_path = #{voicePath,jdbcType=VARCHAR},
+      image_path = #{imagePath,jdbcType=VARCHAR},
       priority = #{priority,jdbcType=VARCHAR},
       executor_id = #{executorId,jdbcType=INTEGER},
       status = #{status,jdbcType=VARCHAR},
@@ -454,30 +409,25 @@
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
-      company_id = #{companyId,jdbcType=INTEGER},
-      equipment_category_id = #{equipmentCategoryId,jdbcType=INTEGER},
-      equipment_id = #{equipmentId,jdbcType=INTEGER},
-      voice_path = #{voicePath,jdbcType=INTEGER}
+      company_id = #{companyId,jdbcType=INTEGER}
     where ticket_id = #{ticketId,jdbcType=INTEGER}
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into eam_ticket  (ticket_id, ticket_type_id, description, 
-        image_path_1, image_path_2, image_path_3, 
-        image_path_4, priority, executor_id, 
+            insert into eam_ticket  (ticket_id, ticket_type_id, equipment_category_id, 
+        equipment_id, description, voice_path, 
+        image_path, priority, executor_id, 
         status, end_date, create_user_id, 
         create_time, update_user_id, update_time, 
-        delete_flag, company_id, equipment_category_id, 
-        equipment_id, voice_path)
+        delete_flag, company_id)
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.ticketId,jdbcType=INTEGER}, #{item.ticketTypeId,jdbcType=INTEGER}, #{item.description,jdbcType=VARCHAR}, 
-        #{item.imagePath1,jdbcType=VARCHAR}, #{item.imagePath2,jdbcType=VARCHAR}, #{item.imagePath3,jdbcType=VARCHAR}, 
-        #{item.imagePath4,jdbcType=VARCHAR}, #{item.priority,jdbcType=VARCHAR}, #{item.executorId,jdbcType=INTEGER}, 
+      (#{item.ticketId,jdbcType=INTEGER}, #{item.ticketTypeId,jdbcType=INTEGER}, #{item.equipmentCategoryId,jdbcType=INTEGER}, 
+        #{item.equipmentId,jdbcType=VARCHAR}, #{item.description,jdbcType=VARCHAR}, #{item.voicePath,jdbcType=VARCHAR}, 
+        #{item.imagePath,jdbcType=VARCHAR}, #{item.priority,jdbcType=VARCHAR}, #{item.executorId,jdbcType=INTEGER}, 
         #{item.status,jdbcType=VARCHAR}, #{item.endDate,jdbcType=TIMESTAMP}, #{item.createUserId,jdbcType=INTEGER}, 
         #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
-        #{item.deleteFlag,jdbcType=BIT}, #{item.companyId,jdbcType=INTEGER}, #{item.equipmentCategoryId,jdbcType=INTEGER}, 
-        #{item.equipmentId,jdbcType=INTEGER}, #{item.voicePath,jdbcType=INTEGER})
+        #{item.deleteFlag,jdbcType=BIT}, #{item.companyId,jdbcType=INTEGER})
       </foreach>
     </if>
   </insert>

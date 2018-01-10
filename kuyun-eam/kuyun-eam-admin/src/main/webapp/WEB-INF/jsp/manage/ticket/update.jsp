@@ -6,177 +6,260 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags"%>
 <c:set var="basePath" value="${pageContext.request.contextPath}" />
-<div id="createDialog" class="crudDialog">
-	<form id="createForm" method="post">
+<div id="updateDialog" class="crudDialog">
+	<form id="updateForm" method="post">
+
 		<div class="row">
-			<div class="col-sm-6">
+			<div class="col-sm-12">
+                <label for="description">工单描述</label>
 				<div class="form-group">
-					<label for="step">处理意见</label> <select id="step" name="step"
-						style="width: 100%">
-						<option value="处理中" selected="selected">处理中</option>
-						<option value="已解决">已解决</option>
-						<option value="不需处理">不需处理</option>
-					</select>
+					<textarea id="description" class="form-control" name="description"
+						maxlength="200" rows="4">${ticket.description }</textarea>
+
 				</div>
 			</div>
 		</div>
 
 		<div class="row">
-			<div class="col-sm-12">
+			<div class="col-sm-6">
+				<label for="ticketTypeId">工单类型</label>
 				<div class="form-group">
-					<label for="comments">具体处理意见</label>
-					<textarea id="comments" class="form-control" name="comments"
-						maxlength="200" rows="4"></textarea>
+					<div class="fg-line">
+						<select id="ticketTypeId" name="ticketTypeId" style="width: 100%">
+							<c:forEach var="ticketType" items="${ticketTypes}">
+								<option value="${ticketType.id}" <c:if test="${ticket.ticketTypeId== ticketType.id}">selected</c:if> >${ticketType.name}</option>
+							</c:forEach>
+						</select>
+					</div>
 				</div>
+			</div>
+
+			<div class="col-sm-6">
+                <label for="equipmentCategoryId">产品目录</label>
+				<div class="form-group">
+					<select id="equipmentCategoryId" name="equipmentCategoryId" style="width: 100%">
+						<%--<option value="0">设备模型</option>--%>
+						<c:forEach var="equipmentCategory" items="${equipmentCategorys}">
+							<option value="${equipmentCategory.equipmentCategoryId}" <c:if test="${ticket.equipmentCategoryId== equipmentCategory.equipmentCategoryId}">selected</c:if> >${equipmentCategory.name}</option>
+						</c:forEach>
+					</select>
+					</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6">
+				<label for="equipmentId">产品型号</label>
+				<div class="form-group">
+					<div class="fg-line">
+						<select id="equipmentId" name="equipmentId" style="width: 100%">
+							<c:forEach var="equipment" items="${equipments}">
+								<option value="${equipment.equipmentId}"  <c:if test="${ticket.equipmentId== equipment.equipmentId}">selected</c:if> >${equipment.name}</option>
+							</c:forEach>
+
+						</select>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-6">
+				<label for="priority">优先级</label>
+				<div class="form-group">
+					<div class="fg-line">
+						<select id="priority"
+							name="priority" style="width: 100%">
+							<option value="一般" <c:if test="${ticket.priority== '一般'}">selected</c:if> >一般</option>
+							<option value="紧急" <c:if test="${ticket.priority== '紧急'}">selected</c:if> >紧急</option>
+							<option value="非常紧急" <c:if test="${ticket.priority== '非常紧急'}">selected</c:if>  >非常紧急</option>
+
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<%--<div class="col-sm-6">
+				<label for="executorId">执行人</label>
+				<div class="form-group">
+					<div class="fg-line">
+						<select id="executorId" name="executorId" style="width: 100%">
+							<c:forEach var="user" items="${users}">
+								<option value="${user.userId}" <c:if test="${ticket.executorId== user.userId}">selected</c:if> >${user.realname}</option>
+							</c:forEach>
+						</select>
+					</div>
+				</div>
+			</div>--%>
+			<div class="col-sm-6">
+				<label for="endDate">指定完成日期</label>
+				<div class="form-group">
+					<%--<div class="fg-line">
+						 <input id="endDate"	type="date" name="endDate" class="form-control" value="2018/1/5"></input>
+					</div>--%>
+
+                    <div class="input-append date form_datetime">
+                        <input size="16" type="text" id="endDate" name="endDate" value="${ticket.endDate}" >
+                        <span class="add-on"><i class="icon-th"></i></span>
+                    </div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6">
+				<div id="fine-uploader-gallery"></div>
+				<input id="imagePath" type="hidden" class="form-control"
+					name="imagePath" maxlength="500">
+			</div>
+			<div class="col-sm-6">
+				<div id="fine-uploader-gallery2"></div>
+				<input id="voicePath" type="hidden" class="form-control"
+					   name="voicePath" maxlength="500">
 			</div>
 		</div>
 
 		<div class="form-group text-right dialog-buttons">
 			<a class="waves-effect waves-button" href="javascript:;"
-				onclick="createSubmit();">保存</a> <a
+				onclick="updateSubmit();">保存</a> <a
 				class="waves-effect waves-button" href="javascript:;"
 				onclick="updateDialog.close();">取消</a>
 		</div>
 	</form>
 </div>
-<div class="row">
-	<hr />
-</div>
-<!-- records list create date desc -->
-<c:forEach var="record" items="${records}">
-	<div class="row">
-		<div class="col-sm-12">
-			<label for="comments${record.id}"></label> <span
-				id="comments${record.id}">${record.comments }</span>
-		</div>
-		<div class="col-sm-12">
-			<label for="createTime${record.id }"></label> <span
-				id="createTime${record.id }">${record.createTime }</span>
-		</div>
-	</div>
-	<div class="row">
-		<hr />
-	</div>
-</c:forEach>
-<!-- the ticket content -->
-<div class="row">
-	<div class="col-sm-12">
-		<label for="description">工单描述</label> <span id="description">${ticket.description }</span>
-	</div>
-	<div class="col-sm-6">
-		<label for="ticketTypeId">工单类型</label> <span>${ticket.ticketType.name }</span>
-	</div>
-	<div class="col-sm-6">
-		<label for="priority">优先级</label> <span>${ticket.priority }</span>
-	</div>
-
-	<div class="col-sm-12">
-		<label for="executorId">执行人</label> <span>${ticket.realname}</span>
-	</div>
-	<div class="col-sm-12">
-		<label for="endDate">指定完成日期</label> <span id="endDate">${ticket.endDate}</span>
-	</div>
-	<div class="col-sm-12">
-		<label for="createTime">创建时间</label> <span id="createTime">${ticket.createTime}</span>
-	</div>
-	<div class="col-sm-12">
-		<!-- image lsit  -->
-		<c:forEach var="image" items="${imageList}">
-			<image src='${image}' />
-		</c:forEach>
-	</div>
-</div>
-<div class="row">
-	<hr />
-</div>
 <script>
-	//document ready
-	$(function() {
 
-		$('span[id^="createTime"]').each(function() {
-			$(this).text(timeFormatter($(this).text()));
-		});
-		$('span[id="endDate"]').each(function() {
-			$(this).text(timeFormatter($(this).text()));
-		});
-
-	});
-
-	//格式化时间
-	function timeFormatter(value, row, index) {
-		return new Date(value).toLocaleString();
-	}
-	function createSubmit() {
-		$
-				.ajax({
-					type : 'post',
-					url : '${basePath}/manage/ticket/update/${ticket.ticketId}',
-					data : $('#createForm').serialize(),
-					beforeSend : function() {
-						if ($('#comments').val() == '') {
-							$('#comments').focus();
-							return false;
-						}
-					},
-					success : function(result) {
-						if (result.code != 1) {
-							if (result.data instanceof Array) {
-								$
-										.each(
-												result.data,
-												function(index, value) {
-													$
-															.confirm({
-																theme : 'dark',
-																animation : 'rotateX',
-																closeAnimation : 'rotateX',
-																title : false,
-																content : value.errorMsg,
-																buttons : {
-																	confirm : {
-																		text : '确认',
-																		btnClass : 'waves-effect waves-button waves-light'
-																	}
-																}
-															});
-												});
-							} else {
-								$
-										.confirm({
-											theme : 'dark',
-											animation : 'rotateX',
-											closeAnimation : 'rotateX',
-											title : false,
-											content : result.data.errorMsg,
-											buttons : {
-												confirm : {
-													text : '确认',
-													btnClass : 'waves-effect waves-button waves-light'
-												}
-											}
-										});
-							}
-						} else {
-							updateDialog.close();
-							$table.bootstrapTable('refresh');
-						}
-					},
-					error : function(XMLHttpRequest, textStatus, errorThrown) {
-						$
-								.confirm({
-									theme : 'dark',
-									animation : 'rotateX',
-									closeAnimation : 'rotateX',
-									title : false,
-									content : textStatus,
-									buttons : {
-										confirm : {
-											text : '确认',
-											btnClass : 'waves-effect waves-button waves-light'
-										}
-									}
-								});
+	var galleryUploader = new qq.FineUploader(
+			{
+				element : document.getElementById("fine-uploader-gallery"),
+				template : 'qq-template-gallery',
+				request : {
+					endpoint : '${uploadServer.endpoint_upload}',
+					params : {
+						kuyunModule : "eam"
 					}
-				});
+				},
+				thumbnails : {
+					placeholders : {
+						waitingPath : '${basePath}/resources/kuyun-admin/plugins/fileupload/placeholders/waiting-generic.png',
+						notAvailablePath : '${basePath}/resources/kuyun-admin/plugins/fileupload/placeholders/not_available-generic.png'
+					}
+				},
+				validation : {
+				/*  allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'] */
+				},
+				chunking : {
+					enabled : true,
+					concurrent : {
+						enabled : true
+					},
+					success : {
+						endpoint : '${uploadServer.endpoint_uploadDone}'
+					},
+					mandatory : true
+				},
+				deleteFile : {
+					enabled : true,
+					forceConfirm : true,
+					endpoint : '${uploadServer.endpoint_delete}'
+				},
+				cors : {
+					//all requests are expected to be cross-domain requests
+					expected : true,
+
+					//if you want cookies to be sent along with the request
+					sendCredentials : true
+				}
+			/* init file list
+			session:{
+					endpoint: '${uploadServer.endpoint_list}?ids=${uuids}'
+			}, */
+			});
+</script>
+<script>
+    var updateDialog;
+	function updateSubmit() {
+		var uploads = galleryUploader.getUploads({
+			status : qq.status.UPLOAD_SUCCESSFUL
+		});
+		var fileUuids = '';
+		for (var i = 0; i < uploads.length; i++) {
+			fileUuids = fileUuids + uploads[i].uuid + ",";
+		}
+		console.log("fileUuids = " + fileUuids);
+		$('#imagePath').val(fileUuids);
+		console.log("imagePage1 value:" + $('#imagePath').val());
+        $.ajax({
+            type: 'post',
+            url: '${basePath}/manage/ticket/update/${ticket.ticketId}',
+            data: $('#updateForm').serialize(),
+            beforeSend: function() {
+                if ($('#name').val() == '') {
+                    $('#name').focus();
+                    return false;
+                }
+            },
+            success: function(result) {
+                if (result.code != 1) {
+                    if (result.data instanceof Array) {
+                        $.each(result.data, function(index, value) {
+                            $.confirm({
+                                theme: 'dark',
+                                animation: 'rotateX',
+                                closeAnimation: 'rotateX',
+                                title: false,
+                                content: value.errorMsg,
+                                buttons: {
+                                    confirm: {
+                                        text: '确认',
+                                        btnClass: 'waves-effect waves-button waves-light'
+                                    }
+                                }
+                            });
+                        });
+                    } else {
+                        $.confirm({
+                            theme: 'dark',
+                            animation: 'rotateX',
+                            closeAnimation: 'rotateX',
+                            title: false,
+                            content: result.data.errorMsg,
+                            buttons: {
+                                confirm: {
+                                    text: '确认',
+                                    btnClass: 'waves-effect waves-button waves-light'
+                                }
+                            }
+                        });
+                    }
+                } else {
+                    updateDialog.close();
+                    $table.bootstrapTable('refresh');
+                }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                $.confirm({
+                    theme: 'dark',
+                    animation: 'rotateX',
+                    closeAnimation: 'rotateX',
+                    title: false,
+                    content: textStatus,
+                    buttons: {
+                        confirm: {
+                            text: '确认',
+                            btnClass: 'waves-effect waves-button waves-light'
+                        }
+                    }
+                });
+            }
+        });
 	}
+
+    $(function() {
+//        $('span[id="endDate"]').each(function() {
+//            $(this).val(timeFormatter($(this).text()));
+//        });
+
+    });
+    function timeFormatter(value) {
+        return new Date(value).toLocaleString();
+    }
 </script>

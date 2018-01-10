@@ -5,10 +5,11 @@ package com.kuyun.eam.common.constant;
  */
 public enum TicketStatus {
 
-    OPEN("open", "未解决"),
-    PROCESSING("processing", "处理中"),
-    RESOLVED("resolved", "已解决"),
-    NO_DEAL_WITH("no_deal_with", "不需处理");
+    INIT("init", "待派工"),
+    TO_PROCESS("processing", "待维修"),
+    PROCESSING("processing", "维修中"),
+    RESOLVED("resolved", "待评价"),
+    COMPLETE("complete", "评价完成");
 
 
     private String code;

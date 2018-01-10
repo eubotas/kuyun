@@ -2,9 +2,7 @@ package com.kuyun.eam.rpc.mapper;
 
 import java.util.List;
 
-import com.kuyun.eam.dao.model.EamAlarm;
-import com.kuyun.eam.dao.model.EamSensorData;
-import com.kuyun.eam.dao.model.EamTicketExample;
+import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.vo.*;
 
@@ -24,6 +22,10 @@ public interface EamApiMapper {
     List<EamSensorDataVO> selectEamSensorData(EamSensorVO sensorVO);
     
     List<EamTicketVO> selectTicket(EamTicketExample example);
+
+    List<EamTicketAssessmentTagVO> selectTicketAssessmentTags(EamTicketAssessmentTagVO vo);
+
+    List<EamTicketAppointVO> selectTicketAppointRecord(EamTicketAppointedRecordExample example);
 
     List<EamSensorVO> selectSensorData(String equipmentId);
 

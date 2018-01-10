@@ -5,6 +5,8 @@ import com.kuyun.upms.dao.mapper.UpmsUserOrganizationMapper;
 import com.kuyun.upms.dao.model.UpmsUserOrganization;
 import com.kuyun.upms.dao.model.UpmsUserOrganizationExample;
 
+import java.util.List;
+
 /**
 * 降级实现UpmsUserOrganizationService接口
 * Created by kuyun on 2017/3/20.

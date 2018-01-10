@@ -2,6 +2,7 @@ package com.kuyun.upms.rpc.api;
 
 import com.kuyun.upms.dao.model.*;
 import com.kuyun.upms.dao.vo.UpmsCompanyVo;
+import com.kuyun.upms.dao.vo.UpmsOrgUserVo;
 import com.kuyun.upms.dao.vo.UpmsUserVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -151,6 +152,26 @@ public class UpmsApiServiceMock implements UpmsApiService {
     @Override
     public Long countCompanyEquipments(UpmsCompanyVo upmsCompanyVo) {
         return null;
+    }
+
+    @Override
+    public List<UpmsOrgUserVo> selectUsersByOrg(UpmsOrgUserVo orgUserVo) {
+        return null;
+    }
+
+    @Override
+    public Long getUsersCountByOrg(int orgId) {
+        return null;
+    }
+
+    @Override
+    public List<UpmsOrgUserVo> selectOrgUsersByOrgNameCompanyId(UpmsOrgUserVo orgUserVo) {
+        return null;
+    }
+
+    @Override
+    public void createOrgUser(int orgId, List<UpmsUserOrganization> list) {
+
     }
 
 }

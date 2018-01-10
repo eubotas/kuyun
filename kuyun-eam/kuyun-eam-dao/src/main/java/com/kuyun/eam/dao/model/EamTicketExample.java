@@ -248,6 +248,136 @@ public class EamTicketExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andEquipmentCategoryIdIsNull() {
+            addCriterion("eam_ticket.equipment_category_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentCategoryIdIsNotNull() {
+            addCriterion("eam_ticket.equipment_category_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentCategoryIdEqualTo(Integer value) {
+            addCriterion("eam_ticket.equipment_category_id =", value, "equipmentCategoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentCategoryIdNotEqualTo(Integer value) {
+            addCriterion("eam_ticket.equipment_category_id <>", value, "equipmentCategoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentCategoryIdGreaterThan(Integer value) {
+            addCriterion("eam_ticket.equipment_category_id >", value, "equipmentCategoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentCategoryIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("eam_ticket.equipment_category_id >=", value, "equipmentCategoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentCategoryIdLessThan(Integer value) {
+            addCriterion("eam_ticket.equipment_category_id <", value, "equipmentCategoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentCategoryIdLessThanOrEqualTo(Integer value) {
+            addCriterion("eam_ticket.equipment_category_id <=", value, "equipmentCategoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentCategoryIdIn(List<Integer> values) {
+            addCriterion("eam_ticket.equipment_category_id in", values, "equipmentCategoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentCategoryIdNotIn(List<Integer> values) {
+            addCriterion("eam_ticket.equipment_category_id not in", values, "equipmentCategoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentCategoryIdBetween(Integer value1, Integer value2) {
+            addCriterion("eam_ticket.equipment_category_id between", value1, value2, "equipmentCategoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentCategoryIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("eam_ticket.equipment_category_id not between", value1, value2, "equipmentCategoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentIdIsNull() {
+            addCriterion("eam_ticket.equipment_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentIdIsNotNull() {
+            addCriterion("eam_ticket.equipment_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentIdEqualTo(String value) {
+            addCriterion("eam_ticket.equipment_id =", value, "equipmentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentIdNotEqualTo(String value) {
+            addCriterion("eam_ticket.equipment_id <>", value, "equipmentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentIdGreaterThan(String value) {
+            addCriterion("eam_ticket.equipment_id >", value, "equipmentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentIdGreaterThanOrEqualTo(String value) {
+            addCriterion("eam_ticket.equipment_id >=", value, "equipmentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentIdLessThan(String value) {
+            addCriterion("eam_ticket.equipment_id <", value, "equipmentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentIdLessThanOrEqualTo(String value) {
+            addCriterion("eam_ticket.equipment_id <=", value, "equipmentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentIdLike(String value) {
+            addCriterion("eam_ticket.equipment_id like", value, "equipmentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentIdNotLike(String value) {
+            addCriterion("eam_ticket.equipment_id not like", value, "equipmentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentIdIn(List<String> values) {
+            addCriterion("eam_ticket.equipment_id in", values, "equipmentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentIdNotIn(List<String> values) {
+            addCriterion("eam_ticket.equipment_id not in", values, "equipmentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentIdBetween(String value1, String value2) {
+            addCriterion("eam_ticket.equipment_id between", value1, value2, "equipmentId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentIdNotBetween(String value1, String value2) {
+            addCriterion("eam_ticket.equipment_id not between", value1, value2, "equipmentId");
+            return (Criteria) this;
+        }
+
         public Criteria andDescriptionIsNull() {
             addCriterion("eam_ticket.description is null");
             return (Criteria) this;
@@ -318,283 +448,143 @@ public class EamTicketExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andImagePath1IsNull() {
-            addCriterion("eam_ticket.image_path_1 is null");
+        public Criteria andVoicePathIsNull() {
+            addCriterion("eam_ticket.voice_path is null");
             return (Criteria) this;
         }
 
-        public Criteria andImagePath1IsNotNull() {
-            addCriterion("eam_ticket.image_path_1 is not null");
+        public Criteria andVoicePathIsNotNull() {
+            addCriterion("eam_ticket.voice_path is not null");
             return (Criteria) this;
         }
 
-        public Criteria andImagePath1EqualTo(String value) {
-            addCriterion("eam_ticket.image_path_1 =", value, "imagePath1");
+        public Criteria andVoicePathEqualTo(String value) {
+            addCriterion("eam_ticket.voice_path =", value, "voicePath");
             return (Criteria) this;
         }
 
-        public Criteria andImagePath1NotEqualTo(String value) {
-            addCriterion("eam_ticket.image_path_1 <>", value, "imagePath1");
+        public Criteria andVoicePathNotEqualTo(String value) {
+            addCriterion("eam_ticket.voice_path <>", value, "voicePath");
             return (Criteria) this;
         }
 
-        public Criteria andImagePath1GreaterThan(String value) {
-            addCriterion("eam_ticket.image_path_1 >", value, "imagePath1");
+        public Criteria andVoicePathGreaterThan(String value) {
+            addCriterion("eam_ticket.voice_path >", value, "voicePath");
             return (Criteria) this;
         }
 
-        public Criteria andImagePath1GreaterThanOrEqualTo(String value) {
-            addCriterion("eam_ticket.image_path_1 >=", value, "imagePath1");
+        public Criteria andVoicePathGreaterThanOrEqualTo(String value) {
+            addCriterion("eam_ticket.voice_path >=", value, "voicePath");
             return (Criteria) this;
         }
 
-        public Criteria andImagePath1LessThan(String value) {
-            addCriterion("eam_ticket.image_path_1 <", value, "imagePath1");
+        public Criteria andVoicePathLessThan(String value) {
+            addCriterion("eam_ticket.voice_path <", value, "voicePath");
             return (Criteria) this;
         }
 
-        public Criteria andImagePath1LessThanOrEqualTo(String value) {
-            addCriterion("eam_ticket.image_path_1 <=", value, "imagePath1");
+        public Criteria andVoicePathLessThanOrEqualTo(String value) {
+            addCriterion("eam_ticket.voice_path <=", value, "voicePath");
             return (Criteria) this;
         }
 
-        public Criteria andImagePath1Like(String value) {
-            addCriterion("eam_ticket.image_path_1 like", value, "imagePath1");
+        public Criteria andVoicePathLike(String value) {
+            addCriterion("eam_ticket.voice_path like", value, "voicePath");
             return (Criteria) this;
         }
 
-        public Criteria andImagePath1NotLike(String value) {
-            addCriterion("eam_ticket.image_path_1 not like", value, "imagePath1");
+        public Criteria andVoicePathNotLike(String value) {
+            addCriterion("eam_ticket.voice_path not like", value, "voicePath");
             return (Criteria) this;
         }
 
-        public Criteria andImagePath1In(List<String> values) {
-            addCriterion("eam_ticket.image_path_1 in", values, "imagePath1");
+        public Criteria andVoicePathIn(List<String> values) {
+            addCriterion("eam_ticket.voice_path in", values, "voicePath");
             return (Criteria) this;
         }
 
-        public Criteria andImagePath1NotIn(List<String> values) {
-            addCriterion("eam_ticket.image_path_1 not in", values, "imagePath1");
+        public Criteria andVoicePathNotIn(List<String> values) {
+            addCriterion("eam_ticket.voice_path not in", values, "voicePath");
             return (Criteria) this;
         }
 
-        public Criteria andImagePath1Between(String value1, String value2) {
-            addCriterion("eam_ticket.image_path_1 between", value1, value2, "imagePath1");
+        public Criteria andVoicePathBetween(String value1, String value2) {
+            addCriterion("eam_ticket.voice_path between", value1, value2, "voicePath");
             return (Criteria) this;
         }
 
-        public Criteria andImagePath1NotBetween(String value1, String value2) {
-            addCriterion("eam_ticket.image_path_1 not between", value1, value2, "imagePath1");
+        public Criteria andVoicePathNotBetween(String value1, String value2) {
+            addCriterion("eam_ticket.voice_path not between", value1, value2, "voicePath");
             return (Criteria) this;
         }
 
-        public Criteria andImagePath2IsNull() {
-            addCriterion("eam_ticket.image_path_2 is null");
+        public Criteria andImagePathIsNull() {
+            addCriterion("eam_ticket.image_path is null");
             return (Criteria) this;
         }
 
-        public Criteria andImagePath2IsNotNull() {
-            addCriterion("eam_ticket.image_path_2 is not null");
+        public Criteria andImagePathIsNotNull() {
+            addCriterion("eam_ticket.image_path is not null");
             return (Criteria) this;
         }
 
-        public Criteria andImagePath2EqualTo(String value) {
-            addCriterion("eam_ticket.image_path_2 =", value, "imagePath2");
+        public Criteria andImagePathEqualTo(String value) {
+            addCriterion("eam_ticket.image_path =", value, "imagePath");
             return (Criteria) this;
         }
 
-        public Criteria andImagePath2NotEqualTo(String value) {
-            addCriterion("eam_ticket.image_path_2 <>", value, "imagePath2");
+        public Criteria andImagePathNotEqualTo(String value) {
+            addCriterion("eam_ticket.image_path <>", value, "imagePath");
             return (Criteria) this;
         }
 
-        public Criteria andImagePath2GreaterThan(String value) {
-            addCriterion("eam_ticket.image_path_2 >", value, "imagePath2");
+        public Criteria andImagePathGreaterThan(String value) {
+            addCriterion("eam_ticket.image_path >", value, "imagePath");
             return (Criteria) this;
         }
 
-        public Criteria andImagePath2GreaterThanOrEqualTo(String value) {
-            addCriterion("eam_ticket.image_path_2 >=", value, "imagePath2");
+        public Criteria andImagePathGreaterThanOrEqualTo(String value) {
+            addCriterion("eam_ticket.image_path >=", value, "imagePath");
             return (Criteria) this;
         }
 
-        public Criteria andImagePath2LessThan(String value) {
-            addCriterion("eam_ticket.image_path_2 <", value, "imagePath2");
+        public Criteria andImagePathLessThan(String value) {
+            addCriterion("eam_ticket.image_path <", value, "imagePath");
             return (Criteria) this;
         }
 
-        public Criteria andImagePath2LessThanOrEqualTo(String value) {
-            addCriterion("eam_ticket.image_path_2 <=", value, "imagePath2");
+        public Criteria andImagePathLessThanOrEqualTo(String value) {
+            addCriterion("eam_ticket.image_path <=", value, "imagePath");
             return (Criteria) this;
         }
 
-        public Criteria andImagePath2Like(String value) {
-            addCriterion("eam_ticket.image_path_2 like", value, "imagePath2");
+        public Criteria andImagePathLike(String value) {
+            addCriterion("eam_ticket.image_path like", value, "imagePath");
             return (Criteria) this;
         }
 
-        public Criteria andImagePath2NotLike(String value) {
-            addCriterion("eam_ticket.image_path_2 not like", value, "imagePath2");
+        public Criteria andImagePathNotLike(String value) {
+            addCriterion("eam_ticket.image_path not like", value, "imagePath");
             return (Criteria) this;
         }
 
-        public Criteria andImagePath2In(List<String> values) {
-            addCriterion("eam_ticket.image_path_2 in", values, "imagePath2");
+        public Criteria andImagePathIn(List<String> values) {
+            addCriterion("eam_ticket.image_path in", values, "imagePath");
             return (Criteria) this;
         }
 
-        public Criteria andImagePath2NotIn(List<String> values) {
-            addCriterion("eam_ticket.image_path_2 not in", values, "imagePath2");
+        public Criteria andImagePathNotIn(List<String> values) {
+            addCriterion("eam_ticket.image_path not in", values, "imagePath");
             return (Criteria) this;
         }
 
-        public Criteria andImagePath2Between(String value1, String value2) {
-            addCriterion("eam_ticket.image_path_2 between", value1, value2, "imagePath2");
+        public Criteria andImagePathBetween(String value1, String value2) {
+            addCriterion("eam_ticket.image_path between", value1, value2, "imagePath");
             return (Criteria) this;
         }
 
-        public Criteria andImagePath2NotBetween(String value1, String value2) {
-            addCriterion("eam_ticket.image_path_2 not between", value1, value2, "imagePath2");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePath3IsNull() {
-            addCriterion("eam_ticket.image_path_3 is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePath3IsNotNull() {
-            addCriterion("eam_ticket.image_path_3 is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePath3EqualTo(String value) {
-            addCriterion("eam_ticket.image_path_3 =", value, "imagePath3");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePath3NotEqualTo(String value) {
-            addCriterion("eam_ticket.image_path_3 <>", value, "imagePath3");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePath3GreaterThan(String value) {
-            addCriterion("eam_ticket.image_path_3 >", value, "imagePath3");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePath3GreaterThanOrEqualTo(String value) {
-            addCriterion("eam_ticket.image_path_3 >=", value, "imagePath3");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePath3LessThan(String value) {
-            addCriterion("eam_ticket.image_path_3 <", value, "imagePath3");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePath3LessThanOrEqualTo(String value) {
-            addCriterion("eam_ticket.image_path_3 <=", value, "imagePath3");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePath3Like(String value) {
-            addCriterion("eam_ticket.image_path_3 like", value, "imagePath3");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePath3NotLike(String value) {
-            addCriterion("eam_ticket.image_path_3 not like", value, "imagePath3");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePath3In(List<String> values) {
-            addCriterion("eam_ticket.image_path_3 in", values, "imagePath3");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePath3NotIn(List<String> values) {
-            addCriterion("eam_ticket.image_path_3 not in", values, "imagePath3");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePath3Between(String value1, String value2) {
-            addCriterion("eam_ticket.image_path_3 between", value1, value2, "imagePath3");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePath3NotBetween(String value1, String value2) {
-            addCriterion("eam_ticket.image_path_3 not between", value1, value2, "imagePath3");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePath4IsNull() {
-            addCriterion("eam_ticket.image_path_4 is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePath4IsNotNull() {
-            addCriterion("eam_ticket.image_path_4 is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePath4EqualTo(String value) {
-            addCriterion("eam_ticket.image_path_4 =", value, "imagePath4");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePath4NotEqualTo(String value) {
-            addCriterion("eam_ticket.image_path_4 <>", value, "imagePath4");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePath4GreaterThan(String value) {
-            addCriterion("eam_ticket.image_path_4 >", value, "imagePath4");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePath4GreaterThanOrEqualTo(String value) {
-            addCriterion("eam_ticket.image_path_4 >=", value, "imagePath4");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePath4LessThan(String value) {
-            addCriterion("eam_ticket.image_path_4 <", value, "imagePath4");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePath4LessThanOrEqualTo(String value) {
-            addCriterion("eam_ticket.image_path_4 <=", value, "imagePath4");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePath4Like(String value) {
-            addCriterion("eam_ticket.image_path_4 like", value, "imagePath4");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePath4NotLike(String value) {
-            addCriterion("eam_ticket.image_path_4 not like", value, "imagePath4");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePath4In(List<String> values) {
-            addCriterion("eam_ticket.image_path_4 in", values, "imagePath4");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePath4NotIn(List<String> values) {
-            addCriterion("eam_ticket.image_path_4 not in", values, "imagePath4");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePath4Between(String value1, String value2) {
-            addCriterion("eam_ticket.image_path_4 between", value1, value2, "imagePath4");
-            return (Criteria) this;
-        }
-
-        public Criteria andImagePath4NotBetween(String value1, String value2) {
-            addCriterion("eam_ticket.image_path_4 not between", value1, value2, "imagePath4");
+        public Criteria andImagePathNotBetween(String value1, String value2) {
+            addCriterion("eam_ticket.image_path not between", value1, value2, "imagePath");
             return (Criteria) this;
         }
 
@@ -1215,186 +1205,6 @@ public class EamTicketExample implements Serializable {
 
         public Criteria andCompanyIdNotBetween(Integer value1, Integer value2) {
             addCriterion("eam_ticket.company_id not between", value1, value2, "companyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentCategoryIdIsNull() {
-            addCriterion("eam_ticket.equipment_category_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentCategoryIdIsNotNull() {
-            addCriterion("eam_ticket.equipment_category_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentCategoryIdEqualTo(Integer value) {
-            addCriterion("eam_ticket.equipment_category_id =", value, "equipmentCategoryId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentCategoryIdNotEqualTo(Integer value) {
-            addCriterion("eam_ticket.equipment_category_id <>", value, "equipmentCategoryId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentCategoryIdGreaterThan(Integer value) {
-            addCriterion("eam_ticket.equipment_category_id >", value, "equipmentCategoryId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentCategoryIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("eam_ticket.equipment_category_id >=", value, "equipmentCategoryId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentCategoryIdLessThan(Integer value) {
-            addCriterion("eam_ticket.equipment_category_id <", value, "equipmentCategoryId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentCategoryIdLessThanOrEqualTo(Integer value) {
-            addCriterion("eam_ticket.equipment_category_id <=", value, "equipmentCategoryId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentCategoryIdIn(List<Integer> values) {
-            addCriterion("eam_ticket.equipment_category_id in", values, "equipmentCategoryId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentCategoryIdNotIn(List<Integer> values) {
-            addCriterion("eam_ticket.equipment_category_id not in", values, "equipmentCategoryId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentCategoryIdBetween(Integer value1, Integer value2) {
-            addCriterion("eam_ticket.equipment_category_id between", value1, value2, "equipmentCategoryId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentCategoryIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("eam_ticket.equipment_category_id not between", value1, value2, "equipmentCategoryId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentIdIsNull() {
-            addCriterion("eam_ticket.equipment_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentIdIsNotNull() {
-            addCriterion("eam_ticket.equipment_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentIdEqualTo(Integer value) {
-            addCriterion("eam_ticket.equipment_id =", value, "equipmentId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentIdNotEqualTo(Integer value) {
-            addCriterion("eam_ticket.equipment_id <>", value, "equipmentId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentIdGreaterThan(Integer value) {
-            addCriterion("eam_ticket.equipment_id >", value, "equipmentId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("eam_ticket.equipment_id >=", value, "equipmentId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentIdLessThan(Integer value) {
-            addCriterion("eam_ticket.equipment_id <", value, "equipmentId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentIdLessThanOrEqualTo(Integer value) {
-            addCriterion("eam_ticket.equipment_id <=", value, "equipmentId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentIdIn(List<Integer> values) {
-            addCriterion("eam_ticket.equipment_id in", values, "equipmentId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentIdNotIn(List<Integer> values) {
-            addCriterion("eam_ticket.equipment_id not in", values, "equipmentId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentIdBetween(Integer value1, Integer value2) {
-            addCriterion("eam_ticket.equipment_id between", value1, value2, "equipmentId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("eam_ticket.equipment_id not between", value1, value2, "equipmentId");
-            return (Criteria) this;
-        }
-
-        public Criteria andVoicePathIsNull() {
-            addCriterion("eam_ticket.voice_path is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andVoicePathIsNotNull() {
-            addCriterion("eam_ticket.voice_path is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andVoicePathEqualTo(Integer value) {
-            addCriterion("eam_ticket.voice_path =", value, "voicePath");
-            return (Criteria) this;
-        }
-
-        public Criteria andVoicePathNotEqualTo(Integer value) {
-            addCriterion("eam_ticket.voice_path <>", value, "voicePath");
-            return (Criteria) this;
-        }
-
-        public Criteria andVoicePathGreaterThan(Integer value) {
-            addCriterion("eam_ticket.voice_path >", value, "voicePath");
-            return (Criteria) this;
-        }
-
-        public Criteria andVoicePathGreaterThanOrEqualTo(Integer value) {
-            addCriterion("eam_ticket.voice_path >=", value, "voicePath");
-            return (Criteria) this;
-        }
-
-        public Criteria andVoicePathLessThan(Integer value) {
-            addCriterion("eam_ticket.voice_path <", value, "voicePath");
-            return (Criteria) this;
-        }
-
-        public Criteria andVoicePathLessThanOrEqualTo(Integer value) {
-            addCriterion("eam_ticket.voice_path <=", value, "voicePath");
-            return (Criteria) this;
-        }
-
-        public Criteria andVoicePathIn(List<Integer> values) {
-            addCriterion("eam_ticket.voice_path in", values, "voicePath");
-            return (Criteria) this;
-        }
-
-        public Criteria andVoicePathNotIn(List<Integer> values) {
-            addCriterion("eam_ticket.voice_path not in", values, "voicePath");
-            return (Criteria) this;
-        }
-
-        public Criteria andVoicePathBetween(Integer value1, Integer value2) {
-            addCriterion("eam_ticket.voice_path between", value1, value2, "voicePath");
-            return (Criteria) this;
-        }
-
-        public Criteria andVoicePathNotBetween(Integer value1, Integer value2) {
-            addCriterion("eam_ticket.voice_path not between", value1, value2, "voicePath");
             return (Criteria) this;
         }
 

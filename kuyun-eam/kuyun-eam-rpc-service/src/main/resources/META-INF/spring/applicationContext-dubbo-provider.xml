@@ -88,6 +88,14 @@
 	<dubbo:service interface="com.kuyun.eam.rpc.api.EamTicketRecordService" ref="eamTicketRecordServiceImpl" timeout="10000" />
 	<bean id="eamTicketTypeServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamTicketTypeServiceImpl"  />
 	<dubbo:service interface="com.kuyun.eam.rpc.api.EamTicketTypeService" ref="eamTicketTypeServiceImpl" timeout="10000" />
+    <bean id="eamTicketTagServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamTicketTagServiceImpl"  />
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamTicketTagService" ref="eamTicketTagServiceImpl" timeout="10000" />
+    <bean id="eamTicketAssessmentTagServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamTicketAssessmentTagServiceImpl"  />
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamTicketAssessmentTagService" ref="eamTicketAssessmentTagServiceImpl" timeout="10000" />
+    <bean id="eamTicketAssessmentServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamTicketAssessmentServiceImpl"  />
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamTicketAssessmentService" ref="eamTicketAssessmentServiceImpl" timeout="10000" />
+    <bean id="eamTicketAppointedRecordServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamTicketAppointedRecordServiceImpl"  />
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamTicketAppointedRecordService" ref="eamTicketAppointedRecordServiceImpl" timeout="10000" />
 
     <!-- 报警 -->
     <bean id="eamAlarmServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamAlarmServiceImpl"/>

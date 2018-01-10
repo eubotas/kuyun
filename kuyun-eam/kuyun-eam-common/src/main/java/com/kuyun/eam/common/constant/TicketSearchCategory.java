@@ -6,6 +6,7 @@ public enum TicketSearchCategory {
     MY_ALL("myAll"),
     OPEN("open"),
     ALL("all"),
+    INIT("init"),
 	OTHER("other");
 	
     private TicketSearchCategory(String name){
@@ -41,6 +42,9 @@ public enum TicketSearchCategory {
 				return OPEN;
 			case "all":
 				return ALL;
+
+				case "init":
+                    return INIT;
 			default:
 				return OTHER;
 			}

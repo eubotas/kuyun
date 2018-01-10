@@ -203,6 +203,55 @@
 		where delete_flag = 0
 	</select>
 
+    <resultMap id="UpmsOrgUserVoResultMap" type="com.kuyun.upms.dao.vo.UpmsOrgUserVo">
+        <id column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="realname" jdbcType="VARCHAR" property="realname" />
+        <result column="phone" jdbcType="VARCHAR" property="phone" />
+        <result column="email" jdbcType="VARCHAR" property="email" />
+        <result column="company_name" jdbcType="VARCHAR" property="companyName" />
+        <result column="login_time" jdbcType="BIGINT" property="loginTime" />
+        <result column="login_number" jdbcType="INTEGER" property="loginNumber" />
+    </resultMap>
+
+    <select id="selectUsersByOrg" parameterType="com.kuyun.upms.dao.vo.UpmsOrgUserVo" resultMap="UpmsOrgUserVoResultMap">
+        select distinct uu.user_id, uu.realname, uu.phone, uu.email
+        from upms_user uu, upms_user_company uuc, upms_organization uo where uu.user_id = uuc.user_id and uuc.company_id=uo.company_id
+        <if test="orgId != null">
+            and  uo.organization_id = ${orgId}
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+
+    <select id="selectOrgUsersByOrgNameCompanyId" parameterType="com.kuyun.upms.dao.vo.UpmsOrgUserVo" resultMap="UpmsOrgUserVoResultMap">
+        select distinct uu.user_id, uu.realname, uu.phone, uu.email
+        from upms_user uu, upms_user_company uuc, upms_organization uo where uu.user_id = uuc.user_id and uuc.company_id=uo.company_id
+        <if test="companyId != null">
+            and  uo.company_id = ${companyId}
+        </if>
+        <if test="orgName != null">
+            and  uo.name = '${orgName}'
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+
+    <select id="getUsersCountByOrg" parameterType="java.lang.Integer" resultType="java.lang.Long">
+        select count(distinct uu.user_id)
+        from upms_user uu, upms_user_company uuc, upms_organization uo where uu.user_id = uuc.user_id and uuc.company_id=uo.company_id
+        and  uo.organization_id = #{orgId,jdbcType=INTEGER}
+    </select>
+
 	<!-- 缓存 -->
 	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 

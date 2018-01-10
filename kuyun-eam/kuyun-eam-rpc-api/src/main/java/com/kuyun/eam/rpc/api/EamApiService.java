@@ -25,6 +25,10 @@ public interface EamApiService {
     
     List<EamTicketVO> selectTicket(EamTicketExample example);
 
+    List<EamTicketAssessmentTagVO> selectTicketAssessmentTags(EamTicketAssessmentTagVO vo);
+
+    List<EamTicketAppointVO> selectTicketAppointRecord(EamTicketAppointedRecordExample example);
+
     Integer inTask(EamInventory inventory);
 
     Integer outTask(EamInventory inventory);
@@ -67,6 +71,8 @@ public interface EamApiService {
 
     List<EamEquipmentModelPropertiesVO> selectEquipmentModelProperties(String equipmentId);
 
-
+    public int createTicketAppoint(EamTicketAppointedRecord record, EamTicket ticket);
+    public int rejectTicketAppoint(EamTicketAppointedRecord ticketAppointRecord);
+    public int deleteTicketAppoint(EamTicketAppointedRecordExample eamTicketAppointRecordExample, int ticketId);
 
 }

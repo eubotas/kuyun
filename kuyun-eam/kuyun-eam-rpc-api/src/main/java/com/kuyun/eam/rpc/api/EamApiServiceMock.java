@@ -46,6 +46,16 @@ public class EamApiServiceMock implements EamApiService {
     }
 
     @Override
+    public List<EamTicketAssessmentTagVO> selectTicketAssessmentTags(EamTicketAssessmentTagVO example) {
+        return null;
+    }
+
+    @Override
+    public List<EamTicketAppointVO> selectTicketAppointRecord(EamTicketAppointedRecordExample example) {
+        return null;
+    }
+
+    @Override
     public Integer inTask(EamInventory inventory) {
         return null;
     }
@@ -148,6 +158,21 @@ public class EamApiServiceMock implements EamApiService {
     @Override
     public List<EamEquipmentModelPropertiesVO> selectEquipmentModelProperties(String equipmentId) {
         return null;
+    }
+
+    @Override
+    public int createTicketAppoint(EamTicketAppointedRecord record, EamTicket ticket) {
+        return 0;
+    }
+
+    @Override
+    public int rejectTicketAppoint(EamTicketAppointedRecord ticketAppointRecord) {
+        return 0;
+    }
+
+    @Override
+    public int deleteTicketAppoint(EamTicketAppointedRecordExample eamTicketAppointRecordExample, int ticketId) {
+        return 0;
     }
 
 }

@@ -11,19 +11,21 @@
 
 		<div class="row">
 			<div class="col-sm-12">
+                <label for="description">工单描述</label>
 				<div class="form-group">
-
-					<label for="description">工单描述</label>
 					<textarea id="description" class="form-control" name="description"
 						maxlength="200" rows="4"></textarea>
 
 				</div>
 			</div>
+		</div>
+
+		<div class="row">
 			<div class="col-sm-6">
+				<label for="ticketTypeId">工单类型</label>
 				<div class="form-group">
 					<div class="fg-line">
-						<label for="ticketTypeId">工单类型</label> <select id="ticketTypeId"
-							name="ticketTypeId" style="width: 100%">
+						<select id="ticketTypeId" name="ticketTypeId" style="width: 100%">
 							<%--<option value="0">设备模型</option>--%>
 							<c:forEach var="ticketType" items="${ticketTypes}">
 								<option value="${ticketType.id}">${ticketType.name}</option>
@@ -32,10 +34,40 @@
 					</div>
 				</div>
 			</div>
+
 			<div class="col-sm-6">
+                <label for="equipmentCategoryId">产品目录</label>
+				<div class="form-group">
+					<select id="equipmentCategoryId" name="equipmentCategoryId" style="width: 100%">
+						<%--<option value="0">设备模型</option>--%>
+						<c:forEach var="equipmentCategory" items="${equipmentCategorys}">
+							<option value="${equipmentCategory.equipmentCategoryId}">${equipmentCategory.name}</option>
+						</c:forEach>
+					</select>
+					</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-6">
+				<label for="equipmentId">产品型号</label>
 				<div class="form-group">
 					<div class="fg-line">
-						<label for="priority">优先级</label> <select id="priority"
+						<select id="equipmentId" name="equipmentId" style="width: 100%">
+							<%--<option value="0">设备模型</option>--%>
+							<c:forEach var="equipment" items="${equipments}">
+								<option value="${equipment.equipmentId}">${equipment.name}</option>
+							</c:forEach>
+
+						</select>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-6">
+				<label for="priority">优先级</label>
+				<div class="form-group">
+					<div class="fg-line">
+						<select id="priority"
 							name="priority" style="width: 100%">
 							<option value="一般">一般</option>
 							<option value="紧急">紧急</option>
@@ -45,31 +77,42 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-6">
+		</div>
+
+		<div class="row">
+			<%--<div class="col-sm-6">
+				<label for="executorId">执行人</label>
 				<div class="form-group">
 					<div class="fg-line">
-						<label for="executorId">执行人</label> <select id="executorId"
-							name="executorId" style="width: 100%">
-							<%--<option value="0">设备模型</option>--%>
+						<select id="executorId" name="executorId" style="width: 100%">
+							&lt;%&ndash;<option value="0">设备模型</option>&ndash;%&gt;
 							<c:forEach var="user" items="${users}">
 								<option value="${user.userId}">${user.realname}</option>
 							</c:forEach>
 						</select>
 					</div>
-				</div>
+				</div>--%>
 			</div>
 			<div class="col-sm-6">
+				<label for="endDate">指定完成日期</label>
 				<div class="form-group">
-					<div class="fg-line">
-						<label for="endDate">指定完成日期</label> <input id="endDate"
-							type="date" name="endDate" class="form-control"></input>
-					</div>
+                    <div class="fg-line">
+                        <input id="endDate"
+                               type="date" name="endDate" class="form-control"></input>
+                    </div>
 				</div>
 			</div>
-			<div class="col-sm-12">
+		</div>
+		<div class="row">
+			<div class="col-sm-6">
 				<div id="fine-uploader-gallery"></div>
-				<input id="imagePath1" type="hidden" class="form-control"
-					name="imagePath1" maxlength="500">
+				<input id="imagePath" type="hidden" class="form-control"
+					name="imagePath" maxlength="500">
+			</div>
+			<div class="col-sm-6">
+				<div id="fine-uploader-gallery2"></div>
+				<input id="voicePath" type="hidden" class="form-control"
+					   name="voicePath" maxlength="500">
 			</div>
 		</div>
 
@@ -82,6 +125,16 @@
 	</form>
 </div>
 <script>
+//    $(".form_datetime").datetimepicker({
+//        format: "yyyy/MM/dd",
+//        language: 'zh-CN',
+//        pickDate: true,
+//        pickTime: false,
+//        inputMask: true,
+//        pickerPosition: "bottom-left",
+//        autoclose: true
+//    });
+
 	var galleryUploader = new qq.FineUploader(
 			{
 				element : document.getElementById("fine-uploader-gallery"),
@@ -139,8 +192,8 @@
 			fileUuids = fileUuids + uploads[i].uuid + ",";
 		}
 		console.log("fileUuids = " + fileUuids);
-		$('#imagePath1').val(fileUuids);
-		console.log("imagePage1 value:" + $('#imagePath1').val());
+		$('#imagePath').val(fileUuids);
+		console.log("imagePage1 value:" + $('#imagePath').val());
 		$
 				.ajax({
 					type : 'post',

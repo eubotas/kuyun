@@ -5,6 +5,7 @@ import com.kuyun.common.util.MD5Util;
 import com.kuyun.upms.dao.mapper.*;
 import com.kuyun.upms.dao.model.*;
 import com.kuyun.upms.dao.vo.UpmsCompanyVo;
+import com.kuyun.upms.dao.vo.UpmsOrgUserVo;
 import com.kuyun.upms.dao.vo.UpmsUserVo;
 import com.kuyun.upms.rpc.api.*;
 import com.kuyun.upms.rpc.mapper.UpmsApiMapper;
@@ -460,9 +461,34 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         return upmsApiMapper.selectCompanyEquipments(upmsCompanyVo);
     }
 
+
+
     @Override
     public Long countCompanyEquipments(UpmsCompanyVo upmsCompanyVo) {
         return upmsApiMapper.countCompanyEquipments(upmsCompanyVo);
     }
 
+    @Override
+    public List<UpmsOrgUserVo> selectUsersByOrg(UpmsOrgUserVo orgUserVo) {
+        return upmsApiMapper.selectUsersByOrg(orgUserVo);
+    }
+
+    @Override
+    public Long getUsersCountByOrg(int orgId) {
+        return upmsApiMapper.getUsersCountByOrg(orgId);
+    }
+
+    @Override
+    public List<UpmsOrgUserVo> selectOrgUsersByOrgNameCompanyId(UpmsOrgUserVo orgUserVo) {
+        return upmsApiMapper.selectOrgUsersByOrgNameCompanyId(orgUserVo);
+    }
+
+    @Override
+    public void createOrgUser(int orgId, List<UpmsUserOrganization> list){
+        UpmsUserOrganizationExample example= new UpmsUserOrganizationExample();
+        UpmsUserOrganizationExample.Criteria  criteria =example.createCriteria();
+        criteria.andOrganizationIdEqualTo(orgId);
+        upmsUserOrganizationService.deleteByExample(example);
+        upmsUserOrganizationService.batchInsert(list);
+    }
 }

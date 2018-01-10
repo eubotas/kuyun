@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
 * EamEquipmentCategoryService实现
-* Created by kuyun on 2017/12/14.
+* Created by kuyun on 2017/12/21.
 */
 @Service
 @Transactional
