@@ -61,9 +61,6 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-sm-6">
-		<label for="endDate">指定完成日期</label> <span id="endDate">${ticket.endDate}</span>
-	</div>
 	<div class="col-sm-6">
 		<label for="createTime">创建时间</label> <span id="createTime">${ticket.createTime}</span>
 	</div>
@@ -92,9 +89,9 @@
 		$('span[id^="createTime"]').each(function() {
 			$(this).text(timeFormatter($(this).text()));
 		});
-		$('span[id="endDate"]').each(function() {
-			$(this).text(timeFormatter($(this).text()));
-		});
+		// $('span[id="endDate"]').each(function() {
+		// 	$(this).text(timeFormatter($(this).text()));
+		// });
 
 	});
 
@@ -103,12 +100,20 @@
 		return new Date(value).toLocaleString();
 	}
 
-	function closeBtn(refreshtable){
+    function closeBtn(refreshtable){
         if(createDialog) {
             createDialog.close();
             if(refreshtable)
                 refreshtable.bootstrapTable('refresh');
-        }else if(processDialog)
-            processDialog.close();
+        }else if(updateDialog)
+            updateDialog.close();
+        else if(appointDialog)
+            appointDialog.close();
+        else if(rejectDialog)
+            rejectDialog.close();
+        else if(assessmentDialog)
+            assessmentDialog.close();
+        else if(recordDialog)
+            recordDialog.close();
     }
 </script>

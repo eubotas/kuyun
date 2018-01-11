@@ -74,5 +74,6 @@ public interface EamApiService {
     public int createTicketAppoint(EamTicketAppointedRecord record, EamTicket ticket);
     public int rejectTicketAppoint(EamTicketAppointedRecord ticketAppointRecord);
     public int deleteTicketAppoint(EamTicketAppointedRecordExample eamTicketAppointRecordExample, int ticketId);
-
+    public int addTicketRecord(EamTicketRecord ticketRecord);
+    public void completeTicket(EamTicketAssessment ticketAssessment, int[] ticketTag);
 }

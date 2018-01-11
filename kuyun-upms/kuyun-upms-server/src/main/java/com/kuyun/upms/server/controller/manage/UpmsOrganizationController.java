@@ -5,15 +5,13 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
+import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.common.constant.UpmsResult;
 import com.kuyun.upms.common.constant.UpmsResultConstant;
 import com.kuyun.upms.dao.model.*;
 import com.kuyun.upms.dao.vo.UpmsOrgUserVo;
 import com.kuyun.upms.dao.vo.UpmsUserVo;
-import com.kuyun.upms.rpc.api.UpmsApiService;
-import com.kuyun.upms.rpc.api.UpmsOrganizationService;
-import com.kuyun.upms.rpc.api.UpmsUserOrganizationService;
-import com.kuyun.upms.rpc.api.UpmsUserService;
+import com.kuyun.upms.rpc.api.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -48,7 +46,12 @@ public class UpmsOrganizationController extends BaseController {
     private UpmsUserOrganizationService upmsUserOrganizationService;
 
     @Autowired
+    private UpmsCompanyService upmsCompanyService;
+
+    @Autowired
     private UpmsApiService upmsApiService;
+    @Autowired
+    private BaseEntityUtil baseEntityUtil;
 
     @ApiOperation(value = "组织首页")
     @RequiresPermissions("upms:organization:read")
@@ -77,6 +80,9 @@ public class UpmsOrganizationController extends BaseController {
             upmsOrganizationExample.or()
                     .andNameLike("%" + search + "%");
         }
+        UpmsOrganizationExample.Criteria criteria = upmsOrganizationExample.createCriteria();
+        criteria.andCompanyIdEqualTo(getCompanyId());
+
         List<UpmsOrganization> rows = upmsOrganizationService.selectByExample(upmsOrganizationExample);
         long total = upmsOrganizationService.countByExample(upmsOrganizationExample);
         Map<String, Object> result = new HashMap<>();
@@ -161,7 +167,8 @@ public class UpmsOrganizationController extends BaseController {
     @ApiOperation(value = "新增组织")
     @RequiresPermissions("upms:organization:create")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String create() {
+    public String create(ModelMap modelMap) {
+
         return "/manage/organization/create.jsp";
     }
 
@@ -179,6 +186,7 @@ public class UpmsOrganizationController extends BaseController {
         }
         long time = System.currentTimeMillis();
         upmsOrganization.setCtime(time);
+        upmsOrganization.setCompanyId(getCompanyId());
         int count = upmsOrganizationService.insertSelective(upmsOrganization);
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
     }
@@ -198,6 +206,13 @@ public class UpmsOrganizationController extends BaseController {
     public String update(@PathVariable("id") int id, ModelMap modelMap) {
         UpmsOrganization organization = upmsOrganizationService.selectByPrimaryKey(id);
         modelMap.put("organization", organization);
+
+        UpmsCompanyExample companyExample = new UpmsCompanyExample();
+        UpmsCompanyExample.Criteria criteria = companyExample.createCriteria();
+        criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+        List<UpmsCompany> rows = upmsCompanyService.selectByExample(companyExample);
+        modelMap.put("companys", rows);
+
         return "/manage/organization/update.jsp";
     }
 
@@ -218,4 +233,12 @@ public class UpmsOrganizationController extends BaseController {
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
     }
 
+    private int getCompanyId(){
+        int cId=-1;
+        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+        if (company != null){
+            cId = company.getCompanyId();
+        }
+        return cId;
+    }
 }

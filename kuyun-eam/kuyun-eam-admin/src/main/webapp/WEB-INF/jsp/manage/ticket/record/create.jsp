@@ -13,14 +13,6 @@
 			<div class="col-sm-6">
 				<div class="form-group">
 					<div class="fg-line">
-						<label for="Step">工单记录步骤</label>
-						<input id="step" type="text" class="form-control" name="step" maxlength="20">
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-6">
-				<div class="form-group">
-					<div class="fg-line">
 						<label for="comments">工单记录备注</label>
 						<input id="comments" type="text" class="form-control" name="comments" maxlength="200">
 					</div>
@@ -86,8 +78,10 @@ function createSubmit() {
 			    if(createDialog) {
                     createDialog.close();
                     $table.bootstrapTable('refresh');
-                }else if(processDialog)
-                    processDialog.close();
+                }else if(recordDialog) {
+                    recordDialog.close();
+                    $table.bootstrapTable('refresh');
+                }
 			}
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {

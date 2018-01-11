@@ -8,6 +8,7 @@ import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.EamTicketRecord;
 import com.kuyun.eam.dao.model.EamTicketRecordExample;
+import com.kuyun.eam.rpc.api.EamApiService;
 import com.kuyun.eam.rpc.api.EamTicketRecordService;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
@@ -39,9 +40,6 @@ import static com.kuyun.eam.common.constant.EamResultConstant.SUCCESS;
 public class EamTicketRecordController extends EamTicketBaseController {
 
 	private static Logger _log = LoggerFactory.getLogger(EamTicketRecordController.class);
-	
-//	@Autowired
-//	private EamTicketService eamTicketService;
 
 	@Autowired
 	private EamTicketRecordService eamTicketRecordService;
@@ -49,6 +47,8 @@ public class EamTicketRecordController extends EamTicketBaseController {
 	@Autowired
 	private BaseEntityUtil baseEntityUtil;
 
+    @Autowired
+    private EamApiService eamApiService;
 
 	@ApiOperation(value = "工单记录管理首页")
 	@RequiresPermissions("eam:ticketRecord:read")
@@ -108,14 +108,14 @@ public class EamTicketRecordController extends EamTicketBaseController {
 	@ResponseBody
 	public Object create(EamTicketRecord ticketRecord) {
 		ComplexResult result = FluentValidator.checkAll()
-				.on(ticketRecord.getStep(), new LengthValidator(1, 20, "工单记录步骤不能为空"))
+				.on(ticketRecord.getComments(), new LengthValidator(1, 20, "工单记录不能为空"))
 				.doValidate()
 				.result(ResultCollectors.toComplex());
 		if (!result.isSuccess()) {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
 		baseEntityUtil.addAddtionalValue(ticketRecord);
-		int count = eamTicketRecordService.insertSelective(ticketRecord);
+		int count = eamApiService.addTicketRecord(ticketRecord);
 		return new EamResult(SUCCESS, count);
 	}
 
@@ -146,7 +146,7 @@ public class EamTicketRecordController extends EamTicketBaseController {
 	@ResponseBody
 	public Object update(@PathVariable("id") int id, EamTicketRecord ticketRecord) {
 		ComplexResult result = FluentValidator.checkAll()
-				.on(ticketRecord.getStep(), new LengthValidator(1, 20, "工单记录步骤不能为空"))
+				.on(ticketRecord.getComments(), new LengthValidator(1, 20, "工单记录不能为空"))
 				.doValidate()
 				.result(ResultCollectors.toComplex());
 		if (!result.isSuccess()) {

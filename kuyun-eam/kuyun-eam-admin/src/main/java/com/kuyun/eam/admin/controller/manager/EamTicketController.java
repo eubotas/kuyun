@@ -248,7 +248,7 @@ public class EamTicketController extends EamTicketBaseController {
 	public Object complete(@PathVariable("id") int id) {
 		EamTicket ticket=new EamTicket();
 		ticket.setTicketId(id);
-		ticket.setStatus(TicketStatus.COMPLETE.getName());
+		ticket.setStatus(TicketStatus.RESOLVED.getName());
 		int count= eamTicketService.updateByPrimaryKeySelective(ticket);
 		return new EamResult(EamResultConstant.SUCCESS, count);
 	}

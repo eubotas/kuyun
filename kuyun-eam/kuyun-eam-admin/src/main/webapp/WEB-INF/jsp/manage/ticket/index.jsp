@@ -246,36 +246,36 @@ function toaction(type) {
             window.location = '${basePath}/manage/ticket/' + ticketId + '/assessment/index';
         }
         else if('TOAPPOINT'==type){
-            if(status == '待评价' || status == '待维修')
-                createChildWindow('委派工单', '${basePath}/manage/ticket/' + ticketId + '/appoint/create');
+            if(status == '待派工')
+                createChildWindow('appoint', '委派工单', '${basePath}/manage/ticket/' + ticketId + '/appoint/create');
             else
                 showInfo('未委派的订单才能委派');
         }else if('TOASSESSMENT'==type){
             if(status == '待评价')
-                createChildWindow('评价', '${basePath}/manage/ticket/' + ticketId + '/assessment/assess');
+                createChildWindow('assessment', '评价', '${basePath}/manage/ticket/' + ticketId + '/assessment/assess');
             else
-                showInfo('完成的订单才能评价');
+                showInfo('完成状态的订单才能评价');
         }
         else if('TORECORD'==type)
-            createChildWindow('处理工单', '${basePath}/manage/ticket/' +ticketId  + '/record/create');
+            createChildWindow('record', '处理工单', '${basePath}/manage/ticket/' +ticketId  + '/record/create');
         else if('REJECT'==type){
             if(status == '待维修')
-                createChildWindow('拒绝工单', '${basePath}/manage/ticket/' + ticketId + '/appoint/toreject');
+                createChildWindow('reject', '拒绝工单', '${basePath}/manage/ticket/' + ticketId + '/appoint/toreject');
             else
-                showInfo('委派的订单才能拒绝');
+                showInfo('已委派的订单才能拒绝');
         }
         else if('COMPLETE'==type){
             if(status == '维修中')
                 directlyAction('完成工单',  '${basePath}/manage/ticket/complete/' + ticketId);
             else
-                showInfo('维修的订单才能完成工单');
+                showInfo('维修状态的订单才能完成工单');
         }
     }
 }
 
-var processDialog;
-function createChildWindow(title, url) {
-    processDialog = $.dialog({
+var appointDialog, rejectDialog, assessmentDialog, recordDialog;
+function createChildWindow(vardialog, title, url) {
+    var d = $.dialog({
         animationSpeed: 300,
         title: title,
         columnClass: 'xlarge',
@@ -285,6 +285,27 @@ function createChildWindow(title, url) {
             $('select').select2();
         }
     });
+    if(vardialog == 'appoint'){
+        appointDialog = d;
+        rejectDialog  =null;
+        assessmentDialog  =null;
+        recordDialog  =null;
+    }else if(vardialog == 'reject'){
+        rejectDialog=d;
+        appointDialog  =null;
+        assessmentDialog  =null;
+        recordDialog  =null;
+    }else if(vardialog == 'assessment'){
+        assessmentDialog =d;
+        appointDialog  =null;
+        rejectDialog  =null;
+        recordDialog  =null;
+    }else if(vardialog == 'record'){
+        recordDialog =d;
+        appointDialog  =null;
+        assessmentDialog  =null;
+        rejectDialog  =null;
+    }
 }
 
 var directlyOperateDialog;

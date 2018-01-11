@@ -175,4 +175,14 @@ public class EamApiServiceMock implements EamApiService {
         return 0;
     }
 
+    @Override
+    public int addTicketRecord(EamTicketRecord ticketRecord) {
+        return 0;
+    }
+
+    @Override
+    public void completeTicket(EamTicketAssessment ticketAssessment, int[] ticketTag) {
+
+    }
+
 }
