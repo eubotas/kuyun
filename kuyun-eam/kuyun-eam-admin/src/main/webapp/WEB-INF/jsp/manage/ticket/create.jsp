@@ -77,30 +77,6 @@
 		</div>
 
 		<div class="row">
-			<%--<div class="col-sm-6">
-				<label for="executorId">执行人</label>
-				<div class="form-group">
-					<div class="fg-line">
-						<select id="executorId" name="executorId" style="width: 100%">
-							&lt;%&ndash;<option value="0">设备模型</option>&ndash;%&gt;
-							<c:forEach var="user" items="${users}">
-								<option value="${user.userId}">${user.realname}</option>
-							</c:forEach>
-						</select>
-					</div>
-				</div>--%>
-			</div>
-			<div class="col-sm-6">
-				<label for="endDate">指定完成日期</label>
-				<div class="form-group">
-                    <div class="fg-line">
-                        <input id="endDate"
-                               type="date" name="endDate" class="form-control"></input>
-                    </div>
-				</div>
-			</div>
-		</div>
-		<div class="row">
 			<div class="col-sm-6">
 				<div id="fine-uploader-gallery"></div>
 				<input id="imagePath" type="hidden" class="form-control"

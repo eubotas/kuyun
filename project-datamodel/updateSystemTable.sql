@@ -1,0 +1,1 @@
+alter table upms_role add company_id int not null;

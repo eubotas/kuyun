@@ -7,10 +7,7 @@ import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.NotNullValidator;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.*;
-import com.kuyun.eam.rpc.api.EamApiService;
-import com.kuyun.eam.rpc.api.EamTicketAssessmentService;
-import com.kuyun.eam.rpc.api.EamTicketAssessmentTagService;
-import com.kuyun.eam.rpc.api.EamTicketTagService;
+import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.vo.EamTicketAssessmentTagVO;
 import com.kuyun.eam.vo.EamTicketAssessmentVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
@@ -53,6 +50,8 @@ public class EamTicketAssessmentController extends EamTicketBaseController {
 
     @Autowired
     private EamTicketAssessmentTagService eamTicketAssessmentTagService;
+    @Autowired
+    private EamTicketService eamTicketService;
 
 	@Autowired
 	private BaseEntityUtil baseEntityUtil;
@@ -156,7 +155,7 @@ public class EamTicketAssessmentController extends EamTicketBaseController {
 	@RequiresPermissions("eam:TicketAssessment:create")
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	@ResponseBody
-	public Object create(EamTicketAssessment ticketAssessment, int[] ticketTag) {
+	public Object create(@PathVariable("ticketId") int ticketId, EamTicketAssessment ticketAssessment, int[] ticketTag) {
 		ComplexResult result = FluentValidator.checkAll()
 				.on(ticketAssessment.getAssessmentLevel(), new NotNullValidator( "工单评价星级不能为空"))
 				.doValidate()
@@ -165,7 +164,9 @@ public class EamTicketAssessmentController extends EamTicketBaseController {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
 		baseEntityUtil.addAddtionalValue(ticketAssessment);
-		eamTicketAssessmentService.createTicketAssessment(ticketAssessment, ticketTag);
+        EamTicket eamTicket = eamTicketService.selectByPrimaryKey(ticketId);
+        ticketAssessment.setAssessmentUserId(eamTicket.getExecutorId());
+        eamApiService.completeTicket(ticketAssessment, ticketTag);
 		return new EamResult(SUCCESS, 1);
 	}
 

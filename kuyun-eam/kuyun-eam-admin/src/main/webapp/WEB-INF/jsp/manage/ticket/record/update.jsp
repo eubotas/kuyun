@@ -1,4 +1,4 @@
-﻿<%@ page contentType="text/html; charset=utf-8"%>
+﻿﻿<%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
@@ -8,7 +8,10 @@
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 <div id="updateDialog" class="crudDialog">
 	<form id="updateForm" method="post">
+		<input type="hidden" name="userId" value="1">
+
 		<div class="row">
+			<div class="col-sm-6">
 				<div class="form-group">
 					<div class="fg-line">
 						<label for="comments">工单记录备注</label>
@@ -75,9 +78,9 @@ function updateSubmit() {
 			} else {
                 if(updateDialog){
                     updateDialog.close();
-                    $table.bootstrapTable('refresh');
-                }else if(processDialog)
-                    processDialog.close();
+                }else if(recordDialog)
+                    recordDialog.close();
+                $table.bootstrapTable('refresh');
 			}
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {

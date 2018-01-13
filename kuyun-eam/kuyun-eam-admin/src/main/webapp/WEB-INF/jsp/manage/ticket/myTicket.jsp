@@ -1,4 +1,4 @@
-﻿<%@
+﻿﻿<%@
         page contentType="text/html; charset=utf-8"%><%@
         taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%><%@
         taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%><%@
@@ -241,20 +241,20 @@
             }
             else if('TOAPPOINT'==type){
                 if(status == '待派工')
-                    createChildWindow('委派工单', '${basePath}/manage/ticket/' + ticketId + '/appoint/create');
+                    createChildWindow('appoint', '委派工单', '${basePath}/manage/ticket/' + ticketId + '/appoint/create');
                 else
                     showInfo('未委派的订单才能委派');
             }else if('TOASSESSMENT'==type){
                 if(status == '待评价')
-                    createChildWindow('评价', '${basePath}/manage/ticket/' + ticketId + '/assessment/assess');
+                    createChildWindow('assessment', '评价', '${basePath}/manage/ticket/' + ticketId + '/assessment/assess');
                 else
                     showInfo('完成状态的订单才能评价');
             }
             else if('TORECORD'==type)
-                createChildWindow('处理工单', '${basePath}/manage/ticket/' +ticketId  + '/record/create');
+                createChildWindow('record', '处理工单', '${basePath}/manage/ticket/' +ticketId  + '/record/create');
             else if('REJECT'==type){
                 if(status == '待维修')
-                    createChildWindow('拒绝工单', '${basePath}/manage/ticket/' + ticketId + '/appoint/toreject');
+                    createChildWindow('reject', '拒绝工单', '${basePath}/manage/ticket/' + ticketId + '/appoint/toreject');
                 else
                     showInfo('已委派的订单才能拒绝');
             }
@@ -267,9 +267,9 @@
         }
     }
 
-    var processDialog;
-    function createChildWindow(title, url) {
-        processDialog = $.dialog({
+    var appointDialog, rejectDialog, assessmentDialog, recordDialog;
+    function createChildWindow(vardialog, title, url) {
+        var d = $.dialog({
             animationSpeed: 300,
             title: title,
             columnClass: 'xlarge',
@@ -279,6 +279,27 @@
                 $('select').select2();
             }
         });
+        if(vardialog == 'appoint'){
+            appointDialog = d;
+            rejectDialog  =null;
+            assessmentDialog  =null;
+            recordDialog  =null;
+        }else if(vardialog == 'reject'){
+            rejectDialog=d;
+            appointDialog  =null;
+            assessmentDialog  =null;
+            recordDialog  =null;
+        }else if(vardialog == 'assessment'){
+            assessmentDialog =d;
+            appointDialog  =null;
+            rejectDialog  =null;
+            recordDialog  =null;
+        }else if(vardialog == 'record'){
+            recordDialog =d;
+            appointDialog  =null;
+            assessmentDialog  =null;
+            rejectDialog  =null;
+        }
     }
 
     var directlyOperateDialog;
