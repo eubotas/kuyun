@@ -8,17 +8,7 @@
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 <div id="createDialog" class="crudDialog">
 	<form id="createForm" method="post">
-		<input type="hidden" name="userId" value="1">
 		<div class="row">
-			<div class="col-sm-6">
-				<div class="form-group">
-					<div class="fg-line">
-						<label for="Step">工单记录步骤</label>
-						<input id="step" type="text" class="form-control" name="step" maxlength="20">
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-6">
 				<div class="form-group">
 					<div class="fg-line">
 						<label for="comments">工单记录备注</label>

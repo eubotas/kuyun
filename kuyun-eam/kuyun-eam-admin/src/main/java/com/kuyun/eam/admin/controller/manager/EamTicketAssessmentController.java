@@ -217,6 +217,18 @@ public class EamTicketAssessmentController extends EamTicketBaseController {
 		return new EamResult(SUCCESS, count);
 	}
 
+    @ApiOperation(value = "工单评价详细")
+    @RequiresPermissions("eam:ticketAssessment:read")
+    @RequestMapping(value = "/detail", method = RequestMethod.GET)
+    public EamTicketAssessmentVO getAssessmentTicket(@PathVariable("ticketId") int ticketId){
+        EamTicketAssessment ass =getTicketAssessment(ticketId);
+        EamTicketAssessmentVO vo = new EamTicketAssessmentVO();
+        vo.setId(ass.getId());
+        vo.setAssessmentLevel(ass.getAssessmentLevel());
+        vo.setTagNames(getAssessmentTicketTag(ass.getId()));
+        vo.setDescription(ass.getDescription());
+        return vo;
+    }
 
 	private List<EamTicketTag> getTicketTag(){
 		EamTicketTagExample eamTicketTagExample = new EamTicketTagExample();

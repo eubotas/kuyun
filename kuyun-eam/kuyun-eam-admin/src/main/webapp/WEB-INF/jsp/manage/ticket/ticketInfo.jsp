@@ -108,7 +108,13 @@
             createDialog.close();
             if(refreshtable)
                 refreshtable.bootstrapTable('refresh');
-        }else if(processDialog)
-            processDialog.close();
+        }else if(appointDialog)
+            appointDialog.close();
+        else if(rejectDialog)
+            rejectDialog.close();
+        else if(assessmentDialog)
+            assessmentDialog.close();
+        else if(recordDialog)
+            recordDialog.close();
     }
 </script>
