@@ -107,7 +107,6 @@
         <shiro:hasPermission name="eam:ticket:create"><a class="waves-effect waves-button" href="javascript:;" onclick="toaction('REJECT')"><i class="zmdi zmdi-edit"></i> 拒绝工单</a></shiro:hasPermission>
         <shiro:hasPermission name="eam:ticketAppointedRecord:create"><a class="waves-effect waves-button" href="javascript:;" onclick="toaction('TORECORD')"><i class="zmdi zmdi-edit"></i> 处理工单</a></shiro:hasPermission>
         <shiro:hasPermission name="eam:ticket:create"><a class="waves-effect waves-button" href="javascript:;" onclick="toaction('COMPLETE')"><i class="zmdi zmdi-edit"></i> 完成工单</a></shiro:hasPermission>
-
     </div>
     <table id="table"></table>
 </div>
@@ -158,6 +157,7 @@
     // 格式化操作按钮
     function actionFormatter(value, row, index) {
         return [
+            '<a class="update" href="javascript:;" onclick="detailAction()" data-toggle="tooltip" title="Detail"><i class="glyphicon glyphicon-edit"></i></a>　',
             '<a class="update" href="javascript:;" onclick="updateAction()" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>　',
             '<a class="delete" href="javascript:;" onclick="deleteAction()" data-toggle="tooltip" title="Remove"><i class="glyphicon glyphicon-remove"></i></a>'
         ].join('');
@@ -206,6 +206,37 @@
                 title: '修改工单',
                 columnClass: 'xlarge',
                 content: 'url:${basePath}/manage/ticket/update/' + rows[0].ticketId,
+                onContentReady: function () {
+                    initMaterialInput();
+                    $('select').select2();
+                }
+            });
+        }
+    }
+
+    // Detail
+    var detailDialog;
+    function detailAction() {
+        var rows = $table.bootstrapTable('getSelections');
+        if (rows.length != 1) {
+            $.confirm({
+                title: false,
+                content: '请选择一条记录！',
+                autoClose: 'cancel|3000',
+                backgroundDismiss: true,
+                buttons: {
+                    cancel: {
+                        text: '取消',
+                        btnClass: 'waves-effect waves-button'
+                    }
+                }
+            });
+        } else {
+            detailDialog = $.dialog({
+                animationSpeed: 300,
+                title: '工单详细',
+                columnClass: 'xlarge',
+                content: 'url:${basePath}/manage/ticket/detail/' + rows[0].ticketId,
                 onContentReady: function () {
                     initMaterialInput();
                     $('select').select2();

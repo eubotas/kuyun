@@ -8,7 +8,6 @@
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 <div id="createDialog" class="crudDialog">
 	<form id="createForm" method="post">
-		<input type="hidden" name="userId" value="1">
 		<div class="row">
 			<div class="col-sm-6">
 				<div class="form-group">
