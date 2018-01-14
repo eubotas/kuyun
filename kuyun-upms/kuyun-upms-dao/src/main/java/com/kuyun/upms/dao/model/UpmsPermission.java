@@ -1,8 +1,9 @@
 package com.kuyun.upms.dao.model;
 
+import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
 
-public class UpmsPermission implements Serializable {
+public class UpmsPermission extends BaseEntity implements Serializable {
     /**
      * 编号
      *

@@ -6,9 +6,18 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
+<link href="${basePath}/resources/kuyun-admin/plugins/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+<script src="${basePath}/resources/kuyun-admin/plugins/bootstrap-editable/js/bootstrap-editable.min.js"></script>
+<%--<script src="//rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/js/bootstrap-editable.js"></script>--%>
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+<script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+<script src="${basePath}/resources/kuyun-admin/plugins/bootstrap-table-1.11.0/extensions/editable/bootstrap-table-editable.min.js"></script>
+
+
 <div id="equipmentDialog" class="crudDialog">
 	<div class="form-group text-right dialog-buttons">
-		<a class="waves-effect waves-button" href="javascript:;" onclick="createSubmit();">确认授权</a>
+		<a class="waves-effect waves-button" href="javascript:;" onclick="createSubmit();">确认选择</a>
 		<a class="waves-effect waves-button" href="javascript:;" onclick="cancelAction();">取消</a>
 	</div>
 
@@ -17,7 +26,7 @@
 	</div>
 
 	<div class="form-group text-right dialog-buttons">
-		<a class="waves-effect waves-button" href="javascript:;" onclick="createSubmit();">确认授权</a>
+		<a class="waves-effect waves-button" href="javascript:;" onclick="createSubmit();">确认选择</a>
 		<a class="waves-effect waves-button" href="javascript:;" onclick="cancelAction();">取消</a>
 	</div>
 
@@ -27,22 +36,17 @@
     $(function() {
         // bootstrap table初始化
         $tableEquipment.bootstrapTable({
-            url: '${basePath}/manage/company/equipment/list',
+            url: '${basePath}/manage/productLine/grm/list',
             queryParams:function(p){
-                return {    companyId : '${companyId}',
-							limit : p.limit,
-							offset: p.offset,
-							search: p.search,
-							sort:   p.sort,
-							order:  p.order
+                return {    productLineId : '${productLineId}'
+
 				       }
             },
             height: getHeight(),
-            striped: true,
             minimumCountColumns: 2,
             clickToSelect: true,
             detailFormatter: 'detailFormatter',
-            pagination: true,
+            pagination: false,
             paginationLoop: false,
             sidePagination: 'server',
             silentSort: false,
@@ -54,8 +58,10 @@
 //            toolbar: '#toolbar',
             columns: [
                 {field: 'ck', checkbox: true,  formatter : checkFormatter},
-                {field: 'name', title: '设备名称', sortable: true, align: 'center'},
-                {field: 'number', title: '设备编号'}
+                {field: 'name', title: '变量名'},
+                {field: 'typeDesc', title: '变量类型'},
+                {field: 'attributeDesc', title: '读写属性'},
+                {field: 'networkPermisstionDesc', title: '网络权限'}
             ]
         });
     });
@@ -70,7 +76,7 @@
     }
 
 function cancelAction() {
-    equipmentDialog.close();
+    grmDialog.close();
     $table.bootstrapTable('refresh');
 }
 
@@ -91,21 +97,16 @@ function createSubmit() {
             }
         });
     }else {
-        var ids = new Array();
+		console.info(rows);
+        var names = new Array();
         for (var i in rows) {
-            ids.push(rows[i].equipmentId);
+            names.push(rows[i].name);
         }
 
         $.ajax({
             type: 'post',
-            url: '${basePath}/manage/company/auth/',
-            data: {companyId: '${companyId}', eIds: ids.join("::")},
-            beforeSend: function() {
-                if ($('#name').val() == '') {
-                    $('#name').focus();
-                    return false;
-                }
-            },
+            url: '${basePath}/manage/productLine/grm/confirm',
+            data: {productLineId : '${productLineId}', names: names.join("::")},
             success: function(result) {
                 if (result.code != 1) {
                     if (result.data instanceof Array) {

@@ -13,7 +13,7 @@ public class Generator {
 
     // 根据命名规范，只修改此常量值即可
     private static String MODULE = "kuyun-eam";
-    private static String DATABASE = "kuyun";
+    private static String DATABASE = "xmx";
     private static String TABLE_PREFIX = "eam_";
     private static String PACKAGE_NAME = "com.kuyun.eam";
     private static String JDBC_DRIVER = PropertiesFileUtil.getInstance("generator").get("generator.jdbc.driver");

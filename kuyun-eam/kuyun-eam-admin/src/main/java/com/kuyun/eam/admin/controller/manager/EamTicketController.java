@@ -217,7 +217,7 @@ public class EamTicketController extends BaseController {
 		for ( String uuid : Splitter.on(',')
 			    .trimResults()
 			    .omitEmptyStrings()
-			    .split(eamTicket.getImagePath1()) ) {
+			    .split(eamTicket.getImagePath()) ) {
 			imageList.add(fileUploaderService.getServerInfo().getEndpoint_show()+"/"+uuid);
 		}
 		

@@ -37,6 +37,8 @@ public interface EamApiService {
 
     int handleEquimpmentCollect(String jsonString, CollectStatus collectStatus);
 
+    int handleProductLineCollect(String jsonString, CollectStatus collectStatus);
+
     Integer createAlarm(String targetUserId, EamAlarm alarm);
 
     Integer updateAlarm(String targetUserId, EamAlarm alarm);
@@ -65,13 +67,20 @@ public interface EamApiService {
 
     void processData(String deviceId, Integer sensorId, String data);
 
-    void processData(List<Pair<EamGrmEquipmentVariable, String>> pairs);
+    void processData(List<Pair<EamGrmVariable, String>> pairs);
 
     List<EamEquipmentModelPropertiesVO> selectEquipmentModelProperties(String equipmentId);
 
 
-    List<EamGrmEquipmentVariableVO> selectGrmEquipmentVariables(String equipmentId);
+    List<EamGrmVariableVO> selectGrmVariables(String productLineId);
 
 
+    int persistProductLine(EamProductLine eamProductLine, EamProductLineCompany productLineCompany);
+
+    List<EamProductLineVO> selectProductLines(EamProductLineVO eamProductLine);
+
+    Long countProductLines(EamProductLineVO eamProductLine);
+
+    List<EamGrmVariable> getGrmVariables(String productLineId);
 
 }

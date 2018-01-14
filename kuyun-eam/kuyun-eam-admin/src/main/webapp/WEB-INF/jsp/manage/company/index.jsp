@@ -58,14 +58,14 @@ $(function() {
             {field: 'zip', title: '邮编'},
             {field: 'www', title: '网址'},
 			{field: 'address', title: '客户地址'},
-			{field: 'action', title: '设备授权', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
+			{field: 'action', title: '产线授权', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
 		]
 	});
 });
 // 格式化操作按钮
 function actionFormatter(value, row, index) {
     return [
-		'<a class="update" href="javascript:;" onclick="equipmentAction()" data-toggle="tooltip" title="List"><i class="glyphicon glyphicon-list"></i></a>　'
+		'<a class="update" href="javascript:;" onclick="productLineAction()" data-toggle="tooltip" title="List"><i class="glyphicon glyphicon-list"></i></a>　'
     ].join('');
 }
 // 新增
@@ -208,8 +208,8 @@ function deleteAction() {
 	}
 }
 
-var equipmentDialog;
-function equipmentAction() {
+var productLineDialog;
+function productLineAction() {
     var rows = $table.bootstrapTable('getSelections');
     if (rows.length != 1) {
         $.confirm({
@@ -229,9 +229,9 @@ function equipmentAction() {
         if (companyId == undefined){
             companyId = '${companyId}';
 		}
-        equipmentDialog = $.dialog({
+        productLineDialog = $.dialog({
             animationSpeed: 300,
-            title: '设备授权',
+            title: '产线授权',
             columnClass: 'xlarge',
             content: 'url:${basePath}/manage/company/auth/' + companyId,
             onContentReady: function () {

@@ -3,6 +3,7 @@ package com.kuyun.eam.rpc.mapper;
 import java.util.List;
 
 import com.kuyun.eam.dao.model.EamAlarm;
+import com.kuyun.eam.dao.model.EamProductLine;
 import com.kuyun.eam.dao.model.EamSensorData;
 import com.kuyun.eam.dao.model.EamTicketExample;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
@@ -48,4 +49,8 @@ public interface EamApiMapper {
     List<EamEquipmentVO> selectUnConnectDtuEquipments(EamEquipmentVO eamEquipmentVO);
 
     Long countUnConnectDtuEquipments(EamEquipmentVO eamEquipmentVO);
+
+    List<EamProductLineVO> selectProductLines(EamProductLine eamProductLine);
+
+    Long countProductLines(EamProductLine eamProductLine);
 }

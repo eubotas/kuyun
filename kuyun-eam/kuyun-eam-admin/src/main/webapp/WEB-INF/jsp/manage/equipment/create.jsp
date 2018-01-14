@@ -8,7 +8,7 @@
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 <div id="createDialog" class="crudDialog">
 	<form id="createForm" method="post">
-
+        <input hidden name="productLineId" value="${productLineId}"/>
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group">
@@ -47,20 +47,6 @@
 					</div>
 				</div>
 			</div>
-
-			<div class="col-sm-12">
-				<div class="form-group">
-					<div class="fg-line">
-						<select id="equipmentModelId" name="equipmentModelId" style="width: 100%">
-							<c:forEach var="equipmentModel" items="${equipmentModels}">
-								<option value="${equipmentModel.equipmentModelId}">${equipmentModel.name}</option>
-							</c:forEach>
-						</select>
-					</div>
-				</div>
-			</div>
-
-
 
 
 			<div class="col-sm-6">
@@ -200,7 +186,7 @@ function createSubmit() {
 
     $.ajax({
         type: 'post',
-        url: '${basePath}/manage/equipment/create',
+        url: '${basePath}/manage/${productLineId}/equipment/create',
         data: $('#createForm').serialize(),
         beforeSend: function() {
             if ($('#name').val() == '') {

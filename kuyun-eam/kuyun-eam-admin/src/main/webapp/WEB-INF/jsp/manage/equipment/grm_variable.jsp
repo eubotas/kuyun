@@ -36,7 +36,7 @@
     $(function() {
         // bootstrap table初始化
         $tableEquipment.bootstrapTable({
-            url: '${basePath}/manage/equipment/grm/list',
+            url: '${basePath}/manage/${productLineId}/equipment/grm/list',
             queryParams:function(p){
                 return {    equipmentId : '${equipmentId}'
 
@@ -105,7 +105,7 @@ function createSubmit() {
 
         $.ajax({
             type: 'post',
-            url: '${basePath}/manage/equipment/grm/confirm',
+            url: '${basePath}/manage/${productLineId}/equipment/grm/confirm',
             data: {equipmentId : '${equipmentId}', names: names.join("::")},
             success: function(result) {
                 if (result.code != 1) {

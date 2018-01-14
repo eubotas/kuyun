@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamEquipment">
     <id column="equipment_id" jdbcType="VARCHAR" property="equipmentId" />
     <result column="equipment_model_id" jdbcType="INTEGER" property="equipmentModelId" />
+    <result column="equipment_category_id" jdbcType="INTEGER" property="equipmentCategoryId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="number" jdbcType="VARCHAR" property="number" />
     <result column="serial_number" jdbcType="VARCHAR" property="serialNumber" />
@@ -14,7 +15,9 @@
     <result column="city" jdbcType="VARCHAR" property="city" />
     <result column="user" jdbcType="VARCHAR" property="user" />
     <result column="collect_status" jdbcType="VARCHAR" property="collectStatus" />
+    <result column="salve_id" jdbcType="INTEGER" property="salveId" />
     <result column="heart_data" jdbcType="VARCHAR" property="heartData" />
+    <result column="modbus_rtu_period" jdbcType="INTEGER" property="modbusRtuPeriod" />
     <result column="grm" jdbcType="VARCHAR" property="grm" />
     <result column="grm_password" jdbcType="VARCHAR" property="grmPassword" />
     <result column="grm_period" jdbcType="INTEGER" property="grmPeriod" />
@@ -29,9 +32,9 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
     <result column="is_online" jdbcType="BIT" property="isOnline" />
-    <result column="modbus_rtu_period" jdbcType="INTEGER" property="modbusRtuPeriod" />
-    <result column="salve_id" jdbcType="INTEGER" property="salveId" />
-    <result column="equipment_category_id" jdbcType="INTEGER" property="equipmentCategoryId" />
+    <result column="left_position" jdbcType="DECIMAL" property="leftPosition" />
+    <result column="top_position" jdbcType="DECIMAL" property="topPosition" />
+    <result column="product_line_id" jdbcType="VARCHAR" property="productLineId" />
     <association property="eamEquipmentModel" javaType="com.kuyun.eam.dao.model.EamEquipmentModel" column="equipment_model_id" select="com.kuyun.eam.dao.mapper.EamEquipmentModelMapper.selectByPrimaryKey"/>
 
   </resultMap>
@@ -94,11 +97,12 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    equipment_id, equipment_model_id, name, number, serial_number, image_path, longitude, 
-    latitude, province, city, user, collect_status, heart_data, grm, grm_password, grm_period, 
-    factory_date, commissioning_date, warranty_start_date, warranty_end_date, maintenance_period, 
-    create_user_id, create_time, update_user_id, update_time, delete_flag, is_online, 
-    modbus_rtu_period, salve_id, equipment_category_id
+    equipment_id, equipment_model_id, equipment_category_id, name, number, serial_number, 
+    image_path, longitude, latitude, province, city, user, collect_status, salve_id, 
+    heart_data, modbus_rtu_period, grm, grm_password, grm_period, factory_date, commissioning_date, 
+    warranty_start_date, warranty_end_date, maintenance_period, create_user_id, create_time, 
+    update_user_id, update_time, delete_flag, is_online, left_position, top_position, 
+    product_line_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentExample" resultMap="BaseResultMap">
     select
@@ -139,28 +143,30 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamEquipment">
-    insert into eam_equipment (equipment_id, equipment_model_id, name, 
-      number, serial_number, image_path, 
-      longitude, latitude, province, 
-      city, user, collect_status, 
-      heart_data, grm, grm_password, 
+    insert into eam_equipment (equipment_id, equipment_model_id, equipment_category_id, 
+      name, number, serial_number, 
+      image_path, longitude, latitude, 
+      province, city, user, 
+      collect_status, salve_id, heart_data, 
+      modbus_rtu_period, grm, grm_password, 
       grm_period, factory_date, commissioning_date, 
       warranty_start_date, warranty_end_date, 
       maintenance_period, create_user_id, create_time, 
       update_user_id, update_time, delete_flag, 
-      is_online, modbus_rtu_period, salve_id, 
-      equipment_category_id)
-    values (#{equipmentId,jdbcType=VARCHAR}, #{equipmentModelId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{number,jdbcType=VARCHAR}, #{serialNumber,jdbcType=VARCHAR}, #{imagePath,jdbcType=VARCHAR}, 
-      #{longitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}, #{province,jdbcType=VARCHAR}, 
-      #{city,jdbcType=VARCHAR}, #{user,jdbcType=VARCHAR}, #{collectStatus,jdbcType=VARCHAR}, 
-      #{heartData,jdbcType=VARCHAR}, #{grm,jdbcType=VARCHAR}, #{grmPassword,jdbcType=VARCHAR}, 
+      is_online, left_position, top_position, 
+      product_line_id)
+    values (#{equipmentId,jdbcType=VARCHAR}, #{equipmentModelId,jdbcType=INTEGER}, #{equipmentCategoryId,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, #{serialNumber,jdbcType=VARCHAR}, 
+      #{imagePath,jdbcType=VARCHAR}, #{longitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}, 
+      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{user,jdbcType=VARCHAR}, 
+      #{collectStatus,jdbcType=VARCHAR}, #{salveId,jdbcType=INTEGER}, #{heartData,jdbcType=VARCHAR}, 
+      #{modbusRtuPeriod,jdbcType=INTEGER}, #{grm,jdbcType=VARCHAR}, #{grmPassword,jdbcType=VARCHAR}, 
       #{grmPeriod,jdbcType=INTEGER}, #{factoryDate,jdbcType=TIMESTAMP}, #{commissioningDate,jdbcType=TIMESTAMP}, 
       #{warrantyStartDate,jdbcType=TIMESTAMP}, #{warrantyEndDate,jdbcType=TIMESTAMP}, 
       #{maintenancePeriod,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
-      #{isOnline,jdbcType=BIT}, #{modbusRtuPeriod,jdbcType=INTEGER}, #{salveId,jdbcType=INTEGER}, 
-      #{equipmentCategoryId,jdbcType=INTEGER})
+      #{isOnline,jdbcType=BIT}, #{leftPosition,jdbcType=DECIMAL}, #{topPosition,jdbcType=DECIMAL}, 
+      #{productLineId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamEquipment">
     insert into eam_equipment
@@ -170,6 +176,9 @@
       </if>
       <if test="equipmentModelId != null">
         equipment_model_id,
+      </if>
+      <if test="equipmentCategoryId != null">
+        equipment_category_id,
       </if>
       <if test="name != null">
         name,
@@ -201,8 +210,14 @@
       <if test="collectStatus != null">
         collect_status,
       </if>
+      <if test="salveId != null">
+        salve_id,
+      </if>
       <if test="heartData != null">
         heart_data,
+      </if>
+      <if test="modbusRtuPeriod != null">
+        modbus_rtu_period,
       </if>
       <if test="grm != null">
         grm,
@@ -246,14 +261,14 @@
       <if test="isOnline != null">
         is_online,
       </if>
-      <if test="modbusRtuPeriod != null">
-        modbus_rtu_period,
+      <if test="leftPosition != null">
+        left_position,
       </if>
-      <if test="salveId != null">
-        salve_id,
+      <if test="topPosition != null">
+        top_position,
       </if>
-      <if test="equipmentCategoryId != null">
-        equipment_category_id,
+      <if test="productLineId != null">
+        product_line_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -262,6 +277,9 @@
       </if>
       <if test="equipmentModelId != null">
         #{equipmentModelId,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentCategoryId != null">
+        #{equipmentCategoryId,jdbcType=INTEGER},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -293,8 +311,14 @@
       <if test="collectStatus != null">
         #{collectStatus,jdbcType=VARCHAR},
       </if>
+      <if test="salveId != null">
+        #{salveId,jdbcType=INTEGER},
+      </if>
       <if test="heartData != null">
         #{heartData,jdbcType=VARCHAR},
+      </if>
+      <if test="modbusRtuPeriod != null">
+        #{modbusRtuPeriod,jdbcType=INTEGER},
       </if>
       <if test="grm != null">
         #{grm,jdbcType=VARCHAR},
@@ -338,14 +362,14 @@
       <if test="isOnline != null">
         #{isOnline,jdbcType=BIT},
       </if>
-      <if test="modbusRtuPeriod != null">
-        #{modbusRtuPeriod,jdbcType=INTEGER},
+      <if test="leftPosition != null">
+        #{leftPosition,jdbcType=DECIMAL},
       </if>
-      <if test="salveId != null">
-        #{salveId,jdbcType=INTEGER},
+      <if test="topPosition != null">
+        #{topPosition,jdbcType=DECIMAL},
       </if>
-      <if test="equipmentCategoryId != null">
-        #{equipmentCategoryId,jdbcType=INTEGER},
+      <if test="productLineId != null">
+        #{productLineId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -363,6 +387,9 @@
       </if>
       <if test="record.equipmentModelId != null">
         equipment_model_id = #{record.equipmentModelId,jdbcType=INTEGER},
+      </if>
+      <if test="record.equipmentCategoryId != null">
+        equipment_category_id = #{record.equipmentCategoryId,jdbcType=INTEGER},
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
@@ -394,8 +421,14 @@
       <if test="record.collectStatus != null">
         collect_status = #{record.collectStatus,jdbcType=VARCHAR},
       </if>
+      <if test="record.salveId != null">
+        salve_id = #{record.salveId,jdbcType=INTEGER},
+      </if>
       <if test="record.heartData != null">
         heart_data = #{record.heartData,jdbcType=VARCHAR},
+      </if>
+      <if test="record.modbusRtuPeriod != null">
+        modbus_rtu_period = #{record.modbusRtuPeriod,jdbcType=INTEGER},
       </if>
       <if test="record.grm != null">
         grm = #{record.grm,jdbcType=VARCHAR},
@@ -439,14 +472,14 @@
       <if test="record.isOnline != null">
         is_online = #{record.isOnline,jdbcType=BIT},
       </if>
-      <if test="record.modbusRtuPeriod != null">
-        modbus_rtu_period = #{record.modbusRtuPeriod,jdbcType=INTEGER},
+      <if test="record.leftPosition != null">
+        left_position = #{record.leftPosition,jdbcType=DECIMAL},
       </if>
-      <if test="record.salveId != null">
-        salve_id = #{record.salveId,jdbcType=INTEGER},
+      <if test="record.topPosition != null">
+        top_position = #{record.topPosition,jdbcType=DECIMAL},
       </if>
-      <if test="record.equipmentCategoryId != null">
-        equipment_category_id = #{record.equipmentCategoryId,jdbcType=INTEGER},
+      <if test="record.productLineId != null">
+        product_line_id = #{record.productLineId,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -457,6 +490,7 @@
     update eam_equipment
     set equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
       equipment_model_id = #{record.equipmentModelId,jdbcType=INTEGER},
+      equipment_category_id = #{record.equipmentCategoryId,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       number = #{record.number,jdbcType=VARCHAR},
       serial_number = #{record.serialNumber,jdbcType=VARCHAR},
@@ -467,7 +501,9 @@
       city = #{record.city,jdbcType=VARCHAR},
       user = #{record.user,jdbcType=VARCHAR},
       collect_status = #{record.collectStatus,jdbcType=VARCHAR},
+      salve_id = #{record.salveId,jdbcType=INTEGER},
       heart_data = #{record.heartData,jdbcType=VARCHAR},
+      modbus_rtu_period = #{record.modbusRtuPeriod,jdbcType=INTEGER},
       grm = #{record.grm,jdbcType=VARCHAR},
       grm_password = #{record.grmPassword,jdbcType=VARCHAR},
       grm_period = #{record.grmPeriod,jdbcType=INTEGER},
@@ -482,9 +518,9 @@
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{record.deleteFlag,jdbcType=BIT},
       is_online = #{record.isOnline,jdbcType=BIT},
-      modbus_rtu_period = #{record.modbusRtuPeriod,jdbcType=INTEGER},
-      salve_id = #{record.salveId,jdbcType=INTEGER},
-      equipment_category_id = #{record.equipmentCategoryId,jdbcType=INTEGER}
+      left_position = #{record.leftPosition,jdbcType=DECIMAL},
+      top_position = #{record.topPosition,jdbcType=DECIMAL},
+      product_line_id = #{record.productLineId,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -494,6 +530,9 @@
     <set>
       <if test="equipmentModelId != null">
         equipment_model_id = #{equipmentModelId,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentCategoryId != null">
+        equipment_category_id = #{equipmentCategoryId,jdbcType=INTEGER},
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
@@ -525,8 +564,14 @@
       <if test="collectStatus != null">
         collect_status = #{collectStatus,jdbcType=VARCHAR},
       </if>
+      <if test="salveId != null">
+        salve_id = #{salveId,jdbcType=INTEGER},
+      </if>
       <if test="heartData != null">
         heart_data = #{heartData,jdbcType=VARCHAR},
+      </if>
+      <if test="modbusRtuPeriod != null">
+        modbus_rtu_period = #{modbusRtuPeriod,jdbcType=INTEGER},
       </if>
       <if test="grm != null">
         grm = #{grm,jdbcType=VARCHAR},
@@ -570,14 +615,14 @@
       <if test="isOnline != null">
         is_online = #{isOnline,jdbcType=BIT},
       </if>
-      <if test="modbusRtuPeriod != null">
-        modbus_rtu_period = #{modbusRtuPeriod,jdbcType=INTEGER},
+      <if test="leftPosition != null">
+        left_position = #{leftPosition,jdbcType=DECIMAL},
       </if>
-      <if test="salveId != null">
-        salve_id = #{salveId,jdbcType=INTEGER},
+      <if test="topPosition != null">
+        top_position = #{topPosition,jdbcType=DECIMAL},
       </if>
-      <if test="equipmentCategoryId != null">
-        equipment_category_id = #{equipmentCategoryId,jdbcType=INTEGER},
+      <if test="productLineId != null">
+        product_line_id = #{productLineId,jdbcType=VARCHAR},
       </if>
     </set>
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
@@ -585,6 +630,7 @@
   <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamEquipment">
     update eam_equipment
     set equipment_model_id = #{equipmentModelId,jdbcType=INTEGER},
+      equipment_category_id = #{equipmentCategoryId,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       number = #{number,jdbcType=VARCHAR},
       serial_number = #{serialNumber,jdbcType=VARCHAR},
@@ -595,7 +641,9 @@
       city = #{city,jdbcType=VARCHAR},
       user = #{user,jdbcType=VARCHAR},
       collect_status = #{collectStatus,jdbcType=VARCHAR},
+      salve_id = #{salveId,jdbcType=INTEGER},
       heart_data = #{heartData,jdbcType=VARCHAR},
+      modbus_rtu_period = #{modbusRtuPeriod,jdbcType=INTEGER},
       grm = #{grm,jdbcType=VARCHAR},
       grm_password = #{grmPassword,jdbcType=VARCHAR},
       grm_period = #{grmPeriod,jdbcType=INTEGER},
@@ -610,37 +658,39 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
       is_online = #{isOnline,jdbcType=BIT},
-      modbus_rtu_period = #{modbusRtuPeriod,jdbcType=INTEGER},
-      salve_id = #{salveId,jdbcType=INTEGER},
-      equipment_category_id = #{equipmentCategoryId,jdbcType=INTEGER}
+      left_position = #{leftPosition,jdbcType=DECIMAL},
+      top_position = #{topPosition,jdbcType=DECIMAL},
+      product_line_id = #{productLineId,jdbcType=VARCHAR}
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into eam_equipment  (equipment_id, equipment_model_id, name, 
-        number, serial_number, image_path, 
-        longitude, latitude, province, 
-        city, user, collect_status, 
-        heart_data, grm, grm_password, 
+            insert into eam_equipment  (equipment_id, equipment_model_id, equipment_category_id, 
+        name, number, serial_number, 
+        image_path, longitude, latitude, 
+        province, city, user, 
+        collect_status, salve_id, heart_data, 
+        modbus_rtu_period, grm, grm_password, 
         grm_period, factory_date, commissioning_date, 
         warranty_start_date, warranty_end_date, 
         maintenance_period, create_user_id, create_time, 
         update_user_id, update_time, delete_flag, 
-        is_online, modbus_rtu_period, salve_id, 
-        equipment_category_id)
+        is_online, left_position, top_position, 
+        product_line_id)
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.equipmentId,jdbcType=VARCHAR}, #{item.equipmentModelId,jdbcType=INTEGER}, #{item.name,jdbcType=VARCHAR}, 
-        #{item.number,jdbcType=VARCHAR}, #{item.serialNumber,jdbcType=VARCHAR}, #{item.imagePath,jdbcType=VARCHAR}, 
-        #{item.longitude,jdbcType=DECIMAL}, #{item.latitude,jdbcType=DECIMAL}, #{item.province,jdbcType=VARCHAR}, 
-        #{item.city,jdbcType=VARCHAR}, #{item.user,jdbcType=VARCHAR}, #{item.collectStatus,jdbcType=VARCHAR}, 
-        #{item.heartData,jdbcType=VARCHAR}, #{item.grm,jdbcType=VARCHAR}, #{item.grmPassword,jdbcType=VARCHAR}, 
+      (#{item.equipmentId,jdbcType=VARCHAR}, #{item.equipmentModelId,jdbcType=INTEGER}, #{item.equipmentCategoryId,jdbcType=INTEGER}, 
+        #{item.name,jdbcType=VARCHAR}, #{item.number,jdbcType=VARCHAR}, #{item.serialNumber,jdbcType=VARCHAR}, 
+        #{item.imagePath,jdbcType=VARCHAR}, #{item.longitude,jdbcType=DECIMAL}, #{item.latitude,jdbcType=DECIMAL}, 
+        #{item.province,jdbcType=VARCHAR}, #{item.city,jdbcType=VARCHAR}, #{item.user,jdbcType=VARCHAR}, 
+        #{item.collectStatus,jdbcType=VARCHAR}, #{item.salveId,jdbcType=INTEGER}, #{item.heartData,jdbcType=VARCHAR}, 
+        #{item.modbusRtuPeriod,jdbcType=INTEGER}, #{item.grm,jdbcType=VARCHAR}, #{item.grmPassword,jdbcType=VARCHAR}, 
         #{item.grmPeriod,jdbcType=INTEGER}, #{item.factoryDate,jdbcType=TIMESTAMP}, #{item.commissioningDate,jdbcType=TIMESTAMP}, 
         #{item.warrantyStartDate,jdbcType=TIMESTAMP}, #{item.warrantyEndDate,jdbcType=TIMESTAMP}, 
         #{item.maintenancePeriod,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, 
         #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, 
-        #{item.isOnline,jdbcType=BIT}, #{item.modbusRtuPeriod,jdbcType=INTEGER}, #{item.salveId,jdbcType=INTEGER}, 
-        #{item.equipmentCategoryId,jdbcType=INTEGER})
+        #{item.isOnline,jdbcType=BIT}, #{item.leftPosition,jdbcType=DECIMAL}, #{item.topPosition,jdbcType=DECIMAL}, 
+        #{item.productLineId,jdbcType=VARCHAR})
       </foreach>
     </if>
   </insert>

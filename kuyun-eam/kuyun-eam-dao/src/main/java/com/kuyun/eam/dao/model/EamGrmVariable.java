@@ -3,7 +3,7 @@ package com.kuyun.eam.dao.model;
 import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
 
-public class EamGrmEquipmentVariable extends BaseEntity implements Serializable {
+public class EamGrmVariable extends BaseEntity implements Serializable {
     private Integer id;
 
     private String equipmentId;
@@ -49,6 +49,8 @@ public class EamGrmEquipmentVariable extends BaseEntity implements Serializable 
      * @mbg.generated
      */
     private String description;
+
+    private String productLineId;
 
     private static final long serialVersionUID = 1L;
 
@@ -116,6 +118,14 @@ public class EamGrmEquipmentVariable extends BaseEntity implements Serializable 
         this.description = description;
     }
 
+    public String getProductLineId() {
+        return productLineId;
+    }
+
+    public void setProductLineId(String productLineId) {
+        this.productLineId = productLineId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -130,6 +140,7 @@ public class EamGrmEquipmentVariable extends BaseEntity implements Serializable 
         sb.append(", networkPermisstion=").append(networkPermisstion);
         sb.append(", groupName=").append(groupName);
         sb.append(", description=").append(description);
+        sb.append(", productLineId=").append(productLineId);
         sb.append("]");
         return sb.toString();
     }
@@ -145,7 +156,7 @@ public class EamGrmEquipmentVariable extends BaseEntity implements Serializable 
         if (getClass() != that.getClass()) {
             return false;
         }
-        EamGrmEquipmentVariable other = (EamGrmEquipmentVariable) that;
+        EamGrmVariable other = (EamGrmVariable) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getEquipmentId() == null ? other.getEquipmentId() == null : this.getEquipmentId().equals(other.getEquipmentId()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
@@ -158,7 +169,8 @@ public class EamGrmEquipmentVariable extends BaseEntity implements Serializable 
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
-            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()));
+            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
+            && (this.getProductLineId() == null ? other.getProductLineId() == null : this.getProductLineId().equals(other.getProductLineId()));
     }
 
     @Override
@@ -178,6 +190,7 @@ public class EamGrmEquipmentVariable extends BaseEntity implements Serializable 
         result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
+        result = prime * result + ((getProductLineId() == null) ? 0 : getProductLineId().hashCode());
         return result;
     }
 }

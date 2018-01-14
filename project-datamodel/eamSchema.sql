@@ -2,7 +2,7 @@
 /* DBMS name:      MySQL 5.0                                    */
 /* Created on:     2017-06-12 11:16:35 AM                       */
 /*==============================================================*/
-use kuyun;
+use xmx;
 SET FOREIGN_KEY_CHECKS=0;
 
 drop table if exists eam_equipment;
@@ -89,11 +89,12 @@ create table eam_equipment
 
 alter table eam_equipment comment '设备';
 
-drop table if exists eam_grm_equipment_variable;
-create table eam_grm_equipment_variable
+drop table if exists eam_grm_variable;
+create table eam_grm_variable
 (
    id                   int not null auto_increment,
    equipment_id         varchar(32),
+   product_line_id      varchar(32),
    name                 varchar(30) comment '变量名',
    type                 varchar(5) comment '变量类型 B/I/F，分别代表 开关量/整数/浮点数',
    attribute            varchar(5) comment '读写属性 R/W，分别代表 只读/可读写',
@@ -113,8 +114,9 @@ create table eam_grm_variable_data
 (
    id                   int not null auto_increment,
    equipment_id         varchar(32),
-   grm_equipment_variable_id int,
-   value                 varchar(30),
+   product_line_id      varchar(32),
+   grm_variable_id      int,
+   value                varchar(30),
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,
@@ -128,8 +130,9 @@ create table eam_grm_variable_data_history
 (
    id                   int not null auto_increment,
    equipment_id         varchar(32),
-   grm_equipment_variable_id int,
-   value                 varchar(30),
+   product_line_id      varchar(32),
+   grm_variable_id      int,
+   value                varchar(30),
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,
@@ -424,6 +427,7 @@ create table eam_parts_category
    update_user_id       int,
    update_time          datetime,
    delete_flag          boolean,
+   company_id           int,
    primary key (category_id)
 );
 
@@ -637,41 +641,7 @@ create table eam_ticket_appointed_record
 );
 
 
-drop table if exists upms_company;
-CREATE TABLE `upms_company` (
-  `company_id` int(11) NOT NULL AUTO_INCREMENT,
-  `parent_id` int(11) DEFAULT NULL,
-  `name` varchar(50) NOT NULL,
-  `address` varchar(50) DEFAULT NULL,
-  `phone` varchar(15) DEFAULT NULL,
-  `fax` varchar(15) DEFAULT NULL,
-  `zip` varchar(10) DEFAULT NULL,
-  `www` varchar(20) DEFAULT NULL,
-   create_user_id       int,
-   create_time          datetime,
-   update_user_id       int,
-   update_time          datetime,
-   delete_flag          boolean,
-  PRIMARY KEY (`company_id`),
-  KEY `company_company_410d0aac` (`parent_id`),
-  CONSTRAINT `parent_id_refs_id_d95e7d2a` FOREIGN KEY (`parent_id`) REFERENCES `upms_company` (`company_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
-drop table if exists upms_user_company;
-CREATE TABLE `upms_user_company` (
-  `user_company_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '编号',
-  `user_id` int(10) unsigned NOT NULL COMMENT '用户编号',
-  `company_id` int(10) unsigned NOT NULL COMMENT '公司编号',
-  PRIMARY KEY (`user_company_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COMMENT='用户公司关联表';
-
-DROP TABLE IF EXISTS `upms_organization_role`;
-CREATE TABLE `upms_organization_role` (
-  `organization_role_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '编号',
-  `organization_id` int(10) unsigned NOT NULL COMMENT '组织编号',
-  `role_id` int(10) DEFAULT NULL COMMENT '角色编号',
-  PRIMARY KEY (`organization_role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COMMENT='组织角色关联表';
 
 DROP TABLE IF EXISTS `eam_equipment_company`;
 create table eam_equipment_company
@@ -686,6 +656,8 @@ create table eam_equipment_company
    delete_flag          boolean,
    primary key (equipment_company_id)
 );
+
+
 
 DROP TABLE IF EXISTS `eam_dtu`;
 create table eam_dtu

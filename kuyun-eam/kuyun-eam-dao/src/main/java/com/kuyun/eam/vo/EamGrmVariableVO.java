@@ -3,12 +3,12 @@ package com.kuyun.eam.vo;
 import com.kuyun.eam.common.constant.GrmVariableAttribute;
 import com.kuyun.eam.common.constant.GrmVariableNtworkPermisstion;
 import com.kuyun.eam.common.constant.GrmVariableType;
-import com.kuyun.eam.dao.model.EamGrmEquipmentVariable;
+import com.kuyun.eam.dao.model.EamGrmVariable;
 
 /**
  * Created by user on 2018-01-02.
  */
-public class EamGrmEquipmentVariableVO extends EamGrmEquipmentVariable {
+public class EamGrmVariableVO extends EamGrmVariable {
     private Boolean checked;
 
     public Boolean getChecked() {

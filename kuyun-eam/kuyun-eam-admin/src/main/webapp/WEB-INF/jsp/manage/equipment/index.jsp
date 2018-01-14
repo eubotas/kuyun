@@ -101,9 +101,9 @@
 		<shiro:hasPermission name="eam:equipment:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增设备</a></shiro:hasPermission>
 		<shiro:hasPermission name="eam:equipment:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑设备</a></shiro:hasPermission>
 		<shiro:hasPermission name="eam:equipment:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()"><i class="zmdi zmdi-close"></i> 删除设备</a></shiro:hasPermission>
-		<shiro:hasPermission name="eam:equipment:update"><a class="waves-effect waves-button" href="javascript:;" onclick="connectAction()"><i class="zmdi zmdi-plus"></i> 设备接入</a></shiro:hasPermission>
+		<%--<shiro:hasPermission name="eam:equipment:update"><a class="waves-effect waves-button" href="javascript:;" onclick="connectAction()"><i class="zmdi zmdi-plus"></i> 设备接入</a></shiro:hasPermission>--%>
 		<shiro:hasPermission name="eam:equipment:update"><a class="waves-effect waves-button" href="javascript:;" onclick="grmAction()"><i class="zmdi zmdi-plus"></i> 选择数据点</a></shiro:hasPermission>
-		<shiro:hasPermission name="eam:equipmentSensor:write"><a class="waves-effect waves-button" href="javascript:;" onclick="sensorAction()"><i class="zmdi zmdi-plus"></i> 数据写入</a></shiro:hasPermission>
+		<%--<shiro:hasPermission name="eam:equipmentSensor:write"><a class="waves-effect waves-button" href="javascript:;" onclick="sensorAction()"><i class="zmdi zmdi-plus"></i> 数据写入</a></shiro:hasPermission>--%>
 	</div>
 	<table id="table"></table>
 </div>
@@ -114,7 +114,7 @@ var $table = $('#table');
 $(function() {
 	// bootstrap table初始化
 	$table.bootstrapTable({
-		url: '${basePath}/manage/equipment/list',
+		url: '${basePath}/manage/${productLineId}/equipment/list',
 		height: getHeight(),
 		striped: true,
 		search: true,
@@ -164,7 +164,7 @@ function createAction() {
 		animationSpeed: 300,
 		title: '新增设备',
 		columnClass: 'xlarge',
-		content: 'url:${basePath}/manage/equipment/create',
+		content: 'url:${basePath}/manage/${productLineId}/equipment/create',
 		onContentReady: function () {
 			initMaterialInput();
 			$('select').select2();
@@ -193,7 +193,7 @@ function updateAction() {
 			animationSpeed: 300,
 			title: '编辑设备',
 			columnClass: 'xlarge',
-			content: 'url:${basePath}/manage/equipment/update/' + rows[0].equipmentId,
+			content: 'url:${basePath}/manage/${productLineId}/equipment/update/' + rows[0].equipmentId,
 			onContentReady: function () {
 				initMaterialInput();
 				$('select').select2();
@@ -235,7 +235,7 @@ function deleteAction() {
 						}
 						$.ajax({
 							type: 'get',
-							url: '${basePath}/manage/equipment/delete/' + ids.join("-"),
+							url: '${basePath}/manage/${productLineId}/equipment/delete/' + ids.join("-"),
 							success: function(result) {
 								if (result.code != 1) {
 									if (result.data instanceof Array) {
@@ -322,7 +322,7 @@ function connectAction() {
             animationSpeed: 300,
             title: '设备接入',
             columnClass: 'xlarge',
-            content: 'url:${basePath}/manage/equipment/connect/' + rows[0].equipmentId,
+            content: 'url:${basePath}/manage/${productLineId}/equipment/connect/' + rows[0].equipmentId,
             onContentReady: function () {
                 initMaterialInput();
                 $('select').select2();
@@ -373,7 +373,7 @@ function grmAction() {
             animationSpeed: 300,
             title: '选择数据点',
             columnClass: 'xlarge',
-            content: 'url:${basePath}/manage/equipment/grm/' + rows[0].equipmentId,
+            content: 'url:${basePath}/manage/${productLineId}/equipment/grm/' + rows[0].equipmentId,
             onContentReady: function () {
                 initMaterialInput();
             }

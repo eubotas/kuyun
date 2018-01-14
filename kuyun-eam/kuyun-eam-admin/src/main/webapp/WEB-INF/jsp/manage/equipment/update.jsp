@@ -9,7 +9,7 @@
 <div id="updateDialog" class="crudDialog">
 	<form id="updateForm" method="post">
 
-
+		<input hidden name="productLineId" value="${productLineId}"/>
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="form-group">
@@ -37,18 +37,6 @@
 				</div>
 			</div>
 
-
-			<div class="col-sm-12">
-				<div class="form-group">
-					<div class="fg-line">
-						<select id="equipmentModelId" name="equipmentModelId" style="width: 100%">
-							<c:forEach var="equipmentModel" items="${equipmentModels}">
-								<option value="${equipmentModel.equipmentModelId}" ${equipment.equipmentModelId==equipmentModel.equipmentModelId ? 'selected' : ''}>${equipmentModel.name}</option>
-							</c:forEach>
-						</select>
-					</div>
-				</div>
-			</div>
 
 			<div class="col-sm-12">
 				<div class="form-group">
@@ -147,7 +135,7 @@
 function updateSubmit() {
     $.ajax({
         type: 'post',
-        url: '${basePath}/manage/equipment/update/${equipment.equipmentId}',
+        url: '${basePath}/manage/${productLineId}/equipment/update/${equipment.equipmentId}',
         data: $('#updateForm').serialize(),
         beforeSend: function() {
 			if ($('#name').val() == '') {

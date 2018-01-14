@@ -8,6 +8,8 @@ public class EamPartsCategory extends BaseEntity implements Serializable {
 
     private String name;
 
+    private Integer organizationId;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getCategoryId() {
@@ -26,6 +28,14 @@ public class EamPartsCategory extends BaseEntity implements Serializable {
         this.name = name;
     }
 
+    public Integer getOrganizationId() {
+        return organizationId;
+    }
+
+    public void setOrganizationId(Integer organizationId) {
+        this.organizationId = organizationId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -34,6 +44,7 @@ public class EamPartsCategory extends BaseEntity implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", categoryId=").append(categoryId);
         sb.append(", name=").append(name);
+        sb.append(", organizationId=").append(organizationId);
         sb.append("]");
         return sb.toString();
     }
@@ -52,12 +63,13 @@ public class EamPartsCategory extends BaseEntity implements Serializable {
         EamPartsCategory other = (EamPartsCategory) that;
         return (this.getCategoryId() == null ? other.getCategoryId() == null : this.getCategoryId().equals(other.getCategoryId()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
-            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()))
+            && (this.getOrganizationId() == null ? other.getOrganizationId() == null : this.getOrganizationId().equals(other.getOrganizationId()))
             && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
-            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()));
+            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
+            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()));
     }
 
     @Override
@@ -66,12 +78,13 @@ public class EamPartsCategory extends BaseEntity implements Serializable {
         int result = 1;
         result = prime * result + ((getCategoryId() == null) ? 0 : getCategoryId().hashCode());
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
-        result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
+        result = prime * result + ((getOrganizationId() == null) ? 0 : getOrganizationId().hashCode());
         result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
+        result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
         return result;
     }
 }

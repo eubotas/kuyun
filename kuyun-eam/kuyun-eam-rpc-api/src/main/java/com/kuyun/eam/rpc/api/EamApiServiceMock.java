@@ -1,17 +1,16 @@
 package com.kuyun.eam.rpc.api;
 
-import java.util.List;
-
 import com.kuyun.eam.common.constant.CollectStatus;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.pojo.tree.Tree;
 import com.kuyun.eam.vo.*;
-import com.kuyun.upms.dao.model.UpmsOrganization;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
 import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /**
  * Created by user on 4/24/2017.
@@ -73,6 +72,11 @@ public class EamApiServiceMock implements EamApiService {
 
     @Override
     public int handleEquimpmentCollect(String jsonString, CollectStatus collectStatus) {
+        return 0;
+    }
+
+    @Override
+    public int handleProductLineCollect(String jsonString, CollectStatus collectStatus) {
         return 0;
     }
 
@@ -147,7 +151,7 @@ public class EamApiServiceMock implements EamApiService {
     }
 
     @Override
-    public void processData(List<Pair<EamGrmEquipmentVariable, String>> pairs) {
+    public void processData(List<Pair<EamGrmVariable, String>> pairs) {
 
     }
 
@@ -157,7 +161,27 @@ public class EamApiServiceMock implements EamApiService {
     }
 
     @Override
-    public List<EamGrmEquipmentVariableVO> selectGrmEquipmentVariables(String equipmentId) {
+    public List<EamGrmVariableVO> selectGrmVariables(String productLineId) {
+        return null;
+    }
+
+    @Override
+    public int persistProductLine(EamProductLine eamProductLine, EamProductLineCompany productLineCompany) {
+        return 0;
+    }
+
+    @Override
+    public List<EamProductLineVO> selectProductLines(EamProductLineVO eamProductLine) {
+        return null;
+    }
+
+    @Override
+    public Long countProductLines(EamProductLineVO eamProductLine) {
+        return null;
+    }
+
+    @Override
+    public List<EamGrmVariable> getGrmVariables(String productLineId) {
         return null;
     }
 

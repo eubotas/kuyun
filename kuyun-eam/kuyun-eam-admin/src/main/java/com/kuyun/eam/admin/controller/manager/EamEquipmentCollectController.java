@@ -26,7 +26,7 @@ import static com.kuyun.eam.common.constant.EamResultConstant.SUCCESS;
  * Created by kuyun on 2017/4/9.
  */
 @Controller
-@Api(value = "数据采集", description = "数据采集")
+@Api(value = "设备数据采集", description = "设备数据采集")
 @RequestMapping("/manage/equipment/collect")
 public class EamEquipmentCollectController extends BaseController {
 

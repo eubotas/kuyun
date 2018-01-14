@@ -94,6 +94,20 @@ public class EamApiServiceImpl implements EamApiService {
     @Autowired
     private EamEquipmentCompanyService eamEquipmentCompanyService;
 
+    @Autowired
+    private EamProductLineService eamProductLineService;
+
+    @Autowired
+    private EamProductLineCompanyService eamProductLineCompanyService;
+
+    @Autowired
+    private EamGrmVariableService eamGrmVariableService;
+
+    @Autowired
+    private EamGrmVariableDataService eamGrmVariableDataService;
+
+    @Autowired
+    private EamGrmVariableDataHistoryService eamGrmVariableDataHistoryService;
 
     @Override
     public List<EamMaintenanceVO> selectMaintenance(EamMaintenanceVO maintenanceVO) {
@@ -330,11 +344,42 @@ public class EamApiServiceImpl implements EamApiService {
         return eamEquipmentService.updateByExampleSelective(equipment, example);
     }
 
+    @Override
+    public int handleProductLineCollect(String jsonString, CollectStatus collectStatus) {
+
+        _log.info("json=" + jsonString);
+
+        Gson gson = new Gson();
+        IDS ids = gson.fromJson(jsonString, IDS.class);
+
+        String[] idArray = ids.getIds().split("-");
+        EamProductLine productLine = new EamProductLine();
+        productLine.setCollectStatus(collectStatus.getCode());
+
+        if (NO_START.getCode().equalsIgnoreCase(collectStatus.getCode())){
+            productLine.setIsOnline(false);
+        }
+
+        EamProductLineExample example = new EamProductLineExample();
+        example.createCriteria().andProductLineIdIn(Arrays.asList(idArray));
+
+        handleCollectAction(collectStatus, example);
+
+        return eamProductLineService.updateByExampleSelective(productLine, example);
+    }
+
+    private void handleCollectAction(CollectStatus collectStatus, EamProductLineExample example) {
+        List<EamProductLine> productLines = eamProductLineService.selectByExample(example);
+        // handle GRM
+        handleGRMAction(collectStatus, productLines);
+
+    }
+
 
     private void handleCollectAction(CollectStatus collectStatus, EamEquipmentExample example) {
         List<EamEquipment> eamEquipments = eamEquipmentService.selectByExample(example);
         // handle GRM
-        handleGRMAction(collectStatus, eamEquipments);
+        handleGRMActionForEquipment(collectStatus, eamEquipments);
 
         //handle Modbus RTU
         handleModbusRtuAction(collectStatus, eamEquipments);
@@ -351,11 +396,8 @@ public class EamApiServiceImpl implements EamApiService {
         });
     }
 
-    private void handleGRMAction(CollectStatus collectStatus, List<EamEquipment> eamEquipments) {
-        List<EamEquipment> grmEquipments = eamEquipments.stream().filter(equipment -> equipment.getEamEquipmentModel() != null)
-                .filter(equipment -> ProtocolEnum.GRM.getId() == equipment.getEamEquipmentModel().getProtocolId().intValue()).collect(Collectors.toList());
-
-        grmEquipments.forEach(equipment -> {
+    private void handleGRMActionForEquipment(CollectStatus collectStatus, List<EamEquipment> eamEquipments) {
+        eamEquipments.forEach(equipment -> {
             try {
                 handleGrmAction(collectStatus, equipment);
             } catch (SchedulerException e) {
@@ -363,6 +405,25 @@ public class EamApiServiceImpl implements EamApiService {
             }
         });
 
+    }
+
+    private void handleGRMAction(CollectStatus collectStatus, List<EamProductLine> productLines) {
+        productLines.forEach(productLine -> {
+            try {
+                handleGrmAction(collectStatus, productLine);
+            } catch (SchedulerException e) {
+                _log.error("GRM action error:" + e.getMessage());
+            }
+        });
+
+    }
+
+    private void handleGrmAction(CollectStatus collectStatus, EamProductLine productLine) throws SchedulerException {
+        if (NO_START.getCode().equalsIgnoreCase(collectStatus.getCode())) {
+            grmApiService.pauseJob(productLine.getProductLineId());
+        } else if (WORKING.getCode().equalsIgnoreCase(collectStatus.getCode())) {
+            grmApiService.startJob(productLine.getProductLineId());
+        }
     }
 
     private void handleGrmAction(CollectStatus collectStatus, EamEquipment equipment) throws SchedulerException {
@@ -516,9 +577,77 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     @Override
-    public void processData(List<Pair<EamGrmEquipmentVariable, String>> pairs) {
+    public void processData(List<Pair<EamGrmVariable, String>> pairs) {
+        for (Pair<EamGrmVariable, String> pair : pairs){
+            handleGrmVariableData(pair);
+
+
+            //TODO: handleAlarm(variableData);
+
+        }
+        handleGrmVariableDataHistory(pairs);
+    }
+
+    private void handleGrmVariableDataHistory(List<Pair<EamGrmVariable, String>> pairs) {
+        List<EamGrmVariableDataHistory> dataHistoryList = new ArrayList<>();
+        for(Pair<EamGrmVariable, String> pair : pairs){
+            EamGrmVariableDataHistory dataHistory = createGrmVariableHistoryData(pair);
+            dataHistoryList.add(dataHistory);
+        }
+        if(!dataHistoryList.isEmpty()){
+            eamGrmVariableDataHistoryService.batchInsert(dataHistoryList);
+        }
+    }
+
+    private EamGrmVariableData handleGrmVariableData(Pair<EamGrmVariable, String> pair) {
+        EamGrmVariable variable = pair.getKey();
+        String value = pair.getValue();
+
+        EamGrmVariableDataExample example = new EamGrmVariableDataExample();
+        example.createCriteria().andGrmVariableIdEqualTo(variable.getId())
+                .andDeleteFlagEqualTo(Boolean.FALSE);
+
+        EamGrmVariableData variableData = eamGrmVariableDataService.selectFirstByExample(example);
+        if (variableData == null){
+            variableData = createGrmVariableData(variable, value);
+            eamGrmVariableDataService.insertSelective(variableData);
+        }else {
+            Date now = new Date();
+            variableData.setCreateTime(now);
+            variableData.setUpdateTime(now);
+            variableData.setValue(value);
+            eamGrmVariableDataService.updateByPrimaryKeySelective(variableData);
+        }
+        return variableData;
 
     }
+
+    private EamGrmVariableData createGrmVariableData(EamGrmVariable variable, String value) {
+        EamGrmVariableData result = new EamGrmVariableData();
+        result.setEquipmentId(variable.getEquipmentId());
+        result.setProductLineId(variable.getProductLineId());
+        result.setGrmVariableId(variable.getId());
+        result.setValue(value);
+        Date now = new Date();
+        result.setCreateTime(now);
+        result.setUpdateTime(now);
+        result.setDeleteFlag(Boolean.FALSE);
+        return result;
+    }
+
+    private EamGrmVariableDataHistory createGrmVariableHistoryData(Pair<EamGrmVariable, String> pair) {
+        EamGrmVariableDataHistory result = new EamGrmVariableDataHistory();
+        result.setEquipmentId(pair.getKey().getEquipmentId());
+        result.setProductLineId(pair.getKey().getProductLineId());
+        result.setGrmVariableId(pair.getKey().getId());
+        result.setValue(pair.getValue());
+        Date now = new Date();
+        result.setCreateTime(now);
+        result.setUpdateTime(now);
+        result.setDeleteFlag(Boolean.FALSE);
+        return result;
+    }
+
 
     @Override
     public List<EamEquipmentModelPropertiesVO> selectEquipmentModelProperties(String equipmentId) {
@@ -526,12 +655,51 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     @Override
-    public List<EamGrmEquipmentVariableVO> selectGrmEquipmentVariables(String equipmentId) {
-        List<EamGrmEquipmentVariableVO> result = new ArrayList<>();
+    public List<EamGrmVariableVO> selectGrmVariables(String productLineId) {
+        List<EamGrmVariableVO> result = new ArrayList<>();
         try {
-            result = grmApiService.getAllVariable(equipmentId);
+            result = grmApiService.getAllVariable(productLineId);
         } catch (IOException e) {
             _log.error("Select Grm Equipment Variables Error: {}", e.getMessage());
+        }
+        return result;
+    }
+
+    @Override
+    public List<EamProductLineVO> selectProductLines(EamProductLineVO eamProductLine) {
+        return eamApiMapper.selectProductLines(eamProductLine);
+    }
+
+    @Override
+    public Long countProductLines(EamProductLineVO eamProductLine) {
+        return eamApiMapper.countProductLines(eamProductLine);
+    }
+
+    @Override
+    public List<EamGrmVariable> getGrmVariables(String productLineId) {
+        List<EamGrmVariable> result = new ArrayList<>();
+        //1. get Product Line variable
+        EamGrmVariableExample example = new EamGrmVariableExample();
+        example.createCriteria().andProductLineIdEqualTo(productLineId).andDeleteFlagEqualTo(Boolean.FALSE);
+        List<EamGrmVariable> variables = eamGrmVariableService.selectByExample(example);
+        if (variables != null && !variables.isEmpty()){
+            result.addAll(variables);
+        }
+
+
+        //2. get Equipment variable
+        EamEquipmentExample equipmentExample = new EamEquipmentExample();
+        equipmentExample.createCriteria().andProductLineIdEqualTo(productLineId).andDeleteFlagEqualTo(Boolean.FALSE);
+        List<EamEquipment> eamEquipments = eamEquipmentService.selectByExample(equipmentExample);
+        if (eamEquipments != null && !eamEquipments.isEmpty()){
+            List<String> equipmentIds = eamEquipments.stream().map(x -> x.getEquipmentId()).collect(Collectors.toList());
+            example = new EamGrmVariableExample();
+            example.createCriteria().andEquipmentIdIn(equipmentIds).andDeleteFlagEqualTo(Boolean.FALSE);
+            variables = eamGrmVariableService.selectByExample(example);
+            if (variables != null && !variables.isEmpty()){
+                result.addAll(variables);
+            }
+
         }
         return result;
     }
@@ -557,7 +725,8 @@ public class EamApiServiceImpl implements EamApiService {
         return sensorData;
     }
 
-    private void handleSensorDataHistory(String deviceId, Integer sensorId, String data){
+    private void
+    handleSensorDataHistory(String deviceId, Integer sensorId, String data){
         EamSensorDataHistory dataHistory = createSensorDataHistory(deviceId, sensorId, data);
         eamSensorDataHistoryService.insertSelective(dataHistory);
     }
@@ -584,5 +753,12 @@ public class EamApiServiceImpl implements EamApiService {
         result.setUpdateTime(now);
         result.setDeleteFlag(Boolean.FALSE);
         return result;
+    }
+
+    @Override
+    public int persistProductLine(EamProductLine eamProductLine, EamProductLineCompany productLineCompany){
+        eamProductLineService.insertSelective(eamProductLine);
+        productLineCompany.setProductLineId(eamProductLine.getProductLineId());
+        return eamProductLineCompanyService.insertSelective(productLineCompany);
     }
 }

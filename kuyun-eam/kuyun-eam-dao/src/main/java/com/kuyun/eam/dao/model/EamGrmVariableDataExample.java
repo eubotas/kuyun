@@ -258,63 +258,63 @@ public class EamGrmVariableDataExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andGrmEquipmentVariableIdIsNull() {
-            addCriterion("grm_equipment_variable_id is null");
+        public Criteria andGrmVariableIdIsNull() {
+            addCriterion("grm_variable_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andGrmEquipmentVariableIdIsNotNull() {
-            addCriterion("grm_equipment_variable_id is not null");
+        public Criteria andGrmVariableIdIsNotNull() {
+            addCriterion("grm_variable_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andGrmEquipmentVariableIdEqualTo(Integer value) {
-            addCriterion("grm_equipment_variable_id =", value, "grmEquipmentVariableId");
+        public Criteria andGrmVariableIdEqualTo(Integer value) {
+            addCriterion("grm_variable_id =", value, "grmVariableId");
             return (Criteria) this;
         }
 
-        public Criteria andGrmEquipmentVariableIdNotEqualTo(Integer value) {
-            addCriterion("grm_equipment_variable_id <>", value, "grmEquipmentVariableId");
+        public Criteria andGrmVariableIdNotEqualTo(Integer value) {
+            addCriterion("grm_variable_id <>", value, "grmVariableId");
             return (Criteria) this;
         }
 
-        public Criteria andGrmEquipmentVariableIdGreaterThan(Integer value) {
-            addCriterion("grm_equipment_variable_id >", value, "grmEquipmentVariableId");
+        public Criteria andGrmVariableIdGreaterThan(Integer value) {
+            addCriterion("grm_variable_id >", value, "grmVariableId");
             return (Criteria) this;
         }
 
-        public Criteria andGrmEquipmentVariableIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("grm_equipment_variable_id >=", value, "grmEquipmentVariableId");
+        public Criteria andGrmVariableIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("grm_variable_id >=", value, "grmVariableId");
             return (Criteria) this;
         }
 
-        public Criteria andGrmEquipmentVariableIdLessThan(Integer value) {
-            addCriterion("grm_equipment_variable_id <", value, "grmEquipmentVariableId");
+        public Criteria andGrmVariableIdLessThan(Integer value) {
+            addCriterion("grm_variable_id <", value, "grmVariableId");
             return (Criteria) this;
         }
 
-        public Criteria andGrmEquipmentVariableIdLessThanOrEqualTo(Integer value) {
-            addCriterion("grm_equipment_variable_id <=", value, "grmEquipmentVariableId");
+        public Criteria andGrmVariableIdLessThanOrEqualTo(Integer value) {
+            addCriterion("grm_variable_id <=", value, "grmVariableId");
             return (Criteria) this;
         }
 
-        public Criteria andGrmEquipmentVariableIdIn(List<Integer> values) {
-            addCriterion("grm_equipment_variable_id in", values, "grmEquipmentVariableId");
+        public Criteria andGrmVariableIdIn(List<Integer> values) {
+            addCriterion("grm_variable_id in", values, "grmVariableId");
             return (Criteria) this;
         }
 
-        public Criteria andGrmEquipmentVariableIdNotIn(List<Integer> values) {
-            addCriterion("grm_equipment_variable_id not in", values, "grmEquipmentVariableId");
+        public Criteria andGrmVariableIdNotIn(List<Integer> values) {
+            addCriterion("grm_variable_id not in", values, "grmVariableId");
             return (Criteria) this;
         }
 
-        public Criteria andGrmEquipmentVariableIdBetween(Integer value1, Integer value2) {
-            addCriterion("grm_equipment_variable_id between", value1, value2, "grmEquipmentVariableId");
+        public Criteria andGrmVariableIdBetween(Integer value1, Integer value2) {
+            addCriterion("grm_variable_id between", value1, value2, "grmVariableId");
             return (Criteria) this;
         }
 
-        public Criteria andGrmEquipmentVariableIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("grm_equipment_variable_id not between", value1, value2, "grmEquipmentVariableId");
+        public Criteria andGrmVariableIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("grm_variable_id not between", value1, value2, "grmVariableId");
             return (Criteria) this;
         }
 
@@ -685,6 +685,76 @@ public class EamGrmVariableDataExample implements Serializable {
 
         public Criteria andDeleteFlagNotBetween(Boolean value1, Boolean value2) {
             addCriterion("delete_flag not between", value1, value2, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdIsNull() {
+            addCriterion("product_line_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdIsNotNull() {
+            addCriterion("product_line_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdEqualTo(String value) {
+            addCriterion("product_line_id =", value, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdNotEqualTo(String value) {
+            addCriterion("product_line_id <>", value, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdGreaterThan(String value) {
+            addCriterion("product_line_id >", value, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdGreaterThanOrEqualTo(String value) {
+            addCriterion("product_line_id >=", value, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdLessThan(String value) {
+            addCriterion("product_line_id <", value, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdLessThanOrEqualTo(String value) {
+            addCriterion("product_line_id <=", value, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdLike(String value) {
+            addCriterion("product_line_id like", value, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdNotLike(String value) {
+            addCriterion("product_line_id not like", value, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdIn(List<String> values) {
+            addCriterion("product_line_id in", values, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdNotIn(List<String> values) {
+            addCriterion("product_line_id not in", values, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdBetween(String value1, String value2) {
+            addCriterion("product_line_id between", value1, value2, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdNotBetween(String value1, String value2) {
+            addCriterion("product_line_id not between", value1, value2, "productLineId");
             return (Criteria) this;
         }
 

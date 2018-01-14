@@ -259,6 +259,66 @@ public class EamEquipmentExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andEquipmentCategoryIdIsNull() {
+            addCriterion("equipment_category_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentCategoryIdIsNotNull() {
+            addCriterion("equipment_category_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentCategoryIdEqualTo(Integer value) {
+            addCriterion("equipment_category_id =", value, "equipmentCategoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentCategoryIdNotEqualTo(Integer value) {
+            addCriterion("equipment_category_id <>", value, "equipmentCategoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentCategoryIdGreaterThan(Integer value) {
+            addCriterion("equipment_category_id >", value, "equipmentCategoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentCategoryIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("equipment_category_id >=", value, "equipmentCategoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentCategoryIdLessThan(Integer value) {
+            addCriterion("equipment_category_id <", value, "equipmentCategoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentCategoryIdLessThanOrEqualTo(Integer value) {
+            addCriterion("equipment_category_id <=", value, "equipmentCategoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentCategoryIdIn(List<Integer> values) {
+            addCriterion("equipment_category_id in", values, "equipmentCategoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentCategoryIdNotIn(List<Integer> values) {
+            addCriterion("equipment_category_id not in", values, "equipmentCategoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentCategoryIdBetween(Integer value1, Integer value2) {
+            addCriterion("equipment_category_id between", value1, value2, "equipmentCategoryId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentCategoryIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("equipment_category_id not between", value1, value2, "equipmentCategoryId");
+            return (Criteria) this;
+        }
+
         public Criteria andNameIsNull() {
             addCriterion("name is null");
             return (Criteria) this;
@@ -939,6 +999,66 @@ public class EamEquipmentExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andSalveIdIsNull() {
+            addCriterion("salve_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSalveIdIsNotNull() {
+            addCriterion("salve_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSalveIdEqualTo(Integer value) {
+            addCriterion("salve_id =", value, "salveId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSalveIdNotEqualTo(Integer value) {
+            addCriterion("salve_id <>", value, "salveId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSalveIdGreaterThan(Integer value) {
+            addCriterion("salve_id >", value, "salveId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSalveIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("salve_id >=", value, "salveId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSalveIdLessThan(Integer value) {
+            addCriterion("salve_id <", value, "salveId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSalveIdLessThanOrEqualTo(Integer value) {
+            addCriterion("salve_id <=", value, "salveId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSalveIdIn(List<Integer> values) {
+            addCriterion("salve_id in", values, "salveId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSalveIdNotIn(List<Integer> values) {
+            addCriterion("salve_id not in", values, "salveId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSalveIdBetween(Integer value1, Integer value2) {
+            addCriterion("salve_id between", value1, value2, "salveId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSalveIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("salve_id not between", value1, value2, "salveId");
+            return (Criteria) this;
+        }
+
         public Criteria andHeartDataIsNull() {
             addCriterion("heart_data is null");
             return (Criteria) this;
@@ -1006,6 +1126,66 @@ public class EamEquipmentExample implements Serializable {
 
         public Criteria andHeartDataNotBetween(String value1, String value2) {
             addCriterion("heart_data not between", value1, value2, "heartData");
+            return (Criteria) this;
+        }
+
+        public Criteria andModbusRtuPeriodIsNull() {
+            addCriterion("modbus_rtu_period is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andModbusRtuPeriodIsNotNull() {
+            addCriterion("modbus_rtu_period is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andModbusRtuPeriodEqualTo(Integer value) {
+            addCriterion("modbus_rtu_period =", value, "modbusRtuPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andModbusRtuPeriodNotEqualTo(Integer value) {
+            addCriterion("modbus_rtu_period <>", value, "modbusRtuPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andModbusRtuPeriodGreaterThan(Integer value) {
+            addCriterion("modbus_rtu_period >", value, "modbusRtuPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andModbusRtuPeriodGreaterThanOrEqualTo(Integer value) {
+            addCriterion("modbus_rtu_period >=", value, "modbusRtuPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andModbusRtuPeriodLessThan(Integer value) {
+            addCriterion("modbus_rtu_period <", value, "modbusRtuPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andModbusRtuPeriodLessThanOrEqualTo(Integer value) {
+            addCriterion("modbus_rtu_period <=", value, "modbusRtuPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andModbusRtuPeriodIn(List<Integer> values) {
+            addCriterion("modbus_rtu_period in", values, "modbusRtuPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andModbusRtuPeriodNotIn(List<Integer> values) {
+            addCriterion("modbus_rtu_period not in", values, "modbusRtuPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andModbusRtuPeriodBetween(Integer value1, Integer value2) {
+            addCriterion("modbus_rtu_period between", value1, value2, "modbusRtuPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andModbusRtuPeriodNotBetween(Integer value1, Integer value2) {
+            addCriterion("modbus_rtu_period not between", value1, value2, "modbusRtuPeriod");
             return (Criteria) this;
         }
 
@@ -1879,183 +2059,193 @@ public class EamEquipmentExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andModbusRtuPeriodIsNull() {
-            addCriterion("modbus_rtu_period is null");
+        public Criteria andLeftPositionIsNull() {
+            addCriterion("left_position is null");
             return (Criteria) this;
         }
 
-        public Criteria andModbusRtuPeriodIsNotNull() {
-            addCriterion("modbus_rtu_period is not null");
+        public Criteria andLeftPositionIsNotNull() {
+            addCriterion("left_position is not null");
             return (Criteria) this;
         }
 
-        public Criteria andModbusRtuPeriodEqualTo(Integer value) {
-            addCriterion("modbus_rtu_period =", value, "modbusRtuPeriod");
+        public Criteria andLeftPositionEqualTo(BigDecimal value) {
+            addCriterion("left_position =", value, "leftPosition");
             return (Criteria) this;
         }
 
-        public Criteria andModbusRtuPeriodNotEqualTo(Integer value) {
-            addCriterion("modbus_rtu_period <>", value, "modbusRtuPeriod");
+        public Criteria andLeftPositionNotEqualTo(BigDecimal value) {
+            addCriterion("left_position <>", value, "leftPosition");
             return (Criteria) this;
         }
 
-        public Criteria andModbusRtuPeriodGreaterThan(Integer value) {
-            addCriterion("modbus_rtu_period >", value, "modbusRtuPeriod");
+        public Criteria andLeftPositionGreaterThan(BigDecimal value) {
+            addCriterion("left_position >", value, "leftPosition");
             return (Criteria) this;
         }
 
-        public Criteria andModbusRtuPeriodGreaterThanOrEqualTo(Integer value) {
-            addCriterion("modbus_rtu_period >=", value, "modbusRtuPeriod");
+        public Criteria andLeftPositionGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("left_position >=", value, "leftPosition");
             return (Criteria) this;
         }
 
-        public Criteria andModbusRtuPeriodLessThan(Integer value) {
-            addCriterion("modbus_rtu_period <", value, "modbusRtuPeriod");
+        public Criteria andLeftPositionLessThan(BigDecimal value) {
+            addCriterion("left_position <", value, "leftPosition");
             return (Criteria) this;
         }
 
-        public Criteria andModbusRtuPeriodLessThanOrEqualTo(Integer value) {
-            addCriterion("modbus_rtu_period <=", value, "modbusRtuPeriod");
+        public Criteria andLeftPositionLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("left_position <=", value, "leftPosition");
             return (Criteria) this;
         }
 
-        public Criteria andModbusRtuPeriodIn(List<Integer> values) {
-            addCriterion("modbus_rtu_period in", values, "modbusRtuPeriod");
+        public Criteria andLeftPositionIn(List<BigDecimal> values) {
+            addCriterion("left_position in", values, "leftPosition");
             return (Criteria) this;
         }
 
-        public Criteria andModbusRtuPeriodNotIn(List<Integer> values) {
-            addCriterion("modbus_rtu_period not in", values, "modbusRtuPeriod");
+        public Criteria andLeftPositionNotIn(List<BigDecimal> values) {
+            addCriterion("left_position not in", values, "leftPosition");
             return (Criteria) this;
         }
 
-        public Criteria andModbusRtuPeriodBetween(Integer value1, Integer value2) {
-            addCriterion("modbus_rtu_period between", value1, value2, "modbusRtuPeriod");
+        public Criteria andLeftPositionBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("left_position between", value1, value2, "leftPosition");
             return (Criteria) this;
         }
 
-        public Criteria andModbusRtuPeriodNotBetween(Integer value1, Integer value2) {
-            addCriterion("modbus_rtu_period not between", value1, value2, "modbusRtuPeriod");
+        public Criteria andLeftPositionNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("left_position not between", value1, value2, "leftPosition");
             return (Criteria) this;
         }
 
-        public Criteria andSalveIdIsNull() {
-            addCriterion("salve_id is null");
+        public Criteria andTopPositionIsNull() {
+            addCriterion("top_position is null");
             return (Criteria) this;
         }
 
-        public Criteria andSalveIdIsNotNull() {
-            addCriterion("salve_id is not null");
+        public Criteria andTopPositionIsNotNull() {
+            addCriterion("top_position is not null");
             return (Criteria) this;
         }
 
-        public Criteria andSalveIdEqualTo(Integer value) {
-            addCriterion("salve_id =", value, "salveId");
+        public Criteria andTopPositionEqualTo(BigDecimal value) {
+            addCriterion("top_position =", value, "topPosition");
             return (Criteria) this;
         }
 
-        public Criteria andSalveIdNotEqualTo(Integer value) {
-            addCriterion("salve_id <>", value, "salveId");
+        public Criteria andTopPositionNotEqualTo(BigDecimal value) {
+            addCriterion("top_position <>", value, "topPosition");
             return (Criteria) this;
         }
 
-        public Criteria andSalveIdGreaterThan(Integer value) {
-            addCriterion("salve_id >", value, "salveId");
+        public Criteria andTopPositionGreaterThan(BigDecimal value) {
+            addCriterion("top_position >", value, "topPosition");
             return (Criteria) this;
         }
 
-        public Criteria andSalveIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("salve_id >=", value, "salveId");
+        public Criteria andTopPositionGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("top_position >=", value, "topPosition");
             return (Criteria) this;
         }
 
-        public Criteria andSalveIdLessThan(Integer value) {
-            addCriterion("salve_id <", value, "salveId");
+        public Criteria andTopPositionLessThan(BigDecimal value) {
+            addCriterion("top_position <", value, "topPosition");
             return (Criteria) this;
         }
 
-        public Criteria andSalveIdLessThanOrEqualTo(Integer value) {
-            addCriterion("salve_id <=", value, "salveId");
+        public Criteria andTopPositionLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("top_position <=", value, "topPosition");
             return (Criteria) this;
         }
 
-        public Criteria andSalveIdIn(List<Integer> values) {
-            addCriterion("salve_id in", values, "salveId");
+        public Criteria andTopPositionIn(List<BigDecimal> values) {
+            addCriterion("top_position in", values, "topPosition");
             return (Criteria) this;
         }
 
-        public Criteria andSalveIdNotIn(List<Integer> values) {
-            addCriterion("salve_id not in", values, "salveId");
+        public Criteria andTopPositionNotIn(List<BigDecimal> values) {
+            addCriterion("top_position not in", values, "topPosition");
             return (Criteria) this;
         }
 
-        public Criteria andSalveIdBetween(Integer value1, Integer value2) {
-            addCriterion("salve_id between", value1, value2, "salveId");
+        public Criteria andTopPositionBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("top_position between", value1, value2, "topPosition");
             return (Criteria) this;
         }
 
-        public Criteria andSalveIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("salve_id not between", value1, value2, "salveId");
+        public Criteria andTopPositionNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("top_position not between", value1, value2, "topPosition");
             return (Criteria) this;
         }
 
-        public Criteria andEquipmentCategoryIdIsNull() {
-            addCriterion("equipment_category_id is null");
+        public Criteria andProductLineIdIsNull() {
+            addCriterion("product_line_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andEquipmentCategoryIdIsNotNull() {
-            addCriterion("equipment_category_id is not null");
+        public Criteria andProductLineIdIsNotNull() {
+            addCriterion("product_line_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andEquipmentCategoryIdEqualTo(Integer value) {
-            addCriterion("equipment_category_id =", value, "equipmentCategoryId");
+        public Criteria andProductLineIdEqualTo(String value) {
+            addCriterion("product_line_id =", value, "productLineId");
             return (Criteria) this;
         }
 
-        public Criteria andEquipmentCategoryIdNotEqualTo(Integer value) {
-            addCriterion("equipment_category_id <>", value, "equipmentCategoryId");
+        public Criteria andProductLineIdNotEqualTo(String value) {
+            addCriterion("product_line_id <>", value, "productLineId");
             return (Criteria) this;
         }
 
-        public Criteria andEquipmentCategoryIdGreaterThan(Integer value) {
-            addCriterion("equipment_category_id >", value, "equipmentCategoryId");
+        public Criteria andProductLineIdGreaterThan(String value) {
+            addCriterion("product_line_id >", value, "productLineId");
             return (Criteria) this;
         }
 
-        public Criteria andEquipmentCategoryIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("equipment_category_id >=", value, "equipmentCategoryId");
+        public Criteria andProductLineIdGreaterThanOrEqualTo(String value) {
+            addCriterion("product_line_id >=", value, "productLineId");
             return (Criteria) this;
         }
 
-        public Criteria andEquipmentCategoryIdLessThan(Integer value) {
-            addCriterion("equipment_category_id <", value, "equipmentCategoryId");
+        public Criteria andProductLineIdLessThan(String value) {
+            addCriterion("product_line_id <", value, "productLineId");
             return (Criteria) this;
         }
 
-        public Criteria andEquipmentCategoryIdLessThanOrEqualTo(Integer value) {
-            addCriterion("equipment_category_id <=", value, "equipmentCategoryId");
+        public Criteria andProductLineIdLessThanOrEqualTo(String value) {
+            addCriterion("product_line_id <=", value, "productLineId");
             return (Criteria) this;
         }
 
-        public Criteria andEquipmentCategoryIdIn(List<Integer> values) {
-            addCriterion("equipment_category_id in", values, "equipmentCategoryId");
+        public Criteria andProductLineIdLike(String value) {
+            addCriterion("product_line_id like", value, "productLineId");
             return (Criteria) this;
         }
 
-        public Criteria andEquipmentCategoryIdNotIn(List<Integer> values) {
-            addCriterion("equipment_category_id not in", values, "equipmentCategoryId");
+        public Criteria andProductLineIdNotLike(String value) {
+            addCriterion("product_line_id not like", value, "productLineId");
             return (Criteria) this;
         }
 
-        public Criteria andEquipmentCategoryIdBetween(Integer value1, Integer value2) {
-            addCriterion("equipment_category_id between", value1, value2, "equipmentCategoryId");
+        public Criteria andProductLineIdIn(List<String> values) {
+            addCriterion("product_line_id in", values, "productLineId");
             return (Criteria) this;
         }
 
-        public Criteria andEquipmentCategoryIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("equipment_category_id not between", value1, value2, "equipmentCategoryId");
+        public Criteria andProductLineIdNotIn(List<String> values) {
+            addCriterion("product_line_id not in", values, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdBetween(String value1, String value2) {
+            addCriterion("product_line_id between", value1, value2, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdNotBetween(String value1, String value2) {
+            addCriterion("product_line_id not between", value1, value2, "productLineId");
             return (Criteria) this;
         }
 

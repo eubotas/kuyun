@@ -1,8 +1,9 @@
 package com.kuyun.upms.dao.model;
 
+import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
 
-public class UpmsUserCompany implements Serializable {
+public class UpmsUserCompany extends BaseEntity implements Serializable {
     /**
      * 编号
      *
@@ -16,13 +17,6 @@ public class UpmsUserCompany implements Serializable {
      * @mbg.generated
      */
     private Integer userId;
-
-    /**
-     * 公司编号
-     *
-     * @mbg.generated
-     */
-    private Integer companyId;
 
     private static final long serialVersionUID = 1L;
 
@@ -42,14 +36,6 @@ public class UpmsUserCompany implements Serializable {
         this.userId = userId;
     }
 
-    public Integer getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(Integer companyId) {
-        this.companyId = companyId;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -58,7 +44,6 @@ public class UpmsUserCompany implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", userCompanyId=").append(userCompanyId);
         sb.append(", userId=").append(userId);
-        sb.append(", companyId=").append(companyId);
         sb.append("]");
         return sb.toString();
     }

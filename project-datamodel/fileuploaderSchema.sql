@@ -1,4 +1,4 @@
-use kuyun;
+use xmx;
 SET FOREIGN_KEY_CHECKS=0;
 
 drop table if exists fd_files; 

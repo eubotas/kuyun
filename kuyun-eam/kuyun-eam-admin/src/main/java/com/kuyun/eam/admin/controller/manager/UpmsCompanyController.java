@@ -6,10 +6,11 @@ import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.util.SpringContextUtil;
 import com.kuyun.common.validator.LengthValidator;
-import com.kuyun.eam.dao.model.EamEquipmentCompany;
-import com.kuyun.eam.dao.model.EamEquipmentCompanyExample;
+import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.EamEquipmentCompanyService;
+import com.kuyun.eam.rpc.api.EamProductLineCompanyService;
 import com.kuyun.eam.vo.EamEquipmentVO;
+import com.kuyun.eam.vo.EamProductLineVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.common.constant.UpmsResult;
 import com.kuyun.upms.common.constant.UpmsResultConstant;
@@ -29,7 +30,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 公司controller
@@ -49,7 +49,7 @@ public class UpmsCompanyController extends BaseController {
     private BaseEntityUtil baseEntityUtil;
 
     @Autowired
-    private EamEquipmentCompanyService eamEquipmentCompanyService;
+    private EamProductLineCompanyService eamProductLineCompanyService;
 
     @ApiOperation(value = "公司首页")
     @RequiresPermissions("eam:company:read")
@@ -166,19 +166,19 @@ public class UpmsCompanyController extends BaseController {
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
     }
 
-    @ApiOperation(value = "设备授权")
-    @RequiresPermissions("eam:company:update")
+    @ApiOperation(value = "产线授权")
+    @RequiresPermissions("eam:productLine:update")
     @RequestMapping(value = "/auth/{id}", method = RequestMethod.GET)
     public String auth(@PathVariable("id") int id, ModelMap modelMap) {
         modelMap.put("companyId", id);
-        return "/manage/company/equipment.jsp";
+        return "/manage/company/productLine.jsp";
     }
 
-    @ApiOperation(value = "设备授权列表")
-    @RequiresPermissions("eam:equipment:read")
-    @RequestMapping(value = "/equipment/list", method = RequestMethod.GET)
+    @ApiOperation(value = "产线授权列表")
+    @RequiresPermissions("eam:productLine:read")
+    @RequestMapping(value = "/productLine/list", method = RequestMethod.GET)
     @ResponseBody
-    public Object equipmentList(
+    public Object productLineList(
             @RequestParam(required = false, defaultValue = "0", value = "offset") int offset,
             @RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
             @RequestParam(required = false, value = "sort") String sort,
@@ -187,11 +187,11 @@ public class UpmsCompanyController extends BaseController {
 
         _log.info("companyId="+companyId);
 
-        EamEquipmentController equipmentController = SpringContextUtil.getBean(EamEquipmentController.class);
+        EamProductLineController productLineController = SpringContextUtil.getBean(EamProductLineController.class);
 
 
-        Map<String, Object> objectMap = (Map<String, Object> )equipmentController.list(offset, limit, null, sort, order);
-        List<EamEquipmentVO> rows = (List<EamEquipmentVO>)objectMap.get("rows");
+        Map<String, Object> objectMap = (Map<String, Object> )productLineController.list(offset, limit, sort, order);
+        List<EamProductLineVO> rows = (List<EamProductLineVO>)objectMap.get("rows");
         long total = (long)objectMap.get("total");
 
 
@@ -204,16 +204,16 @@ public class UpmsCompanyController extends BaseController {
         return result;
     }
 
-    private void handleCheckedFlag(String companyId, List<EamEquipmentVO> rows) {
-        EamEquipmentCompanyExample example = new EamEquipmentCompanyExample();
+    private void handleCheckedFlag(String companyId, List<EamProductLineVO> rows) {
+        EamProductLineCompanyExample example = new EamProductLineCompanyExample();
         example.createCriteria().andCompanyIdEqualTo(Integer.valueOf(companyId)).andDeleteFlagEqualTo(Boolean.FALSE);
-        List<EamEquipmentCompany> equipmentCompanies = eamEquipmentCompanyService.selectByExample(example);
+        List<EamProductLineCompany> productLineCompanies = eamProductLineCompanyService.selectByExample(example);
 
-        if (equipmentCompanies != null && rows != null){
-            for(EamEquipmentVO eamEquipmentVO : rows){
-                for (EamEquipmentCompany equipmentCompany : equipmentCompanies){
-                    if (eamEquipmentVO.getEquipmentId().equals(equipmentCompany.getEquipmentId())){
-                        eamEquipmentVO.setChecked(true);
+        if (productLineCompanies != null && rows != null){
+            for(EamProductLineVO productLine : rows){
+                for (EamProductLineCompany productLineCompany : productLineCompanies){
+                    if (productLine.getProductLineId().equals(productLineCompany.getProductLineId())){
+                        productLine.setChecked(true);
                         break;
                     }
                 }
@@ -221,31 +221,31 @@ public class UpmsCompanyController extends BaseController {
         }
     }
 
-    @ApiOperation(value = "设备授权")
+    @ApiOperation(value = "产线授权确认")
     @RequiresPermissions("eam:company:update")
     @RequestMapping(value = "/auth", method = RequestMethod.POST)
     @ResponseBody
-    public Object auth(String eIds, String companyId, ModelMap modelMap) {
-        String [] eIdList = eIds.split("::");
-        _log.info("eIds="+eIds);
+    public Object auth(String pIds, String companyId, ModelMap modelMap) {
+        String [] pIdList = pIds.split("::");
+        _log.info("pIds="+pIds);
         _log.info("companyId="+companyId);
         //remove already exist data
-        EamEquipmentCompanyExample example = new EamEquipmentCompanyExample();
+        EamProductLineCompanyExample example = new EamProductLineCompanyExample();
         example.createCriteria().andCompanyIdEqualTo(Integer.valueOf(companyId));
-        eamEquipmentCompanyService.deleteByExample(example);
+        eamProductLineCompanyService.deleteByExample(example);
 
         //add new
-        List<EamEquipmentCompany> equipmentCompanies = new ArrayList<>();
-        for(String eId : eIdList){
-            EamEquipmentCompany equipmentCompany = new EamEquipmentCompany();
-            equipmentCompany.setEquipmentId(eId);
-            equipmentCompany.setCompanyId(Integer.valueOf(companyId));
-            equipmentCompany.setDeleteFlag(Boolean.FALSE);
-            equipmentCompany.setCreateTime(new Date());
-            equipmentCompany.setCreateUserId(baseEntityUtil.getCurrentUser().getUserId());
-            equipmentCompanies.add(equipmentCompany);
+        List<EamProductLineCompany> productLineCompanies = new ArrayList<>();
+        for(String pId : pIdList){
+            EamProductLineCompany productLineCompany = new EamProductLineCompany();
+            productLineCompany.setProductLineId(pId);
+            productLineCompany.setCompanyId(Integer.valueOf(companyId));
+            productLineCompany.setDeleteFlag(Boolean.FALSE);
+            productLineCompany.setCreateTime(new Date());
+            productLineCompany.setCreateUserId(baseEntityUtil.getCurrentUser().getUserId());
+            productLineCompanies.add(productLineCompany);
         }
-        eamEquipmentCompanyService.batchInsert(equipmentCompanies);
+        eamProductLineCompanyService.batchInsert(productLineCompanies);
         return new UpmsResult(UpmsResultConstant.SUCCESS, 1);
     }
 

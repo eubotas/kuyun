@@ -6,6 +6,8 @@ import java.io.Serializable;
 public class EamDtu extends BaseEntity implements Serializable {
     private String dtuId;
 
+    private String name;
+
     /**
      * 心跳包
      *
@@ -20,8 +22,6 @@ public class EamDtu extends BaseEntity implements Serializable {
      */
     private Integer modbusRtuPeriod;
 
-    private String name;
-
     private static final long serialVersionUID = 1L;
 
     public String getDtuId() {
@@ -30,6 +30,14 @@ public class EamDtu extends BaseEntity implements Serializable {
 
     public void setDtuId(String dtuId) {
         this.dtuId = dtuId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getHeartData() {
@@ -48,14 +56,6 @@ public class EamDtu extends BaseEntity implements Serializable {
         this.modbusRtuPeriod = modbusRtuPeriod;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -63,9 +63,9 @@ public class EamDtu extends BaseEntity implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", dtuId=").append(dtuId);
+        sb.append(", name=").append(name);
         sb.append(", heartData=").append(heartData);
         sb.append(", modbusRtuPeriod=").append(modbusRtuPeriod);
-        sb.append(", name=").append(name);
         sb.append("]");
         return sb.toString();
     }
@@ -83,6 +83,7 @@ public class EamDtu extends BaseEntity implements Serializable {
         }
         EamDtu other = (EamDtu) that;
         return (this.getDtuId() == null ? other.getDtuId() == null : this.getDtuId().equals(other.getDtuId()))
+            && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
             && (this.getHeartData() == null ? other.getHeartData() == null : this.getHeartData().equals(other.getHeartData()))
             && (this.getModbusRtuPeriod() == null ? other.getModbusRtuPeriod() == null : this.getModbusRtuPeriod().equals(other.getModbusRtuPeriod()))
             && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
@@ -90,8 +91,7 @@ public class EamDtu extends BaseEntity implements Serializable {
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()))
-            && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()));
+            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()));
     }
 
     @Override
@@ -99,6 +99,7 @@ public class EamDtu extends BaseEntity implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getDtuId() == null) ? 0 : getDtuId().hashCode());
+        result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         result = prime * result + ((getHeartData() == null) ? 0 : getHeartData().hashCode());
         result = prime * result + ((getModbusRtuPeriod() == null) ? 0 : getModbusRtuPeriod().hashCode());
         result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());
@@ -107,7 +108,6 @@ public class EamDtu extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
-        result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         return result;
     }
 }
