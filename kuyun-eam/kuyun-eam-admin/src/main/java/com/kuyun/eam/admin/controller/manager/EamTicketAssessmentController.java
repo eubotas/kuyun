@@ -259,18 +259,6 @@ public class EamTicketAssessmentController extends EamTicketBaseController {
 		return vos;
 	}
 
-	private String getAssessmentTicketTag(int assessId){
-		EamTicketAssessmentTagVO eamTicketTag = new EamTicketAssessmentTagVO();
-		eamTicketTag.setAssessmentId(assessId);
-		List<EamTicketAssessmentTagVO> rows = eamApiService.selectTicketAssessmentTags(eamTicketTag);
-		String names="";
-		for(EamTicketAssessmentTagVO vo: rows){
-			names +=vo.getTagName()+", ";
-		}
-		if(names.endsWith(", "))
-			names= names.substring(0, names.length()-2);
-		return names;
-	}
 
 	private void insertTag(int pid,int ticketId, int[] ticketTags){
 		//insert tag

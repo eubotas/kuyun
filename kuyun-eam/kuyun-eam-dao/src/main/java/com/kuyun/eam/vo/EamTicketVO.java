@@ -11,6 +11,12 @@ public class EamTicketVO extends EamTicket {
     private String customerContacts;
     private String customerPhone;
 
+    private Integer assessmentId;
+    private String tagNames;
+    private Integer assessmentLevel;
+    private String assessmentDescription;
+
+
     public String getServiceman() {
         return serviceman;
     }
@@ -50,6 +56,38 @@ public class EamTicketVO extends EamTicket {
 	public void setTicketType(EamTicketType ticketType) {
 		this.ticketType = ticketType;
 	}
+
+    public String getAssessmentDescription() {
+        return assessmentDescription;
+    }
+
+    public void setAssessmentDescription(String assessmentDescription) {
+        this.assessmentDescription = assessmentDescription;
+    }
+
+    public Integer getAssessmentId() {
+        return assessmentId;
+    }
+
+    public void setAssessmentId(Integer assessmentId) {
+        this.assessmentId = assessmentId;
+    }
+
+    public String getTagNames() {
+        return tagNames;
+    }
+
+    public void setTagNames(String tagNames) {
+        this.tagNames = tagNames;
+    }
+
+    public Integer getAssessmentLevel() {
+        return assessmentLevel;
+    }
+
+    public void setAssessmentLevel(Integer assessmentLevel) {
+        this.assessmentLevel = assessmentLevel;
+    }
 
 
 }

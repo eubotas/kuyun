@@ -40,12 +40,13 @@
 </div>
 <div class="row">
     <div class="col-sm-6">
-        <label for="endDate">指定完成日期</label> <span id="endDate">${ticket.endDate}</span>
+        <label for="status">工单状态</label> <span id="status">${ticket.status}</span>
     </div>
     <div class="col-sm-6">
         <label for="createTime">创建时间</label> <span id="createTime">${ticket.createTime}</span>
     </div>
 </div>
+
 <div class="row">
     <div class="col-sm-12">
         <!-- image list  -->
@@ -81,6 +82,22 @@
     </div>
 </c:forEach>
 
+<c:if test="${ticket.assessmentId != null}">
+<div class="row">
+    <div class="col-sm-6">
+        <label for="assessmentLevel">评价星级</label> <span id="assessmentLevel">${ticket.assessmentLevel}</span>
+    </div>
+    <div class="col-sm-6">
+        <label for="tagNames">评价标签</label> <span id="tagNames">${ticket.tagNames}</span>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <label for="assessmentDescription">评价描述</label> <span >${ticket.assessmentDescription}</span>
+    </div>
+</div>
+</c:if>
+
 <div class="row">
     <div class="form-group text-right dialog-buttons">
         ${nextOperateBtn}
@@ -93,9 +110,6 @@
     $(function() {
 
         $('span[id^="createTime"]').each(function() {
-            $(this).text(timeFormatter($(this).text()));
-        });
-        $('span[id="endDate"]').each(function() {
             $(this).text(timeFormatter($(this).text()));
         });
 

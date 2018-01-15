@@ -13,6 +13,7 @@ import com.kuyun.eam.common.constant.TicketStatus;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.vo.EamEquipmentVO;
+import com.kuyun.eam.vo.EamTicketAssessmentTagVO;
 import com.kuyun.eam.vo.EamTicketVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsUser;
@@ -65,6 +66,12 @@ public abstract class EamTicketBaseController extends BaseController {
 		EamTicketExample ete = new EamTicketExample();
 		ete.createCriteria().andTicketIdEqualTo(id);
 		EamTicketVO eamTicket = eamApiService.selectTicket(ete).get(0);
+
+        //assement
+        Integer assId= eamTicket.getAssessmentId();
+        if(assId != null){
+            eamTicket.setTagNames(getAssessmentTicketTag(assId));
+        }
 		modelMap.put("ticket", eamTicket);
 		
 		//retrieve the image list
@@ -134,5 +141,18 @@ public abstract class EamTicketBaseController extends BaseController {
             cId = company.getCompanyId();
         }
         return cId;
+    }
+
+    protected String getAssessmentTicketTag(int assessId){
+        EamTicketAssessmentTagVO eamTicketTag = new EamTicketAssessmentTagVO();
+        eamTicketTag.setAssessmentId(assessId);
+        List<EamTicketAssessmentTagVO> rows = eamApiService.selectTicketAssessmentTags(eamTicketTag);
+        String names="";
+        for(EamTicketAssessmentTagVO vo: rows){
+            names +=vo.getTagName()+", ";
+        }
+        if(names.endsWith(", "))
+            names= names.substring(0, names.length()-2);
+        return names;
     }
 }

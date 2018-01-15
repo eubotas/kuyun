@@ -45,15 +45,6 @@
     </div>
 <div class="row">
     <div class="col-sm-6">
-		<label >执行人</label> <span>${ticket.serviceman}</span>
-	</div>
-    <div class="col-sm-6">
-        <label >执行人电话</label> <span>${ticket.servicePhone}</span>
-    </div>
-
-</div>
-<div class="row">
-    <div class="col-sm-6">
         <label >顾客联系人</label> <span>${ticket.customerContacts}</span>
     </div>
     <div class="col-sm-6">
@@ -62,7 +53,7 @@
 </div>
 <div class="row">
     <div class="col-sm-6">
-		<label for="endDate">指定完成日期</label> <span id="endDate">${ticket.endDate}</span>
+        <label for="status">工单状态</label> <span id="status">${ticket.status}</span>
 	</div>
 	<div class="col-sm-6">
 		<label for="createTime">创建时间</label> <span id="createTime">${ticket.createTime}</span>
@@ -82,6 +73,16 @@
 		</c:forEach>
 	</div>
 </div>
+
+<div class="row">
+    <div class="col-sm-6">
+        <label >执行人</label> <span>${ticket.serviceman}</span>
+    </div>
+    <div class="col-sm-6">
+        <label >执行人电话</label> <span>${ticket.servicePhone}</span>
+    </div>
+</div>
+
 <div class="row">
 	<hr />
 </div>
@@ -90,9 +91,6 @@
 	$(function() {
 
 		$('span[id^="createTime"]').each(function() {
-			$(this).text(timeFormatter($(this).text()));
-		});
-		$('span[id="endDate"]').each(function() {
 			$(this).text(timeFormatter($(this).text()));
 		});
 
