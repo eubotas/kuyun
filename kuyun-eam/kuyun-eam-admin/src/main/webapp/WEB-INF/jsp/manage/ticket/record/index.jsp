@@ -58,8 +58,7 @@ $(function() {
 		columns: [
 			{field: 'ck', checkbox: true},
 			{field: 'id', title: 'ID', sortable: true, align: 'center'},
-			{field: 'step', title: '步骤'},
-            {field: 'comments', title: '备注'},
+            {field: 'comments', title: '工单记录'},
 			{field: 'createTime', title: '创建时间', formatter: 'timeFormatter'},
 			{field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
 		]

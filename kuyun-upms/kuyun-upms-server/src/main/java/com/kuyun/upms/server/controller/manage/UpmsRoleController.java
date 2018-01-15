@@ -7,12 +7,11 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
+import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.common.constant.UpmsResult;
 import com.kuyun.upms.common.constant.UpmsResultConstant;
-import com.kuyun.upms.dao.model.UpmsRole;
-import com.kuyun.upms.dao.model.UpmsRoleExample;
-import com.kuyun.upms.dao.model.UpmsRolePermission;
-import com.kuyun.upms.dao.model.UpmsRolePermissionExample;
+import com.kuyun.upms.dao.model.*;
+import com.kuyun.upms.rpc.api.UpmsCompanyService;
 import com.kuyun.upms.rpc.api.UpmsRolePermissionService;
 import com.kuyun.upms.rpc.api.UpmsRoleService;
 import io.swagger.annotations.Api;
@@ -47,7 +46,13 @@ public class UpmsRoleController extends BaseController {
     private UpmsRoleService upmsRoleService;
 
     @Autowired
+    private UpmsCompanyService upmsCompanyService;
+
+    @Autowired
     private UpmsRolePermissionService upmsRolePermissionService;
+
+    @Autowired
+    private BaseEntityUtil baseEntityUtil;
 
     @ApiOperation(value = "角色首页")
     @RequiresPermissions("upms:role:read")
@@ -113,6 +118,9 @@ public class UpmsRoleController extends BaseController {
             upmsRoleExample.or()
                     .andTitleLike("%" + search + "%");
         }
+        UpmsRoleExample.Criteria criteria = upmsRoleExample.createCriteria();
+        criteria.andCompanyIdEqualTo(getCompanyId());
+
         List<UpmsRole> rows = upmsRoleService.selectByExample(upmsRoleExample);
         long total = upmsRoleService.countByExample(upmsRoleExample);
         Map<String, Object> result = new HashMap<>();
@@ -124,7 +132,7 @@ public class UpmsRoleController extends BaseController {
     @ApiOperation(value = "新增角色")
     @RequiresPermissions("upms:role:create")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String create() {
+    public String create(ModelMap modelMap) {
         return "/manage/role/create.jsp";
     }
 
@@ -144,6 +152,7 @@ public class UpmsRoleController extends BaseController {
         long time = System.currentTimeMillis();
         upmsRole.setCtime(time);
         upmsRole.setOrders(time);
+        upmsRole.setCompanyId(getCompanyId());
         int count = upmsRoleService.insertSelective(upmsRole);
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
     }
@@ -161,6 +170,12 @@ public class UpmsRoleController extends BaseController {
     @RequiresPermissions("upms:role:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     public String update(@PathVariable("id") int id, ModelMap modelMap) {
+        UpmsCompanyExample companyExample = new UpmsCompanyExample();
+        UpmsCompanyExample.Criteria criteria = companyExample.createCriteria();
+        criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+        List<UpmsCompany> rows = upmsCompanyService.selectByExample(companyExample);
+        modelMap.put("companys", rows);
+
         UpmsRole role = upmsRoleService.selectByPrimaryKey(id);
         modelMap.put("role", role);
         return "/manage/role/update.jsp";
@@ -184,4 +199,12 @@ public class UpmsRoleController extends BaseController {
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
     }
 
+    private int getCompanyId(){
+        int cId=-1;
+        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+        if (company != null){
+            cId = company.getCompanyId();
+        }
+        return cId;
+    }
 }

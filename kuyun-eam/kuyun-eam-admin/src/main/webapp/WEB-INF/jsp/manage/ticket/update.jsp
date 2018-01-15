@@ -35,10 +35,9 @@
 			</div>
 
 			<div class="col-sm-6">
-                <label for="equipmentCategoryId">产品目录</label>
+                <label for="equipmentCategoryId">设备类型</label>
 				<div class="form-group">
 					<select id="equipmentCategoryId" name="equipmentCategoryId" style="width: 100%">
-						<%--<option value="0">设备模型</option>--%>
 						<c:forEach var="equipmentCategory" items="${equipmentCategorys}">
 							<option value="${equipmentCategory.equipmentCategoryId}" <c:if test="${ticket.equipmentCategoryId== equipmentCategory.equipmentCategoryId}">selected</c:if> >${equipmentCategory.name}</option>
 						</c:forEach>
@@ -48,7 +47,7 @@
 		</div>
 		<div class="row">
 			<div class="col-sm-6">
-				<label for="equipmentId">产品型号</label>
+				<label for="equipmentId">设备名称</label>
 				<div class="form-group">
 					<div class="fg-line">
 						<select id="equipmentId" name="equipmentId" style="width: 100%">
@@ -77,33 +76,6 @@
 			</div>
 		</div>
 
-		<div class="row">
-			<%--<div class="col-sm-6">
-				<label for="executorId">执行人</label>
-				<div class="form-group">
-					<div class="fg-line">
-						<select id="executorId" name="executorId" style="width: 100%">
-							<c:forEach var="user" items="${users}">
-								<option value="${user.userId}" <c:if test="${ticket.executorId== user.userId}">selected</c:if> >${user.realname}</option>
-							</c:forEach>
-						</select>
-					</div>
-				</div>
-			</div>--%>
-			<div class="col-sm-6">
-				<label for="endDate">指定完成日期</label>
-				<div class="form-group">
-					<%--<div class="fg-line">
-						 <input id="endDate"	type="date" name="endDate" class="form-control" value="2018/1/5"></input>
-					</div>--%>
-
-                    <div class="input-append date form_datetime">
-                        <input size="16" type="text" id="endDate" name="endDate" value="${ticket.endDate}" >
-                        <span class="add-on"><i class="icon-th"></i></span>
-                    </div>
-				</div>
-			</div>
-		</div>
 		<div class="row">
 			<div class="col-sm-6">
 				<div id="fine-uploader-gallery"></div>
@@ -253,13 +225,5 @@
         });
 	}
 
-    $(function() {
-//        $('span[id="endDate"]').each(function() {
-//            $(this).val(timeFormatter($(this).text()));
-//        });
 
-    });
-    function timeFormatter(value) {
-        return new Date(value).toLocaleString();
-    }
 </script>

@@ -1,4 +1,4 @@
-﻿<%@ 
+﻿﻿<%@ 
 page contentType="text/html; charset=utf-8"%><%@ 
 taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%><%@ 
 taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%><%@ 
@@ -164,6 +164,7 @@ $(function() {
 // 格式化操作按钮
 function actionFormatter(value, row, index) {
     return [
+        '<a class="update" href="javascript:;" onclick="detailAction()" data-toggle="tooltip" title="Detail"><i class="glyphicon glyphicon-edit"></i></a>　',
         '<a class="update" href="javascript:;" onclick="updateAction()" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>　',
         '<a class="delete" href="javascript:;" onclick="deleteAction()" data-toggle="tooltip" title="Remove"><i class="glyphicon glyphicon-remove"></i></a>'
     ].join('');
@@ -220,6 +221,37 @@ function updateAction() {
 	}
 }
 
+// Detail
+var detailDialog;
+function detailAction() {
+    var rows = $table.bootstrapTable('getSelections');
+    if (rows.length != 1) {
+        $.confirm({
+            title: false,
+            content: '请选择一条记录！',
+            autoClose: 'cancel|3000',
+            backgroundDismiss: true,
+            buttons: {
+                cancel: {
+                    text: '取消',
+                    btnClass: 'waves-effect waves-button'
+                }
+            }
+        });
+    } else {
+        detailDialog = $.dialog({
+            animationSpeed: 300,
+            title: '工单详细',
+            columnClass: 'xlarge',
+            content: 'url:${basePath}/manage/ticket/detail/' + rows[0].ticketId,
+            onContentReady: function () {
+                initMaterialInput();
+                $('select').select2();
+            }
+        });
+    }
+}
+
 function toaction(type) {
     var rows = $table.bootstrapTable('getSelections');
     if (rows.length != 1) {
@@ -247,20 +279,20 @@ function toaction(type) {
         }
         else if('TOAPPOINT'==type){
             if(status == '待派工')
-                createChildWindow('委派工单', '${basePath}/manage/ticket/' + ticketId + '/appoint/create');
+                createChildWindow('appoint', '委派工单', '${basePath}/manage/ticket/' + ticketId + '/appoint/create');
             else
                 showInfo('未委派的订单才能委派');
         }else if('TOASSESSMENT'==type){
             if(status == '待评价')
-                createChildWindow('评价', '${basePath}/manage/ticket/' + ticketId + '/assessment/assess');
+                createChildWindow('assessment', '评价', '${basePath}/manage/ticket/' + ticketId + '/assessment/assess');
             else
                 showInfo('完成状态的订单才能评价');
         }
         else if('TORECORD'==type)
-            createChildWindow('处理工单', '${basePath}/manage/ticket/' +ticketId  + '/record/create');
+            createChildWindow('record', '处理工单', '${basePath}/manage/ticket/' +ticketId  + '/record/create');
         else if('REJECT'==type){
             if(status == '待维修')
-                createChildWindow('拒绝工单', '${basePath}/manage/ticket/' + ticketId + '/appoint/toreject');
+                createChildWindow('reject', '拒绝工单', '${basePath}/manage/ticket/' + ticketId + '/appoint/toreject');
             else
                 showInfo('已委派的订单才能拒绝');
         }
@@ -273,9 +305,9 @@ function toaction(type) {
     }
 }
 
-var processDialog;
-function createChildWindow(title, url) {
-    processDialog = $.dialog({
+var appointDialog, rejectDialog, assessmentDialog, recordDialog;
+function createChildWindow(vardialog, title, url) {
+    var d = $.dialog({
         animationSpeed: 300,
         title: title,
         columnClass: 'xlarge',
@@ -285,6 +317,27 @@ function createChildWindow(title, url) {
             $('select').select2();
         }
     });
+    if(vardialog == 'appoint'){
+        appointDialog = d;
+        rejectDialog  =null;
+        assessmentDialog  =null;
+        recordDialog  =null;
+    }else if(vardialog == 'reject'){
+        rejectDialog=d;
+        appointDialog  =null;
+        assessmentDialog  =null;
+        recordDialog  =null;
+    }else if(vardialog == 'assessment'){
+        assessmentDialog =d;
+        appointDialog  =null;
+        rejectDialog  =null;
+        recordDialog  =null;
+    }else if(vardialog == 'record'){
+        recordDialog =d;
+        appointDialog  =null;
+        assessmentDialog  =null;
+        rejectDialog  =null;
+    }
 }
 
 var directlyOperateDialog;

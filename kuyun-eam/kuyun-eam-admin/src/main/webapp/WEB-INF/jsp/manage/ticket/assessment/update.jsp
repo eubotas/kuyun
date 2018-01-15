@@ -59,7 +59,7 @@
 
 		<div class="form-group text-right dialog-buttons">
 			<a class="waves-effect waves-button" href="javascript:;" onclick="updateSubmit();">保存</a>
-			<a class="waves-effect waves-button" href="javascript:;" onclick="updateDialog.close();">取消</a>
+			<a class="waves-effect waves-button" href="javascript:;" onclick="closeBtn();">取消</a>
 		</div>
 	</form>
 
@@ -112,11 +112,11 @@ function updateSubmit() {
 						});
 				}
 			} else {
-			    if(updateDialog){
+			    if(updateDialog)
                     updateDialog.close();
-                    $table.bootstrapTable('refresh');
-                }else if(processDialog)
-                    processDialog.close();
+                 else if(assessmentDialog)
+                    assessmentDialog.close();
+                $table.bootstrapTable('refresh');
 			}
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {

@@ -148,7 +148,7 @@ public class EamTicketAppointController extends EamTicketBaseController {
         UpmsUser user = baseEntityUtil.getCurrentUser();
         modelMap.put("orderTakerId", user.getUserId());
         modelMap.put("ticketId", ticketId);
-
+        setTicketInfo(ticketId, modelMap);
         return "/manage/ticket/appoint/reject.jsp";
     }
 
@@ -183,26 +183,4 @@ public class EamTicketAppointController extends EamTicketBaseController {
 	}
 
 
-	public int ticketProcess(int ticketId){
-		return updateTicketStatus( ticketId, TicketStatus.PROCESSING.getName());
-	}
-	public int ticketResolved(int ticketId){
-		return updateTicketStatus( ticketId, TicketStatus.RESOLVED.getName());
-	}
-	public int ticketComplete(int ticketId){
-		return updateTicketStatus( ticketId, TicketStatus.COMPLETE.getName());
-	}
-	public int updateTicketStatus(int ticketId, String status){
-		EamTicket ticket=new EamTicket();
-		ticket.setTicketId(ticketId);
-		ticket.setStatus(status);
-		return eamTicketService.updateByPrimaryKeySelective(ticket);
-	}
-
-	public int completeTicket(int ticketId){
-		EamTicket ticket=new EamTicket();
-		ticket.setTicketId(ticketId);
-		ticket.setStatus(TicketStatus.COMPLETE.getName());
-		return eamTicketService.updateByPrimaryKeySelective(ticket);
-	}
 }

@@ -103,6 +103,12 @@ public class EamApiServiceImpl implements EamApiService {
     @Autowired
     private EamTicketAppointedRecordService eamTicketAppointRecordService;
 
+    @Autowired
+    private EamTicketRecordService eamTicketRecordService;
+
+    @Autowired
+    private EamTicketAssessmentService eamTicketAssessmentService;
+
     @Override
     public List<EamMaintenanceVO> selectMaintenance(EamMaintenanceVO maintenanceVO) {
 
@@ -601,21 +607,45 @@ public class EamApiServiceImpl implements EamApiService {
     @Override
     public int rejectTicketAppoint(EamTicketAppointedRecord ticketAppointRecord){
         int count = eamTicketAppointRecordService.insertSelective(ticketAppointRecord);
-        updateTicketStatus(ticketAppointRecord.getTicketId(), TicketStatus.INIT.getName());
+        rejectTicketStatus(ticketAppointRecord.getTicketId(), TicketStatus.INIT.getName());
         return count;
     }
     @Override
     public int deleteTicketAppoint(EamTicketAppointedRecordExample eamTicketAppointRecordExample, int ticketId){
         int i= eamTicketAppointRecordService.deleteByExample(eamTicketAppointRecordExample);
-        updateTicketStatus(ticketId, TicketStatus.INIT.getName());
+        rejectTicketStatus(ticketId, TicketStatus.INIT.getName());
         return i;
     }
 
-    private int updateTicketStatus(int ticketId, String status){
+    @Override
+    public int addTicketRecord(EamTicketRecord ticketRecord){
+        int i= eamTicketRecordService.insertSelective(ticketRecord);
+        int ticketId = ticketRecord.getTicketId();
+        EamTicket ticket = eamTicketService.selectByPrimaryKey(ticketId);
+        if(TicketStatus.TO_PROCESS.getName().equals(ticket.getStatus()))
+            updateTicketStatus(ticketId, TicketStatus.PROCESSING.getName());
+        return i;
+    }
+
+    @Override
+    public void completeTicket(EamTicketAssessment ticketAssessment, int[] ticketTag){
+        eamTicketAssessmentService.createTicketAssessment(ticketAssessment, ticketTag);
+        EamTicket ticket = eamTicketService.selectByPrimaryKey(ticketAssessment.getTicketId());
+        if(TicketStatus.RESOLVED.getName().equals(ticket.getStatus()))
+            updateTicketStatus(ticketAssessment.getTicketId(), TicketStatus.COMPLETE.getName());
+    }
+
+    private int rejectTicketStatus(int ticketId, String status){
         EamTicket ticket=new EamTicket();
         ticket.setTicketId(ticketId);
         ticket.setStatus(status);
         ticket.setExecutorId(-1); //remove executor
+        return updateTicketStatus(ticket);
+    }
+    private int updateTicketStatus(int ticketId, String status){
+        EamTicket ticket=new EamTicket();
+        ticket.setTicketId(ticketId);
+        ticket.setStatus(status);
         return updateTicketStatus(ticket);
     }
 

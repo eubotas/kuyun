@@ -107,8 +107,10 @@ function createSubmit() {
 			    if(createDialog){
                     createDialog.close();
                     $table.bootstrapTable('refresh');
-                }else if(processDialog)
-                    processDialog.close();
+                }else if(assessmentDialog) {
+                    assessmentDialog.close();
+                    $table.bootstrapTable('refresh');
+                }
 			}
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {

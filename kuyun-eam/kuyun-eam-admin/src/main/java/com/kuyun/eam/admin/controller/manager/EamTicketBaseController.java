@@ -103,17 +103,20 @@ public abstract class EamTicketBaseController extends BaseController {
         List<UpmsUser> users = upmsApiService.selectUsersByUserId(baseEntityUtil.getCurrentUser().getUserId());
 
         modelMap.put("users", users);
-        List<EamTicketType> types = eamTicketTypeService.selectByExample(new EamTicketTypeExample());
+        EamTicketTypeExample typeExample = new EamTicketTypeExample();
+        EamTicketTypeExample.Criteria criteria = typeExample.createCriteria();
+        criteria.andCompanyIdEqualTo(getCompanyId());
+        List<EamTicketType> types = eamTicketTypeService.selectByExample( typeExample );
         modelMap.put("ticketTypes", types);
 
-        List<EamEquipmentCategory> cats = eamEquipmentCategoryService.selectByExample(new EamEquipmentCategoryExample());
+        EamEquipmentCategoryExample example = new EamEquipmentCategoryExample();
+        EamEquipmentCategoryExample.Criteria criteria2 = example.createCriteria();
+        criteria2.andCompanyIdEqualTo(getCompanyId());
+        List<EamEquipmentCategory> cats = eamEquipmentCategoryService.selectByExample( example );
         modelMap.addAttribute("equipmentCategorys", cats);
 
         EamEquipmentVO equipmentVO = new EamEquipmentVO();
-        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
-        if (company != null){
-            equipmentVO.setCompanyId(company.getCompanyId());
-        }
+        equipmentVO.setCompanyId(getCompanyId());
         List<EamEquipmentVO> rows = eamApiService.selectEquipments(equipmentVO);
         modelMap.addAttribute("equipments", rows);
 
@@ -124,4 +127,12 @@ public abstract class EamTicketBaseController extends BaseController {
 		return baseEntityUtil.getCurrentUser().getUserId();
 	}
 
+	public int getCompanyId(){
+	    int cId=-1;
+        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+        if (company != null){
+            cId = company.getCompanyId();
+        }
+        return cId;
+    }
 }

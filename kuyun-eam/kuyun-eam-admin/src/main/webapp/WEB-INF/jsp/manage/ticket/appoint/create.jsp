@@ -85,7 +85,13 @@ function createSubmit() {
 						});
 				}
 			} else {
-                closeBtn($table);
+                if(createDialog){
+                    createDialog.close();
+                    $table.bootstrapTable('refresh');
+                }else if(appointDialog) {
+                    appointDialog.close();
+                    $table.bootstrapTable('refresh');
+                }
 			}
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {

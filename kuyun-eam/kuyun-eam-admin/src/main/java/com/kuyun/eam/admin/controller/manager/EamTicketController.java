@@ -231,6 +231,29 @@ public class EamTicketController extends EamTicketBaseController {
         return new EamResult(EamResultConstant.SUCCESS, count);
     }
 
+    @ApiOperation(value = "工单详细")
+    @RequiresPermissions("eam:ticket:read")
+    @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
+    public String detail(@PathVariable("id") int id, ModelMap modelMap) {
+        EamTicket eamTicket = eamTicketService.selectByPrimaryKey(id);
+        String status=eamTicket.getStatus();
+        String nextOperateBtn="";
+        if(TicketStatus.RESOLVED.getName().equals(status)) {
+            nextOperateBtn = "<a class=\"waves-effect waves-button\" href=\"javascript:;\" onclick=\"toaction('TOASSESSMENT');\">评价</a>";
+        }else if(TicketStatus.PROCESSING.getName().equals(status)){
+            nextOperateBtn="<a class=\"waves-effect waves-button\" href=\"javascript:;\" onclick=\"toaction('COMPLETE');\">完成工单</a>";
+        }else if(TicketStatus.TO_PROCESS.getName().equals(status)){
+            nextOperateBtn="<a class=\"waves-effect waves-button\" href=\"javascript:;\" onclick=\"toaction('REJECT');\">拒绝工单</a>";
+            nextOperateBtn +="<a class=\"waves-effect waves-button\" href=\"javascript:;\" onclick=\"toaction('TORECORD');\">处理工单</a>";
+        }else if(TicketStatus.INIT.getName().equals(status)){
+            nextOperateBtn="<a class=\"waves-effect waves-button\" href=\"javascript:;\" onclick=\"toaction('TOAPPOINT');\">委派工单</a>";
+        }
+        modelMap.put("nextOperateBtn", nextOperateBtn);
+
+        setTicketInfo(id, modelMap);
+        return "/manage/ticket/detail.jsp";
+    }
+
     @ApiOperation(value = "删除工单")
     @RequiresPermissions("eam:ticket:delete")
     @RequestMapping(value = "/delete/{ids}",method = RequestMethod.GET)
@@ -248,7 +271,7 @@ public class EamTicketController extends EamTicketBaseController {
 	public Object complete(@PathVariable("id") int id) {
 		EamTicket ticket=new EamTicket();
 		ticket.setTicketId(id);
-		ticket.setStatus(TicketStatus.COMPLETE.getName());
+		ticket.setStatus(TicketStatus.RESOLVED.getName());
 		int count= eamTicketService.updateByPrimaryKeySelective(ticket);
 		return new EamResult(EamResultConstant.SUCCESS, count);
 	}

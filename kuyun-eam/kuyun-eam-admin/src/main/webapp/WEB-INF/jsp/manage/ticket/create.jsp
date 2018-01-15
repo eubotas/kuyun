@@ -26,7 +26,6 @@
 				<div class="form-group">
 					<div class="fg-line">
 						<select id="ticketTypeId" name="ticketTypeId" style="width: 100%">
-							<%--<option value="0">设备模型</option>--%>
 							<c:forEach var="ticketType" items="${ticketTypes}">
 								<option value="${ticketType.id}">${ticketType.name}</option>
 							</c:forEach>
@@ -36,10 +35,9 @@
 			</div>
 
 			<div class="col-sm-6">
-                <label for="equipmentCategoryId">产品目录</label>
+                <label for="equipmentCategoryId">设备类型</label>
 				<div class="form-group">
 					<select id="equipmentCategoryId" name="equipmentCategoryId" style="width: 100%">
-						<%--<option value="0">设备模型</option>--%>
 						<c:forEach var="equipmentCategory" items="${equipmentCategorys}">
 							<option value="${equipmentCategory.equipmentCategoryId}">${equipmentCategory.name}</option>
 						</c:forEach>
@@ -49,11 +47,10 @@
 		</div>
 		<div class="row">
 			<div class="col-sm-6">
-				<label for="equipmentId">产品型号</label>
+				<label for="equipmentId">设备名称</label>
 				<div class="form-group">
 					<div class="fg-line">
 						<select id="equipmentId" name="equipmentId" style="width: 100%">
-							<%--<option value="0">设备模型</option>--%>
 							<c:forEach var="equipment" items="${equipments}">
 								<option value="${equipment.equipmentId}">${equipment.name}</option>
 							</c:forEach>
@@ -79,30 +76,6 @@
 			</div>
 		</div>
 
-		<div class="row">
-			<%--<div class="col-sm-6">
-				<label for="executorId">执行人</label>
-				<div class="form-group">
-					<div class="fg-line">
-						<select id="executorId" name="executorId" style="width: 100%">
-							&lt;%&ndash;<option value="0">设备模型</option>&ndash;%&gt;
-							<c:forEach var="user" items="${users}">
-								<option value="${user.userId}">${user.realname}</option>
-							</c:forEach>
-						</select>
-					</div>
-				</div>--%>
-			</div>
-			<div class="col-sm-6">
-				<label for="endDate">指定完成日期</label>
-				<div class="form-group">
-                    <div class="fg-line">
-                        <input id="endDate"
-                               type="date" name="endDate" class="form-control"></input>
-                    </div>
-				</div>
-			</div>
-		</div>
 		<div class="row">
 			<div class="col-sm-6">
 				<div id="fine-uploader-gallery"></div>
