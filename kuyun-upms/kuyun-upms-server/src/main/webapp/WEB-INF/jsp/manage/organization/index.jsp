@@ -21,7 +21,8 @@
 		<shiro:hasPermission name="upms:organization:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增组织</a></shiro:hasPermission>
 		<shiro:hasPermission name="upms:organization:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑组织</a></shiro:hasPermission>
 		<shiro:hasPermission name="upms:organization:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()"><i class="zmdi zmdi-close"></i> 删除组织</a></shiro:hasPermission>
-        <shiro:hasPermission name="upms:organization:create"><a class="waves-effect waves-button" href="javascript:;" onclick="assignAction()"><i class="zmdi zmdi-plus"></i> 分配人员</a></shiro:hasPermission>
+        <shiro:hasPermission name="upms:organization:create"><a class="waves-effect waves-button" href="javascript:;" onclick="assignAction('user')"><i class="zmdi zmdi-plus"></i> 分配人员</a></shiro:hasPermission>
+        <shiro:hasPermission name="upms:organization:create"><a class="waves-effect waves-button" href="javascript:;" onclick="assignAction('role')"><i class="zmdi zmdi-plus"></i> 分配角色</a></shiro:hasPermission>
 	</div>
 	<table id="table"></table>
 </div>
@@ -209,7 +210,7 @@ function deleteAction() {
 
 
 var assignDialog;
-function assignAction() {
+function assignAction(type) {
     var rows = $table.bootstrapTable('getSelections');
     if (rows.length != 1) {
         $.confirm({
@@ -226,15 +227,27 @@ function assignAction() {
         });
     } else {
         var orgId = rows[0].organizationId;
-        assignDialog = $.dialog({
-            animationSpeed: 300,
-            title: '公司员工',
-            columnClass: 'xlarge',
-            content: 'url:${basePath}/manage/organization/assign/' + orgId,
-            onContentReady: function () {
-                initMaterialInput();
-            }
-        });
+        if('user' == type){
+            assignDialog = $.dialog({
+                animationSpeed: 300,
+                title: '公司员工',
+                columnClass: 'xlarge',
+                content: 'url:${basePath}/manage/organization/assign/' + orgId,
+                onContentReady: function () {
+                    initMaterialInput();
+                }
+            });
+        }else{
+            assignDialog = $.dialog({
+                animationSpeed: 300,
+                title: '角色列表',
+                columnClass: 'xlarge',
+                content: 'url:${basePath}/manage/organization/assignRole/' + orgId,
+                onContentReady: function () {
+                    initMaterialInput();
+                }
+            });
+        }
     }
 }
 

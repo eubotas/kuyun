@@ -2,6 +2,7 @@ package com.kuyun.upms.rpc.api;
 
 import com.kuyun.upms.dao.model.*;
 import com.kuyun.upms.dao.vo.UpmsCompanyVo;
+import com.kuyun.upms.dao.vo.UpmsOrgRoleVo;
 import com.kuyun.upms.dao.vo.UpmsOrgUserVo;
 import com.kuyun.upms.dao.vo.UpmsUserVo;
 import org.slf4j.Logger;
@@ -170,7 +171,22 @@ public class UpmsApiServiceMock implements UpmsApiService {
     }
 
     @Override
+    public Long getRoleCountByOrg(int orgId) {
+        return null;
+    }
+
+    @Override
+    public List<UpmsOrgRoleVo> selectRolesByOrg(UpmsOrgRoleVo orgRoleVo) {
+        return null;
+    }
+
+    @Override
     public void createOrgUser(int orgId, List<UpmsUserOrganization> list) {
+
+    }
+
+    @Override
+    public void createOrgRole(int orgId, List<UpmsOrganizationRole> list) {
 
     }
 

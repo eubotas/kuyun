@@ -9,6 +9,7 @@ import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.common.constant.UpmsResult;
 import com.kuyun.upms.common.constant.UpmsResultConstant;
 import com.kuyun.upms.dao.model.*;
+import com.kuyun.upms.dao.vo.UpmsOrgRoleVo;
 import com.kuyun.upms.dao.vo.UpmsOrgUserVo;
 import com.kuyun.upms.dao.vo.UpmsUserVo;
 import com.kuyun.upms.rpc.api.*;
@@ -91,6 +92,62 @@ public class UpmsOrganizationController extends BaseController {
         return result;
     }
 
+    /*************  assign role start **********************/
+    @ApiOperation(value = "分配角色")
+    @RequiresPermissions("upms:organization:create")
+    @RequestMapping(value = "/assignRole/{id}", method = RequestMethod.GET)
+    public String assignRole(@PathVariable("id") int id, ModelMap modelMap) {
+        modelMap.put("orgId", id);
+        return "/manage/organization/role.jsp";
+    }
+
+    @ApiOperation(value = "分配角色")
+    @RequiresPermissions("upms:organization:create")
+    @ResponseBody
+    @RequestMapping(value = "/assignRole/{id}", method = RequestMethod.POST)
+    public Object assignRole(@PathVariable("id") int id, String eIds, ModelMap modelMap) {
+        UpmsOrganizationRole uor=null;
+        List<UpmsOrganizationRole> list=new ArrayList<UpmsOrganizationRole>();
+        if(eIds != null) {
+            String[] roleIds = eIds.split("::");
+            for (String rid : roleIds) {
+                uor = new UpmsOrganizationRole();
+                uor.setOrganizationId(id);
+                uor.setRoleId(Integer.parseInt(rid));
+                list.add(uor);
+            }
+            upmsApiService.createOrgRole(id, list);
+        }
+        return new UpmsResult(UpmsResultConstant.SUCCESS, 1);
+    }
+
+    @ApiOperation(value = "角色列表")
+    @RequiresPermissions("upms:organization:read")
+    @RequestMapping(value = "/assignRole/{id}/listRole", method = RequestMethod.GET)
+    @ResponseBody
+    public Object roleList(@PathVariable("id") int id,
+                            @RequestParam(required = false, defaultValue = "0", value = "offset") int offset,
+                            @RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
+                            @RequestParam(required = false, defaultValue = "r.role_id", value = "sort") String sort,
+                            @RequestParam(required = false, defaultValue = "asc", value = "order") String order) {
+
+        UpmsOrgRoleVo vo = new UpmsOrgRoleVo();
+        vo.setOrgId(id);
+        vo.setOffset(offset);
+        vo.setLimit(limit);
+        if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
+            vo.setOrderByClause(sort + " " + order);
+        }
+
+        List<UpmsOrgRoleVo> rows = upmsApiService.selectRolesByOrg(vo);
+        long total = upmsApiService.getRoleCountByOrg(id);
+        Map<String, Object> result = new HashMap<>();
+        result.put("rows", rows);
+        result.put("total", total);
+        return result;
+    }
+    /*************  assign role end **********************/
+
     @ApiOperation(value = "分配人员")
     @RequiresPermissions("upms:organization:create")
     @RequestMapping(value = "/assign/{id}", method = RequestMethod.GET)
@@ -138,7 +195,7 @@ public class UpmsOrganizationController extends BaseController {
         }
 
         List<UpmsOrgUserVo> rows = upmsApiService.selectUsersByOrg(vo);
-        handleCheckedFlag(id, rows);
+        handleUserCheckedFlag(id, rows);
 
         long total = upmsApiService.getUsersCountByOrg(id);
         Map<String, Object> result = new HashMap<>();
@@ -147,7 +204,7 @@ public class UpmsOrganizationController extends BaseController {
         return result;
     }
 
-    private void handleCheckedFlag(int orgId, List<UpmsOrgUserVo> rows) {
+    private void handleUserCheckedFlag(int orgId, List<UpmsOrgUserVo> rows) {
         UpmsUserOrganizationExample example = new UpmsUserOrganizationExample();
         example.createCriteria().andOrganizationIdEqualTo(orgId);
         List<UpmsUserOrganization> userOrgs = upmsUserOrganizationService.selectByExample(example);

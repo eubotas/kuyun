@@ -2,6 +2,7 @@ package com.kuyun.upms.rpc.api;
 
 import com.kuyun.upms.dao.model.*;
 import com.kuyun.upms.dao.vo.UpmsCompanyVo;
+import com.kuyun.upms.dao.vo.UpmsOrgRoleVo;
 import com.kuyun.upms.dao.vo.UpmsOrgUserVo;
 import com.kuyun.upms.dao.vo.UpmsUserVo;
 
@@ -121,5 +122,9 @@ public interface UpmsApiService {
     Long getUsersCountByOrg(int orgId);
     List<UpmsOrgUserVo> selectOrgUsersByOrgNameCompanyId(UpmsOrgUserVo orgUserVo);
 
+    public Long getRoleCountByOrg(int orgId);
+    public List<UpmsOrgRoleVo> selectRolesByOrg(UpmsOrgRoleVo orgRoleVo);
+
     public void createOrgUser(int orgId, List<UpmsUserOrganization> list);
+    public void createOrgRole(int orgId, List<UpmsOrganizationRole> list);
 }

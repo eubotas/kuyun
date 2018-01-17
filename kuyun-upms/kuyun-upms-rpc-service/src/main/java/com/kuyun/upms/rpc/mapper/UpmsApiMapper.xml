@@ -73,6 +73,9 @@
 		from upms_permission up where up.`status`=1 and up.permission_id in (
 			select permission_id from upms_role_permission urp where urp.role_id in (
 				select uur.role_id role_id from upms_user_role uur where uur.user_id=#{upmsUserId,jdbcType=INTEGER}
+                union
+                select uor.role_id from upms_organization_role uor, upms_user_organization uuo where uor.organization_id= uuo.organization_id
+                          and uuo.user_id = #{upmsUserId,jdbcType=INTEGER}
 			)
 			union
 			select permission_id from upms_user_permission uup1 where uup1.user_id=#{upmsUserId,jdbcType=INTEGER} and uup1.type=1
@@ -252,6 +255,42 @@
         and  uo.organization_id = #{orgId,jdbcType=INTEGER}
     </select>
 
+    <resultMap id="UpmsOrgRoleVoResultMap" type="com.kuyun.upms.dao.vo.UpmsOrgRoleVo">
+        <id column="role_id" jdbcType="INTEGER" property="roleId" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
+        <result column="checked" jdbcType="BOOLEAN" property="checked" />
+    </resultMap>
+
+    <select id="selectRolesByOrg" parameterType="com.kuyun.upms.dao.vo.UpmsOrgRoleVo" resultMap="UpmsOrgRoleVoResultMap">
+        select distinct r.role_id, r.name, r.title, r.description, IFNULL(uor.role_id, FALSE) as checked
+        from upms_role r
+        left  join upms_organization_role uor on r.role_id = uor.role_id
+        left  join upms_organization o on uor.organization_id=o.organization_id
+        <if test="companyId != null">
+            where  o.company_id = ${companyId}
+        </if>
+        <if test="orgId != null">
+            and  o.organization_id = ${orgId}
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+
+    <select id="getRoleCountByOrgId" parameterType="java.lang.Integer" resultType="java.lang.Long">
+        select count(distinct role_id)
+        from upms_organization_role where organization_id = #{orgId,jdbcType=INTEGER}
+    </select>
 	<!-- 缓存 -->
 	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 

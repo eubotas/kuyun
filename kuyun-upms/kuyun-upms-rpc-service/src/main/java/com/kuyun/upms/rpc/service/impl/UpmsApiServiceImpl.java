@@ -5,6 +5,7 @@ import com.kuyun.common.util.MD5Util;
 import com.kuyun.upms.dao.mapper.*;
 import com.kuyun.upms.dao.model.*;
 import com.kuyun.upms.dao.vo.UpmsCompanyVo;
+import com.kuyun.upms.dao.vo.UpmsOrgRoleVo;
 import com.kuyun.upms.dao.vo.UpmsOrgUserVo;
 import com.kuyun.upms.dao.vo.UpmsUserVo;
 import com.kuyun.upms.rpc.api.*;
@@ -79,6 +80,9 @@ public class UpmsApiServiceImpl implements UpmsApiService {
 
     @Autowired
     private UpmsPermissionService upmsPermissionService;
+
+    @Autowired
+    private UpmsOrganizationRoleService upmsOrganizationRoleService;
 
     /**
      * 根据用户id获取所拥有的权限
@@ -484,11 +488,30 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     }
 
     @Override
+    public Long getRoleCountByOrg(int orgId) {
+        return upmsApiMapper.getRoleCountByOrgId(orgId);
+    }
+
+    @Override
+    public List<UpmsOrgRoleVo> selectRolesByOrg(UpmsOrgRoleVo orgRoleVo) {
+        return upmsApiMapper.selectRolesByOrg(orgRoleVo);
+    }
+
+    @Override
     public void createOrgUser(int orgId, List<UpmsUserOrganization> list){
         UpmsUserOrganizationExample example= new UpmsUserOrganizationExample();
         UpmsUserOrganizationExample.Criteria  criteria =example.createCriteria();
         criteria.andOrganizationIdEqualTo(orgId);
         upmsUserOrganizationService.deleteByExample(example);
         upmsUserOrganizationService.batchInsert(list);
+    }
+
+    @Override
+    public void createOrgRole(int orgId, List<UpmsOrganizationRole> list){
+        UpmsOrganizationRoleExample example= new UpmsOrganizationRoleExample();
+        UpmsOrganizationRoleExample.Criteria  criteria =example.createCriteria();
+        criteria.andOrganizationIdEqualTo(orgId);
+        upmsOrganizationRoleService.deleteByExample(example);
+        upmsOrganizationRoleService.batchInsert(list);
     }
 }
