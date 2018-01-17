@@ -80,6 +80,9 @@ public class EamAlarmRecordController extends BaseController {
 		List<String> equipmentIds = eamUtil.getEquipmentIds();
 		if (!equipmentIds.isEmpty()){
 			recordVO.setEquipmentIds(equipmentIds);
+		}else{
+			//current company have not equipment
+			recordVO.setEquipmentId("-1");
 		}
 		List<EamAlarmRecordVO> rows = eamApiService.selectAlarmRecords(recordVO);
 		Long total = eamApiService.countAlarmRecords(recordVO);
