@@ -56,6 +56,11 @@ public class EamAlarmRecordHistoryController extends BaseController {
 			List<String> equipmentIds = eamUtil.getEquipmentIds();
 			if (!equipmentIds.isEmpty()){
 				recordVO.setEquipmentIds(equipmentIds);
+			}else {
+				//current company have not equipment
+				if (StringUtils.isEmpty(recordVO.getEquipmentId())){
+					recordVO.setEquipmentId("-1");
+				}
 			}
 		}
 
