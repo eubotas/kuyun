@@ -102,8 +102,19 @@ public class EamTicketController extends EamTicketBaseController {
     @ApiOperation(value = "工单管理首页")
     @RequiresPermissions("eam:ticket:read")
     @RequestMapping(value = "/summary", method = RequestMethod.GET)
-    public String summary(ModelMap modelMap) {
+    public String summary(@RequestParam(required = false,defaultValue = "all", value = "category") String category,ModelMap modelMap) {
+        modelMap.put("category", category);
         modelMap.put("ticketSummaryVo" ,eamApiService.summaryTicket(getCompanyId()));
+        String categoryType="累计报修";
+        if("init".equals(category))
+            categoryType="未派工";
+        else if("processing".equals(category))
+            categoryType="维修中";
+        else if("notResolved".equals(category))
+            categoryType="未完成";
+        else if("resolved".equals(category))
+            categoryType="已完成";
+        modelMap.put("categoryType", categoryType);
         return "/manage/ticket/summary.jsp";
     }
 

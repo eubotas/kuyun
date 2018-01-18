@@ -9,11 +9,11 @@ public class EamSummaryTicketItemVO implements Serializable {
     private String processingStatusName;
     private String notResolvedStatusName;
     private String resolvedStatusName;
-    private Integer totalTicketCount;
-    private Integer noAppointTicketCount;
-    private Integer processingTicketCount;
-    private Integer notResolvedTicketCount;
-    private Integer resolvedTicketCount;
+    private Integer totalTicketCount=0;
+    private Integer noAppointTicketCount=0;
+    private Integer processingTicketCount=0;
+    private Integer notResolvedTicketCount=0;
+    private Integer resolvedTicketCount=0;
 
 
     public String getTotalStatusName() {
