@@ -97,6 +97,13 @@
 		from upms_role ur where ur.role_id in (
 		select uur.role_id from upms_user_role uur where uur.user_id=#{upmsUserId,jdbcType=INTEGER}
 		)
+		union
+		select
+		<include refid="UpmsRole_Column_List" />
+		from upms_role ur where ur.role_id in (
+		select uor.role_id from upms_organization_role uor, upms_user_organization uuo where uor.organization_id = uuo.organization_id and uuo.user_id =#{upmsUserId,jdbcType=INTEGER}
+		)
+
 	</select>
 
 	<!-- 根据角色id获取所属的用户 -->
