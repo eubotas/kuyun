@@ -99,6 +99,14 @@ public class EamTicketController extends EamTicketBaseController {
 		    return "/manage/ticket/index.jsp";
 	}
 
+    @ApiOperation(value = "工单管理首页")
+    @RequiresPermissions("eam:ticket:read")
+    @RequestMapping(value = "/summary", method = RequestMethod.GET)
+    public String summary(ModelMap modelMap) {
+        modelMap.put("ticketSummaryVo" ,eamApiService.summaryTicket(getCompanyId()));
+        return "/manage/ticket/summary.jsp";
+    }
+
 	@ApiOperation(value = "工单列表")
 	@RequiresPermissions("eam:ticket:read")
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -132,7 +140,19 @@ public class EamTicketController extends EamTicketBaseController {
 		case INIT:
 			criteria.andStatusEqualTo(TicketStatus.INIT.getName());
 			break;
-		case ALL:
+		case PROCESSING:
+		    List<String> list=new ArrayList();
+            list.add(TicketStatus.TO_PROCESS.getName());
+            list.add(TicketStatus.PROCESSING.getName());
+             criteria.andStatusIn(list);
+             break;
+        case NOTRESOLVED:
+             criteria.andStatusNotEqualTo(TicketStatus.RESOLVED.getName()).andStatusNotEqualTo(TicketStatus.COMPLETE.getName());
+             break;
+        case RESOLVED:
+             criteria.andStatusEqualTo(TicketStatus.RESOLVED.getName());
+             break;
+         case ALL:
 		default:
 			break;
 		}

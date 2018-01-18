@@ -176,4 +176,6 @@ INSERT INTO `upms_permission` VALUES ('462', '6', '350', '编辑工单评价', '
 INSERT INTO `upms_permission` VALUES ('463', '6', '350', '删除工单评价', '3', 'eam:ticketAssessment:delete', '/manage/ticket/{ticketId}/assessment/delete', 'zmdi zmdi-close', 1, 1489820207607, 463);
 INSERT INTO `upms_permission` VALUES ('464', '6', '350', '工单评价', '3', 'eam:ticketAssessment:read', '/manage/ticket/{ticketId}/assessment/index', '', 1, 1, 464);
 
+
+INSERT INTO `upms_permission` VALUES ('345', '6', '300', '工单统计', '2', 'eam:ticket:summary', '/manage/ticket/summary', NULL, 1, 225, 460);
 commit;

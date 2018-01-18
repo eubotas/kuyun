@@ -185,4 +185,9 @@ public class EamApiServiceMock implements EamApiService {
 
     }
 
+    @Override
+    public EamSummaryTicketItemVO summaryTicket(Integer companyId) {
+        return null;
+    }
+
 }
