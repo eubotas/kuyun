@@ -149,7 +149,6 @@
                 {field: 'customerContacts', title: '顾客'},
                 {field: 'customerPhone', title: '顾客电话'},
                 {field: 'status', title: '当前状态'},
-                {field: 'endDate', title: '指定完成日期', formatter:'timeFormatter'},
                 {field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
             ]
         });

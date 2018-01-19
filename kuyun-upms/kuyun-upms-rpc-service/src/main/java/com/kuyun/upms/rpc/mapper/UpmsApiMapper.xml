@@ -74,8 +74,8 @@
 			select permission_id from upms_role_permission urp where urp.role_id in (
 				select uur.role_id role_id from upms_user_role uur where uur.user_id=#{upmsUserId,jdbcType=INTEGER}
                 union
-                select uor.role_id from upms_organization_role uor, upms_user_organization uuo where uor.organization_id= uuo.organization_id
-                          and uuo.user_id = #{upmsUserId,jdbcType=INTEGER}
+                select uor.role_id from upms_organization_role uor, upms_user_organization uuo
+                where uor.organization_id= uuo.organization_id and uuo.user_id = #{upmsUserId,jdbcType=INTEGER}
 			)
 			union
 			select permission_id from upms_user_permission uup1 where uup1.user_id=#{upmsUserId,jdbcType=INTEGER} and uup1.type=1

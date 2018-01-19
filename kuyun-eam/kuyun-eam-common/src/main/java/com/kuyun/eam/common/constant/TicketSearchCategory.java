@@ -7,6 +7,9 @@ public enum TicketSearchCategory {
     OPEN("open"),
     ALL("all"),
     INIT("init"),
+    PROCESSING("processing"),
+    NOTRESOLVED("notResolved"),
+    RESOLVED("resolved"),
 	OTHER("other");
 	
     private TicketSearchCategory(String name){
@@ -42,9 +45,15 @@ public enum TicketSearchCategory {
 				return OPEN;
 			case "all":
 				return ALL;
+			case "init":
+                return INIT;
+            case "processing":
+                return PROCESSING;
 
-				case "init":
-                    return INIT;
+                case "notResolved":
+                    return NOTRESOLVED;
+                case "resolved":
+                    return RESOLVED;
 			default:
 				return OTHER;
 			}

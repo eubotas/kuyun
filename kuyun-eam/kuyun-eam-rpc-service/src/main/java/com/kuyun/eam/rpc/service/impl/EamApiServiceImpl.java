@@ -637,6 +637,45 @@ public class EamApiServiceImpl implements EamApiService {
             updateTicketStatus(ticketAssessment.getTicketId(), TicketStatus.COMPLETE.getName());
     }
 
+    @Override
+    public EamSummaryTicketItemVO summaryTicket(Integer companyId) {
+        List<EamSummaryTicketItemVO> items=new ArrayList<EamSummaryTicketItemVO>();
+        List<EamSummaryTicketVO> vos= eamApiMapper.summaryTicket(companyId);
+        String statusName="";
+        EamSummaryTicketItemVO item = new EamSummaryTicketItemVO();
+        int iInit=0, iToProcess=0, iProcessing=0, iResolved=0, iComplete=0, total=0;
+        for(EamSummaryTicketVO vo : vos){
+            statusName=vo.getStatusName();
+            if(TicketStatus.INIT.getName().equals(vo.getStatusName())) {
+                iInit = vo.getCount();
+                item.setNoAppointStatusName("未委派");
+                item.setNoAppointTicketCount(iInit);
+            }else if(TicketStatus.TO_PROCESS.getName().equals(vo.getStatusName()))
+                iToProcess = vo.getCount();
+            else if(TicketStatus.PROCESSING.getName().equals(vo.getStatusName()))
+                iProcessing = vo.getCount();
+            else if(TicketStatus.RESOLVED.getName().equals(vo.getStatusName())) {
+                iResolved = vo.getCount();
+            }
+            else
+                iComplete = vo.getCount();
+        }
+        item.setResolvedStatusName("已完成");
+        item.setResolvedTicketCount(iResolved + iComplete);
+
+        total = iInit + iToProcess + iProcessing + iResolved + iComplete;
+        item.setTotalStatusName("累计报修");
+        item.setTotalTicketCount(total);
+
+        item.setProcessingStatusName("维修中");
+        item.setProcessingTicketCount(iToProcess + iProcessing);
+
+        item.setNotResolvedStatusName("未完成");
+        item.setNotResolvedTicketCount(iInit + iToProcess + iProcessing);
+
+        return item;
+    }
+
     private int rejectTicketStatus(int ticketId, String status){
         EamTicket ticket=new EamTicket();
         ticket.setTicketId(ticketId);

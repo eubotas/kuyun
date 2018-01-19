@@ -6,7 +6,7 @@ package com.kuyun.eam.common.constant;
 public enum TicketStatus {
 
     INIT("init", "待派工"),
-    TO_PROCESS("processing", "待维修"),
+    TO_PROCESS("toProcess", "待维修"),
     PROCESSING("processing", "维修中"),
     RESOLVED("resolved", "待评价"),
     COMPLETE("complete", "评价完成");
