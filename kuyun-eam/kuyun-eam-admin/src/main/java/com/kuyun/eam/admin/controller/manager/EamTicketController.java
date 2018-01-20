@@ -138,6 +138,7 @@ public class EamTicketController extends EamTicketBaseController {
 			eamTicketExample.setOrderByClause(sort + " " + order);
 		}
 
+        List<String> list =null;
 		switch (TicketSearchCategory.getCategroy(category)) {
 		case MY_OPEN:
 			criteria.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId()).andStatusNotEqualTo(TicketStatus.RESOLVED.getName()).andStatusNotEqualTo(TicketStatus.COMPLETE.getName());
@@ -152,7 +153,7 @@ public class EamTicketController extends EamTicketBaseController {
 			criteria.andStatusEqualTo(TicketStatus.INIT.getName());
 			break;
 		case PROCESSING:
-		    List<String> list=new ArrayList();
+		    list=new ArrayList();
             list.add(TicketStatus.TO_PROCESS.getName());
             list.add(TicketStatus.PROCESSING.getName());
              criteria.andStatusIn(list);
@@ -161,9 +162,12 @@ public class EamTicketController extends EamTicketBaseController {
              criteria.andStatusNotEqualTo(TicketStatus.RESOLVED.getName()).andStatusNotEqualTo(TicketStatus.COMPLETE.getName());
              break;
         case RESOLVED:
-             criteria.andStatusEqualTo(TicketStatus.RESOLVED.getName());
-             break;
-         case ALL:
+            list=new ArrayList();
+            list.add(TicketStatus.RESOLVED.getName());
+            list.add(TicketStatus.COMPLETE.getName());
+            criteria.andStatusIn(list);
+            break;
+        case ALL:
 		default:
 			break;
 		}
