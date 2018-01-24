@@ -161,10 +161,7 @@ public class EamTicketController extends EamTicketBaseController {
              criteria.andStatusNotEqualTo(TicketStatus.RESOLVED.getName()).andStatusNotEqualTo(TicketStatus.COMPLETE.getName());
              break;
         case RESOLVED:
-            list=new ArrayList();
-            list.add(TicketStatus.RESOLVED.getName());
-            list.add(TicketStatus.COMPLETE.getName());
-            criteria.andStatusIn(list);
+             criteria.andStatusEqualTo(TicketStatus.RESOLVED.getName());
              break;
          case ALL:
 		default:

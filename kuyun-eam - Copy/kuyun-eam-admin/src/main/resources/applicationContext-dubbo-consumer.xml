@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd ">
+
+    <dubbo:application name="kuyun-eam-admin"/>
+
+    <dubbo:registry address="zookeeper://${zkserver}:2181" default="false"/>
+    <dubbo:registry id="upmsRegistry" address="zookeeper://${zkserver}:2181"/>
+
+    <!-- 订阅服务 -->
+    <dubbo:consumer check="false"/>
+
+    <!-- 设备 -->
+    <dubbo:reference id="eamEquipmentCategoryService" interface="com.kuyun.eam.rpc.api.EamEquipmentCategoryService" mock="true"/>
+
+
+    <!-- 设备 -->
+    <dubbo:reference id="eamEquipmentService" interface="com.kuyun.eam.rpc.api.EamEquipmentService" mock="true"/>
+
+    <!-- 设备模型 -->
+    <dubbo:reference id="eamEquipmentModelService" interface="com.kuyun.eam.rpc.api.EamEquipmentModelService" mock="true"/>
+
+    <!-- 设备模型参数 -->
+    <dubbo:reference id="eamEquipmentModelPropertiesService" interface="com.kuyun.eam.rpc.api.EamEquipmentModelPropertiesService" mock="true"/>
+
+    <!-- 配件 -->
+    <dubbo:reference id="eamPartsService" interface="com.kuyun.eam.rpc.api.EamPartsService" mock="true"/>
+
+    <!-- 配件类别 -->
+    <dubbo:reference id="eamPartsCategoryService" interface="com.kuyun.eam.rpc.api.EamPartsCategoryService" mock="true"/>
+
+    <!-- 维保 -->
+    <dubbo:reference id="eamMaintenanceService" interface="com.kuyun.eam.rpc.api.EamMaintenanceService" mock="true"/>
+
+    <!-- 仓库 -->
+    <dubbo:reference id="eamWarehouseService" interface="com.kuyun.eam.rpc.api.EamWarehouseService" mock="true"/>
+
+    <!-- 仓位 -->
+    <dubbo:reference id="eamLocationService" interface="com.kuyun.eam.rpc.api.EamLocationService" mock="true"/>
+
+    <!-- 库存 -->
+    <dubbo:reference id="eamInventoryService" interface="com.kuyun.eam.rpc.api.EamInventoryService" mock="true"/>
+
+    <!-- 设备管理 -->
+    <dubbo:reference id="eamApiService" interface="com.kuyun.eam.rpc.api.EamApiService" mock="true"/>
+    <dubbo:reference id="eamWriteDataService" interface="com.kuyun.eam.rpc.api.EamWriteDataService" mock="true"/>
+
+
+    <!-- 接入协议 -->
+    <dubbo:reference id="eamProtocolService" interface="com.kuyun.eam.rpc.api.EamProtocolService" mock="true"/>
+
+    <!-- 设备传感器 -->
+    <dubbo:reference id="eamSensorService" interface="com.kuyun.eam.rpc.api.EamSensorService" mock="true"/>
+
+    <!-- 传感器数据 -->
+    <dubbo:reference id="eamSensorDataService" interface="com.kuyun.eam.rpc.api.EamSensorDataService" mock="true"/>
+
+    <dubbo:reference id="eamEquipmentCompanyService" interface="com.kuyun.eam.rpc.api.EamEquipmentCompanyService" mock="true"/>
+
+
+
+    <!-- 接口服务 -->
+    <dubbo:reference id="upmsApiService" interface="com.kuyun.upms.rpc.api.UpmsApiService" mock="true" registry="upmsRegistry"/>
+    <dubbo:reference id="upmsUserCompanyService" interface="com.kuyun.upms.rpc.api.UpmsUserCompanyService" mock="true" registry="upmsRegistry"/>
+    <dubbo:reference id="upmsCompanyService" interface="com.kuyun.upms.rpc.api.UpmsCompanyService" mock="true" registry="upmsRegistry"/>
+
+    <!-- 工单相关 -->
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamTicketService" id="eamTicketService" mock="true" />
+	<dubbo:reference interface="com.kuyun.eam.rpc.api.EamTicketRecordService" id="eamTicketRecordService" mock="true" />
+	<dubbo:reference interface="com.kuyun.eam.rpc.api.EamTicketTypeService" id="eamTicketTypeService" mock="true" />
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamTicketTagService" id="eamTicketTagService" mock="true" />
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamTicketAppointedRecordService" id="eamTicketAppointedRecordService" mock="true" />
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamTicketAssessmentService" id="eamTicketAssessmentService" mock="true" />
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamTicketAssessmentTagService" id="eamTicketAssessmentTagService" mock="true" />
+
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamDtuService" id="eamDtuService" mock="true" />
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamDtuEquipmentService" id="eamDtuEquipmentService" mock="true" />
+
+     <!--报警 -->
+    <dubbo:reference id="eamAlarmService" interface="com.kuyun.eam.rpc.api.EamAlarmService" mock="false" />
+    <dubbo:reference id="eamAlarmTargetUserService" interface="com.kuyun.eam.rpc.api.EamAlarmTargetUserService" mock="false" />
+    <dubbo:reference id="eamAlarmRecordService" interface="com.kuyun.eam.rpc.api.EamAlarmRecordService" mock="false" />
+
+	<!-- File upload -->
+	<dubbo:reference id="fileUploaderService" interface="com.kuyun.fileuploader.rpc.api.FileUploaderService" mock="false" />
+</beans>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd ">
+
+
+    <dubbo:application name="kuyun-eam-rpc-service"/>
+
+    <dubbo:registry address="zookeeper://${zkserver}:2181"/>
+
+    <dubbo:protocol name="dubbo" port="20883"/>
+
+    <!-- 设备 -->
+    <bean id="eamEquipmentServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamEquipmentServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamEquipmentService" ref="eamEquipmentServiceImpl" timeout="10000"/>
+
+    <!-- 设备 -->
+    <bean id="eamEquipmentCategoryServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamEquipmentCategoryServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamEquipmentCategoryService" ref="eamEquipmentCategoryServiceImpl" timeout="10000"/>
+
+    <bean id="eamEquipmentCompanyServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamEquipmentCompanyServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamEquipmentCompanyService" ref="eamEquipmentCompanyServiceImpl" timeout="10000"/>
+
+
+    <!-- 设备模型 -->
+    <bean id="eamEquipmentModelServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamEquipmentModelServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamEquipmentModelService" ref="eamEquipmentModelServiceImpl" timeout="10000"/>
+
+    <!-- 设备模型参数 -->
+    <bean id="eamEquipmentModelPropertiesServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamEquipmentModelPropertiesServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamEquipmentModelPropertiesService" ref="eamEquipmentModelPropertiesServiceImpl" timeout="10000"/>
+
+    <!-- 配件 -->
+    <bean id="eamPartsServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamPartsServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamPartsService" ref="eamPartsServiceImpl" timeout="10000"/>
+
+    <!-- 配件类别 -->
+    <bean id="eamPartsCategoryServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamPartsCategoryServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamPartsCategoryService" ref="eamPartsCategoryServiceImpl" timeout="10000"/>
+
+    <!-- 仓库 -->
+    <bean id="eamWarehouseServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamWarehouseServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamWarehouseService" ref="eamWarehouseServiceImpl" timeout="10000"/>
+
+    <!-- 仓位 -->
+    <bean id="eamLocationServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamLocationServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamLocationService" ref="eamLocationServiceImpl" timeout="10000"/>
+
+    <!-- 库存 -->
+    <bean id="eamInventoryServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamInventoryServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamInventoryService" ref="eamInventoryServiceImpl" timeout="10000"/>
+
+    <!-- 接入协议 -->
+    <bean id="eamProtocolServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamProtocolServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamProtocolService" ref="eamProtocolServiceImpl" timeout="10000"/>
+
+    <!-- 设备传感器 -->
+    <bean id="eamSensorServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamSensorServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamSensorService" ref="eamSensorServiceImpl" timeout="10000"/>
+
+    <!-- 传感器数据 -->
+    <bean id="eamSensorDataServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamSensorDataServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamSensorDataService" ref="eamSensorDataServiceImpl" timeout="10000"/>
+
+    <bean id="eamSensorDataHistoryServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamSensorDataHistoryServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamSensorDataHistoryService" ref="eamSensorDataHistoryServiceImpl" timeout="10000"/>
+
+    <!-- 维保 -->
+    <bean id="eamMaintenanceServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamMaintenanceServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamMaintenanceService" ref="eamMaintenanceServiceImpl" timeout="10000"/>
+
+
+    <!-- 接口服务 -->
+    <bean id="eamApiServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamApiServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamApiService" ref="eamApiServiceImpl" timeout="10000"/>
+
+    <bean id="eamWriteDataServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamWriteDataServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamWriteDataService" ref="eamWriteDataServiceImpl" timeout="30000"/>
+
+    <!-- 工单相关 -->
+	<bean id="eamTicketServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamTicketServiceImpl" />
+	<dubbo:service interface="com.kuyun.eam.rpc.api.EamTicketService" ref="eamTicketServiceImpl" timeout="10000" />
+	<bean id="eamTicketRecordServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamTicketRecordServiceImpl" />
+	<dubbo:service interface="com.kuyun.eam.rpc.api.EamTicketRecordService" ref="eamTicketRecordServiceImpl" timeout="10000" />
+	<bean id="eamTicketTypeServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamTicketTypeServiceImpl"  />
+	<dubbo:service interface="com.kuyun.eam.rpc.api.EamTicketTypeService" ref="eamTicketTypeServiceImpl" timeout="10000" />
+    <bean id="eamTicketTagServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamTicketTagServiceImpl"  />
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamTicketTagService" ref="eamTicketTagServiceImpl" timeout="10000" />
+    <bean id="eamTicketAssessmentTagServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamTicketAssessmentTagServiceImpl"  />
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamTicketAssessmentTagService" ref="eamTicketAssessmentTagServiceImpl" timeout="10000" />
+    <bean id="eamTicketAssessmentServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamTicketAssessmentServiceImpl"  />
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamTicketAssessmentService" ref="eamTicketAssessmentServiceImpl" timeout="10000" />
+    <bean id="eamTicketAppointedRecordServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamTicketAppointedRecordServiceImpl"  />
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamTicketAppointedRecordService" ref="eamTicketAppointedRecordServiceImpl" timeout="10000" />
+
+    <!-- 报警 -->
+    <bean id="eamAlarmServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamAlarmServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamAlarmService" ref="eamAlarmServiceImpl" timeout="10000"/>
+    <bean id="eamAlarmTargetUserServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamAlarmTargetUserServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamAlarmTargetUserService" ref="eamAlarmTargetUserServiceImpl" timeout="10000"/>
+    <bean id="eamAlarmRecordServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamAlarmRecordServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamAlarmRecordService" ref="eamAlarmRecordServiceImpl" timeout="10000"/>
+
+    <bean id="eamAlarmRecordHistoryServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamAlarmRecordHistoryServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamAlarmRecordHistoryService" ref="eamAlarmRecordHistoryServiceImpl" timeout="10000"/>
+
+    <bean id="eamSensorWriteDataServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamSensorWriteDataServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamSensorWriteDataService" ref="eamSensorWriteDataServiceImpl" timeout="10000"/>
+
+    <bean id="eamSensorWriteDataHistoryServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamSensorWriteDataHistoryServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamSensorWriteDataHistoryService" ref="eamSensorWriteDataHistoryServiceImpl" timeout="10000"/>
+
+    <bean id="eamDtuServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamDtuServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamDtuService" ref="eamDtuServiceImpl" timeout="10000"/>
+
+    <bean id="eamDtuEquipmentServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamDtuEquipmentServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamDtuEquipmentService" ref="eamDtuEquipmentServiceImpl" timeout="10000"/>
+
+</beans>
