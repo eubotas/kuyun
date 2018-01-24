@@ -7,6 +7,24 @@ import java.math.BigDecimal;
 public class EamAlarm extends BaseEntity implements Serializable {
     private Integer alarmId;
 
+    private String productLineId;
+
+    private String equipmentId;
+
+    /**
+     * 报警名称
+     *
+     * @mbg.generated
+     */
+    private String name;
+
+    /**
+     * 数据点ID
+     *
+     * @mbg.generated
+     */
+    private Integer eamDataElementId;
+
     private String alarmType;
 
     private BigDecimal upperBound;
@@ -17,8 +35,6 @@ public class EamAlarm extends BaseEntity implements Serializable {
 
     private String alarmTarget;
 
-    private Integer equipmentModelPropertyId;
-
     private static final long serialVersionUID = 1L;
 
     public Integer getAlarmId() {
@@ -27,6 +43,38 @@ public class EamAlarm extends BaseEntity implements Serializable {
 
     public void setAlarmId(Integer alarmId) {
         this.alarmId = alarmId;
+    }
+
+    public String getProductLineId() {
+        return productLineId;
+    }
+
+    public void setProductLineId(String productLineId) {
+        this.productLineId = productLineId;
+    }
+
+    public String getEquipmentId() {
+        return equipmentId;
+    }
+
+    public void setEquipmentId(String equipmentId) {
+        this.equipmentId = equipmentId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getEamDataElementId() {
+        return eamDataElementId;
+    }
+
+    public void setEamDataElementId(Integer eamDataElementId) {
+        this.eamDataElementId = eamDataElementId;
     }
 
     public String getAlarmType() {
@@ -69,14 +117,6 @@ public class EamAlarm extends BaseEntity implements Serializable {
         this.alarmTarget = alarmTarget;
     }
 
-    public Integer getEquipmentModelPropertyId() {
-        return equipmentModelPropertyId;
-    }
-
-    public void setEquipmentModelPropertyId(Integer equipmentModelPropertyId) {
-        this.equipmentModelPropertyId = equipmentModelPropertyId;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -84,12 +124,15 @@ public class EamAlarm extends BaseEntity implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", alarmId=").append(alarmId);
+        sb.append(", productLineId=").append(productLineId);
+        sb.append(", equipmentId=").append(equipmentId);
+        sb.append(", name=").append(name);
+        sb.append(", eamDataElementId=").append(eamDataElementId);
         sb.append(", alarmType=").append(alarmType);
         sb.append(", upperBound=").append(upperBound);
         sb.append(", lowerBound=").append(lowerBound);
         sb.append(", duration=").append(duration);
         sb.append(", alarmTarget=").append(alarmTarget);
-        sb.append(", equipmentModelPropertyId=").append(equipmentModelPropertyId);
         sb.append("]");
         return sb.toString();
     }
@@ -107,12 +150,15 @@ public class EamAlarm extends BaseEntity implements Serializable {
         }
         EamAlarm other = (EamAlarm) that;
         return (this.getAlarmId() == null ? other.getAlarmId() == null : this.getAlarmId().equals(other.getAlarmId()))
+            && (this.getProductLineId() == null ? other.getProductLineId() == null : this.getProductLineId().equals(other.getProductLineId()))
+            && (this.getEquipmentId() == null ? other.getEquipmentId() == null : this.getEquipmentId().equals(other.getEquipmentId()))
+            && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
+            && (this.getEamDataElementId() == null ? other.getEamDataElementId() == null : this.getEamDataElementId().equals(other.getEamDataElementId()))
             && (this.getAlarmType() == null ? other.getAlarmType() == null : this.getAlarmType().equals(other.getAlarmType()))
             && (this.getUpperBound() == null ? other.getUpperBound() == null : this.getUpperBound().equals(other.getUpperBound()))
             && (this.getLowerBound() == null ? other.getLowerBound() == null : this.getLowerBound().equals(other.getLowerBound()))
             && (this.getDuration() == null ? other.getDuration() == null : this.getDuration().equals(other.getDuration()))
             && (this.getAlarmTarget() == null ? other.getAlarmTarget() == null : this.getAlarmTarget().equals(other.getAlarmTarget()))
-            && (this.getEquipmentModelPropertyId() == null ? other.getEquipmentModelPropertyId() == null : this.getEquipmentModelPropertyId().equals(other.getEquipmentModelPropertyId()))
             && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
@@ -126,12 +172,15 @@ public class EamAlarm extends BaseEntity implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getAlarmId() == null) ? 0 : getAlarmId().hashCode());
+        result = prime * result + ((getProductLineId() == null) ? 0 : getProductLineId().hashCode());
+        result = prime * result + ((getEquipmentId() == null) ? 0 : getEquipmentId().hashCode());
+        result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
+        result = prime * result + ((getEamDataElementId() == null) ? 0 : getEamDataElementId().hashCode());
         result = prime * result + ((getAlarmType() == null) ? 0 : getAlarmType().hashCode());
         result = prime * result + ((getUpperBound() == null) ? 0 : getUpperBound().hashCode());
         result = prime * result + ((getLowerBound() == null) ? 0 : getLowerBound().hashCode());
         result = prime * result + ((getDuration() == null) ? 0 : getDuration().hashCode());
         result = prime * result + ((getAlarmTarget() == null) ? 0 : getAlarmTarget().hashCode());
-        result = prime * result + ((getEquipmentModelPropertyId() == null) ? 0 : getEquipmentModelPropertyId().hashCode());
         result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());

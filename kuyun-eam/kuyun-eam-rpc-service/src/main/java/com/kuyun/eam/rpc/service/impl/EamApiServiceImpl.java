@@ -176,29 +176,29 @@ public class EamApiServiceImpl implements EamApiService {
     @Override
     public Tree getCityTree(UpmsUserCompany company) {
         Tree tree = new Tree();
-        List<EamEquipmentVO> allEquipments = getEquipments(company);
-
-        Map<String, List<EamEquipment>> groupByProvinceMap =
-                allEquipments.stream().filter(equipment -> equipment.getProvince() != null).collect(Collectors.groupingBy(EamEquipment::getProvince));
-
-        for (Map.Entry<String, List<EamEquipment>> entry : groupByProvinceMap.entrySet()) {
-            ProvinceData provinceData = buildProvinceData(entry);
-            tree.addProvice(provinceData);
-
-            Map<String, List<EamEquipment>> groupByCityMap =
-                    entry.getValue().stream().collect(Collectors.groupingBy(EamEquipment::getCity));
-
-            for (Map.Entry<String, List<EamEquipment>> cityEntry : groupByCityMap.entrySet()) {
-                CityData cityData = buildCityData(cityEntry);
-                provinceData.addChildren(cityData);
-
-                for (EamEquipment equipment : cityEntry.getValue()) {
-                    Device device = buildDevice(equipment);
-                    cityData.addChildren(device);
-                }
-
-            }
-        }
+//        List<EamEquipmentVO> allEquipments = getEquipments(company);
+//
+//        Map<String, List<EamEquipment>> groupByProvinceMap =
+//                allEquipments.stream().filter(equipment -> equipment.getProvince() != null).collect(Collectors.groupingBy(EamEquipment::getProvince));
+//
+//        for (Map.Entry<String, List<EamEquipment>> entry : groupByProvinceMap.entrySet()) {
+//            ProvinceData provinceData = buildProvinceData(entry);
+//            tree.addProvice(provinceData);
+//
+//            Map<String, List<EamEquipment>> groupByCityMap =
+//                    entry.getValue().stream().collect(Collectors.groupingBy(EamEquipment::getCity));
+//
+//            for (Map.Entry<String, List<EamEquipment>> cityEntry : groupByCityMap.entrySet()) {
+//                CityData cityData = buildCityData(cityEntry);
+//                provinceData.addChildren(cityData);
+//
+//                for (EamEquipment equipment : cityEntry.getValue()) {
+//                    Device device = buildDevice(equipment);
+//                    cityData.addChildren(device);
+//                }
+//
+//            }
+//        }
         return tree;
     }
 
@@ -233,7 +233,7 @@ public class EamApiServiceImpl implements EamApiService {
     private BigDecimal getLongitude(List<EamEquipment> equipments) {
         BigDecimal result = null;
         if (!equipments.isEmpty()) {
-            result = equipments.get(0).getLongitude();
+            //result = equipments.get(0).getLongitude();
         }
         return result;
     }
@@ -241,7 +241,7 @@ public class EamApiServiceImpl implements EamApiService {
     private BigDecimal getLatitude(List<EamEquipment> equipments) {
         BigDecimal result = null;
         if (!equipments.isEmpty()) {
-            result = equipments.get(0).getLatitude();
+            //result = equipments.get(0).getLatitude();
         }
         return result;
     }
@@ -382,19 +382,19 @@ public class EamApiServiceImpl implements EamApiService {
         handleGRMActionForEquipment(collectStatus, eamEquipments);
 
         //handle Modbus RTU
-        handleModbusRtuAction(collectStatus, eamEquipments);
+//        handleModbusRtuAction(collectStatus, eamEquipments);
 
     }
 
-    private void handleModbusRtuAction(CollectStatus collectStatus, List<EamEquipment> eamEquipments) {
-        List<EamEquipment> modbusEquipments = eamEquipments.stream().filter(equipment -> equipment.getEamEquipmentModel() != null)
-                .filter(equipment -> ProtocolEnum.MODBUS_RTU.getId() == equipment.getEamEquipmentModel().getProtocolId().intValue()).collect(Collectors.toList());
-
-        modbusEquipments.forEach(equipment -> {
-            handleModbusRtuAction(collectStatus, equipment);
-
-        });
-    }
+//    private void handleModbusRtuAction(CollectStatus collectStatus, List<EamEquipment> eamEquipments) {
+//        List<EamEquipment> modbusEquipments = eamEquipments.stream().filter(equipment -> equipment.getEamEquipmentModel() != null)
+//                .filter(equipment -> ProtocolEnum.MODBUS_RTU.getId() == equipment.getEamEquipmentModel().getProtocolId().intValue()).collect(Collectors.toList());
+//
+//        modbusEquipments.forEach(equipment -> {
+//            handleModbusRtuAction(collectStatus, equipment);
+//
+//        });
+//    }
 
     private void handleGRMActionForEquipment(CollectStatus collectStatus, List<EamEquipment> eamEquipments) {
         eamEquipments.forEach(equipment -> {
@@ -604,8 +604,8 @@ public class EamApiServiceImpl implements EamApiService {
         String value = pair.getValue();
 
         EamGrmVariableDataExample example = new EamGrmVariableDataExample();
-        example.createCriteria().andGrmVariableIdEqualTo(variable.getId())
-                .andDeleteFlagEqualTo(Boolean.FALSE);
+//        example.createCriteria().andGrmVariableIdEqualTo(variable.getId())
+//                .andDeleteFlagEqualTo(Boolean.FALSE);
 
         EamGrmVariableData variableData = eamGrmVariableDataService.selectFirstByExample(example);
         if (variableData == null){
@@ -626,7 +626,7 @@ public class EamApiServiceImpl implements EamApiService {
         EamGrmVariableData result = new EamGrmVariableData();
         result.setEquipmentId(variable.getEquipmentId());
         result.setProductLineId(variable.getProductLineId());
-        result.setGrmVariableId(variable.getId());
+        //result.setGrmVariableId(variable.getId());
         result.setValue(value);
         Date now = new Date();
         result.setCreateTime(now);
@@ -639,7 +639,7 @@ public class EamApiServiceImpl implements EamApiService {
         EamGrmVariableDataHistory result = new EamGrmVariableDataHistory();
         result.setEquipmentId(pair.getKey().getEquipmentId());
         result.setProductLineId(pair.getKey().getProductLineId());
-        result.setGrmVariableId(pair.getKey().getId());
+        //result.setGrmVariableId(pair.getKey().getId());
         result.setValue(pair.getValue());
         Date now = new Date();
         result.setCreateTime(now);

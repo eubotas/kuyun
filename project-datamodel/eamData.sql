@@ -58,13 +58,6 @@ INSERT INTO `upms_permission` VALUES ('246', '6', '245', '新增配件', '3', 'e
 INSERT INTO `upms_permission` VALUES ('247', '6', '245', '编辑配件', '3', 'eam:part:update', '/manage/part/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
 INSERT INTO `upms_permission` VALUES ('248', '6', '245', '删除配件', '3', 'eam:part:delete', '/manage/part/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
 
-INSERT INTO `upms_permission` VALUES ('250', '6', '200', '设备模型参数', '2', 'eam:equipmentModelProperty:read',   '/manage/equipmentmodel/property/index', null, '1', '202', '202');
-INSERT INTO `upms_permission` VALUES ('251', '6', '250', '新增设备模型参数', '3', 'eam:equipmentModelProperty:create', '/manage/equipment/model/property/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
-INSERT INTO `upms_permission` VALUES ('252', '6', '250', '编辑设备模型参数', '3', 'eam:equipmentModelProperty:update', '/manage/equipment/model/property/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
-INSERT INTO `upms_permission` VALUES ('253', '6', '250', '删除设备模型参数', '3', 'eam:equipmentModelProperty:delete', '/manage/equipment/model/property/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
-
-
-
 INSERT INTO `upms_permission` VALUES ('260', '6', '0', ' 维保管理', '1', null, null, 'zmdi zmdi-collection-text', '1', '260', '260');
 INSERT INTO `upms_permission` VALUES ('261', '6', '260', '设备维保', '2', 'eam:maintain:read',   '/manage/maintain/index', null, '1', '261', '261');
 INSERT INTO `upms_permission` VALUES ('262', '6', '261', '新增设备维保', '3', 'eam:maintain:create', '/manage/maintain/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
@@ -78,18 +71,6 @@ INSERT INTO `upms_permission` VALUES ('272', '6', '270', '编辑客户', '3', 'e
 INSERT INTO `upms_permission` VALUES ('273', '6', '270', '删除客户', '3', 'eam:company:delete', '/manage/company/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
 
 INSERT INTO `upms_permission` VALUES ('280', '6', '205', '数据写入', '3', 'eam:equipmentSensor:write', '/manage/equipment/sensor/', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
-
-
-INSERT INTO `upms_permission` VALUES ('290', '6', '0', 'DTU管理', '1', null, null, 'zmdi zmdi-collection-text', '1', '205', '205');
-INSERT INTO `upms_permission` VALUES ('291', '6', '290', 'DTU管理', '2', 'eam:dtu:read',   '/manage/dtu/index', null, '1', '291', '291');
-INSERT INTO `upms_permission` VALUES ('292', '6', '291', '新增DTU', '3', 'eam:dtu:create', '/manage/dtu/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
-INSERT INTO `upms_permission` VALUES ('293', '6', '291', '编辑DTU', '3', 'eam:dtu:update', '/manage/dtu/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
-INSERT INTO `upms_permission` VALUES ('294', '6', '291', '删除DTU', '3', 'eam:dtu:delete', '/manage/dtu/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
-
-INSERT INTO `upms_permission` VALUES ('295', '6', '200', '设备类别', '2', 'eam:equipmentCategory:read',   '/manage/equipment/category/index', null, '1', '202', '202');
-INSERT INTO `upms_permission` VALUES ('296', '6', '295', '新增设备类别', '3', 'eam:equipmentCategory:create', '/manage/equipment/category/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
-INSERT INTO `upms_permission` VALUES ('297', '6', '295', '编辑设备类别', '3', 'eam:equipmentCategory:update', '/manage/equipment/category/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
-INSERT INTO `upms_permission` VALUES ('298', '6', '295', '删除设备类别', '3', 'eam:equipmentCategory:delete', '/manage/equipment/category/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
 
 
 # prepare ticket menu items, id start with 300 
@@ -135,6 +116,29 @@ INSERT INTO `upms_permission` VALUES ('418', '6', '400', '设备手册', '2', 'e
 INSERT INTO `upms_permission` VALUES ('419', '6', '418', '新增设备手册', '3', 'eam:equipmentManual:create', '/manage/knowledge/manual/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
 INSERT INTO `upms_permission` VALUES ('420', '6', '418', '编辑设备手册', '3', 'eam:equipmentManual:update', '/manage/knowledge/manual/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
 INSERT INTO `upms_permission` VALUES ('421', '6', '418', '删除设备手册', '3', 'eam:equipmentManual:delete', '/manage/knowledge/manual/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
+
+
+INSERT INTO `upms_permission` VALUES ('500', '6', '0', ' 基础数据管理', '1', null, null, 'zmdi zmdi-collection-text', '1', '199', '199');
+INSERT INTO `upms_permission` VALUES ('501', '6', '500', '数据点管理', '2', 'eam:dataElement:read',   '/manage/dataElement/index', null, '1', '270', '270');
+INSERT INTO `upms_permission` VALUES ('502', '6', '501', '新增数据点', '3', 'eam:dataElement:create', '/manage/dataElement/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
+INSERT INTO `upms_permission` VALUES ('503', '6', '501', '编辑数据点', '3', 'eam:dataElement:update', '/manage/dataElement/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
+INSERT INTO `upms_permission` VALUES ('504', '6', '501', '删除数据点', '3', 'eam:dataElement:delete', '/manage/dataElement/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
+
+INSERT INTO `upms_permission` VALUES ('505', '6', '500', '数据点分组管理', '2', 'eam:dataElementGroup:read',   '/manage/dataElementGroup/index', null, '1', '270', '270');
+INSERT INTO `upms_permission` VALUES ('506', '6', '505', '新增数据点分组', '3', 'eam:dataElementGroup:create', '/manage/dataElementGroup/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
+INSERT INTO `upms_permission` VALUES ('507', '6', '505', '编辑数据点分组', '3', 'eam:dataElementGroup:update', '/manage/dataElementGroup/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
+INSERT INTO `upms_permission` VALUES ('508', '6', '505', '删除数据点分组', '3', 'eam:dataElementGroup:delete', '/manage/dataElementGroup/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
+
+INSERT INTO `upms_permission` VALUES ('509', '6', '500', '报警模板管理', '2', 'eam:alarmModel:read',   '/manage/alarmModel/index', null, '1', '270', '270');
+INSERT INTO `upms_permission` VALUES ('510', '6', '509', '新增报警模板', '3', 'eam:alarmModel:create', '/manage/alarmModel/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
+INSERT INTO `upms_permission` VALUES ('511', '6', '509', '编辑报警模板', '3', 'eam:alarmModel:update', '/manage/alarmModel/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
+INSERT INTO `upms_permission` VALUES ('512', '6', '509', '删除报警模板', '3', 'eam:alarmModel:delete', '/manage/alarmModel/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
+
+INSERT INTO `upms_permission` VALUES ('513', '6', '500', '设备类别', '2', 'eam:equipmentCategory:read',   '/manage/equipment/category/index', null, '1', '270', '270');
+INSERT INTO `upms_permission` VALUES ('514', '6', '513', '新增设备类别', '3', 'eam:equipmentCategory:create', '/manage/equipment/category/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
+INSERT INTO `upms_permission` VALUES ('515', '6', '513', '编辑设备类别', '3', 'eam:equipmentCategory:update', '/manage/equipment/category/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
+INSERT INTO `upms_permission` VALUES ('516', '6', '513', '删除设备类别', '3', 'eam:equipmentCategory:delete', '/manage/equipment/category/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
+
 
 
 TRUNCATE TABLE `eam_ticket_type`;

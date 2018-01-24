@@ -4,8 +4,8 @@
   <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamAlarmRecord">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="alarm_id" jdbcType="INTEGER" property="alarmId" />
+    <result column="product_line_id" jdbcType="VARCHAR" property="productLineId" />
     <result column="equipment_id" jdbcType="VARCHAR" property="equipmentId" />
-    <result column="equipment_model_property_id" jdbcType="INTEGER" property="equipmentModelPropertyId" />
     <result column="alarm_value" jdbcType="VARCHAR" property="alarmValue" />
     <result column="alarm_status" jdbcType="VARCHAR" property="alarmStatus" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
@@ -74,8 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, alarm_id, equipment_id, equipment_model_property_id, alarm_value, alarm_status, 
-    create_user_id, create_time, update_user_id, update_time, delete_flag, company_id
+    id, alarm_id, product_line_id, equipment_id, alarm_value, alarm_status, create_user_id, 
+    create_time, update_user_id, update_time, delete_flag, company_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamAlarmRecordExample" resultMap="BaseResultMap">
     select
@@ -116,13 +116,13 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamAlarmRecord">
-    insert into eam_alarm_record (id, alarm_id, equipment_id, 
-      equipment_model_property_id, alarm_value, alarm_status, 
+    insert into eam_alarm_record (id, alarm_id, product_line_id, 
+      equipment_id, alarm_value, alarm_status, 
       create_user_id, create_time, update_user_id, 
       update_time, delete_flag, company_id
       )
-    values (#{id,jdbcType=INTEGER}, #{alarmId,jdbcType=INTEGER}, #{equipmentId,jdbcType=VARCHAR}, 
-      #{equipmentModelPropertyId,jdbcType=INTEGER}, #{alarmValue,jdbcType=VARCHAR}, #{alarmStatus,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{alarmId,jdbcType=INTEGER}, #{productLineId,jdbcType=VARCHAR}, 
+      #{equipmentId,jdbcType=VARCHAR}, #{alarmValue,jdbcType=VARCHAR}, #{alarmStatus,jdbcType=VARCHAR}, 
       #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{companyId,jdbcType=INTEGER}
       )
@@ -136,11 +136,11 @@
       <if test="alarmId != null">
         alarm_id,
       </if>
+      <if test="productLineId != null">
+        product_line_id,
+      </if>
       <if test="equipmentId != null">
         equipment_id,
-      </if>
-      <if test="equipmentModelPropertyId != null">
-        equipment_model_property_id,
       </if>
       <if test="alarmValue != null">
         alarm_value,
@@ -174,11 +174,11 @@
       <if test="alarmId != null">
         #{alarmId,jdbcType=INTEGER},
       </if>
+      <if test="productLineId != null">
+        #{productLineId,jdbcType=VARCHAR},
+      </if>
       <if test="equipmentId != null">
         #{equipmentId,jdbcType=VARCHAR},
-      </if>
-      <if test="equipmentModelPropertyId != null">
-        #{equipmentModelPropertyId,jdbcType=INTEGER},
       </if>
       <if test="alarmValue != null">
         #{alarmValue,jdbcType=VARCHAR},
@@ -221,11 +221,11 @@
       <if test="record.alarmId != null">
         alarm_id = #{record.alarmId,jdbcType=INTEGER},
       </if>
+      <if test="record.productLineId != null">
+        product_line_id = #{record.productLineId,jdbcType=VARCHAR},
+      </if>
       <if test="record.equipmentId != null">
         equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.equipmentModelPropertyId != null">
-        equipment_model_property_id = #{record.equipmentModelPropertyId,jdbcType=INTEGER},
       </if>
       <if test="record.alarmValue != null">
         alarm_value = #{record.alarmValue,jdbcType=VARCHAR},
@@ -260,8 +260,8 @@
     update eam_alarm_record
     set id = #{record.id,jdbcType=INTEGER},
       alarm_id = #{record.alarmId,jdbcType=INTEGER},
+      product_line_id = #{record.productLineId,jdbcType=VARCHAR},
       equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
-      equipment_model_property_id = #{record.equipmentModelPropertyId,jdbcType=INTEGER},
       alarm_value = #{record.alarmValue,jdbcType=VARCHAR},
       alarm_status = #{record.alarmStatus,jdbcType=VARCHAR},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
@@ -280,11 +280,11 @@
       <if test="alarmId != null">
         alarm_id = #{alarmId,jdbcType=INTEGER},
       </if>
+      <if test="productLineId != null">
+        product_line_id = #{productLineId,jdbcType=VARCHAR},
+      </if>
       <if test="equipmentId != null">
         equipment_id = #{equipmentId,jdbcType=VARCHAR},
-      </if>
-      <if test="equipmentModelPropertyId != null">
-        equipment_model_property_id = #{equipmentModelPropertyId,jdbcType=INTEGER},
       </if>
       <if test="alarmValue != null">
         alarm_value = #{alarmValue,jdbcType=VARCHAR},
@@ -316,8 +316,8 @@
   <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamAlarmRecord">
     update eam_alarm_record
     set alarm_id = #{alarmId,jdbcType=INTEGER},
+      product_line_id = #{productLineId,jdbcType=VARCHAR},
       equipment_id = #{equipmentId,jdbcType=VARCHAR},
-      equipment_model_property_id = #{equipmentModelPropertyId,jdbcType=INTEGER},
       alarm_value = #{alarmValue,jdbcType=VARCHAR},
       alarm_status = #{alarmStatus,jdbcType=VARCHAR},
       create_user_id = #{createUserId,jdbcType=INTEGER},
@@ -330,15 +330,15 @@
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into eam_alarm_record  (id, alarm_id, equipment_id, 
-        equipment_model_property_id, alarm_value, alarm_status, 
+            insert into eam_alarm_record  (id, alarm_id, product_line_id, 
+        equipment_id, alarm_value, alarm_status, 
         create_user_id, create_time, update_user_id, 
         update_time, delete_flag, company_id
         )
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.id,jdbcType=INTEGER}, #{item.alarmId,jdbcType=INTEGER}, #{item.equipmentId,jdbcType=VARCHAR}, 
-        #{item.equipmentModelPropertyId,jdbcType=INTEGER}, #{item.alarmValue,jdbcType=VARCHAR}, #{item.alarmStatus,jdbcType=VARCHAR}, 
+      (#{item.id,jdbcType=INTEGER}, #{item.alarmId,jdbcType=INTEGER}, #{item.productLineId,jdbcType=VARCHAR}, 
+        #{item.equipmentId,jdbcType=VARCHAR}, #{item.alarmValue,jdbcType=VARCHAR}, #{item.alarmStatus,jdbcType=VARCHAR}, 
         #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, 
         #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, #{item.companyId,jdbcType=INTEGER}
         )

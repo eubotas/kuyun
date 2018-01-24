@@ -26,6 +26,58 @@
 					</div>
 				</div>
 			</div>
+
+			<div class="col-sm-6">
+				<div class="form-group">
+					<div class="fg-line">
+						<label for="morningShiftTime">早班</label>
+						<input id="morningShiftStartTime" type="text" class="form-control" name="morningShiftStartTime" maxlength="20" >
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group">
+					<div class="fg-line">
+						<input id="morningShiftEndTime" type="text" class="form-control" name="morningShiftEndTime" maxlength="20" >
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-6">
+				<div class="form-group">
+					<div class="fg-line">
+						<label for="middleShiftTime">中班</label>
+						<input id="middleShiftStartTime" type="text" class="form-control" name="middleShiftStartTime" maxlength="20" >
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-6">
+				<div class="form-group">
+					<div class="fg-line">
+						<input id="middleShiftEndTime" type="text" class="form-control" name="middleShiftEndTime" maxlength="20" >
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-6">
+				<div class="form-group">
+					<div class="fg-line">
+						<label for="nightShiftTime">晚班</label>
+						<input id="nightShiftStartTime" type="text" class="form-control" name="nightShiftStartTime" maxlength="20" >
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-6">
+				<div class="form-group">
+					<div class="fg-line">
+						<input id="nightShiftEndTime" type="text" class="form-control" name="nightShiftEndTime" maxlength="20" >
+					</div>
+				</div>
+			</div>
+
+
 			<div class="col-sm-12">
 				<div class="form-group">
 					<div class="fg-line">
@@ -50,6 +102,9 @@
 					</div>
 				</div>
 			</div>
+
+
+
 		</div>
 
 		<div class="form-group text-right dialog-buttons">

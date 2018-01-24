@@ -3,12 +3,15 @@
 <mapper namespace="com.kuyun.eam.dao.mapper.EamAlarmMapper">
   <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamAlarm">
     <id column="alarm_id" jdbcType="INTEGER" property="alarmId" />
+    <result column="product_line_id" jdbcType="VARCHAR" property="productLineId" />
+    <result column="equipment_id" jdbcType="VARCHAR" property="equipmentId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="eam_data_element_id" jdbcType="INTEGER" property="eamDataElementId" />
     <result column="alarm_type" jdbcType="VARCHAR" property="alarmType" />
     <result column="upper_Bound" jdbcType="DECIMAL" property="upperBound" />
     <result column="lower_Bound" jdbcType="DECIMAL" property="lowerBound" />
     <result column="duration" jdbcType="DECIMAL" property="duration" />
     <result column="alarm_target" jdbcType="VARCHAR" property="alarmTarget" />
-    <result column="equipment_model_property_id" jdbcType="INTEGER" property="equipmentModelPropertyId" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
@@ -75,8 +78,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    alarm_id, alarm_type, upper_Bound, lower_Bound, duration, alarm_target, equipment_model_property_id, 
-    create_user_id, create_time, update_user_id, update_time, delete_flag, company_id
+    alarm_id, product_line_id, equipment_id, name, eam_data_element_id, alarm_type, upper_Bound, 
+    lower_Bound, duration, alarm_target, create_user_id, create_time, update_user_id, 
+    update_time, delete_flag, company_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamAlarmExample" resultMap="BaseResultMap">
     select
@@ -120,13 +124,15 @@
     <selectKey keyProperty="alarmId" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into eam_alarm (alarm_type, upper_Bound, lower_Bound, 
-      duration, alarm_target, equipment_model_property_id, 
+    insert into eam_alarm (product_line_id, equipment_id, name, 
+      eam_data_element_id, alarm_type, upper_Bound, 
+      lower_Bound, duration, alarm_target, 
       create_user_id, create_time, update_user_id, 
       update_time, delete_flag, company_id
       )
-    values (#{alarmType,jdbcType=VARCHAR}, #{upperBound,jdbcType=DECIMAL}, #{lowerBound,jdbcType=DECIMAL}, 
-      #{duration,jdbcType=DECIMAL}, #{alarmTarget,jdbcType=VARCHAR}, #{equipmentModelPropertyId,jdbcType=INTEGER}, 
+    values (#{productLineId,jdbcType=VARCHAR}, #{equipmentId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{eamDataElementId,jdbcType=INTEGER}, #{alarmType,jdbcType=VARCHAR}, #{upperBound,jdbcType=DECIMAL}, 
+      #{lowerBound,jdbcType=DECIMAL}, #{duration,jdbcType=DECIMAL}, #{alarmTarget,jdbcType=VARCHAR}, 
       #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{companyId,jdbcType=INTEGER}
       )
@@ -137,6 +143,18 @@
     </selectKey>
     insert into eam_alarm
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="productLineId != null">
+        product_line_id,
+      </if>
+      <if test="equipmentId != null">
+        equipment_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="eamDataElementId != null">
+        eam_data_element_id,
+      </if>
       <if test="alarmType != null">
         alarm_type,
       </if>
@@ -151,9 +169,6 @@
       </if>
       <if test="alarmTarget != null">
         alarm_target,
-      </if>
-      <if test="equipmentModelPropertyId != null">
-        equipment_model_property_id,
       </if>
       <if test="createUserId != null">
         create_user_id,
@@ -175,6 +190,18 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="productLineId != null">
+        #{productLineId,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentId != null">
+        #{equipmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="eamDataElementId != null">
+        #{eamDataElementId,jdbcType=INTEGER},
+      </if>
       <if test="alarmType != null">
         #{alarmType,jdbcType=VARCHAR},
       </if>
@@ -189,9 +216,6 @@
       </if>
       <if test="alarmTarget != null">
         #{alarmTarget,jdbcType=VARCHAR},
-      </if>
-      <if test="equipmentModelPropertyId != null">
-        #{equipmentModelPropertyId,jdbcType=INTEGER},
       </if>
       <if test="createUserId != null">
         #{createUserId,jdbcType=INTEGER},
@@ -225,6 +249,18 @@
       <if test="record.alarmId != null">
         alarm_id = #{record.alarmId,jdbcType=INTEGER},
       </if>
+      <if test="record.productLineId != null">
+        product_line_id = #{record.productLineId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.equipmentId != null">
+        equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eamDataElementId != null">
+        eam_data_element_id = #{record.eamDataElementId,jdbcType=INTEGER},
+      </if>
       <if test="record.alarmType != null">
         alarm_type = #{record.alarmType,jdbcType=VARCHAR},
       </if>
@@ -239,9 +275,6 @@
       </if>
       <if test="record.alarmTarget != null">
         alarm_target = #{record.alarmTarget,jdbcType=VARCHAR},
-      </if>
-      <if test="record.equipmentModelPropertyId != null">
-        equipment_model_property_id = #{record.equipmentModelPropertyId,jdbcType=INTEGER},
       </if>
       <if test="record.createUserId != null">
         create_user_id = #{record.createUserId,jdbcType=INTEGER},
@@ -269,12 +302,15 @@
   <update id="updateByExample" parameterType="map">
     update eam_alarm
     set alarm_id = #{record.alarmId,jdbcType=INTEGER},
+      product_line_id = #{record.productLineId,jdbcType=VARCHAR},
+      equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      eam_data_element_id = #{record.eamDataElementId,jdbcType=INTEGER},
       alarm_type = #{record.alarmType,jdbcType=VARCHAR},
       upper_Bound = #{record.upperBound,jdbcType=DECIMAL},
       lower_Bound = #{record.lowerBound,jdbcType=DECIMAL},
       duration = #{record.duration,jdbcType=DECIMAL},
       alarm_target = #{record.alarmTarget,jdbcType=VARCHAR},
-      equipment_model_property_id = #{record.equipmentModelPropertyId,jdbcType=INTEGER},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
@@ -288,6 +324,18 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.kuyun.eam.dao.model.EamAlarm">
     update eam_alarm
     <set>
+      <if test="productLineId != null">
+        product_line_id = #{productLineId,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentId != null">
+        equipment_id = #{equipmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="eamDataElementId != null">
+        eam_data_element_id = #{eamDataElementId,jdbcType=INTEGER},
+      </if>
       <if test="alarmType != null">
         alarm_type = #{alarmType,jdbcType=VARCHAR},
       </if>
@@ -302,9 +350,6 @@
       </if>
       <if test="alarmTarget != null">
         alarm_target = #{alarmTarget,jdbcType=VARCHAR},
-      </if>
-      <if test="equipmentModelPropertyId != null">
-        equipment_model_property_id = #{equipmentModelPropertyId,jdbcType=INTEGER},
       </if>
       <if test="createUserId != null">
         create_user_id = #{createUserId,jdbcType=INTEGER},
@@ -329,12 +374,15 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamAlarm">
     update eam_alarm
-    set alarm_type = #{alarmType,jdbcType=VARCHAR},
+    set product_line_id = #{productLineId,jdbcType=VARCHAR},
+      equipment_id = #{equipmentId,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      eam_data_element_id = #{eamDataElementId,jdbcType=INTEGER},
+      alarm_type = #{alarmType,jdbcType=VARCHAR},
       upper_Bound = #{upperBound,jdbcType=DECIMAL},
       lower_Bound = #{lowerBound,jdbcType=DECIMAL},
       duration = #{duration,jdbcType=DECIMAL},
       alarm_target = #{alarmTarget,jdbcType=VARCHAR},
-      equipment_model_property_id = #{equipmentModelPropertyId,jdbcType=INTEGER},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=INTEGER},
@@ -345,15 +393,17 @@
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into eam_alarm  (alarm_type, upper_Bound, lower_Bound, 
-        duration, alarm_target, equipment_model_property_id, 
+            insert into eam_alarm  (product_line_id, equipment_id, name, 
+        eam_data_element_id, alarm_type, upper_Bound, 
+        lower_Bound, duration, alarm_target, 
         create_user_id, create_time, update_user_id, 
         update_time, delete_flag, company_id
         )
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.alarmType,jdbcType=VARCHAR}, #{item.upperBound,jdbcType=DECIMAL}, #{item.lowerBound,jdbcType=DECIMAL}, 
-        #{item.duration,jdbcType=DECIMAL}, #{item.alarmTarget,jdbcType=VARCHAR}, #{item.equipmentModelPropertyId,jdbcType=INTEGER}, 
+      (#{item.productLineId,jdbcType=VARCHAR}, #{item.equipmentId,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, 
+        #{item.eamDataElementId,jdbcType=INTEGER}, #{item.alarmType,jdbcType=VARCHAR}, #{item.upperBound,jdbcType=DECIMAL}, 
+        #{item.lowerBound,jdbcType=DECIMAL}, #{item.duration,jdbcType=DECIMAL}, #{item.alarmTarget,jdbcType=VARCHAR}, 
         #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, 
         #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, #{item.companyId,jdbcType=INTEGER}
         )

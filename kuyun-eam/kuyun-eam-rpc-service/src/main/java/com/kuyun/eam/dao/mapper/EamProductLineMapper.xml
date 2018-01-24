@@ -5,11 +5,21 @@
     <id column="product_line_id" jdbcType="VARCHAR" property="productLineId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="image_path" jdbcType="VARCHAR" property="imagePath" />
+    <result column="longitude" jdbcType="DECIMAL" property="longitude" />
+    <result column="latitude" jdbcType="DECIMAL" property="latitude" />
+    <result column="province" jdbcType="VARCHAR" property="province" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
     <result column="grm" jdbcType="VARCHAR" property="grm" />
     <result column="grm_password" jdbcType="VARCHAR" property="grmPassword" />
     <result column="grm_period" jdbcType="INTEGER" property="grmPeriod" />
     <result column="collect_status" jdbcType="VARCHAR" property="collectStatus" />
     <result column="is_online" jdbcType="BIT" property="isOnline" />
+    <result column="morning_shift_start_time" jdbcType="TIME" property="morningShiftStartTime" />
+    <result column="morning_shift_end_time" jdbcType="TIME" property="morningShiftEndTime" />
+    <result column="middle_shift_start_time" jdbcType="TIME" property="middleShiftStartTime" />
+    <result column="middle_shift_end_time" jdbcType="TIME" property="middleShiftEndTime" />
+    <result column="night_shift_start_time" jdbcType="TIME" property="nightShiftStartTime" />
+    <result column="night_shift_end_time" jdbcType="TIME" property="nightShiftEndTime" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
@@ -75,8 +85,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    product_line_id, name, image_path, grm, grm_password, grm_period, collect_status, 
-    is_online, create_user_id, create_time, update_user_id, update_time, delete_flag
+    product_line_id, name, image_path, longitude, latitude, province, city, grm, grm_password, 
+    grm_period, collect_status, is_online, morning_shift_start_time, morning_shift_end_time, 
+    middle_shift_start_time, middle_shift_end_time, night_shift_start_time, night_shift_end_time, 
+    create_user_id, create_time, update_user_id, update_time, delete_flag
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamProductLineExample" resultMap="BaseResultMap">
     select
@@ -118,15 +130,21 @@
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamProductLine">
     insert into eam_product_line (product_line_id, name, image_path, 
-      grm, grm_password, grm_period, 
-      collect_status, is_online, create_user_id, 
-      create_time, update_user_id, update_time, 
-      delete_flag)
+      longitude, latitude, province, 
+      city, grm, grm_password, 
+      grm_period, collect_status, is_online, 
+      morning_shift_start_time, morning_shift_end_time, middle_shift_start_time, 
+      middle_shift_end_time, night_shift_start_time, night_shift_end_time, 
+      create_user_id, create_time, update_user_id, 
+      update_time, delete_flag)
     values (#{productLineId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{imagePath,jdbcType=VARCHAR}, 
-      #{grm,jdbcType=VARCHAR}, #{grmPassword,jdbcType=VARCHAR}, #{grmPeriod,jdbcType=INTEGER}, 
-      #{collectStatus,jdbcType=VARCHAR}, #{isOnline,jdbcType=BIT}, #{createUserId,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlag,jdbcType=BIT})
+      #{longitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}, #{province,jdbcType=VARCHAR}, 
+      #{city,jdbcType=VARCHAR}, #{grm,jdbcType=VARCHAR}, #{grmPassword,jdbcType=VARCHAR}, 
+      #{grmPeriod,jdbcType=INTEGER}, #{collectStatus,jdbcType=VARCHAR}, #{isOnline,jdbcType=BIT}, 
+      #{morningShiftStartTime,jdbcType=TIME}, #{morningShiftEndTime,jdbcType=TIME}, #{middleShiftStartTime,jdbcType=TIME}, 
+      #{middleShiftEndTime,jdbcType=TIME}, #{nightShiftStartTime,jdbcType=TIME}, #{nightShiftEndTime,jdbcType=TIME}, 
+      #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamProductLine">
     insert into eam_product_line
@@ -139,6 +157,18 @@
       </if>
       <if test="imagePath != null">
         image_path,
+      </if>
+      <if test="longitude != null">
+        longitude,
+      </if>
+      <if test="latitude != null">
+        latitude,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="city != null">
+        city,
       </if>
       <if test="grm != null">
         grm,
@@ -154,6 +184,24 @@
       </if>
       <if test="isOnline != null">
         is_online,
+      </if>
+      <if test="morningShiftStartTime != null">
+        morning_shift_start_time,
+      </if>
+      <if test="morningShiftEndTime != null">
+        morning_shift_end_time,
+      </if>
+      <if test="middleShiftStartTime != null">
+        middle_shift_start_time,
+      </if>
+      <if test="middleShiftEndTime != null">
+        middle_shift_end_time,
+      </if>
+      <if test="nightShiftStartTime != null">
+        night_shift_start_time,
+      </if>
+      <if test="nightShiftEndTime != null">
+        night_shift_end_time,
       </if>
       <if test="createUserId != null">
         create_user_id,
@@ -181,6 +229,18 @@
       <if test="imagePath != null">
         #{imagePath,jdbcType=VARCHAR},
       </if>
+      <if test="longitude != null">
+        #{longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="latitude != null">
+        #{latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
       <if test="grm != null">
         #{grm,jdbcType=VARCHAR},
       </if>
@@ -195,6 +255,24 @@
       </if>
       <if test="isOnline != null">
         #{isOnline,jdbcType=BIT},
+      </if>
+      <if test="morningShiftStartTime != null">
+        #{morningShiftStartTime,jdbcType=TIME},
+      </if>
+      <if test="morningShiftEndTime != null">
+        #{morningShiftEndTime,jdbcType=TIME},
+      </if>
+      <if test="middleShiftStartTime != null">
+        #{middleShiftStartTime,jdbcType=TIME},
+      </if>
+      <if test="middleShiftEndTime != null">
+        #{middleShiftEndTime,jdbcType=TIME},
+      </if>
+      <if test="nightShiftStartTime != null">
+        #{nightShiftStartTime,jdbcType=TIME},
+      </if>
+      <if test="nightShiftEndTime != null">
+        #{nightShiftEndTime,jdbcType=TIME},
       </if>
       <if test="createUserId != null">
         #{createUserId,jdbcType=INTEGER},
@@ -231,6 +309,18 @@
       <if test="record.imagePath != null">
         image_path = #{record.imagePath,jdbcType=VARCHAR},
       </if>
+      <if test="record.longitude != null">
+        longitude = #{record.longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="record.latitude != null">
+        latitude = #{record.latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="record.province != null">
+        province = #{record.province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null">
+        city = #{record.city,jdbcType=VARCHAR},
+      </if>
       <if test="record.grm != null">
         grm = #{record.grm,jdbcType=VARCHAR},
       </if>
@@ -245,6 +335,24 @@
       </if>
       <if test="record.isOnline != null">
         is_online = #{record.isOnline,jdbcType=BIT},
+      </if>
+      <if test="record.morningShiftStartTime != null">
+        morning_shift_start_time = #{record.morningShiftStartTime,jdbcType=TIME},
+      </if>
+      <if test="record.morningShiftEndTime != null">
+        morning_shift_end_time = #{record.morningShiftEndTime,jdbcType=TIME},
+      </if>
+      <if test="record.middleShiftStartTime != null">
+        middle_shift_start_time = #{record.middleShiftStartTime,jdbcType=TIME},
+      </if>
+      <if test="record.middleShiftEndTime != null">
+        middle_shift_end_time = #{record.middleShiftEndTime,jdbcType=TIME},
+      </if>
+      <if test="record.nightShiftStartTime != null">
+        night_shift_start_time = #{record.nightShiftStartTime,jdbcType=TIME},
+      </if>
+      <if test="record.nightShiftEndTime != null">
+        night_shift_end_time = #{record.nightShiftEndTime,jdbcType=TIME},
       </if>
       <if test="record.createUserId != null">
         create_user_id = #{record.createUserId,jdbcType=INTEGER},
@@ -271,11 +379,21 @@
     set product_line_id = #{record.productLineId,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
       image_path = #{record.imagePath,jdbcType=VARCHAR},
+      longitude = #{record.longitude,jdbcType=DECIMAL},
+      latitude = #{record.latitude,jdbcType=DECIMAL},
+      province = #{record.province,jdbcType=VARCHAR},
+      city = #{record.city,jdbcType=VARCHAR},
       grm = #{record.grm,jdbcType=VARCHAR},
       grm_password = #{record.grmPassword,jdbcType=VARCHAR},
       grm_period = #{record.grmPeriod,jdbcType=INTEGER},
       collect_status = #{record.collectStatus,jdbcType=VARCHAR},
       is_online = #{record.isOnline,jdbcType=BIT},
+      morning_shift_start_time = #{record.morningShiftStartTime,jdbcType=TIME},
+      morning_shift_end_time = #{record.morningShiftEndTime,jdbcType=TIME},
+      middle_shift_start_time = #{record.middleShiftStartTime,jdbcType=TIME},
+      middle_shift_end_time = #{record.middleShiftEndTime,jdbcType=TIME},
+      night_shift_start_time = #{record.nightShiftStartTime,jdbcType=TIME},
+      night_shift_end_time = #{record.nightShiftEndTime,jdbcType=TIME},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
@@ -294,6 +412,18 @@
       <if test="imagePath != null">
         image_path = #{imagePath,jdbcType=VARCHAR},
       </if>
+      <if test="longitude != null">
+        longitude = #{longitude,jdbcType=DECIMAL},
+      </if>
+      <if test="latitude != null">
+        latitude = #{latitude,jdbcType=DECIMAL},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
       <if test="grm != null">
         grm = #{grm,jdbcType=VARCHAR},
       </if>
@@ -308,6 +438,24 @@
       </if>
       <if test="isOnline != null">
         is_online = #{isOnline,jdbcType=BIT},
+      </if>
+      <if test="morningShiftStartTime != null">
+        morning_shift_start_time = #{morningShiftStartTime,jdbcType=TIME},
+      </if>
+      <if test="morningShiftEndTime != null">
+        morning_shift_end_time = #{morningShiftEndTime,jdbcType=TIME},
+      </if>
+      <if test="middleShiftStartTime != null">
+        middle_shift_start_time = #{middleShiftStartTime,jdbcType=TIME},
+      </if>
+      <if test="middleShiftEndTime != null">
+        middle_shift_end_time = #{middleShiftEndTime,jdbcType=TIME},
+      </if>
+      <if test="nightShiftStartTime != null">
+        night_shift_start_time = #{nightShiftStartTime,jdbcType=TIME},
+      </if>
+      <if test="nightShiftEndTime != null">
+        night_shift_end_time = #{nightShiftEndTime,jdbcType=TIME},
       </if>
       <if test="createUserId != null">
         create_user_id = #{createUserId,jdbcType=INTEGER},
@@ -331,11 +479,21 @@
     update eam_product_line
     set name = #{name,jdbcType=VARCHAR},
       image_path = #{imagePath,jdbcType=VARCHAR},
+      longitude = #{longitude,jdbcType=DECIMAL},
+      latitude = #{latitude,jdbcType=DECIMAL},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
       grm = #{grm,jdbcType=VARCHAR},
       grm_password = #{grmPassword,jdbcType=VARCHAR},
       grm_period = #{grmPeriod,jdbcType=INTEGER},
       collect_status = #{collectStatus,jdbcType=VARCHAR},
       is_online = #{isOnline,jdbcType=BIT},
+      morning_shift_start_time = #{morningShiftStartTime,jdbcType=TIME},
+      morning_shift_end_time = #{morningShiftEndTime,jdbcType=TIME},
+      middle_shift_start_time = #{middleShiftStartTime,jdbcType=TIME},
+      middle_shift_end_time = #{middleShiftEndTime,jdbcType=TIME},
+      night_shift_start_time = #{nightShiftStartTime,jdbcType=TIME},
+      night_shift_end_time = #{nightShiftEndTime,jdbcType=TIME},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=INTEGER},
@@ -346,17 +504,23 @@
   <insert id="batchInsert">
     <if test="items.get(0) != null">
             insert into eam_product_line  (product_line_id, name, image_path, 
-        grm, grm_password, grm_period, 
-        collect_status, is_online, create_user_id, 
-        create_time, update_user_id, update_time, 
-        delete_flag)
+        longitude, latitude, province, 
+        city, grm, grm_password, 
+        grm_period, collect_status, is_online, 
+        morning_shift_start_time, morning_shift_end_time, middle_shift_start_time, 
+        middle_shift_end_time, night_shift_start_time, night_shift_end_time, 
+        create_user_id, create_time, update_user_id, 
+        update_time, delete_flag)
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.productLineId,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, #{item.imagePath,jdbcType=VARCHAR}, 
-        #{item.grm,jdbcType=VARCHAR}, #{item.grmPassword,jdbcType=VARCHAR}, #{item.grmPeriod,jdbcType=INTEGER}, 
-        #{item.collectStatus,jdbcType=VARCHAR}, #{item.isOnline,jdbcType=BIT}, #{item.createUserId,jdbcType=INTEGER}, 
-        #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
-        #{item.deleteFlag,jdbcType=BIT})
+        #{item.longitude,jdbcType=DECIMAL}, #{item.latitude,jdbcType=DECIMAL}, #{item.province,jdbcType=VARCHAR}, 
+        #{item.city,jdbcType=VARCHAR}, #{item.grm,jdbcType=VARCHAR}, #{item.grmPassword,jdbcType=VARCHAR}, 
+        #{item.grmPeriod,jdbcType=INTEGER}, #{item.collectStatus,jdbcType=VARCHAR}, #{item.isOnline,jdbcType=BIT}, 
+        #{item.morningShiftStartTime,jdbcType=TIME}, #{item.morningShiftEndTime,jdbcType=TIME}, #{item.middleShiftStartTime,jdbcType=TIME}, 
+        #{item.middleShiftEndTime,jdbcType=TIME}, #{item.nightShiftStartTime,jdbcType=TIME}, #{item.nightShiftEndTime,jdbcType=TIME}, 
+        #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, 
+        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT})
       </foreach>
     </if>
   </insert>

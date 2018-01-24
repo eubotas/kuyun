@@ -106,13 +106,13 @@ public abstract class AbstractAlarmHandler {
         EamAlarmRecordExample.Criteria criteria1 = example.createCriteria();
         criteria1.andAlarmIdEqualTo(alarm.getAlarmId())
                 .andEquipmentIdEqualTo(sensorData.getEquipmentId())
-                .andEquipmentModelPropertyIdEqualTo(alarm.getEquipmentModelPropertyId())
+                //.andEquipmentModelPropertyIdEqualTo(alarm.getEquipmentModelPropertyId())
                 .andAlarmStatusEqualTo(AlarmStatus.ANU.getCode());
 
         EamAlarmRecordExample.Criteria criteria2 = example.createCriteria();
         criteria2.andAlarmIdEqualTo(alarm.getAlarmId())
                 .andEquipmentIdEqualTo(sensorData.getEquipmentId())
-                .andEquipmentModelPropertyIdEqualTo(alarm.getEquipmentModelPropertyId())
+                //.andEquipmentModelPropertyIdEqualTo(alarm.getEquipmentModelPropertyId())
                 .andAlarmStatusEqualTo(AlarmStatus.ANA.getCode());
 
         example.or(criteria2);
@@ -125,13 +125,13 @@ public abstract class AbstractAlarmHandler {
         EamAlarmRecordHistoryExample.Criteria criteria1 = example.createCriteria();
         criteria1.andAlarmIdEqualTo(alarm.getAlarmId())
                 .andEquipmentIdEqualTo(sensorData.getEquipmentId())
-                .andEquipmentModelPropertyIdEqualTo(alarm.getEquipmentModelPropertyId())
+                //.andEquipmentModelPropertyIdEqualTo(alarm.getEquipmentModelPropertyId())
                 .andAlarmStatusEqualTo(AlarmStatus.ANU.getCode());
 
         EamAlarmRecordHistoryExample.Criteria criteria2 = example.createCriteria();
         criteria2.andAlarmIdEqualTo(alarm.getAlarmId())
                 .andEquipmentIdEqualTo(sensorData.getEquipmentId())
-                .andEquipmentModelPropertyIdEqualTo(alarm.getEquipmentModelPropertyId())
+                //.andEquipmentModelPropertyIdEqualTo(alarm.getEquipmentModelPropertyId())
                 .andAlarmStatusEqualTo(AlarmStatus.ANA.getCode());
 
         example.or(criteria2);
@@ -145,7 +145,7 @@ public abstract class AbstractAlarmHandler {
         record.setAlarmValue(sensorData.getStringValue());
         record.setAlarmStatus(AlarmStatus.ANU.getCode());
         record.setEquipmentId(sensorData.getEquipmentId());
-        record.setEquipmentModelPropertyId(alarm.getEquipmentModelPropertyId());
+        //record.setEquipmentModelPropertyId(alarm.getEquipmentModelPropertyId());
         record.setCreateTime(new Date());
         record.setDeleteFlag(Boolean.FALSE);
 
@@ -161,7 +161,7 @@ public abstract class AbstractAlarmHandler {
         recordHistory.setAlarmValue(sensorData.getStringValue());
         recordHistory.setAlarmStatus(alarmStatus.getCode());
         recordHistory.setEquipmentId(sensorData.getEquipmentId());
-        recordHistory.setEquipmentModelPropertyId(alarm.getEquipmentModelPropertyId());
+       // recordHistory.setEquipmentModelPropertyId(alarm.getEquipmentModelPropertyId());
         recordHistory.setCreateTime(new Date());
         recordHistory.setDeleteFlag(Boolean.FALSE);
 
@@ -332,7 +332,8 @@ public abstract class AbstractAlarmHandler {
     }
 
     protected EamEquipmentModelProperties getEamEquipmentModelProperties(EamAlarm alarm) {
-        return eamEquipmentModelPropertiesService.selectByPrimaryKey(alarm.getEquipmentModelPropertyId());
+        return null;
+        //return eamEquipmentModelPropertiesService.selectByPrimaryKey(alarm.getEquipmentModelPropertyId());
     }
 
     protected String buildEmailMessage(EamSensorData sensorData, EamAlarm alarm, boolean isClearMessage) {

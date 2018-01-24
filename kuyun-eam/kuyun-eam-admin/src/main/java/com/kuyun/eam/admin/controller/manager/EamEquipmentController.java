@@ -253,11 +253,11 @@ public class EamEquipmentController extends BaseController {
 	@RequestMapping(value = "/connect/{id}", method = RequestMethod.GET)
 	public String connect(@PathVariable("id") String id, ModelMap modelMap) {
 		EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(id);
-		EamEquipmentModel equipmentModel = equipment.getEamEquipmentModel();
-		EamProtocol protocol = protocolService.selectByPrimaryKey(equipmentModel.getProtocolId());
-		modelMap.put("equipment", equipment);
-		modelMap.put("equipmentModel", equipmentModel);
-		modelMap.put("protocol", protocol);
+		//EamEquipmentModel equipmentModel = equipment.getEamEquipmentModel();
+//		EamProtocol protocol = protocolService.selectByPrimaryKey(equipmentModel.getProtocolId());
+//		modelMap.put("equipment", equipment);
+//		modelMap.put("equipmentModel", equipmentModel);
+//		modelMap.put("protocol", protocol);
 		return "/manage/equipment/connect.jsp";
 	}
 

@@ -8,9 +8,9 @@ public class EamAlarmRecordHistory extends BaseEntity implements Serializable {
 
     private Integer alarmId;
 
-    private String equipmentId;
+    private String productLineId;
 
-    private Integer equipmentModelPropertyId;
+    private String equipmentId;
 
     private String alarmValue;
 
@@ -36,20 +36,20 @@ public class EamAlarmRecordHistory extends BaseEntity implements Serializable {
         this.alarmId = alarmId;
     }
 
+    public String getProductLineId() {
+        return productLineId;
+    }
+
+    public void setProductLineId(String productLineId) {
+        this.productLineId = productLineId;
+    }
+
     public String getEquipmentId() {
         return equipmentId;
     }
 
     public void setEquipmentId(String equipmentId) {
         this.equipmentId = equipmentId;
-    }
-
-    public Integer getEquipmentModelPropertyId() {
-        return equipmentModelPropertyId;
-    }
-
-    public void setEquipmentModelPropertyId(Integer equipmentModelPropertyId) {
-        this.equipmentModelPropertyId = equipmentModelPropertyId;
     }
 
     public String getAlarmValue() {
@@ -84,8 +84,8 @@ public class EamAlarmRecordHistory extends BaseEntity implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", alarmId=").append(alarmId);
+        sb.append(", productLineId=").append(productLineId);
         sb.append(", equipmentId=").append(equipmentId);
-        sb.append(", equipmentModelPropertyId=").append(equipmentModelPropertyId);
         sb.append(", alarmValue=").append(alarmValue);
         sb.append(", alarmStatus=").append(alarmStatus);
         sb.append(", alarmClearValue=").append(alarmClearValue);
@@ -107,8 +107,8 @@ public class EamAlarmRecordHistory extends BaseEntity implements Serializable {
         EamAlarmRecordHistory other = (EamAlarmRecordHistory) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getAlarmId() == null ? other.getAlarmId() == null : this.getAlarmId().equals(other.getAlarmId()))
+            && (this.getProductLineId() == null ? other.getProductLineId() == null : this.getProductLineId().equals(other.getProductLineId()))
             && (this.getEquipmentId() == null ? other.getEquipmentId() == null : this.getEquipmentId().equals(other.getEquipmentId()))
-            && (this.getEquipmentModelPropertyId() == null ? other.getEquipmentModelPropertyId() == null : this.getEquipmentModelPropertyId().equals(other.getEquipmentModelPropertyId()))
             && (this.getAlarmValue() == null ? other.getAlarmValue() == null : this.getAlarmValue().equals(other.getAlarmValue()))
             && (this.getAlarmStatus() == null ? other.getAlarmStatus() == null : this.getAlarmStatus().equals(other.getAlarmStatus()))
             && (this.getAlarmClearValue() == null ? other.getAlarmClearValue() == null : this.getAlarmClearValue().equals(other.getAlarmClearValue()))
@@ -126,8 +126,8 @@ public class EamAlarmRecordHistory extends BaseEntity implements Serializable {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getAlarmId() == null) ? 0 : getAlarmId().hashCode());
+        result = prime * result + ((getProductLineId() == null) ? 0 : getProductLineId().hashCode());
         result = prime * result + ((getEquipmentId() == null) ? 0 : getEquipmentId().hashCode());
-        result = prime * result + ((getEquipmentModelPropertyId() == null) ? 0 : getEquipmentModelPropertyId().hashCode());
         result = prime * result + ((getAlarmValue() == null) ? 0 : getAlarmValue().hashCode());
         result = prime * result + ((getAlarmStatus() == null) ? 0 : getAlarmStatus().hashCode());
         result = prime * result + ((getAlarmClearValue() == null) ? 0 : getAlarmClearValue().hashCode());

@@ -21,7 +21,7 @@
 			<div class="col-sm-12">
 				<div class="form-group">
 					<div class="fg-line">
-						<label for="number">设备编号</label>
+						<label for="number">设备型号</label>
 						<input id="number" type="text" class="form-control" name="number" maxlength="500">
 					</div>
 				</div>
@@ -30,7 +30,7 @@
 			<div class="col-sm-12">
 				<div class="form-group">
 					<div class="fg-line">
-						<label for="serialNumber">设备序列号</label>
+						<label for="serialNumber">出厂编号</label>
 						<input id="serialNumber" type="text" class="form-control" name="serialNumber" maxlength="20">
 					</div>
 				</div>
