@@ -13,15 +13,41 @@ import java.util.Date;
 
 public abstract class BaseJob implements Job {
     private static Logger _logger = LoggerFactory.getLogger(BaseJob.class);
+    public static String IDKEY="IDKEY";
 
+    public static enum ScheduleMethod {
+        CRON, SAMPLE
+    }
+
+    public String idKey;
     public String jobKey;
     public String group;
     public Date startDate;
     public int IntervalHours;
+    public String cronSchedule;
+    public int scheduleMethod;
+
+
+    public int getScheduleMethod() {
+        return scheduleMethod;
+    }
+
+    public void setScheduleMethod(int scheduleMethod) {
+        this.scheduleMethod = scheduleMethod;
+    }
+
 
 
     @Override
     public abstract void execute(JobExecutionContext context) throws JobExecutionException;
+
+    public String getIdKey() {
+        return idKey;
+    }
+
+    public void setIdKey(String idKey) {
+        this.idKey = idKey;
+    }
 
     public String getJobKey() {
         return jobKey;
@@ -47,6 +73,14 @@ public abstract class BaseJob implements Job {
         IntervalHours = intervalHours;
     }
 
+    public String getCronSchedule() {
+        return cronSchedule;
+    }
+
+    public void setCronSchedule(String cronSchedule) {
+        this.cronSchedule = cronSchedule;
+    }
+
     public String getGroup() {
         if(group !=null)
         return group;
@@ -58,4 +92,8 @@ public abstract class BaseJob implements Job {
         this.group = group;
     }
 
+    public void setKeyData(String jobKey){
+        jobKey =jobKey;
+        group =jobKey;
+    }
 }

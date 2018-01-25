@@ -97,6 +97,14 @@
     <bean id="eamTicketAppointedRecordServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamTicketAppointedRecordServiceImpl"  />
     <dubbo:service interface="com.kuyun.eam.rpc.api.EamTicketAppointedRecordService" ref="eamTicketAppointedRecordServiceImpl" timeout="10000" />
 
+    <!-- 维修计划相关 -->
+    <bean id="eamMaintainPlanServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamMaintainPlanServiceImpl" />
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamMaintainPlanService" ref="eamMaintainPlanServiceImpl" timeout="10000" />
+
+    <!-- base相关 -->
+    <bean id="eamCodeValueServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamCodeValueServiceImpl" />
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamCodeValueService" ref="eamCodeValueServiceImpl" timeout="10000" />
+
     <!-- 报警 -->
     <bean id="eamAlarmServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamAlarmServiceImpl"/>
     <dubbo:service interface="com.kuyun.eam.rpc.api.EamAlarmService" ref="eamAlarmServiceImpl" timeout="10000"/>

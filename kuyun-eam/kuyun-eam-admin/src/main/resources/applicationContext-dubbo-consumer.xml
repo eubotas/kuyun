@@ -78,6 +78,12 @@
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamTicketAssessmentService" id="eamTicketAssessmentService" mock="true" />
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamTicketAssessmentTagService" id="eamTicketAssessmentTagService" mock="true" />
 
+    <!-- 维修计划相关 -->
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamMaintainPlanService" id="eamMaintainPlanService" mock="true" />
+
+    <!-- base相关 -->
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamCodeValueService" id="eamCodeValueService" mock="true" />
+
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamDtuService" id="eamDtuService" mock="true" />
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamDtuEquipmentService" id="eamDtuEquipmentService" mock="true" />
 

@@ -51,7 +51,7 @@
 
 
 		<div class="form-group text-right dialog-buttons">
-			<a class="waves-effect waves-button" href="javascript:;" onclick="updateSubmit();">保存</a>
+			<a class="waves-effect waves-button" href="javascript:;" onclick="updateSubmit('${basePath}/manage/code/create',updateDialog, 'category,code,code_name');">保存</a>
 			<a class="waves-effect waves-button" href="javascript:;" onclick="updateDialog.close();">取消</a>
 		</div>
 	</form>

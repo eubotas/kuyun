@@ -39,22 +39,28 @@ public class QuartzUtil {
         }
     }
 
-    private Pair<JobDetail, SimpleTrigger> buildJobAndTrigger(){
+    private Pair<JobDetail, Trigger> buildJobAndTrigger(){
         JobDetail job = newJob(jobImpl.getClass()).withIdentity(jobKey.getName(), jobKey.getGroup()).build();
-        //job.getJobDataMap().put(ReadDataJob.DEVICE_ID, deviceId);
+        job.getJobDataMap().put(BaseJob.IDKEY, jobImpl.getIdKey());
 
-        SimpleTrigger trigger = newTrigger().withIdentity(jobKey.getName(), jobKey.getGroup())
-                .startAt(jobImpl.getStartDate())
-                .withSchedule(simpleSchedule()
-                .withIntervalInHours(jobImpl.getIntervalHours())
-                 .repeatForever()).build();
-
-        return new Pair<JobDetail, SimpleTrigger>(job, trigger);
+        Trigger trigger = null;
+        if(jobImpl.getCronSchedule() != null){
+            trigger = newTrigger().withIdentity(jobKey.getName(), jobKey.getGroup())
+                    .withSchedule(CronScheduleBuilder.cronSchedule(jobImpl.getCronSchedule())).build();
+        }else {
+            trigger = newTrigger().withIdentity(jobKey.getName(), jobKey.getGroup())
+                    .withSchedule(simpleSchedule()
+                            .withIntervalInHours(jobImpl.getIntervalHours())
+                            .repeatForever()).build();
+        }
+        return new Pair<JobDetail, Trigger>(job, trigger);
     }
+
+
 
     public void run() throws SchedulerException {
         _logger.info("QuartzUtil Scheduler Starting for keyJob : ", jobKey.getName());
-        Pair<JobDetail, SimpleTrigger> pair = buildJobAndTrigger();
+        Pair<JobDetail, Trigger> pair = buildJobAndTrigger();
         getScheduler().scheduleJob(pair.getKey(), pair.getValue());
     }
 
