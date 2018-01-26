@@ -18,9 +18,9 @@
 <body>
 <div id="main">
 	<div id="toolbar">
-		<shiro:hasPermission name="eam:ticketType:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction('新增数据字典','${basePath}/manage/code/create')"><i class="zmdi zmdi-plus"></i> 新增数据字典</a></shiro:hasPermission>
-		<shiro:hasPermission name="eam:ticketType:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction('新增数据字典','${basePath}/manage/code/update')"><i class="zmdi zmdi-edit"></i> 编辑数据字典</a></shiro:hasPermission>
-		<shiro:hasPermission name="eam:ticketType:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction('新增数据字典','${basePath}/manage/code/delete')"><i class="zmdi zmdi-close"></i> 删除数据字典</a></shiro:hasPermission>
+		<shiro:hasPermission name="eam:codeValue:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction('新增数据字典','${basePath}/manage/code/create')"><i class="zmdi zmdi-plus"></i> 新增数据字典</a></shiro:hasPermission>
+		<shiro:hasPermission name="eam:codeValue:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction('新增数据字典','${basePath}/manage/code/update')"><i class="zmdi zmdi-edit"></i> 编辑数据字典</a></shiro:hasPermission>
+		<shiro:hasPermission name="eam:codeValue:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction('新增数据字典','${basePath}/manage/code/delete')"><i class="zmdi zmdi-close"></i> 删除数据字典</a></shiro:hasPermission>
 	</div>
 	<table id="table"></table>
 </div>

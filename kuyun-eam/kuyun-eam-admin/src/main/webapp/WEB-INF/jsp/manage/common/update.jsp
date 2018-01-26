@@ -14,7 +14,7 @@
                 <div class="form-group">
                     <div class="fg-line">
                         <label for="category">类别</label>
-                        <input id="category" type="text" class="form-control" name="category" maxlength="30" value="${category}">
+                        <input id="category" type="text" class="form-control" name="category" maxlength="30" value="${code.category}">
                     </div>
                 </div>
             </div>
@@ -23,7 +23,7 @@
                 <div class="form-group">
                     <div class="fg-line">
                         <label for="code">Code</label>
-                        <input id="code" type="text" class="form-control" name="code" maxlength="30" value="${code}">
+                        <input id="code" type="text" class="form-control" name="code" maxlength="30" value="${code.code}">
                     </div>
                 </div>
             </div>
@@ -34,7 +34,7 @@
                 <div class="form-group">
                     <div class="fg-line">
                         <label for="code_name">Code名称</label>
-                        <input id="code_name" type="text" class="form-control" name="code_name" maxlength="100" value="${codeName}">
+                        <input id="code_name" type="text" class="form-control" name="code_name" maxlength="100" value="${code.codeName}">
                     </div>
                 </div>
             </div>
@@ -43,7 +43,7 @@
                 <div class="form-group">
                     <div class="fg-line">
                         <label for="description">描述</label>
-                        <input id="description" type="text" class="form-control" name="description" maxlength="30" value="${description}">
+                        <input id="description" type="text" class="form-control" name="description" maxlength="30" value="${code.description}">
                     </div>
                 </div>
             </div>
@@ -51,7 +51,7 @@
 
 
 		<div class="form-group text-right dialog-buttons">
-			<a class="waves-effect waves-button" href="javascript:;" onclick="updateSubmit('${basePath}/manage/code/create',updateDialog, 'category,code,code_name');">保存</a>
+			<a class="waves-effect waves-button" href="javascript:;" onclick="updateSubmit('${basePath}/manage/code/update',updateDialog, 'category,code,code_name');">保存</a>
 			<a class="waves-effect waves-button" href="javascript:;" onclick="updateDialog.close();">取消</a>
 		</div>
 	</form>
