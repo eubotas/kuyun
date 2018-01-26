@@ -44,7 +44,7 @@ public class QuartzUtil {
         job.getJobDataMap().put(BaseJob.IDKEY, jobImpl.getIdKey());
 
         Trigger trigger = null;
-        if(jobImpl.getCronSchedule() != null){
+        if(jobImpl.getScheduleMethod() == BaseJob.ScheduleMethod.CRON.ordinal()){
             trigger = newTrigger().withIdentity(jobKey.getName(), jobKey.getGroup())
                     .withSchedule(CronScheduleBuilder.cronSchedule(jobImpl.getCronSchedule())).build();
         }else {

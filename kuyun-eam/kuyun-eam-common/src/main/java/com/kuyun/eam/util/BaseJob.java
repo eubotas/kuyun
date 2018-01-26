@@ -15,7 +15,7 @@ public abstract class BaseJob implements Job {
     private static Logger _logger = LoggerFactory.getLogger(BaseJob.class);
     public static String IDKEY="IDKEY";
 
-    public static enum ScheduleMethod {
+    public enum ScheduleMethod {
         CRON, SAMPLE
     }
 
