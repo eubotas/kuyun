@@ -70,3 +70,15 @@ CREATE TABLE eam_code_value (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+INSERT INTO `upms_permission` VALUES ('600', '6', '0', '维修计划', '1', null, null, 'zmdi zmdi-collection-text', 1, 1, 600);
+INSERT INTO `upms_permission` VALUES ('610', '6', '600', '维修计划', '2', 'eam:maintainPlan:read', '/manage/maintainPlan/index', NULL, 1, 1, 610);
+INSERT INTO `upms_permission` VALUES ('611', '6', '610', '维修计划', '3', 'eam:maintainPlan:create', '/manage/maintainPlan/create', NULL, 1, 1, 611);
+INSERT INTO `upms_permission` VALUES ('612', '6', '610', '维修计划', '3', 'eam:maintainPlan:update', '/manage/maintainPlan/update', NULL, 1, 1, 612);
+INSERT INTO `upms_permission` VALUES ('613', '6', '610', '维修计划', '3', 'eam:maintainPlan:delete', '/manage/maintainPlan/delete', NULL, 1, 1, 613);
+
+INSERT INTO `upms_permission` VALUES (700,6,0,'基础数据设置',1,NULL,NULL,'zmdi zmdi-collection-text',1,100,700);
+INSERT INTO `upms_permission` VALUES ('710', '6', '700', '数据字典', '2', 'eam:codeValue:read', '/manage/code/index', NULL, 1, 1, 710);
+INSERT INTO `upms_permission` VALUES ('711', '6', '710', '新增数据字典', '3', 'eam:codeValue:create', '/manage/code/create', 'zmdi zmdi-plus', 1, 1, 711);
+INSERT INTO `upms_permission` VALUES ('712', '6', '710', '编辑数据字典', '3', 'eam:codeValue:update', '/manage/code/update', 'zmdi zmdi-edit', 1, 1, 712);
+INSERT INTO `upms_permission` VALUES ('713', '6', '710', '删除数据字典', '3', 'eam:codeValue:delete', '/manage/code/delete', 'zmdi zmdi-close', 1, 1, 713);
+
