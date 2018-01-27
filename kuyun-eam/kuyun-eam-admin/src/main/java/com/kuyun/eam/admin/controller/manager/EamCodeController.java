@@ -36,7 +36,7 @@ import static com.kuyun.eam.common.constant.EamResultConstant.SUCCESS;
  */
 @Controller
 @Api(value = "数据字典管理", description = "数据字典管理")
-@RequestMapping("/manage/code")
+@RequestMapping("/manage/codeValue")
 public class EamCodeController extends BaseController {
 
 	private static Logger _log = LoggerFactory.getLogger(EamCodeController.class);

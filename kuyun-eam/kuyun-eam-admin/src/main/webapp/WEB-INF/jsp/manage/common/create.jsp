@@ -49,77 +49,9 @@
         </div>
 
 		<div class="form-group text-right dialog-buttons">
-			<a class="waves-effect waves-button" href="javascript:;" onclick="createSubmit();">保存</a>
+			<a class="waves-effect waves-button" href="javascript:;" onclick="createSubmit('${basePath}/manage/codeValue/create',createDialog, 'category,code,code_name');">保存</a>
 			<a class="waves-effect waves-button" href="javascript:;" onclick="createDialog.close();">取消</a>
 		</div>
 	</form>
 </div>
-
-<script>
-    function createSubmit() {
-        $.ajax({
-            type: 'post',
-            url: '${basePath}/manage/code/create',
-            data: $('#createForm').serialize(),
-            beforeSend: function() {
-                if ($('#category').val() == '') {
-                    $('#category').focus();
-                    return false;
-                }
-            },
-            success: function(result) {
-                if (result.code != 1) {
-                    if (result.data instanceof Array) {
-                        $.each(result.data, function(index, value) {
-                            $.confirm({
-                                theme: 'dark',
-                                animation: 'rotateX',
-                                closeAnimation: 'rotateX',
-                                title: false,
-                                content: value.errorMsg,
-                                buttons: {
-                                    confirm: {
-                                        text: '确认',
-                                        btnClass: 'waves-effect waves-button waves-light'
-                                    }
-                                }
-                            });
-                        });
-                    } else {
-                        $.confirm({
-                            theme: 'dark',
-                            animation: 'rotateX',
-                            closeAnimation: 'rotateX',
-                            title: false,
-                            content: result.data.errorMsg,
-                            buttons: {
-                                confirm: {
-                                    text: '确认',
-                                    btnClass: 'waves-effect waves-button waves-light'
-                                }
-                            }
-                        });
-                    }
-                } else {
-                    createDialog.close();
-                    $table.bootstrapTable('refresh');
-                }
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                $.confirm({
-                    theme: 'dark',
-                    animation: 'rotateX',
-                    closeAnimation: 'rotateX',
-                    title: false,
-                    content: textStatus,
-                    buttons: {
-                        confirm: {
-                            text: '确认',
-                            btnClass: 'waves-effect waves-button waves-light'
-                        }
-                    }
-                });
-            }
-        });
-    }
-</script>
+<script src="/resources/inc/eamcommon.js"></script>

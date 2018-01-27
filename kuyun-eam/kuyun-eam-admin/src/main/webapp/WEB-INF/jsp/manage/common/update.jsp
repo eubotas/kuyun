@@ -57,4 +57,4 @@
 	</form>
 </div>
 
-<script src="${basePath}/resources/kuyun-admin/js/eamcommon.js"></script>
+<script src="/resources/inc/eamcommon.js"></script>

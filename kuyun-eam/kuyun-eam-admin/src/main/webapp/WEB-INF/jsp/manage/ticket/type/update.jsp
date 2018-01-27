@@ -21,77 +21,9 @@
 
 
 		<div class="form-group text-right dialog-buttons">
-			<a class="waves-effect waves-button" href="javascript:;" onclick="updateSubmit();">保存</a>
+			<a class="waves-effect waves-button" href="javascript:;" onclick="updateSubmit('${basePath}/manage/ticket/type/update/${ticketType.id}',updateDialog,'name');">保存</a>
 			<a class="waves-effect waves-button" href="javascript:;" onclick="updateDialog.close();">取消</a>
 		</div>
 	</form>
 </div>
-<script>
-
-function updateSubmit() {
-    $.ajax({
-        type: 'post',
-        url: '${basePath}/manage/ticket/type/update/${ticketType.id}',
-        data: $('#updateForm').serialize(),
-        beforeSend: function() {
-			if ($('#name').val() == '') {
-				$('#name').focus();
-				return false;
-			}
-        },
-        success: function(result) {
-			if (result.code != 1) {
-				if (result.data instanceof Array) {
-					$.each(result.data, function(index, value) {
-						$.confirm({
-							theme: 'dark',
-							animation: 'rotateX',
-							closeAnimation: 'rotateX',
-							title: false,
-							content: value.errorMsg,
-							buttons: {
-								confirm: {
-									text: '确认',
-									btnClass: 'waves-effect waves-button waves-light'
-								}
-							}
-						});
-					});
-				} else {
-						$.confirm({
-							theme: 'dark',
-							animation: 'rotateX',
-							closeAnimation: 'rotateX',
-							title: false,
-							content: result.data.errorMsg,
-							buttons: {
-								confirm: {
-									text: '确认',
-									btnClass: 'waves-effect waves-button waves-light'
-								}
-							}
-						});
-				}
-			} else {
-				updateDialog.close();
-				$table.bootstrapTable('refresh');
-			}
-        },
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
-			$.confirm({
-				theme: 'dark',
-				animation: 'rotateX',
-				closeAnimation: 'rotateX',
-				title: false,
-				content: textStatus,
-				buttons: {
-					confirm: {
-						text: '确认',
-						btnClass: 'waves-effect waves-button waves-light'
-					}
-				}
-			});
-        }
-    });
-}
-</script>
+<script src="/resources/inc/eamcommon.js"></script>

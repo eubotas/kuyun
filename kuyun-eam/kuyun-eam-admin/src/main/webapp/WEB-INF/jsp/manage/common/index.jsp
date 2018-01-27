@@ -18,20 +18,20 @@
 <body>
 <div id="main">
 	<div id="toolbar">
-		<shiro:hasPermission name="eam:codeValue:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction('新增数据字典','${basePath}/manage/code/create')"><i class="zmdi zmdi-plus"></i> 新增数据字典</a></shiro:hasPermission>
-		<shiro:hasPermission name="eam:codeValue:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction('新增数据字典','${basePath}/manage/code/update')"><i class="zmdi zmdi-edit"></i> 编辑数据字典</a></shiro:hasPermission>
-		<shiro:hasPermission name="eam:codeValue:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction('新增数据字典','${basePath}/manage/code/delete')"><i class="zmdi zmdi-close"></i> 删除数据字典</a></shiro:hasPermission>
+		<shiro:hasPermission name="eam:codeValue:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction('新增数据字典','${basePath}/manage/codeValue/create')"><i class="zmdi zmdi-plus"></i> 新增数据字典</a></shiro:hasPermission>
+		<shiro:hasPermission name="eam:codeValue:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction('新增数据字典','${basePath}/manage/codeValue/update')"><i class="zmdi zmdi-edit"></i> 编辑数据字典</a></shiro:hasPermission>
+		<shiro:hasPermission name="eam:codeValue:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction('新增数据字典','${basePath}/manage/codeValue/delete')"><i class="zmdi zmdi-close"></i> 删除数据字典</a></shiro:hasPermission>
 	</div>
 	<table id="table"></table>
 </div>
 <jsp:include page="/resources/inc/footer.jsp" flush="true"/>
-<script src="${basePath}/resources/kuyun-admin/js/eamcommon.js"></script>
+<script src="/resources/inc/eamcommon.js"></script>
 <script>
     var $table = $('#table');
     $(function() {
         // bootstrap table初始化
         $table.bootstrapTable({
-            url: '${basePath}/manage/code/list',
+            url: '${basePath}/manage/codeValue/list',
             height: getHeight(),
             striped: true,
             search: true,
@@ -68,8 +68,8 @@
     // 格式化操作按钮
     function actionFormatter(value, row, index) {
         return [
-            '<a class="update" href="javascript:;" onclick="updateAction()" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>　',
-            '<a class="delete" href="javascript:;" onclick="deleteAction()" data-toggle="tooltip" title="Remove"><i class="glyphicon glyphicon-remove"></i></a>'
+            '<a class="update" href="javascript:;" onclick="updateAction(\'新增数据字典\',\'${basePath}/manage/codeValue/update\')" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>　',
+            '<a class="delete" href="javascript:;" onclick="deleteAction(\'新增数据字典\',\'${basePath}/manage/codeValue/delete\')" data-toggle="tooltip" title="Remove"><i class="glyphicon glyphicon-remove"></i></a>'
         ].join('');
     }
 </script>

@@ -8,7 +8,7 @@ import com.kuyun.eam.rpc.api.EamApiService;
 import com.kuyun.eam.rpc.api.EamMaintainPlanService;
 import com.kuyun.eam.rpc.api.EamTicketService;
 import com.kuyun.eam.util.BaseJob;
-import com.kuyun.eam.util.DateUtil;
+import com.kuyun.eam.util.EamDateUtil;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
@@ -52,7 +52,7 @@ public class TicketJob extends BaseJob {
 
             int day = startMainTainDate.getDay();
             int month = startMainTainDate.getMonth();
-            int week = DateUtil.getWeekOfDate(startMainTainDate);
+            int week = EamDateUtil.getWeekOfDate(startMainTainDate);
 
             if ("YEAR".equals(unit)) {
                 setScheduleMethod(ScheduleMethod.CRON.ordinal());

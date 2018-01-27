@@ -8,90 +8,53 @@
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 <div id="updateDialog" class="crudDialog">
 	<form id="updateForm" method="post">
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group">
-					<div class="fg-line">
-						<label for="name">工单类型名称</label>
-						<input id="name" type="text" class="form-control" name="name" maxlength="200" value="${ticketType.name}">
-					</div>
-				</div>
-			</div>
-		</div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <div class="fg-line">
+                        <label for="category">类别</label>
+                        <input id="category" type="text" class="form-control" name="category" maxlength="30" value="${code.category}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <div class="fg-line">
+                        <label for="code">Code</label>
+                        <input id="code" type="text" class="form-control" name="code" maxlength="30" value="${code.code}">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <div class="fg-line">
+                        <label for="code_name">Code名称</label>
+                        <input id="code_name" type="text" class="form-control" name="code_name" maxlength="100" value="${code.codeName}">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <div class="fg-line">
+                        <label for="description">描述</label>
+                        <input id="description" type="text" class="form-control" name="description" maxlength="30" value="${code.description}">
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
 		<div class="form-group text-right dialog-buttons">
-			<a class="waves-effect waves-button" href="javascript:;" onclick="updateSubmit();">保存</a>
+			<a class="waves-effect waves-button" href="javascript:;" onclick="updateSubmit('${basePath}/manage/maintainPlan/update',updateDialog, 'category,code,code_name');">保存</a>
 			<a class="waves-effect waves-button" href="javascript:;" onclick="updateDialog.close();">取消</a>
 		</div>
 	</form>
 </div>
-<script>
 
-function updateSubmit() {
-    $.ajax({
-        type: 'post',
-        url: '${basePath}/manage/ticket/type/update/${ticketType.id}',
-        data: $('#updateForm').serialize(),
-        beforeSend: function() {
-			if ($('#name').val() == '') {
-				$('#name').focus();
-				return false;
-			}
-        },
-        success: function(result) {
-			if (result.code != 1) {
-				if (result.data instanceof Array) {
-					$.each(result.data, function(index, value) {
-						$.confirm({
-							theme: 'dark',
-							animation: 'rotateX',
-							closeAnimation: 'rotateX',
-							title: false,
-							content: value.errorMsg,
-							buttons: {
-								confirm: {
-									text: '确认',
-									btnClass: 'waves-effect waves-button waves-light'
-								}
-							}
-						});
-					});
-				} else {
-						$.confirm({
-							theme: 'dark',
-							animation: 'rotateX',
-							closeAnimation: 'rotateX',
-							title: false,
-							content: result.data.errorMsg,
-							buttons: {
-								confirm: {
-									text: '确认',
-									btnClass: 'waves-effect waves-button waves-light'
-								}
-							}
-						});
-				}
-			} else {
-				updateDialog.close();
-				$table.bootstrapTable('refresh');
-			}
-        },
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
-			$.confirm({
-				theme: 'dark',
-				animation: 'rotateX',
-				closeAnimation: 'rotateX',
-				title: false,
-				content: textStatus,
-				buttons: {
-					confirm: {
-						text: '确认',
-						btnClass: 'waves-effect waves-button waves-light'
-					}
-				}
-			});
-        }
-    });
-}
-</script>
+<script src="/resources/inc/eamcommon.js"></script>
