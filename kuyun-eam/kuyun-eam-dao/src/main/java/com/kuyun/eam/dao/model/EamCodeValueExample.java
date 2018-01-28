@@ -258,73 +258,73 @@ public class EamCodeValueExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andCodeIsNull() {
-            addCriterion("code is null");
+        public Criteria andCodeValueIsNull() {
+            addCriterion("code_value is null");
             return (Criteria) this;
         }
 
-        public Criteria andCodeIsNotNull() {
-            addCriterion("code is not null");
+        public Criteria andCodeValueIsNotNull() {
+            addCriterion("code_value is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCodeEqualTo(String value) {
-            addCriterion("code =", value, "code");
+        public Criteria andCodeValueEqualTo(String value) {
+            addCriterion("code_value =", value, "codeValue");
             return (Criteria) this;
         }
 
-        public Criteria andCodeNotEqualTo(String value) {
-            addCriterion("code <>", value, "code");
+        public Criteria andCodeValueNotEqualTo(String value) {
+            addCriterion("code_value <>", value, "codeValue");
             return (Criteria) this;
         }
 
-        public Criteria andCodeGreaterThan(String value) {
-            addCriterion("code >", value, "code");
+        public Criteria andCodeValueGreaterThan(String value) {
+            addCriterion("code_value >", value, "codeValue");
             return (Criteria) this;
         }
 
-        public Criteria andCodeGreaterThanOrEqualTo(String value) {
-            addCriterion("code >=", value, "code");
+        public Criteria andCodeValueGreaterThanOrEqualTo(String value) {
+            addCriterion("code_value >=", value, "codeValue");
             return (Criteria) this;
         }
 
-        public Criteria andCodeLessThan(String value) {
-            addCriterion("code <", value, "code");
+        public Criteria andCodeValueLessThan(String value) {
+            addCriterion("code_value <", value, "codeValue");
             return (Criteria) this;
         }
 
-        public Criteria andCodeLessThanOrEqualTo(String value) {
-            addCriterion("code <=", value, "code");
+        public Criteria andCodeValueLessThanOrEqualTo(String value) {
+            addCriterion("code_value <=", value, "codeValue");
             return (Criteria) this;
         }
 
-        public Criteria andCodeLike(String value) {
-            addCriterion("code like", value, "code");
+        public Criteria andCodeValueLike(String value) {
+            addCriterion("code_value like", value, "codeValue");
             return (Criteria) this;
         }
 
-        public Criteria andCodeNotLike(String value) {
-            addCriterion("code not like", value, "code");
+        public Criteria andCodeValueNotLike(String value) {
+            addCriterion("code_value not like", value, "codeValue");
             return (Criteria) this;
         }
 
-        public Criteria andCodeIn(List<String> values) {
-            addCriterion("code in", values, "code");
+        public Criteria andCodeValueIn(List<String> values) {
+            addCriterion("code_value in", values, "codeValue");
             return (Criteria) this;
         }
 
-        public Criteria andCodeNotIn(List<String> values) {
-            addCriterion("code not in", values, "code");
+        public Criteria andCodeValueNotIn(List<String> values) {
+            addCriterion("code_value not in", values, "codeValue");
             return (Criteria) this;
         }
 
-        public Criteria andCodeBetween(String value1, String value2) {
-            addCriterion("code between", value1, value2, "code");
+        public Criteria andCodeValueBetween(String value1, String value2) {
+            addCriterion("code_value between", value1, value2, "codeValue");
             return (Criteria) this;
         }
 
-        public Criteria andCodeNotBetween(String value1, String value2) {
-            addCriterion("code not between", value1, value2, "code");
+        public Criteria andCodeValueNotBetween(String value1, String value2) {
+            addCriterion("code_value not between", value1, value2, "codeValue");
             return (Criteria) this;
         }
 

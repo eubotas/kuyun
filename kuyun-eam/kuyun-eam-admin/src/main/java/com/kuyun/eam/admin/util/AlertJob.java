@@ -1,25 +1,29 @@
 package com.kuyun.eam.admin.util;
 
 import com.kuyun.eam.common.constant.TicketStatus;
+import com.kuyun.eam.dao.model.EamAlertMessage;
 import com.kuyun.eam.dao.model.EamMaintainPlan;
-import com.kuyun.eam.dao.model.EamMaintainPlanExample;
-import com.kuyun.eam.dao.model.EamMaintainTicket;
 import com.kuyun.eam.dao.model.EamTicket;
-import com.kuyun.eam.rpc.api.EamApiService;
+import com.kuyun.eam.rpc.api.EamAlertMessageService;
 import com.kuyun.eam.rpc.api.EamMaintainPlanService;
-import com.kuyun.eam.rpc.api.EamMaintainTicketService;
 import com.kuyun.eam.rpc.api.EamTicketService;
 import com.kuyun.eam.util.BaseJob;
 import com.kuyun.eam.util.EamDateUtil;
 import com.kuyun.upms.client.util.BaseEntityUtil;
+import com.kuyun.upms.dao.model.UpmsUserOrganization;
+import com.kuyun.upms.dao.model.UpmsUserOrganizationExample;
+import com.kuyun.upms.rpc.api.UpmsOrganizationService;
+import com.kuyun.upms.rpc.api.UpmsUserOrganizationService;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class TicketJob extends BaseJob {
+public class AlertJob extends BaseJob {
 
     @Autowired
     private BaseEntityUtil baseEntityUtil;
@@ -28,15 +32,15 @@ public class TicketJob extends BaseJob {
     private EamMaintainPlanService eamMainTainPlanService;
 
     @Autowired
-    private EamTicketService eamTicketService;
+    private EamAlertMessageService eamAlertMessageService;
 
     @Autowired
-    private EamMaintainTicketService eamMaintainTicketService;
+    private UpmsUserOrganizationService upmsUserOrganizationService;
 
-    public TicketJob(){}
-    public TicketJob(int id){
+    public AlertJob(){}
+    public AlertJob(int id){
         idKey = String.valueOf(id);
-        setKeyData("TICKET"+id);
+        setKeyData("ALERT"+id);
         setCronData(id);
     }
 
@@ -44,31 +48,14 @@ public class TicketJob extends BaseJob {
     public void execute(JobExecutionContext context) throws JobExecutionException {
         JobDataMap data = context.getJobDetail().getJobDataMap();
         String idKey = data.getString(IDKEY); //传值
-
-        System.out.println("do something"+(new Date()));
-
-        //createTicket(eamMainTainPlanService.selectByPrimaryKey(Integer.parseInt(idKey)));
-    }
-
-    private EamMaintainPlan getPlan(){
-        EamMaintainPlan plan=new EamMaintainPlan();
-        plan.setEquipmentCategoryId(2);
-        plan.setEquipmentId("94tOF6JTVZsADSti");
-        plan.setMaintainFrequencyQuantity(2);
-        plan.setMaintainFrequencyUnit("DAY0");
-        plan.setNextMaintainDate(EamDateUtil.getDateAfterMinute(new Date(),1));//EamDateUtil.getDate(2018,1,27)
-        plan.setRemindTime(2);
-        plan.setWorkContent("保养");
-        plan.setCompanyId(298);
-        plan.setOrgId(1);
-        return plan;
+        createAlert(eamMainTainPlanService.selectByPrimaryKey(Integer.parseInt(idKey)));
     }
 
     private void setCronData(int id){
-        EamMaintainPlan plan= getPlan();//eamMainTainPlanService.selectByPrimaryKey(id);
+        EamMaintainPlan plan= eamMainTainPlanService.selectByPrimaryKey(id);
         if(plan != null) {
             int orgId = plan.getOrgId();
-            Date startMainTainDate = plan.getNextMaintainDate();
+            Date startMainTainDate = EamDateUtil.getDateBefore(plan.getNextMaintainDate(),plan.getRemindTime());
             setStartDate(startMainTainDate);
             String unit = plan.getMaintainFrequencyUnit();
             int num = plan.getMaintainFrequencyQuantity();
@@ -89,31 +76,32 @@ public class TicketJob extends BaseJob {
             }else if ("DAY".equals(unit)) {
                 setIntervalHours(24*num);
                 setScheduleMethod(ScheduleMethod.SAMPLE.ordinal());
-            }else{
-                setScheduleMethod(ScheduleMethod.CRON.ordinal());
-                cronSchedule = "*/10 * * * * ?" ;
             }
         }
     }
 
-    private void createTicket(EamMaintainPlan plan){
+    private void createAlert(EamMaintainPlan plan){
         if(plan != null) {
-            EamTicket ticket = new EamTicket();
-            ticket.setStatus(TicketStatus.INIT.getName());
-            ticket.setDescription(plan.getWorkContent());
-            ticket.setTicketTypeId(0);
-            ticket.setEquipmentCategoryId(plan.getEquipmentCategoryId());
-            ticket.setEquipmentId(plan.getEquipmentId());
-            ticket.setCompanyId(plan.getCompanyId());
-            baseEntityUtil.addAddtionalValue(ticket);
+            int orgId=plan.getOrgId();
+            UpmsUserOrganizationExample example=new UpmsUserOrganizationExample();
+            UpmsUserOrganizationExample.Criteria cr= example.createCriteria();
+            cr.andOrganizationIdEqualTo(orgId);
 
-            eamTicketService.insert(ticket);//todo
+            String content="保养计划: "+ EamDateUtil.getDateStr(plan.getNextMaintainDate(), "yyyy-mm-dd");
 
-            EamMaintainTicket mt=new EamMaintainTicket();
-            mt.setPlanId(plan.getPlanId());
-            mt.setTicketId(ticket.getTicketId());
-            baseEntityUtil.addAddtionalValue(mt);
-            eamMaintainTicketService.insert(mt);
+            List<UpmsUserOrganization> uos=upmsUserOrganizationService.selectByExample(example);
+            List<EamAlertMessage> alerts=new ArrayList<EamAlertMessage>();
+            EamAlertMessage alert = null;
+            for(UpmsUserOrganization uo: uos) {
+                alert = new EamAlertMessage();
+                alert.setUserId(uo.getUserId());
+                alert.setAlertStartDate(EamDateUtil.getDateBefore(plan.getNextMaintainDate(),plan.getRemindTime()));
+                alert.setAlertEndDate(plan.getNextMaintainDate());
+                alert.setContent(content);
+                baseEntityUtil.addAddtionalValue(alert);
+                alerts.add(alert);
+            }
+            eamAlertMessageService.batchInsert(alerts);
         }
     }
 

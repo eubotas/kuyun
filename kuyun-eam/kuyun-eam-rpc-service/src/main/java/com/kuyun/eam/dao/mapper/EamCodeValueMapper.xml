@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamCodeValue">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="category" jdbcType="VARCHAR" property="category" />
-    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="code_value" jdbcType="VARCHAR" property="codeValue" />
     <result column="code_name" jdbcType="VARCHAR" property="codeName" />
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
@@ -72,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, category, code, code_name, description, create_user_id, create_time, update_user_id, 
+    id, category, code_value, code_name, description, create_user_id, create_time, update_user_id,
     update_time, delete_flag
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamCodeValueExample" resultMap="BaseResultMap">
@@ -114,11 +114,11 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamCodeValue">
-    insert into eam_code_value (id, category, code, 
+    insert into eam_code_value (id, category, code_value,
       code_name, description, create_user_id, 
       create_time, update_user_id, update_time, 
       delete_flag)
-    values (#{id,jdbcType=INTEGER}, #{category,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{category,jdbcType=VARCHAR}, #{codeValue,jdbcType=VARCHAR},
       #{codeName,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{deleteFlag,jdbcType=BIT})
@@ -132,8 +132,8 @@
       <if test="category != null">
         category,
       </if>
-      <if test="code != null">
-        code,
+      <if test="codeValue != null">
+        code_value,
       </if>
       <if test="codeName != null">
         code_name,
@@ -164,8 +164,8 @@
       <if test="category != null">
         #{category,jdbcType=VARCHAR},
       </if>
-      <if test="code != null">
-        #{code,jdbcType=VARCHAR},
+      <if test="codeValue != null">
+        #{codeValue,jdbcType=VARCHAR},
       </if>
       <if test="codeName != null">
         #{codeName,jdbcType=VARCHAR},
@@ -205,8 +205,8 @@
       <if test="record.category != null">
         category = #{record.category,jdbcType=VARCHAR},
       </if>
-      <if test="record.code != null">
-        code = #{record.code,jdbcType=VARCHAR},
+      <if test="record.codeValue != null">
+        code_value = #{record.codeValue,jdbcType=VARCHAR},
       </if>
       <if test="record.codeName != null">
         code_name = #{record.codeName,jdbcType=VARCHAR},
@@ -238,7 +238,7 @@
     update eam_code_value
     set id = #{record.id,jdbcType=INTEGER},
       category = #{record.category,jdbcType=VARCHAR},
-      code = #{record.code,jdbcType=VARCHAR},
+      code_value = #{record.codeValue,jdbcType=VARCHAR},
       code_name = #{record.codeName,jdbcType=VARCHAR},
       description = #{record.description,jdbcType=VARCHAR},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
@@ -256,8 +256,8 @@
       <if test="category != null">
         category = #{category,jdbcType=VARCHAR},
       </if>
-      <if test="code != null">
-        code = #{code,jdbcType=VARCHAR},
+      <if test="codeValue != null">
+        code_value = #{codeValue,jdbcType=VARCHAR},
       </if>
       <if test="codeName != null">
         code_name = #{codeName,jdbcType=VARCHAR},
@@ -286,7 +286,7 @@
   <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamCodeValue">
     update eam_code_value
     set category = #{category,jdbcType=VARCHAR},
-      code = #{code,jdbcType=VARCHAR},
+      code_value = #{codeValue,jdbcType=VARCHAR},
       code_name = #{codeName,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
       create_user_id = #{createUserId,jdbcType=INTEGER},
@@ -298,13 +298,13 @@
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into eam_code_value  (id, category, code, 
+            insert into eam_code_value  (id, category, code_value,
         code_name, description, create_user_id, 
         create_time, update_user_id, update_time, 
         delete_flag)
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.id,jdbcType=INTEGER}, #{item.category,jdbcType=VARCHAR}, #{item.code,jdbcType=VARCHAR}, 
+      (#{item.id,jdbcType=INTEGER}, #{item.category,jdbcType=VARCHAR}, #{item.codeValue,jdbcType=VARCHAR},
         #{item.codeName,jdbcType=VARCHAR}, #{item.description,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER}, 
         #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
         #{item.deleteFlag,jdbcType=BIT})

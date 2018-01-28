@@ -9,7 +9,7 @@ CREATE TABLE eam_maintain_plan (
    next_maintain_date datetime COMMENT '由job产生ticket时修改',
    maintain_frequency_unit varchar(32) NOT NULL COMMENT '年/月/天',
    maintain_frequency_quantity int NOT NULL COMMENT '1年/3月/10天',
-   maintain_type varchar(32) NOT NULL COMMENT '年检/常规',
+   maintain_type varchar(32) NULL COMMENT '年检/常规',
    remind_time          int COMMENT '到维修期提前提醒时间(天)',
    create_user_id       int,
    create_time          datetime,
@@ -59,7 +59,7 @@ DROP TABLE IF EXISTS eam_code_value;
 CREATE TABLE eam_code_value (
   id int(11) NOT NULL AUTO_INCREMENT,
   category    varchar(30) NOT NULL,
-  code        varchar(30) NOT NULL,
+  code_value  varchar(30) NOT NULL,
   code_name   varchar(100) NOT NULL,
   description varchar(2000) DEFAULT NULL,
   create_user_id       int,

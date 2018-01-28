@@ -8,7 +8,7 @@ public class EamCodeValue extends BaseEntity implements Serializable {
 
     private String category;
 
-    private String code;
+    private String codeValue;
 
     private String codeName;
 
@@ -32,12 +32,12 @@ public class EamCodeValue extends BaseEntity implements Serializable {
         this.category = category;
     }
 
-    public String getCode() {
-        return code;
+    public String getCodeValue() {
+        return codeValue;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setCodeValue(String code) {
+        this.codeValue = code;
     }
 
     public String getCodeName() {
@@ -64,7 +64,7 @@ public class EamCodeValue extends BaseEntity implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", category=").append(category);
-        sb.append(", code=").append(code);
+        sb.append(", codeValue=").append(codeValue);
         sb.append(", codeName=").append(codeName);
         sb.append(", description=").append(description);
         sb.append("]");
@@ -85,7 +85,7 @@ public class EamCodeValue extends BaseEntity implements Serializable {
         EamCodeValue other = (EamCodeValue) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getCategory() == null ? other.getCategory() == null : this.getCategory().equals(other.getCategory()))
-            && (this.getCode() == null ? other.getCode() == null : this.getCode().equals(other.getCode()))
+            && (this.getCodeValue() == null ? other.getCodeValue() == null : this.getCodeValue().equals(other.getCodeValue()))
             && (this.getCodeName() == null ? other.getCodeName() == null : this.getCodeName().equals(other.getCodeName()))
             && (this.getDescription() == null ? other.getDescription() == null : this.getDescription().equals(other.getDescription()))
             && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
@@ -101,7 +101,7 @@ public class EamCodeValue extends BaseEntity implements Serializable {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getCategory() == null) ? 0 : getCategory().hashCode());
-        result = prime * result + ((getCode() == null) ? 0 : getCode().hashCode());
+        result = prime * result + ((getCodeValue() == null) ? 0 : getCodeValue().hashCode());
         result = prime * result + ((getCodeName() == null) ? 0 : getCodeName().hashCode());
         result = prime * result + ((getDescription() == null) ? 0 : getDescription().hashCode());
         result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());

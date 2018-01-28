@@ -14,7 +14,7 @@ function createAction(title, targetUrl) {
 }
 // 编辑
 var updateDialog;
-function updateAction(title, targetUrl) {
+function updateAction(title, targetUrl, idname) {
     var rows = $table.bootstrapTable('getSelections');
     if (rows.length != 1) {
         $.confirm({
@@ -30,11 +30,15 @@ function updateAction(title, targetUrl) {
             }
         });
     } else {
+        var idName='id';
+        if(idname)
+            idName=idname;
+
         updateDialog = $.dialog({
             animationSpeed: 300,
             title: '编辑'+title,
             columnClass: 'xlarge',
-            content: 'url:'+targetUrl + rows[0].id,
+            content: 'url:'+targetUrl +'/' + rows[0][idName],
             onContentReady: function () {
                 initMaterialInput();
                 $('select').select2();
@@ -45,7 +49,7 @@ function updateAction(title, targetUrl) {
 
 // 删除
 var deleteDialog;
-function deleteAction(title, targetUrl) {
+function deleteAction(title, targetUrl, idname) {
     var rows = $table.bootstrapTable('getSelections');
     if (rows.length == 0) {
         $.confirm({
@@ -61,6 +65,9 @@ function deleteAction(title, targetUrl) {
             }
         });
     } else {
+        var idName='id';
+        if(idname)
+            idName=idname;
         deleteDialog = $.confirm({
             type: 'red',
             animationSpeed: 300,
@@ -73,7 +80,7 @@ function deleteAction(title, targetUrl) {
                     action: function () {
                         var ids = new Array();
                         for (var i in rows) {
-                            ids.push(rows[i].id);
+                            ids.push(rows[i][idName]);
                         }
                         $.ajax({
                             type: 'get',
@@ -285,4 +292,35 @@ function updateSubmit(targetUrl, updateDialog ,fields) {
             });
         }
     });
+}
+
+// 格式化时间
+Date.prototype.format = function(format)
+{
+    var o = {
+        "M+" : this.getMonth()+1, //month
+        "d+" : this.getDate(),    //day
+        "h+" : this.getHours(),   //hour
+        "m+" : this.getMinutes(), //minute
+        "s+" : this.getSeconds(), //second
+        "q+" : Math.floor((this.getMonth()+3)/3),  //quarter
+        "S" : this.getMilliseconds() //millisecond
+    }
+    if(/(y+)/.test(format)) format=format.replace(RegExp.$1,
+        (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+    for(var k in o)if(new RegExp("("+ k +")").test(format))
+        format = format.replace(RegExp.$1,
+            RegExp.$1.length==1 ? o[k] :
+                ("00"+ o[k]).substr((""+ o[k]).length));
+    return format;
+}
+
+// 格式化时间
+function dateFormatter(value ,format) {
+    return new Date(value).format(format);
+}
+
+// 格式化时间
+function timeFormatter(value , row, index) {
+    return new Date(value).toLocaleString();
 }

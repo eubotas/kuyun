@@ -21,8 +21,8 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <div class="fg-line">
-                        <label for="code">Code</label>
-                        <input id="code" type="text" class="form-control" name="code" maxlength="30">
+                        <label for="codeValue">Code</label>
+                        <input id="codeValue" type="text" class="form-control" name="codeValue" maxlength="30">
                     </div>
                 </div>
             </div>
@@ -32,8 +32,8 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <div class="fg-line">
-                        <label for="code_name">Code名称</label>
-                        <input id="code_name" type="text" class="form-control" name="code_name" maxlength="100">
+                        <label for="codeName">Code名称</label>
+                        <input id="codeName" type="text" class="form-control" name="codeName" maxlength="100">
                     </div>
                 </div>
             </div>
@@ -49,9 +49,10 @@
         </div>
 
 		<div class="form-group text-right dialog-buttons">
-			<a class="waves-effect waves-button" href="javascript:;" onclick="createSubmit('${basePath}/manage/codeValue/create',createDialog, 'category,code,code_name');">保存</a>
+			<a class="waves-effect waves-button" href="javascript:;" onclick="createSubmit('${basePath}/manage/codeValue/create',createDialog, 'category,codeValue,codeName');">保存</a>
 			<a class="waves-effect waves-button" href="javascript:;" onclick="createDialog.close();">取消</a>
 		</div>
 	</form>
 </div>
 <script src="/resources/inc/eamcommon.js"></script>
+

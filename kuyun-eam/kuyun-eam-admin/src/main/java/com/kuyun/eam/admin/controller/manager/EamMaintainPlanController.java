@@ -5,15 +5,25 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.NotNullValidator;
+import com.kuyun.eam.admin.util.AlertJob;
+import com.kuyun.eam.admin.util.TicketJob;
 import com.kuyun.eam.common.constant.EamResult;
-import com.kuyun.eam.dao.model.EamMaintainPlan;
-import com.kuyun.eam.dao.model.EamMaintainPlanExample;
-import com.kuyun.eam.rpc.api.EamMaintainPlanService;
+import com.kuyun.eam.dao.model.*;
+import com.kuyun.eam.rpc.api.*;
+import com.kuyun.eam.util.QuartzUtil;
+import com.kuyun.eam.vo.EamEquipmentVO;
+import com.kuyun.eam.vo.EamMaintainPlanVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
+import com.kuyun.upms.dao.model.UpmsOrganization;
+import com.kuyun.upms.dao.model.UpmsOrganizationExample;
+import com.kuyun.upms.dao.model.UpmsUserCompany;
+import com.kuyun.upms.rpc.api.UpmsApiService;
+import com.kuyun.upms.rpc.api.UpmsOrganizationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +48,6 @@ import static com.kuyun.eam.common.constant.EamResultConstant.SUCCESS;
 public class EamMaintainPlanController extends BaseController {
 
 	private static Logger _log = LoggerFactory.getLogger(EamMaintainPlanController.class);
-	
 
 	@Autowired
 	private EamMaintainPlanService eamMaintainPlanService;
@@ -46,6 +55,23 @@ public class EamMaintainPlanController extends BaseController {
 	@Autowired
 	private BaseEntityUtil baseEntityUtil;
 
+	@Autowired
+	public EamEquipmentCategoryService eamEquipmentCategoryService;
+
+	@Autowired
+	public EamEquipmentService eamEquipmentService;
+
+	@Autowired
+	private UpmsOrganizationService upmsOrganizationService;
+
+	@Autowired
+	private EamCodeValueService eamCodeValueService;
+
+	@Autowired
+	public UpmsApiService upmsApiService;
+
+	@Autowired
+	public EamApiService eamApiService;
 
 	@ApiOperation(value = "维修计划管理首页")
 	@RequiresPermissions("eam:maintainPlan:read")
@@ -68,12 +94,19 @@ public class EamMaintainPlanController extends BaseController {
 		eamMaintainPlanExample.setLimit(limit);
 		EamMaintainPlanExample.Criteria criteria = eamMaintainPlanExample.createCriteria();
 		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+		criteria.andCompanyIdEqualTo(getCompanyId());
+
+		EamMaintainPlanVO vo = new EamMaintainPlanVO();
+		vo.setOffset(offset);
+		vo.setLimit(limit);
+		vo.setCompanyId(getCompanyId());
 
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			eamMaintainPlanExample.setOrderByClause(sort + " " + order);
+			vo.setOrderByClause(sort + " " + order);
 		}
 
-		List<EamMaintainPlan> rows = eamMaintainPlanService.selectByExample(eamMaintainPlanExample);
+		List<EamMaintainPlanVO> rows = eamApiService.listMaintainPlans(vo);
 		long total = eamMaintainPlanService.countByExample(eamMaintainPlanExample);
 		Map<String, Object> result = new HashMap<>();
 		result.put("rows", rows);
@@ -84,12 +117,13 @@ public class EamMaintainPlanController extends BaseController {
 	@ApiOperation(value = "新增维修计划")
 	@RequiresPermissions("eam:maintainPlan:create")
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public String create() {
+	public String create(ModelMap modelMap) {
+		setWebSelect(modelMap);
 		return "/manage/maintainplan/create.jsp";
 	}
 
 	@ApiOperation(value = "新增维修计划")
-
+	@RequiresPermissions("eam:maintainPlan:create")
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	@ResponseBody
 	public Object create(EamMaintainPlan plan) {
@@ -104,6 +138,10 @@ public class EamMaintainPlanController extends BaseController {
 		}
 		baseEntityUtil.addAddtionalValue(plan);
 		int count = eamMaintainPlanService.insertSelective(plan);
+//		try {
+//			startQuartz(plan.getPlanId());
+//		}catch(SchedulerException ex){ex.printStackTrace();}
+
 		return new EamResult(SUCCESS, count);
 	}
 
@@ -113,6 +151,12 @@ public class EamMaintainPlanController extends BaseController {
 	@ResponseBody
 	public Object delete(@PathVariable("ids") String ids) {
 		int count = eamMaintainPlanService.deleteByPrimaryKeys(ids);
+		try {
+			String[] planIds=ids.split("-");
+			for(String id : planIds)
+			deleteQuartz(Integer.parseInt(id));
+		}catch(SchedulerException ex){ex.printStackTrace();}
+
 		return new EamResult(SUCCESS, count);
 	}
 
@@ -123,7 +167,8 @@ public class EamMaintainPlanController extends BaseController {
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
 	public String update(@PathVariable("id") int id, ModelMap modelMap) {
 		EamMaintainPlan eamMaintainPlan = eamMaintainPlanService.selectByPrimaryKey(id);
-		modelMap.put("ticketType", eamMaintainPlan);
+		modelMap.put("plan", eamMaintainPlan);
+		setWebSelect(modelMap);
 		return "/manage/maintainplan/update.jsp";
 	}
 
@@ -144,9 +189,72 @@ public class EamMaintainPlanController extends BaseController {
 		plan.setPlanId(id);
 		baseEntityUtil.updateAddtionalValue(plan);
 		int count = eamMaintainPlanService.updateByPrimaryKeySelective(plan);
+
+		try {
+			deleteQuartz(plan.getPlanId());
+			startQuartz(plan.getPlanId());
+		}catch(SchedulerException ex){ex.printStackTrace();}
+
 		return new EamResult(SUCCESS, count);
 	}
 
 
+	private void startQuartz(int id) throws SchedulerException{
+		TicketJob ticketJob=new TicketJob(id);
+		QuartzUtil ticketQ=new QuartzUtil(ticketJob);
+		ticketQ.run();
 
+		AlertJob ajob=new AlertJob(id);
+		QuartzUtil aq=new QuartzUtil(ajob);
+		aq.run();
+	}
+
+	private void deleteQuartz(int id) throws SchedulerException{
+		TicketJob ticketJob=new TicketJob(id);
+		QuartzUtil ticketQ=new QuartzUtil(ticketJob);
+		ticketQ.run();
+
+		AlertJob ajob=new AlertJob(id);
+		QuartzUtil aq=new QuartzUtil(ajob);
+		aq.run();
+	}
+
+	private void setWebSelect(ModelMap modelMap){
+		EamEquipmentCategoryExample example = new EamEquipmentCategoryExample();
+		EamEquipmentCategoryExample.Criteria criteria2 = example.createCriteria();
+		criteria2.andCompanyIdEqualTo(getCompanyId());
+		List<EamEquipmentCategory> cats = eamEquipmentCategoryService.selectByExample( example );
+		modelMap.addAttribute("equipmentCategorys", cats);
+
+		EamEquipmentVO equipmentVO = new EamEquipmentVO();
+		equipmentVO.setCompanyId(getCompanyId());
+		List<EamEquipmentVO> rows = eamApiService.selectEquipments(equipmentVO);
+		modelMap.addAttribute("equipments", rows);
+
+		UpmsOrganizationExample upmsOrganizationExample = new UpmsOrganizationExample();
+		UpmsOrganizationExample.Criteria criteria = upmsOrganizationExample.createCriteria();
+		criteria.andCompanyIdEqualTo(getCompanyId());
+		List<UpmsOrganization> orgs = upmsOrganizationService.selectByExample(upmsOrganizationExample);
+		modelMap.addAttribute("orgs", orgs);
+
+		EamCodeValueExample eamCodeValueExample = new EamCodeValueExample();
+		EamCodeValueExample.Criteria codeCriteria = eamCodeValueExample.createCriteria();
+		codeCriteria.andCategoryEqualTo("MAINTAIN_PLAN_UNIT");
+		codeCriteria.andDeleteFlagEqualTo(Boolean.FALSE);
+		List<EamCodeValue> units = eamCodeValueService.selectByExample(eamCodeValueExample);
+		modelMap.addAttribute("units", units);
+	}
+
+	public int getCurrUserId(){
+		return baseEntityUtil.getCurrentUser().getUserId();
+	}
+
+	public int getCompanyId(){
+		int cId=-1;
+		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+		if (company != null){
+			cId = company.getCompanyId();
+		}
+		return cId;
+	}
 }

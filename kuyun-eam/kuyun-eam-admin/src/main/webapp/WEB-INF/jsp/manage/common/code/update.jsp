@@ -22,8 +22,8 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <div class="fg-line">
-                        <label for="code">Code</label>
-                        <input id="code" type="text" class="form-control" name="code" maxlength="30" value="${code.code}">
+                        <label for="codeValue">Code</label>
+                        <input id="codeValue" type="text" class="form-control" name="codeValue" maxlength="30" value="${code.codeValue}">
                     </div>
                 </div>
             </div>
@@ -33,8 +33,8 @@
             <div class="col-sm-6">
                 <div class="form-group">
                     <div class="fg-line">
-                        <label for="code_name">Code名称</label>
-                        <input id="code_name" type="text" class="form-control" name="code_name" maxlength="100" value="${code.codeName}">
+                        <label for="codeName">Code名称</label>
+                        <input id="codeName" type="text" class="form-control" name="codeName" maxlength="100" value="${code.codeName}">
                     </div>
                 </div>
             </div>
@@ -51,7 +51,7 @@
 
 
 		<div class="form-group text-right dialog-buttons">
-			<a class="waves-effect waves-button" href="javascript:;" onclick="updateSubmit('${basePath}/manage/code/update',updateDialog, 'category,code,code_name');">保存</a>
+			<a class="waves-effect waves-button" href="javascript:;" onclick="updateSubmit('${basePath}/manage/codeValue/update/${code.id}',updateDialog, 'category,codeValue,codeName');">保存</a>
 			<a class="waves-effect waves-button" href="javascript:;" onclick="updateDialog.close();">取消</a>
 		</div>
 	</form>

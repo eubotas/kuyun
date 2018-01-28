@@ -57,8 +57,8 @@
                 {field: 'ck', checkbox: true},
                 {field: 'id', title: 'ID', sortable: true, align: 'center'},
                 {field: 'category', title: '类别'},
-                {field: 'code', title: 'Code'},
-                {field: 'code_name', title: 'Code名称'},
+                {field: 'codeValue', title: 'Code'},
+                {field: 'codeName', title: 'Code名称'},
                 {field: 'description', title: '描述'},
                 {field: 'createTime', title: '创建时间', formatter: 'timeFormatter'},
                 {field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}

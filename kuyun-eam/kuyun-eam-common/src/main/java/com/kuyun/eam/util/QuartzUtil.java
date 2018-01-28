@@ -1,10 +1,13 @@
 package com.kuyun.eam.util;
 
 import javafx.util.Pair;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Date;
 
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.SimpleScheduleBuilder.simpleSchedule;
@@ -18,14 +21,14 @@ public class QuartzUtil {
     private final SchedulerFactory sf = new StdSchedulerFactory();
 
     public QuartzUtil(BaseJob job){
-        if(job.getStartDate() ==null || job.getIntervalHours() ==0)
+        if(job.getStartDate() ==null)
             throw new RuntimeException("start date or interval hours cannot be null");
         this.jobImpl = job;
-        jobKey = new JobKey(job.getJobKey(), job.getGroup());
+        jobKey = new JobKey(job.getJobKeyName(), job.getGroup());
         start();
     }
 
-    private Scheduler getScheduler() throws SchedulerException {
+    public Scheduler getScheduler() throws SchedulerException {
         return sf.getScheduler();
     }
 
@@ -40,15 +43,20 @@ public class QuartzUtil {
     }
 
     private Pair<JobDetail, Trigger> buildJobAndTrigger(){
+        Date startDate = jobImpl.getStartDate();
+        if(startDate.getTime() < (new Date().getTime()))
+            throw new RuntimeException("计划执行日期不能早于现在");
         JobDetail job = newJob(jobImpl.getClass()).withIdentity(jobKey.getName(), jobKey.getGroup()).build();
         job.getJobDataMap().put(BaseJob.IDKEY, jobImpl.getIdKey());
 
         Trigger trigger = null;
         if(jobImpl.getScheduleMethod() == BaseJob.ScheduleMethod.CRON.ordinal()){
             trigger = newTrigger().withIdentity(jobKey.getName(), jobKey.getGroup())
+                    .startAt(startDate)
                     .withSchedule(CronScheduleBuilder.cronSchedule(jobImpl.getCronSchedule())).build();
         }else {
             trigger = newTrigger().withIdentity(jobKey.getName(), jobKey.getGroup())
+                    .startAt(startDate)
                     .withSchedule(simpleSchedule()
                             .withIntervalInHours(jobImpl.getIntervalHours())
                             .repeatForever()).build();

@@ -8,22 +8,41 @@
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 <div id="updateDialog" class="crudDialog">
 	<form id="updateForm" method="post">
-
         <div class="row">
             <div class="col-sm-6">
+                <label for="equipmentCategoryId">设备类型</label>
                 <div class="form-group">
-                    <div class="fg-line">
-                        <label for="category">类别</label>
-                        <input id="category" type="text" class="form-control" name="category" maxlength="30" value="${code.category}">
-                    </div>
+                    <select id="equipmentCategoryId" name="equipmentCategoryId" style="width: 100%">
+                        <c:forEach var="equipmentCategory" items="${equipmentCategorys}">
+                            <option value="${equipmentCategory.equipmentCategoryId}" <c:if test="${plan.equipmentCategoryId== equipmentCategory.equipmentCategoryId}">selected</c:if> >${equipmentCategory.name}</option>
+                        </c:forEach>
+                    </select>
                 </div>
             </div>
 
             <div class="col-sm-6">
+                <label for="equipmentId">设备名称</label>
                 <div class="form-group">
                     <div class="fg-line">
-                        <label for="code">Code</label>
-                        <input id="code" type="text" class="form-control" name="code" maxlength="30" value="${code.code}">
+                        <select id="equipmentId" name="equipmentId" style="width: 100%">
+                            <c:forEach var="equipment" items="${equipments}">
+                                <option value="${equipment.equipmentId}"  <c:if test="${plan.equipmentId== equipment.equipmentId}">selected</c:if> >${equipment.name}</option>
+                            </c:forEach>
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="row">
+                <div class="col-sm-12">
+                    <label for="workContent">工单描述</label>
+                    <div class="form-group">
+					<textarea id="workContent" class="form-control" name="workContent"
+                              maxlength="200" rows="4">${plan.workContent }</textarea>
+
                     </div>
                 </div>
             </div>
@@ -31,29 +50,66 @@
 
         <div class="row">
             <div class="col-sm-6">
+                <label for="equipmentId">维护部门</label>
                 <div class="form-group">
                     <div class="fg-line">
-                        <label for="code_name">Code名称</label>
-                        <input id="code_name" type="text" class="form-control" name="code_name" maxlength="100" value="${code.codeName}">
+                        <select id="orgId" name="orgId" style="width: 100%">
+                            <c:forEach var="org" items="${orgs}">
+                                <option value="${org.organizationId}" <c:if test="${plan.orgId== org.organizationId}">selected</c:if> >${org.name}</option>
+                            </c:forEach>
+
+                        </select>
                     </div>
                 </div>
             </div>
 
             <div class="col-sm-6">
+                <label for="nextMaintainDate">维护日期</label>
                 <div class="form-group">
                     <div class="fg-line">
-                        <label for="description">描述</label>
-                        <input id="description" type="text" class="form-control" name="description" maxlength="30" value="${code.description}">
+                        <input id="nextMaintainDate" type="text" class="form-control" name="nextMaintainDate" maxlength="15" value="${plan.nextMaintainDate}">
                     </div>
                 </div>
             </div>
         </div>
 
+        <div class="row">
+            <div class="col-sm-2">
+                <label for="maintainFrequencyQuantity">维护频率</label>
+                <div class="form-group">
+                    <div class="fg-line">
+                        <input id="maintainFrequencyQuantity" type="text" class="form-control" name="maintainFrequencyQuantity" maxlength="4" value="dateFormatter(${plan.maintainFrequencyQuantity},'yyyy/mm/dd')">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <label for="equipmentId">维护频率单位</label>
+                <div class="form-group">
+                    <div class="fg-line">
+                        <select id="maintainFrequencyUnit" name="maintainFrequencyUnit" style="width: 100%">
+                            <c:forEach var="unit" items="${units}">
+                                <option value="${unit.codeValue}" <c:if test="${plan.maintainFrequencyUnit== unit.codeValue}">selected</c:if>>${unit.codeName}</option>
+                            </c:forEach>
 
-		<div class="form-group text-right dialog-buttons">
-			<a class="waves-effect waves-button" href="javascript:;" onclick="updateSubmit('${basePath}/manage/maintainPlan/update',updateDialog, 'category,code,code_name');">保存</a>
-			<a class="waves-effect waves-button" href="javascript:;" onclick="updateDialog.close();">取消</a>
-		</div>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-6">
+                <label for="remindTime">维护提醒天数</label>
+                <div class="form-group">
+                    <div class="fg-line">
+                        <input id="remindTime" type="text" class="form-control" name="remindTime" maxlength="4" value="${plan.remindTime}">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group text-right dialog-buttons">
+            <a class="waves-effect waves-button" href="javascript:;" onclick="updateSubmit('${basePath}/manage/maintainPlan/update/${plan.planId}',updateDialog, 'workContent,nextMaintainDate,maintainFrequencyQuantity,maintainFrequencyUnit,remindTime');">保存</a>
+            <a class="waves-effect waves-button" href="javascript:;" onclick="updateDialog.close();">取消</a>
+        </div>
 	</form>
 </div>
 

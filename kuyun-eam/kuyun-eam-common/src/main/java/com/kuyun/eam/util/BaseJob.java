@@ -20,7 +20,7 @@ public abstract class BaseJob implements Job {
     }
 
     public String idKey;
-    public String jobKey;
+    public String jobKeyName;
     public String group;
     public Date startDate;
     public int IntervalHours;
@@ -36,8 +36,6 @@ public abstract class BaseJob implements Job {
         this.scheduleMethod = scheduleMethod;
     }
 
-
-
     @Override
     public abstract void execute(JobExecutionContext context) throws JobExecutionException;
 
@@ -49,12 +47,12 @@ public abstract class BaseJob implements Job {
         this.idKey = idKey;
     }
 
-    public String getJobKey() {
-        return jobKey;
+    public String getJobKeyName() {
+        return jobKeyName;
     }
 
-    public void setJobKey(String jobKey) {
-        this.jobKey = jobKey;
+    public void setJobKeyName(String jobKeyName) {
+        this.jobKeyName = jobKeyName;
     }
 
     public Date getStartDate() {
@@ -85,7 +83,7 @@ public abstract class BaseJob implements Job {
         if(group !=null)
         return group;
         else
-            return jobKey;
+            return jobKeyName;
     }
 
     public void setGroup(String group) {
@@ -93,7 +91,7 @@ public abstract class BaseJob implements Job {
     }
 
     public void setKeyData(String jobKey){
-        jobKey =jobKey;
+        jobKeyName =jobKey;
         group =jobKey;
     }
 }

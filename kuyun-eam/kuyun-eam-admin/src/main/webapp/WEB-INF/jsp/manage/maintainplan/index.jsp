@@ -12,15 +12,15 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>数据字典管理</title>
+	<title>维修计划管理</title>
 	<jsp:include page="/resources/inc/head.jsp" flush="true"/>
 </head>
 <body>
 <div id="main">
 	<div id="toolbar">
-		<shiro:hasPermission name="eam:maintainPlan:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction('新增数据字典','${basePath}/manage/maintainPlan/create')"><i class="zmdi zmdi-plus"></i> 新增数据字典</a></shiro:hasPermission>
-		<shiro:hasPermission name="eam:maintainPlan:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction('新增数据字典','${basePath}/manage/maintainPlan/update')"><i class="zmdi zmdi-edit"></i> 编辑数据字典</a></shiro:hasPermission>
-		<shiro:hasPermission name="eam:maintainPlan:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction('新增数据字典','${basePath}/manage/maintainPlan/delete')"><i class="zmdi zmdi-close"></i> 删除数据字典</a></shiro:hasPermission>
+		<shiro:hasPermission name="eam:maintainPlan:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction('新增维修计划','${basePath}/manage/maintainPlan/create')"><i class="zmdi zmdi-plus"></i> 新增维修计划</a></shiro:hasPermission>
+		<shiro:hasPermission name="eam:maintainPlan:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction('新增维修计划','${basePath}/manage/maintainPlan/update','planId')"><i class="zmdi zmdi-edit"></i> 编辑维修计划</a></shiro:hasPermission>
+		<shiro:hasPermission name="eam:maintainPlan:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction('新增维修计划','${basePath}/manage/maintainPlan/delete','planId')"><i class="zmdi zmdi-close"></i> 删除维修计划</a></shiro:hasPermission>
 	</div>
 	<table id="table"></table>
 </div>
@@ -48,18 +48,18 @@
             smartDisplay: false,
             escape: true,
             searchOnEnterKey: true,
-            idField: 'id',
-//		sortName: 'orders',
-//        sortOrder: 'desc',
+            idField: 'planId',
+			sortName: 'plan_id',
+    	    sortOrder: 'desc',
             maintainSelected: true,
             toolbar: '#toolbar',
             columns: [
                 {field: 'ck', checkbox: true},
-                {field: 'id', title: 'ID', sortable: true, align: 'center'},
-                {field: 'category', title: '类别'},
-                {field: 'code', title: 'Code'},
-                {field: 'code_name', title: 'Code名称'},
-                {field: 'description', title: '描述'},
+                {field: 'planId', title: 'ID', sortable: true, align: 'center'},
+                {field: 'equipmentCategoryName', title: '设备目录'},
+                {field: 'equipmentName', title: '设备名称'},
+                {field: 'workContent', title: '工单内容'},
+                {field: 'orgName', title: '负责部门'},
                 {field: 'createTime', title: '创建时间', formatter: 'timeFormatter'},
                 {field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
             ]
@@ -68,8 +68,8 @@
     // 格式化操作按钮
     function actionFormatter(value, row, index) {
         return [
-            '<a class="update" href="javascript:;" onclick="updateAction()" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>　',
-            '<a class="delete" href="javascript:;" onclick="deleteAction()" data-toggle="tooltip" title="Remove"><i class="glyphicon glyphicon-remove"></i></a>'
+            '<a class="update" href="javascript:;" onclick="updateAction(\'新增维修计划\',\'${basePath}/manage/maintainPlan/update\',\'planId\')" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>　',
+            '<a class="delete" href="javascript:;" onclick="deleteAction(\'新增维修计划\',\'${basePath}/manage/maintainPlan/delete\',,\'planId\')" data-toggle="tooltip" title="Remove"><i class="glyphicon glyphicon-remove"></i></a>'
         ].join('');
     }
 </script>

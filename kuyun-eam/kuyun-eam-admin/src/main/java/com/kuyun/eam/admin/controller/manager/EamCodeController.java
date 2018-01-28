@@ -9,9 +9,7 @@ import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.EamCodeValue;
 import com.kuyun.eam.dao.model.EamCodeValueExample;
 import com.kuyun.eam.rpc.api.EamCodeValueService;
-import com.kuyun.eam.rpc.api.EamCodeValueService;
 import com.kuyun.upms.client.util.BaseEntityUtil;
-import com.kuyun.upms.dao.model.UpmsUserCompany;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -53,7 +51,7 @@ public class EamCodeController extends BaseController {
 	@RequiresPermissions("eam:codeValue:read")
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index() {
-		return "/manage/common/index.jsp";
+		return "/manage/common/code/index.jsp";
 	}
 
 	@ApiOperation(value = "数据字典列表")
@@ -87,7 +85,7 @@ public class EamCodeController extends BaseController {
 	@RequiresPermissions("eam:codeValue:create")
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public String create() {
-		return "/manage/common/create.jsp";
+		return "/manage/common/code/create.jsp";
 	}
 
 	@ApiOperation(value = "新增数据字典")
@@ -97,7 +95,7 @@ public class EamCodeController extends BaseController {
 	public Object create(EamCodeValue code) {
 		ComplexResult result = FluentValidator.checkAll()
 				.on(code.getCategory(), new NotNullValidator("类别"))
-                .on(code.getCode(), new NotNullValidator("Code"))
+                .on(code.getCodeValue(), new NotNullValidator("Code"))
                 .on(code.getCodeName(), new NotNullValidator("Code名称"))
 				.doValidate()
 				.result(ResultCollectors.toComplex());
@@ -125,8 +123,8 @@ public class EamCodeController extends BaseController {
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
 	public String update(@PathVariable("id") int id, ModelMap modelMap) {
 		EamCodeValue eamCodeValue = eamCodeValueService.selectByPrimaryKey(id);
-		modelMap.put("ticketType", eamCodeValue);
-		return "/manage/common/update.jsp";
+		modelMap.put("code", eamCodeValue);
+		return "/manage/common/code/update.jsp";
 	}
 
 	@ApiOperation(value = "修改数据字典")
@@ -136,7 +134,7 @@ public class EamCodeController extends BaseController {
 	public Object update(@PathVariable("id") int id, EamCodeValue code) {
 		ComplexResult result = FluentValidator.checkAll()
                 .on(code.getCategory(), new NotNullValidator("类别"))
-                .on(code.getCode(), new NotNullValidator("Code"))
+                .on(code.getCodeValue(), new NotNullValidator("Code"))
                 .on(code.getCodeName(), new NotNullValidator("Code名称"))
 				.doValidate()
 				.result(ResultCollectors.toComplex());
