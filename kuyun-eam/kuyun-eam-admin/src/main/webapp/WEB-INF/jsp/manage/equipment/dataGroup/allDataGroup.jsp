@@ -36,12 +36,7 @@
     $(function() {
         // bootstrap table初始化
         $tableEquipment.bootstrapTable({
-            url: '${basePath}/manage/productLine/grm/list',
-            queryParams:function(p){
-                return {    productLineId : '${productLineId}'
-
-				       }
-            },
+            url: '${basePath}/manage/${equipmentId}/dataGroup/all',
             height: getHeight(),
             minimumCountColumns: 2,
             clickToSelect: true,
@@ -53,15 +48,12 @@
             smartDisplay: false,
             escape: true,
             searchOnEnterKey: true,
-            idField: 'equipmentId',
+            idField: 'id',
             maintainSelected: true,
 //            toolbar: '#toolbar',
             columns: [
                 {field: 'ck', checkbox: true,  formatter : checkFormatter},
-                {field: 'name', title: '变量名'},
-                {field: 'typeDesc', title: '变量类型'},
-                {field: 'attributeDesc', title: '读写属性'},
-                {field: 'networkPermisstionDesc', title: '网络权限'}
+                {field: 'name', title: '分组名称'}
             ]
         });
     });
@@ -76,7 +68,7 @@
     }
 
 function cancelAction() {
-    grmDialog.close();
+    createDialog.close();
     $table.bootstrapTable('refresh');
 }
 
@@ -98,15 +90,15 @@ function createSubmit() {
         });
     }else {
 		console.info(rows);
-        var names = new Array();
+        var ids = new Array();
         for (var i in rows) {
-            names.push(rows[i].name);
+            ids.push(rows[i].id);
         }
 
         $.ajax({
-            type: 'post',
-            url: '${basePath}/manage/productLine/grm/confirm',
-            data: {productLineId : '${productLineId}', names: names.join("::")},
+            type: 'get',
+            url: '${basePath}/manage/${equipmentId}/dataGroup/confirm',
+            data: {ids: ids.join("::")},
             success: function(result) {
                 if (result.code != 1) {
                     if (result.data instanceof Array) {

@@ -59,8 +59,6 @@ public interface EamApiService {
 
     Long countEquipments(EamEquipmentVO eamEquipmentVO);
 
-    List<EamEquipmentVO> selectUnConnectDtuEquipments(EamEquipmentVO eamEquipmentVO);
-
     Long countUnConnectDtuEquipments(EamEquipmentVO eamEquipmentVO);
 
     int persistEquipment(UpmsUserCompany upmsUserCompany, EamEquipment equipment);
@@ -83,4 +81,19 @@ public interface EamApiService {
 
     List<EamGrmVariable> getGrmVariables(String productLineId);
 
+    List<EamDataElementVO> selectDataElements(EamDataElementVO dataElementVO);
+
+    List<EamAlarmModelVO> selectAlarmModels(EamAlarmModelVO alarmModelVO);
+
+    List<EamEquipmentDataGroupVO> selectEquipmentDataGroups(EamEquipmentDataGroupVO dataGroupVO);
+
+    long countEquipmentDataGroups(EamEquipmentDataGroupVO dataGroupVO);
+
+    List<EamAlarmVO> selectAlarms(EamAlarmVO alarmVO);
+
+    long countAlarms(EamAlarmVO alarmVO);
+
+    int createAlarms(String productLineId, String ids);
+
+    int updateAlarm(String ids, String alarmTarget, String targetUserId);
 }

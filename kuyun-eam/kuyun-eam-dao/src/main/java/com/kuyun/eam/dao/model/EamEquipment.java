@@ -49,7 +49,7 @@ public class EamEquipment extends BaseEntity implements Serializable {
      *
      * @mbg.generated
      */
-    private BigDecimal weight;
+    private String weight;
 
     /**
      * 使用电源
@@ -185,11 +185,11 @@ public class EamEquipment extends BaseEntity implements Serializable {
         this.dimension = dimension;
     }
 
-    public BigDecimal getWeight() {
+    public String getWeight() {
         return weight;
     }
 
-    public void setWeight(BigDecimal weight) {
+    public void setWeight(String weight) {
         this.weight = weight;
     }
 

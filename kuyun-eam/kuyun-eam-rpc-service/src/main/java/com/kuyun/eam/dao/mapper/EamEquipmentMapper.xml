@@ -2,36 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kuyun.eam.dao.mapper.EamEquipmentMapper">
   <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamEquipment">
-    <id column="equipment_id" jdbcType="VARCHAR" property="equipmentId" />
-    <result column="equipment_category_id" jdbcType="INTEGER" property="equipmentCategoryId" />
-    <result column="product_line_id" jdbcType="VARCHAR" property="productLineId" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="number" jdbcType="VARCHAR" property="number" />
-    <result column="serial_number" jdbcType="VARCHAR" property="serialNumber" />
-    <result column="image_path" jdbcType="VARCHAR" property="imagePath" />
-    <result column="output" jdbcType="VARCHAR" property="output" />
-    <result column="dimension" jdbcType="VARCHAR" property="dimension" />
-    <result column="weight" jdbcType="DECIMAL" property="weight" />
-    <result column="power" jdbcType="VARCHAR" property="power" />
-    <result column="capacity" jdbcType="VARCHAR" property="capacity" />
-    <result column="user" jdbcType="VARCHAR" property="user" />
-    <result column="collect_status" jdbcType="VARCHAR" property="collectStatus" />
-    <result column="grm" jdbcType="VARCHAR" property="grm" />
-    <result column="grm_password" jdbcType="VARCHAR" property="grmPassword" />
-    <result column="grm_period" jdbcType="INTEGER" property="grmPeriod" />
-    <result column="factory_date" jdbcType="TIMESTAMP" property="factoryDate" />
-    <result column="commissioning_date" jdbcType="TIMESTAMP" property="commissioningDate" />
-    <result column="warranty_start_date" jdbcType="TIMESTAMP" property="warrantyStartDate" />
-    <result column="warranty_end_date" jdbcType="TIMESTAMP" property="warrantyEndDate" />
-    <result column="maintenance_period" jdbcType="VARCHAR" property="maintenancePeriod" />
-    <result column="left_position" jdbcType="DECIMAL" property="leftPosition" />
-    <result column="top_position" jdbcType="DECIMAL" property="topPosition" />
-    <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
-    <result column="is_online" jdbcType="BIT" property="isOnline" />
+    <id column="eam_equipment_equipment_id" jdbcType="VARCHAR" property="equipmentId" />
+    <result column="eam_equipment_equipment_category_id" jdbcType="INTEGER" property="equipmentCategoryId" />
+    <result column="eam_equipment_product_line_id" jdbcType="VARCHAR" property="productLineId" />
+    <result column="eam_equipment_name" jdbcType="VARCHAR" property="name" />
+    <result column="eam_equipment_number" jdbcType="VARCHAR" property="number" />
+    <result column="eam_equipment_serial_number" jdbcType="VARCHAR" property="serialNumber" />
+    <result column="eam_equipment_image_path" jdbcType="VARCHAR" property="imagePath" />
+    <result column="eam_equipment_output" jdbcType="VARCHAR" property="output" />
+    <result column="eam_equipment_dimension" jdbcType="VARCHAR" property="dimension" />
+    <result column="eam_equipment_weight" jdbcType="VARCHAR" property="weight" />
+    <result column="eam_equipment_power" jdbcType="VARCHAR" property="power" />
+    <result column="eam_equipment_capacity" jdbcType="VARCHAR" property="capacity" />
+    <result column="eam_equipment_user" jdbcType="VARCHAR" property="user" />
+    <result column="eam_equipment_collect_status" jdbcType="VARCHAR" property="collectStatus" />
+    <result column="eam_equipment_grm" jdbcType="VARCHAR" property="grm" />
+    <result column="eam_equipment_grm_password" jdbcType="VARCHAR" property="grmPassword" />
+    <result column="eam_equipment_grm_period" jdbcType="INTEGER" property="grmPeriod" />
+    <result column="eam_equipment_factory_date" jdbcType="TIMESTAMP" property="factoryDate" />
+    <result column="eam_equipment_commissioning_date" jdbcType="TIMESTAMP" property="commissioningDate" />
+    <result column="eam_equipment_warranty_start_date" jdbcType="TIMESTAMP" property="warrantyStartDate" />
+    <result column="eam_equipment_warranty_end_date" jdbcType="TIMESTAMP" property="warrantyEndDate" />
+    <result column="eam_equipment_maintenance_period" jdbcType="VARCHAR" property="maintenancePeriod" />
+    <result column="eam_equipment_left_position" jdbcType="DECIMAL" property="leftPosition" />
+    <result column="eam_equipment_top_position" jdbcType="DECIMAL" property="topPosition" />
+    <result column="eam_equipment_create_user_id" jdbcType="INTEGER" property="createUserId" />
+    <result column="eam_equipment_create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="eam_equipment_update_user_id" jdbcType="INTEGER" property="updateUserId" />
+    <result column="eam_equipment_update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="eam_equipment_delete_flag" jdbcType="BIT" property="deleteFlag" />
+    <result column="eam_equipment_is_online" jdbcType="BIT" property="isOnline" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -92,11 +92,21 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    equipment_id, equipment_category_id, product_line_id, name, number, serial_number, 
-    image_path, output, dimension, weight, power, capacity, user, collect_status, grm, 
-    grm_password, grm_period, factory_date, commissioning_date, warranty_start_date, 
-    warranty_end_date, maintenance_period, left_position, top_position, create_user_id, 
-    create_time, update_user_id, update_time, delete_flag, is_online
+    eam_equipment.equipment_id as eam_equipment_equipment_id, eam_equipment.equipment_category_id as eam_equipment_equipment_category_id, 
+    eam_equipment.product_line_id as eam_equipment_product_line_id, eam_equipment.name as eam_equipment_name, 
+    eam_equipment.number as eam_equipment_number, eam_equipment.serial_number as eam_equipment_serial_number, 
+    eam_equipment.image_path as eam_equipment_image_path, eam_equipment.output as eam_equipment_output, 
+    eam_equipment.dimension as eam_equipment_dimension, eam_equipment.weight as eam_equipment_weight, 
+    eam_equipment.power as eam_equipment_power, eam_equipment.capacity as eam_equipment_capacity, 
+    eam_equipment.user as eam_equipment_user, eam_equipment.collect_status as eam_equipment_collect_status, 
+    eam_equipment.grm as eam_equipment_grm, eam_equipment.grm_password as eam_equipment_grm_password, 
+    eam_equipment.grm_period as eam_equipment_grm_period, eam_equipment.factory_date as eam_equipment_factory_date, 
+    eam_equipment.commissioning_date as eam_equipment_commissioning_date, eam_equipment.warranty_start_date as eam_equipment_warranty_start_date, 
+    eam_equipment.warranty_end_date as eam_equipment_warranty_end_date, eam_equipment.maintenance_period as eam_equipment_maintenance_period, 
+    eam_equipment.left_position as eam_equipment_left_position, eam_equipment.top_position as eam_equipment_top_position, 
+    eam_equipment.create_user_id as eam_equipment_create_user_id, eam_equipment.create_time as eam_equipment_create_time, 
+    eam_equipment.update_user_id as eam_equipment_update_user_id, eam_equipment.update_time as eam_equipment_update_time, 
+    eam_equipment.delete_flag as eam_equipment_delete_flag, eam_equipment.is_online as eam_equipment_is_online
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentExample" resultMap="BaseResultMap">
     select
@@ -104,7 +114,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from eam_equipment
+    from eam_equipment eam_equipment
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -123,15 +133,15 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from eam_equipment
-    where equipment_id = #{equipmentId,jdbcType=VARCHAR}
+    from eam_equipment eam_equipment
+    where eam_equipment.equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    update eam_equipment set delete_flag = 1 
+    update eam_equipment eam_equipment set delete_flag = 1 
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentExample">
-    update eam_equipment set delete_flag = 1 
+    update eam_equipment eam_equipment set delete_flag = 1 
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -151,7 +161,7 @@
     values (#{equipmentId,jdbcType=VARCHAR}, #{equipmentCategoryId,jdbcType=INTEGER}, 
       #{productLineId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, 
       #{serialNumber,jdbcType=VARCHAR}, #{imagePath,jdbcType=VARCHAR}, #{output,jdbcType=VARCHAR}, 
-      #{dimension,jdbcType=VARCHAR}, #{weight,jdbcType=DECIMAL}, #{power,jdbcType=VARCHAR}, 
+      #{dimension,jdbcType=VARCHAR}, #{weight,jdbcType=VARCHAR}, #{power,jdbcType=VARCHAR}, 
       #{capacity,jdbcType=VARCHAR}, #{user,jdbcType=VARCHAR}, #{collectStatus,jdbcType=VARCHAR}, 
       #{grm,jdbcType=VARCHAR}, #{grmPassword,jdbcType=VARCHAR}, #{grmPeriod,jdbcType=INTEGER}, 
       #{factoryDate,jdbcType=TIMESTAMP}, #{commissioningDate,jdbcType=TIMESTAMP}, #{warrantyStartDate,jdbcType=TIMESTAMP}, 
@@ -283,7 +293,7 @@
         #{dimension,jdbcType=VARCHAR},
       </if>
       <if test="weight != null">
-        #{weight,jdbcType=DECIMAL},
+        #{weight,jdbcType=VARCHAR},
       </if>
       <if test="power != null">
         #{power,jdbcType=VARCHAR},
@@ -348,103 +358,103 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentExample" resultType="java.lang.Long">
-    select count(*) from eam_equipment
+    select count(*) from eam_equipment eam_equipment
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update eam_equipment
+    update eam_equipment eam_equipment
     <set>
       <if test="record.equipmentId != null">
-        equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
+        eam_equipment.equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
       </if>
       <if test="record.equipmentCategoryId != null">
-        equipment_category_id = #{record.equipmentCategoryId,jdbcType=INTEGER},
+        eam_equipment.equipment_category_id = #{record.equipmentCategoryId,jdbcType=INTEGER},
       </if>
       <if test="record.productLineId != null">
-        product_line_id = #{record.productLineId,jdbcType=VARCHAR},
+        eam_equipment.product_line_id = #{record.productLineId,jdbcType=VARCHAR},
       </if>
       <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+        eam_equipment.name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.number != null">
-        number = #{record.number,jdbcType=VARCHAR},
+        eam_equipment.number = #{record.number,jdbcType=VARCHAR},
       </if>
       <if test="record.serialNumber != null">
-        serial_number = #{record.serialNumber,jdbcType=VARCHAR},
+        eam_equipment.serial_number = #{record.serialNumber,jdbcType=VARCHAR},
       </if>
       <if test="record.imagePath != null">
-        image_path = #{record.imagePath,jdbcType=VARCHAR},
+        eam_equipment.image_path = #{record.imagePath,jdbcType=VARCHAR},
       </if>
       <if test="record.output != null">
-        output = #{record.output,jdbcType=VARCHAR},
+        eam_equipment.output = #{record.output,jdbcType=VARCHAR},
       </if>
       <if test="record.dimension != null">
-        dimension = #{record.dimension,jdbcType=VARCHAR},
+        eam_equipment.dimension = #{record.dimension,jdbcType=VARCHAR},
       </if>
       <if test="record.weight != null">
-        weight = #{record.weight,jdbcType=DECIMAL},
+        eam_equipment.weight = #{record.weight,jdbcType=VARCHAR},
       </if>
       <if test="record.power != null">
-        power = #{record.power,jdbcType=VARCHAR},
+        eam_equipment.power = #{record.power,jdbcType=VARCHAR},
       </if>
       <if test="record.capacity != null">
-        capacity = #{record.capacity,jdbcType=VARCHAR},
+        eam_equipment.capacity = #{record.capacity,jdbcType=VARCHAR},
       </if>
       <if test="record.user != null">
-        user = #{record.user,jdbcType=VARCHAR},
+        eam_equipment.user = #{record.user,jdbcType=VARCHAR},
       </if>
       <if test="record.collectStatus != null">
-        collect_status = #{record.collectStatus,jdbcType=VARCHAR},
+        eam_equipment.collect_status = #{record.collectStatus,jdbcType=VARCHAR},
       </if>
       <if test="record.grm != null">
-        grm = #{record.grm,jdbcType=VARCHAR},
+        eam_equipment.grm = #{record.grm,jdbcType=VARCHAR},
       </if>
       <if test="record.grmPassword != null">
-        grm_password = #{record.grmPassword,jdbcType=VARCHAR},
+        eam_equipment.grm_password = #{record.grmPassword,jdbcType=VARCHAR},
       </if>
       <if test="record.grmPeriod != null">
-        grm_period = #{record.grmPeriod,jdbcType=INTEGER},
+        eam_equipment.grm_period = #{record.grmPeriod,jdbcType=INTEGER},
       </if>
       <if test="record.factoryDate != null">
-        factory_date = #{record.factoryDate,jdbcType=TIMESTAMP},
+        eam_equipment.factory_date = #{record.factoryDate,jdbcType=TIMESTAMP},
       </if>
       <if test="record.commissioningDate != null">
-        commissioning_date = #{record.commissioningDate,jdbcType=TIMESTAMP},
+        eam_equipment.commissioning_date = #{record.commissioningDate,jdbcType=TIMESTAMP},
       </if>
       <if test="record.warrantyStartDate != null">
-        warranty_start_date = #{record.warrantyStartDate,jdbcType=TIMESTAMP},
+        eam_equipment.warranty_start_date = #{record.warrantyStartDate,jdbcType=TIMESTAMP},
       </if>
       <if test="record.warrantyEndDate != null">
-        warranty_end_date = #{record.warrantyEndDate,jdbcType=TIMESTAMP},
+        eam_equipment.warranty_end_date = #{record.warrantyEndDate,jdbcType=TIMESTAMP},
       </if>
       <if test="record.maintenancePeriod != null">
-        maintenance_period = #{record.maintenancePeriod,jdbcType=VARCHAR},
+        eam_equipment.maintenance_period = #{record.maintenancePeriod,jdbcType=VARCHAR},
       </if>
       <if test="record.leftPosition != null">
-        left_position = #{record.leftPosition,jdbcType=DECIMAL},
+        eam_equipment.left_position = #{record.leftPosition,jdbcType=DECIMAL},
       </if>
       <if test="record.topPosition != null">
-        top_position = #{record.topPosition,jdbcType=DECIMAL},
+        eam_equipment.top_position = #{record.topPosition,jdbcType=DECIMAL},
       </if>
       <if test="record.createUserId != null">
-        create_user_id = #{record.createUserId,jdbcType=INTEGER},
+        eam_equipment.create_user_id = #{record.createUserId,jdbcType=INTEGER},
       </if>
       <if test="record.createTime != null">
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+        eam_equipment.create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.updateUserId != null">
-        update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+        eam_equipment.update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       </if>
       <if test="record.updateTime != null">
-        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+        eam_equipment.update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.deleteFlag != null">
-        delete_flag = #{record.deleteFlag,jdbcType=BIT},
+        eam_equipment.delete_flag = #{record.deleteFlag,jdbcType=BIT},
       </if>
       <if test="record.isOnline != null">
-        is_online = #{record.isOnline,jdbcType=BIT},
+        eam_equipment.is_online = #{record.isOnline,jdbcType=BIT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -452,37 +462,37 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update eam_equipment
-    set equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
-      equipment_category_id = #{record.equipmentCategoryId,jdbcType=INTEGER},
-      product_line_id = #{record.productLineId,jdbcType=VARCHAR},
-      name = #{record.name,jdbcType=VARCHAR},
-      number = #{record.number,jdbcType=VARCHAR},
-      serial_number = #{record.serialNumber,jdbcType=VARCHAR},
-      image_path = #{record.imagePath,jdbcType=VARCHAR},
-      output = #{record.output,jdbcType=VARCHAR},
-      dimension = #{record.dimension,jdbcType=VARCHAR},
-      weight = #{record.weight,jdbcType=DECIMAL},
-      power = #{record.power,jdbcType=VARCHAR},
-      capacity = #{record.capacity,jdbcType=VARCHAR},
-      user = #{record.user,jdbcType=VARCHAR},
-      collect_status = #{record.collectStatus,jdbcType=VARCHAR},
-      grm = #{record.grm,jdbcType=VARCHAR},
-      grm_password = #{record.grmPassword,jdbcType=VARCHAR},
-      grm_period = #{record.grmPeriod,jdbcType=INTEGER},
-      factory_date = #{record.factoryDate,jdbcType=TIMESTAMP},
-      commissioning_date = #{record.commissioningDate,jdbcType=TIMESTAMP},
-      warranty_start_date = #{record.warrantyStartDate,jdbcType=TIMESTAMP},
-      warranty_end_date = #{record.warrantyEndDate,jdbcType=TIMESTAMP},
-      maintenance_period = #{record.maintenancePeriod,jdbcType=VARCHAR},
-      left_position = #{record.leftPosition,jdbcType=DECIMAL},
-      top_position = #{record.topPosition,jdbcType=DECIMAL},
-      create_user_id = #{record.createUserId,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      update_user_id = #{record.updateUserId,jdbcType=INTEGER},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      is_online = #{record.isOnline,jdbcType=BIT}
+    update eam_equipment eam_equipment
+    set eam_equipment.equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
+      eam_equipment.equipment_category_id = #{record.equipmentCategoryId,jdbcType=INTEGER},
+      eam_equipment.product_line_id = #{record.productLineId,jdbcType=VARCHAR},
+      eam_equipment.name = #{record.name,jdbcType=VARCHAR},
+      eam_equipment.number = #{record.number,jdbcType=VARCHAR},
+      eam_equipment.serial_number = #{record.serialNumber,jdbcType=VARCHAR},
+      eam_equipment.image_path = #{record.imagePath,jdbcType=VARCHAR},
+      eam_equipment.output = #{record.output,jdbcType=VARCHAR},
+      eam_equipment.dimension = #{record.dimension,jdbcType=VARCHAR},
+      eam_equipment.weight = #{record.weight,jdbcType=VARCHAR},
+      eam_equipment.power = #{record.power,jdbcType=VARCHAR},
+      eam_equipment.capacity = #{record.capacity,jdbcType=VARCHAR},
+      eam_equipment.user = #{record.user,jdbcType=VARCHAR},
+      eam_equipment.collect_status = #{record.collectStatus,jdbcType=VARCHAR},
+      eam_equipment.grm = #{record.grm,jdbcType=VARCHAR},
+      eam_equipment.grm_password = #{record.grmPassword,jdbcType=VARCHAR},
+      eam_equipment.grm_period = #{record.grmPeriod,jdbcType=INTEGER},
+      eam_equipment.factory_date = #{record.factoryDate,jdbcType=TIMESTAMP},
+      eam_equipment.commissioning_date = #{record.commissioningDate,jdbcType=TIMESTAMP},
+      eam_equipment.warranty_start_date = #{record.warrantyStartDate,jdbcType=TIMESTAMP},
+      eam_equipment.warranty_end_date = #{record.warrantyEndDate,jdbcType=TIMESTAMP},
+      eam_equipment.maintenance_period = #{record.maintenancePeriod,jdbcType=VARCHAR},
+      eam_equipment.left_position = #{record.leftPosition,jdbcType=DECIMAL},
+      eam_equipment.top_position = #{record.topPosition,jdbcType=DECIMAL},
+      eam_equipment.create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      eam_equipment.create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      eam_equipment.update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+      eam_equipment.update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      eam_equipment.delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      eam_equipment.is_online = #{record.isOnline,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -515,7 +525,7 @@
         dimension = #{dimension,jdbcType=VARCHAR},
       </if>
       <if test="weight != null">
-        weight = #{weight,jdbcType=DECIMAL},
+        weight = #{weight,jdbcType=VARCHAR},
       </if>
       <if test="power != null">
         power = #{power,jdbcType=VARCHAR},
@@ -590,7 +600,7 @@
       image_path = #{imagePath,jdbcType=VARCHAR},
       output = #{output,jdbcType=VARCHAR},
       dimension = #{dimension,jdbcType=VARCHAR},
-      weight = #{weight,jdbcType=DECIMAL},
+      weight = #{weight,jdbcType=VARCHAR},
       power = #{power,jdbcType=VARCHAR},
       capacity = #{capacity,jdbcType=VARCHAR},
       user = #{user,jdbcType=VARCHAR},
@@ -631,7 +641,7 @@
       (#{item.equipmentId,jdbcType=VARCHAR}, #{item.equipmentCategoryId,jdbcType=INTEGER}, 
         #{item.productLineId,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, #{item.number,jdbcType=VARCHAR}, 
         #{item.serialNumber,jdbcType=VARCHAR}, #{item.imagePath,jdbcType=VARCHAR}, #{item.output,jdbcType=VARCHAR}, 
-        #{item.dimension,jdbcType=VARCHAR}, #{item.weight,jdbcType=DECIMAL}, #{item.power,jdbcType=VARCHAR}, 
+        #{item.dimension,jdbcType=VARCHAR}, #{item.weight,jdbcType=VARCHAR}, #{item.power,jdbcType=VARCHAR}, 
         #{item.capacity,jdbcType=VARCHAR}, #{item.user,jdbcType=VARCHAR}, #{item.collectStatus,jdbcType=VARCHAR}, 
         #{item.grm,jdbcType=VARCHAR}, #{item.grmPassword,jdbcType=VARCHAR}, #{item.grmPeriod,jdbcType=INTEGER}, 
         #{item.factoryDate,jdbcType=TIMESTAMP}, #{item.commissioningDate,jdbcType=TIMESTAMP}, #{item.warrantyStartDate,jdbcType=TIMESTAMP}, 

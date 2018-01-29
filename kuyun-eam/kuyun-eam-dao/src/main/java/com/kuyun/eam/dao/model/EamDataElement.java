@@ -34,6 +34,8 @@ public class EamDataElement extends BaseEntity implements Serializable {
      */
     private String dataType;
 
+    private Integer equipmentCategoryId;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -76,6 +78,14 @@ public class EamDataElement extends BaseEntity implements Serializable {
         this.dataType = dataType;
     }
 
+    public Integer getEquipmentCategoryId() {
+        return equipmentCategoryId;
+    }
+
+    public void setEquipmentCategoryId(Integer equipmentCategoryId) {
+        this.equipmentCategoryId = equipmentCategoryId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -87,6 +97,7 @@ public class EamDataElement extends BaseEntity implements Serializable {
         sb.append(", lableName=").append(lableName);
         sb.append(", unit=").append(unit);
         sb.append(", dataType=").append(dataType);
+        sb.append(", equipmentCategoryId=").append(equipmentCategoryId);
         sb.append("]");
         return sb.toString();
     }
@@ -108,6 +119,7 @@ public class EamDataElement extends BaseEntity implements Serializable {
             && (this.getLableName() == null ? other.getLableName() == null : this.getLableName().equals(other.getLableName()))
             && (this.getUnit() == null ? other.getUnit() == null : this.getUnit().equals(other.getUnit()))
             && (this.getDataType() == null ? other.getDataType() == null : this.getDataType().equals(other.getDataType()))
+            && (this.getEquipmentCategoryId() == null ? other.getEquipmentCategoryId() == null : this.getEquipmentCategoryId().equals(other.getEquipmentCategoryId()))
             && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
@@ -124,6 +136,7 @@ public class EamDataElement extends BaseEntity implements Serializable {
         result = prime * result + ((getLableName() == null) ? 0 : getLableName().hashCode());
         result = prime * result + ((getUnit() == null) ? 0 : getUnit().hashCode());
         result = prime * result + ((getDataType() == null) ? 0 : getDataType().hashCode());
+        result = prime * result + ((getEquipmentCategoryId() == null) ? 0 : getEquipmentCategoryId().hashCode());
         result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());

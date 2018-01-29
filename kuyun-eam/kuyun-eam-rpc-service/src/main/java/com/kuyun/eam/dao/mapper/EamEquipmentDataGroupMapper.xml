@@ -2,14 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kuyun.eam.dao.mapper.EamEquipmentDataGroupMapper">
   <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamEquipmentDataGroup">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="equipment_id" jdbcType="VARCHAR" property="equipmentId" />
-    <result column="data_group_id" jdbcType="INTEGER" property="dataGroupId" />
-    <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
+    <id column="eam_equipment_data_group_id" jdbcType="INTEGER" property="id" />
+    <result column="eam_equipment_data_group_equipment_id" jdbcType="VARCHAR" property="equipmentId" />
+    <result column="eam_equipment_data_group_data_group_id" jdbcType="INTEGER" property="dataGroupId" />
+    <result column="eam_equipment_data_group_create_user_id" jdbcType="INTEGER" property="createUserId" />
+    <result column="eam_equipment_data_group_create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="eam_equipment_data_group_update_user_id" jdbcType="INTEGER" property="updateUserId" />
+    <result column="eam_equipment_data_group_update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="eam_equipment_data_group_delete_flag" jdbcType="BIT" property="deleteFlag" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,8 +70,11 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, equipment_id, data_group_id, create_user_id, create_time, update_user_id, update_time, 
-    delete_flag
+    eam_equipment_data_group.id as eam_equipment_data_group_id, eam_equipment_data_group.equipment_id as eam_equipment_data_group_equipment_id, 
+    eam_equipment_data_group.data_group_id as eam_equipment_data_group_data_group_id, 
+    eam_equipment_data_group.create_user_id as eam_equipment_data_group_create_user_id, 
+    eam_equipment_data_group.create_time as eam_equipment_data_group_create_time, eam_equipment_data_group.update_user_id as eam_equipment_data_group_update_user_id, 
+    eam_equipment_data_group.update_time as eam_equipment_data_group_update_time, eam_equipment_data_group.delete_flag as eam_equipment_data_group_delete_flag
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentDataGroupExample" resultMap="BaseResultMap">
     select
@@ -79,7 +82,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from eam_equipment_data_group
+    from eam_equipment_data_group eam_equipment_data_group
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -98,15 +101,15 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from eam_equipment_data_group
-    where id = #{id,jdbcType=INTEGER}
+    from eam_equipment_data_group eam_equipment_data_group
+    where eam_equipment_data_group.id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    update eam_equipment_data_group set delete_flag = 1 
+    update eam_equipment_data_group eam_equipment_data_group set delete_flag = 1 
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentDataGroupExample">
-    update eam_equipment_data_group set delete_flag = 1 
+    update eam_equipment_data_group eam_equipment_data_group set delete_flag = 1 
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -175,37 +178,37 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentDataGroupExample" resultType="java.lang.Long">
-    select count(*) from eam_equipment_data_group
+    select count(*) from eam_equipment_data_group eam_equipment_data_group
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update eam_equipment_data_group
+    update eam_equipment_data_group eam_equipment_data_group
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        eam_equipment_data_group.id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.equipmentId != null">
-        equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
+        eam_equipment_data_group.equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
       </if>
       <if test="record.dataGroupId != null">
-        data_group_id = #{record.dataGroupId,jdbcType=INTEGER},
+        eam_equipment_data_group.data_group_id = #{record.dataGroupId,jdbcType=INTEGER},
       </if>
       <if test="record.createUserId != null">
-        create_user_id = #{record.createUserId,jdbcType=INTEGER},
+        eam_equipment_data_group.create_user_id = #{record.createUserId,jdbcType=INTEGER},
       </if>
       <if test="record.createTime != null">
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+        eam_equipment_data_group.create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.updateUserId != null">
-        update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+        eam_equipment_data_group.update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       </if>
       <if test="record.updateTime != null">
-        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+        eam_equipment_data_group.update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.deleteFlag != null">
-        delete_flag = #{record.deleteFlag,jdbcType=BIT},
+        eam_equipment_data_group.delete_flag = #{record.deleteFlag,jdbcType=BIT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -213,15 +216,15 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update eam_equipment_data_group
-    set id = #{record.id,jdbcType=INTEGER},
-      equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
-      data_group_id = #{record.dataGroupId,jdbcType=INTEGER},
-      create_user_id = #{record.createUserId,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      update_user_id = #{record.updateUserId,jdbcType=INTEGER},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      delete_flag = #{record.deleteFlag,jdbcType=BIT}
+    update eam_equipment_data_group eam_equipment_data_group
+    set eam_equipment_data_group.id = #{record.id,jdbcType=INTEGER},
+      eam_equipment_data_group.equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
+      eam_equipment_data_group.data_group_id = #{record.dataGroupId,jdbcType=INTEGER},
+      eam_equipment_data_group.create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      eam_equipment_data_group.create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      eam_equipment_data_group.update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+      eam_equipment_data_group.update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      eam_equipment_data_group.delete_flag = #{record.deleteFlag,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>

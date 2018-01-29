@@ -153,4 +153,9 @@ public class UpmsApiServiceMock implements UpmsApiService {
         return null;
     }
 
+    @Override
+    public List<UpmsUser> selectUsers(UpmsUserCompany userCompany) {
+        return null;
+    }
+
 }

@@ -5,6 +5,7 @@ package com.kuyun.eam.common.constant;
  */
 public enum AlarmType {
 
+    SAME_DATA_ELEMENT("same_data_element", "与数据点相同"),
     VAL_ABOVE("val_above", "数值高于X"),
     VAL_BELOW("val_below", "数值低于Y"),
     VAL_BETWEEN("val_between", "数值在X和Y之间"),

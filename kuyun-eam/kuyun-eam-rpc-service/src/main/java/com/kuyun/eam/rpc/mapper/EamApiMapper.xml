@@ -308,17 +308,19 @@
 		</if>
 	</select>
 
-	<select id="selectAlarms" parameterType="String" resultMap="com.kuyun.eam.dao.mapper.EamAlarmMapper.BaseResultMap">
-		select
-		a.alarm_id, a.alarm_type, a.upper_Bound, a.lower_Bound, a.duration, a.alarm_target, a.equipment_model_property_id,
-		a.create_user_id, a.create_time, a.update_user_id, a.update_time, a.delete_flag, a.company_id
-		from eam_alarm a
-		left join eam_equipment_model_properties p on a.equipment_model_property_id = p.equipment_model_property_id
-		left join eam_equipment_model m on m.equipment_model_id = p.equipment_model_id
-		left join eam_equipment e on e.equipment_model_id = m.equipment_model_id
-		WHERE a.delete_flag = 0 and p.delete_flag = 0 and m.delete_flag = 0 and e.delete_flag = 0
-		 and e.equipment_id = #{deviceId}
-	</select>
+	<!--<select id="selectAlarms" parameterType="String" resultMap="com.kuyun.eam.dao.mapper.EamAlarmMapper.BaseResultMap">-->
+		<!--select-->
+		<!--a.alarm_id, a.alarm_type, a.upper_Bound, a.lower_Bound, a.duration, a.alarm_target, a.equipment_model_property_id,-->
+		<!--a.create_user_id, a.create_time, a.update_user_id, a.update_time, a.delete_flag, a.company_id-->
+		<!--from eam_alarm a-->
+		<!--left join eam_equipment_model_properties p on a.equipment_model_property_id = p.equipment_model_property_id-->
+		<!--left join eam_equipment_model m on m.equipment_model_id = p.equipment_model_id-->
+		<!--left join eam_equipment e on e.equipment_model_id = m.equipment_model_id-->
+		<!--WHERE a.delete_flag = 0 and p.delete_flag = 0 and m.delete_flag = 0 and e.delete_flag = 0-->
+		 <!--and e.equipment_id = #{deviceId}-->
+	<!--</select>-->
+
+
 
 	<resultMap id="EamAlarmRecordVOResultMap" type="com.kuyun.eam.vo.EamAlarmRecordVO" extends="com.kuyun.eam.dao.mapper.EamAlarmRecordMapper.BaseResultMap">
 		<result column="alarm_value" jdbcType="VARCHAR" property="alarmValue" />
@@ -542,34 +544,20 @@
 
 	</select>
 
-	<sql id="Equipment_Column_List">
-		t.equipment_id, t.equipment_model_id, t.equipment_category_id, t.name, t.number, t.serial_number, t.image_path, t.longitude,
-		t.latitude, t.province, t.city, t.user, t.collect_status, t.heart_data, t.grm, t.grm_password, t.grm_period,
-		t.factory_date, t.commissioning_date, t.warranty_start_date, t.warranty_end_date, t.maintenance_period,
-		t.create_user_id, t.create_time, t.update_user_id, t.update_time, t.delete_flag, t.is_online,
-		t.modbus_rtu_period, t.salve_id
-	</sql>
 
 	<resultMap id="EamEquipmentVOResultMap" type="com.kuyun.eam.vo.EamEquipmentVO" extends="com.kuyun.eam.dao.mapper.EamEquipmentMapper.BaseResultMap">
-		<result column="dtu_id" jdbcType="VARCHAR" property="dtuId" />
 	</resultMap>
 
 	<select id="selectEquipments" parameterType="com.kuyun.eam.vo.EamEquipmentVO" resultMap="EamEquipmentVOResultMap">
 		select
-		d.dtu_id,
-		<include refid="Equipment_Column_List" />
-		from eam_equipment t
-		LEFT JOIN eam_equipment_company e ON t.equipment_id = e.equipment_id
-		LEFT JOIN eam_dtu_equipment d ON t.equipment_id = d.equipment_id AND d.delete_flag = 0
-		WHERE t.delete_flag = 0 AND e.delete_flag = 0
+		<include refid="com.kuyun.eam.dao.mapper.EamEquipmentMapper.Base_Column_List" />
+		from eam_equipment
+		WHERE delete_flag = 0
 		<if test="productLineId != null and productLineId != ''">
-			AND t.product_line_id = #{productLineId}
+			AND product_line_id = #{productLineId}
 		</if>
 		<if test="equipmentCategoryId != null and equipmentCategoryId != ''">
-			AND e.equipment_category_id = #{equipmentCategoryId}
-		</if>
-		<if test="companyId != null and companyId != ''">
-			AND e.company_id = #{companyId}
+			AND equipment_category_id = #{equipmentCategoryId}
 		</if>
 		<if test="orderByClause != null">
 			order by ${orderByClause}
@@ -586,72 +574,19 @@
 
 	<select id="countEquipments" parameterType="com.kuyun.eam.vo.EamEquipmentVO" resultType="java.lang.Long">
 		select count(*)
-		from eam_equipment t
-		LEFT JOIN eam_equipment_company e ON t.equipment_id = e.equipment_id
-		LEFT JOIN eam_dtu_equipment d ON t.equipment_id = d.equipment_id AND d.delete_flag = 0
-		WHERE t.delete_flag = 0 AND e.delete_flag = 0
+		from eam_equipment
+		WHERE delete_flag = 0
 		<if test="productLineId != null and productLineId != ''">
-			AND t.product_line_id = #{productLineId}
+			AND eam_equipment.product_line_id = #{productLineId}
 		</if>
 		<if test="equipmentCategoryId != null and equipmentCategoryId != ''">
-			AND e.equipment_category_id = #{equipmentCategoryId}
-		</if>
-		<if test="companyId != null and companyId != ''">
-			AND e.company_id = #{companyId}
+			AND eam_equipment.equipment_category_id = #{equipmentCategoryId}
 		</if>
 		<if test="orderByClause != null">
 			order by ${orderByClause}
 		</if>
 	</select>
 
-	<select id="selectUnConnectDtuEquipments" parameterType="com.kuyun.eam.vo.EamEquipmentVO" resultMap="EamEquipmentVOResultMap">
-		select
-		<include refid="Equipment_Column_List" />
-		from eam_equipment t
-		LEFT JOIN eam_equipment_company e ON t.equipment_id = e.equipment_id
-		LEFT JOIN eam_equipment_model m ON t.equipment_model_id = m.equipment_model_id
-		WHERE t.delete_flag = 0 AND e.delete_flag = 0
-		AND m.protocol_id = 1
-		<if test="companyId != null and companyId != ''">
-			AND e.company_id = #{companyId}
-		</if>
-		<if test="dtuId != null and dtuId != ''">
-			AND t.equipment_id not in (
-				select equipment_id from eam_dtu_equipment where dtu_id != #{dtuId} and delete_flag = 0
-			)
-		</if>
-		<if test="orderByClause != null">
-			order by ${orderByClause}
-		</if>
-		<if test="limit != null">
-			<if test="offset != null">
-				limit ${offset}, ${limit}
-			</if>
-			<if test="offset == null">
-				limit ${limit}
-			</if>
-		</if>
-	</select>
-
-	<select id="countUnConnectDtuEquipments" parameterType="com.kuyun.eam.vo.EamEquipmentVO" resultType="java.lang.Long">
-		select count(*)
-		from eam_equipment t
-		LEFT JOIN eam_equipment_company e ON t.equipment_id = e.equipment_id
-		LEFT JOIN eam_equipment_model m ON t.equipment_model_id = m.equipment_model_id
-		WHERE t.delete_flag = 0 AND e.delete_flag = 0
-		AND m.protocol_id = 1
-		<if test="companyId != null and companyId != ''">
-			AND e.company_id = #{companyId}
-		</if>
-		<if test="dtuId != null and dtuId != ''">
-			AND t.equipment_id not in (
-			select equipment_id from eam_dtu_equipment where dtu_id != #{dtuId} and delete_flag = 0
-			)
-		</if>
-		<if test="orderByClause != null">
-			order by ${orderByClause}
-		</if>
-	</select>
 
 	<resultMap id="EquipmentModelPropertiesVOResultMap" type="com.kuyun.eam.vo.EamEquipmentModelPropertiesVO" extends="com.kuyun.eam.dao.mapper.EamEquipmentModelPropertiesMapper.BaseResultMap">
 		<result column="write_value" jdbcType="VARCHAR" property="writeValue" />
@@ -728,6 +663,164 @@
 			order by ${orderByClause}
 		</if>
 	</select>
+
+
+	<resultMap id="EamDataElementVOResultMap" type="com.kuyun.eam.vo.EamDataElementVO" extends="com.kuyun.eam.dao.mapper.EamDataElementMapper.BaseResultMap">
+		<result column="equipment_category_name" jdbcType="VARCHAR" property="equipmentCategoryName" />
+	</resultMap>
+
+
+	<sql id="DataElement_Column_List">
+		t.id, t.name, t.lable_name, t.unit, t.data_type, t.equipment_category_id, t.create_user_id, t.create_time,
+    	t.update_user_id, t.update_time, t.delete_flag,
+	</sql>
+
+	<select id="selectDataElements" parameterType="com.kuyun.eam.vo.EamDataElementVO" resultMap="EamDataElementVOResultMap">
+		select
+		<include refid="DataElement_Column_List" />
+		e.name as equipment_category_name
+		from eam_data_element t
+		LEFT JOIN eam_equipment_category e ON t.equipment_category_id = e.equipment_category_id
+		WHERE t.delete_flag = 0
+		<if test="equipmentCategoryId != null">
+			AND t.equipment_category_id = #{equipmentCategoryId}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+
+	<resultMap id="EamAlarmModelVOResultMap" type="com.kuyun.eam.vo.EamAlarmModelVO" extends="com.kuyun.eam.dao.mapper.EamAlarmModelMapper.BaseResultMap">
+		<result column="data_element_name" jdbcType="VARCHAR" property="dataElementName" />
+	</resultMap>
+
+
+	<sql id="AlarmModel_Column_List">
+		t.alarm_model_id, t.name, t.eam_data_element_id, t.alarm_type, t.upper_Bound, t.lower_Bound,
+    	t.duration, t.create_user_id, t.create_time, t.update_user_id, t.update_time, t.delete_flag,
+    	t.company_id,
+	</sql>
+
+	<select id="selectAlarmModels" parameterType="com.kuyun.eam.vo.EamAlarmModelVO" resultMap="EamAlarmModelVOResultMap">
+		select
+		<include refid="AlarmModel_Column_List" />
+		e.lable_name as data_element_name
+		from eam_alarm_model t
+		LEFT JOIN eam_data_element e ON t.eam_data_element_id = e.id
+		WHERE t.delete_flag = 0
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+
+	<resultMap id="EamEquipmentDataGroupVOResultMap" type="com.kuyun.eam.vo.EamEquipmentDataGroupVO" extends="com.kuyun.eam.dao.mapper.EamEquipmentDataGroupMapper.BaseResultMap">
+		<result column="dataGroupName" jdbcType="VARCHAR" property="dataGroupName" />
+	</resultMap>
+
+	<select id="selectEquipmentDataGroups" parameterType="com.kuyun.eam.vo.EamEquipmentDataGroupVO" resultMap="EamEquipmentDataGroupVOResultMap">
+		select
+		e.name AS dataGroupName,
+		<include refid="com.kuyun.eam.dao.mapper.EamEquipmentDataGroupMapper.Base_Column_List" />
+		from eam_equipment_data_group
+		LEFT JOIN eam_data_element_group e ON eam_equipment_data_group.data_group_id = e.id
+		WHERE eam_equipment_data_group.delete_flag = 0 AND e.delete_flag = 0
+		<if test="equipmentId != null and equipmentId != ''">
+			AND equipment_id = #{equipmentId}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+	<select id="countEquipmentDataGroups" parameterType="com.kuyun.eam.vo.EamEquipmentDataGroupVO" resultType="java.lang.Long">
+		select count(*)
+		from eam_equipment_data_group
+		WHERE delete_flag = 0
+		<if test="equipmentId != null and equipmentId != ''">
+			AND equipment_id = #{equipmentId}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+
+
+	<resultMap id="EamAlarmVOResultMap" type="com.kuyun.eam.vo.EamAlarmVO" extends="com.kuyun.eam.dao.mapper.EamAlarmMapper.BaseResultMap">
+		<result column="target_user_name" jdbcType="VARCHAR" property="targetUserName" />
+		<result column="alarm_lable_name" jdbcType="VARCHAR" property="alarmLableName" />
+	</resultMap>
+
+	<select id="selectAlarms" parameterType="com.kuyun.eam.vo.EamAlarmVO" resultMap="EamAlarmVOResultMap">
+		select
+		u.realname AS target_user_name,
+		d.lable_name as alarm_lable_name,
+		<include refid="com.kuyun.eam.dao.mapper.EamAlarmMapper.Base_Column_List" />
+		from eam_alarm
+		LEFT JOIN eam_alarm_target_user e ON eam_alarm.alarm_id = e.alarm_id AND e.delete_flag = 0
+		LEFT JOIN eam_data_element d ON eam_alarm.eam_data_element_id = d.id
+		LEFT JOIN upms_user u ON e.user_id = u.user_id
+		WHERE eam_alarm.delete_flag = 0
+		<if test="productLineId != null and productLineId != ''">
+			AND eam_alarm.product_line_id = #{productLineId}
+		</if>
+		<if test="equipmentId != null and equipmentId != ''">
+			AND eam_alarm.equipment_id = #{equipmentId}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+	<select id="countAlarms" parameterType="com.kuyun.eam.vo.EamAlarmVO" resultType="java.lang.Long">
+		select count(*)
+		from eam_alarm
+		WHERE delete_flag = 0
+		<if test="productLineId != null and productLineId != ''">
+			AND product_line_id = #{productLineId}
+		</if>
+		<if test="equipmentId != null and equipmentId != ''">
+			AND equipment_id = #{equipmentId}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+
+
 
 	<!-- 缓存 -->
 	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" />

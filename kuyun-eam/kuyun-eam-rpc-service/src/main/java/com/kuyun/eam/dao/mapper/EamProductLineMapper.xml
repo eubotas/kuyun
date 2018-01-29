@@ -14,12 +14,12 @@
     <result column="grm_period" jdbcType="INTEGER" property="grmPeriod" />
     <result column="collect_status" jdbcType="VARCHAR" property="collectStatus" />
     <result column="is_online" jdbcType="BIT" property="isOnline" />
-    <result column="morning_shift_start_time" jdbcType="TIME" property="morningShiftStartTime" />
-    <result column="morning_shift_end_time" jdbcType="TIME" property="morningShiftEndTime" />
-    <result column="middle_shift_start_time" jdbcType="TIME" property="middleShiftStartTime" />
-    <result column="middle_shift_end_time" jdbcType="TIME" property="middleShiftEndTime" />
-    <result column="night_shift_start_time" jdbcType="TIME" property="nightShiftStartTime" />
-    <result column="night_shift_end_time" jdbcType="TIME" property="nightShiftEndTime" />
+    <result column="morning_shift_start_time" jdbcType="VARCHAR" property="morningShiftStartTime" />
+    <result column="morning_shift_end_time" jdbcType="VARCHAR" property="morningShiftEndTime" />
+    <result column="middle_shift_start_time" jdbcType="VARCHAR" property="middleShiftStartTime" />
+    <result column="middle_shift_end_time" jdbcType="VARCHAR" property="middleShiftEndTime" />
+    <result column="night_shift_start_time" jdbcType="VARCHAR" property="nightShiftStartTime" />
+    <result column="night_shift_end_time" jdbcType="VARCHAR" property="nightShiftEndTime" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
@@ -133,16 +133,18 @@
       longitude, latitude, province, 
       city, grm, grm_password, 
       grm_period, collect_status, is_online, 
-      morning_shift_start_time, morning_shift_end_time, middle_shift_start_time, 
-      middle_shift_end_time, night_shift_start_time, night_shift_end_time, 
+      morning_shift_start_time, morning_shift_end_time, 
+      middle_shift_start_time, middle_shift_end_time, 
+      night_shift_start_time, night_shift_end_time, 
       create_user_id, create_time, update_user_id, 
       update_time, delete_flag)
     values (#{productLineId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{imagePath,jdbcType=VARCHAR}, 
       #{longitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}, #{province,jdbcType=VARCHAR}, 
       #{city,jdbcType=VARCHAR}, #{grm,jdbcType=VARCHAR}, #{grmPassword,jdbcType=VARCHAR}, 
       #{grmPeriod,jdbcType=INTEGER}, #{collectStatus,jdbcType=VARCHAR}, #{isOnline,jdbcType=BIT}, 
-      #{morningShiftStartTime,jdbcType=TIME}, #{morningShiftEndTime,jdbcType=TIME}, #{middleShiftStartTime,jdbcType=TIME}, 
-      #{middleShiftEndTime,jdbcType=TIME}, #{nightShiftStartTime,jdbcType=TIME}, #{nightShiftEndTime,jdbcType=TIME}, 
+      #{morningShiftStartTime,jdbcType=VARCHAR}, #{morningShiftEndTime,jdbcType=VARCHAR}, 
+      #{middleShiftStartTime,jdbcType=VARCHAR}, #{middleShiftEndTime,jdbcType=VARCHAR}, 
+      #{nightShiftStartTime,jdbcType=VARCHAR}, #{nightShiftEndTime,jdbcType=VARCHAR}, 
       #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT})
   </insert>
@@ -257,22 +259,22 @@
         #{isOnline,jdbcType=BIT},
       </if>
       <if test="morningShiftStartTime != null">
-        #{morningShiftStartTime,jdbcType=TIME},
+        #{morningShiftStartTime,jdbcType=VARCHAR},
       </if>
       <if test="morningShiftEndTime != null">
-        #{morningShiftEndTime,jdbcType=TIME},
+        #{morningShiftEndTime,jdbcType=VARCHAR},
       </if>
       <if test="middleShiftStartTime != null">
-        #{middleShiftStartTime,jdbcType=TIME},
+        #{middleShiftStartTime,jdbcType=VARCHAR},
       </if>
       <if test="middleShiftEndTime != null">
-        #{middleShiftEndTime,jdbcType=TIME},
+        #{middleShiftEndTime,jdbcType=VARCHAR},
       </if>
       <if test="nightShiftStartTime != null">
-        #{nightShiftStartTime,jdbcType=TIME},
+        #{nightShiftStartTime,jdbcType=VARCHAR},
       </if>
       <if test="nightShiftEndTime != null">
-        #{nightShiftEndTime,jdbcType=TIME},
+        #{nightShiftEndTime,jdbcType=VARCHAR},
       </if>
       <if test="createUserId != null">
         #{createUserId,jdbcType=INTEGER},
@@ -337,22 +339,22 @@
         is_online = #{record.isOnline,jdbcType=BIT},
       </if>
       <if test="record.morningShiftStartTime != null">
-        morning_shift_start_time = #{record.morningShiftStartTime,jdbcType=TIME},
+        morning_shift_start_time = #{record.morningShiftStartTime,jdbcType=VARCHAR},
       </if>
       <if test="record.morningShiftEndTime != null">
-        morning_shift_end_time = #{record.morningShiftEndTime,jdbcType=TIME},
+        morning_shift_end_time = #{record.morningShiftEndTime,jdbcType=VARCHAR},
       </if>
       <if test="record.middleShiftStartTime != null">
-        middle_shift_start_time = #{record.middleShiftStartTime,jdbcType=TIME},
+        middle_shift_start_time = #{record.middleShiftStartTime,jdbcType=VARCHAR},
       </if>
       <if test="record.middleShiftEndTime != null">
-        middle_shift_end_time = #{record.middleShiftEndTime,jdbcType=TIME},
+        middle_shift_end_time = #{record.middleShiftEndTime,jdbcType=VARCHAR},
       </if>
       <if test="record.nightShiftStartTime != null">
-        night_shift_start_time = #{record.nightShiftStartTime,jdbcType=TIME},
+        night_shift_start_time = #{record.nightShiftStartTime,jdbcType=VARCHAR},
       </if>
       <if test="record.nightShiftEndTime != null">
-        night_shift_end_time = #{record.nightShiftEndTime,jdbcType=TIME},
+        night_shift_end_time = #{record.nightShiftEndTime,jdbcType=VARCHAR},
       </if>
       <if test="record.createUserId != null">
         create_user_id = #{record.createUserId,jdbcType=INTEGER},
@@ -388,12 +390,12 @@
       grm_period = #{record.grmPeriod,jdbcType=INTEGER},
       collect_status = #{record.collectStatus,jdbcType=VARCHAR},
       is_online = #{record.isOnline,jdbcType=BIT},
-      morning_shift_start_time = #{record.morningShiftStartTime,jdbcType=TIME},
-      morning_shift_end_time = #{record.morningShiftEndTime,jdbcType=TIME},
-      middle_shift_start_time = #{record.middleShiftStartTime,jdbcType=TIME},
-      middle_shift_end_time = #{record.middleShiftEndTime,jdbcType=TIME},
-      night_shift_start_time = #{record.nightShiftStartTime,jdbcType=TIME},
-      night_shift_end_time = #{record.nightShiftEndTime,jdbcType=TIME},
+      morning_shift_start_time = #{record.morningShiftStartTime,jdbcType=VARCHAR},
+      morning_shift_end_time = #{record.morningShiftEndTime,jdbcType=VARCHAR},
+      middle_shift_start_time = #{record.middleShiftStartTime,jdbcType=VARCHAR},
+      middle_shift_end_time = #{record.middleShiftEndTime,jdbcType=VARCHAR},
+      night_shift_start_time = #{record.nightShiftStartTime,jdbcType=VARCHAR},
+      night_shift_end_time = #{record.nightShiftEndTime,jdbcType=VARCHAR},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
@@ -440,22 +442,22 @@
         is_online = #{isOnline,jdbcType=BIT},
       </if>
       <if test="morningShiftStartTime != null">
-        morning_shift_start_time = #{morningShiftStartTime,jdbcType=TIME},
+        morning_shift_start_time = #{morningShiftStartTime,jdbcType=VARCHAR},
       </if>
       <if test="morningShiftEndTime != null">
-        morning_shift_end_time = #{morningShiftEndTime,jdbcType=TIME},
+        morning_shift_end_time = #{morningShiftEndTime,jdbcType=VARCHAR},
       </if>
       <if test="middleShiftStartTime != null">
-        middle_shift_start_time = #{middleShiftStartTime,jdbcType=TIME},
+        middle_shift_start_time = #{middleShiftStartTime,jdbcType=VARCHAR},
       </if>
       <if test="middleShiftEndTime != null">
-        middle_shift_end_time = #{middleShiftEndTime,jdbcType=TIME},
+        middle_shift_end_time = #{middleShiftEndTime,jdbcType=VARCHAR},
       </if>
       <if test="nightShiftStartTime != null">
-        night_shift_start_time = #{nightShiftStartTime,jdbcType=TIME},
+        night_shift_start_time = #{nightShiftStartTime,jdbcType=VARCHAR},
       </if>
       <if test="nightShiftEndTime != null">
-        night_shift_end_time = #{nightShiftEndTime,jdbcType=TIME},
+        night_shift_end_time = #{nightShiftEndTime,jdbcType=VARCHAR},
       </if>
       <if test="createUserId != null">
         create_user_id = #{createUserId,jdbcType=INTEGER},
@@ -488,12 +490,12 @@
       grm_period = #{grmPeriod,jdbcType=INTEGER},
       collect_status = #{collectStatus,jdbcType=VARCHAR},
       is_online = #{isOnline,jdbcType=BIT},
-      morning_shift_start_time = #{morningShiftStartTime,jdbcType=TIME},
-      morning_shift_end_time = #{morningShiftEndTime,jdbcType=TIME},
-      middle_shift_start_time = #{middleShiftStartTime,jdbcType=TIME},
-      middle_shift_end_time = #{middleShiftEndTime,jdbcType=TIME},
-      night_shift_start_time = #{nightShiftStartTime,jdbcType=TIME},
-      night_shift_end_time = #{nightShiftEndTime,jdbcType=TIME},
+      morning_shift_start_time = #{morningShiftStartTime,jdbcType=VARCHAR},
+      morning_shift_end_time = #{morningShiftEndTime,jdbcType=VARCHAR},
+      middle_shift_start_time = #{middleShiftStartTime,jdbcType=VARCHAR},
+      middle_shift_end_time = #{middleShiftEndTime,jdbcType=VARCHAR},
+      night_shift_start_time = #{nightShiftStartTime,jdbcType=VARCHAR},
+      night_shift_end_time = #{nightShiftEndTime,jdbcType=VARCHAR},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=INTEGER},
@@ -507,8 +509,9 @@
         longitude, latitude, province, 
         city, grm, grm_password, 
         grm_period, collect_status, is_online, 
-        morning_shift_start_time, morning_shift_end_time, middle_shift_start_time, 
-        middle_shift_end_time, night_shift_start_time, night_shift_end_time, 
+        morning_shift_start_time, morning_shift_end_time, 
+        middle_shift_start_time, middle_shift_end_time, 
+        night_shift_start_time, night_shift_end_time, 
         create_user_id, create_time, update_user_id, 
         update_time, delete_flag)
       values
@@ -517,8 +520,9 @@
         #{item.longitude,jdbcType=DECIMAL}, #{item.latitude,jdbcType=DECIMAL}, #{item.province,jdbcType=VARCHAR}, 
         #{item.city,jdbcType=VARCHAR}, #{item.grm,jdbcType=VARCHAR}, #{item.grmPassword,jdbcType=VARCHAR}, 
         #{item.grmPeriod,jdbcType=INTEGER}, #{item.collectStatus,jdbcType=VARCHAR}, #{item.isOnline,jdbcType=BIT}, 
-        #{item.morningShiftStartTime,jdbcType=TIME}, #{item.morningShiftEndTime,jdbcType=TIME}, #{item.middleShiftStartTime,jdbcType=TIME}, 
-        #{item.middleShiftEndTime,jdbcType=TIME}, #{item.nightShiftStartTime,jdbcType=TIME}, #{item.nightShiftEndTime,jdbcType=TIME}, 
+        #{item.morningShiftStartTime,jdbcType=VARCHAR}, #{item.morningShiftEndTime,jdbcType=VARCHAR}, 
+        #{item.middleShiftStartTime,jdbcType=VARCHAR}, #{item.middleShiftEndTime,jdbcType=VARCHAR}, 
+        #{item.nightShiftStartTime,jdbcType=VARCHAR}, #{item.nightShiftEndTime,jdbcType=VARCHAR}, 
         #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, 
         #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT})
       </foreach>

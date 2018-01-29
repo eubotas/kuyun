@@ -3,7 +3,6 @@ package com.kuyun.eam.dao.model;
 import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 
 public class EamProductLine extends BaseEntity implements Serializable {
     private String productLineId;
@@ -50,17 +49,17 @@ public class EamProductLine extends BaseEntity implements Serializable {
 
     private Boolean isOnline;
 
-    private Date morningShiftStartTime;
+    private String morningShiftStartTime;
 
-    private Date morningShiftEndTime;
+    private String morningShiftEndTime;
 
-    private Date middleShiftStartTime;
+    private String middleShiftStartTime;
 
-    private Date middleShiftEndTime;
+    private String middleShiftEndTime;
 
-    private Date nightShiftStartTime;
+    private String nightShiftStartTime;
 
-    private Date nightShiftEndTime;
+    private String nightShiftEndTime;
 
     private static final long serialVersionUID = 1L;
 
@@ -160,51 +159,51 @@ public class EamProductLine extends BaseEntity implements Serializable {
         this.isOnline = isOnline;
     }
 
-    public Date getMorningShiftStartTime() {
+    public String getMorningShiftStartTime() {
         return morningShiftStartTime;
     }
 
-    public void setMorningShiftStartTime(Date morningShiftStartTime) {
+    public void setMorningShiftStartTime(String morningShiftStartTime) {
         this.morningShiftStartTime = morningShiftStartTime;
     }
 
-    public Date getMorningShiftEndTime() {
+    public String getMorningShiftEndTime() {
         return morningShiftEndTime;
     }
 
-    public void setMorningShiftEndTime(Date morningShiftEndTime) {
+    public void setMorningShiftEndTime(String morningShiftEndTime) {
         this.morningShiftEndTime = morningShiftEndTime;
     }
 
-    public Date getMiddleShiftStartTime() {
+    public String getMiddleShiftStartTime() {
         return middleShiftStartTime;
     }
 
-    public void setMiddleShiftStartTime(Date middleShiftStartTime) {
+    public void setMiddleShiftStartTime(String middleShiftStartTime) {
         this.middleShiftStartTime = middleShiftStartTime;
     }
 
-    public Date getMiddleShiftEndTime() {
+    public String getMiddleShiftEndTime() {
         return middleShiftEndTime;
     }
 
-    public void setMiddleShiftEndTime(Date middleShiftEndTime) {
+    public void setMiddleShiftEndTime(String middleShiftEndTime) {
         this.middleShiftEndTime = middleShiftEndTime;
     }
 
-    public Date getNightShiftStartTime() {
+    public String getNightShiftStartTime() {
         return nightShiftStartTime;
     }
 
-    public void setNightShiftStartTime(Date nightShiftStartTime) {
+    public void setNightShiftStartTime(String nightShiftStartTime) {
         this.nightShiftStartTime = nightShiftStartTime;
     }
 
-    public Date getNightShiftEndTime() {
+    public String getNightShiftEndTime() {
         return nightShiftEndTime;
     }
 
-    public void setNightShiftEndTime(Date nightShiftEndTime) {
+    public void setNightShiftEndTime(String nightShiftEndTime) {
         this.nightShiftEndTime = nightShiftEndTime;
     }
 

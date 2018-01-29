@@ -21,8 +21,9 @@
 		<shiro:hasPermission name="eam:productLine:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增产线</a></shiro:hasPermission>
 		<shiro:hasPermission name="eam:productLine:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑产线</a></shiro:hasPermission>
 		<shiro:hasPermission name="eam:productLine:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()"><i class="zmdi zmdi-close"></i> 删除产线</a></shiro:hasPermission>
-		<shiro:hasPermission name="eam:productLine:update"><a class="waves-effect waves-button" href="javascript:;" onclick="grmAction()"><i class="zmdi zmdi-plus"></i> 选择数据点</a></shiro:hasPermission>
-		<shiro:hasPermission name="eam:equipment:read"><a class="waves-effect waves-button" href="javascript:;" onclick="viewEquipmentAction()"><i class="zmdi zmdi-plus"></i> 设备</a></shiro:hasPermission>
+		<shiro:hasPermission name="eam:productLine:update"><a class="waves-effect waves-button" href="javascript:;" onclick="dataElementAction()"><i class="zmdi zmdi-plus"></i> 选择数据点</a></shiro:hasPermission>
+		<shiro:hasPermission name="eam:equipment:read"><a class="waves-effect waves-button" href="javascript:;" onclick="viewEquipmentAction()"><i class="zmdi zmdi-plus"></i> 设备管理</a></shiro:hasPermission>
+		<shiro:hasPermission name="eam:equipment:read"><a class="waves-effect waves-button" href="javascript:;" onclick="alarmAction()"><i class="zmdi zmdi-plus"></i> 报警设置</a></shiro:hasPermission>
 	</div>
 	<table id="table"></table>
 </div>
@@ -58,9 +59,9 @@ $(function() {
 			{field: 'ck', checkbox: true},
 			{field: 'productLineId', title: 'ID', sortable: true, align: 'center'},
 			{field: 'name', title: '名称'},
-			{field: 'grm', title: '智库网关ID'},
-			{field: 'grmPassword', title: '智库网关密码'},
-			{field: 'grmPeriod', title: '采集频率'},
+			{field: 'dataElement', title: '智库网关ID'},
+			{field: 'dataElementPassword', title: '智库网关密码'},
+			{field: 'dataElementPeriod', title: '采集频率'},
 			{field: 'collectStatus', title: '采集状态'},
 			{field: 'isOnline', title: '是否在线'},
 			{field: 'createTime', title: '创建时间', formatter: 'timeFormatter'}
@@ -246,8 +247,7 @@ function viewEquipmentAction() {
     }
 }
 
-var grmDialog;
-function grmAction() {
+function alarmAction() {
     var rows = $table.bootstrapTable('getSelections');
     if (rows.length != 1) {
         $.confirm({
@@ -263,11 +263,33 @@ function grmAction() {
             }
         });
     } else {
-        grmDialog = $.dialog({
+        var productLineId = rows[0].productLineId;
+        window.location = "${basePath}/manage/"+ productLineId + "/alarm/index";
+    }
+}
+
+var dataElementDialog;
+function dataElementAction() {
+    var rows = $table.bootstrapTable('getSelections');
+    if (rows.length != 1) {
+        $.confirm({
+            title: false,
+            content: '请选择一条记录！',
+            autoClose: 'cancel|3000',
+            backgroundDismiss: true,
+            buttons: {
+                cancel: {
+                    text: '取消',
+                    btnClass: 'waves-effect waves-button'
+                }
+            }
+        });
+    } else {
+        dataElementDialog = $.dialog({
             animationSpeed: 300,
             title: '选择数据点',
             columnClass: 'xlarge',
-            content: 'url:${basePath}/manage/productLine/grm/' + rows[0].productLineId,
+            content: 'url:${basePath}/manage/productLine/dataElement/' + rows[0].productLineId,
             onContentReady: function () {
                 initMaterialInput();
             }

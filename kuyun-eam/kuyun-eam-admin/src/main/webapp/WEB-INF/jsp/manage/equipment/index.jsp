@@ -101,9 +101,7 @@
 		<shiro:hasPermission name="eam:equipment:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增设备</a></shiro:hasPermission>
 		<shiro:hasPermission name="eam:equipment:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑设备</a></shiro:hasPermission>
 		<shiro:hasPermission name="eam:equipment:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()"><i class="zmdi zmdi-close"></i> 删除设备</a></shiro:hasPermission>
-		<%--<shiro:hasPermission name="eam:equipment:update"><a class="waves-effect waves-button" href="javascript:;" onclick="connectAction()"><i class="zmdi zmdi-plus"></i> 设备接入</a></shiro:hasPermission>--%>
-		<shiro:hasPermission name="eam:equipment:update"><a class="waves-effect waves-button" href="javascript:;" onclick="grmAction()"><i class="zmdi zmdi-plus"></i> 选择数据点</a></shiro:hasPermission>
-		<%--<shiro:hasPermission name="eam:equipmentSensor:write"><a class="waves-effect waves-button" href="javascript:;" onclick="sensorAction()"><i class="zmdi zmdi-plus"></i> 数据写入</a></shiro:hasPermission>--%>
+		<shiro:hasPermission name="eam:equipment:update"><a class="waves-effect waves-button" href="javascript:;" onclick="dataElementGroupAction()"><i class="zmdi zmdi-plus"></i> 数据点分组</a></shiro:hasPermission>
 	</div>
 	<table id="table"></table>
 </div>
@@ -140,7 +138,6 @@ $(function() {
 			{field: 'ck', checkbox: true},
 			{field: 'name', title: '设备名称', sortable: true, align: 'center'},
 			{field: 'number', title: '设备编号'},
-			{field: 'maintenancePeriod', title: '维保周期'},
 			{field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
 		]
 	});
@@ -378,6 +375,27 @@ function grmAction() {
                 initMaterialInput();
             }
         });
+    }
+}
+
+function dataElementGroupAction() {
+    var rows = $table.bootstrapTable('getSelections');
+    if (rows.length != 1) {
+        $.confirm({
+            title: false,
+            content: '请选择一条记录！',
+            autoClose: 'cancel|3000',
+            backgroundDismiss: true,
+            buttons: {
+                cancel: {
+                    text: '取消',
+                    btnClass: 'waves-effect waves-button'
+                }
+            }
+        });
+    } else {
+        var equipmentId = rows[0].equipmentId;
+        window.location = "${basePath}/manage/" + equipmentId +  "/dataGroup/index";
     }
 }
 

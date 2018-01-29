@@ -18,23 +18,6 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-12">
-				<div class="form-group">
-					<div class="fg-line">
-						<label for="number">设备型号</label>
-						<input id="number" type="text" class="form-control" name="number" maxlength="500">
-					</div>
-				</div>
-			</div>
-
-			<div class="col-sm-12">
-				<div class="form-group">
-					<div class="fg-line">
-						<label for="serialNumber">出厂编号</label>
-						<input id="serialNumber" type="text" class="form-control" name="serialNumber" maxlength="20">
-					</div>
-				</div>
-			</div>
 
 			<div class="col-sm-12">
 				<div class="form-group">
@@ -48,24 +31,68 @@
 				</div>
 			</div>
 
-
-			<div class="col-sm-6">
+			<div class="col-sm-12">
 				<div class="form-group">
 					<div class="fg-line">
-						<label for="longitude">设备位置:经度</label>
-						<input id="longitude" type="text" class="form-control" name="longitude" maxlength="100">
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-6">
-				<div class="form-group">
-					<div class="fg-line">
-						<label for="latitude">纬度</label>
-						<input id="latitude" type="text" class="form-control" name="latitude" maxlength="100">
+						<label for="number">设备型号</label>
+						<input id="number" type="text" class="form-control" name="number" maxlength="500">
 					</div>
 				</div>
 			</div>
 
+			<div class="col-sm-12">
+				<div class="form-group">
+					<div class="fg-line">
+						<label for="output">产量</label>
+						<input id="output" type="text" class="form-control" name="output" maxlength="20">
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-12">
+				<div class="form-group">
+					<div class="fg-line">
+						<label for="dimension">外形尺寸</label>
+						<input id="dimension" type="text" class="form-control" name="dimension" maxlength="20">
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-12">
+				<div class="form-group">
+					<div class="fg-line">
+						<label for="weight">设备重量</label>
+						<input id="weight" type="text" class="form-control" name="weight" maxlength="20">
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-12">
+				<div class="form-group">
+					<div class="fg-line">
+						<label for="power">使用电源</label>
+						<input id="power" type="text" class="form-control" name="power" maxlength="20">
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-12">
+				<div class="form-group">
+					<div class="fg-line">
+						<label for="capacity">装机容量</label>
+						<input id="capacity" type="text" class="form-control" name="capacity" maxlength="20">
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-12">
+				<div class="form-group">
+					<div class="fg-line">
+						<label for="serialNumber">出厂编号</label>
+						<input id="serialNumber" type="text" class="form-control" name="serialNumber" maxlength="20">
+					</div>
+				</div>
+			</div>
 
 			<div class="col-sm-6">
 				<div class="form-group">
@@ -75,7 +102,31 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-6">
+
+
+
+
+			<%--<div class="col-sm-6">--%>
+				<%--<div class="form-group">--%>
+					<%--<div class="fg-line">--%>
+						<%--<label for="longitude">设备位置:经度</label>--%>
+						<%--<input id="longitude" type="text" class="form-control" name="longitude" maxlength="100">--%>
+					<%--</div>--%>
+				<%--</div>--%>
+			<%--</div>--%>
+			<%--<div class="col-sm-6">--%>
+				<%--<div class="form-group">--%>
+					<%--<div class="fg-line">--%>
+						<%--<label for="latitude">纬度</label>--%>
+						<%--<input id="latitude" type="text" class="form-control" name="latitude" maxlength="100">--%>
+					<%--</div>--%>
+				<%--</div>--%>
+			<%--</div>--%>
+
+
+
+
+			<%--<div class="col-sm-6">
 				<div class="form-group">
 					<div class="fg-line">
 						<label for="commissioningDate">投产日期</label>
@@ -109,7 +160,7 @@
 						<input id="maintenancePeriod" type="text" class="form-control" name="maintenancePeriod">
 					</div>
 				</div>
-			</div>
+			</div>--%>
 
 			<div class="col-sm-12">
 				<div id="fine-uploader-gallery"></div>

@@ -30,7 +30,7 @@ public interface EamApiMapper {
 
     EamAlarm selectAlarm(EamSensorData sensorData);
 
-    List<EamAlarm> selectAlarms(String deviceId);
+    //List<EamAlarm> selectAlarms(String deviceId);
 
     List<EamAlarmRecordVO> selectAlarmRecords(EamAlarmRecordVO eamAlarmRecordVO);
 
@@ -46,11 +46,21 @@ public interface EamApiMapper {
 
     List<EamEquipmentModelPropertiesVO> selectEquipmentModelProperties(String equipmentId);
 
-    List<EamEquipmentVO> selectUnConnectDtuEquipments(EamEquipmentVO eamEquipmentVO);
-
     Long countUnConnectDtuEquipments(EamEquipmentVO eamEquipmentVO);
 
     List<EamProductLineVO> selectProductLines(EamProductLine eamProductLine);
 
     Long countProductLines(EamProductLine eamProductLine);
+
+    List<EamDataElementVO> selectDataElements(EamDataElementVO dataElementVO);
+
+    List<EamAlarmModelVO> selectAlarmModels(EamAlarmModelVO alarmModelVO);
+
+    List<EamEquipmentDataGroupVO> selectEquipmentDataGroups(EamEquipmentDataGroupVO dataGroupVO);
+
+    long countEquipmentDataGroups(EamEquipmentDataGroupVO dataGroupVO);
+
+    List<EamAlarmVO> selectAlarms(EamAlarmVO alarmVO);
+
+    long countAlarms(EamAlarmVO alarmVO);
 }

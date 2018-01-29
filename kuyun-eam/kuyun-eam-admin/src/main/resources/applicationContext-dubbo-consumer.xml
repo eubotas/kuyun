@@ -84,6 +84,13 @@
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamGrmVariableDataHistoryService" id="eamGrmVariableDataHistoryService" mock="true" />
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamProductLineService" id="eamProductLineService" mock="true" />
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamProductLineCompanyService" id="eamProductLineCompanyService" mock="true" />
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamProductLineDataElementService" id="eamProductLineDataElementService" mock="true" />
+
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamEquipmentDataGroupService" id="eamEquipmentDataGroupService" mock="true" />
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamEquipmentDataGroupElemetsService" id="eamEquipmentDataGroupElemetsService" mock="true" />
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamDataElementService" id="eamDataElementService" mock="true" />
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamDataElementGroupService" id="eamDataElementGroupService" mock="true" />
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamAlarmModelService" id="eamAlarmModelService" mock="true" />
 
     <!--报警 -->
     <dubbo:reference id="eamAlarmService" interface="com.kuyun.eam.rpc.api.EamAlarmService" mock="false" />

@@ -116,4 +116,6 @@ public interface UpmsApiService {
 
     Long countCompanyEquipments(UpmsCompanyVo upmsCompanyVo);
 
+    List<UpmsUser> selectUsers(UpmsUserCompany userCompany);
+
 }

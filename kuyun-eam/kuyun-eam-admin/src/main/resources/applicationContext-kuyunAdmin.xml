@@ -10,5 +10,6 @@
 	<bean id="baseModelUtil" class="com.kuyun.eam.admin.util.BaseModelUtil"></bean>
 	<bean id="tagUtil" class="com.kuyun.eam.admin.util.TagUtil"></bean>
 	<bean id="eamEquipmentController" class="com.kuyun.eam.admin.controller.manager.EamEquipmentController"></bean>
-	<bean id="eamProductLineController" class="com.kuyun.eam.admin.controller.manager.EamProductLineController"></bean>
+	<bean id="eamDataElementController" class="com.kuyun.eam.admin.controller.manager.EamDataElementController"></bean>
+	<bean id="eamAlarmModelController" class="com.kuyun.eam.admin.controller.manager.EamAlarmModelController"></bean>
 </beans>

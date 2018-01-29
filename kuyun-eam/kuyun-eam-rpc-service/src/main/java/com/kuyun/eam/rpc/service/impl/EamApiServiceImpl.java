@@ -1,5 +1,6 @@
 package com.kuyun.eam.rpc.service.impl;
 
+import cn.jiguang.common.utils.StringUtils;
 import com.google.gson.Gson;
 import com.kuyun.eam.alarm.AbstractAlarmHandler;
 import com.kuyun.eam.alarm.AlarmTypeFactory;
@@ -108,6 +109,12 @@ public class EamApiServiceImpl implements EamApiService {
 
     @Autowired
     private EamGrmVariableDataHistoryService eamGrmVariableDataHistoryService;
+
+    @Autowired
+    private EamAlarmModelService eamAlarmModelService;
+
+    @Autowired
+    private EamEquipmentDataGroupElemetsService eamEquipmentDataGroupElemetsService;
 
     @Override
     public List<EamMaintenanceVO> selectMaintenance(EamMaintenanceVO maintenanceVO) {
@@ -500,8 +507,8 @@ public class EamApiServiceImpl implements EamApiService {
 
     private EamAlarm getOfflineAlarmType(String deviceId){
         EamAlarm result = null;
-
-        List<EamAlarm> alarms = eamApiMapper.selectAlarms(deviceId);
+        List<EamAlarm> alarms = null;
+        //List<EamAlarm> alarms = eamApiMapper.selectAlarms(deviceId);
         if (alarms != null && !alarms.isEmpty()){
             Optional<EamAlarm> optional = alarms.stream()
                     .filter(eamAlarm -> AlarmType.OFFLINE.match(eamAlarm.getAlarmType())).findFirst();
@@ -544,10 +551,7 @@ public class EamApiServiceImpl implements EamApiService {
         return eamApiMapper.countEquipments(eamEquipmentVO);
     }
 
-    @Override
-    public List<EamEquipmentVO> selectUnConnectDtuEquipments(EamEquipmentVO eamEquipmentVO) {
-        return eamApiMapper.selectUnConnectDtuEquipments(eamEquipmentVO);
-    }
+
 
     @Override
     public Long countUnConnectDtuEquipments(EamEquipmentVO eamEquipmentVO) {
@@ -704,6 +708,137 @@ public class EamApiServiceImpl implements EamApiService {
         return result;
     }
 
+    @Override
+    public List<EamDataElementVO> selectDataElements(EamDataElementVO dataElementVO) {
+        return eamApiMapper.selectDataElements(dataElementVO);
+    }
+
+    @Override
+    public List<EamAlarmModelVO> selectAlarmModels(EamAlarmModelVO alarmModelVO) {
+        return eamApiMapper.selectAlarmModels(alarmModelVO);
+    }
+
+    @Override
+    public List<EamEquipmentDataGroupVO> selectEquipmentDataGroups(EamEquipmentDataGroupVO dataGroupVO) {
+        return eamApiMapper.selectEquipmentDataGroups(dataGroupVO);
+    }
+
+    @Override
+    public long countEquipmentDataGroups(EamEquipmentDataGroupVO dataGroupVO) {
+        return eamApiMapper.countEquipmentDataGroups(dataGroupVO);
+    }
+
+    @Override
+    public List<EamAlarmVO> selectAlarms(EamAlarmVO alarmVO) {
+        return eamApiMapper.selectAlarms(alarmVO);
+    }
+
+    @Override
+    public long countAlarms(EamAlarmVO alarmVO) {
+        return eamApiMapper.countAlarms(alarmVO);
+    }
+
+    @Override
+    public int createAlarms(String productLineId, String ids) {
+        int result = 1;
+        String[] idArray = ids.split("::");
+        List<Integer> idList = new ArrayList<>();
+        for(String idStr : idArray){
+            idList.add(Integer.valueOf(idStr));
+        }
+        if (!idList.isEmpty()){
+            //get alarm models
+            EamAlarmModelExample example = new EamAlarmModelExample();
+            example.createCriteria().andAlarmModelIdIn(idList);
+            List<EamAlarmModel> alarmModels = eamAlarmModelService.selectByExample(example);
+
+            List<EamAlarm> alarms = new ArrayList<>();
+            for(EamAlarmModel alarmModel : alarmModels){
+                alarms.add(createAlarm(alarmModel, productLineId));
+            }
+
+            if (!alarms.isEmpty()){
+                eamAlarmService.batchInsert(alarms);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public int updateAlarm(String ids, String alarmTarget, String targetUserId) {
+        if (StringUtils.isNotEmpty(ids) && StringUtils.isNotEmpty(alarmTarget) && StringUtils.isNotEmpty(targetUserId)){
+            String[] idArray = ids.split("::");
+            List<Integer> idList = new ArrayList<>();
+            for(String id : idArray){
+                idList.add(Integer.valueOf(id));
+            }
+
+            EamAlarmExample example = new EamAlarmExample();
+            example.createCriteria().andAlarmIdIn(idList);
+
+            List<EamAlarm> alarms = eamAlarmService.selectByExample(example);
+
+            for(EamAlarm alarm : alarms){
+                alarm.setAlarmTarget(alarmTarget);
+                eamAlarmService.updateByPrimaryKeySelective(alarm);
+
+
+                EamAlarmTargetUserExample targetUserExample = new EamAlarmTargetUserExample();
+                targetUserExample.createCriteria().andAlarmIdEqualTo(alarm.getAlarmId());
+
+                EamAlarmTargetUser targetUser = eamAlarmTargetUserService.selectFirstByExample(targetUserExample);
+                if (targetUser != null){
+                    targetUser.setUserId(Integer.valueOf(targetUserId));
+                    targetUser.setUpdateTime(new Date());
+                    eamAlarmTargetUserService.updateByPrimaryKeySelective(targetUser);
+                }else {
+                    targetUser = new EamAlarmTargetUser();
+                    targetUser.setUserId(Integer.valueOf(targetUserId));
+                    targetUser.setAlarmId(alarm.getAlarmId());
+                    targetUser.setDeleteFlag(Boolean.FALSE);
+                    targetUser.setUpdateTime(new Date());
+                    targetUser.setCreateTime(new Date());
+                    eamAlarmTargetUserService.insertSelective(targetUser);
+
+                }
+            }
+
+            return 1;
+        }
+        return 0;
+    }
+
+    private EamAlarm createAlarm(EamAlarmModel alarmModel, String productLineId){
+        EamAlarm alarm = new EamAlarm();
+        alarm.setProductLineId(productLineId);
+        alarm.setAlarmType(alarmModel.getAlarmType());
+        alarm.setEamDataElementId(alarmModel.getEamDataElementId());
+        alarm.setUpperBound(alarmModel.getUpperBound());
+        alarm.setLowerBound(alarmModel.getLowerBound());
+        alarm.setDuration(alarmModel.getDuration());
+        alarm.setName(alarmModel.getName());
+        alarm.setCreateTime(new Date());
+        alarm.setUpdateTime(new Date());
+        alarm.setDeleteFlag(Boolean.FALSE);
+        alarm.setEquipmentId(getEquipmentId(alarmModel));
+
+        return alarm;
+    }
+
+    private String getEquipmentId(EamAlarmModel alarmModel) {
+        String result = null;
+        EamEquipmentDataGroupElemetsExample example = new EamEquipmentDataGroupElemetsExample();
+        example.createCriteria().andDataElementIdEqualTo(alarmModel.getEamDataElementId())
+        .andDeleteFlagEqualTo(Boolean.FALSE);
+
+        EamEquipmentDataGroupElemets element = eamEquipmentDataGroupElemetsService.selectFirstByExample(example);
+
+        if (element != null){
+            result = element.getEquipmentId();
+        }
+
+        return result;
+    }
 
     private EamSensorData handleSensorData(String deviceId, Integer sensorId, String data){
         EamSensorDataExample example = new EamSensorDataExample();

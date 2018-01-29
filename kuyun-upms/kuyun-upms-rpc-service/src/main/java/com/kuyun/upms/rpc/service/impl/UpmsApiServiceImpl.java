@@ -465,4 +465,9 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         return upmsApiMapper.countCompanyEquipments(upmsCompanyVo);
     }
 
+    @Override
+    public List<UpmsUser> selectUsers(UpmsUserCompany userCompany) {
+        return upmsApiMapper.selectUsers(userCompany);
+    }
+
 }

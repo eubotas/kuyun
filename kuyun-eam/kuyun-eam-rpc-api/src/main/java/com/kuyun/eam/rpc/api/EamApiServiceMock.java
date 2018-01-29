@@ -131,11 +131,6 @@ public class EamApiServiceMock implements EamApiService {
     }
 
     @Override
-    public List<EamEquipmentVO> selectUnConnectDtuEquipments(EamEquipmentVO eamEquipmentVO) {
-        return null;
-    }
-
-    @Override
     public Long countUnConnectDtuEquipments(EamEquipmentVO eamEquipmentVO) {
         return null;
     }
@@ -183,6 +178,46 @@ public class EamApiServiceMock implements EamApiService {
     @Override
     public List<EamGrmVariable> getGrmVariables(String productLineId) {
         return null;
+    }
+
+    @Override
+    public List<EamDataElementVO> selectDataElements(EamDataElementVO dataElementVO) {
+        return null;
+    }
+
+    @Override
+    public List<EamAlarmModelVO> selectAlarmModels(EamAlarmModelVO alarmModelVO) {
+        return null;
+    }
+
+    @Override
+    public List<EamEquipmentDataGroupVO> selectEquipmentDataGroups(EamEquipmentDataGroupVO dataGroupVO) {
+        return null;
+    }
+
+    @Override
+    public long countEquipmentDataGroups(EamEquipmentDataGroupVO dataGroupVO) {
+        return 0;
+    }
+
+    @Override
+    public List<EamAlarmVO> selectAlarms(EamAlarmVO alarmVO) {
+        return null;
+    }
+
+    @Override
+    public long countAlarms(EamAlarmVO alarmVO) {
+        return 0;
+    }
+
+    @Override
+    public int createAlarms(String productLineId, String ids) {
+        return 0;
+    }
+
+    @Override
+    public int updateAlarm(String ids, String alarmTarget, String targetUserId) {
+        return 0;
     }
 
 }

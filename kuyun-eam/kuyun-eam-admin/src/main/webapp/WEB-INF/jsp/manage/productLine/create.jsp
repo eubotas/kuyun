@@ -30,6 +30,23 @@
 			<div class="col-sm-6">
 				<div class="form-group">
 					<div class="fg-line">
+						<label for="longitude">设备位置:经度</label>
+						<input id="longitude" type="text" class="form-control" name="longitude" maxlength="100">
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group">
+					<div class="fg-line">
+						<label for="latitude">纬度</label>
+						<input id="latitude" type="text" class="form-control" name="latitude" maxlength="100">
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-6">
+				<div class="form-group">
+					<div class="fg-line">
 						<label for="morningShiftTime">早班</label>
 						<input id="morningShiftStartTime" type="text" class="form-control" name="morningShiftStartTime" maxlength="20" >
 					</div>

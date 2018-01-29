@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 public class EamProductLineExample implements Serializable {
@@ -128,32 +127,6 @@ public class EamProductLineExample implements Serializable {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
-        }
-
-        protected void addCriterionForJDBCTime(String condition, Date value, String property) {
-            if (value == null) {
-                throw new RuntimeException("Value for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Time(value.getTime()), property);
-        }
-
-        protected void addCriterionForJDBCTime(String condition, List<Date> values, String property) {
-            if (values == null || values.size() == 0) {
-                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
-            }
-            List<java.sql.Time> timeList = new ArrayList<java.sql.Time>();
-            Iterator<Date> iter = values.iterator();
-            while (iter.hasNext()) {
-                timeList.add(new java.sql.Time(iter.next().getTime()));
-            }
-            addCriterion(condition, timeList, property);
-        }
-
-        protected void addCriterionForJDBCTime(String condition, Date value1, Date value2, String property) {
-            if (value1 == null || value2 == null) {
-                throw new RuntimeException("Between values for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Time(value1.getTime()), new java.sql.Time(value2.getTime()), property);
         }
 
         public Criteria andProductLineIdIsNull() {
@@ -966,53 +939,63 @@ public class EamProductLineExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andMorningShiftStartTimeEqualTo(Date value) {
-            addCriterionForJDBCTime("morning_shift_start_time =", value, "morningShiftStartTime");
+        public Criteria andMorningShiftStartTimeEqualTo(String value) {
+            addCriterion("morning_shift_start_time =", value, "morningShiftStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andMorningShiftStartTimeNotEqualTo(Date value) {
-            addCriterionForJDBCTime("morning_shift_start_time <>", value, "morningShiftStartTime");
+        public Criteria andMorningShiftStartTimeNotEqualTo(String value) {
+            addCriterion("morning_shift_start_time <>", value, "morningShiftStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andMorningShiftStartTimeGreaterThan(Date value) {
-            addCriterionForJDBCTime("morning_shift_start_time >", value, "morningShiftStartTime");
+        public Criteria andMorningShiftStartTimeGreaterThan(String value) {
+            addCriterion("morning_shift_start_time >", value, "morningShiftStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andMorningShiftStartTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCTime("morning_shift_start_time >=", value, "morningShiftStartTime");
+        public Criteria andMorningShiftStartTimeGreaterThanOrEqualTo(String value) {
+            addCriterion("morning_shift_start_time >=", value, "morningShiftStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andMorningShiftStartTimeLessThan(Date value) {
-            addCriterionForJDBCTime("morning_shift_start_time <", value, "morningShiftStartTime");
+        public Criteria andMorningShiftStartTimeLessThan(String value) {
+            addCriterion("morning_shift_start_time <", value, "morningShiftStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andMorningShiftStartTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCTime("morning_shift_start_time <=", value, "morningShiftStartTime");
+        public Criteria andMorningShiftStartTimeLessThanOrEqualTo(String value) {
+            addCriterion("morning_shift_start_time <=", value, "morningShiftStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andMorningShiftStartTimeIn(List<Date> values) {
-            addCriterionForJDBCTime("morning_shift_start_time in", values, "morningShiftStartTime");
+        public Criteria andMorningShiftStartTimeLike(String value) {
+            addCriterion("morning_shift_start_time like", value, "morningShiftStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andMorningShiftStartTimeNotIn(List<Date> values) {
-            addCriterionForJDBCTime("morning_shift_start_time not in", values, "morningShiftStartTime");
+        public Criteria andMorningShiftStartTimeNotLike(String value) {
+            addCriterion("morning_shift_start_time not like", value, "morningShiftStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andMorningShiftStartTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCTime("morning_shift_start_time between", value1, value2, "morningShiftStartTime");
+        public Criteria andMorningShiftStartTimeIn(List<String> values) {
+            addCriterion("morning_shift_start_time in", values, "morningShiftStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andMorningShiftStartTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCTime("morning_shift_start_time not between", value1, value2, "morningShiftStartTime");
+        public Criteria andMorningShiftStartTimeNotIn(List<String> values) {
+            addCriterion("morning_shift_start_time not in", values, "morningShiftStartTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMorningShiftStartTimeBetween(String value1, String value2) {
+            addCriterion("morning_shift_start_time between", value1, value2, "morningShiftStartTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMorningShiftStartTimeNotBetween(String value1, String value2) {
+            addCriterion("morning_shift_start_time not between", value1, value2, "morningShiftStartTime");
             return (Criteria) this;
         }
 
@@ -1026,53 +1009,63 @@ public class EamProductLineExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andMorningShiftEndTimeEqualTo(Date value) {
-            addCriterionForJDBCTime("morning_shift_end_time =", value, "morningShiftEndTime");
+        public Criteria andMorningShiftEndTimeEqualTo(String value) {
+            addCriterion("morning_shift_end_time =", value, "morningShiftEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andMorningShiftEndTimeNotEqualTo(Date value) {
-            addCriterionForJDBCTime("morning_shift_end_time <>", value, "morningShiftEndTime");
+        public Criteria andMorningShiftEndTimeNotEqualTo(String value) {
+            addCriterion("morning_shift_end_time <>", value, "morningShiftEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andMorningShiftEndTimeGreaterThan(Date value) {
-            addCriterionForJDBCTime("morning_shift_end_time >", value, "morningShiftEndTime");
+        public Criteria andMorningShiftEndTimeGreaterThan(String value) {
+            addCriterion("morning_shift_end_time >", value, "morningShiftEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andMorningShiftEndTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCTime("morning_shift_end_time >=", value, "morningShiftEndTime");
+        public Criteria andMorningShiftEndTimeGreaterThanOrEqualTo(String value) {
+            addCriterion("morning_shift_end_time >=", value, "morningShiftEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andMorningShiftEndTimeLessThan(Date value) {
-            addCriterionForJDBCTime("morning_shift_end_time <", value, "morningShiftEndTime");
+        public Criteria andMorningShiftEndTimeLessThan(String value) {
+            addCriterion("morning_shift_end_time <", value, "morningShiftEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andMorningShiftEndTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCTime("morning_shift_end_time <=", value, "morningShiftEndTime");
+        public Criteria andMorningShiftEndTimeLessThanOrEqualTo(String value) {
+            addCriterion("morning_shift_end_time <=", value, "morningShiftEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andMorningShiftEndTimeIn(List<Date> values) {
-            addCriterionForJDBCTime("morning_shift_end_time in", values, "morningShiftEndTime");
+        public Criteria andMorningShiftEndTimeLike(String value) {
+            addCriterion("morning_shift_end_time like", value, "morningShiftEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andMorningShiftEndTimeNotIn(List<Date> values) {
-            addCriterionForJDBCTime("morning_shift_end_time not in", values, "morningShiftEndTime");
+        public Criteria andMorningShiftEndTimeNotLike(String value) {
+            addCriterion("morning_shift_end_time not like", value, "morningShiftEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andMorningShiftEndTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCTime("morning_shift_end_time between", value1, value2, "morningShiftEndTime");
+        public Criteria andMorningShiftEndTimeIn(List<String> values) {
+            addCriterion("morning_shift_end_time in", values, "morningShiftEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andMorningShiftEndTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCTime("morning_shift_end_time not between", value1, value2, "morningShiftEndTime");
+        public Criteria andMorningShiftEndTimeNotIn(List<String> values) {
+            addCriterion("morning_shift_end_time not in", values, "morningShiftEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMorningShiftEndTimeBetween(String value1, String value2) {
+            addCriterion("morning_shift_end_time between", value1, value2, "morningShiftEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMorningShiftEndTimeNotBetween(String value1, String value2) {
+            addCriterion("morning_shift_end_time not between", value1, value2, "morningShiftEndTime");
             return (Criteria) this;
         }
 
@@ -1086,53 +1079,63 @@ public class EamProductLineExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andMiddleShiftStartTimeEqualTo(Date value) {
-            addCriterionForJDBCTime("middle_shift_start_time =", value, "middleShiftStartTime");
+        public Criteria andMiddleShiftStartTimeEqualTo(String value) {
+            addCriterion("middle_shift_start_time =", value, "middleShiftStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andMiddleShiftStartTimeNotEqualTo(Date value) {
-            addCriterionForJDBCTime("middle_shift_start_time <>", value, "middleShiftStartTime");
+        public Criteria andMiddleShiftStartTimeNotEqualTo(String value) {
+            addCriterion("middle_shift_start_time <>", value, "middleShiftStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andMiddleShiftStartTimeGreaterThan(Date value) {
-            addCriterionForJDBCTime("middle_shift_start_time >", value, "middleShiftStartTime");
+        public Criteria andMiddleShiftStartTimeGreaterThan(String value) {
+            addCriterion("middle_shift_start_time >", value, "middleShiftStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andMiddleShiftStartTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCTime("middle_shift_start_time >=", value, "middleShiftStartTime");
+        public Criteria andMiddleShiftStartTimeGreaterThanOrEqualTo(String value) {
+            addCriterion("middle_shift_start_time >=", value, "middleShiftStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andMiddleShiftStartTimeLessThan(Date value) {
-            addCriterionForJDBCTime("middle_shift_start_time <", value, "middleShiftStartTime");
+        public Criteria andMiddleShiftStartTimeLessThan(String value) {
+            addCriterion("middle_shift_start_time <", value, "middleShiftStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andMiddleShiftStartTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCTime("middle_shift_start_time <=", value, "middleShiftStartTime");
+        public Criteria andMiddleShiftStartTimeLessThanOrEqualTo(String value) {
+            addCriterion("middle_shift_start_time <=", value, "middleShiftStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andMiddleShiftStartTimeIn(List<Date> values) {
-            addCriterionForJDBCTime("middle_shift_start_time in", values, "middleShiftStartTime");
+        public Criteria andMiddleShiftStartTimeLike(String value) {
+            addCriterion("middle_shift_start_time like", value, "middleShiftStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andMiddleShiftStartTimeNotIn(List<Date> values) {
-            addCriterionForJDBCTime("middle_shift_start_time not in", values, "middleShiftStartTime");
+        public Criteria andMiddleShiftStartTimeNotLike(String value) {
+            addCriterion("middle_shift_start_time not like", value, "middleShiftStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andMiddleShiftStartTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCTime("middle_shift_start_time between", value1, value2, "middleShiftStartTime");
+        public Criteria andMiddleShiftStartTimeIn(List<String> values) {
+            addCriterion("middle_shift_start_time in", values, "middleShiftStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andMiddleShiftStartTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCTime("middle_shift_start_time not between", value1, value2, "middleShiftStartTime");
+        public Criteria andMiddleShiftStartTimeNotIn(List<String> values) {
+            addCriterion("middle_shift_start_time not in", values, "middleShiftStartTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMiddleShiftStartTimeBetween(String value1, String value2) {
+            addCriterion("middle_shift_start_time between", value1, value2, "middleShiftStartTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMiddleShiftStartTimeNotBetween(String value1, String value2) {
+            addCriterion("middle_shift_start_time not between", value1, value2, "middleShiftStartTime");
             return (Criteria) this;
         }
 
@@ -1146,53 +1149,63 @@ public class EamProductLineExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andMiddleShiftEndTimeEqualTo(Date value) {
-            addCriterionForJDBCTime("middle_shift_end_time =", value, "middleShiftEndTime");
+        public Criteria andMiddleShiftEndTimeEqualTo(String value) {
+            addCriterion("middle_shift_end_time =", value, "middleShiftEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andMiddleShiftEndTimeNotEqualTo(Date value) {
-            addCriterionForJDBCTime("middle_shift_end_time <>", value, "middleShiftEndTime");
+        public Criteria andMiddleShiftEndTimeNotEqualTo(String value) {
+            addCriterion("middle_shift_end_time <>", value, "middleShiftEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andMiddleShiftEndTimeGreaterThan(Date value) {
-            addCriterionForJDBCTime("middle_shift_end_time >", value, "middleShiftEndTime");
+        public Criteria andMiddleShiftEndTimeGreaterThan(String value) {
+            addCriterion("middle_shift_end_time >", value, "middleShiftEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andMiddleShiftEndTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCTime("middle_shift_end_time >=", value, "middleShiftEndTime");
+        public Criteria andMiddleShiftEndTimeGreaterThanOrEqualTo(String value) {
+            addCriterion("middle_shift_end_time >=", value, "middleShiftEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andMiddleShiftEndTimeLessThan(Date value) {
-            addCriterionForJDBCTime("middle_shift_end_time <", value, "middleShiftEndTime");
+        public Criteria andMiddleShiftEndTimeLessThan(String value) {
+            addCriterion("middle_shift_end_time <", value, "middleShiftEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andMiddleShiftEndTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCTime("middle_shift_end_time <=", value, "middleShiftEndTime");
+        public Criteria andMiddleShiftEndTimeLessThanOrEqualTo(String value) {
+            addCriterion("middle_shift_end_time <=", value, "middleShiftEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andMiddleShiftEndTimeIn(List<Date> values) {
-            addCriterionForJDBCTime("middle_shift_end_time in", values, "middleShiftEndTime");
+        public Criteria andMiddleShiftEndTimeLike(String value) {
+            addCriterion("middle_shift_end_time like", value, "middleShiftEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andMiddleShiftEndTimeNotIn(List<Date> values) {
-            addCriterionForJDBCTime("middle_shift_end_time not in", values, "middleShiftEndTime");
+        public Criteria andMiddleShiftEndTimeNotLike(String value) {
+            addCriterion("middle_shift_end_time not like", value, "middleShiftEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andMiddleShiftEndTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCTime("middle_shift_end_time between", value1, value2, "middleShiftEndTime");
+        public Criteria andMiddleShiftEndTimeIn(List<String> values) {
+            addCriterion("middle_shift_end_time in", values, "middleShiftEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andMiddleShiftEndTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCTime("middle_shift_end_time not between", value1, value2, "middleShiftEndTime");
+        public Criteria andMiddleShiftEndTimeNotIn(List<String> values) {
+            addCriterion("middle_shift_end_time not in", values, "middleShiftEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMiddleShiftEndTimeBetween(String value1, String value2) {
+            addCriterion("middle_shift_end_time between", value1, value2, "middleShiftEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMiddleShiftEndTimeNotBetween(String value1, String value2) {
+            addCriterion("middle_shift_end_time not between", value1, value2, "middleShiftEndTime");
             return (Criteria) this;
         }
 
@@ -1206,53 +1219,63 @@ public class EamProductLineExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andNightShiftStartTimeEqualTo(Date value) {
-            addCriterionForJDBCTime("night_shift_start_time =", value, "nightShiftStartTime");
+        public Criteria andNightShiftStartTimeEqualTo(String value) {
+            addCriterion("night_shift_start_time =", value, "nightShiftStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andNightShiftStartTimeNotEqualTo(Date value) {
-            addCriterionForJDBCTime("night_shift_start_time <>", value, "nightShiftStartTime");
+        public Criteria andNightShiftStartTimeNotEqualTo(String value) {
+            addCriterion("night_shift_start_time <>", value, "nightShiftStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andNightShiftStartTimeGreaterThan(Date value) {
-            addCriterionForJDBCTime("night_shift_start_time >", value, "nightShiftStartTime");
+        public Criteria andNightShiftStartTimeGreaterThan(String value) {
+            addCriterion("night_shift_start_time >", value, "nightShiftStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andNightShiftStartTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCTime("night_shift_start_time >=", value, "nightShiftStartTime");
+        public Criteria andNightShiftStartTimeGreaterThanOrEqualTo(String value) {
+            addCriterion("night_shift_start_time >=", value, "nightShiftStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andNightShiftStartTimeLessThan(Date value) {
-            addCriterionForJDBCTime("night_shift_start_time <", value, "nightShiftStartTime");
+        public Criteria andNightShiftStartTimeLessThan(String value) {
+            addCriterion("night_shift_start_time <", value, "nightShiftStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andNightShiftStartTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCTime("night_shift_start_time <=", value, "nightShiftStartTime");
+        public Criteria andNightShiftStartTimeLessThanOrEqualTo(String value) {
+            addCriterion("night_shift_start_time <=", value, "nightShiftStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andNightShiftStartTimeIn(List<Date> values) {
-            addCriterionForJDBCTime("night_shift_start_time in", values, "nightShiftStartTime");
+        public Criteria andNightShiftStartTimeLike(String value) {
+            addCriterion("night_shift_start_time like", value, "nightShiftStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andNightShiftStartTimeNotIn(List<Date> values) {
-            addCriterionForJDBCTime("night_shift_start_time not in", values, "nightShiftStartTime");
+        public Criteria andNightShiftStartTimeNotLike(String value) {
+            addCriterion("night_shift_start_time not like", value, "nightShiftStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andNightShiftStartTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCTime("night_shift_start_time between", value1, value2, "nightShiftStartTime");
+        public Criteria andNightShiftStartTimeIn(List<String> values) {
+            addCriterion("night_shift_start_time in", values, "nightShiftStartTime");
             return (Criteria) this;
         }
 
-        public Criteria andNightShiftStartTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCTime("night_shift_start_time not between", value1, value2, "nightShiftStartTime");
+        public Criteria andNightShiftStartTimeNotIn(List<String> values) {
+            addCriterion("night_shift_start_time not in", values, "nightShiftStartTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNightShiftStartTimeBetween(String value1, String value2) {
+            addCriterion("night_shift_start_time between", value1, value2, "nightShiftStartTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNightShiftStartTimeNotBetween(String value1, String value2) {
+            addCriterion("night_shift_start_time not between", value1, value2, "nightShiftStartTime");
             return (Criteria) this;
         }
 
@@ -1266,53 +1289,63 @@ public class EamProductLineExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andNightShiftEndTimeEqualTo(Date value) {
-            addCriterionForJDBCTime("night_shift_end_time =", value, "nightShiftEndTime");
+        public Criteria andNightShiftEndTimeEqualTo(String value) {
+            addCriterion("night_shift_end_time =", value, "nightShiftEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andNightShiftEndTimeNotEqualTo(Date value) {
-            addCriterionForJDBCTime("night_shift_end_time <>", value, "nightShiftEndTime");
+        public Criteria andNightShiftEndTimeNotEqualTo(String value) {
+            addCriterion("night_shift_end_time <>", value, "nightShiftEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andNightShiftEndTimeGreaterThan(Date value) {
-            addCriterionForJDBCTime("night_shift_end_time >", value, "nightShiftEndTime");
+        public Criteria andNightShiftEndTimeGreaterThan(String value) {
+            addCriterion("night_shift_end_time >", value, "nightShiftEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andNightShiftEndTimeGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCTime("night_shift_end_time >=", value, "nightShiftEndTime");
+        public Criteria andNightShiftEndTimeGreaterThanOrEqualTo(String value) {
+            addCriterion("night_shift_end_time >=", value, "nightShiftEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andNightShiftEndTimeLessThan(Date value) {
-            addCriterionForJDBCTime("night_shift_end_time <", value, "nightShiftEndTime");
+        public Criteria andNightShiftEndTimeLessThan(String value) {
+            addCriterion("night_shift_end_time <", value, "nightShiftEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andNightShiftEndTimeLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCTime("night_shift_end_time <=", value, "nightShiftEndTime");
+        public Criteria andNightShiftEndTimeLessThanOrEqualTo(String value) {
+            addCriterion("night_shift_end_time <=", value, "nightShiftEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andNightShiftEndTimeIn(List<Date> values) {
-            addCriterionForJDBCTime("night_shift_end_time in", values, "nightShiftEndTime");
+        public Criteria andNightShiftEndTimeLike(String value) {
+            addCriterion("night_shift_end_time like", value, "nightShiftEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andNightShiftEndTimeNotIn(List<Date> values) {
-            addCriterionForJDBCTime("night_shift_end_time not in", values, "nightShiftEndTime");
+        public Criteria andNightShiftEndTimeNotLike(String value) {
+            addCriterion("night_shift_end_time not like", value, "nightShiftEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andNightShiftEndTimeBetween(Date value1, Date value2) {
-            addCriterionForJDBCTime("night_shift_end_time between", value1, value2, "nightShiftEndTime");
+        public Criteria andNightShiftEndTimeIn(List<String> values) {
+            addCriterion("night_shift_end_time in", values, "nightShiftEndTime");
             return (Criteria) this;
         }
 
-        public Criteria andNightShiftEndTimeNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCTime("night_shift_end_time not between", value1, value2, "nightShiftEndTime");
+        public Criteria andNightShiftEndTimeNotIn(List<String> values) {
+            addCriterion("night_shift_end_time not in", values, "nightShiftEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNightShiftEndTimeBetween(String value1, String value2) {
+            addCriterion("night_shift_end_time between", value1, value2, "nightShiftEndTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNightShiftEndTimeNotBetween(String value1, String value2) {
+            addCriterion("night_shift_end_time not between", value1, value2, "nightShiftEndTime");
             return (Criteria) this;
         }
 

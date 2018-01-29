@@ -203,6 +203,17 @@
 		where delete_flag = 0
 	</select>
 
+
+	<select id="selectUsers" parameterType="com.kuyun.upms.dao.model.UpmsUserCompany" resultMap="com.kuyun.upms.dao.mapper.UpmsUserMapper.BaseResultMap">
+		select uu.*
+		from upms_user uu
+		left join upms_user_company uuc on uu.user_id = uuc.user_id
+		WHERE 1 = 1
+		<if test="companyId != null and companyId != ''">
+			AND uuc.company_id = #{companyId}
+		</if>
+	</select>
+
 	<!-- 缓存 -->
 	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 

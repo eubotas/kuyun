@@ -7,6 +7,7 @@
     <result column="lable_name" jdbcType="VARCHAR" property="lableName" />
     <result column="unit" jdbcType="VARCHAR" property="unit" />
     <result column="data_type" jdbcType="VARCHAR" property="dataType" />
+    <result column="equipment_category_id" jdbcType="INTEGER" property="equipmentCategoryId" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
@@ -72,8 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, lable_name, unit, data_type, create_user_id, create_time, update_user_id, 
-    update_time, delete_flag
+    id, name, lable_name, unit, data_type, equipment_category_id, create_user_id, create_time, 
+    update_user_id, update_time, delete_flag
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamDataElementExample" resultMap="BaseResultMap">
     select
@@ -115,13 +116,13 @@
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamDataElement">
     insert into eam_data_element (id, name, lable_name, 
-      unit, data_type, create_user_id, 
-      create_time, update_user_id, update_time, 
-      delete_flag)
+      unit, data_type, equipment_category_id, 
+      create_user_id, create_time, update_user_id, 
+      update_time, delete_flag)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{lableName,jdbcType=VARCHAR}, 
-      #{unit,jdbcType=VARCHAR}, #{dataType,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlag,jdbcType=BIT})
+      #{unit,jdbcType=VARCHAR}, #{dataType,jdbcType=VARCHAR}, #{equipmentCategoryId,jdbcType=INTEGER}, 
+      #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamDataElement">
     insert into eam_data_element
@@ -140,6 +141,9 @@
       </if>
       <if test="dataType != null">
         data_type,
+      </if>
+      <if test="equipmentCategoryId != null">
+        equipment_category_id,
       </if>
       <if test="createUserId != null">
         create_user_id,
@@ -172,6 +176,9 @@
       </if>
       <if test="dataType != null">
         #{dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentCategoryId != null">
+        #{equipmentCategoryId,jdbcType=INTEGER},
       </if>
       <if test="createUserId != null">
         #{createUserId,jdbcType=INTEGER},
@@ -214,6 +221,9 @@
       <if test="record.dataType != null">
         data_type = #{record.dataType,jdbcType=VARCHAR},
       </if>
+      <if test="record.equipmentCategoryId != null">
+        equipment_category_id = #{record.equipmentCategoryId,jdbcType=INTEGER},
+      </if>
       <if test="record.createUserId != null">
         create_user_id = #{record.createUserId,jdbcType=INTEGER},
       </if>
@@ -241,6 +251,7 @@
       lable_name = #{record.lableName,jdbcType=VARCHAR},
       unit = #{record.unit,jdbcType=VARCHAR},
       data_type = #{record.dataType,jdbcType=VARCHAR},
+      equipment_category_id = #{record.equipmentCategoryId,jdbcType=INTEGER},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
@@ -264,6 +275,9 @@
       </if>
       <if test="dataType != null">
         data_type = #{dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="equipmentCategoryId != null">
+        equipment_category_id = #{equipmentCategoryId,jdbcType=INTEGER},
       </if>
       <if test="createUserId != null">
         create_user_id = #{createUserId,jdbcType=INTEGER},
@@ -289,6 +303,7 @@
       lable_name = #{lableName,jdbcType=VARCHAR},
       unit = #{unit,jdbcType=VARCHAR},
       data_type = #{dataType,jdbcType=VARCHAR},
+      equipment_category_id = #{equipmentCategoryId,jdbcType=INTEGER},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=INTEGER},
@@ -299,15 +314,15 @@
   <insert id="batchInsert">
     <if test="items.get(0) != null">
             insert into eam_data_element  (id, name, lable_name, 
-        unit, data_type, create_user_id, 
-        create_time, update_user_id, update_time, 
-        delete_flag)
+        unit, data_type, equipment_category_id, 
+        create_user_id, create_time, update_user_id, 
+        update_time, delete_flag)
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.id,jdbcType=INTEGER}, #{item.name,jdbcType=VARCHAR}, #{item.lableName,jdbcType=VARCHAR}, 
-        #{item.unit,jdbcType=VARCHAR}, #{item.dataType,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER}, 
-        #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
-        #{item.deleteFlag,jdbcType=BIT})
+        #{item.unit,jdbcType=VARCHAR}, #{item.dataType,jdbcType=VARCHAR}, #{item.equipmentCategoryId,jdbcType=INTEGER}, 
+        #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, 
+        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT})
       </foreach>
     </if>
   </insert>

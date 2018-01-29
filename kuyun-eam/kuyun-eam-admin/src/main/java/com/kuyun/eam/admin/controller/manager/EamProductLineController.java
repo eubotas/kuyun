@@ -7,10 +7,8 @@ import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.*;
-import com.kuyun.eam.rpc.api.EamApiService;
-import com.kuyun.eam.rpc.api.EamGrmVariableService;
-import com.kuyun.eam.rpc.api.EamProductLineCompanyService;
-import com.kuyun.eam.rpc.api.EamProductLineService;
+import com.kuyun.eam.rpc.api.*;
+import com.kuyun.eam.vo.EamDataElementVO;
 import com.kuyun.eam.vo.EamGrmVariableVO;
 import com.kuyun.eam.vo.EamProductLineVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
@@ -62,6 +60,12 @@ public class EamProductLineController extends BaseController {
 
 	@Autowired
 	private EamGrmVariableService eamGrmVariableService;
+
+	@Autowired
+	private EamDataElementController eamDataElementController;
+
+	@Autowired
+	private EamProductLineDataElementService eamProductLineDataElementService;
 
 
 	@ApiOperation(value = "产线首页")
@@ -175,18 +179,20 @@ public class EamProductLineController extends BaseController {
 
 	@ApiOperation(value = "选择数据点")
 	@RequiresPermissions("eam:productLine:update")
-	@RequestMapping(value = "/grm/{id}", method = RequestMethod.GET)
-	public String grmIndex(@PathVariable("id") String id, ModelMap modelMap) {
+	@RequestMapping(value = "/dataElement/{id}", method = RequestMethod.GET)
+	public String dataElementIndex(@PathVariable("id") String id, ModelMap modelMap) {
 		modelMap.put("productLineId", id);
-		return "/manage/productLine/grm_variable.jsp";
+		return "/manage/productLine/dataElement.jsp";
 	}
 
 	@ApiOperation(value = "数据点列表")
 	@RequiresPermissions("eam:productLine:update")
-	@RequestMapping(value = "/grm/list", method = RequestMethod.GET)
+	@RequestMapping(value = "/dataElement/list", method = RequestMethod.GET)
 	@ResponseBody
-	public Object grmList(@RequestParam(required = false, value = "productLineId") String productLineId) {
-		List<EamGrmVariableVO> rows = eamApiService.selectGrmVariables(productLineId);
+	public Object dataElementList(@RequestParam(required = false, value = "productLineId") String productLineId) {
+
+		Map<String, Object> map = (Map<String, Object>)eamDataElementController.list(0, 3000, null, null, null);
+		List<EamDataElementVO> rows = (List<EamDataElementVO>)map.get("rows");
 
 		handlerCheckedFlag(productLineId, rows);
 
@@ -195,14 +201,14 @@ public class EamProductLineController extends BaseController {
 		return result;
 	}
 
-	private void handlerCheckedFlag(String productLineId, List<EamGrmVariableVO> rows) {
-		EamGrmVariableExample example = new EamGrmVariableExample();
+	private void handlerCheckedFlag(String productLineId, List<EamDataElementVO> rows) {
+		EamProductLineDataElementExample example = new EamProductLineDataElementExample();
 		example.createCriteria().andProductLineIdEqualTo(productLineId).andDeleteFlagEqualTo(Boolean.FALSE);
-		List<EamGrmVariable> variables = eamGrmVariableService.selectByExample(example);
-		if (variables != null && !variables.isEmpty()){
-			for(EamGrmVariableVO row : rows){
-				for(EamGrmVariable variable : variables){
-					if (row.getName().equals(variable.getName())){
+		List<EamProductLineDataElement> dataElements = eamProductLineDataElementService.selectByExample(example);
+		if (dataElements != null && !dataElements.isEmpty()){
+			for(EamDataElementVO row : rows){
+				for(EamProductLineDataElement dataElement : dataElements){
+					if (row.getId().equals(dataElement.getEamDataElementId())){
 						row.setChecked(Boolean.TRUE);
 						break;
 					}
@@ -214,39 +220,35 @@ public class EamProductLineController extends BaseController {
 
 	@ApiOperation(value = "确认数据点")
 	@RequiresPermissions("eam:productLine:update")
-	@RequestMapping(value = "/grm/confirm", method = RequestMethod.POST)
+	@RequestMapping(value = "/dataElement/confirm", method = RequestMethod.POST)
 	@ResponseBody
-	public Object grmConfirm(String productLineId, String names, ModelMap modelMap) {
+	public Object dataElementConfirm(String productLineId, String ids, ModelMap modelMap) {
 
-		List<EamGrmVariable> vos = buildVariables(productLineId, names);
+		List<EamProductLineDataElement> vos = buildProductLineDataElements(productLineId, ids);
 
 		if (!vos.isEmpty()){
 			//remove already exist data
-			EamGrmVariableExample example = new EamGrmVariableExample();
+			EamProductLineDataElementExample example = new EamProductLineDataElementExample();
 			example.createCriteria().andProductLineIdEqualTo(productLineId);
-			eamGrmVariableService.deleteByExample(example);
+			eamProductLineDataElementService.deleteByExample(example);
 
 			//add new
-			eamGrmVariableService.batchInsert(vos);
+			eamProductLineDataElementService.batchInsert(vos);
 		}
 
 		return new UpmsResult(UpmsResultConstant.SUCCESS, 1);
 	}
 
-	private List<EamGrmVariable> buildVariables(String productLineId, String names){
-		List<EamGrmVariable> result = new ArrayList<>();
-		String [] nameArray = names.split("::");
+	private List<EamProductLineDataElement> buildProductLineDataElements(String productLineId, String ids){
+		List<EamProductLineDataElement> result = new ArrayList<>();
+		String [] idsArray = ids.split("::");
 
-		List<EamGrmVariableVO> rows = eamApiService.selectGrmVariables(productLineId);
-		for (String name : nameArray){
-			for (EamGrmVariableVO vo : rows){
-				if (name.equals(vo.getName())){
-					vo.setProductLineId(productLineId);
-					baseEntityUtil.addAddtionalValue(vo);
-					result.add(vo);
-					break;
-				}
-			}
+		for (String id : idsArray){
+			EamProductLineDataElement element = new EamProductLineDataElement();
+			element.setProductLineId(productLineId);
+			element.setEamDataElementId(Integer.valueOf(id));
+			baseEntityUtil.addAddtionalValue(element);
+			result.add(element);
 		}
 
 		return result;

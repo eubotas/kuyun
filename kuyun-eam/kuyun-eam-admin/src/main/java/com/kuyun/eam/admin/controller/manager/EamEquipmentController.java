@@ -111,14 +111,9 @@ public class EamEquipmentController extends BaseController {
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			equipmentVO.setOrderByClause(sort + " " + order);
 		}else {
-			equipmentVO.setOrderByClause("t.equipment_model_id, t.create_time desc");
+			equipmentVO.setOrderByClause("eam_equipment.create_time desc");
 		}
 
-		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
-
-		if (company != null){
-			equipmentVO.setCompanyId(company.getCompanyId());
-		}
 
 		List<EamEquipmentVO> rows = eamApiService.selectEquipments(equipmentVO);
 		long total = eamApiService.countEquipments(equipmentVO);
@@ -137,7 +132,6 @@ public class EamEquipmentController extends BaseController {
 		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
 
 		modelMap.put("productLineId", productLineId);
-		modelMap.put("equipmentModels", getEamEquipmentModels(company));
 		modelMap.put("equipmentCategories", getEamEquipmentCategories(company));
 		modelMap.put("uploadServer", fileUploaderService.getServerInfo());
 
@@ -156,16 +150,6 @@ public class EamEquipmentController extends BaseController {
 		return eamEquipmentCategoryService.selectByExample(categoryExample);
 	}
 
-	private List<EamEquipmentModel> getEamEquipmentModels(UpmsUserCompany company) {
-		EamEquipmentModelExample example = new EamEquipmentModelExample();
-		EamEquipmentModelExample.Criteria criteria = example.createCriteria();
-		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
-
-		if (company != null){
-			criteria.andCompanyIdEqualTo(company.getCompanyId());
-		}
-		return eamEquipmentModelService.selectByExample(example);
-	}
 
 	@ApiOperation(value = "新增设备")
 	@RequiresPermissions("eam:equipment:create")
@@ -212,7 +196,6 @@ public class EamEquipmentController extends BaseController {
 		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
 
 		modelMap.put("productLineId", productLineId);
-		modelMap.put("equipmentModels", getEamEquipmentModels(company));
 		modelMap.put("equipmentCategories", getEamEquipmentCategories(company));
 
 		EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(id);
@@ -244,29 +227,6 @@ public class EamEquipmentController extends BaseController {
 		}
 		equipment.setEquipmentId(id);
 		baseEntityUtil.updateAddtionalValue(equipment);
-		int count = eamEquipmentService.updateByPrimaryKeySelective(equipment);
-		return new EamResult(SUCCESS, count);
-	}
-
-	@ApiOperation(value = "设备接入")
-	@RequiresPermissions("eam:equipment:update")
-	@RequestMapping(value = "/connect/{id}", method = RequestMethod.GET)
-	public String connect(@PathVariable("id") String id, ModelMap modelMap) {
-		EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(id);
-		//EamEquipmentModel equipmentModel = equipment.getEamEquipmentModel();
-//		EamProtocol protocol = protocolService.selectByPrimaryKey(equipmentModel.getProtocolId());
-//		modelMap.put("equipment", equipment);
-//		modelMap.put("equipmentModel", equipmentModel);
-//		modelMap.put("protocol", protocol);
-		return "/manage/equipment/connect.jsp";
-	}
-
-	@ApiOperation(value = "设备接入")
-	@RequiresPermissions("eam:equipment:update")
-	@RequestMapping(value = "/connect/{id}", method = RequestMethod.POST)
-	@ResponseBody
-	public Object connect(@PathVariable("id") String id, EamEquipment equipment) {
-		equipment.setEquipmentId(id);
 		int count = eamEquipmentService.updateByPrimaryKeySelective(equipment);
 		return new EamResult(SUCCESS, count);
 	}
