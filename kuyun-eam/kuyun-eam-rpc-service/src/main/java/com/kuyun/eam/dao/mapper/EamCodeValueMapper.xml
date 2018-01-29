@@ -72,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, category, code_value, code_name, description, create_user_id, create_time, update_user_id,
+    id, category, code_value, code_name, description, create_user_id, create_time, update_user_id, 
     update_time, delete_flag
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamCodeValueExample" resultMap="BaseResultMap">
@@ -114,11 +114,11 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamCodeValue">
-    insert into eam_code_value (id, category, code_value,
+    insert into eam_code_value (id, category, code_value, 
       code_name, description, create_user_id, 
       create_time, update_user_id, update_time, 
       delete_flag)
-    values (#{id,jdbcType=INTEGER}, #{category,jdbcType=VARCHAR}, #{codeValue,jdbcType=VARCHAR},
+    values (#{id,jdbcType=INTEGER}, #{category,jdbcType=VARCHAR}, #{codeValue,jdbcType=VARCHAR}, 
       #{codeName,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{deleteFlag,jdbcType=BIT})
@@ -298,13 +298,13 @@
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into eam_code_value  (id, category, code_value,
+            insert into eam_code_value  (id, category, code_value, 
         code_name, description, create_user_id, 
         create_time, update_user_id, update_time, 
         delete_flag)
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.id,jdbcType=INTEGER}, #{item.category,jdbcType=VARCHAR}, #{item.codeValue,jdbcType=VARCHAR},
+      (#{item.id,jdbcType=INTEGER}, #{item.category,jdbcType=VARCHAR}, #{item.codeValue,jdbcType=VARCHAR}, 
         #{item.codeName,jdbcType=VARCHAR}, #{item.description,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER}, 
         #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
         #{item.deleteFlag,jdbcType=BIT})

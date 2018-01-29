@@ -115,24 +115,21 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamTicketAssessment">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into eam_ticket_assessment (ticket_id, assessment_user_id, assessment_level, 
-      description, create_user_id, create_time, 
-      update_user_id, update_time, delete_flag, 
-      company_id)
-    values (#{ticketId,jdbcType=INTEGER}, #{assessmentUserId,jdbcType=INTEGER}, #{assessmentLevel,jdbcType=INTEGER}, 
-      #{description,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
-      #{companyId,jdbcType=INTEGER})
+    insert into eam_ticket_assessment (id, ticket_id, assessment_user_id, 
+      assessment_level, description, create_user_id, 
+      create_time, update_user_id, update_time, 
+      delete_flag, company_id)
+    values (#{id,jdbcType=INTEGER}, #{ticketId,jdbcType=INTEGER}, #{assessmentUserId,jdbcType=INTEGER}, 
+      #{assessmentLevel,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{deleteFlag,jdbcType=BIT}, #{companyId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamTicketAssessment">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
     insert into eam_ticket_assessment
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
       <if test="ticketId != null">
         ticket_id,
       </if>
@@ -165,6 +162,9 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
       <if test="ticketId != null">
         #{ticketId,jdbcType=INTEGER},
       </if>
@@ -313,16 +313,16 @@
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into eam_ticket_assessment  (ticket_id, assessment_user_id, assessment_level, 
-        description, create_user_id, create_time, 
-        update_user_id, update_time, delete_flag, 
-        company_id)
+            insert into eam_ticket_assessment  (id, ticket_id, assessment_user_id, 
+        assessment_level, description, create_user_id, 
+        create_time, update_user_id, update_time, 
+        delete_flag, company_id)
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.ticketId,jdbcType=INTEGER}, #{item.assessmentUserId,jdbcType=INTEGER}, #{item.assessmentLevel,jdbcType=INTEGER}, 
-        #{item.description,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, 
-        #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, 
-        #{item.companyId,jdbcType=INTEGER})
+      (#{item.id,jdbcType=INTEGER}, #{item.ticketId,jdbcType=INTEGER}, #{item.assessmentUserId,jdbcType=INTEGER}, 
+        #{item.assessmentLevel,jdbcType=INTEGER}, #{item.description,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER}, 
+        #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
+        #{item.deleteFlag,jdbcType=BIT}, #{item.companyId,jdbcType=INTEGER})
       </foreach>
     </if>
   </insert>

@@ -6,6 +6,9 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
+
+<script type="text/javascript" src="${basePath}/resources/kuyun-admin/plugins/My97DatePicker/WdatePicker.js"></script>
+
 <div id="createDialog" class="crudDialog">
 	<form id="createForm" method="post">
 		<div class="row">
@@ -38,7 +41,7 @@
         <div class="row">
             <div class="row">
                 <div class="col-sm-12">
-                    <label for="workContent">工单描述</label>
+                    <label for="workContent">     工单描述</label>
                     <div class="form-group">
 					<textarea id="workContent" class="form-control" name="workContent"
                               maxlength="200" rows="4"></textarea>
@@ -67,7 +70,8 @@
                 <label for="nextMaintainDate">维护日期</label>
                 <div class="form-group">
                     <div class="fg-line">
-                        <input id="nextMaintainDate" type="text" class="form-control" name="nextMaintainDate" maxlength="15">
+                        <input id="nextMaintainDate" name="nextMaintainDate" type="text" value="" readonly />
+                        <img onclick="WdatePicker({dateFmt:dateFormat, minDate:getToday(), el:'nextMaintainDate'})" src="${basePath}/resources/kuyun-admin/plugins/My97DatePicker/skin/datePicker.gif" width="16" height="32" align="absmiddle">
                     </div>
                 </div>
             </div>

@@ -36,8 +36,8 @@ public class EamCodeValue extends BaseEntity implements Serializable {
         return codeValue;
     }
 
-    public void setCodeValue(String code) {
-        this.codeValue = code;
+    public void setCodeValue(String codeValue) {
+        this.codeValue = codeValue;
     }
 
     public String getCodeName() {

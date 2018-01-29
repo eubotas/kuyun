@@ -294,6 +294,7 @@ function updateSubmit(targetUrl, updateDialog ,fields) {
     });
 }
 
+var dateFormat='yyyy/MM/dd';
 // 格式化时间
 Date.prototype.format = function(format)
 {
@@ -318,6 +319,15 @@ Date.prototype.format = function(format)
 // 格式化时间
 function dateFormatter(value ,format) {
     return new Date(value).format(format);
+}
+
+function dateFormatter(value) {
+    return new Date(value).format(dateFormat);
+}
+
+// 格式化时间
+function getToday() {
+    return new Date().format(dateFormat);
 }
 
 // 格式化时间

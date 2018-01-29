@@ -32,8 +32,6 @@
     <result column="modbus_rtu_period" jdbcType="INTEGER" property="modbusRtuPeriod" />
     <result column="salve_id" jdbcType="INTEGER" property="salveId" />
     <result column="equipment_category_id" jdbcType="INTEGER" property="equipmentCategoryId" />
-    <association property="eamEquipmentModel" javaType="com.kuyun.eam.dao.model.EamEquipmentModel" column="equipment_model_id" select="com.kuyun.eam.dao.mapper.EamEquipmentModelMapper.selectByPrimaryKey"/>
-
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>

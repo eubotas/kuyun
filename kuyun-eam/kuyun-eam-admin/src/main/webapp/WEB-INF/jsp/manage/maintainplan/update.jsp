@@ -67,7 +67,8 @@
                 <label for="nextMaintainDate">维护日期</label>
                 <div class="form-group">
                     <div class="fg-line">
-                        <input id="nextMaintainDate" type="text" class="form-control" name="nextMaintainDate" maxlength="15" value="${plan.nextMaintainDate}">
+                        <input id="nextMaintainDate" name="nextMaintainDate" type="text" value="${plan.nextMaintainDate}" readonly />
+                        <img onclick="WdatePicker({dateFmt:dateFormat, minDate:getToday(), el:'nextMaintainDate'})" src="${basePath}/resources/kuyun-admin/plugins/My97DatePicker/skin/datePicker.gif" width="16" height="32" align="absmiddle">
                     </div>
                 </div>
             </div>
@@ -78,7 +79,7 @@
                 <label for="maintainFrequencyQuantity">维护频率</label>
                 <div class="form-group">
                     <div class="fg-line">
-                        <input id="maintainFrequencyQuantity" type="text" class="form-control" name="maintainFrequencyQuantity" maxlength="4" value="dateFormatter(${plan.maintainFrequencyQuantity},'yyyy/mm/dd')">
+                        <input id="maintainFrequencyQuantity" type="text" class="form-control" name="maintainFrequencyQuantity" maxlength="4" value="${plan.maintainFrequencyQuantity}">
                     </div>
                 </div>
             </div>
@@ -114,3 +115,15 @@
 </div>
 
 <script src="/resources/inc/eamcommon.js"></script>
+
+
+    <script>
+    //document ready
+    $(function() {
+
+        $('span[id^="nextMaintainDate"]').each(function() {
+            $(this).text(timeFormatter($(this).val()));
+        });
+
+    });
+    </script>
