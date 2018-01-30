@@ -41,8 +41,8 @@
         <div class="row">
             <div class="row">
                 <div class="col-sm-12">
-                    <label for="workContent">     工单描述</label>
                     <div class="form-group">
+                        <label for="workContent"> 工单描述</label>
 					<textarea id="workContent" class="form-control" name="workContent"
                               maxlength="200" rows="4"></textarea>
 
@@ -67,7 +67,7 @@
             </div>
 
             <div class="col-sm-6">
-                <label for="nextMaintainDate">维护日期</label>
+                <label for="nextMaintainDate">下个维护日期</label>
                 <div class="form-group">
                     <div class="fg-line">
                         <input id="nextMaintainDate" name="nextMaintainDate" type="text" value="" readonly />
@@ -82,7 +82,7 @@
                 <label for="maintainFrequencyQuantity">维护频率</label>
                 <div class="form-group">
                     <div class="fg-line">
-                        <input id="maintainFrequencyQuantity" type="text" class="form-control" name="maintainFrequencyQuantity" maxlength="4">
+                        <input id="maintainFrequencyQuantity" type="text" class="form-control" name="maintainFrequencyQuantity" maxlength="4" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
                     </div>
                 </div>
             </div>
@@ -101,10 +101,10 @@
             </div>
 
             <div class="col-sm-6">
-                <label for="remindTime">维护提醒天数</label>
+                <label for="remindTime">维护提前提醒天数</label>
                 <div class="form-group">
                     <div class="fg-line">
-                        <input id="remindTime" type="text" class="form-control" name="remindTime" maxlength="4">
+                        <input id="remindTime" type="text" class="form-control" name="remindTime" maxlength="4" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
                     </div>
                 </div>
             </div>

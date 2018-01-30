@@ -131,18 +131,24 @@ public class EamMaintainPlanController extends BaseController {
 				.on(plan.getEquipmentCategoryId(), new NotNullValidator("设备类别"))
                 .on(plan.getEquipmentId(), new NotNullValidator("设备名称"))
                 .on(plan.getWorkContent(), new NotNullValidator("工单描述"))
+                .on(plan.getNextMaintainDate(), new NotNullValidator("下个维护日期"))
+                .on(plan.getMaintainFrequencyQuantity(), new NotNullValidator("维护频率"))
+                .on(plan.getMaintainFrequencyUnit(), new NotNullValidator("维护频率单位"))
+                .on(plan.getRemindTime(), new NotNullValidator("维护提前提醒天数"))
 				.doValidate()
 				.result(ResultCollectors.toComplex());
 		if (!result.isSuccess()) {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
 		baseEntityUtil.addAddtionalValue(plan);
-		int count = eamMaintainPlanService.insertSelective(plan);
-//		try {
-//			startQuartz(plan.getPlanId());
-//		}catch(SchedulerException ex){ex.printStackTrace();}
-
-		return new EamResult(SUCCESS, count);
+        plan = eamMaintainPlanService.insertSelectiveCust(plan);
+		try {
+			startQuartz(plan.getPlanId());
+		}catch(SchedulerException ex){ex.printStackTrace();}
+        if(plan.getPlanId() != null)
+		    return new EamResult(SUCCESS, 1);
+		else
+            return new EamResult(SUCCESS, 0);
 	}
 
 	@ApiOperation(value = "删除维修计划")
@@ -181,6 +187,10 @@ public class EamMaintainPlanController extends BaseController {
 				.on(plan.getEquipmentCategoryId(), new NotNullValidator("设备类别"))
 				.on(plan.getEquipmentId(), new NotNullValidator("设备名称"))
 				.on(plan.getWorkContent(), new NotNullValidator("工单描述"))
+                .on(plan.getNextMaintainDate(), new NotNullValidator("下个维护日期"))
+                .on(plan.getMaintainFrequencyQuantity(), new NotNullValidator("维护频率"))
+                .on(plan.getMaintainFrequencyUnit(), new NotNullValidator("维护频率单位"))
+                .on(plan.getRemindTime(), new NotNullValidator("维护提前提醒天数"))
 				.doValidate()
 				.result(ResultCollectors.toComplex());
 		if (!result.isSuccess()) {

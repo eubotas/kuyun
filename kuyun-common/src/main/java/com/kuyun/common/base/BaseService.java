@@ -8,7 +8,7 @@ import java.util.List;
  * BaseService接口
  * Created by kuyun on 2017/01/07.
  */
-public interface BaseService<Record, Example> {
+public interface BaseService<Record, Example>{
 
 	int countByExample(Example example);
 
@@ -48,4 +48,5 @@ public interface BaseService<Record, Example> {
 
 	void initMapper();
 
+    public Record insertSelectiveCust(Record record);
 }

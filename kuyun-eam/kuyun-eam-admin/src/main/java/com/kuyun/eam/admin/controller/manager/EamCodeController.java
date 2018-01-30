@@ -88,6 +88,14 @@ public class EamCodeController extends BaseController {
 		return "/manage/common/code/create.jsp";
 	}
 
+    @ApiOperation(value = "新增数据字典")
+    @RequiresPermissions("eam:codeValue:create")
+    @RequestMapping(value = "/create/{category}", method = RequestMethod.GET)
+    public String create(@RequestParam(required = true) String category, ModelMap modelMap) {
+        modelMap.put("category",category);
+	    return "/manage/common/code/createCat.jsp";
+    }
+
 	@ApiOperation(value = "新增数据字典")
 	@RequiresPermissions("eam:codeValue:create")
 	@RequestMapping(value = "/create", method = RequestMethod.POST)

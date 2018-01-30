@@ -64,7 +64,7 @@
             </div>
 
             <div class="col-sm-6">
-                <label for="nextMaintainDate">维护日期</label>
+                <label for="nextMaintainDate">下个维护日期</label>
                 <div class="form-group">
                     <div class="fg-line">
                         <input id="nextMaintainDate" name="nextMaintainDate" type="text" value="${plan.nextMaintainDate}" readonly />
@@ -79,7 +79,7 @@
                 <label for="maintainFrequencyQuantity">维护频率</label>
                 <div class="form-group">
                     <div class="fg-line">
-                        <input id="maintainFrequencyQuantity" type="text" class="form-control" name="maintainFrequencyQuantity" maxlength="4" value="${plan.maintainFrequencyQuantity}">
+                        <input id="maintainFrequencyQuantity" type="text" class="form-control" name="maintainFrequencyQuantity" maxlength="4" value="${plan.maintainFrequencyQuantity}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
                     </div>
                 </div>
             </div>
@@ -98,10 +98,10 @@
             </div>
 
             <div class="col-sm-6">
-                <label for="remindTime">维护提醒天数</label>
+                <label for="remindTime">维护提前提醒天数</label>
                 <div class="form-group">
                     <div class="fg-line">
-                        <input id="remindTime" type="text" class="form-control" name="remindTime" maxlength="4" value="${plan.remindTime}">
+                        <input id="remindTime" type="text" class="form-control" name="remindTime" maxlength="4" value="${plan.remindTime}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
                     </div>
                 </div>
             </div>

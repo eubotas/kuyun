@@ -82,3 +82,7 @@ INSERT INTO `upms_permission` VALUES ('711', '6', '710', '新增数据字典', '
 INSERT INTO `upms_permission` VALUES ('712', '6', '710', '编辑数据字典', '3', 'eam:codeValue:update', '/manage/codeValue/update', 'zmdi zmdi-edit', 1, 1, 712);
 INSERT INTO `upms_permission` VALUES ('713', '6', '710', '删除数据字典', '3', 'eam:codeValue:delete', '/manage/codeValue/delete', 'zmdi zmdi-close', 1, 1, 713);
 
+INSERT INTO `eam_code_value` (`id`,`category`,`code_value`,`code_name`,`description`,`create_user_id`,`create_time`,`update_user_id`,`update_time`,`delete_flag`) VALUES (1,'MAINTAIN_PLAN_UNIT','YEAR','年','',1,'2018-01-30 09:53:16',1,'2018-01-30 09:53:16',0);
+INSERT INTO `eam_code_value` (`id`,`category`,`code_value`,`code_name`,`description`,`create_user_id`,`create_time`,`update_user_id`,`update_time`,`delete_flag`) VALUES (2,'MAINTAIN_PLAN_UNIT','MONTH','月','',1,'2018-01-30 09:53:39',1,'2018-01-30 09:53:39',0);
+INSERT INTO `eam_code_value` (`id`,`category`,`code_value`,`code_name`,`description`,`create_user_id`,`create_time`,`update_user_id`,`update_time`,`delete_flag`) VALUES (3,'MAINTAIN_PLAN_UNIT','WEEK','星期','',1,'2018-01-30 09:54:03',1,'2018-01-30 09:54:03',0);
+INSERT INTO `eam_code_value` (`id`,`category`,`code_value`,`code_name`,`description`,`create_user_id`,`create_time`,`update_user_id`,`update_time`,`delete_flag`) VALUES (4,'MAINTAIN_PLAN_UNIT','DAY','天','',1,'2018-01-30 09:54:18',1,'2018-01-30 09:54:18',0);
