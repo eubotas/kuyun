@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamAlertMessage">
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="message_method" jdbcType="VARCHAR" property="messageMethod" />
+    <result column="message_title" jdbcType="VARCHAR" property="messageTitle" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="read_flag" jdbcType="BIT" property="readFlag" />
     <result column="read_time" jdbcType="TIMESTAMP" property="readTime" />
@@ -76,7 +76,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, message_method, content, read_flag, read_time, alert_start_date, alert_end_date, 
+    id, user_id, message_title, content, read_flag, read_time, alert_start_date, alert_end_date, 
     create_user_id, create_time, update_user_id, update_time, delete_flag, company_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamAlertMessageExample" resultMap="BaseResultMap">
@@ -118,12 +118,12 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamAlertMessage">
-    insert into eam_alert_message (id, user_id, message_method, 
+    insert into eam_alert_message (id, user_id, message_title, 
       content, read_flag, read_time, 
       alert_start_date, alert_end_date, create_user_id, 
       create_time, update_user_id, update_time, 
       delete_flag, company_id)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{messageMethod,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{messageTitle,jdbcType=VARCHAR}, 
       #{content,jdbcType=VARCHAR}, #{readFlag,jdbcType=BIT}, #{readTime,jdbcType=TIMESTAMP}, 
       #{alertStartDate,jdbcType=TIMESTAMP}, #{alertEndDate,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
@@ -138,8 +138,8 @@
       <if test="userId != null">
         user_id,
       </if>
-      <if test="messageMethod != null">
-        message_method,
+      <if test="messageTitle != null">
+        message_title,
       </if>
       <if test="content != null">
         content,
@@ -182,8 +182,8 @@
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="messageMethod != null">
-        #{messageMethod,jdbcType=VARCHAR},
+      <if test="messageTitle != null">
+        #{messageTitle,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
@@ -235,8 +235,8 @@
       <if test="record.userId != null">
         user_id = #{record.userId,jdbcType=INTEGER},
       </if>
-      <if test="record.messageMethod != null">
-        message_method = #{record.messageMethod,jdbcType=VARCHAR},
+      <if test="record.messageTitle != null">
+        message_title = #{record.messageTitle,jdbcType=VARCHAR},
       </if>
       <if test="record.content != null">
         content = #{record.content,jdbcType=VARCHAR},
@@ -280,7 +280,7 @@
     update eam_alert_message
     set id = #{record.id,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
-      message_method = #{record.messageMethod,jdbcType=VARCHAR},
+      message_title = #{record.messageTitle,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=VARCHAR},
       read_flag = #{record.readFlag,jdbcType=BIT},
       read_time = #{record.readTime,jdbcType=TIMESTAMP},
@@ -302,8 +302,8 @@
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="messageMethod != null">
-        message_method = #{messageMethod,jdbcType=VARCHAR},
+      <if test="messageTitle != null">
+        message_title = #{messageTitle,jdbcType=VARCHAR},
       </if>
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
@@ -344,7 +344,7 @@
   <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamAlertMessage">
     update eam_alert_message
     set user_id = #{userId,jdbcType=INTEGER},
-      message_method = #{messageMethod,jdbcType=VARCHAR},
+      message_title = #{messageTitle,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
       read_flag = #{readFlag,jdbcType=BIT},
       read_time = #{readTime,jdbcType=TIMESTAMP},
@@ -360,14 +360,14 @@
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into eam_alert_message  (id, user_id, message_method, 
+            insert into eam_alert_message  (id, user_id, message_title, 
         content, read_flag, read_time, 
         alert_start_date, alert_end_date, create_user_id, 
         create_time, update_user_id, update_time, 
         delete_flag, company_id)
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.id,jdbcType=INTEGER}, #{item.userId,jdbcType=INTEGER}, #{item.messageMethod,jdbcType=VARCHAR}, 
+      (#{item.id,jdbcType=INTEGER}, #{item.userId,jdbcType=INTEGER}, #{item.messageTitle,jdbcType=VARCHAR}, 
         #{item.content,jdbcType=VARCHAR}, #{item.readFlag,jdbcType=BIT}, #{item.readTime,jdbcType=TIMESTAMP}, 
         #{item.alertStartDate,jdbcType=TIMESTAMP}, #{item.alertEndDate,jdbcType=TIMESTAMP}, #{item.createUserId,jdbcType=INTEGER}, 
         #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 

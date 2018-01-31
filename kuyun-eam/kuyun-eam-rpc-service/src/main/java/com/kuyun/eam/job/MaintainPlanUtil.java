@@ -7,10 +7,7 @@ import com.kuyun.eam.dao.model.EamAlertMessage;
 import com.kuyun.eam.dao.model.EamMaintainPlan;
 import com.kuyun.eam.dao.model.EamMaintainTicket;
 import com.kuyun.eam.dao.model.EamTicket;
-import com.kuyun.eam.rpc.api.EamAlertMessageService;
-import com.kuyun.eam.rpc.api.EamMaintainPlanService;
-import com.kuyun.eam.rpc.api.EamMaintainTicketService;
-import com.kuyun.eam.rpc.api.EamTicketService;
+import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.util.EamDateUtil;
 import com.kuyun.upms.dao.model.UpmsUserOrganization;
 import com.kuyun.upms.dao.model.UpmsUserOrganizationExample;
@@ -40,6 +37,12 @@ public class MaintainPlanUtil {
     private EamAlertMessageService eamAlertMessageService;
     @Autowired
     private UpmsUserOrganizationService upmsUserOrganizationService;
+
+    @Autowired
+    public EamEquipmentCategoryService eamEquipmentCategoryService;
+
+    @Autowired
+    public EamEquipmentService eamEquipmentService;
 
 
     public EamMaintainPlan getEamMaintainPlan(String planId){
@@ -76,7 +79,11 @@ public class MaintainPlanUtil {
             UpmsUserOrganizationExample.Criteria cr= example.createCriteria();
             cr.andOrganizationIdEqualTo(orgId);
 
-            String content="保养计划: "+ EamDateUtil.getDateStr(plan.getNextMaintainDate(), "yyyy-mm-dd");
+            String cat= eamEquipmentCategoryService.selectByPrimaryKey(plan.getEquipmentCategoryId()).getName();
+            String equipmentName=eamEquipmentService.selectByPrimaryKey(plan.getEquipmentId()).getName();
+
+            String content="保养计划: "+ EamDateUtil.getDateStr(plan.getNextMaintainDate());
+            String title=equipmentName +"的保养计划: "+ EamDateUtil.getDateStr(plan.getNextMaintainDate());
 
             List<UpmsUserOrganization> uos=upmsUserOrganizationService.selectByExample(example);
             List<EamAlertMessage> alerts=new ArrayList<EamAlertMessage>();
@@ -86,6 +93,7 @@ public class MaintainPlanUtil {
                 alert.setUserId(uo.getUserId());
                 alert.setAlertStartDate(EamDateUtil.getDateBefore(plan.getNextMaintainDate(),plan.getRemindTime()));
                 alert.setAlertEndDate(plan.getNextMaintainDate());
+                alert.setMessageTitle(title);
                 alert.setContent(content);
                 addAddtionalValue(alert, plan.getCompanyId());
                 alerts.add(alert);

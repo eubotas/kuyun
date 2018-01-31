@@ -9,7 +9,7 @@ public class EamAlertMessage extends BaseEntity implements Serializable {
 
     private Integer userId;
 
-    private String messageMethod;
+    private String messageTitle;
 
     /**
      * 消息内容
@@ -54,12 +54,12 @@ public class EamAlertMessage extends BaseEntity implements Serializable {
         this.userId = userId;
     }
 
-    public String getMessageMethod() {
-        return messageMethod;
+    public String getMessageTitle() {
+        return messageTitle;
     }
 
-    public void setMessageMethod(String messageMethod) {
-        this.messageMethod = messageMethod;
+    public void setMessageTitle(String messageTitle) {
+        this.messageTitle = messageTitle;
     }
 
     public String getContent() {
@@ -110,7 +110,7 @@ public class EamAlertMessage extends BaseEntity implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", userId=").append(userId);
-        sb.append(", messageMethod=").append(messageMethod);
+        sb.append(", messageTitle=").append(messageTitle);
         sb.append(", content=").append(content);
         sb.append(", readFlag=").append(readFlag);
         sb.append(", readTime=").append(readTime);
@@ -134,7 +134,7 @@ public class EamAlertMessage extends BaseEntity implements Serializable {
         EamAlertMessage other = (EamAlertMessage) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
-            && (this.getMessageMethod() == null ? other.getMessageMethod() == null : this.getMessageMethod().equals(other.getMessageMethod()))
+            && (this.getMessageTitle() == null ? other.getMessageTitle() == null : this.getMessageTitle().equals(other.getMessageTitle()))
             && (this.getContent() == null ? other.getContent() == null : this.getContent().equals(other.getContent()))
             && (this.getReadFlag() == null ? other.getReadFlag() == null : this.getReadFlag().equals(other.getReadFlag()))
             && (this.getReadTime() == null ? other.getReadTime() == null : this.getReadTime().equals(other.getReadTime()))
@@ -154,7 +154,7 @@ public class EamAlertMessage extends BaseEntity implements Serializable {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
-        result = prime * result + ((getMessageMethod() == null) ? 0 : getMessageMethod().hashCode());
+        result = prime * result + ((getMessageTitle() == null) ? 0 : getMessageTitle().hashCode());
         result = prime * result + ((getContent() == null) ? 0 : getContent().hashCode());
         result = prime * result + ((getReadFlag() == null) ? 0 : getReadFlag().hashCode());
         result = prime * result + ((getReadTime() == null) ? 0 : getReadTime().hashCode());

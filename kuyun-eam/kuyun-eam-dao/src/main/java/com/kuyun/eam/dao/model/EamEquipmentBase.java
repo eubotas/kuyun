@@ -3,7 +3,9 @@ package com.kuyun.eam.dao.model;
 import com.kuyun.common.dao.model.BaseEntity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 public class EamEquipmentBase extends BaseEntity implements Serializable {

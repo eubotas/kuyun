@@ -39,7 +39,7 @@ DROP TABLE IF EXISTS eam_alert_message;
 CREATE TABLE eam_alert_message (
   id int(11) NOT NULL AUTO_INCREMENT,
   user_id             int(11),
-  message_method      varchar(30) DEFAULT 'WEB' NOT NULL,
+  message_title       varchar(200) NOT NULL,
   content             varchar(2000) not NULL COMMENT '消息内容',
   read_flag           boolean,
   read_time           datetime,

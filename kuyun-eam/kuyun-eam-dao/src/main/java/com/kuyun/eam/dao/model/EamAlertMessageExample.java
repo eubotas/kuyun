@@ -248,73 +248,73 @@ public class EamAlertMessageExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andMessageMethodIsNull() {
-            addCriterion("message_method is null");
+        public Criteria andMessageTitleIsNull() {
+            addCriterion("message_title is null");
             return (Criteria) this;
         }
 
-        public Criteria andMessageMethodIsNotNull() {
-            addCriterion("message_method is not null");
+        public Criteria andMessageTitleIsNotNull() {
+            addCriterion("message_title is not null");
             return (Criteria) this;
         }
 
-        public Criteria andMessageMethodEqualTo(String value) {
-            addCriterion("message_method =", value, "messageMethod");
+        public Criteria andMessageTitleEqualTo(String value) {
+            addCriterion("message_title =", value, "messageTitle");
             return (Criteria) this;
         }
 
-        public Criteria andMessageMethodNotEqualTo(String value) {
-            addCriterion("message_method <>", value, "messageMethod");
+        public Criteria andMessageTitleNotEqualTo(String value) {
+            addCriterion("message_title <>", value, "messageTitle");
             return (Criteria) this;
         }
 
-        public Criteria andMessageMethodGreaterThan(String value) {
-            addCriterion("message_method >", value, "messageMethod");
+        public Criteria andMessageTitleGreaterThan(String value) {
+            addCriterion("message_title >", value, "messageTitle");
             return (Criteria) this;
         }
 
-        public Criteria andMessageMethodGreaterThanOrEqualTo(String value) {
-            addCriterion("message_method >=", value, "messageMethod");
+        public Criteria andMessageTitleGreaterThanOrEqualTo(String value) {
+            addCriterion("message_title >=", value, "messageTitle");
             return (Criteria) this;
         }
 
-        public Criteria andMessageMethodLessThan(String value) {
-            addCriterion("message_method <", value, "messageMethod");
+        public Criteria andMessageTitleLessThan(String value) {
+            addCriterion("message_title <", value, "messageTitle");
             return (Criteria) this;
         }
 
-        public Criteria andMessageMethodLessThanOrEqualTo(String value) {
-            addCriterion("message_method <=", value, "messageMethod");
+        public Criteria andMessageTitleLessThanOrEqualTo(String value) {
+            addCriterion("message_title <=", value, "messageTitle");
             return (Criteria) this;
         }
 
-        public Criteria andMessageMethodLike(String value) {
-            addCriterion("message_method like", value, "messageMethod");
+        public Criteria andMessageTitleLike(String value) {
+            addCriterion("message_title like", value, "messageTitle");
             return (Criteria) this;
         }
 
-        public Criteria andMessageMethodNotLike(String value) {
-            addCriterion("message_method not like", value, "messageMethod");
+        public Criteria andMessageTitleNotLike(String value) {
+            addCriterion("message_title not like", value, "messageTitle");
             return (Criteria) this;
         }
 
-        public Criteria andMessageMethodIn(List<String> values) {
-            addCriterion("message_method in", values, "messageMethod");
+        public Criteria andMessageTitleIn(List<String> values) {
+            addCriterion("message_title in", values, "messageTitle");
             return (Criteria) this;
         }
 
-        public Criteria andMessageMethodNotIn(List<String> values) {
-            addCriterion("message_method not in", values, "messageMethod");
+        public Criteria andMessageTitleNotIn(List<String> values) {
+            addCriterion("message_title not in", values, "messageTitle");
             return (Criteria) this;
         }
 
-        public Criteria andMessageMethodBetween(String value1, String value2) {
-            addCriterion("message_method between", value1, value2, "messageMethod");
+        public Criteria andMessageTitleBetween(String value1, String value2) {
+            addCriterion("message_title between", value1, value2, "messageTitle");
             return (Criteria) this;
         }
 
-        public Criteria andMessageMethodNotBetween(String value1, String value2) {
-            addCriterion("message_method not between", value1, value2, "messageMethod");
+        public Criteria andMessageTitleNotBetween(String value1, String value2) {
+            addCriterion("message_title not between", value1, value2, "messageTitle");
             return (Criteria) this;
         }
 

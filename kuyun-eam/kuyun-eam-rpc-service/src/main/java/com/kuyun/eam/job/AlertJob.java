@@ -50,14 +50,14 @@ public class AlertJob extends BaseJob {
                 setScheduleMethod(ScheduleMethod.CRON.ordinal());
                 cronSchedule = "0 0 1 * * "+week+"/" + num ;
             }
-//            else if ("DAY".equals(unit)) {
-//                setIntervalHours(24*num);
-//                setScheduleMethod(ScheduleMethod.SAMPLE.ordinal());
-//            }
-            else{
-                setScheduleMethod(ScheduleMethod.CRON.ordinal());
-                cronSchedule = "*/20 * * * * ?" ;
+            else if ("DAY".equals(unit)) {
+                setIntervalHours(24*num);
+                setScheduleMethod(ScheduleMethod.SAMPLE.ordinal());
             }
+//            else{   //test
+//                setScheduleMethod(ScheduleMethod.CRON.ordinal());
+//                cronSchedule = "*/20 * * * * ?" ;
+//            }
         }
     }
 
