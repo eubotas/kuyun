@@ -1,5 +1,6 @@
 package com.kuyun.eam.util;
 
+import com.kuyun.common.dao.model.BaseEntity;
 import com.kuyun.common.util.SpringContextUtil;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
@@ -93,5 +94,20 @@ public abstract class BaseJob implements Job {
     public void setKeyData(String jobKey){
         jobKeyName =jobKey;
         group =jobKey;
+    }
+
+    public void addAddtionalValue(BaseEntity record, int companyId){
+        Date currentDate = new Date();
+        if (record.getCreateTime() == null){
+            record.setCreateTime(currentDate);
+        }
+        record.setUpdateTime(currentDate);
+
+        if (record.getCreateUserId() == null){
+            record.setCreateUserId(0);
+        }
+        record.setUpdateUserId(0);
+        record.setCompanyId(companyId);
+        record.setDeleteFlag(Boolean.FALSE);
     }
 }

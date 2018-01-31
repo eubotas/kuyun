@@ -45,7 +45,8 @@ public class QuartzUtil {
     private Pair<JobDetail, Trigger> buildJobAndTrigger(){
         Date startDate = jobImpl.getStartDate();
         if(startDate.getTime() < (new Date().getTime()))
-            throw new RuntimeException("计划执行日期不能早于现在");
+            startDate = new Date();
+            //throw new RuntimeException("计划执行日期不能早于现在");
         JobDetail job = newJob(jobImpl.getClass()).withIdentity(jobKey.getName(), jobKey.getGroup()).build();
         job.getJobDataMap().put(BaseJob.IDKEY, jobImpl.getIdKey());
 

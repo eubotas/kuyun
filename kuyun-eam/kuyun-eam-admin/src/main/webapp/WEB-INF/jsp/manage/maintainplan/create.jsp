@@ -41,8 +41,8 @@
         <div class="row">
             <div class="row">
                 <div class="col-sm-12">
+                    <label for="workContent">工单描述</label>
                     <div class="form-group">
-                        <label for="workContent"> 工单描述</label>
 					<textarea id="workContent" class="form-control" name="workContent"
                               maxlength="200" rows="4"></textarea>
 

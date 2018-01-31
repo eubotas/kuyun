@@ -5,12 +5,10 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.NotNullValidator;
-import com.kuyun.eam.admin.util.AlertJob;
-import com.kuyun.eam.admin.util.TicketJob;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
-import com.kuyun.eam.util.QuartzUtil;
+import com.kuyun.eam.util.EamDateUtil;
 import com.kuyun.eam.vo.EamEquipmentVO;
 import com.kuyun.eam.vo.EamMaintainPlanVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
@@ -141,14 +139,8 @@ public class EamMaintainPlanController extends BaseController {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
 		baseEntityUtil.addAddtionalValue(plan);
-        plan = eamMaintainPlanService.insertSelectiveCust(plan);
-		try {
-			startQuartz(plan.getPlanId());
-		}catch(SchedulerException ex){ex.printStackTrace();}
-        if(plan.getPlanId() != null)
-		    return new EamResult(SUCCESS, 1);
-		else
-            return new EamResult(SUCCESS, 0);
+
+        return new EamResult(SUCCESS, eamMaintainPlanService.createMaintainPlan(plan));
 	}
 
 	@ApiOperation(value = "删除维修计划")
@@ -156,14 +148,7 @@ public class EamMaintainPlanController extends BaseController {
 	@RequestMapping(value = "/delete/{ids}",method = RequestMethod.GET)
 	@ResponseBody
 	public Object delete(@PathVariable("ids") String ids) {
-		int count = eamMaintainPlanService.deleteByPrimaryKeys(ids);
-		try {
-			String[] planIds=ids.split("-");
-			for(String id : planIds)
-			deleteQuartz(Integer.parseInt(id));
-		}catch(SchedulerException ex){ex.printStackTrace();}
-
-		return new EamResult(SUCCESS, count);
+		return new EamResult(SUCCESS, eamMaintainPlanService.deleteMaintainPlan(ids));
 	}
 
 
@@ -174,15 +159,16 @@ public class EamMaintainPlanController extends BaseController {
 	public String update(@PathVariable("id") int id, ModelMap modelMap) {
 		EamMaintainPlan eamMaintainPlan = eamMaintainPlanService.selectByPrimaryKey(id);
 		modelMap.put("plan", eamMaintainPlan);
+		modelMap.put("MaintainDate",EamDateUtil.getDateStr(eamMaintainPlan.getNextMaintainDate()));
 		setWebSelect(modelMap);
 		return "/manage/maintainplan/update.jsp";
 	}
 
 	@ApiOperation(value = "修改维修计划")
 	@RequiresPermissions("eam:maintainPlan:update")
-	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+	@RequestMapping(value = "/update/{planId}", method = RequestMethod.POST)
 	@ResponseBody
-	public Object update(@PathVariable("id") int id, EamMaintainPlan plan) {
+	public Object update(EamMaintainPlan plan) {
 		ComplexResult result = FluentValidator.checkAll()
 				.on(plan.getEquipmentCategoryId(), new NotNullValidator("设备类别"))
 				.on(plan.getEquipmentId(), new NotNullValidator("设备名称"))
@@ -196,38 +182,13 @@ public class EamMaintainPlanController extends BaseController {
 		if (!result.isSuccess()) {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
-		plan.setPlanId(id);
 		baseEntityUtil.updateAddtionalValue(plan);
-		int count = eamMaintainPlanService.updateByPrimaryKeySelective(plan);
 
-		try {
-			deleteQuartz(plan.getPlanId());
-			startQuartz(plan.getPlanId());
-		}catch(SchedulerException ex){ex.printStackTrace();}
-
-		return new EamResult(SUCCESS, count);
+		return new EamResult(SUCCESS, eamMaintainPlanService.updateMaintainPlan(plan));
 	}
 
 
-	private void startQuartz(int id) throws SchedulerException{
-		TicketJob ticketJob=new TicketJob(id);
-		QuartzUtil ticketQ=new QuartzUtil(ticketJob);
-		ticketQ.run();
 
-		AlertJob ajob=new AlertJob(id);
-		QuartzUtil aq=new QuartzUtil(ajob);
-		aq.run();
-	}
-
-	private void deleteQuartz(int id) throws SchedulerException{
-		TicketJob ticketJob=new TicketJob(id);
-		QuartzUtil ticketQ=new QuartzUtil(ticketJob);
-		ticketQ.run();
-
-		AlertJob ajob=new AlertJob(id);
-		QuartzUtil aq=new QuartzUtil(ajob);
-		aq.run();
-	}
 
 	private void setWebSelect(ModelMap modelMap){
 		EamEquipmentCategoryExample example = new EamEquipmentCategoryExample();

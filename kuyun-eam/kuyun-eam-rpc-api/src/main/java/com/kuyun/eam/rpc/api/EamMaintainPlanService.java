@@ -8,6 +8,6 @@ import com.kuyun.eam.dao.model.EamMaintainPlanExample;
 * EamMaintainPlanService接口
 * Created by kuyun on 2018/1/24.
 */
-public interface EamMaintainPlanService extends BaseService<EamMaintainPlan, EamMaintainPlanExample> {
+public interface EamMaintainPlanService extends CustMaintainPlanService {
 
 }

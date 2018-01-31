@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @BaseService
-public class EamMaintainPlanServiceImpl extends BaseServiceImpl<EamMaintainPlanMapper, EamMaintainPlan, EamMaintainPlanExample> implements EamMaintainPlanService {
+public class EamMaintainPlanServiceImpl extends CustMaintainPlanServiceImpl implements EamMaintainPlanService {
 
     private static Logger _log = LoggerFactory.getLogger(EamMaintainPlanServiceImpl.class);
 

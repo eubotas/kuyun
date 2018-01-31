@@ -67,7 +67,7 @@
                 <label for="nextMaintainDate">下个维护日期</label>
                 <div class="form-group">
                     <div class="fg-line">
-                        <input id="nextMaintainDate" name="nextMaintainDate" type="text" value="${plan.nextMaintainDate}" readonly />
+                        <input id="nextMaintainDate" name="nextMaintainDate" type="text" value="${MaintainDate}" readonly />
                         <img onclick="WdatePicker({dateFmt:dateFormat, minDate:getToday(), el:'nextMaintainDate'})" src="${basePath}/resources/kuyun-admin/plugins/My97DatePicker/skin/datePicker.gif" width="16" height="32" align="absmiddle">
                     </div>
                 </div>

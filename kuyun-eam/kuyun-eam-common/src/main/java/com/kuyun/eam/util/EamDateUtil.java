@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class EamDateUtil {
-    private static String defaultFormat="YYYY-MM-DD";
+    private static String defaultFormat="yyyy/MM/dd";
 
     public static int getWeekOfDate(Date dt) {
         Calendar cal = Calendar.getInstance();
@@ -53,6 +53,11 @@ public class EamDateUtil {
         now.set(Calendar.MINUTE, 0);
         now.set(Calendar.SECOND, 0);
         return now.getTime();
+    }
+
+
+    public static String getDateStr(Date d) {
+        return getDateStr(d, null);
     }
 
     public static String getDateStr(Date d, String format) {
