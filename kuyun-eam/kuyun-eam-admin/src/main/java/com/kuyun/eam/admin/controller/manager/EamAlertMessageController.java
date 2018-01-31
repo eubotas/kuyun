@@ -59,14 +59,12 @@ public class EamAlertMessageController extends BaseController {
 	public EamApiService eamApiService;
 
 	@ApiOperation(value = "消息管理首页")
-	@RequiresPermissions("eam:alertMsg:read")
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index() {
 		return "/manage/alertmsg/index.jsp";
 	}
 
 	@ApiOperation(value = "消息列表")
-	@RequiresPermissions("eam:alertMsg:read")
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	@ResponseBody
 	public Object list(
@@ -78,7 +76,7 @@ public class EamAlertMessageController extends BaseController {
 		eamAlertMessageExample.setOffset(offset);
 		eamAlertMessageExample.setLimit(limit);
 		EamAlertMessageExample.Criteria criteria = eamAlertMessageExample.createCriteria();
-		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+		criteria.andReadFlagEqualTo(Boolean.FALSE);
         criteria.andUserIdEqualTo(getCurrUserId());
 		criteria.andCompanyIdEqualTo(getCompanyId());
 
@@ -96,7 +94,6 @@ public class EamAlertMessageController extends BaseController {
 
 
 	@ApiOperation(value = "修改消息")
-	@RequiresPermissions("eam:alertMsg:update")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
 	@ResponseBody
 	public Object update(@PathVariable("id") String id) {

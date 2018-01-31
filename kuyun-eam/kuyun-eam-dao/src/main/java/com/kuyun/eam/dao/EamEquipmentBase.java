@@ -1,6 +1,8 @@
-package com.kuyun.eam.dao.model;
+package com.kuyun.eam.dao;
 
 import com.kuyun.common.dao.model.BaseEntity;
+import com.kuyun.eam.dao.model.EamEquipmentModel;
+import com.kuyun.eam.dao.model.EamSensor;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

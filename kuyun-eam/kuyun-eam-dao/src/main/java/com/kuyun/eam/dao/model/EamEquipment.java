@@ -1,7 +1,7 @@
 package com.kuyun.eam.dao.model;
 
-import com.kuyun.common.dao.model.BaseEntity;
-import java.io.Serializable;
+import com.kuyun.eam.dao.EamEquipmentBase;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
