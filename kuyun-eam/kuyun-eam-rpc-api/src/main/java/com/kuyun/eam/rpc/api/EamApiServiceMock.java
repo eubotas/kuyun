@@ -216,7 +216,7 @@ public class EamApiServiceMock implements EamApiService {
     }
 
     @Override
-    public int updateAlarm(String ids, String alarmTarget, String targetUserId) {
+    public int updateAlarm(String ids, String alarmTarget, String[] targetUserId) {
         return 0;
     }
 

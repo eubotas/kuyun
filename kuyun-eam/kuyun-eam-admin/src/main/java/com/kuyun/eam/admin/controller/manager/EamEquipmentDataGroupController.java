@@ -3,10 +3,7 @@ package com.kuyun.eam.admin.controller.manager;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.*;
-import com.kuyun.eam.rpc.api.EamApiService;
-import com.kuyun.eam.rpc.api.EamDataElementGroupService;
-import com.kuyun.eam.rpc.api.EamEquipmentDataGroupElemetsService;
-import com.kuyun.eam.rpc.api.EamEquipmentDataGroupService;
+import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.vo.EamDataElementVO;
 import com.kuyun.eam.vo.EamEquipmentDataGroupVO;
 import com.kuyun.eam.vo.EamEquipmentVO;
@@ -60,6 +57,9 @@ public class EamEquipmentDataGroupController extends BaseController {
 
 	@Autowired
 	private EamDataElementController dataElementController;
+
+	@Autowired
+	private EamEquipmentService eamEquipmentService;
 
 
 	@ApiOperation(value = "数据点分组首页")
@@ -206,14 +206,19 @@ public class EamEquipmentDataGroupController extends BaseController {
 								 @PathVariable("dataGroupId") String dataGroupId,
 								 @PathVariable("equipmentDataGroupId") String equipmentDataGroupId,
 								 String ids, ModelMap modelMap) {
-		Map<String, Object> map = (Map<String, Object>)dataElementController.list(0, 3000, null, null, null);
-		List<EamDataElementVO> rows = (List<EamDataElementVO>)map.get("rows");
-
-
-		handlerCheckedFlag(equipmentId, dataGroupId, equipmentDataGroupId, rows);
 
 		Map<String, Object> result = new HashMap<>();
-		result.put("rows", rows);
+		EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(equipmentId);
+		if (equipment != null){
+			String equipmentCategoryId = String.valueOf(equipment.getEquipmentCategoryId());
+			Map<String, Object> map = (Map<String, Object>)dataElementController.list(0, 3000, null, null, equipmentCategoryId);
+			List<EamDataElementVO> rows = (List<EamDataElementVO>)map.get("rows");
+
+			handlerCheckedFlag(equipmentId, dataGroupId, equipmentDataGroupId, rows);
+
+			result.put("rows", rows);
+		}
+
 		return result;
 	}
 

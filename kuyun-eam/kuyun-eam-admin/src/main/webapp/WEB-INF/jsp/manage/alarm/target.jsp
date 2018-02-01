@@ -27,12 +27,9 @@
 			<div class="col-sm-12">
 				<div class="form-group">
 					<div class="fg-line">
-						<label for="alarmTargetUser">提醒对象</label>
-						<select id="alarmTargetUser" name="alarmTargetUser" style="width: 100%">
 							<c:forEach var="target" items="${alarmTargetUsers}">
-								<option value="${target.userId}" >${target.realname}</option>
+								<input name="alarmTargetUser" type="checkbox" value="${target.userId}" />${target.realname} </label>
 							</c:forEach>
-						</select>
 					</div>
 				</div>
 			</div>

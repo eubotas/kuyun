@@ -778,7 +778,7 @@
 
 	<select id="selectAlarms" parameterType="com.kuyun.eam.vo.EamAlarmVO" resultMap="EamAlarmVOResultMap">
 		select
-		u.realname AS target_user_name,
+		group_concat(u.realname) AS target_user_name,
 		d.lable_name as alarm_lable_name,
 		<include refid="com.kuyun.eam.dao.mapper.EamAlarmMapper.Base_Column_List" />
 		from eam_alarm
@@ -792,6 +792,9 @@
 		<if test="equipmentId != null and equipmentId != ''">
 			AND eam_alarm.equipment_id = #{equipmentId}
 		</if>
+
+		group by eam_alarm.alarm_id
+
 		<if test="orderByClause != null">
 			order by ${orderByClause}
 		</if>
@@ -803,6 +806,7 @@
 				limit ${limit}
 			</if>
 		</if>
+
 	</select>
 
 	<select id="countAlarms" parameterType="com.kuyun.eam.vo.EamAlarmVO" resultType="java.lang.Long">

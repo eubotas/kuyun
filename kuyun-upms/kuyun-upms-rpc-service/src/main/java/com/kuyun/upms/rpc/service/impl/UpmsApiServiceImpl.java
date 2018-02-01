@@ -5,6 +5,7 @@ import com.kuyun.common.util.MD5Util;
 import com.kuyun.upms.dao.mapper.*;
 import com.kuyun.upms.dao.model.*;
 import com.kuyun.upms.dao.vo.UpmsCompanyVo;
+import com.kuyun.upms.dao.vo.UpmsUserCompanyVO;
 import com.kuyun.upms.dao.vo.UpmsUserVo;
 import com.kuyun.upms.rpc.api.*;
 import com.kuyun.upms.rpc.mapper.UpmsApiMapper;
@@ -466,7 +467,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     }
 
     @Override
-    public List<UpmsUser> selectUsers(UpmsUserCompany userCompany) {
+    public List<UpmsUser> selectUsers(UpmsUserCompanyVO userCompany) {
         return upmsApiMapper.selectUsers(userCompany);
     }
 

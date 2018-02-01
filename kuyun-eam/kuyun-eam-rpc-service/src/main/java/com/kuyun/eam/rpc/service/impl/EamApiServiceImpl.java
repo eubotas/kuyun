@@ -765,8 +765,8 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     @Override
-    public int updateAlarm(String ids, String alarmTarget, String targetUserId) {
-        if (StringUtils.isNotEmpty(ids) && StringUtils.isNotEmpty(alarmTarget) && StringUtils.isNotEmpty(targetUserId)){
+    public int updateAlarm(String ids, String alarmTarget, String[] targetUserIds) {
+        if (StringUtils.isNotEmpty(ids) && StringUtils.isNotEmpty(alarmTarget) && targetUserIds != null && targetUserIds.length > 0){
             String[] idArray = ids.split("::");
             List<Integer> idList = new ArrayList<>();
             for(String id : idArray){
@@ -781,31 +781,28 @@ public class EamApiServiceImpl implements EamApiService {
             for(EamAlarm alarm : alarms){
                 alarm.setAlarmTarget(alarmTarget);
                 eamAlarmService.updateByPrimaryKeySelective(alarm);
-
-
-                EamAlarmTargetUserExample targetUserExample = new EamAlarmTargetUserExample();
-                targetUserExample.createCriteria().andAlarmIdEqualTo(alarm.getAlarmId());
-
-                EamAlarmTargetUser targetUser = eamAlarmTargetUserService.selectFirstByExample(targetUserExample);
-                if (targetUser != null){
-                    targetUser.setUserId(Integer.valueOf(targetUserId));
-                    targetUser.setUpdateTime(new Date());
-                    eamAlarmTargetUserService.updateByPrimaryKeySelective(targetUser);
-                }else {
-                    targetUser = new EamAlarmTargetUser();
-                    targetUser.setUserId(Integer.valueOf(targetUserId));
-                    targetUser.setAlarmId(alarm.getAlarmId());
-                    targetUser.setDeleteFlag(Boolean.FALSE);
-                    targetUser.setUpdateTime(new Date());
-                    targetUser.setCreateTime(new Date());
-                    eamAlarmTargetUserService.insertSelective(targetUser);
-
-                }
+                eamAlarmTargetUserService.deleteByPrimaryKey(alarm.getAlarmId());
+                List<EamAlarmTargetUser> targetUsers = createEamAlarmTargetUsers(targetUserIds, alarm);
+                eamAlarmTargetUserService.batchInsert(targetUsers);
             }
 
             return 1;
         }
         return 0;
+    }
+
+    private List<EamAlarmTargetUser> createEamAlarmTargetUsers(String[] targetUserIds, EamAlarm alarm) {
+        List<EamAlarmTargetUser> result = new ArrayList<>();
+        for (String targetUserId : targetUserIds){
+            EamAlarmTargetUser targetUser = new EamAlarmTargetUser();
+            targetUser.setUserId(Integer.valueOf(targetUserId));
+            targetUser.setAlarmId(alarm.getAlarmId());
+            targetUser.setDeleteFlag(Boolean.FALSE);
+            targetUser.setUpdateTime(new Date());
+            targetUser.setCreateTime(new Date());
+            result.add(targetUser);
+        }
+        return result;
     }
 
     private EamAlarm createAlarm(EamAlarmModel alarmModel, String productLineId){

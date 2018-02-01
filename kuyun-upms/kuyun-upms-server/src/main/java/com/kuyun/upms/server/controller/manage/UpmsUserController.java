@@ -9,6 +9,7 @@ import com.kuyun.common.base.BaseController;
 import com.kuyun.common.util.MD5Util;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.common.validator.NotNullValidator;
+import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.common.constant.UpmsResult;
 import com.kuyun.upms.common.constant.UpmsResultConstant;
 import com.kuyun.upms.dao.model.*;
@@ -59,6 +60,8 @@ public class UpmsUserController extends BaseController {
 
     @Autowired
     private UpmsApiService upmsApiService;
+    @Autowired
+    private BaseEntityUtil baseEntryUtil;
 
     @ApiOperation(value = "用户首页")
     @RequiresPermissions("upms:user:read")
@@ -244,6 +247,7 @@ public class UpmsUserController extends BaseController {
         upmsUser.setPassword(MD5Util.md5(upmsUser.getPassword() + upmsUser.getSalt()));
         upmsUser.setCtime(time);
         int count = upmsUserService.insertSelective(upmsUser);
+
         _log.info("新增用户，主键：userId={}", upmsUser.getUserId());
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
     }

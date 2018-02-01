@@ -2,6 +2,7 @@ package com.kuyun.upms.rpc.api;
 
 import com.kuyun.upms.dao.model.*;
 import com.kuyun.upms.dao.vo.UpmsCompanyVo;
+import com.kuyun.upms.dao.vo.UpmsUserCompanyVO;
 import com.kuyun.upms.dao.vo.UpmsUserVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -154,7 +155,7 @@ public class UpmsApiServiceMock implements UpmsApiService {
     }
 
     @Override
-    public List<UpmsUser> selectUsers(UpmsUserCompany userCompany) {
+    public List<UpmsUser> selectUsers(UpmsUserCompanyVO userCompany) {
         return null;
     }
 

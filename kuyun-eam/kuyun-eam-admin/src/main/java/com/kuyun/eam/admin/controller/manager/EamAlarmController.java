@@ -12,9 +12,12 @@ import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.vo.EamAlarmVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
+import com.kuyun.upms.common.constant.UpmsOrganizationEnum;
 import com.kuyun.upms.common.constant.UpmsResult;
 import com.kuyun.upms.common.constant.UpmsResultConstant;
 import com.kuyun.upms.dao.model.UpmsUser;
+import com.kuyun.upms.dao.model.UpmsUserCompany;
+import com.kuyun.upms.dao.vo.UpmsUserCompanyVO;
 import com.kuyun.upms.rpc.api.UpmsApiService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -166,14 +169,14 @@ public class EamAlarmController extends BaseController {
 		alarmTargetUserExample.createCriteria().andAlarmIdEqualTo(Integer.valueOf(id))
 		.andDeleteFlagEqualTo(Boolean.FALSE);
 
-		EamAlarmTargetUser alarmTargetUser = eamAlarmTargeUserService.selectFirstByExample(alarmTargetUserExample);
+		List<EamAlarmTargetUser> alarmTargetUsers = eamAlarmTargeUserService.selectByExample(alarmTargetUserExample);
 
-		List<UpmsUser> alarmTargetUsers = upmsApiService.selectUsers(baseEntityUtil.getCurrentUserCompany());
+		List<UpmsUser> users = upmsApiService.selectUsers(createUserCompanyVO());
 
 		EamAlarm alarm = eamAlarmService.selectByPrimaryKey(id);
 		modelMap.put("alarm", alarm);
 		modelMap.put("elements", elements);
-		modelMap.put("alarmTargetUser", alarmTargetUser);
+		modelMap.put("users", users);
 		modelMap.put("alarmTargetUsers", alarmTargetUsers);
 		modelMap.put("alarmTypes", AlarmType.values());
 		modelMap.put("alarmTargets", AlarmTarget.values());
@@ -185,7 +188,7 @@ public class EamAlarmController extends BaseController {
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
 	public Object update(HttpServletRequest request, EamAlarm alarm) {
-		String targetUserId = request.getParameter("targetUser");
+		String targetUserId = request.getParameter("alarmTargetUser");
 
 		baseEntityUtil.updateAddtionalValue(alarm);
 		int count = eamApiService.updateAlarm(targetUserId, alarm);
@@ -199,12 +202,21 @@ public class EamAlarmController extends BaseController {
 	public Object targetIndex(@PathVariable("productLineId") String productLineId,
 							  @PathVariable("ids") String ids,
 							  ModelMap modelMap) {
-		List<UpmsUser> alarmTargetUsers = upmsApiService.selectUsers(baseEntityUtil.getCurrentUserCompany());
+
+		List<UpmsUser> alarmTargetUsers = upmsApiService.selectUsers(createUserCompanyVO());
 		modelMap.put("productLineId", productLineId);
 		modelMap.put("ids", ids);
 		modelMap.put("alarmTargetUsers", alarmTargetUsers);
 		modelMap.put("alarmTargets", AlarmTarget.values());
 		return "/manage/alarm/target.jsp";
+	}
+
+	private UpmsUserCompanyVO createUserCompanyVO(){
+		UpmsUserCompany userCompany = baseEntityUtil.getCurrentUserCompany();
+		UpmsUserCompanyVO vo = new UpmsUserCompanyVO();
+		vo.setOrgName(UpmsOrganizationEnum.ALARM.getName());
+		vo.setCompanyId(userCompany.getCompanyId());
+		return vo;
 	}
 
 	@ApiOperation(value = "提醒设置提交")
@@ -213,7 +225,7 @@ public class EamAlarmController extends BaseController {
 	@ResponseBody
 	public Object targetSubmit(HttpServletRequest request, ModelMap modelMap) {
 		String alarmTarget = request.getParameter("alarmTarget");
-		String targetUserId = request.getParameter("alarmTargetUser");
+		String[] targetUserId = request.getParameterValues("alarmTargetUser");
 		String ids = request.getParameter("ids");
 
 

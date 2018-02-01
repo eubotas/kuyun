@@ -70,7 +70,7 @@
 function updateSubmit() {
     $.ajax({
         type: 'post',
-        url: '${basePath}/manage/location/update/${location.locationId}',
+        url: '${basePath}/manage/dataElement/update/${dataElement.id}',
         data: $('#updateForm').serialize(),
         beforeSend: function() {
 			if ($('#name').val() == '') {

@@ -8,7 +8,7 @@
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 <div id="updateDialog" class="crudDialog">
 	<form id="updateForm" method="post">
-
+		<input hidden id="alarmId" name = "alarmId" value="${alarm.alarmId}"/>
 		<div class="row">
 
 			<div class="col-sm-12">
@@ -92,12 +92,15 @@
 			<div class="col-sm-12">
 				<div class="form-group">
 					<div class="fg-line">
-						<label for="alarmTargetUser">提醒对象</label>
-						<select id="alarmTargetUser" name="alarmTargetUser" style="width: 100%">
-							<c:forEach var="target" items="${alarmTargetUsers}">
-								<option value="${target.userId}" ${alarmTargetUser.userId == target.userId ? 'selected' : ''}>${target.realname}</option>
+							<c:forEach var="user" items="${users}">
+								<c:set var="checkedFlag" value="false"/>
+								<c:forEach var="target" items="${alarmTargetUsers}">
+									<c:if test="${user.userId == target.userId}">
+										<c:set var="checkedFlag" value="true" />
+									</c:if>
+								</c:forEach>
+								<input name="alarmTargetUser" type="checkbox" value="${user.userId}"  ${checkedFlag == true ? 'checked' : ''}/>${user.realname} </label>
 							</c:forEach>
-						</select>
 					</div>
 				</div>
 			</div>
@@ -116,7 +119,7 @@
 function updateSubmit() {
     $.ajax({
         type: 'post',
-        url: '${basePath}/manage/${alarm.productLineId}/alarm/update/${alarm.alarmId}',
+        url: '${basePath}/manage/${alarm.productLineId}/alarm/update',
         data: $('#updateForm').serialize(),
         beforeSend: function() {
 			if ($('#name').val() == '') {

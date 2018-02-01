@@ -10,11 +10,15 @@ public class UpmsCompanyVo extends UpmsCompany {
     private Integer onlineNumber;
     private Integer offlineNumber;
 
+
+
     private Integer limit;
 
     private Integer offset;
 
     private String orderByClause;
+
+
 
     public Integer getLimit() {
         return limit;

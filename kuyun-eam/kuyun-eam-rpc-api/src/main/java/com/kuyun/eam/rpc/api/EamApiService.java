@@ -95,5 +95,5 @@ public interface EamApiService {
 
     int createAlarms(String productLineId, String ids);
 
-    int updateAlarm(String ids, String alarmTarget, String targetUserId);
+    int updateAlarm(String ids, String alarmTarget, String[] targetUserId);
 }
