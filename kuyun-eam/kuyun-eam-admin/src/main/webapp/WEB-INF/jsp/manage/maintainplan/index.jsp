@@ -19,8 +19,8 @@
 <div id="main">
 	<div id="toolbar">
 		<shiro:hasPermission name="eam:maintainPlan:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction('新增维修计划','${basePath}/manage/maintainPlan/create')"><i class="zmdi zmdi-plus"></i> 新增维修计划</a></shiro:hasPermission>
-		<shiro:hasPermission name="eam:maintainPlan:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction('新增维修计划','${basePath}/manage/maintainPlan/update','planId')"><i class="zmdi zmdi-edit"></i> 编辑维修计划</a></shiro:hasPermission>
-		<shiro:hasPermission name="eam:maintainPlan:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction('新增维修计划','${basePath}/manage/maintainPlan/delete','planId')"><i class="zmdi zmdi-close"></i> 删除维修计划</a></shiro:hasPermission>
+		<shiro:hasPermission name="eam:maintainPlan:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction('编辑维修计划','${basePath}/manage/maintainPlan/update','planId')"><i class="zmdi zmdi-edit"></i> 编辑维修计划</a></shiro:hasPermission>
+		<shiro:hasPermission name="eam:maintainPlan:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction('删除维修计划','${basePath}/manage/maintainPlan/delete','planId')"><i class="zmdi zmdi-close"></i> 删除维修计划</a></shiro:hasPermission>
 	</div>
 	<table id="table"></table>
 </div>
@@ -68,8 +68,8 @@
     // 格式化操作按钮
     function actionFormatter(value, row, index) {
         return [
-            '<a class="update" href="javascript:;" onclick="updateAction(\'新增维修计划\',\'${basePath}/manage/maintainPlan/update\',\'planId\')" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>　',
-            '<a class="delete" href="javascript:;" onclick="deleteAction(\'新增维修计划\',\'${basePath}/manage/maintainPlan/delete\',,\'planId\')" data-toggle="tooltip" title="Remove"><i class="glyphicon glyphicon-remove"></i></a>'
+            '<a class="update" href="javascript:;" onclick="updateAction(\'编辑维修计划\',\'${basePath}/manage/maintainPlan/update\',\'planId\')" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>　',
+            '<a class="delete" href="javascript:;" onclick="deleteAction(\'删除维修计划\',\'${basePath}/manage/maintainPlan/delete\',\'planId\')" data-toggle="tooltip" title="Remove"><i class="glyphicon glyphicon-remove"></i></a>'
         ].join('');
     }
 </script>
