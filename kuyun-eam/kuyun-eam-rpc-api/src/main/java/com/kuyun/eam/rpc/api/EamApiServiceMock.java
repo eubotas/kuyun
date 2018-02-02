@@ -195,4 +195,9 @@ public class EamApiServiceMock implements EamApiService {
         return null;
     }
 
+    @Override
+    public List<EamPlanTicketVO> selectTicketByPlan(EamPlanTicketVO vo) {
+        return null;
+    }
+
 }

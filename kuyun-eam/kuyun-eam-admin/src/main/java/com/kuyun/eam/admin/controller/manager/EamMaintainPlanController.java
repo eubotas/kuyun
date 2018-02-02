@@ -11,6 +11,7 @@ import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.util.EamDateUtil;
 import com.kuyun.eam.vo.EamEquipmentVO;
 import com.kuyun.eam.vo.EamMaintainPlanVO;
+import com.kuyun.eam.vo.EamPlanTicketVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsOrganization;
 import com.kuyun.upms.dao.model.UpmsOrganizationExample;
@@ -49,6 +50,9 @@ public class EamMaintainPlanController extends BaseController {
 
 	@Autowired
 	private EamMaintainPlanService eamMaintainPlanService;
+
+	@Autowired
+	private EamMaintainTicketService eamMaintainTicketService;
 
 	@Autowired
 	private BaseEntityUtil baseEntityUtil;
@@ -106,6 +110,38 @@ public class EamMaintainPlanController extends BaseController {
 
 		List<EamMaintainPlanVO> rows = eamApiService.listMaintainPlans(vo);
 		long total = eamMaintainPlanService.countByExample(eamMaintainPlanExample);
+		Map<String, Object> result = new HashMap<>();
+		result.put("rows", rows);
+		result.put("total", total);
+		return result;
+	}
+
+	@ApiOperation(value = "维修计划工单列表")
+	@RequiresPermissions("eam:maintainPlan:read")
+	@RequestMapping(value = "/{planId}/tickets", method = RequestMethod.GET)
+	@ResponseBody
+	public Object tickets( @PathVariable("planId") int planId,
+			@RequestParam(required = false, defaultValue = "0", value = "offset") int offset,
+			@RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
+			@RequestParam(required = false, value = "sort") String sort,
+			@RequestParam(required = false, value = "order") String order) {
+		EamMaintainTicketExample example = new EamMaintainTicketExample();
+		example.setOffset(offset);
+		example.setLimit(limit);
+		EamMaintainTicketExample.Criteria criteria = example.createCriteria();
+		criteria.andPlanIdEqualTo(planId);
+
+		EamPlanTicketVO vo = new EamPlanTicketVO();
+		vo.setOffset(offset);
+		vo.setLimit(limit);
+		vo.setPlanId(planId);
+		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
+			example.setOrderByClause(sort + " " + order);
+			vo.setOrderByClause(sort + " " + order);
+		}
+
+		List<EamPlanTicketVO> rows = eamApiService.selectTicketByPlan(vo);
+		long total = eamMaintainTicketService.countByExample(example);
 		Map<String, Object> result = new HashMap<>();
 		result.put("rows", rows);
 		result.put("total", total);
