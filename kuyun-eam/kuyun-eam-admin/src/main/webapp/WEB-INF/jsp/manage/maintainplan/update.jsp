@@ -114,9 +114,6 @@
 	</form>
 </div>
 
-<div >
-    <table id="ticketTable"></table>
-</div>
 
 <script src="/resources/inc/eamcommon.js"></script>
 
@@ -131,47 +128,3 @@
 
     });
     </script>
-
-
-<script>
-    var ticketTable = $('#ticketTable');
-    $(function() {
-        // bootstrap table初始化
-        ticketTable.bootstrapTable({
-            url: '${basePath}/manage/maintainPlan/${plan.planId}/tickets',
-            height: getHeight(),
-            striped: true,
-            search: true,
-            showRefresh: true,
-            showColumns: true,
-            minimumCountColumns: 2,
-            clickToSelect: true,
-            detailView: true,
-            detailFormatter: 'detailFormatter',
-            pagination: true,
-            paginationLoop: false,
-            sidePagination: 'server',
-            silentSort: false,
-            smartDisplay: false,
-            escape: true,
-            searchOnEnterKey: true,
-            idField: 'planTicketId',
-            sortName: 'planTicketId',
-            sortOrder: 'desc',
-            maintainSelected: true,
-            toolbar: '#toolbar',
-            columns: [
-                {field: 'ck', checkbox: true},
-                {field: 'ticketDescription', title: '工单描述', sortable: true, align: 'center'},
-                {field: 'ticketPriority', title: '优先级'},
-                {field: 'ticketTypeName', title: '工单类型'},
-                {field: 'serviceman', title: '执行人'},
-                {field: 'servicePhone', title: '执行人电话'},
-                {field: 'customerContacts', title: '顾客'},
-                {field: 'customerPhone', title: '顾客电话'},
-                {field: 'ticketStatus', title: '当前状态'}
-            ]
-        });
-    });
-
-</script>

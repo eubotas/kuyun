@@ -56,4 +56,6 @@ public interface EamApiMapper {
     List<EamMaintainPlanVO> listMaintainPlans(EamMaintainPlanVO vo);
 
     List<EamPlanTicketVO> selectTicketByPlan(EamPlanTicketVO vo);
+
+    EamMaintainPlanVO getMaintainPlan(Integer planId);
 }

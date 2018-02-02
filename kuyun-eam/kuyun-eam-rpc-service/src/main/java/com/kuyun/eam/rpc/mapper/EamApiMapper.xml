@@ -834,6 +834,19 @@
 		</if>
 	</select>
 
+    <select id="getMaintainPlan" parameterType="Integer" resultMap="EamMaintainPlanVOResultMap">
+        select
+        plan_id, work_content, next_maintain_date, maintain_frequency_unit, maintain_frequency_quantity, maintain_type, remind_time, a.create_time ,
+        uo.name as orgName,
+        ec.name as equipmentCategoryName,
+        e.name as equipmentName
+        from eam_maintain_plan a
+        LEFT OUTER JOIN upms_organization uo ON a.org_id = uo.organization_id
+        LEFT OUTER JOIN eam_equipment_category ec ON a.equipment_category_id = ec.equipment_category_id
+        LEFT OUTER JOIN eam_equipment e ON a.equipment_id = e.equipment_id
+        WHERE a.delete_flag = 0 and a.plan_id=#{planId, jdbcType=INTEGER}
+
+    </select>
 	<!-- 缓存 -->
 	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 

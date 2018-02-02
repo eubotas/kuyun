@@ -47,6 +47,41 @@ function updateAction(title, targetUrl, idname) {
     }
 }
 
+// detail
+var detailDialog;
+function detailAction(title, targetUrl, idname) {
+    var rows = $table.bootstrapTable('getSelections');
+    if (rows.length != 1) {
+        $.confirm({
+            title: false,
+            content: '请选择一条记录！',
+            autoClose: 'cancel|3000',
+            backgroundDismiss: true,
+            buttons: {
+                cancel: {
+                    text: '取消',
+                    btnClass: 'waves-effect waves-button'
+                }
+            }
+        });
+    } else {
+        var idName='id';
+        if(idname)
+            idName=idname;
+
+        detailDialog = $.dialog({
+            animationSpeed: 300,
+            title: title+'详细',
+            columnClass: 'xlarge',
+            content: 'url:'+targetUrl +'/' + rows[0][idName],
+            onContentReady: function () {
+                initMaterialInput();
+                $('select').select2();
+            }
+        });
+    }
+}
+
 // 删除
 var deleteDialog;
 function deleteAction(title, targetUrl, idname) {

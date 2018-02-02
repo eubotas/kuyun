@@ -200,4 +200,9 @@ public class EamApiServiceMock implements EamApiService {
         return null;
     }
 
+    @Override
+    public EamMaintainPlanVO getMaintainPlan(Integer planId) {
+        return null;
+    }
+
 }

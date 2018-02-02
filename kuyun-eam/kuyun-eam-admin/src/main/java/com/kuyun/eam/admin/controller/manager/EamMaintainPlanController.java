@@ -187,7 +187,15 @@ public class EamMaintainPlanController extends BaseController {
 		return new EamResult(SUCCESS, eamMaintainPlanService.deleteMaintainPlan(ids));
 	}
 
+    @ApiOperation(value = "维修计划详细")
+    @RequiresPermissions("eam:maintainPlan:read")
+    @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
+    public String detail(@PathVariable("id") int id, ModelMap modelMap) {
 
+        EamMaintainPlanVO vo= eamApiService.getMaintainPlan(id);
+        modelMap.put("plan", vo);
+        return "/manage/maintainplan/detail.jsp";
+    }
 
 	@ApiOperation(value = "修改维修计划")
 	@RequiresPermissions("eam:maintainPlan:update")

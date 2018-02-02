@@ -68,6 +68,7 @@
     // 格式化操作按钮
     function actionFormatter(value, row, index) {
         return [
+            '<a class="update" href="javascript:;" onclick="detailAction(\'维修计划详细\',\'${basePath}/manage/maintainPlan/detail\',\'planId\')" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>　',
             '<a class="update" href="javascript:;" onclick="updateAction(\'编辑维修计划\',\'${basePath}/manage/maintainPlan/update\',\'planId\')" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>　',
             '<a class="delete" href="javascript:;" onclick="deleteAction(\'删除维修计划\',\'${basePath}/manage/maintainPlan/delete\',\'planId\')" data-toggle="tooltip" title="Remove"><i class="glyphicon glyphicon-remove"></i></a>'
         ].join('');
