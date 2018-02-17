@@ -46,6 +46,11 @@ public class UpmsSystem extends BaseEntity implements Serializable {
      */
     private Byte status;
 
+    /**
+     * 系统名称
+     *
+     * @mbg.generated
+     */
     private String name;
 
     /**

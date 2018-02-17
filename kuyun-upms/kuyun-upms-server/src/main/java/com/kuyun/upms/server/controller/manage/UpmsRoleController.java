@@ -7,12 +7,10 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
+import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.common.constant.UpmsResult;
 import com.kuyun.upms.common.constant.UpmsResultConstant;
-import com.kuyun.upms.dao.model.UpmsRole;
-import com.kuyun.upms.dao.model.UpmsRoleExample;
-import com.kuyun.upms.dao.model.UpmsRolePermission;
-import com.kuyun.upms.dao.model.UpmsRolePermissionExample;
+import com.kuyun.upms.dao.model.*;
 import com.kuyun.upms.rpc.api.UpmsRolePermissionService;
 import com.kuyun.upms.rpc.api.UpmsRoleService;
 import io.swagger.annotations.Api;
@@ -48,6 +46,9 @@ public class UpmsRoleController extends BaseController {
 
     @Autowired
     private UpmsRolePermissionService upmsRolePermissionService;
+
+    @Autowired
+    private BaseEntityUtil baseEntityUtil;
 
     @ApiOperation(value = "角色首页")
     @RequiresPermissions("upms:role:read")
@@ -113,6 +114,12 @@ public class UpmsRoleController extends BaseController {
             upmsRoleExample.or()
                     .andTitleLike("%" + search + "%");
         }
+
+        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+
+        UpmsRoleExample.Criteria criteria = upmsRoleExample.createCriteria();
+        criteria.andCompanyIdEqualTo(company.getCompanyId());
+
         List<UpmsRole> rows = upmsRoleService.selectByExample(upmsRoleExample);
         long total = upmsRoleService.countByExample(upmsRoleExample);
         Map<String, Object> result = new HashMap<>();
@@ -144,6 +151,10 @@ public class UpmsRoleController extends BaseController {
         long time = System.currentTimeMillis();
         upmsRole.setCtime(time);
         upmsRole.setOrders(time);
+
+        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+        upmsRole.setCompanyId(company.getCompanyId());
+
         int count = upmsRoleService.insertSelective(upmsRole);
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
     }

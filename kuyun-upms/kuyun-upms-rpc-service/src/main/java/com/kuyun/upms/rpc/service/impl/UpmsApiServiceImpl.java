@@ -418,8 +418,12 @@ public class UpmsApiServiceImpl implements UpmsApiService {
             upmsCompany = createCompany(company);
         }
 
+        createUserCompany(upmsUser, upmsCompany.getCompanyId());
+    }
+
+    private void createUserCompany(UpmsUser upmsUser, Integer companyId) {
         UpmsUserCompany upmsUserCompany = new UpmsUserCompany();
-        upmsUserCompany.setCompanyId(upmsCompany.getCompanyId());
+        upmsUserCompany.setCompanyId(companyId);
         upmsUserCompany.setUserId(upmsUser.getUserId());
         upmsUserCompanyService.insert(upmsUserCompany);
     }
@@ -450,6 +454,16 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     }
 
     @Override
+    public List<UpmsUserVo> selectUsers(UpmsUserVo upmsUserVo) {
+        return upmsApiMapper.selectUsers(upmsUserVo);
+    }
+
+    @Override
+    public long countUsers(UpmsUserVo upmsUserVo) {
+        return upmsApiMapper.countUsers(upmsUserVo);
+    }
+
+    @Override
     public UpmsUserCompany getUserCompany(UpmsUser user){
         UpmsUserCompanyExample example = new UpmsUserCompanyExample();
         example.createCriteria().andUserIdEqualTo(user.getUserId());
@@ -468,7 +482,14 @@ public class UpmsApiServiceImpl implements UpmsApiService {
 
     @Override
     public List<UpmsUser> selectUsers(UpmsUserCompanyVO userCompany) {
-        return upmsApiMapper.selectUsers(userCompany);
+        return upmsApiMapper.selectUsersByUserCompany(userCompany);
+    }
+
+    @Override
+    public int createUser(UpmsUser upmsUser, UpmsUserCompany upmsUserCompany) {
+        int count = upmsUserService.insertSelective(upmsUser);
+        createUserCompany(upmsUser, upmsUserCompany.getCompanyId());
+        return count;
     }
 
 }

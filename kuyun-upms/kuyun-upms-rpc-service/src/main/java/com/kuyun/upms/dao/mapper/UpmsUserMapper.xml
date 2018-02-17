@@ -104,11 +104,11 @@
     where user_id = #{userId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    update upms_user set delete_flag = 1 
+    delete from upms_user
     where user_id = #{userId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.upms.dao.model.UpmsUserExample">
-    update upms_user set delete_flag = 1 
+    delete from upms_user
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

@@ -5,10 +5,12 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
+import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.common.constant.UpmsResult;
 import com.kuyun.upms.common.constant.UpmsResultConstant;
 import com.kuyun.upms.dao.model.UpmsOrganization;
 import com.kuyun.upms.dao.model.UpmsOrganizationExample;
+import com.kuyun.upms.dao.model.UpmsUserCompany;
 import com.kuyun.upms.rpc.api.UpmsOrganizationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -39,6 +41,10 @@ public class UpmsOrganizationController extends BaseController {
     @Autowired
     private UpmsOrganizationService upmsOrganizationService;
 
+    @Autowired
+    private BaseEntityUtil baseEntityUtil;
+
+
     @ApiOperation(value = "组织首页")
     @RequiresPermissions("upms:organization:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
@@ -59,6 +65,8 @@ public class UpmsOrganizationController extends BaseController {
         UpmsOrganizationExample upmsOrganizationExample = new UpmsOrganizationExample();
         upmsOrganizationExample.setOffset(offset);
         upmsOrganizationExample.setLimit(limit);
+
+
         if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
             upmsOrganizationExample.setOrderByClause(sort + " " + order);
         }
@@ -66,6 +74,12 @@ public class UpmsOrganizationController extends BaseController {
             upmsOrganizationExample.or()
                     .andNameLike("%" + search + "%");
         }
+
+        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+
+        UpmsOrganizationExample.Criteria criteria = upmsOrganizationExample.createCriteria();
+        criteria.andCompanyIdEqualTo(company.getCompanyId());
+
         List<UpmsOrganization> rows = upmsOrganizationService.selectByExample(upmsOrganizationExample);
         long total = upmsOrganizationService.countByExample(upmsOrganizationExample);
         Map<String, Object> result = new HashMap<>();
@@ -95,6 +109,10 @@ public class UpmsOrganizationController extends BaseController {
         }
         long time = System.currentTimeMillis();
         upmsOrganization.setCtime(time);
+
+        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+        upmsOrganization.setCompanyId(company.getCompanyId());
+
         int count = upmsOrganizationService.insertSelective(upmsOrganization);
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
     }

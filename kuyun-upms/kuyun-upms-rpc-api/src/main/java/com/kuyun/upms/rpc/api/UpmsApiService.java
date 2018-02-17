@@ -119,4 +119,10 @@ public interface UpmsApiService {
 
     List<UpmsUser> selectUsers(UpmsUserCompanyVO userCompany);
 
+    List<UpmsUserVo> selectUsers(UpmsUserVo upmsUserVo);
+
+    long countUsers(UpmsUserVo upmsUserVo);
+
+    int createUser(UpmsUser upmsUser, UpmsUserCompany upmsUserCompany);
+
 }

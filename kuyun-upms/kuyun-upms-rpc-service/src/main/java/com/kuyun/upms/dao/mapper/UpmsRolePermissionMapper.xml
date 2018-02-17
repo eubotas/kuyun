@@ -96,11 +96,11 @@
     where role_permission_id = #{rolePermissionId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    update upms_role_permission set delete_flag = 1 
+    delete from upms_role_permission
     where role_permission_id = #{rolePermissionId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.upms.dao.model.UpmsRolePermissionExample">
-    update upms_role_permission set delete_flag = 1 
+    delete from upms_role_permission
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

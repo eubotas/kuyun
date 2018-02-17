@@ -126,6 +126,7 @@ INSERT INTO `upms_permission` VALUES ('93', '1', '90', '删除公司', '3', 'upm
 DROP TABLE IF EXISTS `upms_role`;
 CREATE TABLE `upms_role` (
   `role_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `company_id` int(11),
   `name` varchar(20) DEFAULT NULL COMMENT '角色名称',
   `title` varchar(20) DEFAULT NULL COMMENT '角色标题',
   `description` varchar(1000) DEFAULT NULL COMMENT '角色描述',
@@ -137,8 +138,8 @@ CREATE TABLE `upms_role` (
 -- ----------------------------
 -- Records of upms_role
 -- ----------------------------
-INSERT INTO `upms_role` VALUES ('1', 'super', '超级管理员', '拥有所有权限', '1', '1');
-INSERT INTO `upms_role` VALUES ('2', 'admin', '管理员', '拥有除权限管理系统外的所有权限', '1487471013117', '1487471013117');
+INSERT INTO `upms_role` VALUES ('1', 1, 'super', '超级管理员', '拥有所有权限', '1', '1');
+INSERT INTO `upms_role` VALUES ('2', 1, 'admin', '管理员', '拥有除权限管理系统外的所有权限', '1487471013117', '1487471013117');
 
 -- ----------------------------
 -- Table structure for upms_role_permission
@@ -285,10 +286,6 @@ CREATE TABLE `upms_system` (
 -- Records of upms_system
 -- ----------------------------
 INSERT INTO `upms_system` VALUES ('1', 'zmdi zmdi-shield-security', '/resources/kuyun-admin/images/kuyun-upms.png', '#29A176', 'http://upms.kuyun.cn:1111', '1', 'kuyun-upms-server', '权限管理系统', '用户权限管理系统（RBAC细粒度用户权限、统一后台、单点登录、会话管理）', '1', '1');
-INSERT INTO `upms_system` VALUES ('2', 'zmdi zmdi-wikipedia', '/resources/kuyun-admin/images/kuyun-cms.png', '#455EC5', 'http://cms.kuyun.cn:2222', '1', 'kuyun-cms-admin', '内容管理系统', '内容管理系统（门户、博客、论坛、问答等）', '2', '2');
-INSERT INTO `upms_system` VALUES ('3', 'zmdi zmdi-paypal-alt', '/resources/kuyun-admin/images/kuyun-pay.png', '#F06292', 'http://pay.kuyun.cn:3331', '1', 'kuyun-pay-admin', '支付管理系统', '支付管理系统', '3', '3');
-INSERT INTO `upms_system` VALUES ('4', 'zmdi zmdi-account', '/resources/kuyun-admin/images/kuyun-ucenter.png', '#6539B4', 'http://ucenter.kuyun.cn:4441', '1', 'kuyun-ucenter-home', '用户管理系统', '用户管理系统', '4', '4');
-INSERT INTO `upms_system` VALUES ('5', 'zmdi zmdi-cloud', '/resources/kuyun-admin/images/kuyun-oss.png', '#0B8DE5', 'http://oss.kuyun.cn:7771', '1', 'kuyun-oss-web', '存储管理系统', '存储管理系统', '5', '5');
 
 -- ----------------------------
 -- Table structure for upms_user

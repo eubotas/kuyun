@@ -204,7 +204,7 @@
 	</select>
 
 
-	<select id="selectUsers" parameterType="com.kuyun.upms.dao.vo.UpmsUserCompanyVO" resultMap="com.kuyun.upms.dao.mapper.UpmsUserMapper.BaseResultMap">
+	<select id="selectUsersByUserCompany" parameterType="com.kuyun.upms.dao.vo.UpmsUserCompanyVO" resultMap="com.kuyun.upms.dao.mapper.UpmsUserMapper.BaseResultMap">
 		select DISTINCT uu.*
 		from upms_user uu
 		left join upms_user_company uuc on uu.user_id = uuc.user_id
@@ -218,6 +218,56 @@
 			AND uo.name = #{orgName}
 		</if>
 	</select>
+
+	<select id="selectUsers" parameterType="com.kuyun.upms.dao.vo.UpmsUserVo" resultMap="com.kuyun.upms.dao.mapper.UpmsUserMapper.BaseResultMap">
+		select uu.*
+		from upms_user uu
+		left join upms_user_company uuc on uu.user_id = uuc.user_id
+		WHERE 1 = 1
+		<if test="companyId != null and companyId != ''">
+			AND uuc.company_id = #{companyId}
+		</if>
+		<if test="searchName != null and searchName != ''">
+			AND (uu.username like '%#{searchName}%' OR uu.realname like '%#{searchName}%')
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+	<select id="countUsers" parameterType="com.kuyun.upms.dao.vo.UpmsUserVo" resultType="java.lang.Long">
+		select count(uu.user_id)
+		from upms_user uu
+		left join upms_user_company uuc on uu.user_id = uuc.user_id
+		WHERE 1 = 1
+		<if test="companyId != null and companyId != ''">
+			AND uuc.company_id = #{companyId}
+		</if>
+		<if test="searchName != null and searchName != ''">
+			AND (uu.username like '%#{searchName}%' OR uu.realname like '%#{searchName}%')
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+
 	<!-- 缓存 -->
 	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 

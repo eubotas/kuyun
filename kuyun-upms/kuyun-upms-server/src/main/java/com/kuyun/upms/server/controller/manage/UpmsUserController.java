@@ -13,6 +13,7 @@ import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.common.constant.UpmsResult;
 import com.kuyun.upms.common.constant.UpmsResultConstant;
 import com.kuyun.upms.dao.model.*;
+import com.kuyun.upms.dao.vo.UpmsUserVo;
 import com.kuyun.upms.rpc.api.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,7 +28,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * 用户controller
@@ -60,8 +64,9 @@ public class UpmsUserController extends BaseController {
 
     @Autowired
     private UpmsApiService upmsApiService;
+
     @Autowired
-    private BaseEntityUtil baseEntryUtil;
+    private BaseEntityUtil baseEntityUtil;
 
     @ApiOperation(value = "用户首页")
     @RequiresPermissions("upms:user:read")
@@ -200,20 +205,19 @@ public class UpmsUserController extends BaseController {
             @RequestParam(required = false, defaultValue = "", value = "search") String search,
             @RequestParam(required = false, value = "sort") String sort,
             @RequestParam(required = false, value = "order") String order) {
-        UpmsUserExample upmsUserExample = new UpmsUserExample();
-        upmsUserExample.setOffset(offset);
-        upmsUserExample.setLimit(limit);
+        UpmsUserVo userVo = new UpmsUserVo();
+        userVo.setOffset(offset);
+        userVo.setLimit(limit);
+
         if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
-            upmsUserExample.setOrderByClause(sort + " " + order);
+            userVo.setOrderByClause(sort + " " + order);
         }
         if (StringUtils.isNotBlank(search)) {
-            upmsUserExample.or()
-                    .andRealnameLike("%" + search + "%");
-            upmsUserExample.or()
-                    .andUsernameLike("%" + search + "%");
+            userVo.setSearchName(search);
         }
-        List<UpmsUser> rows = upmsUserService.selectByExample(upmsUserExample);
-        long total = upmsUserService.countByExample(upmsUserExample);
+
+        List<UpmsUserVo> rows = upmsApiService.selectUsers(userVo);
+        long total = upmsApiService.countUsers(userVo);
         Map<String, Object> result = new HashMap<>();
         result.put("rows", rows);
         result.put("total", total);
@@ -246,7 +250,10 @@ public class UpmsUserController extends BaseController {
         upmsUser.setSalt(salt);
         upmsUser.setPassword(MD5Util.md5(upmsUser.getPassword() + upmsUser.getSalt()));
         upmsUser.setCtime(time);
-        int count = upmsUserService.insertSelective(upmsUser);
+
+        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+
+        int count = upmsApiService.createUser(upmsUser, company);
 
         _log.info("新增用户，主键：userId={}", upmsUser.getUserId());
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
