@@ -67,7 +67,7 @@ public class EamAlarmRecordController extends BaseController {
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			recordVO.setOrderByClause(sort + " " + order);
 		}else {
-			recordVO.setOrderByClause("t.equipment_id, t.create_time desc");
+			recordVO.setOrderByClause("t.product_line_id, t.equipment_id, t.update_time desc");
 		}
 		if (startDate != null){
 			recordVO.setStartDate(startDate);
@@ -77,13 +77,13 @@ public class EamAlarmRecordController extends BaseController {
 		}
 		recordVO.setAlarmStatus(AlarmStatus.ANU.getCode());
 
-		List<String> equipmentIds = eamUtil.getEquipmentIds();
-		if (!equipmentIds.isEmpty()){
-			recordVO.setEquipmentIds(equipmentIds);
-		}else{
-			//current company have not equipment
-			recordVO.setEquipmentId("-1");
+		List<String> productLineIds = eamUtil.getProductLineIds();
+		if (!productLineIds.isEmpty()){
+			recordVO.setProductLineIds(productLineIds);
+		}else {
+			recordVO.setProductLineId("-1");
 		}
+
 		List<EamAlarmRecordVO> rows = eamApiService.selectAlarmRecords(recordVO);
 		Long total = eamApiService.countAlarmRecords(recordVO);
 		Map<String, Object> result = new HashMap<>();

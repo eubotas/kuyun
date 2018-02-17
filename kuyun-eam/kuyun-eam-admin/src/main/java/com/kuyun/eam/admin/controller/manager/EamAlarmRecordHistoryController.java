@@ -52,15 +52,12 @@ public class EamAlarmRecordHistoryController extends BaseController {
 			recordVO.setOrderByClause("t.create_time desc");
 		}
 
-		if (recordVO.getEquipmentIds() == null){
-			List<String> equipmentIds = eamUtil.getEquipmentIds();
-			if (!equipmentIds.isEmpty()){
-				recordVO.setEquipmentIds(equipmentIds);
+		List<String> productLineIds = eamUtil.getProductLineIds();
+		if (recordVO.getProductLineIds() == null){
+			if (!productLineIds.isEmpty()){
+				recordVO.setProductLineIds(productLineIds);
 			}else {
-				//current company have not equipment
-				if (StringUtils.isEmpty(recordVO.getEquipmentId())){
-					recordVO.setEquipmentId("-1");
-				}
+				recordVO.setProductLineId("-1");
 			}
 		}
 

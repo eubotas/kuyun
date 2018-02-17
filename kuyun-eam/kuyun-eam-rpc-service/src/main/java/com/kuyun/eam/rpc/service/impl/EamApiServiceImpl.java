@@ -12,14 +12,10 @@ import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.pojo.IDS;
 import com.kuyun.eam.pojo.sensor.SensorData;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
-import com.kuyun.eam.pojo.tree.CityData;
-import com.kuyun.eam.pojo.tree.Device;
-import com.kuyun.eam.pojo.tree.ProvinceData;
-import com.kuyun.eam.pojo.tree.Tree;
+import com.kuyun.eam.pojo.tree.*;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.rpc.mapper.EamApiMapper;
 import com.kuyun.eam.util.AreaUtil;
-import com.kuyun.eam.util.ProtocolEnum;
 import com.kuyun.eam.vo.*;
 import com.kuyun.grm.rpc.api.GrmApiService;
 import com.kuyun.modbus.rpc.api.ModbusSlaveRtuApiService;
@@ -116,6 +112,12 @@ public class EamApiServiceImpl implements EamApiService {
     @Autowired
     private EamEquipmentDataGroupElemetsService eamEquipmentDataGroupElemetsService;
 
+    @Autowired
+    private EamProductLineDataElementService eamProductLineDataElementService;
+
+    @Autowired
+    private EamDataElementService eamDataElementService;
+
     @Override
     public List<EamMaintenanceVO> selectMaintenance(EamMaintenanceVO maintenanceVO) {
 
@@ -183,49 +185,63 @@ public class EamApiServiceImpl implements EamApiService {
     @Override
     public Tree getCityTree(UpmsUserCompany company) {
         Tree tree = new Tree();
-//        List<EamEquipmentVO> allEquipments = getEquipments(company);
-//
-//        Map<String, List<EamEquipment>> groupByProvinceMap =
-//                allEquipments.stream().filter(equipment -> equipment.getProvince() != null).collect(Collectors.groupingBy(EamEquipment::getProvince));
-//
-//        for (Map.Entry<String, List<EamEquipment>> entry : groupByProvinceMap.entrySet()) {
-//            ProvinceData provinceData = buildProvinceData(entry);
-//            tree.addProvice(provinceData);
-//
-//            Map<String, List<EamEquipment>> groupByCityMap =
-//                    entry.getValue().stream().collect(Collectors.groupingBy(EamEquipment::getCity));
-//
-//            for (Map.Entry<String, List<EamEquipment>> cityEntry : groupByCityMap.entrySet()) {
-//                CityData cityData = buildCityData(cityEntry);
-//                provinceData.addChildren(cityData);
-//
-//                for (EamEquipment equipment : cityEntry.getValue()) {
-//                    Device device = buildDevice(equipment);
-//                    cityData.addChildren(device);
-//                }
-//
-//            }
-//        }
+        List<EamProductLineVO> productLines = getProductLines(company);
+
+        Map<String, List<EamProductLine>> groupByProvinceMap =
+                productLines.stream().filter(productLine -> productLine.getProvince() != null).collect(Collectors.groupingBy(EamProductLine::getProvince));
+
+        for (Map.Entry<String, List<EamProductLine>> entry : groupByProvinceMap.entrySet()) {
+            ProvinceData provinceData = buildProvinceData(entry);
+            tree.addProvice(provinceData);
+
+            Map<String, List<EamProductLine>> groupByCityMap =
+                    entry.getValue().stream().collect(Collectors.groupingBy(EamProductLine::getCity));
+
+            for (Map.Entry<String, List<EamProductLine>> cityEntry : groupByCityMap.entrySet()) {
+                CityData cityData = buildCityData(cityEntry);
+                provinceData.addChildren(cityData);
+
+                for (EamProductLine productLine : cityEntry.getValue()) {
+                    ProductLine p = buildProductLine(productLine);
+                    cityData.addChildren(p);
+                }
+
+            }
+        }
         return tree;
+    }
+
+    private ProductLine buildProductLine(EamProductLine productLine){
+        ProductLine result = new ProductLine();
+        result.setId(productLine.getProductLineId());
+        result.setName(productLine.getName());
+
+        List<EamEquipmentVO> equipments = getEquipments(result);
+        for(EamEquipmentVO equipmentVO : equipments){
+            Device device = buildDevice(equipmentVO);
+            result.addChildren(device);
+        }
+        return result;
     }
 
     private Device buildDevice(EamEquipment equipment) {
         Device device = new Device();
+        device.setProductLineId(equipment.getProductLineId());
         device.setId(equipment.getEquipmentId());
         device.setName(equipment.getName());
         return device;
     }
 
-    private CityData buildCityData(Map.Entry<String, List<EamEquipment>> entry) {
-        List<EamEquipment> equipments = entry.getValue();
-        int total = equipments.size();
-        long online = equipments.stream().filter(equipment -> equipment.getIsOnline() != null)
-                .filter(equipment -> equipment.getIsOnline()).count();
+    private CityData buildCityData(Map.Entry<String, List<EamProductLine>> entry) {
+        List<EamProductLine> productLines = entry.getValue();
+        int total = productLines.size();
+        long online = productLines.stream().filter(productLine -> productLine.getIsOnline() != null)
+                .filter(productLine -> productLine.getIsOnline()).count();
         String city = entry.getKey();
         String name = getCityName(city);
 
-        BigDecimal latitude = getLatitude(equipments);
-        BigDecimal longitude = getLongitude(equipments);
+        BigDecimal latitude = getLatitude(productLines);
+        BigDecimal longitude = getLongitude(productLines);
 
         CityData cityData = new CityData();
         cityData.setTotal(total);
@@ -237,18 +253,18 @@ public class EamApiServiceImpl implements EamApiService {
         return cityData;
     }
 
-    private BigDecimal getLongitude(List<EamEquipment> equipments) {
+    private BigDecimal getLongitude(List<EamProductLine> productLines) {
         BigDecimal result = null;
-        if (!equipments.isEmpty()) {
-            //result = equipments.get(0).getLongitude();
+        if (!productLines.isEmpty()) {
+            result = productLines.get(0).getLongitude();
         }
         return result;
     }
 
-    private BigDecimal getLatitude(List<EamEquipment> equipments) {
+    private BigDecimal getLatitude(List<EamProductLine> productLines) {
         BigDecimal result = null;
-        if (!equipments.isEmpty()) {
-            //result = equipments.get(0).getLatitude();
+        if (!productLines.isEmpty()) {
+            result = productLines.get(0).getLatitude();
         }
         return result;
     }
@@ -261,12 +277,12 @@ public class EamApiServiceImpl implements EamApiService {
         return areaUtil.getName(province);
     }
 
-    private ProvinceData buildProvinceData(Map.Entry<String, List<EamEquipment>> entry) {
+    private ProvinceData buildProvinceData(Map.Entry<String, List<EamProductLine>> entry) {
         String province = entry.getKey();
-        List<EamEquipment> equipments = entry.getValue();
-        int total = equipments.size();
-        long online = equipments.stream().filter(equipment -> equipment.getIsOnline() != null)
-                .filter(equipment -> equipment.getIsOnline()).count();
+        List<EamProductLine> productLines = entry.getValue();
+        int total = productLines.size();
+        long online = productLines.stream().filter(productLine -> productLine.getIsOnline() != null)
+                .filter(productLine -> productLine.getIsOnline()).count();
         String name = getProvinceName(province);
 
         ProvinceData provinceData = new ProvinceData();
@@ -284,6 +300,24 @@ public class EamApiServiceImpl implements EamApiService {
         equipmentVO.setCompanyId(company.getCompanyId());
         equipmentVO.setOrderByClause("province, city asc");
         return selectEquipments(equipmentVO);
+    }
+
+    private List<EamEquipmentVO> getEquipments(ProductLine productLine) {
+        EamEquipmentVO equipmentVO = new EamEquipmentVO();
+        equipmentVO.setDeleteFlag(Boolean.FALSE);
+        equipmentVO.setProductLineId(productLine.getId());
+        equipmentVO.setOrderByClause("create_time asc");
+        return selectEquipments(equipmentVO);
+    }
+
+    private List<EamProductLineVO> getProductLines(UpmsUserCompany company){
+        EamProductLineVO productLineVO = new EamProductLineVO();
+        productLineVO.setDeleteFlag(Boolean.FALSE);
+        productLineVO.setCompanyId(company.getCompanyId());
+        productLineVO.setOrderByClause("province, city asc");
+
+        return selectProductLines(productLineVO);
+
     }
 
     @Override
@@ -483,34 +517,38 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     @Override
-    public void handleAlarm(EamSensorData sensorData) {
-        EamAlarm alarm = eamApiMapper.selectAlarm(sensorData);
-        if (alarm != null) {
-            AbstractAlarmHandler alarmHandler = alarmTypeFactory.buildAlarmHandler(alarm);
-            if (alarmHandler != null){
-                alarmHandler.process(sensorData, alarm);
+    public void handleAlarm(EamGrmVariableData variableData) {
+        List<EamAlarm> alarms = eamApiMapper.selectAlarmsByGrmVariable(variableData);
+        if (alarms != null) {
+            for(EamAlarm alarm : alarms){
+                AbstractAlarmHandler alarmHandler = alarmTypeFactory.buildAlarmHandler(alarm);
+                if (alarmHandler != null){
+                    alarmHandler.process(variableData, alarm);
+                }
             }
         }
     }
 
     @Override
-    public void handleAlarmOffline(String deviceId){
-        EamAlarm alarm = getOfflineAlarmType(deviceId);
+    public void handleAlarmOffline(String productLineId){
+        EamAlarm alarm = getOfflineAlarmType(productLineId);
         if (alarm != null){
-            EamSensorData sensorData = new EamSensorData();
-            sensorData.setEquipmentId(deviceId);
+            EamGrmVariableData variableData = new EamGrmVariableData();
+            variableData.setProductLineId(productLineId);
 
-            offlineHandler.createAlarmRecord(sensorData, alarm);
-            offlineHandler.sendAlarmMessage(sensorData, alarm, false);
+            offlineHandler.createAlarmRecord(variableData, alarm);
+            offlineHandler.sendAlarmMessage(variableData, alarm, false);
         }
     }
 
-    private EamAlarm getOfflineAlarmType(String deviceId){
+    private EamAlarm getOfflineAlarmType(String productLineId){
         EamAlarm result = null;
-        List<EamAlarm> alarms = null;
-        //List<EamAlarm> alarms = eamApiMapper.selectAlarms(deviceId);
+        EamAlarmVO vo = new EamAlarmVO();
+        vo.setProductLineId(productLineId);
+
+        List<EamAlarmVO> alarms = eamApiMapper.selectAlarms(vo);
         if (alarms != null && !alarms.isEmpty()){
-            Optional<EamAlarm> optional = alarms.stream()
+            Optional<EamAlarmVO> optional = alarms.stream()
                     .filter(eamAlarm -> AlarmType.OFFLINE.match(eamAlarm.getAlarmType())).findFirst();
 
             if (optional.isPresent()){
@@ -577,17 +615,14 @@ public class EamApiServiceImpl implements EamApiService {
         EamSensorData sensorData = handleSensorData(deviceId, sensorId, data);
         handleSensorDataHistory(deviceId, sensorId, data);
 
-        handleAlarm(sensorData);
+        //handleAlarm(sensorData);
     }
 
     @Override
     public void processData(List<Pair<EamGrmVariable, String>> pairs) {
         for (Pair<EamGrmVariable, String> pair : pairs){
-            handleGrmVariableData(pair);
-
-
-            //TODO: handleAlarm(variableData);
-
+            EamGrmVariableData variableData =  handleGrmVariableData(pair);
+            handleAlarm(variableData);
         }
         handleGrmVariableDataHistory(pairs);
     }
@@ -608,8 +643,28 @@ public class EamApiServiceImpl implements EamApiService {
         String value = pair.getValue();
 
         EamGrmVariableDataExample example = new EamGrmVariableDataExample();
-//        example.createCriteria().andGrmVariableIdEqualTo(variable.getId())
-//                .andDeleteFlagEqualTo(Boolean.FALSE);
+        EamGrmVariableDataExample.Criteria criteria = example.createCriteria();
+        criteria.andProductLineIdEqualTo(variable.getProductLineId());
+        criteria.andDataElementIdEqualTo(variable.getDataElementId());
+        criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+
+        if (variable.getEquipmentId() == null){
+            criteria.andEquipmentIdIsNull();
+        }else {
+            criteria.andEquipmentIdEqualTo(variable.getEquipmentId());
+        }
+
+        if (variable.getDataGroupId() == null){
+            criteria.andDataGroupIdIsNull();
+        }else {
+            criteria.andDataGroupIdEqualTo(variable.getDataGroupId());
+        }
+
+        if (variable.getEquipmentDataGroupId() == null){
+            criteria.andEquipmentDataGroupIdIsNull();
+        }else {
+            criteria.andEquipmentDataGroupIdEqualTo(variable.getEquipmentDataGroupId());
+        }
 
         EamGrmVariableData variableData = eamGrmVariableDataService.selectFirstByExample(example);
         if (variableData == null){
@@ -630,7 +685,9 @@ public class EamApiServiceImpl implements EamApiService {
         EamGrmVariableData result = new EamGrmVariableData();
         result.setEquipmentId(variable.getEquipmentId());
         result.setProductLineId(variable.getProductLineId());
-        //result.setGrmVariableId(variable.getId());
+        result.setDataGroupId(variable.getDataGroupId());
+        result.setEquipmentDataGroupId(variable.getEquipmentDataGroupId());
+        result.setDataElementId(variable.getDataElementId());
         result.setValue(value);
         Date now = new Date();
         result.setCreateTime(now);
@@ -643,7 +700,9 @@ public class EamApiServiceImpl implements EamApiService {
         EamGrmVariableDataHistory result = new EamGrmVariableDataHistory();
         result.setEquipmentId(pair.getKey().getEquipmentId());
         result.setProductLineId(pair.getKey().getProductLineId());
-        //result.setGrmVariableId(pair.getKey().getId());
+        result.setDataGroupId(pair.getKey().getDataGroupId());
+        result.setEquipmentDataGroupId(pair.getKey().getEquipmentDataGroupId());
+        result.setDataElementId(pair.getKey().getDataElementId());
         result.setValue(pair.getValue());
         Date now = new Date();
         result.setCreateTime(now);
@@ -682,7 +741,7 @@ public class EamApiServiceImpl implements EamApiService {
     @Override
     public List<EamGrmVariable> getGrmVariables(String productLineId) {
         List<EamGrmVariable> result = new ArrayList<>();
-        //1. get Product Line variable
+        //1. get Product Line variables
         EamGrmVariableExample example = new EamGrmVariableExample();
         example.createCriteria().andProductLineIdEqualTo(productLineId).andDeleteFlagEqualTo(Boolean.FALSE);
         List<EamGrmVariable> variables = eamGrmVariableService.selectByExample(example);
@@ -690,21 +749,6 @@ public class EamApiServiceImpl implements EamApiService {
             result.addAll(variables);
         }
 
-
-        //2. get Equipment variable
-        EamEquipmentExample equipmentExample = new EamEquipmentExample();
-        equipmentExample.createCriteria().andProductLineIdEqualTo(productLineId).andDeleteFlagEqualTo(Boolean.FALSE);
-        List<EamEquipment> eamEquipments = eamEquipmentService.selectByExample(equipmentExample);
-        if (eamEquipments != null && !eamEquipments.isEmpty()){
-            List<String> equipmentIds = eamEquipments.stream().map(x -> x.getEquipmentId()).collect(Collectors.toList());
-            example = new EamGrmVariableExample();
-            example.createCriteria().andEquipmentIdIn(equipmentIds).andDeleteFlagEqualTo(Boolean.FALSE);
-            variables = eamGrmVariableService.selectByExample(example);
-            if (variables != null && !variables.isEmpty()){
-                result.addAll(variables);
-            }
-
-        }
         return result;
     }
 
@@ -781,7 +825,15 @@ public class EamApiServiceImpl implements EamApiService {
             for(EamAlarm alarm : alarms){
                 alarm.setAlarmTarget(alarmTarget);
                 eamAlarmService.updateByPrimaryKeySelective(alarm);
-                eamAlarmTargetUserService.deleteByPrimaryKey(alarm.getAlarmId());
+
+                //delete existing data
+                EamAlarmTargetUserExample targetUserExample = new EamAlarmTargetUserExample();
+                targetUserExample.createCriteria().andAlarmIdEqualTo(alarm.getAlarmId())
+                        .andDeleteFlagEqualTo(Boolean.FALSE);
+
+                eamAlarmTargetUserService.deleteByExample(targetUserExample);
+
+                //create new data
                 List<EamAlarmTargetUser> targetUsers = createEamAlarmTargetUsers(targetUserIds, alarm);
                 eamAlarmTargetUserService.batchInsert(targetUsers);
             }
@@ -893,4 +945,185 @@ public class EamApiServiceImpl implements EamApiService {
         productLineCompany.setProductLineId(eamProductLine.getProductLineId());
         return eamProductLineCompanyService.insertSelective(productLineCompany);
     }
+
+    @Override
+    public int handleProductLineDataElements(String productLineId, String dataElementIds){
+        List<EamProductLineDataElement> vos = buildProductLineDataElements(productLineId, dataElementIds);
+
+        if (!vos.isEmpty()){
+            //remove already exist data
+            EamProductLineDataElementExample example = new EamProductLineDataElementExample();
+            example.createCriteria().andProductLineIdEqualTo(productLineId);
+            eamProductLineDataElementService.deleteByExample(example);
+
+            //add new
+            eamProductLineDataElementService.batchInsert(vos);
+
+            //remove
+            EamGrmVariableExample grmVariableExample = new EamGrmVariableExample();
+            grmVariableExample.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE)
+                    .andProductLineIdEqualTo(productLineId)
+                    .andEquipmentIdIsNull()
+                    .andDataGroupIdIsNull()
+                    .andEquipmentDataGroupIdIsNull();
+            eamGrmVariableService.deleteByExample(grmVariableExample);
+
+
+            List<EamGrmVariable> variables = buildGrmVariables(productLineId, dataElementIds);
+            eamGrmVariableService.batchInsert(variables);
+
+            return 1;
+
+        }
+
+        return 0;
+    }
+
+    @Override
+    public int handleEamEquipmentDataGroupElemets(String equipmentId, String dataGroupId, String equipmentDataGroupId, String ids) {
+        EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(equipmentId);
+        if (equipment != null){
+            //Remove all
+            EamEquipmentDataGroupElemetsExample example = new EamEquipmentDataGroupElemetsExample();
+            example.createCriteria().andEquipmentIdEqualTo(equipmentId)
+                    .andDataGroupIdEqualTo(Integer.valueOf(dataGroupId))
+                    .andEquipmentDataGroupIdEqualTo(Integer.valueOf(equipmentDataGroupId))
+                    .andDeleteFlagEqualTo(Boolean.FALSE);
+            eamEquipmentDataGroupElemetsService.deleteByExample(example);
+
+            //Add new
+            List<EamEquipmentDataGroupElemets> elements = buildEamEquipmentDataGroupElements(equipmentId, dataGroupId, equipmentDataGroupId, ids);
+
+            eamEquipmentDataGroupElemetsService.batchInsert(elements);
+
+
+            //remove
+            EamGrmVariableExample grmVariableExample = new EamGrmVariableExample();
+            grmVariableExample.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE)
+                    .andProductLineIdEqualTo(equipment.getProductLineId())
+                    .andEquipmentIdEqualTo(equipmentId)
+                    .andDataGroupIdEqualTo(Integer.valueOf(dataGroupId))
+                    .andEquipmentDataGroupIdEqualTo(Integer.valueOf(equipmentDataGroupId));
+            eamGrmVariableService.deleteByExample(grmVariableExample);
+
+            List<EamGrmVariable> variables = buildGrmVariables(equipment.getProductLineId(), equipmentId, dataGroupId, equipmentDataGroupId, ids);
+            eamGrmVariableService.batchInsert(variables);
+        }
+
+        return 0;
+    }
+
+    @Override
+    public List<EamGrmVariableDataVO> selectEamGrmVariableData(EamGrmVariableDataVO eamGrmVariableDataVO) {
+        return eamApiMapper.selectEamGrmVariableData(eamGrmVariableDataVO);
+    }
+
+    @Override
+    public List<EamGrmVariableDataHistoryVO> selectEamGrmVariableDataHistories(EamGrmVariableDataHistoryVO eamGrmVariableDataHistoryVO) {
+        return eamApiMapper.selectEamGrmVariableDataHistories(eamGrmVariableDataHistoryVO);
+    }
+
+
+    private List<EamEquipmentDataGroupElemets> buildEamEquipmentDataGroupElements(String equipmentId, String dataGroupId, String equipmentDataGroupId, String ids) {
+        List<EamEquipmentDataGroupElemets> elements = new ArrayList<>();
+        String [] idsArray = ids.split("::");
+
+        for (String id : idsArray){
+            EamEquipmentDataGroupElemets element = new EamEquipmentDataGroupElemets();
+            element.setDataGroupId(Integer.valueOf(dataGroupId));
+            element.setEquipmentDataGroupId(Integer.valueOf(equipmentDataGroupId));
+            element.setEquipmentId(equipmentId);
+            element.setDataElementId(Integer.valueOf(id));
+            element.setDeleteFlag(Boolean.FALSE);
+            element.setCreateTime(new Date());
+            element.setUpdateTime(new Date());
+            elements.add(element);
+        }
+
+        return elements;
+    }
+
+
+
+    private List<EamProductLineDataElement> buildProductLineDataElements(String productLineId, String ids){
+        List<EamProductLineDataElement> result = new ArrayList<>();
+        String [] idsArray = ids.split("::");
+
+        for (String id : idsArray){
+            EamProductLineDataElement element = new EamProductLineDataElement();
+            element.setProductLineId(productLineId);
+            element.setEamDataElementId(Integer.valueOf(id));
+            element.setDeleteFlag(Boolean.FALSE);
+            element.setCreateTime(new Date());
+            element.setUpdateTime(new Date());
+            result.add(element);
+        }
+
+        return result;
+    }
+
+    private List<EamDataElement> getDataElements(String dataElementIds){
+        List<EamDataElement> result = new ArrayList<>();
+        String [] idsArray = dataElementIds.split("::");
+        List<Integer> ids = coverToInteger(idsArray);
+
+        if (!ids.isEmpty()){
+            EamDataElementExample example = new EamDataElementExample();
+            example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE).andIdIn(ids);
+
+            result = eamDataElementService.selectByExample(example);
+        }
+        return result;
+    }
+
+
+    private List<Integer> coverToInteger(String[] ids){
+        List<Integer> result = new ArrayList<>();
+
+        for(String id : ids){
+            result.add(Integer.valueOf(id));
+        }
+
+        return result;
+    }
+
+    private List<EamGrmVariable> buildGrmVariables(String productLineId, String dataElementIds){
+        List<EamGrmVariable> result = new ArrayList<>();
+        List<EamDataElement> dataElements = getDataElements(dataElementIds);
+
+        for (EamDataElement element : dataElements){
+            EamGrmVariable variable = new EamGrmVariable();
+            variable.setProductLineId(productLineId);
+            variable.setDataElementId(element.getId());
+            variable.setName(element.getName());
+            variable.setDeleteFlag(Boolean.FALSE);
+            variable.setCreateTime(new Date());
+            variable.setUpdateTime(new Date());
+            result.add(variable);
+        }
+
+        return result;
+    }
+
+    private List<EamGrmVariable> buildGrmVariables(String productLineId, String equipmentId, String dataGroupId, String equipmentDataGroupId, String dataElementIds){
+        List<EamGrmVariable> result = new ArrayList<>();
+        List<EamDataElement> dataElements = getDataElements(dataElementIds);
+
+        for (EamDataElement element : dataElements){
+            EamGrmVariable variable = new EamGrmVariable();
+            variable.setProductLineId(productLineId);
+            variable.setEquipmentId(equipmentId);
+            variable.setDataGroupId(Integer.valueOf(dataGroupId));
+            variable.setEquipmentDataGroupId(Integer.valueOf(equipmentDataGroupId));
+            variable.setDataElementId(element.getId());
+            variable.setName(element.getName());
+            variable.setDeleteFlag(Boolean.FALSE);
+            variable.setCreateTime(new Date());
+            variable.setUpdateTime(new Date());
+            result.add(variable);
+        }
+
+        return result;
+    }
+
 }

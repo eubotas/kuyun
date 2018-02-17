@@ -43,7 +43,7 @@ public interface EamApiService {
 
     Integer updateAlarm(String targetUserId, EamAlarm alarm);
 
-    void handleAlarm(EamSensorData sensorData);
+    void handleAlarm(EamGrmVariableData variableData);
 
     void handleAlarmOffline(String deviceId);
 
@@ -96,4 +96,13 @@ public interface EamApiService {
     int createAlarms(String productLineId, String ids);
 
     int updateAlarm(String ids, String alarmTarget, String[] targetUserId);
+
+    int handleProductLineDataElements(String productLineId, String dataElementIds);
+
+    int handleEamEquipmentDataGroupElemets(String equipmentId, String dataGroupId, String equipmentDataGroupId, String ids);
+
+    List<EamGrmVariableDataVO> selectEamGrmVariableData(EamGrmVariableDataVO eamGrmVariableDataVO);
+
+    List<EamGrmVariableDataHistoryVO> selectEamGrmVariableDataHistories(EamGrmVariableDataHistoryVO eamGrmVariableDataHistoryVO);
+
 }

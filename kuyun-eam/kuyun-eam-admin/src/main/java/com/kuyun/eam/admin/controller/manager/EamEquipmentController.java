@@ -10,7 +10,6 @@ import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.pojo.IDS;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
-import com.kuyun.eam.pojo.tree.Tree;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.vo.EamEquipmentModelPropertiesVO;
 import com.kuyun.eam.vo.EamEquipmentVO;
@@ -232,14 +231,7 @@ public class EamEquipmentController extends BaseController {
 	}
 
 
-	@ApiOperation(value = "CityTree")
-	@RequiresPermissions("eam:equipment:read")
-	@RequestMapping(value = "/city/tree", method = RequestMethod.GET)
-	@ResponseBody
-	public Object getCityTree() {
-		Tree tree = eamApiService.getCityTree(baseEntityUtil.getCurrentUserCompany());
-		return new EamResult(SUCCESS, tree);
-	}
+
 
 	@ApiOperation(value = "设备当前采集数据")
 	@RequiresPermissions("eam:equipment:read")

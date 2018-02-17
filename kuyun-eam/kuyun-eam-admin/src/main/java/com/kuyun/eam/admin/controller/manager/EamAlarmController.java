@@ -158,7 +158,7 @@ public class EamAlarmController extends BaseController {
 
 
 	@ApiOperation(value = "修改报警设置")
-	@RequiresPermissions("eam:dataElement:update")
+	@RequiresPermissions("eam:alarm:update")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
 	public String update(@PathVariable("id") int id, ModelMap modelMap) {
 		EamDataElementExample example = new EamDataElementExample();

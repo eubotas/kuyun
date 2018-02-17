@@ -6,10 +6,13 @@ import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.common.constant.EamResult;
-import com.kuyun.eam.dao.model.*;
+import com.kuyun.eam.dao.model.EamProductLine;
+import com.kuyun.eam.dao.model.EamProductLineCompany;
+import com.kuyun.eam.dao.model.EamProductLineDataElement;
+import com.kuyun.eam.dao.model.EamProductLineDataElementExample;
+import com.kuyun.eam.pojo.tree.Tree;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.vo.EamDataElementVO;
-import com.kuyun.eam.vo.EamGrmVariableVO;
 import com.kuyun.eam.vo.EamProductLineVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.common.constant.UpmsResult;
@@ -26,7 +29,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -224,34 +226,18 @@ public class EamProductLineController extends BaseController {
 	@ResponseBody
 	public Object dataElementConfirm(String productLineId, String ids, ModelMap modelMap) {
 
-		List<EamProductLineDataElement> vos = buildProductLineDataElements(productLineId, ids);
+		int result = eamApiService.handleProductLineDataElements(productLineId, ids);
 
-		if (!vos.isEmpty()){
-			//remove already exist data
-			EamProductLineDataElementExample example = new EamProductLineDataElementExample();
-			example.createCriteria().andProductLineIdEqualTo(productLineId);
-			eamProductLineDataElementService.deleteByExample(example);
-
-			//add new
-			eamProductLineDataElementService.batchInsert(vos);
-		}
-
-		return new UpmsResult(UpmsResultConstant.SUCCESS, 1);
+		return new UpmsResult(UpmsResultConstant.SUCCESS, result);
 	}
 
-	private List<EamProductLineDataElement> buildProductLineDataElements(String productLineId, String ids){
-		List<EamProductLineDataElement> result = new ArrayList<>();
-		String [] idsArray = ids.split("::");
 
-		for (String id : idsArray){
-			EamProductLineDataElement element = new EamProductLineDataElement();
-			element.setProductLineId(productLineId);
-			element.setEamDataElementId(Integer.valueOf(id));
-			baseEntityUtil.addAddtionalValue(element);
-			result.add(element);
-		}
-
-		return result;
+	@ApiOperation(value = "CityTree")
+	@RequiresPermissions("eam:equipment:read")
+	@RequestMapping(value = "/city/tree", method = RequestMethod.GET)
+	@ResponseBody
+	public Object getCityTree() {
+		Tree tree = eamApiService.getCityTree(baseEntityUtil.getCurrentUserCompany());
+		return new EamResult(SUCCESS, tree);
 	}
-
 }

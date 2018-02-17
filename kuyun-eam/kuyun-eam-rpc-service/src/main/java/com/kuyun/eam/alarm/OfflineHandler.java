@@ -1,10 +1,7 @@
 package com.kuyun.eam.alarm;
 
 import com.kuyun.eam.common.constant.AlarmType;
-import com.kuyun.eam.dao.model.EamAlarm;
-import com.kuyun.eam.dao.model.EamEquipment;
-import com.kuyun.eam.dao.model.EamEquipmentModelProperties;
-import com.kuyun.eam.dao.model.EamSensorData;
+import com.kuyun.eam.dao.model.*;
 import net.sf.json.JSONArray;
 
 /**
@@ -12,62 +9,73 @@ import net.sf.json.JSONArray;
  */
 public class OfflineHandler extends AbstractAlarmHandler {
     @Override
-    protected String buildEmailMessage(EamSensorData sensorData, EamAlarm alarm, boolean isClearMessage) {
+    protected String buildEmailMessage(EamGrmVariableData variableData, EamAlarm alarm, boolean isClearMessage) {
+
+        EamProductLine productLine = getProductLine(variableData);
+        EamEquipment equipment = getEquipment(variableData);
+        EamDataElement dataElement = getEamDataElement(variableData);
 
         StringBuilder stringBuilder = new StringBuilder();
-        EamEquipment equipment = getEquipment(sensorData);
-        EamEquipmentModelProperties eamEquipmentModelProperties = getEamEquipmentModelProperties(alarm);
-        stringBuilder.append("报警内容：");
-        stringBuilder.append(equipment.getName());
-        stringBuilder.append("(");
-        stringBuilder.append(equipment.getNumber());
-        stringBuilder.append(")  ");
-        stringBuilder.append(eamEquipmentModelProperties.getName() + "  ");
-        stringBuilder.append(buildAlarmMessage(sensorData, alarm) + "<br/>");
+        stringBuilder.append("报警产线：");
+        stringBuilder.append(productLine.getName() + "<br/>");
 
-        stringBuilder.append("报警时间：");
+        if (equipment != null){
+            stringBuilder.append("报警设备：");
+            stringBuilder.append(equipment.getName());
+            stringBuilder.append("(");
+            stringBuilder.append(equipment.getNumber());
+            stringBuilder.append(")  ");
+        }
+
+        stringBuilder.append(dataElement.getLableName() + "  ");
+        stringBuilder.append(buildAlarmMessage(variableData, alarm) + "<br/>");
+
+        String content = isClearMessage ? "清除时间: " : "报警时间：";
+        stringBuilder.append(content);
 
         stringBuilder.append(getCurrentTimeStamp());
 
         return stringBuilder.toString();
     }
 
-    protected String buildSmsMessage(EamSensorData sensorData, EamAlarm alarm, boolean isClearMessage) {
+    @Override
+    protected String buildSmsMessage(EamGrmVariableData variableData, EamAlarm alarm, boolean isClearMessage) {
 
-        EamEquipment equipment = getEquipment(sensorData);
-        EamEquipmentModelProperties eamEquipmentModelProperties = getEamEquipmentModelProperties(alarm);
+        EamProductLine productLine = getProductLine(variableData);
+        EamEquipment equipment = getEquipment(variableData);
+        EamDataElement dataElement = getEamDataElement(variableData);
 
-        JSONArray msg = new JSONArray();
+
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(equipment.getName());
-        stringBuilder.append("(");
-        stringBuilder.append(equipment.getNumber());
-        stringBuilder.append(")  ");
-        msg.add(stringBuilder.toString());
+        stringBuilder.append("报警产线：");
+        stringBuilder.append(productLine.getName() + "\n");
 
-        stringBuilder = new StringBuilder();
-        stringBuilder.append(eamEquipmentModelProperties.getName() + "  ");
-        stringBuilder.append(buildAlarmMessage(sensorData, alarm));
-        msg.add(stringBuilder.toString());
+        if (equipment != null){
+            stringBuilder.append("报警设备：");
+            stringBuilder.append(equipment.getName());
+            stringBuilder.append("(");
+            stringBuilder.append(equipment.getNumber());
+            stringBuilder.append(")  \n");
+        }
 
-        stringBuilder = new StringBuilder();
-        stringBuilder.append(" ");
-        msg.add(stringBuilder.toString());
+        stringBuilder.append("触发条件：");
+        stringBuilder.append(dataElement.getLableName() + "  ");
+        stringBuilder.append(buildAlarmMessage(variableData, alarm));
 
-        stringBuilder = new StringBuilder();
+        String content = isClearMessage ? "\n报警清除时间：" : "\n报警时间：";
+        stringBuilder.append(content);
         stringBuilder.append(getCurrentTimeStamp());
-        msg.add(stringBuilder.toString());
 
-        return msg.toString();
+        return stringBuilder.toString();
     }
 
     @Override
-    protected String buildAlarmMessage(EamSensorData sensorData, EamAlarm alarm) {
+    protected String buildAlarmMessage(EamGrmVariableData variableData, EamAlarm alarm) {
         return AlarmType.OFFLINE.getName();
     }
 
     @Override
-    protected boolean metAlarmCondition(EamSensorData sensorData, EamAlarm alarm) {
+    protected boolean metAlarmCondition(EamGrmVariableData variableData, EamAlarm alarm) {
         return false;
     }
 }

@@ -2,7 +2,7 @@ package com.kuyun.eam.alarm;
 
 import com.kuyun.eam.common.constant.AlarmType;
 import com.kuyun.eam.dao.model.EamAlarm;
-import com.kuyun.eam.dao.model.EamSensorData;
+import com.kuyun.eam.dao.model.EamGrmVariableData;
 
 import java.math.BigDecimal;
 
@@ -11,15 +11,15 @@ import java.math.BigDecimal;
  */
 public class ValAboveHandler extends AbstractAlarmHandler {
     @Override
-    protected String buildAlarmMessage(EamSensorData sensorData, EamAlarm alarm) {
+    protected String buildAlarmMessage(EamGrmVariableData variableData, EamAlarm alarm) {
         return AlarmType.VAL_ABOVE.getName().replace("X", String.valueOf(alarm.getUpperBound()));
     }
 
     @Override
-    protected boolean metAlarmCondition(EamSensorData sensorData, EamAlarm alarm) {
+    protected boolean metAlarmCondition(EamGrmVariableData variableData, EamAlarm alarm) {
         boolean result = false;
         BigDecimal x = alarm.getUpperBound();
-        BigDecimal value = covertToBigDecimal(sensorData.getStringValue());
+        BigDecimal value = covertToBigDecimal(variableData.getValue());
         // value great than X
         if (value != null) {
             if (value.compareTo(x) == 1) {

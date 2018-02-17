@@ -7,6 +7,7 @@ import java.io.Serializable;
  */
 public class Device implements Serializable {
     private String id;
+    private String productLineId;
     private String name;
 
     public String getId() {
@@ -15,6 +16,14 @@ public class Device implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getProductLineId() {
+        return productLineId;
+    }
+
+    public void setProductLineId(String productLineId) {
+        this.productLineId = productLineId;
     }
 
     public String getName() {

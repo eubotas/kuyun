@@ -296,33 +296,28 @@
 		</if>
 	</select>
 
-	<select id="selectAlarm" parameterType="com.kuyun.eam.dao.model.EamSensorData" resultMap="com.kuyun.eam.dao.mapper.EamAlarmMapper.BaseResultMap">
+	<select id="selectAlarmsByGrmVariable" parameterType="com.kuyun.eam.dao.model.EamGrmVariableData" resultMap="com.kuyun.eam.dao.mapper.EamAlarmMapper.BaseResultMap">
 		select
-		a.alarm_id, a.alarm_type, a.upper_Bound, a.lower_Bound, a.duration, a.alarm_target, a.equipment_model_property_id,
-		a.create_user_id, a.create_time, a.update_user_id, a.update_time, a.delete_flag, a.company_id
-		from eam_alarm a, eam_sensor s
-		WHERE s.equipment_model_property_id = a.equipment_model_property_id
-		AND a.delete_flag = 0 AND s.delete_flag = 0
-		<if test="sensorId != null and sensorId != ''">
-			AND s.sensor_id = #{sensorId}
+		<include refid="com.kuyun.eam.dao.mapper.EamAlarmMapper.Base_Column_List" />
+		from eam_alarm, eam_grm_variable_data s
+		WHERE s.product_line_id = eam_alarm.product_line_id
+		AND s.equipment_id = eam_alarm.equipment_id
+		AND s.data_element_id = eam_alarm.eam_data_element_id
+		AND eam_alarm.delete_flag = 0 AND s.delete_flag = 0
+		<if test="equipmentId != null and equipmentId != ''">
+			AND s.equipment_id = #{equipmentId}
+		</if>
+		<if test="productLineId != null and productLineId != ''">
+			AND s.product_line_id = #{productLineId}
+		</if>
+		<if test="dataElementId != null and dataElementId != ''">
+			AND s.data_element_id = #{dataElementId}
 		</if>
 	</select>
 
-	<!--<select id="selectAlarms" parameterType="String" resultMap="com.kuyun.eam.dao.mapper.EamAlarmMapper.BaseResultMap">-->
-		<!--select-->
-		<!--a.alarm_id, a.alarm_type, a.upper_Bound, a.lower_Bound, a.duration, a.alarm_target, a.equipment_model_property_id,-->
-		<!--a.create_user_id, a.create_time, a.update_user_id, a.update_time, a.delete_flag, a.company_id-->
-		<!--from eam_alarm a-->
-		<!--left join eam_equipment_model_properties p on a.equipment_model_property_id = p.equipment_model_property_id-->
-		<!--left join eam_equipment_model m on m.equipment_model_id = p.equipment_model_id-->
-		<!--left join eam_equipment e on e.equipment_model_id = m.equipment_model_id-->
-		<!--WHERE a.delete_flag = 0 and p.delete_flag = 0 and m.delete_flag = 0 and e.delete_flag = 0-->
-		 <!--and e.equipment_id = #{deviceId}-->
-	<!--</select>-->
-
-
 
 	<resultMap id="EamAlarmRecordVOResultMap" type="com.kuyun.eam.vo.EamAlarmRecordVO" extends="com.kuyun.eam.dao.mapper.EamAlarmRecordMapper.BaseResultMap">
+		<result column="alarm_name" jdbcType="VARCHAR" property="alarmName" />
 		<result column="alarm_value" jdbcType="VARCHAR" property="alarmValue" />
 		<result column="alarm_clear_value" jdbcType="VARCHAR" property="alarmClearValue" />
 		<result column="alarm_type" jdbcType="VARCHAR" property="alarmType" />
@@ -330,40 +325,46 @@
 		<result column="lower_Bound" jdbcType="DECIMAL" property="lowerBound" />
 		<result column="duration" jdbcType="DECIMAL" property="duration" />
 		<result column="alarm_target" jdbcType="VARCHAR" property="alarmTarget" />
-		<result column="phone" jdbcType="VARCHAR" property="phone" />
-		<result column="email" jdbcType="VARCHAR" property="email" />
 		<result column="user_name" jdbcType="VARCHAR" property="userName" />
 		<result column="equipment_name" jdbcType="VARCHAR" property="equipmentName" />
 		<result column="equipment_number" jdbcType="VARCHAR" property="equipmentNumber" />
-		<result column="equipment_model_property_name" jdbcType="VARCHAR" property="equipmentModelPropertyName" />
+		<result column="product_line_name" jdbcType="VARCHAR" property="productLineName" />
 	</resultMap>
 
 	<sql id="Alarm_Record_Column_List">
-		t.id, t.alarm_id, t.equipment_id, t.equipment_model_property_id, t.alarm_value, t.alarm_status, t.create_user_id,
+		t.id, t.alarm_id, t.equipment_id, t.product_line_id, t.alarm_value, t.alarm_status, t.create_user_id,
         t.create_time, t.update_user_id, t.update_time, t.delete_flag, t.company_id,
 	</sql>
 
 	<select id="selectAlarmRecords" parameterType="com.kuyun.eam.vo.EamAlarmRecordVO" resultMap="EamAlarmRecordVOResultMap">
 		select DISTINCT
 		<include refid="Alarm_Record_Column_List" />
+		a.name as alarm_name,
 		a.alarm_type,
 		a.upper_Bound,
 		a.lower_Bound,
 		a.duration,
 		a.alarm_target,
-		uu.phone,
-		uu.email,
-		uu.realname as user_name,
+		group_concat(uu.realname) AS user_name,
 		e.name as equipment_name,
 		e.number as equipment_number,
-		p.name as equipment_model_property_name
+		f.name as product_line_name
 		from eam_alarm_record t
 		LEFT JOIN eam_alarm a ON t.alarm_id = a.alarm_id
 		LEFT JOIN eam_alarm_target_user u ON t.alarm_id = u.alarm_id
 		LEFT JOIN upms_user uu ON uu.user_id = u.user_id
-		LEFT JOIN eam_equipment_model_properties p ON p.equipment_model_property_id = t.equipment_model_property_id
 		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
-		WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0 AND u.delete_flag = 0
+		LEFT JOIN eam_product_line f ON f.product_line_id = t.product_line_id
+		WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND f.delete_flag = 0
+		AND e.delete_flag = 0 AND u.delete_flag = 0
+
+		<if test="productLineIds != null">
+			AND t.product_line_id IN
+			<foreach item="item" index="index" collection="productLineIds"
+					 open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
 
 		<if test="equipmentIds != null">
 			AND t.equipment_id IN
@@ -376,8 +377,8 @@
 		<if test="equipmentId != null and equipmentId != ''">
 			AND t.equipment_id = #{equipmentId}
 		</if>
-		<if test="equipmentModelPropertyId != null and equipmentModelPropertyId != ''">
-			AND t.equipment_model_property_id = #{equipmentModelPropertyId}
+		<if test="productLineId != null and productLineId != ''">
+			AND f.product_line_id = #{productLineId}
 		</if>
 		<if test="startDate != null">
 			AND t.create_time <![CDATA[>=]]> #{startDate}
@@ -408,9 +409,17 @@
 		LEFT JOIN eam_alarm a ON t.alarm_id = a.alarm_id
 		LEFT JOIN eam_alarm_target_user u ON t.alarm_id = u.alarm_id
 		LEFT JOIN upms_user uu ON uu.user_id = u.user_id
-		LEFT JOIN eam_equipment_model_properties p ON p.equipment_model_property_id = t.equipment_model_property_id
 		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
-		WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0 AND u.delete_flag = 0
+		LEFT JOIN eam_product_line f ON f.product_line_id = t.product_line_id
+		WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND f.delete_flag = 0
+		AND e.delete_flag = 0 AND u.delete_flag = 0
+		<if test="productLineIds != null">
+			AND t.product_line_id IN
+			<foreach item="item" index="index" collection="productLineIds"
+					 open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
 
 		<if test="equipmentIds != null">
 			AND t.equipment_id IN
@@ -423,8 +432,8 @@
 		<if test="equipmentId != null and equipmentId != ''">
 			AND t.equipment_id = #{equipmentId}
 		</if>
-		<if test="equipmentModelPropertyId != null and equipmentModelPropertyId != ''">
-			AND t.equipment_model_property_id = #{equipmentModelPropertyId}
+		<if test="productLineId != null and productLineId != ''">
+			AND f.product_line_id = #{productLineId}
 		</if>
 		<if test="startDate != null">
 			AND t.create_time <![CDATA[>=]]> #{startDate}
@@ -441,7 +450,7 @@
 	</select>
 
 	<sql id="Alarm_Record_History_Column_List">
-		t.id, t.alarm_id, t.equipment_id, t.equipment_model_property_id, t.alarm_value, t.alarm_status,
+		t.id, t.alarm_id, t.equipment_id, t.product_line_id,  t.alarm_value, t.alarm_status,
 		t.alarm_clear_value, t.create_user_id, t.create_time, t.update_user_id, t.update_time, t.delete_flag,
 		t.company_id,
 	</sql>
@@ -449,24 +458,32 @@
 	<select id="selectAlarmRecordHistoies" parameterType="com.kuyun.eam.vo.EamAlarmRecordVO" resultMap="EamAlarmRecordVOResultMap">
 		select DISTINCT
 		<include refid="Alarm_Record_History_Column_List" />
+		a.name as alarm_name,
 		a.alarm_type,
 		a.upper_Bound,
 		a.lower_Bound,
 		a.duration,
 		a.alarm_target,
-		uu.phone,
-		uu.email,
-		uu.realname as user_name,
+		group_concat(uu.realname) AS user_name,
 		e.name as equipment_name,
 		e.number as equipment_number,
-		p.name as equipment_model_property_name
+		f.name as product_line_name
 		from eam_alarm_record_history t
 		LEFT JOIN eam_alarm a ON t.alarm_id = a.alarm_id
 		LEFT JOIN eam_alarm_target_user u ON t.alarm_id = u.alarm_id
 		LEFT JOIN upms_user uu ON uu.user_id = u.user_id
-		LEFT JOIN eam_equipment_model_properties p ON p.equipment_model_property_id = t.equipment_model_property_id
 		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
-		WHERE t.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0 AND u.delete_flag = 0
+		LEFT JOIN eam_product_line f ON f.product_line_id = t.product_line_id
+		WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND f.delete_flag = 0
+		AND e.delete_flag = 0 AND u.delete_flag = 0
+
+		<if test="productLineIds != null">
+			AND t.product_line_id IN
+			<foreach item="item" index="index" collection="productLineIds"
+					 open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
 
 		<if test="equipmentIds != null">
 			AND t.equipment_id IN
@@ -479,8 +496,8 @@
 		<if test="equipmentId != null and equipmentId != ''">
 			AND t.equipment_id = #{equipmentId}
 		</if>
-		<if test="equipmentModelPropertyId != null and equipmentModelPropertyId != ''">
-			AND t.equipment_model_property_id = #{equipmentModelPropertyId}
+		<if test="productLineId != null and productLineId != ''">
+			AND f.product_line_id = #{productLineId}
 		</if>
 		<if test="startDate != null">
 			AND t.create_time <![CDATA[>=]]> #{startDate}
@@ -511,9 +528,17 @@
 		LEFT JOIN eam_alarm a ON t.alarm_id = a.alarm_id
 		LEFT JOIN eam_alarm_target_user u ON t.alarm_id = u.alarm_id
 		LEFT JOIN upms_user uu ON uu.user_id = u.user_id
-		LEFT JOIN eam_equipment_model_properties p ON p.equipment_model_property_id = t.equipment_model_property_id
 		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
-		WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0 AND u.delete_flag = 0
+		LEFT JOIN eam_product_line f ON f.product_line_id = t.product_line_id
+		WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND f.delete_flag = 0
+		AND e.delete_flag = 0 AND u.delete_flag = 0
+		<if test="productLineIds != null">
+			AND t.product_line_id IN
+			<foreach item="item" index="index" collection="productLineIds"
+					 open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
 
 		<if test="equipmentIds != null">
 			AND t.equipment_id IN
@@ -526,8 +551,8 @@
 		<if test="equipmentId != null and equipmentId != ''">
 			AND t.equipment_id = #{equipmentId}
 		</if>
-		<if test="equipmentModelPropertyId != null and equipmentModelPropertyId != ''">
-			AND t.equipment_model_property_id = #{equipmentModelPropertyId}
+		<if test="productLineId != null and productLineId != ''">
+			AND f.product_line_id = #{productLineId}
 		</if>
 		<if test="startDate != null">
 			AND t.create_time <![CDATA[>=]]> #{startDate}
@@ -620,21 +645,15 @@
 		ORDER BY p.equipment_model_property_id ASC
 	</select>
 
-
-	<sql id="ProductLine_Column_List">
-		t.product_line_id, t.name, t.grm, t.grm_password, t.grm_period, t.collect_status, t.is_online,
-        t.create_user_id, t.create_time, t.update_user_id, t.update_time, t.delete_flag
-	</sql>
-
 	<resultMap id="EamProductLineVOResultMap" type="com.kuyun.eam.vo.EamProductLineVO" extends="com.kuyun.eam.dao.mapper.EamProductLineMapper.BaseResultMap">
 	</resultMap>
 
 	<select id="selectProductLines" parameterType="com.kuyun.eam.vo.EamProductLineVO" resultMap="EamProductLineVOResultMap">
 		select
-		<include refid="ProductLine_Column_List" />
-		from eam_product_line t
-		LEFT JOIN eam_product_line_company e ON t.product_line_id = e.product_line_id
-		WHERE t.delete_flag = 0 AND e.delete_flag = 0
+		<include refid="com.kuyun.eam.dao.mapper.EamProductLineMapper.Base_Column_List" />
+		from eam_product_line eam_product_line
+		LEFT JOIN eam_product_line_company e ON eam_product_line.product_line_id = e.product_line_id
+		WHERE eam_product_line.delete_flag = 0 AND e.delete_flag = 0
 		<if test="companyId != null and companyId != ''">
 			AND e.company_id = #{companyId}
 		</if>
@@ -821,6 +840,118 @@
 		</if>
 		<if test="orderByClause != null">
 			order by ${orderByClause}
+		</if>
+	</select>
+
+	<resultMap id="EamGrmVariableDataVOResultMap" type="com.kuyun.eam.vo.EamGrmVariableDataVO" extends="com.kuyun.eam.dao.mapper.EamGrmVariableDataMapper.BaseResultMap">
+	<result column="data_element_name" jdbcType="VARCHAR" property="dataElementName" />
+</resultMap>
+
+	<select id="selectEamGrmVariableData" parameterType="com.kuyun.eam.vo.EamGrmVariableDataVO" resultMap="EamGrmVariableDataVOResultMap">
+		select
+		e.lable_name as data_element_name,
+		<include refid="com.kuyun.eam.dao.mapper.EamGrmVariableDataMapper.Base_Column_List" />
+		from eam_grm_variable_data, eam_product_line p, eam_data_element e
+		WHERE eam_grm_variable_data.delete_flag = 0
+		AND p.delete_flag = 0 AND e.delete_flag = 0
+		AND eam_grm_variable_data.product_line_id = p.product_line_id
+		AND eam_grm_variable_data.data_element_id = e.id
+		<if test="productLineId != null and productLineId != ''">
+			AND eam_grm_variable_data.product_line_id = #{productLineId}
+		</if>
+
+		<if test="equipmentIdIsNull != null">
+			AND eam_grm_variable_data.equipment_id IS NULL
+		</if>
+
+		<if test="equipmentId != null and equipmentId != ''">
+			AND eam_grm_variable_data.equipment_id = #{equipmentId}
+		</if>
+
+		<if test="dataGroupId != null and dataGroupId != ''">
+			AND eam_grm_variable_data.data_group_id = #{dataGroupId}
+		</if>
+
+		<if test="equipmentDataGroupId != null and equipmentDataGroupId != ''">
+			AND eam_grm_variable_data.equipmentDataGroupId = #{equipmentDataGroupId}
+		</if>
+
+		<if test="dataElementId != null and dataElementId != ''">
+			AND eam_grm_variable_data.data_element_id = #{dataElementId}
+		</if>
+
+		<if test="startDate != null">
+			AND eam_grm_variable_data.update_time <![CDATA[>=]]> #{startDate}
+		</if>
+		<if test="endDate != null">
+			AND eam_grm_variable_data.update_time <![CDATA[<=]]>#{endDate}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+	<resultMap id="EamGrmVariableDataHistoryVOResultMap" type="com.kuyun.eam.vo.EamGrmVariableDataHistoryVO" extends="com.kuyun.eam.dao.mapper.EamGrmVariableDataHistoryMapper.BaseResultMap">
+		<result column="data_element_name" jdbcType="VARCHAR" property="dataElementName" />
+	</resultMap>
+
+	<select id="selectEamGrmVariableDataHistories" parameterType="com.kuyun.eam.vo.EamGrmVariableDataHistoryVO" resultMap="EamGrmVariableDataHistoryVOResultMap">
+		select
+		e.lable_name as data_element_name,
+		<include refid="com.kuyun.eam.dao.mapper.EamGrmVariableDataMapper.Base_Column_List" />
+		from eam_grm_variable_data_history, eam_product_line p, eam_data_element e
+		WHERE eam_grm_variable_data.delete_flag = 0
+		AND p.delete_flag = 0 AND e.delete_flag = 0
+		AND eam_grm_variable_data.product_line_id = p.product_line_id
+		AND eam_grm_variable_data.data_element_id = e.id
+		<if test="productLineId != null and productLineId != ''">
+			AND eam_grm_variable_data.product_line_id = #{productLineId}
+		</if>
+
+		<if test="equipmentIdIsNull != null">
+			AND eam_grm_variable_data.equipment_id IS NULL
+		</if>
+
+		<if test="equipmentId != null and equipmentId != ''">
+			AND eam_grm_variable_data.equipment_id = #{equipmentId}
+		</if>
+
+		<if test="dataGroupId != null and dataGroupId != ''">
+			AND eam_grm_variable_data.data_group_id = #{dataGroupId}
+		</if>
+
+		<if test="equipmentDataGroupId != null and equipmentDataGroupId != ''">
+			AND eam_grm_variable_data.equipmentDataGroupId = #{equipmentDataGroupId}
+		</if>
+
+		<if test="dataElementId != null and dataElementId != ''">
+			AND eam_grm_variable_data.data_element_id = #{dataElementId}
+		</if>
+
+		<if test="startDate != null">
+			AND eam_grm_variable_data.update_time <![CDATA[>=]]> #{startDate}
+		</if>
+		<if test="endDate != null">
+			AND eam_grm_variable_data.update_time <![CDATA[<=]]>#{endDate}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
 		</if>
 	</select>
 

@@ -2,8 +2,8 @@ package com.kuyun.eam.alarm;
 
 import com.kuyun.eam.common.constant.AlarmType;
 import com.kuyun.eam.dao.model.EamAlarm;
-import com.kuyun.eam.dao.model.EamSensorData;
-import com.kuyun.eam.dao.model.EamSensorDataHistory;
+import com.kuyun.eam.dao.model.EamGrmVariableData;
+import com.kuyun.eam.dao.model.EamGrmVariableDataHistory;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -13,20 +13,20 @@ import java.util.List;
  */
 public class ValAboveBoundHandler extends AbstractAlarmHandler {
     @Override
-    protected String buildAlarmMessage(EamSensorData sensorData, EamAlarm alarm) {
+    protected String buildAlarmMessage(EamGrmVariableData variableData, EamAlarm alarm) {
         return AlarmType.VAL_ABOVE_BOUND.getName().replace("X", String.valueOf(alarm.getUpperBound()))
                 .replace("M", String.valueOf(alarm.getDuration()));
     }
 
     @Override
-    protected boolean metAlarmCondition(EamSensorData sensorData, EamAlarm alarm) {
+    protected boolean metAlarmCondition(EamGrmVariableData variableData, EamAlarm alarm) {
 
         boolean result = false;
         BigDecimal x = alarm.getUpperBound();
 
-        List<EamSensorDataHistory> sensorDataHistories = getSensorDataHistories(sensorData, alarm);
-        for(EamSensorDataHistory data : sensorDataHistories){
-            BigDecimal value = covertToBigDecimal(data.getStringValue());
+        List<EamGrmVariableDataHistory> dataHistories = getGrmVariableDataHistories(variableData, alarm);
+        for(EamGrmVariableDataHistory data : dataHistories){
+            BigDecimal value = covertToBigDecimal(data.getValue());
             // value great than X
             if (value != null) {
                 if ((value.compareTo(x) == 1)) {

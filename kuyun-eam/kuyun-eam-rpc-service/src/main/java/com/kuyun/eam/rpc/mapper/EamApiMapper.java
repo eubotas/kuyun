@@ -2,10 +2,7 @@ package com.kuyun.eam.rpc.mapper;
 
 import java.util.List;
 
-import com.kuyun.eam.dao.model.EamAlarm;
-import com.kuyun.eam.dao.model.EamProductLine;
-import com.kuyun.eam.dao.model.EamSensorData;
-import com.kuyun.eam.dao.model.EamTicketExample;
+import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.vo.*;
 
@@ -28,9 +25,7 @@ public interface EamApiMapper {
 
     List<EamSensorVO> selectSensorData(String equipmentId);
 
-    EamAlarm selectAlarm(EamSensorData sensorData);
-
-    //List<EamAlarm> selectAlarms(String deviceId);
+    List<EamAlarm> selectAlarmsByGrmVariable(EamGrmVariableData variableData);
 
     List<EamAlarmRecordVO> selectAlarmRecords(EamAlarmRecordVO eamAlarmRecordVO);
 
@@ -63,4 +58,8 @@ public interface EamApiMapper {
     List<EamAlarmVO> selectAlarms(EamAlarmVO alarmVO);
 
     long countAlarms(EamAlarmVO alarmVO);
+
+    List<EamGrmVariableDataVO> selectEamGrmVariableData(EamGrmVariableDataVO eamGrmVariableDataVO);
+
+    List<EamGrmVariableDataHistoryVO> selectEamGrmVariableDataHistories(EamGrmVariableDataHistoryVO eamGrmVariableDataHistoryVO);
 }

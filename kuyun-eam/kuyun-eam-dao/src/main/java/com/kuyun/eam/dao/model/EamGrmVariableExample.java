@@ -258,6 +258,256 @@ public class EamGrmVariableExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andProductLineIdIsNull() {
+            addCriterion("product_line_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdIsNotNull() {
+            addCriterion("product_line_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdEqualTo(String value) {
+            addCriterion("product_line_id =", value, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdNotEqualTo(String value) {
+            addCriterion("product_line_id <>", value, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdGreaterThan(String value) {
+            addCriterion("product_line_id >", value, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdGreaterThanOrEqualTo(String value) {
+            addCriterion("product_line_id >=", value, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdLessThan(String value) {
+            addCriterion("product_line_id <", value, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdLessThanOrEqualTo(String value) {
+            addCriterion("product_line_id <=", value, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdLike(String value) {
+            addCriterion("product_line_id like", value, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdNotLike(String value) {
+            addCriterion("product_line_id not like", value, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdIn(List<String> values) {
+            addCriterion("product_line_id in", values, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdNotIn(List<String> values) {
+            addCriterion("product_line_id not in", values, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdBetween(String value1, String value2) {
+            addCriterion("product_line_id between", value1, value2, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdNotBetween(String value1, String value2) {
+            addCriterion("product_line_id not between", value1, value2, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataGroupIdIsNull() {
+            addCriterion("data_group_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataGroupIdIsNotNull() {
+            addCriterion("data_group_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataGroupIdEqualTo(Integer value) {
+            addCriterion("data_group_id =", value, "dataGroupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataGroupIdNotEqualTo(Integer value) {
+            addCriterion("data_group_id <>", value, "dataGroupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataGroupIdGreaterThan(Integer value) {
+            addCriterion("data_group_id >", value, "dataGroupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataGroupIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("data_group_id >=", value, "dataGroupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataGroupIdLessThan(Integer value) {
+            addCriterion("data_group_id <", value, "dataGroupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataGroupIdLessThanOrEqualTo(Integer value) {
+            addCriterion("data_group_id <=", value, "dataGroupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataGroupIdIn(List<Integer> values) {
+            addCriterion("data_group_id in", values, "dataGroupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataGroupIdNotIn(List<Integer> values) {
+            addCriterion("data_group_id not in", values, "dataGroupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataGroupIdBetween(Integer value1, Integer value2) {
+            addCriterion("data_group_id between", value1, value2, "dataGroupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataGroupIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("data_group_id not between", value1, value2, "dataGroupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentDataGroupIdIsNull() {
+            addCriterion("equipment_data_group_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentDataGroupIdIsNotNull() {
+            addCriterion("equipment_data_group_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentDataGroupIdEqualTo(Integer value) {
+            addCriterion("equipment_data_group_id =", value, "equipmentDataGroupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentDataGroupIdNotEqualTo(Integer value) {
+            addCriterion("equipment_data_group_id <>", value, "equipmentDataGroupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentDataGroupIdGreaterThan(Integer value) {
+            addCriterion("equipment_data_group_id >", value, "equipmentDataGroupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentDataGroupIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("equipment_data_group_id >=", value, "equipmentDataGroupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentDataGroupIdLessThan(Integer value) {
+            addCriterion("equipment_data_group_id <", value, "equipmentDataGroupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentDataGroupIdLessThanOrEqualTo(Integer value) {
+            addCriterion("equipment_data_group_id <=", value, "equipmentDataGroupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentDataGroupIdIn(List<Integer> values) {
+            addCriterion("equipment_data_group_id in", values, "equipmentDataGroupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentDataGroupIdNotIn(List<Integer> values) {
+            addCriterion("equipment_data_group_id not in", values, "equipmentDataGroupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentDataGroupIdBetween(Integer value1, Integer value2) {
+            addCriterion("equipment_data_group_id between", value1, value2, "equipmentDataGroupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEquipmentDataGroupIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("equipment_data_group_id not between", value1, value2, "equipmentDataGroupId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataElementIdIsNull() {
+            addCriterion("data_element_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataElementIdIsNotNull() {
+            addCriterion("data_element_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataElementIdEqualTo(Integer value) {
+            addCriterion("data_element_id =", value, "dataElementId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataElementIdNotEqualTo(Integer value) {
+            addCriterion("data_element_id <>", value, "dataElementId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataElementIdGreaterThan(Integer value) {
+            addCriterion("data_element_id >", value, "dataElementId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataElementIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("data_element_id >=", value, "dataElementId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataElementIdLessThan(Integer value) {
+            addCriterion("data_element_id <", value, "dataElementId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataElementIdLessThanOrEqualTo(Integer value) {
+            addCriterion("data_element_id <=", value, "dataElementId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataElementIdIn(List<Integer> values) {
+            addCriterion("data_element_id in", values, "dataElementId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataElementIdNotIn(List<Integer> values) {
+            addCriterion("data_element_id not in", values, "dataElementId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataElementIdBetween(Integer value1, Integer value2) {
+            addCriterion("data_element_id between", value1, value2, "dataElementId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDataElementIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("data_element_id not between", value1, value2, "dataElementId");
+            return (Criteria) this;
+        }
+
         public Criteria andNameIsNull() {
             addCriterion("name is null");
             return (Criteria) this;
@@ -975,76 +1225,6 @@ public class EamGrmVariableExample implements Serializable {
 
         public Criteria andDeleteFlagNotBetween(Boolean value1, Boolean value2) {
             addCriterion("delete_flag not between", value1, value2, "deleteFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andProductLineIdIsNull() {
-            addCriterion("product_line_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andProductLineIdIsNotNull() {
-            addCriterion("product_line_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andProductLineIdEqualTo(String value) {
-            addCriterion("product_line_id =", value, "productLineId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProductLineIdNotEqualTo(String value) {
-            addCriterion("product_line_id <>", value, "productLineId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProductLineIdGreaterThan(String value) {
-            addCriterion("product_line_id >", value, "productLineId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProductLineIdGreaterThanOrEqualTo(String value) {
-            addCriterion("product_line_id >=", value, "productLineId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProductLineIdLessThan(String value) {
-            addCriterion("product_line_id <", value, "productLineId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProductLineIdLessThanOrEqualTo(String value) {
-            addCriterion("product_line_id <=", value, "productLineId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProductLineIdLike(String value) {
-            addCriterion("product_line_id like", value, "productLineId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProductLineIdNotLike(String value) {
-            addCriterion("product_line_id not like", value, "productLineId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProductLineIdIn(List<String> values) {
-            addCriterion("product_line_id in", values, "productLineId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProductLineIdNotIn(List<String> values) {
-            addCriterion("product_line_id not in", values, "productLineId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProductLineIdBetween(String value1, String value2) {
-            addCriterion("product_line_id between", value1, value2, "productLineId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProductLineIdNotBetween(String value1, String value2) {
-            addCriterion("product_line_id not between", value1, value2, "productLineId");
             return (Criteria) this;
         }
 

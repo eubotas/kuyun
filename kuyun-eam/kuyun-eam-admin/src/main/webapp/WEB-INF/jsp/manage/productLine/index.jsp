@@ -59,9 +59,9 @@ $(function() {
 			{field: 'ck', checkbox: true},
 			{field: 'productLineId', title: 'ID', sortable: true, align: 'center'},
 			{field: 'name', title: '名称'},
-			{field: 'dataElement', title: '智库网关ID'},
-			{field: 'dataElementPassword', title: '智库网关密码'},
-			{field: 'dataElementPeriod', title: '采集频率'},
+			{field: 'grm', title: '智库网关ID'},
+			{field: 'grmPassword', title: '智库网关密码'},
+			{field: 'grmPeriod', title: '采集频率'},
 			{field: 'collectStatus', title: '采集状态'},
 			{field: 'isOnline', title: '是否在线'},
 			{field: 'createTime', title: '创建时间', formatter: 'timeFormatter'}

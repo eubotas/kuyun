@@ -262,13 +262,16 @@ CREATE TABLE eam_alarm_record_history (
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/*
+
 drop table if exists eam_grm_variable;
 create table eam_grm_variable
 (
    id                   int not null auto_increment,
    equipment_id         varchar(32),
    product_line_id      varchar(32),
+   data_group_id        int,
+   equipment_data_group_id int comment '设备数据分组ID',
+   data_element_id      int,
    name                 varchar(30) comment '变量名',
    type                 varchar(5) comment '变量类型 B/I/F，分别代表 开关量/整数/浮点数',
    attribute            varchar(5) comment '读写属性 R/W，分别代表 只读/可读写',
@@ -282,13 +285,15 @@ create table eam_grm_variable
    delete_flag          boolean,
    primary key (id)
 );
-*/
+
 drop table if exists eam_grm_variable_data;
 create table eam_grm_variable_data
 (
    id                   int not null auto_increment,
    equipment_id         varchar(32),
    product_line_id      varchar(32),
+   data_group_id        int,
+   equipment_data_group_id int comment '设备数据分组ID',
    data_element_id      int,
    value                varchar(30),
    create_user_id       int,
@@ -305,6 +310,8 @@ create table eam_grm_variable_data_history
    id                   int not null auto_increment,
    equipment_id         varchar(32),
    product_line_id      varchar(32),
+   data_group_id        int,
+   equipment_data_group_id int comment '设备数据分组ID',
    data_element_id      int,
    value                varchar(30),
    create_user_id       int,

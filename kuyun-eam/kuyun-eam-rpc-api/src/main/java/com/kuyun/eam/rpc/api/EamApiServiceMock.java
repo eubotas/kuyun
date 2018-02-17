@@ -91,7 +91,7 @@ public class EamApiServiceMock implements EamApiService {
     }
 
     @Override
-    public void handleAlarm(EamSensorData sensorData) {
+    public void handleAlarm(EamGrmVariableData variableData) {
 
     }
 
@@ -219,5 +219,26 @@ public class EamApiServiceMock implements EamApiService {
     public int updateAlarm(String ids, String alarmTarget, String[] targetUserId) {
         return 0;
     }
+
+    @Override
+    public int handleProductLineDataElements(String productLineId, String dataElementIds) {
+        return 0;
+    }
+
+    @Override
+    public int handleEamEquipmentDataGroupElemets(String equipmentId, String dataGroupId, String equipmentDataGroupId, String ids) {
+        return 0;
+    }
+
+    @Override
+    public List<EamGrmVariableDataVO> selectEamGrmVariableData(EamGrmVariableDataVO eamGrmVariableDataVO) {
+        return null;
+    }
+
+    @Override
+    public List<EamGrmVariableDataHistoryVO> selectEamGrmVariableDataHistories(EamGrmVariableDataHistoryVO eamGrmVariableDataHistoryVO) {
+        return null;
+    }
+
 
 }

@@ -43,6 +43,8 @@ public class AlarmTypeFactory {
     @Autowired
     private SwitchOffHandler switchOffHandler;
 
+    @Autowired
+    private SameDataElementHandler sameDataElementHandler;
 
     public AbstractAlarmHandler buildAlarmHandler(EamAlarm alarm){
         AbstractAlarmHandler handler = null;
@@ -84,6 +86,9 @@ public class AlarmTypeFactory {
         } else if (AlarmType.SWITCH_OFF.match(alarm.getAlarmType())) {
 
             handler = switchOffHandler;
+        }else if (AlarmType.SAME_DATA_ELEMENT.match(alarm.getAlarmType())) {
+
+            handler = sameDataElementHandler;
         }
 
         return handler;

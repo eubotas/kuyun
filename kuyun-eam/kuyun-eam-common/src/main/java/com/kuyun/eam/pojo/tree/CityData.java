@@ -18,7 +18,7 @@ public class CityData implements Serializable {
     private BigDecimal latitude;
     private BigDecimal longitude;
 
-    private List<Device> children = new ArrayList<>();
+    private List<ProductLine> children = new ArrayList<>();
 
     public int getTotal() {
         return total;
@@ -68,15 +68,15 @@ public class CityData implements Serializable {
         this.longitude = longitude;
     }
 
-    public List<Device> getChildren() {
+    public List<ProductLine> getChildren() {
         return children;
     }
 
-    public void setChildren(List<Device> children) {
+    public void setChildren(List<ProductLine> children) {
         this.children = children;
     }
 
-    public void addChildren(Device device){
+    public void addChildren(ProductLine device){
         children.add(device);
     }
 }

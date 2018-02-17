@@ -2,6 +2,7 @@ package com.kuyun.eam.admin.util;
 
 import com.kuyun.eam.rpc.api.EamApiService;
 import com.kuyun.eam.vo.EamEquipmentVO;
+import com.kuyun.eam.vo.EamProductLineVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,15 @@ public class EamUtil {
     @Autowired
     private EamApiService eamApiService;
 
+    public List<EamProductLineVO> getCurrentCompanyProductLines(){
+        EamProductLineVO productLineVO = new EamProductLineVO();
+        productLineVO.setDeleteFlag(Boolean.FALSE);
+        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+        if (company != null){
+            productLineVO.setCompanyId(company.getCompanyId());
+        }
+        return eamApiService.selectProductLines(productLineVO);
+    }
 
     public List<EamEquipmentVO> getCurrentCompanyEquipments(){
         EamEquipmentVO equipmentVO = new EamEquipmentVO();
@@ -37,6 +47,15 @@ public class EamUtil {
         List<EamEquipmentVO> equipments = getCurrentCompanyEquipments();
         for (EamEquipmentVO equipmentVO : equipments){
             result.add(equipmentVO.getEquipmentId());
+        }
+        return result;
+    }
+
+    public List<String> getProductLineIds(){
+        List<String> result = new ArrayList<>();
+        List<EamProductLineVO> productLines = getCurrentCompanyProductLines();
+        for (EamProductLineVO productLineVO : productLines){
+            result.add(productLineVO.getProductLineId());
         }
         return result;
     }

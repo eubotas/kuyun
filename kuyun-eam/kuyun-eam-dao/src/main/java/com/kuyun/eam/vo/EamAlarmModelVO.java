@@ -1,7 +1,5 @@
 package com.kuyun.eam.vo;
 
-import com.kuyun.eam.common.constant.AlarmType;
-import com.kuyun.eam.dao.model.EamAlarm;
 import com.kuyun.eam.dao.model.EamAlarmModel;
 
 /**

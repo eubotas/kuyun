@@ -255,38 +255,13 @@ public class EamEquipmentDataGroupController extends BaseController {
 		_log.info("dataGroupId=" + dataGroupId);
 		_log.info("equipmentDataGroupId=" + equipmentDataGroupId);
 		_log.info("ids=" + ids);
-		//Remove all
-		EamEquipmentDataGroupElemetsExample example = new EamEquipmentDataGroupElemetsExample();
-		example.createCriteria().andEquipmentIdEqualTo(equipmentId)
-				.andDataGroupIdEqualTo(Integer.valueOf(dataGroupId))
-				.andEquipmentDataGroupIdEqualTo(Integer.valueOf(equipmentDataGroupId))
-				.andDeleteFlagEqualTo(Boolean.FALSE);
-		eamEquipmentDataGroupElemetsService.deleteByExample(example);
 
-		//Add new
-		List<EamEquipmentDataGroupElemets> elements = buildEamEquipmentDataGroupElements(equipmentId, dataGroupId, equipmentDataGroupId, ids);
+		int result = eamApiService.handleEamEquipmentDataGroupElemets(equipmentId, dataGroupId, equipmentDataGroupId, ids);
 
-		eamEquipmentDataGroupElemetsService.batchInsert(elements);
-
-		return new UpmsResult(UpmsResultConstant.SUCCESS, 1);
+		return new UpmsResult(UpmsResultConstant.SUCCESS, result);
 	}
 
-	private List<EamEquipmentDataGroupElemets> buildEamEquipmentDataGroupElements(String equipmentId, String dataGroupId, String equipmentDataGroupId, String ids) {
-		List<EamEquipmentDataGroupElemets> elements = new ArrayList<>();
-		String [] idsArray = ids.split("::");
 
-		for (String id : idsArray){
-			EamEquipmentDataGroupElemets element = new EamEquipmentDataGroupElemets();
-			element.setDataGroupId(Integer.valueOf(dataGroupId));
-			element.setEquipmentDataGroupId(Integer.valueOf(equipmentDataGroupId));
-			element.setEquipmentId(equipmentId);
-			element.setDataElementId(Integer.valueOf(id));
-			baseEntityUtil.addAddtionalValue(element);
-			elements.add(element);
-		}
-
-		return elements;
-	}
 
 
 }

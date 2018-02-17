@@ -22,6 +22,9 @@ public class EamAlarmRecordVO extends EamAlarmRecord {
 
     private String orderByClause;
 
+
+    private String productLineName;
+    private String alarmName;
     private String alarmType;
     private String alarmClearValue;
     private BigDecimal upperBound;
@@ -35,6 +38,32 @@ public class EamAlarmRecordVO extends EamAlarmRecord {
     private String equipmentNumber;
     private String equipmentModelPropertyName;
     private List<String> equipmentIds;
+    private List<String> productLineIds;
+
+
+    public List<String> getProductLineIds() {
+        return productLineIds;
+    }
+
+    public void setProductLineIds(List<String> productLineIds) {
+        this.productLineIds = productLineIds;
+    }
+
+    public String getAlarmName() {
+        return alarmName;
+    }
+
+    public void setAlarmName(String alarmName) {
+        this.alarmName = alarmName;
+    }
+
+    public String getProductLineName() {
+        return productLineName;
+    }
+
+    public void setProductLineName(String productLineName) {
+        this.productLineName = productLineName;
+    }
 
     public String getAlarmClearValue() {
         return alarmClearValue;

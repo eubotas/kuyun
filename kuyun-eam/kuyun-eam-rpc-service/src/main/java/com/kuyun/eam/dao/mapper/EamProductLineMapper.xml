@@ -2,29 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kuyun.eam.dao.mapper.EamProductLineMapper">
   <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamProductLine">
-    <id column="product_line_id" jdbcType="VARCHAR" property="productLineId" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="image_path" jdbcType="VARCHAR" property="imagePath" />
-    <result column="longitude" jdbcType="DECIMAL" property="longitude" />
-    <result column="latitude" jdbcType="DECIMAL" property="latitude" />
-    <result column="province" jdbcType="VARCHAR" property="province" />
-    <result column="city" jdbcType="VARCHAR" property="city" />
-    <result column="grm" jdbcType="VARCHAR" property="grm" />
-    <result column="grm_password" jdbcType="VARCHAR" property="grmPassword" />
-    <result column="grm_period" jdbcType="INTEGER" property="grmPeriod" />
-    <result column="collect_status" jdbcType="VARCHAR" property="collectStatus" />
-    <result column="is_online" jdbcType="BIT" property="isOnline" />
-    <result column="morning_shift_start_time" jdbcType="VARCHAR" property="morningShiftStartTime" />
-    <result column="morning_shift_end_time" jdbcType="VARCHAR" property="morningShiftEndTime" />
-    <result column="middle_shift_start_time" jdbcType="VARCHAR" property="middleShiftStartTime" />
-    <result column="middle_shift_end_time" jdbcType="VARCHAR" property="middleShiftEndTime" />
-    <result column="night_shift_start_time" jdbcType="VARCHAR" property="nightShiftStartTime" />
-    <result column="night_shift_end_time" jdbcType="VARCHAR" property="nightShiftEndTime" />
-    <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
+    <id column="eam_product_line_product_line_id" jdbcType="VARCHAR" property="productLineId" />
+    <result column="eam_product_line_name" jdbcType="VARCHAR" property="name" />
+    <result column="eam_product_line_image_path" jdbcType="VARCHAR" property="imagePath" />
+    <result column="eam_product_line_longitude" jdbcType="DECIMAL" property="longitude" />
+    <result column="eam_product_line_latitude" jdbcType="DECIMAL" property="latitude" />
+    <result column="eam_product_line_province" jdbcType="VARCHAR" property="province" />
+    <result column="eam_product_line_city" jdbcType="VARCHAR" property="city" />
+    <result column="eam_product_line_grm" jdbcType="VARCHAR" property="grm" />
+    <result column="eam_product_line_grm_password" jdbcType="VARCHAR" property="grmPassword" />
+    <result column="eam_product_line_grm_period" jdbcType="INTEGER" property="grmPeriod" />
+    <result column="eam_product_line_collect_status" jdbcType="VARCHAR" property="collectStatus" />
+    <result column="eam_product_line_is_online" jdbcType="BIT" property="isOnline" />
+    <result column="eam_product_line_morning_shift_start_time" jdbcType="VARCHAR" property="morningShiftStartTime" />
+    <result column="eam_product_line_morning_shift_end_time" jdbcType="VARCHAR" property="morningShiftEndTime" />
+    <result column="eam_product_line_middle_shift_start_time" jdbcType="VARCHAR" property="middleShiftStartTime" />
+    <result column="eam_product_line_middle_shift_end_time" jdbcType="VARCHAR" property="middleShiftEndTime" />
+    <result column="eam_product_line_night_shift_start_time" jdbcType="VARCHAR" property="nightShiftStartTime" />
+    <result column="eam_product_line_night_shift_end_time" jdbcType="VARCHAR" property="nightShiftEndTime" />
+    <result column="eam_product_line_create_user_id" jdbcType="INTEGER" property="createUserId" />
+    <result column="eam_product_line_create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="eam_product_line_update_user_id" jdbcType="INTEGER" property="updateUserId" />
+    <result column="eam_product_line_update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="eam_product_line_delete_flag" jdbcType="BIT" property="deleteFlag" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -85,10 +85,20 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    product_line_id, name, image_path, longitude, latitude, province, city, grm, grm_password, 
-    grm_period, collect_status, is_online, morning_shift_start_time, morning_shift_end_time, 
-    middle_shift_start_time, middle_shift_end_time, night_shift_start_time, night_shift_end_time, 
-    create_user_id, create_time, update_user_id, update_time, delete_flag
+    eam_product_line.product_line_id as eam_product_line_product_line_id, eam_product_line.name as eam_product_line_name, 
+    eam_product_line.image_path as eam_product_line_image_path, eam_product_line.longitude as eam_product_line_longitude, 
+    eam_product_line.latitude as eam_product_line_latitude, eam_product_line.province as eam_product_line_province, 
+    eam_product_line.city as eam_product_line_city, eam_product_line.grm as eam_product_line_grm, 
+    eam_product_line.grm_password as eam_product_line_grm_password, eam_product_line.grm_period as eam_product_line_grm_period, 
+    eam_product_line.collect_status as eam_product_line_collect_status, eam_product_line.is_online as eam_product_line_is_online, 
+    eam_product_line.morning_shift_start_time as eam_product_line_morning_shift_start_time, 
+    eam_product_line.morning_shift_end_time as eam_product_line_morning_shift_end_time, 
+    eam_product_line.middle_shift_start_time as eam_product_line_middle_shift_start_time, 
+    eam_product_line.middle_shift_end_time as eam_product_line_middle_shift_end_time, 
+    eam_product_line.night_shift_start_time as eam_product_line_night_shift_start_time, 
+    eam_product_line.night_shift_end_time as eam_product_line_night_shift_end_time, eam_product_line.create_user_id as eam_product_line_create_user_id, 
+    eam_product_line.create_time as eam_product_line_create_time, eam_product_line.update_user_id as eam_product_line_update_user_id, 
+    eam_product_line.update_time as eam_product_line_update_time, eam_product_line.delete_flag as eam_product_line_delete_flag
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamProductLineExample" resultMap="BaseResultMap">
     select
@@ -96,7 +106,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from eam_product_line
+    from eam_product_line eam_product_line
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -115,15 +125,15 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from eam_product_line
-    where product_line_id = #{productLineId,jdbcType=VARCHAR}
+    from eam_product_line eam_product_line
+    where eam_product_line.product_line_id = #{productLineId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    update eam_product_line set delete_flag = 1 
+    update eam_product_line eam_product_line set delete_flag = 1 
     where product_line_id = #{productLineId,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamProductLineExample">
-    update eam_product_line set delete_flag = 1 
+    update eam_product_line eam_product_line set delete_flag = 1 
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -294,82 +304,82 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamProductLineExample" resultType="java.lang.Long">
-    select count(*) from eam_product_line
+    select count(*) from eam_product_line eam_product_line
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update eam_product_line
+    update eam_product_line eam_product_line
     <set>
       <if test="record.productLineId != null">
-        product_line_id = #{record.productLineId,jdbcType=VARCHAR},
+        eam_product_line.product_line_id = #{record.productLineId,jdbcType=VARCHAR},
       </if>
       <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+        eam_product_line.name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.imagePath != null">
-        image_path = #{record.imagePath,jdbcType=VARCHAR},
+        eam_product_line.image_path = #{record.imagePath,jdbcType=VARCHAR},
       </if>
       <if test="record.longitude != null">
-        longitude = #{record.longitude,jdbcType=DECIMAL},
+        eam_product_line.longitude = #{record.longitude,jdbcType=DECIMAL},
       </if>
       <if test="record.latitude != null">
-        latitude = #{record.latitude,jdbcType=DECIMAL},
+        eam_product_line.latitude = #{record.latitude,jdbcType=DECIMAL},
       </if>
       <if test="record.province != null">
-        province = #{record.province,jdbcType=VARCHAR},
+        eam_product_line.province = #{record.province,jdbcType=VARCHAR},
       </if>
       <if test="record.city != null">
-        city = #{record.city,jdbcType=VARCHAR},
+        eam_product_line.city = #{record.city,jdbcType=VARCHAR},
       </if>
       <if test="record.grm != null">
-        grm = #{record.grm,jdbcType=VARCHAR},
+        eam_product_line.grm = #{record.grm,jdbcType=VARCHAR},
       </if>
       <if test="record.grmPassword != null">
-        grm_password = #{record.grmPassword,jdbcType=VARCHAR},
+        eam_product_line.grm_password = #{record.grmPassword,jdbcType=VARCHAR},
       </if>
       <if test="record.grmPeriod != null">
-        grm_period = #{record.grmPeriod,jdbcType=INTEGER},
+        eam_product_line.grm_period = #{record.grmPeriod,jdbcType=INTEGER},
       </if>
       <if test="record.collectStatus != null">
-        collect_status = #{record.collectStatus,jdbcType=VARCHAR},
+        eam_product_line.collect_status = #{record.collectStatus,jdbcType=VARCHAR},
       </if>
       <if test="record.isOnline != null">
-        is_online = #{record.isOnline,jdbcType=BIT},
+        eam_product_line.is_online = #{record.isOnline,jdbcType=BIT},
       </if>
       <if test="record.morningShiftStartTime != null">
-        morning_shift_start_time = #{record.morningShiftStartTime,jdbcType=VARCHAR},
+        eam_product_line.morning_shift_start_time = #{record.morningShiftStartTime,jdbcType=VARCHAR},
       </if>
       <if test="record.morningShiftEndTime != null">
-        morning_shift_end_time = #{record.morningShiftEndTime,jdbcType=VARCHAR},
+        eam_product_line.morning_shift_end_time = #{record.morningShiftEndTime,jdbcType=VARCHAR},
       </if>
       <if test="record.middleShiftStartTime != null">
-        middle_shift_start_time = #{record.middleShiftStartTime,jdbcType=VARCHAR},
+        eam_product_line.middle_shift_start_time = #{record.middleShiftStartTime,jdbcType=VARCHAR},
       </if>
       <if test="record.middleShiftEndTime != null">
-        middle_shift_end_time = #{record.middleShiftEndTime,jdbcType=VARCHAR},
+        eam_product_line.middle_shift_end_time = #{record.middleShiftEndTime,jdbcType=VARCHAR},
       </if>
       <if test="record.nightShiftStartTime != null">
-        night_shift_start_time = #{record.nightShiftStartTime,jdbcType=VARCHAR},
+        eam_product_line.night_shift_start_time = #{record.nightShiftStartTime,jdbcType=VARCHAR},
       </if>
       <if test="record.nightShiftEndTime != null">
-        night_shift_end_time = #{record.nightShiftEndTime,jdbcType=VARCHAR},
+        eam_product_line.night_shift_end_time = #{record.nightShiftEndTime,jdbcType=VARCHAR},
       </if>
       <if test="record.createUserId != null">
-        create_user_id = #{record.createUserId,jdbcType=INTEGER},
+        eam_product_line.create_user_id = #{record.createUserId,jdbcType=INTEGER},
       </if>
       <if test="record.createTime != null">
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+        eam_product_line.create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.updateUserId != null">
-        update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+        eam_product_line.update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       </if>
       <if test="record.updateTime != null">
-        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+        eam_product_line.update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.deleteFlag != null">
-        delete_flag = #{record.deleteFlag,jdbcType=BIT},
+        eam_product_line.delete_flag = #{record.deleteFlag,jdbcType=BIT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -377,30 +387,30 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update eam_product_line
-    set product_line_id = #{record.productLineId,jdbcType=VARCHAR},
-      name = #{record.name,jdbcType=VARCHAR},
-      image_path = #{record.imagePath,jdbcType=VARCHAR},
-      longitude = #{record.longitude,jdbcType=DECIMAL},
-      latitude = #{record.latitude,jdbcType=DECIMAL},
-      province = #{record.province,jdbcType=VARCHAR},
-      city = #{record.city,jdbcType=VARCHAR},
-      grm = #{record.grm,jdbcType=VARCHAR},
-      grm_password = #{record.grmPassword,jdbcType=VARCHAR},
-      grm_period = #{record.grmPeriod,jdbcType=INTEGER},
-      collect_status = #{record.collectStatus,jdbcType=VARCHAR},
-      is_online = #{record.isOnline,jdbcType=BIT},
-      morning_shift_start_time = #{record.morningShiftStartTime,jdbcType=VARCHAR},
-      morning_shift_end_time = #{record.morningShiftEndTime,jdbcType=VARCHAR},
-      middle_shift_start_time = #{record.middleShiftStartTime,jdbcType=VARCHAR},
-      middle_shift_end_time = #{record.middleShiftEndTime,jdbcType=VARCHAR},
-      night_shift_start_time = #{record.nightShiftStartTime,jdbcType=VARCHAR},
-      night_shift_end_time = #{record.nightShiftEndTime,jdbcType=VARCHAR},
-      create_user_id = #{record.createUserId,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      update_user_id = #{record.updateUserId,jdbcType=INTEGER},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      delete_flag = #{record.deleteFlag,jdbcType=BIT}
+    update eam_product_line eam_product_line
+    set eam_product_line.product_line_id = #{record.productLineId,jdbcType=VARCHAR},
+      eam_product_line.name = #{record.name,jdbcType=VARCHAR},
+      eam_product_line.image_path = #{record.imagePath,jdbcType=VARCHAR},
+      eam_product_line.longitude = #{record.longitude,jdbcType=DECIMAL},
+      eam_product_line.latitude = #{record.latitude,jdbcType=DECIMAL},
+      eam_product_line.province = #{record.province,jdbcType=VARCHAR},
+      eam_product_line.city = #{record.city,jdbcType=VARCHAR},
+      eam_product_line.grm = #{record.grm,jdbcType=VARCHAR},
+      eam_product_line.grm_password = #{record.grmPassword,jdbcType=VARCHAR},
+      eam_product_line.grm_period = #{record.grmPeriod,jdbcType=INTEGER},
+      eam_product_line.collect_status = #{record.collectStatus,jdbcType=VARCHAR},
+      eam_product_line.is_online = #{record.isOnline,jdbcType=BIT},
+      eam_product_line.morning_shift_start_time = #{record.morningShiftStartTime,jdbcType=VARCHAR},
+      eam_product_line.morning_shift_end_time = #{record.morningShiftEndTime,jdbcType=VARCHAR},
+      eam_product_line.middle_shift_start_time = #{record.middleShiftStartTime,jdbcType=VARCHAR},
+      eam_product_line.middle_shift_end_time = #{record.middleShiftEndTime,jdbcType=VARCHAR},
+      eam_product_line.night_shift_start_time = #{record.nightShiftStartTime,jdbcType=VARCHAR},
+      eam_product_line.night_shift_end_time = #{record.nightShiftEndTime,jdbcType=VARCHAR},
+      eam_product_line.create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      eam_product_line.create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      eam_product_line.update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+      eam_product_line.update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      eam_product_line.delete_flag = #{record.deleteFlag,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
