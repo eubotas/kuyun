@@ -144,7 +144,7 @@ CREATE TABLE `eam_ticket_type` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
-
+INSERT INTO eam_ticket_type(name, delete_flag) VALUE ("报警工单", 0);
 
 delete from upms_permission where uri like '/manage/ticket%';
 

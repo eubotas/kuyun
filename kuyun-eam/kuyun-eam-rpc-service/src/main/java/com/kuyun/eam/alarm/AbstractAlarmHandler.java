@@ -6,6 +6,8 @@ import com.kuyun.common.netease.SMSUtil;
 import com.kuyun.common.util.EhCacheUtil;
 import com.kuyun.eam.common.constant.AlarmStatus;
 import com.kuyun.eam.common.constant.AlarmTarget;
+import com.kuyun.eam.common.constant.TicketPriority;
+import com.kuyun.eam.common.constant.TicketStatus;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.upms.dao.model.UpmsUser;
@@ -74,6 +76,9 @@ public abstract class AbstractAlarmHandler {
     @Autowired
     private EamDataElementService eamDataElementService;
 
+    @Autowired
+    private EamTicketService eamTicketService;
+
     public void process(EamGrmVariableData variableData, EamAlarm alarm) {
         EamAlarmRecord alarmRecord = getAlarmRecord(variableData, alarm);
 
@@ -84,6 +89,8 @@ public abstract class AbstractAlarmHandler {
             createAlarmRecordHistory(variableData, alarm, AlarmStatus.ANU);
             //3. send message
             sendAlarmMessage(variableData, alarm, false);
+            //4. create ticket
+            createTicket(variableData, alarm);
         }
 
         if (!metAlarmCondition(variableData, alarm) && alarmRecord != null){
@@ -94,6 +101,26 @@ public abstract class AbstractAlarmHandler {
             //3. send clear message
             sendAlarmMessage(variableData, alarm, true);
         }
+    }
+
+    protected void createTicket(EamGrmVariableData variableData, EamAlarm alarm){
+        if (alarm.getIsCreateTicket()){
+            EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(variableData.getEquipmentId());
+
+            EamTicket ticket = new EamTicket();
+            ticket.setEquipmentId(variableData.getEquipmentId());
+            ticket.setEquipmentCategoryId(equipment.getEquipmentCategoryId());
+            String message = buildSmsMessage(variableData, alarm, false);
+            ticket.setDescription(message);
+            ticket.setPriority(TicketPriority.URGENT.getCode());
+            ticket.setStatus(TicketStatus.INIT.getCode());
+            ticket.setCreateTime(new Date());
+            ticket.setUpdateTime(new Date());
+            ticket.setDeleteFlag(Boolean.FALSE);
+
+            eamTicketService.insertSelective(ticket);
+        }
+
     }
 
     private void updateAlarmRecordHistory(EamGrmVariableData variableData, EamAlarm alarm, AlarmStatus alarmStatus) {

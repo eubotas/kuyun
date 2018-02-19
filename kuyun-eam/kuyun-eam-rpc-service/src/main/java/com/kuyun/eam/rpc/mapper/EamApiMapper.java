@@ -62,4 +62,12 @@ public interface EamApiMapper {
     List<EamGrmVariableDataVO> selectEamGrmVariableData(EamGrmVariableDataVO eamGrmVariableDataVO);
 
     List<EamGrmVariableDataHistoryVO> selectEamGrmVariableDataHistories(EamGrmVariableDataHistoryVO eamGrmVariableDataHistoryVO);
+
+
+    List<EamTicketAssessmentTagVO> selectTicketAssessmentTags(EamTicketAssessmentTagVO vo);
+
+    List<EamTicketAppointVO> selectTicketAppointRecord(EamTicketAppointedRecordExample example);
+
+    List<EamSummaryTicketVO> summaryTicket(Integer companyId);
+
 }

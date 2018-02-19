@@ -59,6 +59,7 @@
                 {field: 'alarmContent', title: '报警内容'},
                 {field: 'alarmTarget', title: '提醒方式'},
                 {field: 'targetUserName', title: '提醒对象'},
+                {field: 'isCreateTicket', title: '是否产生工单'},
                 {field: 'createTime', title: '创建时间', formatter: 'timeFormatter'}
             ]
         });

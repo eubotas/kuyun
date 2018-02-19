@@ -3,6 +3,7 @@ package com.kuyun.upms.rpc.mapper;
 
 import com.kuyun.upms.dao.model.*;
 import com.kuyun.upms.dao.vo.UpmsCompanyVo;
+import com.kuyun.upms.dao.vo.UpmsOrgUserVo;
 import com.kuyun.upms.dao.vo.UpmsUserCompanyVO;
 import com.kuyun.upms.dao.vo.UpmsUserVo;
 
@@ -52,4 +53,5 @@ public interface UpmsApiMapper {
 
 	long countUsers(UpmsUserVo upmsUserVo);
 
+	List<UpmsOrgUserVo> selectOrgUsersByOrgNameCompanyId(UpmsOrgUserVo orgUserVo);
 }

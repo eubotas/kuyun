@@ -8,6 +8,7 @@ import com.kuyun.eam.alarm.OfflineHandler;
 import com.kuyun.eam.common.constant.AlarmType;
 import com.kuyun.eam.common.constant.CollectStatus;
 import com.kuyun.eam.common.constant.DataType;
+import com.kuyun.eam.common.constant.TicketStatus;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.pojo.IDS;
 import com.kuyun.eam.pojo.sensor.SensorData;
@@ -21,6 +22,7 @@ import com.kuyun.grm.rpc.api.GrmApiService;
 import com.kuyun.modbus.rpc.api.ModbusSlaveRtuApiService;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
 import javafx.util.Pair;
+import org.apache.commons.beanutils.BeanUtils;
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +31,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -117,6 +120,21 @@ public class EamApiServiceImpl implements EamApiService {
 
     @Autowired
     private EamDataElementService eamDataElementService;
+
+    @Autowired
+    private EamTicketService eamTicketService;
+
+    @Autowired
+    private EamTicketAppointedRecordService eamTicketAppointRecordService;
+
+    @Autowired
+    private EamTicketRecordService eamTicketRecordService;
+
+    @Autowired
+    private EamTicketAssessmentService eamTicketAssessmentService;
+
+    @Autowired
+    private EamEquipmentDataGroupService eamEquipmentDataGroupService;
 
     @Override
     public List<EamMaintenanceVO> selectMaintenance(EamMaintenanceVO maintenanceVO) {
@@ -1124,6 +1142,522 @@ public class EamApiServiceImpl implements EamApiService {
         }
 
         return result;
+    }
+
+    @Override
+    public List<EamTicketAssessmentTagVO> selectTicketAssessmentTags(EamTicketAssessmentTagVO vo){
+        return eamApiMapper.selectTicketAssessmentTags(vo);
+    }
+
+    @Override
+    public List<EamTicketAppointVO> selectTicketAppointRecord(EamTicketAppointedRecordExample example){
+        return eamApiMapper.selectTicketAppointRecord(example);
+    }
+
+    @Override
+    public int createTicketAppoint(EamTicketAppointedRecord record, EamTicket ticket){
+        int i= eamTicketAppointRecordService.insertSelective(record);
+        eamTicketService.updateByPrimaryKeySelective(ticket);
+        return i;
+    }
+
+    @Override
+    public int rejectTicketAppoint(EamTicketAppointedRecord ticketAppointRecord){
+        int count = eamTicketAppointRecordService.insertSelective(ticketAppointRecord);
+        rejectTicketStatus(ticketAppointRecord.getTicketId(), TicketStatus.INIT.getName());
+        return count;
+    }
+    @Override
+    public int deleteTicketAppoint(EamTicketAppointedRecordExample eamTicketAppointRecordExample, int ticketId){
+        int i= eamTicketAppointRecordService.deleteByExample(eamTicketAppointRecordExample);
+        rejectTicketStatus(ticketId, TicketStatus.INIT.getName());
+        return i;
+    }
+
+    @Override
+    public int addTicketRecord(EamTicketRecord ticketRecord){
+        int i= eamTicketRecordService.insertSelective(ticketRecord);
+        int ticketId = ticketRecord.getTicketId();
+        EamTicket ticket = eamTicketService.selectByPrimaryKey(ticketId);
+        if(TicketStatus.TO_PROCESS.getName().equals(ticket.getStatus()))
+            updateTicketStatus(ticketId, TicketStatus.PROCESSING.getName());
+        return i;
+    }
+
+    @Override
+    public void completeTicket(EamTicketAssessment ticketAssessment, int[] ticketTag){
+        eamTicketAssessmentService.createTicketAssessment(ticketAssessment, ticketTag);
+        EamTicket ticket = eamTicketService.selectByPrimaryKey(ticketAssessment.getTicketId());
+        if(TicketStatus.RESOLVED.getName().equals(ticket.getStatus()))
+            updateTicketStatus(ticketAssessment.getTicketId(), TicketStatus.COMPLETE.getName());
+    }
+
+    @Override
+    public EamSummaryTicketItemVO summaryTicket(Integer companyId) {
+        List<EamSummaryTicketItemVO> items=new ArrayList<EamSummaryTicketItemVO>();
+        List<EamSummaryTicketVO> vos= eamApiMapper.summaryTicket(companyId);
+        EamSummaryTicketItemVO item = new EamSummaryTicketItemVO();
+        int iInit=0, iToProcess=0, iProcessing=0, iResolved=0, iComplete=0, total=0;
+        for(EamSummaryTicketVO vo : vos){
+            if(TicketStatus.INIT.getName().equals(vo.getStatusName())) {
+                iInit = vo.getCount();
+                item.setNoAppointStatusName("未委派");
+                item.setNoAppointTicketCount(iInit);
+            }else if(TicketStatus.TO_PROCESS.getName().equals(vo.getStatusName())){
+                iToProcess = vo.getCount();
+            }else if(TicketStatus.PROCESSING.getName().equals(vo.getStatusName())){
+                iProcessing = vo.getCount();
+            }else if(TicketStatus.RESOLVED.getName().equals(vo.getStatusName())) {
+                iResolved = vo.getCount();
+            }else{
+                iComplete = vo.getCount();
+            }
+
+        }
+        item.setResolvedStatusName("已完成");
+        item.setResolvedTicketCount(iResolved + iComplete);
+
+        total = iInit + iToProcess + iProcessing + iResolved + iComplete;
+        item.setTotalStatusName("累计报修");
+        item.setTotalTicketCount(total);
+
+        item.setProcessingStatusName("维修中");
+        item.setProcessingTicketCount(iToProcess + iProcessing);
+
+        item.setNotResolvedStatusName("未完成");
+        item.setNotResolvedTicketCount(iInit + iToProcess + iProcessing);
+
+        return item;
+    }
+
+    @Override
+    public int copyProductLine(String productLineId, String name, Integer companyId) {
+        int count = 0;
+        EamProductLine productLine = eamProductLineService.selectByPrimaryKey(productLineId);
+        if (productLine != null){
+            EamProductLine newProductLine = buildEamProductLine(name, productLine);
+            count = eamProductLineService.insertSelective(newProductLine);
+
+            copyProduceLineCompany(newProductLine, companyId);
+            copyEamProductLineDataElement(newProductLine, productLine);
+
+            copyEquipments(newProductLine, productLine, companyId);
+
+            copyProductLineAlarm(newProductLine, productLineId, companyId);
+
+            copyEamGrmVariable(newProductLine, productLineId);
+        }
+        return count;
+    }
+
+    private void copyEamGrmVariable(EamProductLine newProductLine, String productLineId){
+        EamGrmVariableExample example = new EamGrmVariableExample();
+        example.createCriteria().andProductLineIdEqualTo(productLineId)
+                .andDeleteFlagEqualTo(Boolean.FALSE)
+                .andEquipmentIdIsNull();
+
+        List<EamGrmVariable> variables = eamGrmVariableService.selectByExample(example);
+        if (variables != null && !variables.isEmpty()){
+            List<EamGrmVariable> newVariables = new ArrayList<>();
+            for(EamGrmVariable variable : variables){
+                try {
+                    EamGrmVariable newVariable = (EamGrmVariable) BeanUtils.cloneBean(variable);
+                    newVariable.setId(null);
+                    newVariable.setProductLineId(newProductLine.getProductLineId());
+
+                    newVariables.add(newVariable);
+                } catch (Exception e) {
+                    _log.error("copy EamGrmVariable error:{}", e.getMessage());
+                }
+            }
+
+            eamGrmVariableService.batchInsert(newVariables);
+        }
+
+
+    }
+    private void copyProductLineAlarm(EamProductLine newProductLine, String productLineId, Integer companyId) {
+        EamAlarmExample example = new EamAlarmExample();
+        example.createCriteria().andProductLineIdEqualTo(productLineId)
+                .andEquipmentIdIsNull().andDeleteFlagEqualTo(Boolean.FALSE);
+
+        List<EamAlarm> alarms = eamAlarmService.selectByExample(example);
+
+        if (alarms != null && !alarms.isEmpty()){
+            Map<EamAlarm, EamAlarm> map = new HashMap<>();
+            List<EamAlarm> newAlarms = new ArrayList<>();
+            for (EamAlarm alarm : alarms){
+
+                try {
+                    EamAlarm newAlarm = (EamAlarm)BeanUtils.cloneBean(alarm);
+                    newAlarm.setProductLineId(newProductLine.getProductLineId());
+                    newAlarm.setAlarmId(null);
+
+                    newAlarms.add(newAlarm);
+                    map.put(alarm, newAlarm);
+                    eamAlarmService.insertSelective(newAlarm);
+                } catch (Exception e) {
+                    _log.error("copy ProductLineAlarm error: {}", e.getMessage());
+                }
+
+            }
+
+            copyAlarmTargetUser(map, alarms, companyId);
+        }
+    }
+
+    private void copyAlarmTargetUser(Map<EamAlarm, EamAlarm> map, List<EamAlarm> alarms, Integer companyId) {
+        List<Integer> alarmIds = alarms.stream().map(x -> x.getAlarmId()).collect(Collectors.toList());
+        EamAlarmTargetUserExample example = new EamAlarmTargetUserExample();
+        example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE)
+                .andAlarmIdIn(alarmIds);
+        List<EamAlarmTargetUser> targetUsers = eamAlarmTargetUserService.selectByExample(example);
+        if (targetUsers != null && !targetUsers.isEmpty()){
+            List<EamAlarmTargetUser> newTargetUsers = new ArrayList<>();
+
+            for(EamAlarmTargetUser targetUser : targetUsers){
+                try {
+                    EamAlarmTargetUser newTargetUser = (EamAlarmTargetUser) BeanUtils.cloneBean(targetUser);
+                    newTargetUser.setId(null);
+                    newTargetUser.setAlarmId(getAlarmId(map, targetUser.getAlarmId()));
+                    newTargetUsers.add(newTargetUser);
+
+                } catch (Exception e) {
+                    _log.error("copy AlarmTargetUser error: {}", e.getMessage());
+                }
+            }
+            eamAlarmTargetUserService.batchInsert(newTargetUsers);
+        }
+    }
+
+    private Integer getAlarmId(Map<EamAlarm, EamAlarm> map, Integer alarmId) {
+        Integer newAlarmId = null;
+        for(Map.Entry<EamAlarm, EamAlarm> entry : map.entrySet()){
+            EamAlarm oldAlarm = entry.getKey();
+            EamAlarm newAlarm = entry.getValue();
+
+            if (oldAlarm.getAlarmId().equals(alarmId)){
+                newAlarmId = newAlarm.getAlarmId();
+                break;
+            }
+
+        }
+        return newAlarmId;
+    }
+
+    private void copyEquipments(EamProductLine newProductLine, EamProductLine oldProductLine, Integer companyId){
+        EamEquipmentExample example = new EamEquipmentExample();
+        example.createCriteria().andProductLineIdEqualTo(oldProductLine.getProductLineId())
+                .andDeleteFlagEqualTo(Boolean.FALSE);
+        List<EamEquipment> oldEquipments = eamEquipmentService.selectByExample(example);
+
+        if(oldEquipments != null && !oldEquipments.isEmpty()){
+            List<EamEquipment> newEquipments = new ArrayList<>();
+            Map<EamEquipment, EamEquipment> map = new HashMap<>();
+            for(EamEquipment equipment : oldEquipments){
+
+                EamEquipment newEquipment = null;
+                try {
+                    newEquipment = (EamEquipment) BeanUtils.cloneBean(equipment);
+                    newEquipment.setEquipmentId(null);
+                    newEquipment.setProductLineId(newProductLine.getProductLineId());
+                    newEquipments.add(newEquipment);
+                    map.put(equipment, newEquipment);
+
+                    eamEquipmentService.insertSelective(newEquipment);
+                } catch (Exception e) {
+                    _log.error("clone equipment error: {}", e.getMessage());
+                }
+            }
+
+            copyEamEquipmentDataGroup(map, oldEquipments);
+
+            copyEquipmentAlarms(newProductLine, map, oldEquipments, companyId);
+
+            copyEquipmentGrmVariables(newProductLine, map, oldEquipments);
+        }
+
+
+    }
+
+    private void copyEquipmentGrmVariables(EamProductLine newProductLine, Map<EamEquipment, EamEquipment> map, List<EamEquipment> eamEquipments) {
+        List<String> equipmentIds = eamEquipments.stream().map(x -> x.getEquipmentId()).collect(Collectors.toList());
+
+        EamGrmVariableExample example = new EamGrmVariableExample();
+        example.createCriteria().andEquipmentIdIn(equipmentIds).andDeleteFlagEqualTo(Boolean.FALSE);
+
+        List<EamGrmVariable> variables = eamGrmVariableService.selectByExample(example);
+
+        if (variables != null && !variables.isEmpty()){
+
+            List<EamGrmVariable> newVariables = new ArrayList<>();
+            for (EamGrmVariable variable : variables){
+                try {
+                    EamGrmVariable newVariable = (EamGrmVariable)BeanUtils.cloneBean(variable);
+                    newVariable.setId(null);
+                    newVariable.setProductLineId(newProductLine.getProductLineId());
+                    newVariable.setEquipmentId(getEquipmentId(map, variable));
+
+
+                    newVariables.add(newVariable);
+                } catch (Exception e) {
+                    _log.error("copyEquipmentGrmVariables error: {}", e.getMessage());
+                }
+            }
+
+            eamGrmVariableService.batchInsert(newVariables);
+        }
+    }
+
+    private String getEquipmentId(Map<EamEquipment, EamEquipment> map, EamGrmVariable variable) {
+        String equipmentId = null;
+        for(Map.Entry<EamEquipment, EamEquipment> entry : map.entrySet()){
+            EamEquipment oldEquipment = entry.getKey();
+            EamEquipment newEquipment = entry.getValue();
+
+            if (variable.getEquipmentId().equals(oldEquipment.getEquipmentId())){
+                equipmentId = newEquipment.getEquipmentId();
+                break;
+            }
+        }
+
+        return equipmentId;
+
+    }
+
+    private void copyEquipmentAlarms(EamProductLine newProductLine, Map<EamEquipment, EamEquipment> map, List<EamEquipment> eamEquipments, Integer companyId) {
+        List<String> equipmentIds = eamEquipments.stream().map(x -> x.getEquipmentId()).collect(Collectors.toList());
+        EamAlarmExample example = new EamAlarmExample();
+        example.createCriteria().andEquipmentIdIn(equipmentIds).andDeleteFlagEqualTo(Boolean.FALSE);
+
+        List<EamAlarm> alarms = eamAlarmService.selectByExample(example);
+        if (alarms != null && !alarms.isEmpty()){
+            List<EamAlarm> newAlarms = new ArrayList<>();
+            Map<EamAlarm, EamAlarm> alarmMap = new HashMap<>();
+            for(EamAlarm alarm : alarms){
+
+                try {
+                    EamAlarm newAlarm = (EamAlarm)BeanUtils.cloneBean(alarm);
+                    newAlarm.setAlarmId(null);
+                    newAlarm.setEquipmentId(getEquipmentId(map, alarm));
+                    newAlarm.setProductLineId(newProductLine.getProductLineId());
+
+                    newAlarms.add(newAlarm);
+                    alarmMap.put(alarm, newAlarm);
+
+                    eamAlarmService.insertSelective(newAlarm);
+                } catch (Exception e) {
+                    _log.error("copay EquipmentAlarms error: {}", e.getMessage());
+                }
+
+
+            }
+
+            copyAlarmTargetUser(alarmMap, alarms, companyId);
+        }
+
+
+    }
+
+    private String getEquipmentId(Map<EamEquipment, EamEquipment> map, EamAlarm alarm) {
+        String equipmentId = null;
+        for(Map.Entry<EamEquipment, EamEquipment> entry : map.entrySet()){
+            EamEquipment oldEquipment = entry.getKey();
+            EamEquipment newEquipment = entry.getValue();
+
+            if (alarm.getEquipmentId().equals(oldEquipment.getEquipmentId())){
+                equipmentId = newEquipment.getEquipmentId();
+                break;
+            }
+        }
+
+        return equipmentId;
+
+    }
+
+    private void copyEamEquipmentDataGroupElemets(Map<EamEquipment, EamEquipment> map, Map<EamEquipmentDataGroup, EamEquipmentDataGroup> dataGroupMap, List<EamEquipment> eamEquipments){
+        List<String> equipmentIds = eamEquipments.stream().map(x -> x.getEquipmentId()).collect(Collectors.toList());
+        EamEquipmentDataGroupElemetsExample example = new EamEquipmentDataGroupElemetsExample();
+        example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE).andEquipmentIdIn(equipmentIds);
+
+        List<EamEquipmentDataGroupElemets> elemets = eamEquipmentDataGroupElemetsService.selectByExample(example);
+
+        if (elemets != null && !elemets.isEmpty()){
+            List<EamEquipmentDataGroupElemets> newElements = new ArrayList<>();
+
+            for(EamEquipmentDataGroupElemets element : elemets){
+                try {
+                    EamEquipmentDataGroupElemets newElement = (EamEquipmentDataGroupElemets)BeanUtils.cloneBean(element);
+                    newElement.setId(null);
+                    newElement.setEquipmentDataGroupId(getEquipmentDataGroupId(dataGroupMap, element));
+                    newElement.setEquipmentId(getEquipmentId(map, element));
+                    newElements.add(newElement);
+                } catch (Exception e) {
+                    _log.error("copy EamEquipmentDataGroupElemets error: {}", e.getMessage());
+                }
+            }
+
+            eamEquipmentDataGroupElemetsService.batchInsert(newElements);
+        }
+
+    }
+
+    private Integer getEquipmentDataGroupId(Map<EamEquipmentDataGroup, EamEquipmentDataGroup> dataGroupMap, EamEquipmentDataGroupElemets element) {
+
+        Integer equipmentDataGroupId = null;
+        for(Map.Entry<EamEquipmentDataGroup, EamEquipmentDataGroup> entry : dataGroupMap.entrySet()){
+            EamEquipmentDataGroup oldDataGroup = entry.getKey();
+            EamEquipmentDataGroup newDataGroup = entry.getValue();
+
+            if (element.getEquipmentDataGroupId().equals(oldDataGroup.getId())){
+                equipmentDataGroupId = newDataGroup.getId();
+                break;
+
+            }
+        }
+
+        return equipmentDataGroupId;
+
+
+    }
+
+    private String getEquipmentId(Map<EamEquipment, EamEquipment> map, EamEquipmentDataGroupElemets element){
+        String equipmentId = null;
+        for(Map.Entry<EamEquipment, EamEquipment> entry : map.entrySet()){
+            EamEquipment oldEquipment = entry.getKey();
+            EamEquipment newEquipment = entry.getValue();
+
+            if (element.getEquipmentId().equals(oldEquipment.getEquipmentId())){
+                equipmentId = newEquipment.getEquipmentId();
+                break;
+            }
+        }
+
+        return equipmentId;
+    }
+
+    private void copyEamEquipmentDataGroup(Map<EamEquipment, EamEquipment> map, List<EamEquipment> eamEquipments) {
+
+        List<String> equipmentIds = eamEquipments.stream().map(x -> x.getEquipmentId()).collect(Collectors.toList());
+
+        EamEquipmentDataGroupExample example = new EamEquipmentDataGroupExample();
+        example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE).andEquipmentIdIn(equipmentIds);
+
+        List<EamEquipmentDataGroup> equipmentDataGroups = eamEquipmentDataGroupService.selectByExample(example);
+
+        if (equipmentDataGroups != null && !equipmentDataGroups.isEmpty()){
+            List<EamEquipmentDataGroup> newEquipmentDataGroups = new ArrayList<>();
+            Map<EamEquipmentDataGroup, EamEquipmentDataGroup> dataGroupMap = new HashMap<>();
+            for(EamEquipmentDataGroup dataGroup : equipmentDataGroups){
+                try {
+                    EamEquipmentDataGroup newEquipmentDataGroup = (EamEquipmentDataGroup)BeanUtils.cloneBean(dataGroup);
+                    newEquipmentDataGroup.setId(null);
+                    newEquipmentDataGroup.setEquipmentId(getEquipmentId(map, dataGroup));
+                    newEquipmentDataGroups.add(newEquipmentDataGroup);
+                    dataGroupMap.put(dataGroup, newEquipmentDataGroup);
+
+                    eamEquipmentDataGroupService.insertSelective(newEquipmentDataGroup);
+                } catch (Exception e) {
+                    _log.error("copy EamEquipmentDataGroup error: {}", e.getMessage());
+                }
+            }
+
+            copyEamEquipmentDataGroupElemets(map, dataGroupMap, eamEquipments);
+        }
+
+
+
+
+    }
+
+    private String getEquipmentId(Map<EamEquipment, EamEquipment> map, EamEquipmentDataGroup dataGroup){
+        String equipmentId = null;
+        for(Map.Entry<EamEquipment, EamEquipment> entry : map.entrySet()){
+            EamEquipment oldEquipment = entry.getKey();
+            EamEquipment newEquipment = entry.getValue();
+
+            if (dataGroup.getEquipmentId().equals(oldEquipment.getEquipmentId())){
+                equipmentId = newEquipment.getEquipmentId();
+                break;
+            }
+        }
+
+        return equipmentId;
+    }
+
+    private void copyProduceLineCompany(EamProductLine newProductLine, Integer companyId) {
+        EamProductLineCompany eamProductLineCompany = new EamProductLineCompany();
+        eamProductLineCompany.setProductLineId(newProductLine.getProductLineId());
+        eamProductLineCompany.setCompanyId(companyId);
+        eamProductLineCompany.setCreateTime(new Date());
+        eamProductLineCompany.setUpdateTime(new Date());
+        eamProductLineCompany.setDeleteFlag(Boolean.FALSE);
+
+        eamProductLineCompanyService.insertSelective(eamProductLineCompany);
+    }
+
+    private void copyEamProductLineDataElement(EamProductLine newProductLine, EamProductLine productLine){
+        EamProductLineDataElementExample example = new EamProductLineDataElementExample();
+        example.createCriteria().andProductLineIdEqualTo(productLine.getProductLineId())
+                .andDeleteFlagEqualTo(Boolean.FALSE);
+
+        List<EamProductLineDataElement> elements = eamProductLineDataElementService.selectByExample(example);
+
+        List<EamProductLineDataElement> newElements = new ArrayList<>();
+        for(EamProductLineDataElement element : elements){
+            EamProductLineDataElement newElement = new EamProductLineDataElement();
+            newElement.setProductLineId(newProductLine.getProductLineId());
+            newElement.setEamDataElementId(element.getEamDataElementId());
+            newElement.setDeleteFlag(Boolean.FALSE);
+            newElement.setUpdateTime(new Date());
+            newElement.setCreateTime(new Date());
+            newElements.add(newElement);
+        }
+
+        eamProductLineDataElementService.batchInsert(newElements);
+    }
+
+    private EamProductLine buildEamProductLine(String name, EamProductLine productLine){
+        EamProductLine newProductLine = new EamProductLine();
+        newProductLine.setName(name);
+        newProductLine.setCity(productLine.getCity());
+        newProductLine.setProvince(productLine.getProvince());
+        newProductLine.setImagePath(productLine.getImagePath());
+        newProductLine.setLongitude(productLine.getLongitude());
+        newProductLine.setLatitude(productLine.getLatitude());
+        newProductLine.setMorningShiftEndTime(productLine.getMorningShiftEndTime());
+        newProductLine.setMorningShiftStartTime(productLine.getMorningShiftStartTime());
+        newProductLine.setMiddleShiftStartTime(productLine.getMiddleShiftStartTime());
+        newProductLine.setMiddleShiftEndTime(productLine.getMiddleShiftEndTime());
+        newProductLine.setNightShiftStartTime(productLine.getNightShiftStartTime());
+        newProductLine.setNightShiftEndTime(productLine.getNightShiftEndTime());
+        newProductLine.setCreateTime(new Date());
+        newProductLine.setUpdateTime(new Date());
+        newProductLine.setDeleteFlag(Boolean.FALSE);
+        newProductLine.setIsOnline(Boolean.FALSE);
+
+
+        return newProductLine;
+
+    }
+
+
+    private int rejectTicketStatus(int ticketId, String status){
+        EamTicket ticket=new EamTicket();
+        ticket.setTicketId(ticketId);
+        ticket.setStatus(status);
+        ticket.setExecutorId(-1); //remove executor
+        return updateTicketStatus(ticket);
+    }
+    private int updateTicketStatus(int ticketId, String status){
+        EamTicket ticket=new EamTicket();
+        ticket.setTicketId(ticketId);
+        ticket.setStatus(status);
+        return updateTicketStatus(ticket);
+    }
+
+    private int updateTicketStatus(EamTicket ticket){
+        return eamTicketService.updateByPrimaryKeySelective(ticket);
     }
 
 }

@@ -7,6 +7,12 @@ import com.kuyun.upms.dao.model.UpmsUserCompany;
  */
 public class UpmsUserCompanyVO extends UpmsUserCompany {
 
+    private Integer limit;
+
+    private Integer offset;
+
+    private String orderByClause;
+
     private String orgName;
 
     public String getOrgName() {
@@ -15,5 +21,29 @@ public class UpmsUserCompanyVO extends UpmsUserCompany {
 
     public void setOrgName(String orgName) {
         this.orgName = orgName;
+    }
+
+    public Integer getLimit() {
+        return limit;
+    }
+
+    public void setLimit(Integer limit) {
+        this.limit = limit;
+    }
+
+    public Integer getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Integer offset) {
+        this.offset = offset;
+    }
+
+    public String getOrderByClause() {
+        return orderByClause;
+    }
+
+    public void setOrderByClause(String orderByClause) {
+        this.orderByClause = orderByClause;
     }
 }

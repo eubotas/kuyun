@@ -105,7 +105,14 @@
 				</div>
 			</div>
 
-
+			<div class="col-sm-12">
+				<div class="form-group">
+					<div class="fg-line">
+						<label for="isCreateTicket">是否产生工单</label>
+						<input id="isCreateTicket" type="Checkbox" class="form-control" name="isCreateTicket" value="1" <c:if test="${alarm.isCreateTicket}"> checked</c:if>>
+					</div>
+				</div>
+			</div>
 		</div>
 
 

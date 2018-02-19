@@ -73,7 +73,14 @@
 				</div>
 			</div>
 
-
+			<div class="col-sm-12">
+				<div class="form-group">
+					<div class="fg-line">
+						<label for="isCreateTicket">是否产生工单</label>
+						<input id="isCreateTicket" type="Checkbox" class="form-control" name="isCreateTicket" value="1">
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<div class="form-group text-right dialog-buttons">

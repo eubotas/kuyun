@@ -8,6 +8,6 @@ import com.kuyun.eam.dao.model.EamTicketAssessmentExample;
 * EamTicketAssessmentService接口
 * Created by kuyun on 2018/1/10.
 */
-public interface EamTicketAssessmentService extends BaseService<EamTicketAssessment, EamTicketAssessmentExample> {
+public interface EamTicketAssessmentService extends CustTicketAssessmentService {
 
 }

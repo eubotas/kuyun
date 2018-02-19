@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @BaseService
-public class EamTicketAssessmentServiceImpl extends BaseServiceImpl<EamTicketAssessmentMapper, EamTicketAssessment, EamTicketAssessmentExample> implements EamTicketAssessmentService {
+public class EamTicketAssessmentServiceImpl extends CustTicketAssessmentServiceImpl implements EamTicketAssessmentService {
 
     private static Logger _log = LoggerFactory.getLogger(EamTicketAssessmentServiceImpl.class);
 

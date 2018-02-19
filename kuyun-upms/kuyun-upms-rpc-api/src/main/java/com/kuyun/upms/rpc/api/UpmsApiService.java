@@ -2,6 +2,7 @@ package com.kuyun.upms.rpc.api;
 
 import com.kuyun.upms.dao.model.*;
 import com.kuyun.upms.dao.vo.UpmsCompanyVo;
+import com.kuyun.upms.dao.vo.UpmsOrgUserVo;
 import com.kuyun.upms.dao.vo.UpmsUserCompanyVO;
 import com.kuyun.upms.dao.vo.UpmsUserVo;
 
@@ -125,4 +126,5 @@ public interface UpmsApiService {
 
     int createUser(UpmsUser upmsUser, UpmsUserCompany upmsUserCompany);
 
+    List<UpmsOrgUserVo> selectOrgUsersByOrgNameCompanyId(UpmsOrgUserVo orgUserVo);
 }

@@ -240,4 +240,22 @@ public class EamProductLineController extends BaseController {
 		Tree tree = eamApiService.getCityTree(baseEntityUtil.getCurrentUserCompany());
 		return new EamResult(SUCCESS, tree);
 	}
+
+	@ApiOperation(value = "复制产线")
+	@RequiresPermissions("eam:productLine:update")
+	@RequestMapping(value = "/copy/{id}", method = RequestMethod.GET)
+	public String copy(@PathVariable("id") String id, ModelMap modelMap) {
+		EamProductLine eamProductLine = eamProductLineService.selectByPrimaryKey(id);
+		modelMap.put("eamProductLine", eamProductLine);
+		return "/manage/productLine/copy.jsp";
+	}
+
+	@ApiOperation(value = "复制产线")
+	@RequiresPermissions("eam:productLine:update")
+	@RequestMapping(value = "/copy/{id}", method = RequestMethod.POST)
+	@ResponseBody
+	public Object copy(@PathVariable("id") String id, String name) {
+		int count = eamApiService.copyProductLine(id, name, baseEntityUtil.getCurrentUserCompany().getCompanyId());
+		return new EamResult(SUCCESS, count);
+	}
 }

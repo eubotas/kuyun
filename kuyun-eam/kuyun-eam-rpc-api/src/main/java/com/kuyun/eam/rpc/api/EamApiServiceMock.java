@@ -240,5 +240,50 @@ public class EamApiServiceMock implements EamApiService {
         return null;
     }
 
+    @Override
+    public List<EamTicketAssessmentTagVO> selectTicketAssessmentTags(EamTicketAssessmentTagVO vo) {
+        return null;
+    }
+
+    @Override
+    public List<EamTicketAppointVO> selectTicketAppointRecord(EamTicketAppointedRecordExample example) {
+        return null;
+    }
+
+    @Override
+    public int createTicketAppoint(EamTicketAppointedRecord record, EamTicket ticket) {
+        return 0;
+    }
+
+    @Override
+    public int rejectTicketAppoint(EamTicketAppointedRecord ticketAppointRecord) {
+        return 0;
+    }
+
+    @Override
+    public int deleteTicketAppoint(EamTicketAppointedRecordExample eamTicketAppointRecordExample, int ticketId) {
+        return 0;
+    }
+
+    @Override
+    public int addTicketRecord(EamTicketRecord ticketRecord) {
+        return 0;
+    }
+
+    @Override
+    public void completeTicket(EamTicketAssessment ticketAssessment, int[] ticketTag) {
+
+    }
+
+    @Override
+    public EamSummaryTicketItemVO summaryTicket(Integer companyId) {
+        return null;
+    }
+
+    @Override
+    public int copyProductLine(String productLineId, String name, Integer companyId) {
+        return 0;
+    }
+
 
 }

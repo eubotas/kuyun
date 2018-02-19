@@ -5,6 +5,7 @@ import com.kuyun.common.util.MD5Util;
 import com.kuyun.upms.dao.mapper.*;
 import com.kuyun.upms.dao.model.*;
 import com.kuyun.upms.dao.vo.UpmsCompanyVo;
+import com.kuyun.upms.dao.vo.UpmsOrgUserVo;
 import com.kuyun.upms.dao.vo.UpmsUserCompanyVO;
 import com.kuyun.upms.dao.vo.UpmsUserVo;
 import com.kuyun.upms.rpc.api.*;
@@ -491,5 +492,11 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         createUserCompany(upmsUser, upmsUserCompany.getCompanyId());
         return count;
     }
+
+    @Override
+    public List<UpmsOrgUserVo> selectOrgUsersByOrgNameCompanyId(UpmsOrgUserVo orgUserVo) {
+        return upmsApiMapper.selectOrgUsersByOrgNameCompanyId(orgUserVo);
+    }
+
 
 }

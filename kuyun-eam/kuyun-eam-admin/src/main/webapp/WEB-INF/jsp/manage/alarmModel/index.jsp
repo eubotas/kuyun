@@ -56,6 +56,7 @@ $(function() {
 			{field: 'ck', checkbox: true},
 			{field: 'name', title: '报警名称'},
 			{field: 'alarmContent', title: '报警内容'},
+			{field: 'isCreateTicket', title: '是否产生工单'},
 			{field: 'createTime', title: '创建时间', formatter: 'timeFormatter'},
 			{field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
 		]

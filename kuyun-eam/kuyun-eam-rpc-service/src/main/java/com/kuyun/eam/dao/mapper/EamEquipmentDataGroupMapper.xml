@@ -115,19 +115,22 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamEquipmentDataGroup">
-    insert into eam_equipment_data_group (id, equipment_id, data_group_id, 
-      create_user_id, create_time, update_user_id, 
-      update_time, delete_flag)
-    values (#{id,jdbcType=INTEGER}, #{equipmentId,jdbcType=VARCHAR}, #{dataGroupId,jdbcType=INTEGER}, 
-      #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT})
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into eam_equipment_data_group (equipment_id, data_group_id, create_user_id, 
+      create_time, update_user_id, update_time, 
+      delete_flag)
+    values (#{equipmentId,jdbcType=VARCHAR}, #{dataGroupId,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{deleteFlag,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamEquipmentDataGroup">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into eam_equipment_data_group
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="equipmentId != null">
         equipment_id,
       </if>
@@ -151,9 +154,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="equipmentId != null">
         #{equipmentId,jdbcType=VARCHAR},
       </if>
@@ -269,14 +269,14 @@
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into eam_equipment_data_group  (id, equipment_id, data_group_id, 
-        create_user_id, create_time, update_user_id, 
-        update_time, delete_flag)
+            insert into eam_equipment_data_group  (equipment_id, data_group_id, create_user_id, 
+        create_time, update_user_id, update_time, 
+        delete_flag)
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.id,jdbcType=INTEGER}, #{item.equipmentId,jdbcType=VARCHAR}, #{item.dataGroupId,jdbcType=INTEGER}, 
-        #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, 
-        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT})
+      (#{item.equipmentId,jdbcType=VARCHAR}, #{item.dataGroupId,jdbcType=INTEGER}, #{item.createUserId,jdbcType=INTEGER}, 
+        #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
+        #{item.deleteFlag,jdbcType=BIT})
       </foreach>
     </if>
   </insert>

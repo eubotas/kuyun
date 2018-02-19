@@ -24,6 +24,8 @@
 		<shiro:hasPermission name="eam:productLine:update"><a class="waves-effect waves-button" href="javascript:;" onclick="dataElementAction()"><i class="zmdi zmdi-plus"></i> 选择数据点</a></shiro:hasPermission>
 		<shiro:hasPermission name="eam:equipment:read"><a class="waves-effect waves-button" href="javascript:;" onclick="viewEquipmentAction()"><i class="zmdi zmdi-plus"></i> 设备管理</a></shiro:hasPermission>
 		<shiro:hasPermission name="eam:equipment:read"><a class="waves-effect waves-button" href="javascript:;" onclick="alarmAction()"><i class="zmdi zmdi-plus"></i> 报警设置</a></shiro:hasPermission>
+		<shiro:hasPermission name="eam:productLine:update"><a class="waves-effect waves-button" href="javascript:;" onclick="copyAction()"><i class="zmdi zmdi-edit"></i> 复制产线</a></shiro:hasPermission>
+
 	</div>
 	<table id="table"></table>
 </div>
@@ -123,6 +125,37 @@ function updateAction() {
 			}
 		});
 	}
+}
+
+// 编辑
+var copyDialog;
+function copyAction() {
+    var rows = $table.bootstrapTable('getSelections');
+    if (rows.length != 1) {
+        $.confirm({
+            title: false,
+            content: '请选择一条记录！',
+            autoClose: 'cancel|3000',
+            backgroundDismiss: true,
+            buttons: {
+                cancel: {
+                    text: '取消',
+                    btnClass: 'waves-effect waves-button'
+                }
+            }
+        });
+    } else {
+        copyDialog = $.dialog({
+            animationSpeed: 300,
+            title: '复制产线',
+            columnClass: 'xlarge',
+            content: 'url:${basePath}/manage/productLine/copy/' + rows[0].productLineId,
+            onContentReady: function () {
+                initMaterialInput();
+                $('select').select2();
+            }
+        });
+    }
 }
 
 // 删除
