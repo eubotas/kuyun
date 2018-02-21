@@ -11,6 +11,8 @@ import com.kuyun.eam.common.constant.DataType;
 import com.kuyun.eam.common.constant.TicketStatus;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.pojo.IDS;
+import com.kuyun.eam.pojo.Position;
+import com.kuyun.eam.pojo.Positions;
 import com.kuyun.eam.pojo.sensor.SensorData;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.pojo.tree.*;
@@ -31,7 +33,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -1248,6 +1249,46 @@ public class EamApiServiceImpl implements EamApiService {
             copyEamGrmVariable(newProductLine, productLineId);
         }
         return count;
+    }
+
+    @Override
+    public int updatePositions(String productLineId, Positions positions) {
+        int result = 0;
+        for(Position position : positions.getPositions()){
+            EamEquipment equipment = new EamEquipment();
+            equipment.setEquipmentId(position.getEquipmentId());
+            equipment.setLeftPosition(position.getLeft());
+            equipment.setTopPosition(position.getTop());
+
+            result = eamEquipmentService.updateByPrimaryKey(equipment);
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<Position> getPositions(String productLineId) {
+        List<Position> result = new ArrayList<>();
+
+
+        EamEquipmentExample example = new EamEquipmentExample();
+        example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE)
+                .andProductLineIdEqualTo(productLineId);
+
+
+
+        List<EamEquipment> equipmentList = eamEquipmentService.selectByExample(example);
+        if (equipmentList != null && !equipmentList.isEmpty()){
+
+            for (EamEquipment equipment : equipmentList){
+                Position position = new Position();
+                position.setLeft(equipment.getLeftPosition());
+                position.setTop(equipment.getTopPosition());
+                position.setEquipmentId(equipment.getEquipmentId());
+                result.add(position);
+            }
+        }
+        return result;
     }
 
     private void copyEamGrmVariable(EamProductLine newProductLine, String productLineId){

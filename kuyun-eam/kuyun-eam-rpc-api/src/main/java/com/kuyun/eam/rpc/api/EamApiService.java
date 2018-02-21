@@ -2,6 +2,8 @@ package com.kuyun.eam.rpc.api;
 
 import com.kuyun.eam.common.constant.CollectStatus;
 import com.kuyun.eam.dao.model.*;
+import com.kuyun.eam.pojo.Position;
+import com.kuyun.eam.pojo.Positions;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.pojo.tree.Tree;
 import com.kuyun.eam.vo.*;
@@ -117,4 +119,8 @@ public interface EamApiService {
     public EamSummaryTicketItemVO summaryTicket(Integer companyId);
 
     int copyProductLine(String productLineId, String name, Integer companyId);
+
+    int updatePositions(String productLineId, Positions positions);
+
+    List<Position> getPositions(String productLineId);
 }
