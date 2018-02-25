@@ -5,6 +5,8 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.NotNullValidator;
+import com.kuyun.common.validator.LengthValidator;
+import com.kuyun.common.validator.SizeValidator;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
@@ -164,11 +166,11 @@ public class EamMaintainPlanController extends BaseController {
 		ComplexResult result = FluentValidator.checkAll()
 				.on(plan.getEquipmentCategoryId(), new NotNullValidator("设备类别"))
                 .on(plan.getEquipmentId(), new NotNullValidator("设备名称"))
-                .on(plan.getWorkContent(), new NotNullValidator("工单描述"))
+                .on(plan.getWorkContent(), new LengthValidator(1, 2000,"工单描述"))
                 .on(plan.getNextMaintainDate(), new NotNullValidator("下个维护日期"))
-                .on(plan.getMaintainFrequencyQuantity(), new NotNullValidator("维护频率"))
+                .on(plan.getMaintainFrequencyQuantity(), new SizeValidator(1, 10,"维护频率"))
                 .on(plan.getMaintainFrequencyUnit(), new NotNullValidator("维护频率单位"))
-                .on(plan.getRemindTime(), new NotNullValidator("维护提前提醒天数"))
+                .on(plan.getRemindTime(), new SizeValidator(1,10,"维护提前提醒天数"))
 				.doValidate()
 				.result(ResultCollectors.toComplex());
 		if (!result.isSuccess()) {
@@ -216,11 +218,11 @@ public class EamMaintainPlanController extends BaseController {
 		ComplexResult result = FluentValidator.checkAll()
 				.on(plan.getEquipmentCategoryId(), new NotNullValidator("设备类别"))
 				.on(plan.getEquipmentId(), new NotNullValidator("设备名称"))
-				.on(plan.getWorkContent(), new NotNullValidator("工单描述"))
-                .on(plan.getNextMaintainDate(), new NotNullValidator("下个维护日期"))
-                .on(plan.getMaintainFrequencyQuantity(), new NotNullValidator("维护频率"))
-                .on(plan.getMaintainFrequencyUnit(), new NotNullValidator("维护频率单位"))
-                .on(plan.getRemindTime(), new NotNullValidator("维护提前提醒天数"))
+				.on(plan.getWorkContent(), new LengthValidator(1, 2000,"工单描述"))
+				.on(plan.getNextMaintainDate(), new NotNullValidator("下个维护日期"))
+				.on(plan.getMaintainFrequencyQuantity(), new SizeValidator(1, 10,"维护频率"))
+				.on(plan.getMaintainFrequencyUnit(), new NotNullValidator("维护频率单位"))
+				.on(plan.getRemindTime(), new SizeValidator(1,10,"维护提前提醒天数"))
 				.doValidate()
 				.result(ResultCollectors.toComplex());
 		if (!result.isSuccess()) {
