@@ -32,11 +32,18 @@ public abstract class BaseJob implements Job {
     public void setCron(String unit, int num, Date startDate){
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(startDate);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int toLast= EamDateUtil.getDayToLast(startDate);
+        int iDay = calendar.get(Calendar.DAY_OF_MONTH);
         int month = calendar.get(Calendar.MONTH)+1;
         int year = calendar.get(Calendar.YEAR);
         int week = calendar.get(Calendar.DAY_OF_WEEK);
-
+        String day=""+iDay;
+        if(iDay > 29) {  //月末
+            if(toLast == 1)
+                day = "L";
+            else
+                day = "28";
+        }
         StringBuffer sb=new StringBuffer("0 0 1 ");
 
         if ("YEAR".equals(unit)) {
