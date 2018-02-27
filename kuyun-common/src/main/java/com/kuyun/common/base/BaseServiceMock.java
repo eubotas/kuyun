@@ -103,4 +103,9 @@ public abstract class BaseServiceMock<Mapper, Record, Example> implements BaseSe
 	@Override
 	public void initMapper() {}
 
+	@Override
+	public Record insertSelectiveCust(Record record) {
+		return null;
+	}
+
 }

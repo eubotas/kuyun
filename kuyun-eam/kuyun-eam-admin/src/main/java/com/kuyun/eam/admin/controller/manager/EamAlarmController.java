@@ -161,13 +161,26 @@ public class EamAlarmController extends BaseController {
 	@RequiresPermissions("eam:alarm:update")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
 	public String update(@PathVariable("id") int id, ModelMap modelMap) {
+		handleModelMap(id, modelMap);
+		return "/manage/alarm/update.jsp";
+	}
+
+	@ApiOperation(value = "修改报警设置")
+	@RequiresPermissions("eam:alarm:update")
+	@RequestMapping(value = "/updateIndex/{id}", method = RequestMethod.GET)
+	public Object updateIndex(@PathVariable("id") int id, ModelMap modelMap) {
+		handleModelMap(id, modelMap);
+		return new EamResult(SUCCESS, modelMap);
+	}
+
+	private void handleModelMap(int id, ModelMap modelMap) {
 		EamDataElementExample example = new EamDataElementExample();
 		example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE);
 		List<EamDataElement> elements = eamDataElementService.selectByExample(example);
 
 		EamAlarmTargetUserExample alarmTargetUserExample = new EamAlarmTargetUserExample();
 		alarmTargetUserExample.createCriteria().andAlarmIdEqualTo(Integer.valueOf(id))
-		.andDeleteFlagEqualTo(Boolean.FALSE);
+				.andDeleteFlagEqualTo(Boolean.FALSE);
 
 		List<EamAlarmTargetUser> alarmTargetUsers = eamAlarmTargeUserService.selectByExample(alarmTargetUserExample);
 
@@ -180,7 +193,6 @@ public class EamAlarmController extends BaseController {
 		modelMap.put("alarmTargetUsers", alarmTargetUsers);
 		modelMap.put("alarmTypes", AlarmType.values());
 		modelMap.put("alarmTargets", AlarmTarget.values());
-		return "/manage/alarm/update.jsp";
 	}
 
 	@ApiOperation(value = "修改报警设置")
@@ -199,16 +211,32 @@ public class EamAlarmController extends BaseController {
 	@ApiOperation(value = "提醒设置")
 	@RequiresPermissions("eam:alarm:update")
 	@RequestMapping(value = "/target/{ids}",method = RequestMethod.GET)
+	public Object target(@PathVariable("productLineId") String productLineId,
+							  @PathVariable("ids") String ids,
+							  ModelMap modelMap) {
+
+		handleModelMap(productLineId, ids, modelMap);
+		return "/manage/alarm/target.jsp";
+	}
+
+	@ApiOperation(value = "提醒设置")
+	@RequiresPermissions("eam:alarm:update")
+	@RequestMapping(value = "/targetIndex/{ids}",method = RequestMethod.GET)
+	@ResponseBody
 	public Object targetIndex(@PathVariable("productLineId") String productLineId,
 							  @PathVariable("ids") String ids,
 							  ModelMap modelMap) {
 
+		handleModelMap(productLineId, ids, modelMap);
+		return new EamResult(SUCCESS, modelMap);
+	}
+
+	private void handleModelMap(String productLineId, String ids, ModelMap modelMap) {
 		List<UpmsUser> alarmTargetUsers = upmsApiService.selectUsers(createUserCompanyVO());
 		modelMap.put("productLineId", productLineId);
 		modelMap.put("ids", ids);
 		modelMap.put("alarmTargetUsers", alarmTargetUsers);
 		modelMap.put("alarmTargets", AlarmTarget.values());
-		return "/manage/alarm/target.jsp";
 	}
 
 	private UpmsUserCompanyVO createUserCompanyVO(){

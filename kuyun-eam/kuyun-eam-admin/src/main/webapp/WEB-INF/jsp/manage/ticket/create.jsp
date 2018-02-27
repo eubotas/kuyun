@@ -35,11 +35,11 @@
 			</div>
 
 			<div class="col-sm-6">
-                <label for="equipmentCategoryId">设备类型</label>
+                <label for="productLineId">产线</label>
 				<div class="form-group">
-					<select id="equipmentCategoryId" name="equipmentCategoryId" style="width: 100%">
-						<c:forEach var="equipmentCategory" items="${equipmentCategorys}">
-							<option value="${equipmentCategory.equipmentCategoryId}">${equipmentCategory.name}</option>
+					<select id="productLineId" name="productLineId" style="width: 100%">
+						<c:forEach var="productLine" items="${productLines}">
+							<option value="${productLine.productLineId}">${productLine.name}</option>
 						</c:forEach>
 					</select>
 					</div>
@@ -47,7 +47,7 @@
 		</div>
 		<div class="row">
 			<div class="col-sm-6">
-				<label for="equipmentId">设备名称</label>
+				<label for="equipmentId">设备</label>
 				<div class="form-group">
 					<div class="fg-line">
 						<select id="equipmentId" name="equipmentId" style="width: 100%">

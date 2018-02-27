@@ -1028,6 +1028,97 @@
 		where delete_flag=0 and company_id=#{companyId, jdbcType=INTEGER} group by status
 	</select>
 
+	<resultMap id="EamMaintainPlanVOResultMap" type="com.kuyun.eam.vo.EamMaintainPlanVO" extends="com.kuyun.eam.dao.mapper.EamMaintainPlanMapper.BaseResultMap">
+		<result column="equipmentCategoryName" jdbcType="VARCHAR" property="equipmentCategoryName" />
+		<result column="equipmentName" jdbcType="VARCHAR" property="equipmentName" />
+		<result column="orgName" jdbcType="VARCHAR" property="orgName" />
+	</resultMap>
+
+	<select id="listMaintainPlans" parameterType="com.kuyun.eam.vo.EamMaintainPlanVO" resultMap="EamMaintainPlanVOResultMap">
+		select
+		plan_id, work_content, next_maintain_date, maintain_frequency_unit, maintain_frequency_quantity, maintain_type, remind_time, a.create_time ,
+		uo.name as orgName,
+		ec.name as equipmentCategoryName,
+		e.name as equipmentName
+		from eam_maintain_plan a
+		LEFT OUTER JOIN upms_organization uo ON a.org_id = uo.organization_id
+		LEFT OUTER JOIN eam_equipment_category ec ON a.equipment_category_id = ec.equipment_category_id
+		LEFT OUTER JOIN eam_equipment e ON a.equipment_id = e.equipment_id
+		WHERE a.delete_flag = 0
+		<if test="companyId != null and companyId != ''">
+			AND a.company_id = #{companyId}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+	<select id="getMaintainPlan" parameterType="Integer" resultMap="EamMaintainPlanVOResultMap">
+		select
+		plan_id, work_content, next_maintain_date, maintain_frequency_unit, maintain_frequency_quantity, maintain_type, remind_time, a.create_time ,
+		uo.name as orgName,
+		ec.name as equipmentCategoryName,
+		e.name as equipmentName
+		from eam_maintain_plan a
+		LEFT OUTER JOIN upms_organization uo ON a.org_id = uo.organization_id
+		LEFT OUTER JOIN eam_equipment_category ec ON a.equipment_category_id = ec.equipment_category_id
+		LEFT OUTER JOIN eam_equipment e ON a.equipment_id = e.equipment_id
+		WHERE a.delete_flag = 0 and a.plan_id=#{planId, jdbcType=INTEGER}
+
+	</select>
+
+	<resultMap id="EamPlanTicketVOResultMap" type="com.kuyun.eam.vo.EamPlanTicketVO" extends="com.kuyun.eam.dao.mapper.EamTicketMapper.BaseResultMap">
+		<result column="serviceman" jdbcType="VARCHAR" property="serviceman" />
+		<result column="servicePhone" jdbcType="VARCHAR" property="servicePhone" />
+		<result column="customerContacts" jdbcType="VARCHAR" property="customerContacts" />
+		<result column="customerPhone" jdbcType="VARCHAR" property="customerPhone" />
+		<result column="assessmentDescription" jdbcType="VARCHAR" property="assessmentDescription" />
+		<result column="assessment_level" jdbcType="INTEGER" property="assessmentLevel" />
+		<result column="assessmentId" jdbcType="INTEGER" property="assessmentId" />
+		<result column="planId" jdbcType="INTEGER" property="planId" />
+		<result column="planTicketId" jdbcType="INTEGER" property="planTicketId" />
+		<result column="ticketTypeName" jdbcType="VARCHAR" property="ticketTypeName" />
+	</resultMap>
+
+	<select id="selectTicketByPlan" parameterType="com.kuyun.eam.vo.EamPlanTicketVO" resultMap="EamPlanTicketVOResultMap">
+		SELECT t.description as ticketDescription,   t.priority as ticketPriority,
+		t.status as ticketStatus,   uu.realname as serviceman,
+		uu.phone as servicePhone,   cu.realname as customerContacts,   cu.phone as customerPhone,
+		ass.assessment_level,
+		ass.description as assessmentDescription,   ass.id as assessmentId,   mt.plan_id as planId,
+		mt.id as planTicketId,
+		eam_ticket_type.name as ticketTypeName
+		from eam_maintain_ticket mt
+		LEFT JOIN eam_ticket t on t.ticket_id = mt.ticket_id
+		LEFT OUTER JOIN eam_ticket_type  ON t.ticket_type_id = eam_ticket_type.id
+		LEFT OUTER JOIN upms_user uu ON t.executor_id = uu.user_id
+		LEFT OUTER JOIN upms_user cu ON t.create_user_id = cu.user_id
+		LEFT OUTER JOIN eam_ticket_assessment ass ON t.ticket_id = ass.ticket_id
+		where t.delete_flag = 0 and mt.delete_flag = 0
+		<if test="planId != null and planId != ''">
+			AND mt.plan_id = #{planId}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
 	<!-- 缓存 -->
 	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 

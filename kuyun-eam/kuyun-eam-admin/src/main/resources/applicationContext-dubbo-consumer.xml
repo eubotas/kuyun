@@ -100,6 +100,14 @@
     <dubbo:reference id="eamAlarmTargetUserService" interface="com.kuyun.eam.rpc.api.EamAlarmTargetUserService" mock="false" />
     <dubbo:reference id="eamAlarmRecordService" interface="com.kuyun.eam.rpc.api.EamAlarmRecordService" mock="false" />
 
+    <!-- 维修计划相关 -->
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamMaintainPlanService" id="eamMaintainPlanService" mock="true" />
+    <dubbo:reference interface="com.kuyun.upms.rpc.api.UpmsOrganizationService" id="upmsOrganizationService" mock="true" />
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamAlertMessageService" id="eamAlertMessageService" mock="true" />
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamMaintainTicketService" id="eamMaintainTicketService" mock="true" />
+    <!-- base相关 -->
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamCodeValueService" id="eamCodeValueService" mock="true" />
+
 	<!-- File upload -->
 	<dubbo:reference id="fileUploaderService" interface="com.kuyun.fileuploader.rpc.api.FileUploaderService" mock="false" />
 </beans>

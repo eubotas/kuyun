@@ -314,4 +314,18 @@ public abstract class BaseServiceImpl<Mapper, Record, Example> implements BaseSe
 		return (Class<Mapper>) ((ParameterizedType) getClass().getSuperclass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 
+	@Override
+	public Record insertSelectiveCust(Record record) {
+		try {
+			DynamicDataSource.setDataSource(DataSourceEnum.MASTER.getName());
+			Method insertSelective = mapper.getClass().getDeclaredMethod("insertSelective", record.getClass());
+			Object result = insertSelective.invoke(mapper, record);
+			return record;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		DynamicDataSource.clearDataSource();
+		return null;
+	}
+
 }

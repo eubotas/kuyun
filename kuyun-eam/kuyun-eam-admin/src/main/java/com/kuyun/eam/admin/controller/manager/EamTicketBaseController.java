@@ -5,6 +5,7 @@ import com.kuyun.common.base.BaseController;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.vo.EamEquipmentVO;
+import com.kuyun.eam.vo.EamProductLineVO;
 import com.kuyun.eam.vo.EamTicketAssessmentTagVO;
 import com.kuyun.eam.vo.EamTicketVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
@@ -98,6 +99,12 @@ public abstract class EamTicketBaseController extends BaseController {
         criteria.andCompanyIdEqualTo(getCompanyId());
         List<EamTicketType> types = eamTicketTypeService.selectByExample( typeExample );
         modelMap.put("ticketTypes", types);
+
+        EamProductLineVO productLineVO = new EamProductLineVO();
+        productLineVO.setDeleteFlag(Boolean.FALSE);
+        productLineVO.setCompanyId(getCompanyId());
+        List<EamProductLineVO> productLines = eamApiService.selectProductLines(productLineVO);
+        modelMap.addAttribute("productLines", productLines);
 
         EamEquipmentCategoryExample example = new EamEquipmentCategoryExample();
         EamEquipmentCategoryExample.Criteria criteria2 = example.createCriteria();

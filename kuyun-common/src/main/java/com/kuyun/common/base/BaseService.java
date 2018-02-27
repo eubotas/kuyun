@@ -48,4 +48,6 @@ public interface BaseService<Record, Example> {
 
 	void initMapper();
 
+	public Record insertSelectiveCust(Record record);
+
 }

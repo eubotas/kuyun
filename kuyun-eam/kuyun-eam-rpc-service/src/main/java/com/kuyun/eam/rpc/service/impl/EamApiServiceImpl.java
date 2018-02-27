@@ -1701,4 +1701,20 @@ public class EamApiServiceImpl implements EamApiService {
         return eamTicketService.updateByPrimaryKeySelective(ticket);
     }
 
+
+    @Override
+    public List<EamMaintainPlanVO> listMaintainPlans(EamMaintainPlanVO vo) {
+        return eamApiMapper.listMaintainPlans(vo);
+    }
+
+    @Override
+    public List<EamPlanTicketVO> selectTicketByPlan(EamPlanTicketVO vo) {
+        return eamApiMapper.selectTicketByPlan(vo);
+    }
+
+    @Override
+    public EamMaintainPlanVO getMaintainPlan(Integer planId) {
+        return eamApiMapper.getMaintainPlan(planId);
+    }
+
 }

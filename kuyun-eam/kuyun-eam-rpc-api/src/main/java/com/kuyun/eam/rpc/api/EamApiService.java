@@ -123,4 +123,8 @@ public interface EamApiService {
     int updatePositions(String productLineId, Positions positions);
 
     List<Position> getPositions(String productLineId);
+
+    List<EamMaintainPlanVO> listMaintainPlans(EamMaintainPlanVO vo);
+    List<EamPlanTicketVO> selectTicketByPlan(EamPlanTicketVO vo);
+    EamMaintainPlanVO getMaintainPlan(Integer planId);
 }

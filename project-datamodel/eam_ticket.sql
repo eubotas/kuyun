@@ -24,6 +24,7 @@ CREATE TABLE `eam_ticket` (
   `ticket_id` int(11) NOT NULL AUTO_INCREMENT,
   `ticket_type_id` int(11) DEFAULT NULL,
   `equipment_category_id` int(11) DEFAULT NULL,
+  `product_line_id` varchar(32) DEFAULT NULL,
   `equipment_id` varchar(32) DEFAULT NULL,
   `description` varchar(200) DEFAULT NULL COMMENT '描述',
   `voice_path` varchar(2000) DEFAULT NULL COMMENT '语音',
