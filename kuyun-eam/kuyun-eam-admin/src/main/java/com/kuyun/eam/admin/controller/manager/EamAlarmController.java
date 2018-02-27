@@ -168,6 +168,7 @@ public class EamAlarmController extends BaseController {
 	@ApiOperation(value = "修改报警设置")
 	@RequiresPermissions("eam:alarm:update")
 	@RequestMapping(value = "/updateIndex/{id}", method = RequestMethod.GET)
+	@ResponseBody
 	public Object updateIndex(@PathVariable("id") int id, ModelMap modelMap) {
 		handleModelMap(id, modelMap);
 		return new EamResult(SUCCESS, modelMap);
