@@ -6,8 +6,8 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
-<div id="createDialog" class="crudDialog">
-	<form id="createForm" method="post">
+<div id="createUserDialog" class="crudDialog">
+	<form id="createUserForm" method="post">
 		<div class="form-group">
 			<label for="username">帐号</label>
 			<input id="username" type="text" class="form-control" name="username" maxlength="20">
@@ -61,7 +61,7 @@ function createSubmit() {
     $.ajax({
         type: 'post',
         url: '${basePath}/manage/company/createUser',
-        data: $('#createForm').serialize(),
+        data: $('#createUserForm').serialize(),
         beforeSend: function() {
             if ($('#username').val() == '') {
                 $('#username').focus();

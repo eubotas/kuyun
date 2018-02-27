@@ -549,7 +549,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         UpmsUserOrganization uo= new UpmsUserOrganization();
         uo.setOrganizationId(orgId);
         uo.setUserId(userId);
-        upmsUserOrganizationService.insert(uo);
+        upmsUserOrganizationService.insertSelective(uo);
         return 1;
     }
 }
