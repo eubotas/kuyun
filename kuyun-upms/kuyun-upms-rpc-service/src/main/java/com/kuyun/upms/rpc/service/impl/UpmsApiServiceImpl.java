@@ -527,9 +527,9 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         upmsUser.setSalt(salt);
         upmsUser.setPassword(MD5Util.md5(upmsUser.getPassword() + upmsUser.getSalt()));
         upmsUser.setCtime(time);
-
-        int userId = upmsUserService.insertSelective(upmsUser);
-        _log.info("新增用户，主键：userId={}", upmsUser.getUserId());
+        upmsUserService.insertSelective(upmsUser);
+        int userId = upmsUser.getUserId();
+        _log.info("新增用户，主键：userId={}", userId);
 
         UpmsUserCompany upmsUserCompany = new UpmsUserCompany();
         upmsUserCompany.setCompanyId(companyId);
@@ -538,7 +538,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
 
         assignPermission(upmsUser);
 
-        sendSMSToManager(upmsUser, upmsCompanyService.selectByPrimaryKey(companyId).getName());
+    //    sendSMSToManager(upmsUser, upmsCompanyService.selectByPrimaryKey(companyId).getName());
 
         UpmsOrganizationExample ex= new  UpmsOrganizationExample();
         UpmsOrganizationExample.Criteria c=ex.createCriteria();
@@ -546,10 +546,10 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         c.andDescriptionEqualTo("维修部");
         UpmsOrganization organization = upmsOrganizationService.selectFirstByExample(ex);
         int orgId = organization.getOrganizationId();
-        UpmsUserOrganization uo= new UpmsUserOrganization();
-        uo.setOrganizationId(orgId);
-        uo.setUserId(userId);
-        upmsUserOrganizationService.insertSelective(uo);
+        UpmsUserOrganization upmsUserOrganization = new UpmsUserOrganization();
+        upmsUserOrganization.setUserId(userId);
+        upmsUserOrganization.setOrganizationId(orgId);
+        upmsUserOrganizationService.insertSelective(upmsUserOrganization);
         return 1;
     }
 }

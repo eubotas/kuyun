@@ -11,6 +11,7 @@
 		<div class="row">
 			<div class="col-sm-6">
                 <label for="orderTakerId">工单执行人</label>
+				<a class="waves-effect waves-button" href="javascript:;" onclick="createUser();">创建新用户</a>
 				<div class="form-group">
 					<div class="fg-line">
                         <select id="orderTakerId" name="orderTakerId" style="width: 100%">
@@ -18,7 +19,6 @@
 								<option value="${user.userId}">${user.realname}</option>
 							</c:forEach>
                         </select>
-						<a class="waves-effect waves-button" href="javascript:;" onclick="createUser();">创建新用户</a>
 					</div>
 				</div>
 			</div>
@@ -42,9 +42,9 @@
 </div>
 <script>
     // 新增用户
-    var createDialog;
+    var createUserDialog;
     function createUser() {
-        createDialog = $.dialog({
+        createUserDialog = $.dialog({
             animationSpeed: 300,
             title: '新增用户',
             content: 'url:${basePath}/manage/company/createUser',
