@@ -28,6 +28,10 @@ public class QuartzUtil {
         start();
     }
 
+    public QuartzUtil(){
+        start();
+    }
+
     public Scheduler getScheduler() throws SchedulerException {
         return sf.getScheduler();
     }

@@ -44,8 +44,7 @@ public abstract class BaseJob implements Job {
             else
                 day = "28";
         }
-        //StringBuffer sb=new StringBuffer("0 0 1 ");
-        StringBuffer sb=new StringBuffer("0 0/5 * ");
+        StringBuffer sb=new StringBuffer("0 0 1 ");
 
         if ("YEAR".equals(unit)) {
             setScheduleMethod(ScheduleMethod.CRON.ordinal());
@@ -61,14 +60,9 @@ public abstract class BaseJob implements Job {
             cronSchedule =sb.toString();
         }
         else if ("DAY".equals(unit)) {
-            setScheduleMethod(ScheduleMethod.CRON.ordinal());
-            sb.append("? * *");
-            cronSchedule =sb.toString();
+            setIntervalHours(24*num);
+            setScheduleMethod(ScheduleMethod.SAMPLE.ordinal());
         }
-//        else if ("DAY".equals(unit)) {
-//            setIntervalHours(24*num);
-//            setScheduleMethod(ScheduleMethod.SAMPLE.ordinal());
-//        }
     }
 
     public int getScheduleMethod() {
