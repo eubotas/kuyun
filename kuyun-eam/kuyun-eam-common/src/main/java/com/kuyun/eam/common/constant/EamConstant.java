@@ -8,4 +8,5 @@ import com.kuyun.common.base.BaseConstants;
  */
 public class EamConstant extends BaseConstants {
 
+    public static String MAINTAIN_DEPARTMENT="维修部";
 }

@@ -22,4 +22,7 @@
     <bean id="valAboveBelowOFMHandler" class="com.kuyun.eam.alarm.ValAboveBelowOFMHandler"></bean>
     <bean id="valAboveBoundHandler" class="com.kuyun.eam.alarm.ValAboveBoundHandler"></bean>
     <bean id="valBelowBoundHandler" class="com.kuyun.eam.alarm.ValBelowBoundHandler"></bean>
+
+    <bean id="maintainPlanUtil" class="com.kuyun.eam.job.MaintainPlanUtil"></bean>
+    <bean id="quartzUtil" class="com.kuyun.eam.util.QuartzUtil"></bean>
 </beans>

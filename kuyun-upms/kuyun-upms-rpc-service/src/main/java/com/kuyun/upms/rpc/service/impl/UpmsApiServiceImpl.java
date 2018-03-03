@@ -61,6 +61,9 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     UpmsOrganizationMapper upmsOrganizationMapper;
 
     @Autowired
+    UpmsOrganizationService upmsOrganizationService;
+
+    @Autowired
     UpmsLogMapper upmsLogMapper;
 
     @Autowired
@@ -498,9 +501,9 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     }
 
     @Override
-    public void createOrgUser(int orgId, List<UpmsUserOrganization> list){
-        UpmsUserOrganizationExample example= new UpmsUserOrganizationExample();
-        UpmsUserOrganizationExample.Criteria  criteria =example.createCriteria();
+    public void createOrgUser(int orgId, List<UpmsUserOrganization> list) {
+        UpmsUserOrganizationExample example = new UpmsUserOrganizationExample();
+        UpmsUserOrganizationExample.Criteria criteria = example.createCriteria();
         criteria.andOrganizationIdEqualTo(orgId);
         upmsUserOrganizationService.deleteByExample(example);
         upmsUserOrganizationService.batchInsert(list);
@@ -513,5 +516,40 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         criteria.andOrganizationIdEqualTo(orgId);
         upmsOrganizationRoleService.deleteByExample(example);
         upmsOrganizationRoleService.batchInsert(list);
+    }
+
+    @Override
+    public int handleSimpleUser(UpmsUser upmsUser, int companyId){
+        upmsUser.setLocked(Byte.decode("0"));
+
+        long time = System.currentTimeMillis();
+        String salt = UUID.randomUUID().toString().replaceAll("-", "");
+        upmsUser.setSalt(salt);
+        upmsUser.setPassword(MD5Util.md5(upmsUser.getPassword() + upmsUser.getSalt()));
+        upmsUser.setCtime(time);
+        upmsUserService.insertSelective(upmsUser);
+        int userId = upmsUser.getUserId();
+        _log.info("新增用户，主键：userId={}", userId);
+
+        UpmsUserCompany upmsUserCompany = new UpmsUserCompany();
+        upmsUserCompany.setCompanyId(companyId);
+        upmsUserCompany.setUserId(upmsUser.getUserId());
+        upmsUserCompanyService.insert(upmsUserCompany);
+
+        assignPermission(upmsUser);
+
+    //    sendSMSToManager(upmsUser, upmsCompanyService.selectByPrimaryKey(companyId).getName());
+
+        UpmsOrganizationExample ex= new  UpmsOrganizationExample();
+        UpmsOrganizationExample.Criteria c=ex.createCriteria();
+        c.andCompanyIdEqualTo(companyId);
+        c.andDescriptionEqualTo("维修部");
+        UpmsOrganization organization = upmsOrganizationService.selectFirstByExample(ex);
+        int orgId = organization.getOrganizationId();
+        UpmsUserOrganization upmsUserOrganization = new UpmsUserOrganization();
+        upmsUserOrganization.setUserId(userId);
+        upmsUserOrganization.setOrganizationId(orgId);
+        upmsUserOrganizationService.insertSelective(upmsUserOrganization);
+        return 1;
     }
 }

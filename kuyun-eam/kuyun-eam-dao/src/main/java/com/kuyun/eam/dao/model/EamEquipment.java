@@ -1,13 +1,11 @@
 package com.kuyun.eam.dao.model;
 
-import com.kuyun.common.dao.model.BaseEntity;
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import com.kuyun.eam.dao.EamEquipmentBase;
 
-public class EamEquipment extends BaseEntity implements Serializable {
+import java.math.BigDecimal;
+import java.util.Date;
+
+public class EamEquipment extends EamEquipmentBase {
     private String equipmentId;
 
     private Integer equipmentModelId;
@@ -89,26 +87,6 @@ public class EamEquipment extends BaseEntity implements Serializable {
     private Integer equipmentCategoryId;
 
     private static final long serialVersionUID = 1L;
-
-    private EamEquipmentModel eamEquipmentModel;
-
-    public EamEquipmentModel getEamEquipmentModel() {
-        return eamEquipmentModel;
-    }
-
-    public void setEamEquipmentModel(EamEquipmentModel eamEquipmentModel) {
-        this.eamEquipmentModel = eamEquipmentModel;
-    }
-
-    private List<EamSensor> sensors = Collections.emptyList();
-
-    public List<EamSensor> getSensors() {
-        return sensors;
-    }
-
-    public void setSensors(List<EamSensor> sensors) {
-        this.sensors = sensors;
-    }
 
     public String getEquipmentId() {
         return equipmentId;

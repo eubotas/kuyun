@@ -674,6 +674,26 @@ public class EamApiServiceImpl implements EamApiService {
         return item;
     }
 
+    @Override
+    public List<EamMaintainPlanVO> listMaintainPlans(EamMaintainPlanVO vo) {
+        return eamApiMapper.listMaintainPlans(vo);
+    }
+
+    @Override
+    public List<EamPlanTicketVO> selectTicketByPlan(EamPlanTicketVO vo) {
+        return eamApiMapper.selectTicketByPlan(vo);
+    }
+
+    @Override
+    public EamMaintainPlanVO getMaintainPlan(Integer planId) {
+        return eamApiMapper.getMaintainPlan(planId);
+    }
+
+    @Override
+    public List<EamTicketRejectRecordVO> getTicketRejectRecord(Integer ticketId) {
+        return eamApiMapper.getTicketRejectRecord(ticketId);
+    }
+
     private int rejectTicketStatus(int ticketId, String status){
         EamTicket ticket=new EamTicket();
         ticket.setTicketId(ticketId);

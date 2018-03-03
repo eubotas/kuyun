@@ -11,6 +11,7 @@
 		<div class="row">
 			<div class="col-sm-6">
                 <label for="orderTakerId">工单执行人</label>
+				<a class="waves-effect waves-button" href="javascript:;" onclick="createUser();">创建新用户</a>
 				<div class="form-group">
 					<div class="fg-line">
                         <select id="orderTakerId" name="orderTakerId" style="width: 100%">
@@ -40,6 +41,19 @@
     <jsp:include page="../ticketInfo.jsp" flush="true"/>
 </div>
 <script>
+    // 新增用户
+    var createUserDialog;
+    function createUser() {
+        createUserDialog = $.dialog({
+            animationSpeed: 300,
+            title: '新增用户',
+            content: 'url:${basePath}/manage/company/createUser',
+            onContentReady: function () {
+                initMaterialInput();
+            }
+        });
+    }
+
 function createSubmit() {
     $.ajax({
         type: 'post',

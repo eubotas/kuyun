@@ -270,7 +270,7 @@
         create_time, update_user_id, update_time, 
         delete_flag, company_id)
       values
-      <foreach collection="items" index="index" item="item" separator=",">
+      <foreach collection="items" item="item" index="index" separator=",">
       (#{item.equipmentCategoryId,jdbcType=INTEGER}, #{item.name,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER}, 
         #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
         #{item.deleteFlag,jdbcType=BIT}, #{item.companyId,jdbcType=INTEGER})

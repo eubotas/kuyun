@@ -128,13 +128,16 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamTicket">
-    insert into eam_ticket (ticket_id, ticket_type_id, equipment_category_id, 
+    <selectKey keyProperty="ticketId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into eam_ticket (ticket_type_id, equipment_category_id, 
       equipment_id, description, voice_path, 
       image_path, priority, executor_id, 
       status, end_date, create_user_id, 
       create_time, update_user_id, update_time, 
       delete_flag, company_id)
-    values (#{ticketId,jdbcType=INTEGER}, #{ticketTypeId,jdbcType=INTEGER}, #{equipmentCategoryId,jdbcType=INTEGER}, 
+    values (#{ticketTypeId,jdbcType=INTEGER}, #{equipmentCategoryId,jdbcType=INTEGER}, 
       #{equipmentId,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{voicePath,jdbcType=VARCHAR}, 
       #{imagePath,jdbcType=VARCHAR}, #{priority,jdbcType=VARCHAR}, #{executorId,jdbcType=INTEGER}, 
       #{status,jdbcType=VARCHAR}, #{endDate,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, 
@@ -142,11 +145,11 @@
       #{deleteFlag,jdbcType=BIT}, #{companyId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamTicket">
+    <selectKey keyProperty="ticketId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into eam_ticket
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="ticketId != null">
-        ticket_id,
-      </if>
       <if test="ticketTypeId != null">
         ticket_type_id,
       </if>
@@ -197,9 +200,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="ticketId != null">
-        #{ticketId,jdbcType=INTEGER},
-      </if>
       <if test="ticketTypeId != null">
         #{ticketTypeId,jdbcType=INTEGER},
       </if>
@@ -414,7 +414,7 @@
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into eam_ticket  (ticket_id, ticket_type_id, equipment_category_id, 
+            insert into eam_ticket  (ticket_type_id, equipment_category_id, 
         equipment_id, description, voice_path, 
         image_path, priority, executor_id, 
         status, end_date, create_user_id, 
@@ -422,7 +422,7 @@
         delete_flag, company_id)
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.ticketId,jdbcType=INTEGER}, #{item.ticketTypeId,jdbcType=INTEGER}, #{item.equipmentCategoryId,jdbcType=INTEGER}, 
+      (#{item.ticketTypeId,jdbcType=INTEGER}, #{item.equipmentCategoryId,jdbcType=INTEGER}, 
         #{item.equipmentId,jdbcType=VARCHAR}, #{item.description,jdbcType=VARCHAR}, #{item.voicePath,jdbcType=VARCHAR}, 
         #{item.imagePath,jdbcType=VARCHAR}, #{item.priority,jdbcType=VARCHAR}, #{item.executorId,jdbcType=INTEGER}, 
         #{item.status,jdbcType=VARCHAR}, #{item.endDate,jdbcType=TIMESTAMP}, #{item.createUserId,jdbcType=INTEGER}, 

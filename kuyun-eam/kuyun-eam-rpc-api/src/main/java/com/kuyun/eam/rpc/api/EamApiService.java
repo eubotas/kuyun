@@ -77,4 +77,10 @@ public interface EamApiService {
     public int addTicketRecord(EamTicketRecord ticketRecord);
     public void completeTicket(EamTicketAssessment ticketAssessment, int[] ticketTag);
     public EamSummaryTicketItemVO summaryTicket(Integer companyId);
+
+    List<EamMaintainPlanVO> listMaintainPlans(EamMaintainPlanVO vo);
+    List<EamPlanTicketVO> selectTicketByPlan(EamPlanTicketVO vo);
+    EamMaintainPlanVO getMaintainPlan(Integer planId);
+
+    List<EamTicketRejectRecordVO> getTicketRejectRecord(Integer ticketId);
 }

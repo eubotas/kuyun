@@ -19,5 +19,5 @@
     <dubbo:reference id="modbusSlaveRtuApiService" interface="com.kuyun.modbus.rpc.api.ModbusSlaveRtuApiService" mock="false" />
     <dubbo:reference id="upmsUserService" interface="com.kuyun.upms.rpc.api.UpmsUserService" mock="true" registry="upmsRegistry"/>
 
-
+    <dubbo:reference id="upmsUserOrganizationService" interface="com.kuyun.upms.rpc.api.UpmsUserOrganizationService" mock="true" registry="upmsRegistry"/>
 </beans>
