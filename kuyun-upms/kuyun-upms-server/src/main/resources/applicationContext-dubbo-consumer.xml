@@ -9,7 +9,7 @@
 
     <dubbo:application name="kuyun-upms-server"/>
 
-    <dubbo:registry file="./kuyun-upms-server-dubbo.cache" address="zookeeper://${zkserver}:2181"/>
+    <dubbo:registry  address="zookeeper://${zkserver}:2181"/>
 
     <!-- 订阅服务 -->
     <dubbo:consumer check="false"/>

@@ -346,6 +346,8 @@ public class EamApiServiceImpl implements EamApiService {
             equipment.setIsOnline(false);
         }
 
+        equipment.setUpdateTime(new Date());
+
         EamEquipmentExample example = new EamEquipmentExample();
         example.createCriteria().andEquipmentIdIn(Arrays.asList(idArray));
 

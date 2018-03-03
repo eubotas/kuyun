@@ -239,19 +239,26 @@
         </if>
     </select>
 
-    <select id="selectOrgUsersByOrgNameCompanyId" parameterType="com.kuyun.upms.dao.vo.UpmsOrgUserVo" resultMap="UpmsOrgUserVoResultMap">
-        select distinct uu.user_id, uu.realname, uu.phone, uu.email
-        from upms_user uu, upms_user_company uuc, upms_organization uo where uu.user_id = uuc.user_id and uuc.company_id=uo.company_id
-        <if test="companyId != null">
-            and  uo.company_id = ${companyId}
-        </if>
-        <if test="orgName != null">
-            and  uo.name = '${orgName}'
-        </if>
-        <if test="orderByClause != null">
-            order by ${orderByClause}
-        </if>
-    </select>
+	<select id="selectOrgUsersByOrgNameCompanyId" parameterType="com.kuyun.upms.dao.vo.UpmsOrgUserVo" resultMap="UpmsOrgUserVoResultMap">
+		select distinct uu.user_id, uu.realname, uu.phone, uu.email
+		from upms_user uu,
+		upms_user_company uuc,
+		upms_organization uo,
+		upms_user_organization uuo
+		where uu.user_id = uuc.user_id
+		and uuc.company_id=uo.company_id
+		and uu.user_id = uuo.user_id
+		and uo.organization_id = uuo.organization_id
+		<if test="companyId != null">
+			and  uo.company_id = ${companyId}
+		</if>
+		<if test="orgName != null">
+			and  uo.name = '${orgName}'
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
 
     <select id="getUsersCountByOrg" parameterType="java.lang.Integer" resultType="java.lang.Long">
         select count(distinct uu.user_id)
