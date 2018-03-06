@@ -4,8 +4,10 @@ import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
+import com.kuyun.common.util.MD5Util;
 import com.kuyun.common.util.SpringContextUtil;
 import com.kuyun.common.validator.LengthValidator;
+import com.kuyun.common.validator.NotNullValidator;
 import com.kuyun.eam.dao.model.EamEquipmentCompany;
 import com.kuyun.eam.dao.model.EamEquipmentCompanyExample;
 import com.kuyun.eam.rpc.api.EamEquipmentCompanyService;
@@ -15,7 +17,9 @@ import com.kuyun.upms.common.constant.UpmsResult;
 import com.kuyun.upms.common.constant.UpmsResultConstant;
 import com.kuyun.upms.dao.model.UpmsCompany;
 import com.kuyun.upms.dao.model.UpmsCompanyExample;
+import com.kuyun.upms.dao.model.UpmsUser;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
+import com.kuyun.upms.rpc.api.UpmsApiService;
 import com.kuyun.upms.rpc.api.UpmsCompanyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,7 +33,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 公司controller
@@ -44,6 +47,9 @@ public class UpmsCompanyController extends BaseController {
 
     @Autowired
     private UpmsCompanyService upmsCompanyService;
+
+    @Autowired
+    private UpmsApiService upmsApiService;
 
     @Autowired
     private BaseEntityUtil baseEntityUtil;
@@ -249,4 +255,34 @@ public class UpmsCompanyController extends BaseController {
         return new UpmsResult(UpmsResultConstant.SUCCESS, 1);
     }
 
+    @ApiOperation(value = "新增简单用户")
+    @RequiresPermissions("upms:user:create")
+    @RequestMapping(value = "/createUser", method = RequestMethod.GET)
+    public String createUser() {
+        return "/manage/company/createUser.jsp";
+    }
+
+    @ApiOperation(value = "新增简单用户")
+    @RequiresPermissions("upms:user:create")
+    @ResponseBody
+    @RequestMapping(value = "/createUser", method = RequestMethod.POST)
+    public Object createUser(UpmsUser upmsUser) {
+        ComplexResult result = FluentValidator.checkAll()
+                .on(upmsUser.getUsername(), new LengthValidator(1, 20, "帐号"))
+                .on(upmsUser.getPassword(), new LengthValidator(5, 32, "密码"))
+                .on(upmsUser.getRealname(), new NotNullValidator("姓名"))
+                .doValidate()
+                .result(ResultCollectors.toComplex());
+        if (!result.isSuccess()) {
+            return new UpmsResult(UpmsResultConstant.INVALID_LENGTH, result.getErrors());
+        }
+        long time = System.currentTimeMillis();
+        String salt = UUID.randomUUID().toString().replaceAll("-", "");
+        upmsUser.setSalt(salt);
+        upmsUser.setPassword(MD5Util.md5(upmsUser.getPassword() + upmsUser.getSalt()));
+        upmsUser.setCtime(time);
+        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+        int count = upmsApiService.handleSimpleUser(upmsUser, company.getCompanyId());
+        return new UpmsResult(UpmsResultConstant.SUCCESS, count);
+    }
 }

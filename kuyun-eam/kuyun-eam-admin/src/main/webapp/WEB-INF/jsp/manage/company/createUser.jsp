@@ -8,60 +8,67 @@
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 <div id="createDialog" class="crudDialog">
 	<form id="createForm" method="post">
-		<div class="row">
-			<div class="col-sm-6">
-                <label for="orderTakerId">工单执行人</label>
-				<div class="form-group">
-					<div class="fg-line">
-                        <select id="orderTakerId" name="orderTakerId" style="width: 100%">
-							<c:forEach var="user" items="${users}">
-								<option value="${user.userId}">${user.realname}</option>
-							</c:forEach>
-                        </select>
-						<a class="waves-effect waves-button" href="javascript:;" onclick="createUser();">创建新用户</a>
-					</div>
-				</div>
+		<div class="form-group">
+			<label for="username">帐号</label>
+			<input id="username" type="text" class="form-control" name="username" maxlength="20">
+		</div>
+		<div class="form-group">
+			<label for="password">密码</label>
+			<input id="password" type="text" class="form-control" name="password" maxlength="32">
+		</div>
+		<div class="form-group">
+			<label for="realname">姓名</label>
+			<input id="realname" type="text" class="form-control" name="realname" maxlength="20">
+		</div>
+		<div class="form-group">
+			<label for="avatar">头像</label>
+			<input id="avatar" type="text" class="form-control" name="avatar" maxlength="50">
+		</div>
+		<div class="form-group">
+			<label for="phone">电话</label>
+			<input id="phone" type="text" class="form-control" name="phone" maxlength="20">
+		</div>
+		<div class="form-group">
+			<label for="email">邮箱</label>
+			<input id="email" type="text" class="form-control" name="email" maxlength="50">
+		</div>
+		<div class="radio">
+			<div class="radio radio-inline radio-info">
+				<input id="sex_1" type="radio" name="sex" value="1" checked>
+				<label for="sex_1">男 </label>
 			</div>
-			<div class="col-sm-6">
-				<div class="form-group">
-					<div class="fg-line">
-						<label for="rejectCommont">工单委派备注/拒绝原因</label>
-						<input id="rejectCommont" type="text" class="form-control" name="rejectCommont" maxlength="200">
-					</div>
-				</div>
+			<div class="radio radio-inline radio-danger">
+				<input id="sex_0" type="radio" name="sex" value="0">
+				<label for="sex_0">女 </label>
+			</div>
+			<div class="radio radio-inline radio-success">
+				<input id="locked_0" type="radio" name="locked" value="0" checked>
+				<label for="locked_0">正常 </label>
+			</div>
+			<div class="radio radio-inline">
+				<input id="locked_1" type="radio" name="locked" value="1">
+				<label for="locked_1">锁定 </label>
 			</div>
 		</div>
-
 		<div class="form-group text-right dialog-buttons">
 			<a class="waves-effect waves-button" href="javascript:;" onclick="createSubmit();">保存</a>
-			<a class="waves-effect waves-button" href="javascript:;" onclick="closeBtn();">取消</a>
+			<a class="waves-effect waves-button" href="javascript:;" onclick="createDialog.close();">取消</a>
 		</div>
 	</form>
-
-    <jsp:include page="../ticketInfo.jsp" flush="true"/>
 </div>
 <script>
-    // 新增用户
-    var createDialog;
-    function createUser() {
-        createDialog = $.dialog({
-            animationSpeed: 300,
-            title: '新增用户',
-            content: 'url:${basePath}/manage/company/createUser',
-            onContentReady: function () {
-                initMaterialInput();
-            }
-        });
-    }
-
 function createSubmit() {
     $.ajax({
         type: 'post',
-        url: '${basePath}/manage/ticket/${ticketId}/appoint/create',
+        url: '${basePath}/manage/company/createUser',
         data: $('#createForm').serialize(),
         beforeSend: function() {
-            if ($('#name').val() == '') {
-                $('#name').focus();
+            if ($('#username').val() == '') {
+                $('#username').focus();
+                return false;
+            }
+            if ($('#password').val() == '' || $('#password').val().length < 5) {
+                $('#password').focus();
                 return false;
             }
         },
@@ -99,13 +106,8 @@ function createSubmit() {
 						});
 				}
 			} else {
-                if(createDialog){
-                    createDialog.close();
-                    $table.bootstrapTable('refresh');
-                }else if(appointDialog) {
-                    appointDialog.close();
-                    $table.bootstrapTable('refresh');
-                }
+				createDialog.close();
+				$table.bootstrapTable('refresh');
 			}
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -126,3 +128,5 @@ function createSubmit() {
     });
 }
 </script>
+
+<jsp:include page="/resources/inc/footer.jsp" flush="true"/>

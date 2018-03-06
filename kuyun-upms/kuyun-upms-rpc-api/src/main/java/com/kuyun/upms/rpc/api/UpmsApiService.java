@@ -127,4 +127,6 @@ public interface UpmsApiService {
 
     public void createOrgUser(int orgId, List<UpmsUserOrganization> list);
     public void createOrgRole(int orgId, List<UpmsOrganizationRole> list);
+
+    public int handleSimpleUser(UpmsUser upmsUser, int companyId);
 }

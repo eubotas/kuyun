@@ -205,4 +205,9 @@ public class EamApiServiceMock implements EamApiService {
         return null;
     }
 
+    @Override
+    public List<EamTicketRejectRecordVO> getTicketRejectRecord(Integer ticketId) {
+        return null;
+    }
+
 }

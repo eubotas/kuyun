@@ -58,4 +58,6 @@ public interface EamApiMapper {
     List<EamPlanTicketVO> selectTicketByPlan(EamPlanTicketVO vo);
 
     EamMaintainPlanVO getMaintainPlan(Integer planId);
+
+    List<EamTicketRejectRecordVO> getTicketRejectRecord(Integer ticketId);
 }

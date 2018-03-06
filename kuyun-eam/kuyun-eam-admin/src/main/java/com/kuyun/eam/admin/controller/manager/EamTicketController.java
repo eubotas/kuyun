@@ -310,4 +310,13 @@ public class EamTicketController extends EamTicketBaseController {
 		return new EamResult(EamResultConstant.SUCCESS, count);
 	}
 
+	@ApiOperation(value = "工单拒绝记录")
+	@RequiresPermissions("eam:ticket:read")
+	@RequestMapping(value = "/rejectRecord/{id}", method = RequestMethod.GET)
+	public String rejectRecord(@PathVariable("id") int id, ModelMap modelMap) {
+		List records=eamApiService.getTicketRejectRecord(id);
+		modelMap.put("records", records);
+		return "/manage/ticket/ticketRejectRecord.jsp";
+	}
+
 }

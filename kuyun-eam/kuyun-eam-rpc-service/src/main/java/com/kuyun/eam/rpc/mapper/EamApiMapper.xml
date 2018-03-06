@@ -791,15 +791,26 @@
 		ORDER BY p.equipment_model_property_id ASC
 	</select>
 
-    <resultMap id="SummaryTicketVOResultMap" type="com.kuyun.eam.vo.EamSummaryTicketVO" >
-        <result column="status" jdbcType="VARCHAR" property="statusName" />
-        <result column="count" jdbcType="INTEGER" property="count" />
+    <resultMap id="TicketRejectRecordVOResultMap" type="com.kuyun.eam.vo.EamTicketRejectRecordVO" >
+        <result column="reject_commont" jdbcType="VARCHAR" property="rejectCommont" />
+		<result column="realname" jdbcType="VARCHAR" property="userName" />
+		<result column="create_time" jdbcType="VARCHAR" property="rejectDate" />
     </resultMap>
 
-    <select id="summaryTicket" parameterType="Integer" resultMap="SummaryTicketVOResultMap">
-        select status, count(ticket_id) as count from eam_ticket
-          where delete_flag=0 and company_id=#{companyId, jdbcType=INTEGER} group by status
+    <select id="getTicketRejectRecord" parameterType="Integer" resultMap="TicketRejectRecordVOResultMap">
+        select u.username, u.realname, ar.reject_commont, ar.create_time from eam_ticket_appointed_record ar, upms_user u
+        where ar.order_taker_id = u.user_id and ar.ticket_id =#{ticketId, jdbcType=INTEGER} order by ar.create_time desc
     </select>
+
+	<resultMap id="SummaryTicketVOResultMap" type="com.kuyun.eam.vo.EamSummaryTicketVO" >
+		<result column="status" jdbcType="VARCHAR" property="statusName" />
+		<result column="count" jdbcType="INTEGER" property="count" />
+	</resultMap>
+
+	<select id="summaryTicket" parameterType="Integer" resultMap="SummaryTicketVOResultMap">
+		select status, count(ticket_id) as count from eam_ticket
+		where delete_flag=0 and company_id=#{companyId, jdbcType=INTEGER} group by status
+	</select>
 
 	<resultMap id="EamMaintainPlanVOResultMap" type="com.kuyun.eam.vo.EamMaintainPlanVO" extends="com.kuyun.eam.dao.mapper.EamMaintainPlanMapper.BaseResultMap">
 		<result column="equipmentCategoryName" jdbcType="VARCHAR" property="equipmentCategoryName" />
