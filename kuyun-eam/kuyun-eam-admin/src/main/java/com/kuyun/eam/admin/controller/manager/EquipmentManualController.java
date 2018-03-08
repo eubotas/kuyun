@@ -7,6 +7,7 @@ import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.admin.model.EquipmentManual;
 import com.kuyun.eam.admin.repository.EquipmentManualRepository;
+import com.kuyun.eam.admin.util.ActionEnum;
 import com.kuyun.eam.admin.util.BaseModelUtil;
 import com.kuyun.eam.admin.util.KnowledgeCategory;
 import com.kuyun.eam.admin.util.TagUtil;
@@ -139,7 +140,8 @@ public class EquipmentManualController extends BaseController {
         }
         baseModelUtil.addAddtionalValue(doc);
 
-        tagUtil.handleTag(doc.getTag());
+        tagUtil.handleTag(ActionEnum.CREATE.getName(), null, doc.getTag());
+
         equipmentManualRepository.save(doc);
         return new EamResult(SUCCESS, 1);
     }
@@ -155,6 +157,12 @@ public class EquipmentManualController extends BaseController {
                 if (StringUtils.isBlank(id)) {
                     continue;
                 }
+
+                Optional<EquipmentManual> optional = equipmentManualRepository.findById(id);
+                EquipmentManual doc = optional.orElse(null);
+                String tag = doc.getTag() == null ? null : doc.getTag();
+                tagUtil.handleTag(ActionEnum.DELETE.getName(), null, tag);
+
                 equipmentManualRepository.deleteById(id);
             }
         }
@@ -187,7 +195,13 @@ public class EquipmentManualController extends BaseController {
             return new EamResult(INVALID_LENGTH, result.getErrors());
         }
         baseModelUtil.updateAddtionalValue(doc);
-        tagUtil.handleTag(doc.getTag());
+
+        Optional<EquipmentManual> optional = equipmentManualRepository.findById(id);
+        EquipmentManual oldDoc = optional.orElse(null);
+        String oldTag = oldDoc.getTag() == null ? null : oldDoc.getTag();
+
+        tagUtil.handleTag(ActionEnum.UPDATE.getName(), oldTag, doc.getTag());
+
         equipmentManualRepository.save(doc);
         return new EamResult(SUCCESS, 1);
     }

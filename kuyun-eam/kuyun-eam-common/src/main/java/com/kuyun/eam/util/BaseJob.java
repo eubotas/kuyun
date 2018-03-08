@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 
 public abstract class BaseJob implements Job {
@@ -28,6 +29,41 @@ public abstract class BaseJob implements Job {
     public String cronSchedule;
     public int scheduleMethod;
 
+    public void setCron(String unit, int num, Date startDate){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startDate);
+        int toLast= EamDateUtil.getDayToLast(startDate);
+        int iDay = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH)+1;
+        int year = calendar.get(Calendar.YEAR);
+        int week = calendar.get(Calendar.DAY_OF_WEEK);
+        String day=""+iDay;
+        if(iDay > 29) {  //月末
+            if(toLast == 1)
+                day = "L";
+            else
+                day = "28";
+        }
+        StringBuffer sb=new StringBuffer("0 0 1 ");
+
+        if ("YEAR".equals(unit)) {
+            setScheduleMethod(ScheduleMethod.CRON.ordinal());
+            sb.append(day).append(" ").append(month).append(" ? */").append( num);
+            cronSchedule =sb.toString();
+        } else if ("MONTH".equals(unit)) {
+            setScheduleMethod(ScheduleMethod.CRON.ordinal());
+            sb.append(day).append(" ").append(month).append("/").append(num).append(" ?");
+            cronSchedule =sb.toString();
+        } else if ("WEEK".equals(unit)) {
+            setScheduleMethod(ScheduleMethod.CRON.ordinal());
+            sb.append("? * ").append(week).append("/").append(num);
+            cronSchedule =sb.toString();
+        }
+        else if ("DAY".equals(unit)) {
+            setIntervalHours(24*num);
+            setScheduleMethod(ScheduleMethod.SAMPLE.ordinal());
+        }
+    }
 
     public int getScheduleMethod() {
         return scheduleMethod;

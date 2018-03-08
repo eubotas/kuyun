@@ -377,6 +377,8 @@ CREATE TABLE `upms_company` (
   `fax` varchar(15) DEFAULT NULL,
   `zip` varchar(10) DEFAULT NULL,
   `www` varchar(20) DEFAULT NULL,
+  `admin_name` varchar(20) DEFAULT NULL,
+  `admin_password` varchar(20) DEFAULT NULL,
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,

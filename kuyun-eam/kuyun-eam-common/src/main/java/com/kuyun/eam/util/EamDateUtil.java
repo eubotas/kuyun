@@ -66,4 +66,13 @@ public class EamDateUtil {
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf.format(d);
     }
+
+    public static int getDayToLast(Date dt){
+        Calendar c = Calendar.getInstance();
+        c.setTime(dt);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        int last = c.getActualMaximum(Calendar.DAY_OF_MONTH);
+        return last - day;
+    }
+
 }

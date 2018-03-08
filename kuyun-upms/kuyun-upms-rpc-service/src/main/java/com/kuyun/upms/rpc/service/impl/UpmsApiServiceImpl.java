@@ -341,6 +341,23 @@ public class UpmsApiServiceImpl implements UpmsApiService {
 
     @Override
     public void handleReg(String userName, String name, String password, String email, String phone, String company){
+        UpmsUser upmsUser = createUser(userName, name, password, email, phone, company);
+
+        assignPermission(upmsUser);
+
+        //sendSMSToManager(upmsUser, company);
+    }
+
+    @Override
+    public void handleCustomerReg(String userName, String name, String password, String email, String phone, String company) {
+        UpmsUser upmsUser = createUser(userName, name, password, email, phone, company);
+
+        assignSpecialPermission(upmsUser);
+
+    }
+
+
+    private UpmsUser createUser(String userName, String name, String password, String email, String phone, String company) {
         UpmsUser upmsUser = new UpmsUser();
         upmsUser.setUsername(userName);
         upmsUser.setRealname(name);
@@ -358,10 +375,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         _log.info("新增用户，主键：userId={}", upmsUser.getUserId());
 
         handleUserCompany(company, upmsUser);
-
-        assignPermission(upmsUser);
-
-        sendSMSToManager(upmsUser, company);
+        return upmsUser;
     }
 
     private void sendSMSToManager(UpmsUser argUser, String company) {
@@ -391,6 +405,16 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     private void assignPermission(UpmsUser upmsUser) {
 
         List<UpmsPermission> permissionList = getPermissions();
+        createUserPermissions(upmsUser, permissionList);
+    }
+
+    private void assignSpecialPermission(UpmsUser upmsUser) {
+
+        List<UpmsPermission> permissionList = getSpecialPermissions();
+        createUserPermissions(upmsUser, permissionList);
+    }
+
+    private void createUserPermissions(UpmsUser upmsUser, List<UpmsPermission> permissionList) {
         List<UpmsUserPermission> items = new ArrayList<>();
 
         for (UpmsPermission permission : permissionList) {
@@ -401,6 +425,64 @@ public class UpmsApiServiceImpl implements UpmsApiService {
             items.add(userPermission);
         }
         upmsUserPermissionService.batchInsert(items);
+    }
+
+
+    private List<UpmsPermission> getSpecialPermissions() {
+        List<Integer> ids = new ArrayList<>();
+        ids.add(1);//系统组织管理
+        ids.add(3);//组织管理
+        ids.add(27);//新增组织
+        ids.add(28);//编辑组织
+        ids.add(29);//删除组织
+        ids.add(4);//角色用户管理
+        ids.add(6);//用户管理
+        ids.add(30);//新增用户
+        ids.add(31);//编辑用户
+        ids.add(32);//删除用户
+        ids.add(200);//产线管理
+        ids.add(201);//产线管理
+        ids.add(205);//设备管理
+        ids.add(300);//工单管理
+        ids.add(301);//工单类型
+        ids.add(311);//新增类型
+        ids.add(312);//编辑类型
+        ids.add(313);//删除类型
+        ids.add(320);//我的未处理工单
+        ids.add(330);//我的全部工单
+        ids.add(340);//未委派工单
+        ids.add(350);//全部工单
+        ids.add(351);//新增工单
+        ids.add(352);//编辑工单
+        ids.add(353);//删除工单
+        ids.add(440);//工单评价标签
+        ids.add(441);//新增工单评价标签
+        ids.add(442);//编辑工单评价标签
+        ids.add(443);//删除工单评价标签
+        ids.add(445);//新增工单记录
+        ids.add(446);//编辑工单记录
+        ids.add(447);//工单记录
+        ids.add(451);//新增委派记录
+        ids.add(452);//编辑委派记录
+        ids.add(453);//删除委派记录
+        ids.add(454);//委派记录
+        ids.add(461);//新增工单评价
+        ids.add(462);//编辑工单评价
+        ids.add(463);//删除工单评价
+        ids.add(464);//工单评价
+        ids.add(345);//工单统计
+
+        ids.add(600);//维修计划
+        ids.add(610);//维修计划
+        ids.add(611);//新增维修计划
+        ids.add(612);//编辑维修计划
+        ids.add(613);//删除维修计划
+
+
+        UpmsPermissionExample example = new UpmsPermissionExample();
+        example.createCriteria().andPermissionIdIn(ids);
+
+        return upmsPermissionService.selectByExample(example);
     }
 
     private List<UpmsPermission> getPermissions() {

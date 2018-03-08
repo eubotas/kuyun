@@ -1119,6 +1119,17 @@
 		</if>
 	</select>
 
+	<resultMap id="TicketRejectRecordVOResultMap" type="com.kuyun.eam.vo.EamTicketRejectRecordVO" >
+		<result column="reject_commont" jdbcType="VARCHAR" property="rejectCommont" />
+		<result column="realname" jdbcType="VARCHAR" property="userName" />
+		<result column="create_time" jdbcType="VARCHAR" property="rejectDate" />
+	</resultMap>
+
+	<select id="getTicketRejectRecord" parameterType="Integer" resultMap="TicketRejectRecordVOResultMap">
+		select u.username, u.realname, ar.reject_commont, ar.create_time from eam_ticket_appointed_record ar, upms_user u
+		where ar.order_taker_id = u.user_id and ar.ticket_id =#{ticketId, jdbcType=INTEGER} order by ar.create_time desc
+	</select>
+
 	<!-- 缓存 -->
 	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 

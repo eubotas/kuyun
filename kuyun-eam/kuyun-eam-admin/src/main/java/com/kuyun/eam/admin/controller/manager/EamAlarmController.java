@@ -128,7 +128,7 @@ public class EamAlarmController extends BaseController {
 
 	private void deleteAlarmTargetUser(String ids) {
 		List<Integer> idList = new ArrayList<>();
-		for(String id : ids.split("::")){
+		for(String id : ids.split("-")){
 			idList.add(Integer.valueOf(id));
 		}
 		if (!idList.isEmpty()){
@@ -261,5 +261,7 @@ public class EamAlarmController extends BaseController {
 		int count = eamApiService.updateAlarm(ids, alarmTarget, targetUserId);
 		return new EamResult(SUCCESS, count);
 	}
+
+
 
 }

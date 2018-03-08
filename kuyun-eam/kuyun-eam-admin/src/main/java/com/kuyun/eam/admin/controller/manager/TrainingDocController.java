@@ -7,6 +7,7 @@ import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.admin.model.TrainingDoc;
 import com.kuyun.eam.admin.repository.TrainingDocRepository;
+import com.kuyun.eam.admin.util.ActionEnum;
 import com.kuyun.eam.admin.util.BaseModelUtil;
 import com.kuyun.eam.admin.util.KnowledgeCategory;
 import com.kuyun.eam.admin.util.TagUtil;
@@ -139,7 +140,7 @@ public class TrainingDocController extends BaseController {
         }
         baseModelUtil.addAddtionalValue(doc);
 
-        tagUtil.handleTag(doc.getTag());
+        tagUtil.handleTag(ActionEnum.CREATE.getName(), null, doc.getTag());
         trainingDocRepository.save(doc);
         return new EamResult(SUCCESS, 1);
     }
@@ -155,6 +156,12 @@ public class TrainingDocController extends BaseController {
                 if (StringUtils.isBlank(id)) {
                     continue;
                 }
+
+                Optional<TrainingDoc> optional = trainingDocRepository.findById(id);
+                TrainingDoc doc = optional.orElse(null);
+                String tag = doc.getTag() == null ? null : doc.getTag();
+                tagUtil.handleTag(ActionEnum.DELETE.getName(), null, tag);
+
                 trainingDocRepository.deleteById(id);
             }
         }
@@ -187,7 +194,13 @@ public class TrainingDocController extends BaseController {
             return new EamResult(INVALID_LENGTH, result.getErrors());
         }
         baseModelUtil.updateAddtionalValue(doc);
-        tagUtil.handleTag(doc.getTag());
+
+
+        Optional<TrainingDoc> optional = trainingDocRepository.findById(id);
+        TrainingDoc oldDoc = optional.orElse(null);
+        String oldTag = oldDoc.getTag() == null ? null : oldDoc.getTag();
+
+        tagUtil.handleTag(ActionEnum.UPDATE.getName(), oldTag, doc.getTag());
         trainingDocRepository.save(doc);
         return new EamResult(SUCCESS, 1);
     }

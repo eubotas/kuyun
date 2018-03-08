@@ -6,44 +6,50 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
-<div id="createDialog" class="crudDialog">
-	<form id="createForm" method="post">
+<div id="createUserDialog" class="crudDialog">
+	<form id="createUserForm" method="post">
 		<div class="form-group">
-			<label for="name">客户名称</label>
-			<input id="name" type="text" class="form-control" name="name" maxlength="50">
+			<label for="username">帐号</label>
+			<input id="username" type="text" class="form-control" name="username" maxlength="20">
 		</div>
-		
 		<div class="form-group">
-			<label for="name">地址</label>
-			<input id="address" type="text" class="form-control" name="address" maxlength="50">
+			<label for="password">密码</label>
+			<input id="password" type="text" class="form-control" name="password" maxlength="32">
+		</div>
+		<div class="form-group">
+			<label for="realname">姓名</label>
+			<input id="realname" type="text" class="form-control" name="realname" maxlength="20">
+		</div>
+		<div class="form-group">
+			<label for="avatar">头像</label>
+			<input id="avatar" type="text" class="form-control" name="avatar" maxlength="50">
 		</div>
 		<div class="form-group">
 			<label for="phone">电话</label>
-			<input id="phone" type="text" class="form-control" name="phone" maxlength="15">
+			<input id="phone" type="text" class="form-control" name="phone" maxlength="20">
 		</div>
 		<div class="form-group">
-			<label for="fax">传真</label>
-			<input id="fax" type="text" class="form-control" name="fax" maxlength="15">
+			<label for="email">邮箱</label>
+			<input id="email" type="text" class="form-control" name="email" maxlength="50">
 		</div>
-		<div class="form-group">
-			<label for="zip">邮编</label>
-			<input id="zip" type="text" class="form-control" name="zip" maxlength="10">
+		<div class="radio">
+			<div class="radio radio-inline radio-info">
+				<input id="sex_1" type="radio" name="sex" value="1" checked>
+				<label for="sex_1">男 </label>
+			</div>
+			<div class="radio radio-inline radio-danger">
+				<input id="sex_0" type="radio" name="sex" value="0">
+				<label for="sex_0">女 </label>
+			</div>
+			<div class="radio radio-inline radio-success">
+				<input id="locked_0" type="radio" name="locked" value="0" checked>
+				<label for="locked_0">正常 </label>
+			</div>
+			<div class="radio radio-inline">
+				<input id="locked_1" type="radio" name="locked" value="1">
+				<label for="locked_1">锁定 </label>
+			</div>
 		</div>
-		<div class="form-group">
-			<label for="www">网址</label>
-			<input id="www" type="text" class="form-control" name="www" maxlength="15">
-		</div>
-
-		<div class="form-group">
-			<label for="adminName">管理员账号</label>
-			<input id="adminName" type="text" class="form-control" name="adminName" maxlength="15">
-		</div>
-
-		<div class="form-group">
-			<label for="adminPassword">管理员密码</label>
-			<input id="adminPassword" type="text" class="form-control" name="adminPassword" maxlength="15">
-		</div>
-
 		<div class="form-group text-right dialog-buttons">
 			<a class="waves-effect waves-button" href="javascript:;" onclick="createSubmit();">保存</a>
 			<a class="waves-effect waves-button" href="javascript:;" onclick="createDialog.close();">取消</a>
@@ -54,11 +60,15 @@
 function createSubmit() {
     $.ajax({
         type: 'post',
-        url: '${basePath}/manage/company/create',
-        data: $('#createForm').serialize(),
+        url: '${basePath}/manage/company/createUser',
+        data: $('#createUserForm').serialize(),
         beforeSend: function() {
-            if ($('#name').val() == '') {
-                $('#name').focus();
+            if ($('#username').val() == '') {
+                $('#username').focus();
+                return false;
+            }
+            if ($('#password').val() == '' || $('#password').val().length < 5) {
+                $('#password').focus();
                 return false;
             }
         },
@@ -96,8 +106,8 @@ function createSubmit() {
 						});
 				}
 			} else {
-				createDialog.close();
-				$table.bootstrapTable('refresh');
+                createUserDialog.close();
+				//$table.bootstrapTable('refresh');
 			}
         },
         error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -118,3 +128,5 @@ function createSubmit() {
     });
 }
 </script>
+
+<jsp:include page="/resources/inc/footer.jsp" flush="true"/>

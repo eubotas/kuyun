@@ -326,5 +326,130 @@ create table eam_grm_variable_data_history
 
 
 
+/*==============================================================*/
+/* Table: eam_inventory                                         */
+/*==============================================================*/
+create table eam_inventory
+(
+   inventory_id         int not null auto_increment,
+   warehouse_id         int,
+   location_id          int,
+   part_id              int,
+   quantity             decimal(10,2),
+   in_task_date         datetime,
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   company_id      int,
+   primary key (inventory_id)
+);
 
+alter table eam_inventory comment ' 库存明细表';
+
+/*==============================================================*/
+/* Table: eam_warehouse                                         */
+/*==============================================================*/
+create table eam_warehouse
+(
+   warehouse_id         int not null auto_increment,
+   name                 varchar(30),
+   comments             varchar(100),
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   company_id      int,
+   primary key (warehouse_id)
+);
+
+alter table eam_warehouse comment '仓库信息表';
+
+/*==============================================================*/
+/* Table: eam_location                                          */
+/*==============================================================*/
+create table eam_location
+(
+   location_id          int not null auto_increment,
+   warehouse_id         int,
+   number               varchar(20),
+   comments             varchar(100),
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   company_id      int,
+   primary key (location_id)
+);
+
+alter table eam_location comment '仓位信息表';
+
+/*==============================================================*/
+/* Table: eam_maintenance                                       */
+/*==============================================================*/
+create table eam_maintenance
+(
+   maintenance_id       int not null auto_increment,
+   equipment_id         varchar(32),
+   part_id              int,
+   reason               varchar(200),
+   content              varchar(250),
+   part_quantity        decimal(10,2),
+   maintain_user_id     int,
+   maintain_time        datetime,
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   company_id      int,
+   primary key (maintenance_id)
+);
+
+alter table eam_maintenance comment ' 维保';
+
+/*==============================================================*/
+/* Table: eam_parts                                             */
+/*==============================================================*/
+create table eam_parts
+(
+   part_id              int not null auto_increment,
+   category_id          int,
+   name                 varchar(50),
+   spec                 varchar(50),
+   model                varchar(50),
+   unit                 varchar(20),
+   brand                varchar(50),
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   company_id      int,
+   primary key (part_id)
+);
+
+alter table eam_parts comment '配件';
+
+/*==============================================================*/
+/* Table: eam_parts_category                                    */
+/*==============================================================*/
+create table eam_parts_category
+(
+   category_id          int not null auto_increment,
+   name                 varchar(30),
+   organization_id      int,
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   company_id           int,
+   primary key (category_id)
+);
+
+alter table eam_parts_category comment ' 配件类别';
 

@@ -7,6 +7,7 @@ import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.admin.model.TrainingVideo;
 import com.kuyun.eam.admin.repository.TrainingVideoRepository;
+import com.kuyun.eam.admin.util.ActionEnum;
 import com.kuyun.eam.admin.util.BaseModelUtil;
 import com.kuyun.eam.admin.util.KnowledgeCategory;
 import com.kuyun.eam.admin.util.TagUtil;
@@ -138,7 +139,7 @@ public class TrainingVideoController extends BaseController {
         }
         baseModelUtil.addAddtionalValue(video);
 
-        tagUtil.handleTag(video.getTag());
+        tagUtil.handleTag(ActionEnum.CREATE.getName(), null, video.getTag());
         trainingVideoRepository.save(video);
         return new EamResult(SUCCESS, 1);
     }
@@ -154,6 +155,12 @@ public class TrainingVideoController extends BaseController {
                 if (StringUtils.isBlank(id)) {
                     continue;
                 }
+
+                Optional<TrainingVideo> optional = trainingVideoRepository.findById(id);
+                TrainingVideo video = optional.orElse(null);
+                String tag = video.getTag() == null ? null : video.getTag();
+
+                tagUtil.handleTag(ActionEnum.DELETE.getName(), null, tag);
                 trainingVideoRepository.deleteById(id);
             }
         }
@@ -186,7 +193,13 @@ public class TrainingVideoController extends BaseController {
             return new EamResult(INVALID_LENGTH, result.getErrors());
         }
         baseModelUtil.updateAddtionalValue(video);
-        tagUtil.handleTag(video.getTag());
+
+        Optional<TrainingVideo> optional = trainingVideoRepository.findById(id);
+        TrainingVideo oldVideo = optional.orElse(null);
+        String oldTag = oldVideo.getTag() == null ? null : oldVideo.getTag();
+
+        tagUtil.handleTag(ActionEnum.UPDATE.getName(), oldTag, video.getTag());
+
         trainingVideoRepository.save(video);
         return new EamResult(SUCCESS, 1);
     }

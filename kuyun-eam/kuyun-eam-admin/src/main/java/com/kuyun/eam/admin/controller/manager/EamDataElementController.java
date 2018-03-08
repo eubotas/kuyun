@@ -15,7 +15,6 @@ import com.kuyun.eam.rpc.api.EamApiService;
 import com.kuyun.eam.rpc.api.EamDataElementService;
 import com.kuyun.eam.rpc.api.EamEquipmentCategoryService;
 import com.kuyun.eam.vo.EamDataElementVO;
-import com.kuyun.eam.vo.EamLocationVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -142,7 +141,7 @@ public class EamDataElementController extends BaseController {
 	@RequestMapping(value = "/delete/{ids}",method = RequestMethod.GET)
 	@ResponseBody
 	public Object delete(@PathVariable("ids") String ids) {
-		int count = dataElementService.deleteByPrimaryKeys(ids);
+		int count = eamApiService.deleteDataElements(ids);
 		return new EamResult(SUCCESS, count);
 	}
 

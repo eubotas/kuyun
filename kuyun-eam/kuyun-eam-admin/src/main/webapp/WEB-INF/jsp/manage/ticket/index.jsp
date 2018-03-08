@@ -165,7 +165,8 @@ function actionFormatter(value, row, index) {
     return [
         '<a class="update" href="javascript:;" onclick="detailAction()" data-toggle="tooltip" title="Detail"><i class="glyphicon glyphicon-edit"></i></a>　',
         '<a class="update" href="javascript:;" onclick="updateAction()" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>　',
-        '<a class="delete" href="javascript:;" onclick="deleteAction()" data-toggle="tooltip" title="Remove"><i class="glyphicon glyphicon-remove"></i></a>'
+        '<a class="delete" href="javascript:;" onclick="deleteAction()" data-toggle="tooltip" title="Remove"><i class="glyphicon glyphicon-remove"></i></a>',
+        '<a class="update" href="javascript:;" onclick="rejectRecordAction()" data-toggle="tooltip" title="Reject Record"><i class="glyphicon glyphicon-edit"></i></a>　'
     ].join('');
 }
 
@@ -243,6 +244,37 @@ function detailAction() {
             title: '工单详细',
             columnClass: 'xlarge',
             content: 'url:${basePath}/manage/ticket/detail/' + rows[0].ticketId,
+            onContentReady: function () {
+                initMaterialInput();
+                $('select').select2();
+            }
+        });
+    }
+}
+
+// rejectRecordAction
+var rejectRecordDialog;
+function rejectRecordAction() {
+    var rows = $table.bootstrapTable('getSelections');
+    if (rows.length != 1) {
+        $.confirm({
+            title: false,
+            content: '请选择一条记录！',
+            autoClose: 'cancel|3000',
+            backgroundDismiss: true,
+            buttons: {
+                cancel: {
+                    text: '取消',
+                    btnClass: 'waves-effect waves-button'
+                }
+            }
+        });
+    } else {
+        rejectRecordDialog = $.dialog({
+            animationSpeed: 300,
+            title: '工单委派拒绝记录',
+            columnClass: 'xlarge',
+            content: 'url:${basePath}/manage/ticket/rejectRecord/' + rows[0].ticketId,
             onContentReady: function () {
                 initMaterialInput();
                 $('select').select2();

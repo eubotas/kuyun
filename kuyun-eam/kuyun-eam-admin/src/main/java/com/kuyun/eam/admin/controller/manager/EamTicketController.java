@@ -138,7 +138,6 @@ public class EamTicketController extends EamTicketBaseController {
 			eamTicketExample.setOrderByClause(sort + " " + order);
 		}
 
-        List<String> list =null;
 		switch (TicketSearchCategory.getCategroy(category)) {
 		case MY_OPEN:
 			criteria.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId()).andStatusNotEqualTo(TicketStatus.RESOLVED.getName()).andStatusNotEqualTo(TicketStatus.COMPLETE.getName());
@@ -153,7 +152,7 @@ public class EamTicketController extends EamTicketBaseController {
 			criteria.andStatusEqualTo(TicketStatus.INIT.getName());
 			break;
 		case PROCESSING:
-		    list=new ArrayList();
+		    List<String> list=new ArrayList();
             list.add(TicketStatus.TO_PROCESS.getName());
             list.add(TicketStatus.PROCESSING.getName());
              criteria.andStatusIn(list);
@@ -166,8 +165,8 @@ public class EamTicketController extends EamTicketBaseController {
             list.add(TicketStatus.RESOLVED.getName());
             list.add(TicketStatus.COMPLETE.getName());
             criteria.andStatusIn(list);
-            break;
-        case ALL:
+             break;
+         case ALL:
 		default:
 			break;
 		}
@@ -309,6 +308,15 @@ public class EamTicketController extends EamTicketBaseController {
 		ticket.setStatus(TicketStatus.RESOLVED.getName());
 		int count= eamTicketService.updateByPrimaryKeySelective(ticket);
 		return new EamResult(EamResultConstant.SUCCESS, count);
+	}
+
+	@ApiOperation(value = "工单拒绝记录")
+	@RequiresPermissions("eam:ticket:read")
+	@RequestMapping(value = "/rejectRecord/{id}", method = RequestMethod.GET)
+	public String rejectRecord(@PathVariable("id") int id, ModelMap modelMap) {
+		List records=eamApiService.getTicketRejectRecord(id);
+		modelMap.put("records", records);
+		return "/manage/ticket/ticketRejectRecord.jsp";
 	}
 
 }

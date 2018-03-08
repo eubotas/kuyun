@@ -38,24 +38,7 @@ public class TicketJob extends BaseJob {
             String unit = plan.getMaintainFrequencyUnit();
             int num = plan.getMaintainFrequencyQuantity();
 
-            int day = startMainTainDate.getDay();
-            int month = startMainTainDate.getMonth();
-            int week = EamDateUtil.getWeekOfDate(startMainTainDate);
-
-            if ("YEAR".equals(unit)) {
-                setScheduleMethod(ScheduleMethod.CRON.ordinal());
-                cronSchedule = "0 0 1 " + day + " " + month + " ? */" + num;
-            } else if ("MONTH".equals(unit)) {
-                setScheduleMethod(ScheduleMethod.CRON.ordinal());
-                cronSchedule = "0 0 1 " + day + " */" + month + " ? ";
-            } else if ("WEEK".equals(unit)) {
-                setScheduleMethod(ScheduleMethod.CRON.ordinal());
-                cronSchedule = "0 0 1 * * "+week+"/" + num ;
-            }
-            else if ("DAY".equals(unit)) {
-                setIntervalHours(24*num);
-                setScheduleMethod(ScheduleMethod.SAMPLE.ordinal());
-            }
+            setCron(unit,  num, startMainTainDate);
         }
     }
 

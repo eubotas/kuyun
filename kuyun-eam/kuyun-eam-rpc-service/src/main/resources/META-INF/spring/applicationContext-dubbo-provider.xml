@@ -158,7 +158,7 @@
 
     <!-- 维修计划相关 -->
     <bean id="eamMaintainPlanServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamMaintainPlanServiceImpl" />
-    <dubbo:service interface="com.kuyun.eam.rpc.api.EamMaintainPlanService" ref="eamMaintainPlanServiceImpl" timeout="10000" />
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamMaintainPlanService" ref="eamMaintainPlanServiceImpl" timeout="15000" />
     <bean id="eamMaintainTicketServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamMaintainTicketServiceImpl" />
     <dubbo:service interface="com.kuyun.eam.rpc.api.EamMaintainTicketService" ref="eamMaintainTicketServiceImpl" timeout="10000" />
     <bean id="eamAlertMessageServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamAlertMessageServiceImpl" />

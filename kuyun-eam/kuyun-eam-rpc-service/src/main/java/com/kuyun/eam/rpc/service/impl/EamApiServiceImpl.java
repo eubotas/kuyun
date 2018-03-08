@@ -22,9 +22,13 @@ import com.kuyun.eam.util.AreaUtil;
 import com.kuyun.eam.vo.*;
 import com.kuyun.grm.rpc.api.GrmApiService;
 import com.kuyun.modbus.rpc.api.ModbusSlaveRtuApiService;
+import com.kuyun.upms.dao.model.UpmsCompany;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
+import com.kuyun.upms.rpc.api.UpmsApiService;
+import com.kuyun.upms.rpc.api.UpmsCompanyService;
 import javafx.util.Pair;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.lang.RandomStringUtils;
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -136,6 +140,15 @@ public class EamApiServiceImpl implements EamApiService {
 
     @Autowired
     private EamEquipmentDataGroupService eamEquipmentDataGroupService;
+
+    @Autowired
+    private EamDataElementService dataElementService;
+
+    @Autowired
+    private UpmsCompanyService upmsCompanyService;
+
+    @Autowired
+    private UpmsApiService upmsApiService;
 
     @Override
     public List<EamMaintenanceVO> selectMaintenance(EamMaintenanceVO maintenanceVO) {
@@ -1715,6 +1728,75 @@ public class EamApiServiceImpl implements EamApiService {
     @Override
     public EamMaintainPlanVO getMaintainPlan(Integer planId) {
         return eamApiMapper.getMaintainPlan(planId);
+    }
+
+    @Override
+    public List<EamTicketRejectRecordVO> getTicketRejectRecord(Integer ticketId) {
+        return eamApiMapper.getTicketRejectRecord(ticketId);
+    }
+
+    @Override
+    public int deleteDataElements(String ids) {
+        int count = dataElementService.deleteByPrimaryKeys(ids);
+        List<Integer> idList = coverToList(ids);
+        //1. delete alarm model
+        EamAlarmModelExample example = new EamAlarmModelExample();
+        example.createCriteria().andEamDataElementIdIn(idList).andDeleteFlagEqualTo(Boolean.FALSE);
+        eamAlarmModelService.deleteByExample(example);
+
+        //2. delete product line data element
+        EamProductLineDataElementExample pExample = new EamProductLineDataElementExample();
+        pExample.createCriteria().andEamDataElementIdIn(idList).andDeleteFlagEqualTo(Boolean.FALSE);
+
+        eamProductLineDataElementService.deleteByExample(pExample);
+
+        //3. delete equipment data group elemets
+        EamEquipmentDataGroupElemetsExample eExample = new EamEquipmentDataGroupElemetsExample();
+        eExample.createCriteria().andDataElementIdIn(idList).andDeleteFlagEqualTo(Boolean.FALSE);
+
+        eamEquipmentDataGroupElemetsService.deleteByExample(eExample);
+
+        //4. delete alarm
+        EamAlarmExample alarmExample = new EamAlarmExample();
+        alarmExample.createCriteria().andEamDataElementIdIn(idList).andDeleteFlagEqualTo(Boolean.FALSE);
+
+        eamAlarmService.deleteByExample(alarmExample);
+
+        //5. delete grm variable
+        EamGrmVariableExample gExample = new EamGrmVariableExample();
+        gExample.createCriteria().andDataElementIdIn(idList).andDeleteFlagEqualTo(Boolean.FALSE);
+
+        eamGrmVariableService.deleteByExample(gExample);
+
+        return count;
+    }
+
+    @Override
+    public int createCustomer(UpmsCompany company) {
+        String adminName = RandomStringUtils.randomAlphabetic(5);
+        String adminPassword = RandomStringUtils.randomAlphabetic(6);
+
+        company.setAdminName(adminName);
+        company.setAdminPassword(adminPassword);
+
+        int count = upmsCompanyService.insertSelective(company);
+
+
+        upmsApiService.handleCustomerReg(adminName, adminName, adminPassword, null, null, company.getName());
+
+        return count;
+    }
+
+    private List<Integer> coverToList(String ids){
+        List<Integer> result = new ArrayList<>();
+
+        String[] idArray = ids.split("-");
+        if (idArray != null){
+            for(String id : idArray){
+                result.add(Integer.valueOf(id));
+            }
+        }
+        return result;
     }
 
 }

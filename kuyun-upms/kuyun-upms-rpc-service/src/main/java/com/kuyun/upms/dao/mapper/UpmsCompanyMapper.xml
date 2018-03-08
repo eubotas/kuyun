@@ -15,6 +15,8 @@
     <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
+    <result column="admin_name" jdbcType="VARCHAR" property="adminName" />
+    <result column="admin_password" jdbcType="VARCHAR" property="adminPassword" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -76,7 +78,7 @@
   </sql>
   <sql id="Base_Column_List">
     company_id, parent_id, name, address, phone, fax, zip, www, create_user_id, create_time, 
-    update_user_id, update_time, delete_flag
+    update_user_id, update_time, delete_flag, admin_name, admin_password
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.upms.dao.model.UpmsCompanyExample" resultMap="BaseResultMap">
     select
@@ -123,11 +125,13 @@
     insert into upms_company (parent_id, name, address, 
       phone, fax, zip, www, 
       create_user_id, create_time, update_user_id, 
-      update_time, delete_flag)
+      update_time, delete_flag, admin_name, 
+      admin_password)
     values (#{parentId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{fax,jdbcType=VARCHAR}, #{zip,jdbcType=VARCHAR}, #{www,jdbcType=VARCHAR}, 
       #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT})
+      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{adminName,jdbcType=VARCHAR}, 
+      #{adminPassword,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.upms.dao.model.UpmsCompany">
     <selectKey keyProperty="companyId" order="AFTER" resultType="java.lang.Integer">
@@ -171,6 +175,12 @@
       <if test="deleteFlag != null">
         delete_flag,
       </if>
+      <if test="adminName != null">
+        admin_name,
+      </if>
+      <if test="adminPassword != null">
+        admin_password,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="parentId != null">
@@ -208,6 +218,12 @@
       </if>
       <if test="deleteFlag != null">
         #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="adminName != null">
+        #{adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPassword != null">
+        #{adminPassword,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -259,6 +275,12 @@
       <if test="record.deleteFlag != null">
         delete_flag = #{record.deleteFlag,jdbcType=BIT},
       </if>
+      <if test="record.adminName != null">
+        admin_name = #{record.adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminPassword != null">
+        admin_password = #{record.adminPassword,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -278,7 +300,9 @@
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      delete_flag = #{record.deleteFlag,jdbcType=BIT}
+      delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      admin_name = #{record.adminName,jdbcType=VARCHAR},
+      admin_password = #{record.adminPassword,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -322,6 +346,12 @@
       <if test="deleteFlag != null">
         delete_flag = #{deleteFlag,jdbcType=BIT},
       </if>
+      <if test="adminName != null">
+        admin_name = #{adminName,jdbcType=VARCHAR},
+      </if>
+      <if test="adminPassword != null">
+        admin_password = #{adminPassword,jdbcType=VARCHAR},
+      </if>
     </set>
     where company_id = #{companyId,jdbcType=INTEGER}
   </update>
@@ -338,7 +368,9 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      delete_flag = #{deleteFlag,jdbcType=BIT}
+      delete_flag = #{deleteFlag,jdbcType=BIT},
+      admin_name = #{adminName,jdbcType=VARCHAR},
+      admin_password = #{adminPassword,jdbcType=VARCHAR}
     where company_id = #{companyId,jdbcType=INTEGER}
   </update>
   <insert id="batchInsert">
@@ -346,13 +378,15 @@
             insert into upms_company  (parent_id, name, address, 
         phone, fax, zip, www, 
         create_user_id, create_time, update_user_id, 
-        update_time, delete_flag)
+        update_time, delete_flag, admin_name, 
+        admin_password)
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.parentId,jdbcType=INTEGER}, #{item.name,jdbcType=VARCHAR}, #{item.address,jdbcType=VARCHAR}, 
         #{item.phone,jdbcType=VARCHAR}, #{item.fax,jdbcType=VARCHAR}, #{item.zip,jdbcType=VARCHAR}, #{item.www,jdbcType=VARCHAR}, 
         #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, 
-        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT})
+        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, #{item.adminName,jdbcType=VARCHAR}, 
+        #{item.adminPassword,jdbcType=VARCHAR})
       </foreach>
     </if>
   </insert>

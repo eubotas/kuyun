@@ -7,6 +7,7 @@ import com.kuyun.eam.pojo.Positions;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.pojo.tree.Tree;
 import com.kuyun.eam.vo.*;
+import com.kuyun.upms.dao.model.UpmsCompany;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
 import javafx.util.Pair;
 
@@ -127,4 +128,10 @@ public interface EamApiService {
     List<EamMaintainPlanVO> listMaintainPlans(EamMaintainPlanVO vo);
     List<EamPlanTicketVO> selectTicketByPlan(EamPlanTicketVO vo);
     EamMaintainPlanVO getMaintainPlan(Integer planId);
+
+    List<EamTicketRejectRecordVO> getTicketRejectRecord(Integer ticketId);
+
+    int deleteDataElements(String ids);
+
+    int createCustomer(UpmsCompany companyVo);
 }

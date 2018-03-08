@@ -6,10 +6,10 @@ import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.util.SpringContextUtil;
 import com.kuyun.common.validator.LengthValidator;
-import com.kuyun.eam.dao.model.*;
-import com.kuyun.eam.rpc.api.EamEquipmentCompanyService;
+import com.kuyun.eam.dao.model.EamProductLineCompany;
+import com.kuyun.eam.dao.model.EamProductLineCompanyExample;
+import com.kuyun.eam.rpc.api.EamApiService;
 import com.kuyun.eam.rpc.api.EamProductLineCompanyService;
-import com.kuyun.eam.vo.EamEquipmentVO;
 import com.kuyun.eam.vo.EamProductLineVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.common.constant.UpmsResult;
@@ -17,6 +17,7 @@ import com.kuyun.upms.common.constant.UpmsResultConstant;
 import com.kuyun.upms.dao.model.UpmsCompany;
 import com.kuyun.upms.dao.model.UpmsCompanyExample;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
+import com.kuyun.upms.dao.vo.UpmsCompanyVo;
 import com.kuyun.upms.rpc.api.UpmsCompanyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -47,6 +48,9 @@ public class UpmsCompanyController extends BaseController {
 
     @Autowired
     private BaseEntityUtil baseEntityUtil;
+
+    @Autowired
+    private EamApiService eamApiService;
 
     @Autowired
     private EamProductLineCompanyService eamProductLineCompanyService;
@@ -125,7 +129,7 @@ public class UpmsCompanyController extends BaseController {
             upmsCompany.setParentId(company.getCompanyId());
         }
 
-        int count = upmsCompanyService.insertSelective(upmsCompany);
+        int count = eamApiService.createCustomer(upmsCompany);
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
     }
 

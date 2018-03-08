@@ -57,6 +57,8 @@ $(function() {
 			{field: 'fax', title: '传真'},
             {field: 'zip', title: '邮编'},
             {field: 'www', title: '网址'},
+            {field: 'adminName', title: '管理员账号'},
+            {field: 'adminPassword', title: '管理员密码'},
 			{field: 'address', title: '客户地址'},
 			{field: 'action', title: '产线授权', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
 		]

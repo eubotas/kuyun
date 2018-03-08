@@ -28,6 +28,10 @@ public class QuartzUtil {
         start();
     }
 
+    public QuartzUtil(){
+        start();
+    }
+
     public Scheduler getScheduler() throws SchedulerException {
         return sf.getScheduler();
     }
@@ -54,7 +58,8 @@ public class QuartzUtil {
         if(jobImpl.getScheduleMethod() == BaseJob.ScheduleMethod.CRON.ordinal()){
             trigger = newTrigger().withIdentity(jobKey.getName(), jobKey.getGroup())
                     .startAt(startDate)
-                    .withSchedule(CronScheduleBuilder.cronSchedule(jobImpl.getCronSchedule())).build();
+                    .withSchedule(CronScheduleBuilder.cronSchedule(jobImpl.getCronSchedule())
+                    .withMisfireHandlingInstructionDoNothing()).build();
         }else {
             trigger = newTrigger().withIdentity(jobKey.getName(), jobKey.getGroup())
                     .startAt(startDate)

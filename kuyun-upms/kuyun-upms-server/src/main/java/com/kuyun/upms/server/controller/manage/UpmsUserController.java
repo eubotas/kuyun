@@ -216,6 +216,10 @@ public class UpmsUserController extends BaseController {
             userVo.setSearchName(search);
         }
 
+        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+
+        userVo.setCompanyId(company.getCompanyId());
+
         List<UpmsUserVo> rows = upmsApiService.selectUsers(userVo);
         long total = upmsApiService.countUsers(userVo);
         Map<String, Object> result = new HashMap<>();

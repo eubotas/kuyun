@@ -7,6 +7,7 @@ import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.admin.model.RepairKnowledge;
 import com.kuyun.eam.admin.repository.RepairKnowledgeRepository;
+import com.kuyun.eam.admin.util.ActionEnum;
 import com.kuyun.eam.admin.util.BaseModelUtil;
 import com.kuyun.eam.admin.util.KnowledgeCategory;
 import com.kuyun.eam.admin.util.TagUtil;
@@ -139,7 +140,8 @@ public class RepairKnowledgeController extends BaseController {
         }
         baseModelUtil.addAddtionalValue(doc);
 
-        tagUtil.handleTag(doc.getTag());
+        tagUtil.handleTag(ActionEnum.CREATE.getName(), null, doc.getTag());
+
         repairKnowledgeRepository.save(doc);
         return new EamResult(SUCCESS, 1);
     }
@@ -155,6 +157,13 @@ public class RepairKnowledgeController extends BaseController {
                 if (StringUtils.isBlank(id)) {
                     continue;
                 }
+
+                Optional<RepairKnowledge> optional = repairKnowledgeRepository.findById(id);
+                RepairKnowledge doc = optional.orElse(null);
+                String tag = doc.getTag() == null ? null : doc.getTag();
+                tagUtil.handleTag(ActionEnum.DELETE.getName(), null, tag);
+
+
                 repairKnowledgeRepository.deleteById(id);
             }
         }
@@ -187,7 +196,13 @@ public class RepairKnowledgeController extends BaseController {
             return new EamResult(INVALID_LENGTH, result.getErrors());
         }
         baseModelUtil.updateAddtionalValue(doc);
-        tagUtil.handleTag(doc.getTag());
+
+        Optional<RepairKnowledge> optional = repairKnowledgeRepository.findById(id);
+        RepairKnowledge oldDoc = optional.orElse(null);
+        String oldTag = oldDoc.getTag() == null ? null : oldDoc.getTag();
+
+        tagUtil.handleTag(ActionEnum.UPDATE.getName(), oldTag, doc.getTag());
+
         repairKnowledgeRepository.save(doc);
         return new EamResult(SUCCESS, 1);
     }
