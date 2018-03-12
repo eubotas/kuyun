@@ -40,7 +40,7 @@
                 <ul>
                     <li class="search-item">
                         <c:forEach var="row" items="${rows}">
-                            <a href="${basePath}/manage/knowledge/${row.type}/${row.id}"><h4>${row.title}</h4>  </a>
+                            <a href="${basePath}/manage/knowledge/${row.type}/${row.id}/index"><h4>${row.title}</h4>  </a>
                             <p class="desc">${row.description}</p>
                             <div class="info"></div>
                         </c:forEach>
@@ -61,7 +61,7 @@
 <script type="text/javascript">
     $("#key").keydown(function() {//给输入框绑定按键事件
         if(event.keyCode == "13") {//判断如果按下的是回车键则执行下面的代码
-            window.location = "${basePath}/manage/knowledge/search?k="+$('#key').val();
+            window.location = "${basePath}/manage/knowledge/search/index?k="+$('#key').val();
         }
     })
 </script>

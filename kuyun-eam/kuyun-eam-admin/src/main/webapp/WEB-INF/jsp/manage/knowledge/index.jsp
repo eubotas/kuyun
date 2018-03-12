@@ -96,7 +96,7 @@
 <div class="index-tags">
     <div class="index-tags-wrapper clearfix">
         <c:forEach var="tag" items="${tags}">
-            <a href="${basePath}/manage/knowledge/search?k=&t=${tag.tag}">${tag.tag}  </a>
+            <a href="${basePath}/manage/knowledge/search/index?k=&t=${tag.tag}">${tag.tag}  </a>
         </c:forEach>
     </div>
 </div>
@@ -108,7 +108,7 @@
 <script type="text/javascript">
     $("#key").keydown(function() {//给输入框绑定按键事件
         if(event.keyCode == "13") {//判断如果按下的是回车键则执行下面的代码
-            window.location = "${basePath}/manage/knowledge/search?k="+$('#key').val();
+            window.location = "${basePath}/manage/knowledge/search/index?k="+$('#key').val();
         }
     })
 </script>

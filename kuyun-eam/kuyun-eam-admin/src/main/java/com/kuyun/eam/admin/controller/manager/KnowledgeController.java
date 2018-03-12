@@ -34,10 +34,7 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -85,16 +82,30 @@ public class KnowledgeController extends BaseController {
     @RequiresPermissions("eam:knowledge:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index(ModelMap modelMap) {
+        handleIndexModel(modelMap);
+        return "/manage/knowledge/index.jsp";
+    }
+
+    private void handleIndexModel(ModelMap modelMap) {
         UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
         _log.info("companyId="+company.getCompanyId());
         modelMap.put("tags", tagRepository.findByCompanyId(company.getCompanyId()));
-        return "/manage/knowledge/index.jsp";
+    }
+
+    @ApiOperation(value = "Tag列表")
+    @RequiresPermissions("eam:knowledge:read")
+    @RequestMapping(value = "/tag", method = RequestMethod.GET)
+    @ResponseBody
+    public Object tag( ModelMap modelMap) {
+        handleIndexModel(modelMap);
+        return modelMap;
     }
 
     @ApiOperation(value = "知识搜索列表")
     @RequiresPermissions("eam:knowledge:read")
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public String search(
+    @ResponseBody
+    public Object search(
             @RequestParam(required = false, defaultValue = "0", value = "page") int page,
             @RequestParam(required = false, defaultValue = "10", value = "size") int size,
             @RequestParam(required = false, value = "k") String k,
@@ -103,6 +114,27 @@ public class KnowledgeController extends BaseController {
 
         _log.info("key [ {} ], tag [ {} ], category [ {} ]", k, t, c);
 
+        handelSeachModel(page, size, k, t, c, modelMap, request);
+        return modelMap;
+    }
+
+    @ApiOperation(value = "知识搜索列表")
+    @RequiresPermissions("eam:knowledge:read")
+    @RequestMapping(value = "/search/index", method = RequestMethod.GET)
+    public String searchIndex(
+            @RequestParam(required = false, defaultValue = "0", value = "page") int page,
+            @RequestParam(required = false, defaultValue = "10", value = "size") int size,
+            @RequestParam(required = false, value = "k") String k,
+            @RequestParam(required = false, value = "t") String t,
+            @RequestParam(required = false, value = "c") String c, ModelMap modelMap, HttpServletRequest request) {
+
+        _log.info("key [ {} ], tag [ {} ], category [ {} ]", k, t, c);
+
+        handelSeachModel(page, size, k, t, c, modelMap, request);
+        return "/manage/knowledge/search.jsp";
+    }
+
+    private void handelSeachModel(@RequestParam(required = false, defaultValue = "0", value = "page") int page, @RequestParam(required = false, defaultValue = "10", value = "size") int size, @RequestParam(required = false, value = "k") String k, @RequestParam(required = false, value = "t") String t, @RequestParam(required = false, value = "c") String c, ModelMap modelMap, HttpServletRequest request) {
         SearchQuery searchQuery = null;
 
         List<String> types = new ArrayList<>();
@@ -113,7 +145,6 @@ public class KnowledgeController extends BaseController {
             types.clear();
             types.add(c);
         }
-
 
 
 //        final List<HighlightBuilder.Field> fields = new HighlightBuilder().field("description")
@@ -201,13 +232,11 @@ public class KnowledgeController extends BaseController {
             }
         });
 
-//        Map<String, Object> result = new HashMap<>();
         modelMap.put("rows", pageObj != null ? pageObj.getContent() : null);
         modelMap.put("total", pageObj != null ? pageObj.getTotalElements() : 0);
         modelMap.put("k", k);
         modelMap.put("c", c);
         modelMap.put("tabs", buildTabs(k, t, c, request));
-        return "/manage/knowledge/search.jsp";
     }
 
     private List<String> buildTabs(String k, String t, String c, HttpServletRequest request){
@@ -244,7 +273,13 @@ public class KnowledgeController extends BaseController {
     @ApiOperation(value = "显示知识内容")
     @RequiresPermissions("eam:knowledge:read")
     @RequestMapping(value = "/{category}/{id}", method = RequestMethod.GET)
-    public String show(@PathVariable("category") String category, @PathVariable("id") String id, ModelMap modelMap) {
+    @ResponseBody
+    public Object show(@PathVariable("category") String category, @PathVariable("id") String id, ModelMap modelMap) {
+        handleShowModel(category, id, modelMap);
+        return modelMap;
+    }
+
+    private void handleShowModel(@PathVariable("category") String category, @PathVariable("id") String id, ModelMap modelMap) {
         KnowledgeCategory knowledge = KnowledgeCategory.getKnowledge(category);
         if (knowledge != null && StringUtils.isNotEmpty(id)){
             GetQuery query = new GetQuery();
@@ -253,7 +288,13 @@ public class KnowledgeController extends BaseController {
             modelMap.put("model", model);
             modelMap.put("category", knowledge.getName());
         }
+    }
 
+    @ApiOperation(value = "显示知识内容")
+    @RequiresPermissions("eam:knowledge:read")
+    @RequestMapping(value = "/{category}/{id}/index", method = RequestMethod.GET)
+    public String showIndex(@PathVariable("category") String category, @PathVariable("id") String id, ModelMap modelMap) {
+        handleShowModel(category, id, modelMap);
         return "/manage/knowledge/show.jsp";
     }
 
