@@ -74,7 +74,6 @@
             <version>2.0.1.RELEASE</version>
         </dependency>
 
-
         <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-elasticsearch -->
         <!--<dependency>-->
             <!--<groupId>org.springframework.data</groupId>-->
