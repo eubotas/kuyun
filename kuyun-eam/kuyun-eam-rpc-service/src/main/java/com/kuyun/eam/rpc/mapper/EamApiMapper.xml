@@ -915,41 +915,41 @@
 	<select id="selectEamGrmVariableDataHistories" parameterType="com.kuyun.eam.vo.EamGrmVariableDataHistoryVO" resultMap="EamGrmVariableDataHistoryVOResultMap">
 		select
 		e.lable_name as data_element_name,
-		<include refid="com.kuyun.eam.dao.mapper.EamGrmVariableDataMapper.Base_Column_List" />
+		<include refid="com.kuyun.eam.dao.mapper.EamGrmVariableDataHistoryMapper.Base_Column_List" />
 		from eam_grm_variable_data_history, eam_product_line p, eam_data_element e
-		WHERE eam_grm_variable_data.delete_flag = 0
+		WHERE eam_grm_variable_data_history.delete_flag = 0
 		AND p.delete_flag = 0 AND e.delete_flag = 0
-		AND eam_grm_variable_data.product_line_id = p.product_line_id
-		AND eam_grm_variable_data.data_element_id = e.id
+		AND eam_grm_variable_data_history.product_line_id = p.product_line_id
+		AND eam_grm_variable_data_history.data_element_id = e.id
 		<if test="productLineId != null and productLineId != ''">
-			AND eam_grm_variable_data.product_line_id = #{productLineId}
+			AND eam_grm_variable_data_history.product_line_id = #{productLineId}
 		</if>
 
 		<if test="equipmentIdIsNull != null">
-			AND eam_grm_variable_data.equipment_id IS NULL
+			AND eam_grm_variable_data_history.equipment_id IS NULL
 		</if>
 
 		<if test="equipmentId != null and equipmentId != ''">
-			AND eam_grm_variable_data.equipment_id = #{equipmentId}
+			AND eam_grm_variable_data_history.equipment_id = #{equipmentId}
 		</if>
 
 		<if test="dataGroupId != null and dataGroupId != ''">
-			AND eam_grm_variable_data.data_group_id = #{dataGroupId}
+			AND eam_grm_variable_data_history.data_group_id = #{dataGroupId}
 		</if>
 
 		<if test="equipmentDataGroupId != null and equipmentDataGroupId != ''">
-			AND eam_grm_variable_data.equipmentDataGroupId = #{equipmentDataGroupId}
+			AND eam_grm_variable_data_history.equipmentDataGroupId = #{equipmentDataGroupId}
 		</if>
 
 		<if test="dataElementId != null and dataElementId != ''">
-			AND eam_grm_variable_data.data_element_id = #{dataElementId}
+			AND eam_grm_variable_data_history.data_element_id = #{dataElementId}
 		</if>
 
 		<if test="startDate != null">
-			AND eam_grm_variable_data.update_time <![CDATA[>=]]> #{startDate}
+			AND eam_grm_variable_data_history.update_time <![CDATA[>=]]> #{startDate}
 		</if>
 		<if test="endDate != null">
-			AND eam_grm_variable_data.update_time <![CDATA[<=]]>#{endDate}
+			AND eam_grm_variable_data_history.update_time <![CDATA[<=]]>#{endDate}
 		</if>
 		<if test="orderByClause != null">
 			order by ${orderByClause}
