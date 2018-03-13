@@ -1,12 +1,13 @@
 package com.kuyun.eam.pojo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by user on 2018-02-21.
  */
-public class Positions {
+public class Positions implements Serializable {
     private List<Position> positions = new ArrayList<>();
 
     public List<Position> getPositions() {
