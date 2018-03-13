@@ -47,8 +47,8 @@
 		</div>
 	</form>
 </div>
-<script>
 
+<script>
     var galleryUploader = new qq.FineUploader(
         {
             element : document.getElementById("fine-uploader-gallery"),
@@ -85,16 +85,16 @@
             },
             cors : {
                 //all requests are expected to be cross-domain requests
-                expected : true,
+                expected : true
 
                 //if you want cookies to be sent along with the request
-                sendCredentials : true
+                //sendCredentials : true
             }
-			/* init file list
-			 session:{
-			 endpoint: '${uploadServer.endpoint_list}?ids=${uuids}'
-		 }, */
+
         });
+</script>
+
+<script>
 
 function createSubmit() {
 

@@ -66,6 +66,10 @@ public class TrainingVideoController extends BaseController {
     @Autowired
     private BaseModelUtil baseModelUtil;
 
+    @Autowired
+    private com.kuyun.fileuploader.rpc.api.FileUploaderService fileUploaderService;
+
+
     @ApiOperation(value = "培训视频首页")
     @RequiresPermissions("eam:trainingVideo:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
@@ -121,7 +125,8 @@ public class TrainingVideoController extends BaseController {
     @ApiOperation(value = "新增培训视频")
     @RequiresPermissions("eam:trainingVideo:create")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String create() {
+    public String create(ModelMap modelMap) {
+        modelMap.put("uploadServer", fileUploaderService.getServerInfo());
         return "/manage/knowledge/training/video/create.jsp";
     }
 

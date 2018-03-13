@@ -66,6 +66,10 @@ public class MaintainKnowledgeController extends BaseController {
     @Autowired
     private BaseEntityUtil baseEntityUtil;
 
+    @Autowired
+    private com.kuyun.fileuploader.rpc.api.FileUploaderService fileUploaderService;
+
+
     @ApiOperation(value = "保养知识首页")
     @RequiresPermissions("eam:maintainKnowledge:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
@@ -121,7 +125,8 @@ public class MaintainKnowledgeController extends BaseController {
     @ApiOperation(value = "新增保养知识")
     @RequiresPermissions("eam:maintainKnowledge:create")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String create() {
+    public String create(ModelMap modelMap) {
+        modelMap.put("uploadServer", fileUploaderService.getServerInfo());
         return "/manage/knowledge/maintain/create.jsp";
     }
 

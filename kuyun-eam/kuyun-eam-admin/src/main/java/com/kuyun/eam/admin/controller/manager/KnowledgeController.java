@@ -39,6 +39,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -82,14 +83,15 @@ public class KnowledgeController extends BaseController {
     @RequiresPermissions("eam:knowledge:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index(ModelMap modelMap) {
-        handleIndexModel(modelMap);
+        handleIndexModel(modelMap, new HashMap<>());
         return "/manage/knowledge/index.jsp";
     }
 
-    private void handleIndexModel(ModelMap modelMap) {
+    private void handleIndexModel(ModelMap modelMap, HashMap<String, Object> map) {
         UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
         _log.info("companyId="+company.getCompanyId());
         modelMap.put("tags", tagRepository.findByCompanyId(company.getCompanyId()));
+        map.put("tags", tagRepository.findByCompanyId(company.getCompanyId()));
     }
 
     @ApiOperation(value = "Tag列表")
@@ -97,8 +99,9 @@ public class KnowledgeController extends BaseController {
     @RequestMapping(value = "/tag", method = RequestMethod.GET)
     @ResponseBody
     public Object tag( ModelMap modelMap) {
-        handleIndexModel(modelMap);
-        return modelMap;
+        HashMap map = new HashMap();
+        handleIndexModel(modelMap, map);
+        return map;
     }
 
     @ApiOperation(value = "知识搜索列表")
@@ -113,9 +116,9 @@ public class KnowledgeController extends BaseController {
             @RequestParam(required = false, value = "c") String c, ModelMap modelMap, HttpServletRequest request) {
 
         _log.info("key [ {} ], tag [ {} ], category [ {} ]", k, t, c);
-
-        handelSeachModel(page, size, k, t, c, modelMap, request);
-        return modelMap;
+        HashMap map = new HashMap<String, Object>();
+        handelSeachModel(page, size, k, t, c, modelMap, request, map);
+        return map;
     }
 
     @ApiOperation(value = "知识搜索列表")
@@ -130,11 +133,11 @@ public class KnowledgeController extends BaseController {
 
         _log.info("key [ {} ], tag [ {} ], category [ {} ]", k, t, c);
 
-        handelSeachModel(page, size, k, t, c, modelMap, request);
+        handelSeachModel(page, size, k, t, c, modelMap, request, new HashMap<String, Object>());
         return "/manage/knowledge/search.jsp";
     }
 
-    private void handelSeachModel(@RequestParam(required = false, defaultValue = "0", value = "page") int page, @RequestParam(required = false, defaultValue = "10", value = "size") int size, @RequestParam(required = false, value = "k") String k, @RequestParam(required = false, value = "t") String t, @RequestParam(required = false, value = "c") String c, ModelMap modelMap, HttpServletRequest request) {
+    private void handelSeachModel(int page, int size, String k, String t, String c, ModelMap modelMap, HttpServletRequest request, HashMap<String, Object> map) {
         SearchQuery searchQuery = null;
 
         List<String> types = new ArrayList<>();
@@ -232,11 +235,21 @@ public class KnowledgeController extends BaseController {
             }
         });
 
-        modelMap.put("rows", pageObj != null ? pageObj.getContent() : null);
-        modelMap.put("total", pageObj != null ? pageObj.getTotalElements() : 0);
+        List<String> tabs = buildTabs(k, t, c, request);
+        List rows = pageObj != null ? pageObj.getContent() : null;
+        long total = pageObj != null ? pageObj.getTotalElements() : 0;
+
+        modelMap.put("rows", rows);
+        modelMap.put("total", total);
         modelMap.put("k", k);
         modelMap.put("c", c);
-        modelMap.put("tabs", buildTabs(k, t, c, request));
+        modelMap.put("tabs", tabs);
+
+        map.put("rows", rows);
+        map.put("total", total);
+        map.put("k", k);
+        map.put("c", c);
+        map.put("tabs", tabs);
     }
 
     private List<String> buildTabs(String k, String t, String c, HttpServletRequest request){
@@ -275,11 +288,12 @@ public class KnowledgeController extends BaseController {
     @RequestMapping(value = "/{category}/{id}", method = RequestMethod.GET)
     @ResponseBody
     public Object show(@PathVariable("category") String category, @PathVariable("id") String id, ModelMap modelMap) {
-        handleShowModel(category, id, modelMap);
-        return modelMap;
+        HashMap map = new HashMap();
+        handleShowModel(category, id, modelMap, map);
+        return map;
     }
 
-    private void handleShowModel(@PathVariable("category") String category, @PathVariable("id") String id, ModelMap modelMap) {
+    private void handleShowModel(String category, String id, ModelMap modelMap, HashMap map) {
         KnowledgeCategory knowledge = KnowledgeCategory.getKnowledge(category);
         if (knowledge != null && StringUtils.isNotEmpty(id)){
             GetQuery query = new GetQuery();
@@ -287,6 +301,9 @@ public class KnowledgeController extends BaseController {
             BaseModel model = (BaseModel) elasticsearchTemplate.queryForObject(query, knowledge.getClazz());
             modelMap.put("model", model);
             modelMap.put("category", knowledge.getName());
+
+            map.put("model", model);
+            map.put("category", knowledge.getName());
         }
     }
 
@@ -294,7 +311,7 @@ public class KnowledgeController extends BaseController {
     @RequiresPermissions("eam:knowledge:read")
     @RequestMapping(value = "/{category}/{id}/index", method = RequestMethod.GET)
     public String showIndex(@PathVariable("category") String category, @PathVariable("id") String id, ModelMap modelMap) {
-        handleShowModel(category, id, modelMap);
+        handleShowModel(category, id, modelMap, new HashMap());
         return "/manage/knowledge/show.jsp";
     }
 

@@ -66,6 +66,10 @@ public class EquipmentManualController extends BaseController {
     @Autowired
     private BaseEntityUtil baseEntityUtil;
 
+    @Autowired
+    private com.kuyun.fileuploader.rpc.api.FileUploaderService fileUploaderService;
+
+
     @ApiOperation(value = "设备手册首页")
     @RequiresPermissions("eam:equipmentManual:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
@@ -122,7 +126,8 @@ public class EquipmentManualController extends BaseController {
     @ApiOperation(value = "新增设备手册")
     @RequiresPermissions("eam:equipmentManual:create")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String create() {
+    public String create(ModelMap modelMap) {
+        modelMap.put("uploadServer", fileUploaderService.getServerInfo());
         return "/manage/knowledge/manual/create.jsp";
     }
 

@@ -154,7 +154,7 @@ public class UploadController extends BaseController {
 		return result;
 	}
 
-	//@CrossOrigin(origins = "*")
+	@CrossOrigin(origins = "*")
 	@ApiOperation(value = "删除")
 	@RequestMapping(value = "/delete/{uuid}", method = RequestMethod.DELETE)
 	public Object delete(@PathVariable("uuid") String uuid) {
@@ -175,7 +175,7 @@ public class UploadController extends BaseController {
 	 * @param uuids
 	 * @return
 	 */
-	//@CrossOrigin(origins = "*")
+	@CrossOrigin(origins = "*")
 	@ApiOperation(value = "列表")
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public Object list(@RequestParam(required = false, value = "ids") String ids) {

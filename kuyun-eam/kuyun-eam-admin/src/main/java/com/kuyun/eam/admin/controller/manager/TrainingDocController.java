@@ -66,6 +66,10 @@ public class TrainingDocController extends BaseController {
     @Autowired
     private BaseEntityUtil baseEntityUtil;
 
+    @Autowired
+    private com.kuyun.fileuploader.rpc.api.FileUploaderService fileUploaderService;
+
+
     @ApiOperation(value = "培训文档首页")
     @RequiresPermissions("eam:trainingDoc:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
@@ -122,7 +126,8 @@ public class TrainingDocController extends BaseController {
     @ApiOperation(value = "新增培训文档")
     @RequiresPermissions("eam:trainingDoc:create")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String create() {
+    public String create(ModelMap modelMap) {
+        modelMap.put("uploadServer", fileUploaderService.getServerInfo());
         return "/manage/knowledge/training/doc/create.jsp";
     }
 

@@ -66,6 +66,10 @@ public class RepairKnowledgeController extends BaseController {
     @Autowired
     private BaseEntityUtil baseEntityUtil;
 
+    @Autowired
+    private com.kuyun.fileuploader.rpc.api.FileUploaderService fileUploaderService;
+
+
     @ApiOperation(value = "维修知识首页")
     @RequiresPermissions("eam:repairKnowledge:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
@@ -122,7 +126,8 @@ public class RepairKnowledgeController extends BaseController {
     @ApiOperation(value = "新增维修知识")
     @RequiresPermissions("eam:repairKnowledge:create")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String create() {
+    public String create(ModelMap modelMap) {
+        modelMap.put("uploadServer", fileUploaderService.getServerInfo());
         return "/manage/knowledge/repair/create.jsp";
     }
 
