@@ -1273,7 +1273,7 @@ public class EamApiServiceImpl implements EamApiService {
             equipment.setLeftPosition(position.getLeft());
             equipment.setTopPosition(position.getTop());
 
-            result = eamEquipmentService.updateByPrimaryKey(equipment);
+            result = eamEquipmentService.updateByPrimaryKeySelective(equipment);
         }
 
         return result;
