@@ -1,93 +1,90 @@
-﻿<%@ page contentType="text/html; charset=utf-8"%>
-<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
-<c:set var="basePath" value="${pageContext.request.contextPath}"/>
-<div id="createDialog" class="crudDialog">
-	<form id="createForm" method="post">
-		<div class="form-group">
-			<label for="name">名称</label>
-			<input id="name" type="text" class="form-control" name="name" maxlength="20">
-		</div>
-		<div class="form-group">
-			<label for="description">描述</label>
-			<input id="description" type="text" class="form-control" name="description" maxlength="300">
-		</div>
+﻿<!--begin::Modal-->
+<div class="modal fade" id="create_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <form id="myForm" class="m-form m-form--fit m-form--label-align-right">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        新建部门
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">
+												&times;
+											</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="m-scrollable" data-scrollbar-shown="true" data-scrollable="true" data-height="200">
+                        <div class="form-group">
+                            <label for="name" class="form-control-label">
+                                名称:*
+                            </label>
+                            <input type="text" class="form-control" id="name" name="name">
+                        </div>
 
-		<div class="form-group text-right dialog-buttons">
-			<a class="waves-effect waves-button" href="javascript:;" onclick="createSubmit();">保存</a>
-			<a class="waves-effect waves-button" href="javascript:;" onclick="createDialog.close();">取消</a>
-		</div>
-	</form>
+                        <div class="form-group">
+                            <label for="description" class="form-control-label">
+                                描述:*
+                            </label>
+                            <textarea class="form-control" id="description" name="description" rows="6"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        取消
+                    </button>
+                    <button type="submit" class="btn btn-primary" id="m_blockui_4_1">
+                        提交
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>
-<script>
-function createSubmit() {
-    $.ajax({
-        type: 'post',
-        url: '${basePath}/manage/organization/create',
-        data: $('#createForm').serialize(),
-        beforeSend: function() {
-            if ($('#name').val() == '') {
-                $('#name').focus();
-                return false;
+<!--end::Modal-->
+
+<pageResources>
+    <script>
+        //== Class definition
+
+        var FormWidgets = function () {
+            var myForm = function () {
+                $("#myForm").validate({
+                    // define validation rules
+                    rules: {
+                        name: {
+                            required: true,
+                            minlength: 2,
+                            maxlength: 20
+                        },
+                        description: {
+                            required: true,
+                            minlength: 2,
+                            maxlength: 200
+                        },
+                    },
+                    submitHandler: function (form) {
+                        //form[0].submit(); // submit the form
+
+
+                    }
+                });
             }
-        },
-        success: function(result) {
-			if (result.code != 1) {
-				if (result.data instanceof Array) {
-					$.each(result.data, function(index, value) {
-						$.confirm({
-							theme: 'dark',
-							animation: 'rotateX',
-							closeAnimation: 'rotateX',
-							title: false,
-							content: value.errorMsg,
-							buttons: {
-								confirm: {
-									text: '确认',
-									btnClass: 'waves-effect waves-button waves-light'
-								}
-							}
-						});
-					});
-				} else {
-						$.confirm({
-							theme: 'dark',
-							animation: 'rotateX',
-							closeAnimation: 'rotateX',
-							title: false,
-							content: result.data.errorMsg,
-							buttons: {
-								confirm: {
-									text: '确认',
-									btnClass: 'waves-effect waves-button waves-light'
-								}
-							}
-						});
-				}
-			} else {
-				createDialog.close();
-				$table.bootstrapTable('refresh');
-			}
-        },
-        error: function(XMLHttpRequest, textStatus, errorThrown) {
-			$.confirm({
-				theme: 'dark',
-				animation: 'rotateX',
-				closeAnimation: 'rotateX',
-				title: false,
-				content: textStatus,
-				buttons: {
-					confirm: {
-						text: '确认',
-						btnClass: 'waves-effect waves-button waves-light'
-					}
-				}
-			});
-        }
-    });
-}
-</script>
+
+            return {
+                // public functions
+                init: function () {
+                    myForm();
+                }
+            };
+
+        }();
+
+        jQuery(document).ready(function () {
+            FormWidgets.init();
+        });
+
+    </script>
+</pageResources>
