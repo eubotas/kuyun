@@ -3,6 +3,7 @@ package com.kuyun.eam.admin.controller.manager;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.eam.pojo.CurveData;
 import com.kuyun.eam.rpc.api.EamApiService;
+import com.kuyun.eam.vo.EamGrmVariableDataExtVO;
 import com.kuyun.eam.vo.EamGrmVariableDataVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,30 +39,30 @@ public class EamGrmVariableDataController extends BaseController {
 	@RequestMapping(value = "/list/", method = RequestMethod.POST)
 	@ResponseBody
 	public Object list(EamGrmVariableDataVO eamGrmVariableDataVO) {
-		List<EamGrmVariableDataVO> rows = getGrmVariableData(eamGrmVariableDataVO);
+		List<EamGrmVariableDataExtVO> rows = getGrmVariableData(eamGrmVariableDataVO);
 		return rows;
 	}
 
-	private List<EamGrmVariableDataVO> getGrmVariableData(EamGrmVariableDataVO eamGrmVariableDataVO) {
+	private List<EamGrmVariableDataExtVO> getGrmVariableData(EamGrmVariableDataVO eamGrmVariableDataVO) {
 
 		if (eamGrmVariableDataVO.getOrderByClause() == null){
 			eamGrmVariableDataVO.setOrderByClause("eam_grm_variable_data.update_time desc");
 		}
 
 
-		List<EamGrmVariableDataVO> result = eamApiService.selectEamGrmVariableData(eamGrmVariableDataVO);
+		List<EamGrmVariableDataExtVO> result = eamApiService.selectEamGrmVariableData(eamGrmVariableDataVO);
 		if (result == null){
 			result = new ArrayList<>();
 		}
 		return result;
 	}
 
-	private CurveData buildCurveData(List<EamGrmVariableDataVO> rows){
+	private CurveData buildCurveData(List<EamGrmVariableDataExtVO> rows){
 		List<String> value = new ArrayList<>(rows.size());
 		List<Date> time = new ArrayList<>(rows.size());
-		for (EamGrmVariableDataVO row : rows){
+		for (EamGrmVariableDataExtVO row : rows){
 			value.add(row.getValue());
-			time.add(row.getCreateTime());
+			time.add(row.getUpdateTime());
 		}
 
 		CurveData result = new CurveData();

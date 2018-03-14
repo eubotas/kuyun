@@ -12,12 +12,22 @@ public class EamGrmVariableDataVO extends EamGrmVariableData {
     private Date endDate;
     private String dataElementName;
     private Boolean equipmentIdIsNull;
+    private String unit;
 
     private Integer limit;
 
     private Integer offset;
 
     private String orderByClause;
+
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
 
     public Integer getLimit() {
         return limit;

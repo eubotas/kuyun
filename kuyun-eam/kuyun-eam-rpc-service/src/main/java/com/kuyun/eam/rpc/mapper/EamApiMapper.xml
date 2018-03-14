@@ -852,19 +852,34 @@
 		</if>
 	</select>
 
-	<resultMap id="EamGrmVariableDataVOResultMap" type="com.kuyun.eam.vo.EamGrmVariableDataVO" extends="com.kuyun.eam.dao.mapper.EamGrmVariableDataMapper.BaseResultMap">
-	<result column="data_element_name" jdbcType="VARCHAR" property="dataElementName" />
-</resultMap>
+	<resultMap id="EamGrmVariableDataVOResultMap" type="com.kuyun.eam.vo.EamGrmVariableDataExtVO">
+		<result column="data_element_name" jdbcType="VARCHAR" property="dataElementName" />
+		<result column="value" jdbcType="VARCHAR" property="value" />
+		<result column="unit" jdbcType="VARCHAR" property="unit" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+	</resultMap>
 
 	<select id="selectEamGrmVariableData" parameterType="com.kuyun.eam.vo.EamGrmVariableDataVO" resultMap="EamGrmVariableDataVOResultMap">
 		select
+		e.unit,
 		e.lable_name as data_element_name,
-		<include refid="com.kuyun.eam.dao.mapper.EamGrmVariableDataMapper.Base_Column_List" />
-		from eam_grm_variable_data, eam_product_line p, eam_data_element e
+		eam_grm_variable_data.value,
+		eam_grm_variable_data.update_time
+
+		from eam_grm_variable_data,
+		eam_product_line p,
+		eam_data_element e,
+		eam_equipment ee,
+		eam_data_element_group deg,
+		eam_equipment_data_group edg
 		WHERE eam_grm_variable_data.delete_flag = 0
 		AND p.delete_flag = 0 AND e.delete_flag = 0
+		AND eam_grm_variable_data.equipment_id = ee.equipment_id and ee.delete_flag = 0
+		AND eam_grm_variable_data.data_group_id = deg.id and deg.delete_flag = 0
+		AND eam_grm_variable_data.equipment_data_group_id = edg.id and edg.delete_flag = 0
 		AND eam_grm_variable_data.product_line_id = p.product_line_id
 		AND eam_grm_variable_data.data_element_id = e.id
+
 		<if test="productLineId != null and productLineId != ''">
 			AND eam_grm_variable_data.product_line_id = #{productLineId}
 		</if>
@@ -908,17 +923,31 @@
 		</if>
 	</select>
 
-	<resultMap id="EamGrmVariableDataHistoryVOResultMap" type="com.kuyun.eam.vo.EamGrmVariableDataHistoryVO" extends="com.kuyun.eam.dao.mapper.EamGrmVariableDataHistoryMapper.BaseResultMap">
+	<resultMap id="EamGrmVariableDataHistoryVOResultMap" type="com.kuyun.eam.vo.EamGrmVariableDataHistoryExtVO" >
 		<result column="data_element_name" jdbcType="VARCHAR" property="dataElementName" />
+		<result column="value" jdbcType="VARCHAR" property="value" />
+		<result column="unit" jdbcType="VARCHAR" property="unit" />
+		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
 	</resultMap>
 
 	<select id="selectEamGrmVariableDataHistories" parameterType="com.kuyun.eam.vo.EamGrmVariableDataHistoryVO" resultMap="EamGrmVariableDataHistoryVOResultMap">
 		select
-		e.lable_name as data_element_name,
+		e.unit,
+		eam_grm_variable_data_history.value,
+		eam_grm_variable_data_history.update_time
+
 		<include refid="com.kuyun.eam.dao.mapper.EamGrmVariableDataHistoryMapper.Base_Column_List" />
-		from eam_grm_variable_data_history, eam_product_line p, eam_data_element e
+		from eam_grm_variable_data_history,
+		eam_product_line p,
+		eam_data_element e,
+		eam_equipment ee,
+		eam_data_element_group deg,
+		eam_equipment_data_group edg
 		WHERE eam_grm_variable_data_history.delete_flag = 0
 		AND p.delete_flag = 0 AND e.delete_flag = 0
+		AND eam_grm_variable_data_history.equipment_id = ee.equipment_id and ee.delete_flag = 0
+		AND eam_grm_variable_data_history.data_group_id = deg.id and deg.delete_flag = 0
+		AND eam_grm_variable_data_history.equipment_data_group_id = edg.id and edg.delete_flag = 0
 		AND eam_grm_variable_data_history.product_line_id = p.product_line_id
 		AND eam_grm_variable_data_history.data_element_id = e.id
 		<if test="productLineId != null and productLineId != ''">

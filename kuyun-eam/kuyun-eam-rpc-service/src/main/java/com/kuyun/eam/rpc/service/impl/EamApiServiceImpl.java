@@ -982,33 +982,30 @@ public class EamApiServiceImpl implements EamApiService {
     public int handleProductLineDataElements(String productLineId, String dataElementIds){
         List<EamProductLineDataElement> vos = buildProductLineDataElements(productLineId, dataElementIds);
 
-        if (!vos.isEmpty()){
-            //remove already exist data
-            EamProductLineDataElementExample example = new EamProductLineDataElementExample();
-            example.createCriteria().andProductLineIdEqualTo(productLineId);
-            eamProductLineDataElementService.deleteByExample(example);
+        //remove already exist data
+        EamProductLineDataElementExample example = new EamProductLineDataElementExample();
+        example.createCriteria().andProductLineIdEqualTo(productLineId);
+        eamProductLineDataElementService.deleteByExample(example);
 
+        //remove
+        EamGrmVariableExample grmVariableExample = new EamGrmVariableExample();
+        grmVariableExample.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE)
+                .andProductLineIdEqualTo(productLineId)
+                .andEquipmentIdIsNull()
+                .andDataGroupIdIsNull()
+                .andEquipmentDataGroupIdIsNull();
+        eamGrmVariableService.deleteByExample(grmVariableExample);
+
+        if (!vos.isEmpty()){
             //add new
             eamProductLineDataElementService.batchInsert(vos);
-
-            //remove
-            EamGrmVariableExample grmVariableExample = new EamGrmVariableExample();
-            grmVariableExample.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE)
-                    .andProductLineIdEqualTo(productLineId)
-                    .andEquipmentIdIsNull()
-                    .andDataGroupIdIsNull()
-                    .andEquipmentDataGroupIdIsNull();
-            eamGrmVariableService.deleteByExample(grmVariableExample);
-
 
             List<EamGrmVariable> variables = buildGrmVariables(productLineId, dataElementIds);
             eamGrmVariableService.batchInsert(variables);
 
-            return 1;
-
         }
 
-        return 0;
+        return 1;
     }
 
     @Override
@@ -1023,12 +1020,6 @@ public class EamApiServiceImpl implements EamApiService {
                     .andDeleteFlagEqualTo(Boolean.FALSE);
             eamEquipmentDataGroupElemetsService.deleteByExample(example);
 
-            //Add new
-            List<EamEquipmentDataGroupElemets> elements = buildEamEquipmentDataGroupElements(equipmentId, dataGroupId, equipmentDataGroupId, ids);
-
-            eamEquipmentDataGroupElemetsService.batchInsert(elements);
-
-
             //remove
             EamGrmVariableExample grmVariableExample = new EamGrmVariableExample();
             grmVariableExample.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE)
@@ -1038,20 +1029,28 @@ public class EamApiServiceImpl implements EamApiService {
                     .andEquipmentDataGroupIdEqualTo(Integer.valueOf(equipmentDataGroupId));
             eamGrmVariableService.deleteByExample(grmVariableExample);
 
-            List<EamGrmVariable> variables = buildGrmVariables(equipment.getProductLineId(), equipmentId, dataGroupId, equipmentDataGroupId, ids);
-            eamGrmVariableService.batchInsert(variables);
+            if(StringUtils.isNotEmpty(ids)){
+                //Add new
+                List<EamEquipmentDataGroupElemets> elements = buildEamEquipmentDataGroupElements(equipmentId, dataGroupId, equipmentDataGroupId, ids);
+
+                eamEquipmentDataGroupElemetsService.batchInsert(elements);
+
+                List<EamGrmVariable> variables = buildGrmVariables(equipment.getProductLineId(), equipmentId, dataGroupId, equipmentDataGroupId, ids);
+                eamGrmVariableService.batchInsert(variables);
+            }
+
         }
 
-        return 0;
+        return 1;
     }
 
     @Override
-    public List<EamGrmVariableDataVO> selectEamGrmVariableData(EamGrmVariableDataVO eamGrmVariableDataVO) {
+    public List<EamGrmVariableDataExtVO> selectEamGrmVariableData(EamGrmVariableDataVO eamGrmVariableDataVO) {
         return eamApiMapper.selectEamGrmVariableData(eamGrmVariableDataVO);
     }
 
     @Override
-    public List<EamGrmVariableDataHistoryVO> selectEamGrmVariableDataHistories(EamGrmVariableDataHistoryVO eamGrmVariableDataHistoryVO) {
+    public List<EamGrmVariableDataHistoryExtVO> selectEamGrmVariableDataHistories(EamGrmVariableDataHistoryVO eamGrmVariableDataHistoryVO) {
         return eamApiMapper.selectEamGrmVariableDataHistories(eamGrmVariableDataHistoryVO);
     }
 
@@ -1079,16 +1078,18 @@ public class EamApiServiceImpl implements EamApiService {
 
     private List<EamProductLineDataElement> buildProductLineDataElements(String productLineId, String ids){
         List<EamProductLineDataElement> result = new ArrayList<>();
-        String [] idsArray = ids.split("::");
+        if (StringUtils.isNotEmpty(ids)){
+            String [] idsArray = ids.split("::");
 
-        for (String id : idsArray){
-            EamProductLineDataElement element = new EamProductLineDataElement();
-            element.setProductLineId(productLineId);
-            element.setEamDataElementId(Integer.valueOf(id));
-            element.setDeleteFlag(Boolean.FALSE);
-            element.setCreateTime(new Date());
-            element.setUpdateTime(new Date());
-            result.add(element);
+            for (String id : idsArray){
+                EamProductLineDataElement element = new EamProductLineDataElement();
+                element.setProductLineId(productLineId);
+                element.setEamDataElementId(Integer.valueOf(id));
+                element.setDeleteFlag(Boolean.FALSE);
+                element.setCreateTime(new Date());
+                element.setUpdateTime(new Date());
+                result.add(element);
+            }
         }
 
         return result;

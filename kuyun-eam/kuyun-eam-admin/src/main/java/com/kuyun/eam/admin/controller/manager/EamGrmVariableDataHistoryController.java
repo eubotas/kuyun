@@ -3,6 +3,7 @@ package com.kuyun.eam.admin.controller.manager;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.eam.pojo.CurveData;
 import com.kuyun.eam.rpc.api.EamApiService;
+import com.kuyun.eam.vo.EamGrmVariableDataHistoryExtVO;
 import com.kuyun.eam.vo.EamGrmVariableDataHistoryVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -39,7 +40,7 @@ public class EamGrmVariableDataHistoryController extends BaseController {
 	@ResponseBody
 	public Object listCurve(EamGrmVariableDataHistoryVO eamGrmVariableDataHistoryVO) {
 
-		List<EamGrmVariableDataHistoryVO> rows = getGrmVariableHistoryData(eamGrmVariableDataHistoryVO);
+		List<EamGrmVariableDataHistoryExtVO> rows = getGrmVariableHistoryData(eamGrmVariableDataHistoryVO);
 		return buildCurveData(rows);
 	}
 
@@ -49,30 +50,30 @@ public class EamGrmVariableDataHistoryController extends BaseController {
 	@RequestMapping(value = "/list/", method = RequestMethod.POST)
 	@ResponseBody
 	public Object list(EamGrmVariableDataHistoryVO eamGrmVariableDataHistoryVO) {
-		List<EamGrmVariableDataHistoryVO> rows = getGrmVariableHistoryData(eamGrmVariableDataHistoryVO);
+		List<EamGrmVariableDataHistoryExtVO> rows = getGrmVariableHistoryData(eamGrmVariableDataHistoryVO);
 		return rows;
 	}
 
-	private List<EamGrmVariableDataHistoryVO> getGrmVariableHistoryData(EamGrmVariableDataHistoryVO eamGrmVariableDataHistoryVO) {
+	private List<EamGrmVariableDataHistoryExtVO> getGrmVariableHistoryData(EamGrmVariableDataHistoryVO eamGrmVariableDataHistoryVO) {
 
 		if (eamGrmVariableDataHistoryVO.getOrderByClause() == null){
 			eamGrmVariableDataHistoryVO.setOrderByClause("eam_grm_variable_data_history.update_time desc");
 		}
 
 
-		List<EamGrmVariableDataHistoryVO> result = eamApiService.selectEamGrmVariableDataHistories(eamGrmVariableDataHistoryVO);
+		List<EamGrmVariableDataHistoryExtVO> result = eamApiService.selectEamGrmVariableDataHistories(eamGrmVariableDataHistoryVO);
 		if (result == null){
 			result = new ArrayList<>();
 		}
 		return result;
 	}
 
-	private CurveData buildCurveData(List<EamGrmVariableDataHistoryVO> rows){
+	private CurveData buildCurveData(List<EamGrmVariableDataHistoryExtVO> rows){
 		List<String> value = new ArrayList<>(rows.size());
 		List<Date> time = new ArrayList<>(rows.size());
-		for (EamGrmVariableDataHistoryVO row : rows){
+		for (EamGrmVariableDataHistoryExtVO row : rows){
 			value.add(row.getValue());
-			time.add(row.getCreateTime());
+			time.add(row.getUpdateTime());
 		}
 
 		CurveData result = new CurveData();
