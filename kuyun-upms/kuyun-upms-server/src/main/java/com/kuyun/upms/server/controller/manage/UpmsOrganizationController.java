@@ -1,5 +1,6 @@
 package com.kuyun.upms.server.controller.manage;
 
+import com.alibaba.fastjson.JSON;
 import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
@@ -257,20 +258,37 @@ public class UpmsOrganizationController extends BaseController {
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
     }
 
+//    @ApiOperation(value = "修改组织")
+//    @RequiresPermissions("upms:organization:update")
+//    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
+//    public String update(@PathVariable("id") int id, ModelMap modelMap) {
+//        UpmsOrganization organization = upmsOrganizationService.selectByPrimaryKey(id);
+//        modelMap.put("organization", organization);
+//
+//        UpmsCompanyExample companyExample = new UpmsCompanyExample();
+//        UpmsCompanyExample.Criteria criteria = companyExample.createCriteria();
+//        criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+//        List<UpmsCompany> rows = upmsCompanyService.selectByExample(companyExample);
+//        modelMap.put("companys", rows);
+//
+//        return "/manage/organization/update.jsp";
+//    }
+
     @ApiOperation(value = "修改组织")
     @RequiresPermissions("upms:organization:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-    public String update(@PathVariable("id") int id, ModelMap modelMap) {
+    public Object update(@PathVariable("id") int id, ModelMap modelMap) {
+        Map<String,Object> map=new HashMap<String, Object>();
         UpmsOrganization organization = upmsOrganizationService.selectByPrimaryKey(id);
-        modelMap.put("organization", organization);
+        map.put("organization", organization);
 
         UpmsCompanyExample companyExample = new UpmsCompanyExample();
         UpmsCompanyExample.Criteria criteria = companyExample.createCriteria();
         criteria.andDeleteFlagEqualTo(Boolean.FALSE);
         List<UpmsCompany> rows = upmsCompanyService.selectByExample(companyExample);
-        modelMap.put("companys", rows);
+        map.put("companys", rows);
 
-        return "/manage/organization/update.jsp";
+        return map;
     }
 
     @ApiOperation(value = "修改组织")
