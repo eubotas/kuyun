@@ -1,6 +1,5 @@
 package com.kuyun.upms.server.controller.manage;
 
-import com.alibaba.fastjson.JSON;
 import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
@@ -242,10 +241,19 @@ public class UpmsOrganizationController extends BaseController {
         if (!result.isSuccess()) {
             return new UpmsResult(UpmsResultConstant.INVALID_LENGTH, result.getErrors());
         }
-        long time = System.currentTimeMillis();
-        upmsOrganization.setCtime(time);
-        upmsOrganization.setCompanyId(getCompanyId());
-        int count = upmsOrganizationService.insertSelective(upmsOrganization);
+
+        Integer id =upmsOrganization.getOrganizationId();
+        int count = 0;
+        if(id == null) {
+            long time = System.currentTimeMillis();
+            upmsOrganization.setCtime(time);
+            upmsOrganization.setCompanyId(getCompanyId());
+            count = upmsOrganizationService.insertSelective(upmsOrganization);
+
+        }else {
+            upmsOrganization.setOrganizationId(id);
+            count = upmsOrganizationService.updateByPrimaryKeySelective(upmsOrganization);
+        }
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
     }
 
@@ -258,29 +266,14 @@ public class UpmsOrganizationController extends BaseController {
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
     }
 
-//    @ApiOperation(value = "修改组织")
-//    @RequiresPermissions("upms:organization:update")
-//    @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-//    public String update(@PathVariable("id") int id, ModelMap modelMap) {
-//        UpmsOrganization organization = upmsOrganizationService.selectByPrimaryKey(id);
-//        modelMap.put("organization", organization);
-//
-//        UpmsCompanyExample companyExample = new UpmsCompanyExample();
-//        UpmsCompanyExample.Criteria criteria = companyExample.createCriteria();
-//        criteria.andDeleteFlagEqualTo(Boolean.FALSE);
-//        List<UpmsCompany> rows = upmsCompanyService.selectByExample(companyExample);
-//        modelMap.put("companys", rows);
-//
-//        return "/manage/organization/update.jsp";
-//    }
-
     @ApiOperation(value = "修改组织")
     @RequiresPermissions("upms:organization:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
+    @ResponseBody
     public Object update(@PathVariable("id") int id, ModelMap modelMap) {
-        Map<String,Object> map=new HashMap<String, Object>();
+        Map map=new HashMap();
         UpmsOrganization organization = upmsOrganizationService.selectByPrimaryKey(id);
-        map.put("organization", organization);
+        map.put("org", organization);
 
         UpmsCompanyExample companyExample = new UpmsCompanyExample();
         UpmsCompanyExample.Criteria criteria = companyExample.createCriteria();

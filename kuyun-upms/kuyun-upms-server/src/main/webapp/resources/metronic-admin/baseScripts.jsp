@@ -11,3 +11,10 @@
 <script src="${basePath}/resources/metronic-admin/assets/vendors/base/vendors.bundle.js" type="text/javascript"></script>
 <script src="${basePath}/resources/metronic-admin/assets/demo/default/base/scripts.bundle.js" type="text/javascript"></script>
 <!--end::Base Scripts -->
+
+<link rel="stylesheet" href="${basePath}/resources/metronic-admin/assets/css/bootstrap-table.1.11.1/bootstrap-table.min.css">
+<script src="${basePath}/resources/metronic-admin/assets/js/bootstrap-table.1.11.1/bootstrap-table.min.js"></script>
+<script src="${basePath}/resources/metronic-admin/assets/js/bootstrap-table.1.11.1/bootstrap-table-zh-CN.min.js"></script>
+<script src="${basePath}/resources/metronic-admin/assets/js/jquery.tmpl.min.js"></script>
+<script src="${basePath}/resources/metronic-admin/assets/js/sweetalert.2.1.0/sweetalert.min.js"></script>
+<script src="${basePath}/resources/metronic-admin/assets/js/common.js" type="text/javascript"></script>
