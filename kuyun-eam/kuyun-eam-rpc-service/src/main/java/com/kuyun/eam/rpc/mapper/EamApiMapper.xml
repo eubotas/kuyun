@@ -405,6 +405,9 @@
 		<if test="alarmStatus != null and alarmStatus != ''">
 			AND t.alarm_status = #{alarmStatus}
 		</if>
+
+		group by t.id
+
 		<if test="orderByClause != null">
 			order by ${orderByClause}
 		</if>
@@ -524,6 +527,9 @@
 		<if test="alarmStatus != null and alarmStatus != ''">
 			AND t.alarm_status = #{alarmStatus}
 		</if>
+
+		group by t.id
+
 		<if test="orderByClause != null">
 			order by ${orderByClause}
 		</if>
@@ -854,8 +860,10 @@
 
 	<resultMap id="EamGrmVariableDataVOResultMap" type="com.kuyun.eam.vo.EamGrmVariableDataExtVO">
 		<result column="data_element_name" jdbcType="VARCHAR" property="dataElementName" />
+		<result column="data_element_id" jdbcType="VARCHAR" property="dataElementId" />
 		<result column="value" jdbcType="VARCHAR" property="value" />
 		<result column="unit" jdbcType="VARCHAR" property="unit" />
+		<result column="data_type" jdbcType="VARCHAR" property="dataType" />
 		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
 	</resultMap>
 
@@ -864,22 +872,18 @@
 		e.unit,
 		e.lable_name as data_element_name,
 		eam_grm_variable_data.value,
-		eam_grm_variable_data.update_time
+		eam_grm_variable_data.update_time,
+		e.data_type,
+		e.id as data_element_id
 
-		from eam_grm_variable_data,
-		eam_product_line p,
-		eam_data_element e,
-		eam_equipment ee,
-		eam_data_element_group deg,
-		eam_equipment_data_group edg
+		from eam_grm_variable_data
+		LEFT JOIN eam_product_line p ON eam_grm_variable_data.product_line_id = p.product_line_id
+		LEFT JOIN eam_data_element e ON eam_grm_variable_data.data_element_id = e.id
+		LEFT JOIN eam_equipment ee ON eam_grm_variable_data.equipment_id = ee.equipment_id and ee.delete_flag = 0
+		LEFT JOIN eam_data_element_group deg ON eam_grm_variable_data.data_group_id = deg.id and deg.delete_flag = 0
+		LEFT JOIN eam_equipment_data_group edg ON eam_grm_variable_data.equipment_data_group_id = edg.id and edg.delete_flag = 0
 		WHERE eam_grm_variable_data.delete_flag = 0
 		AND p.delete_flag = 0 AND e.delete_flag = 0
-		AND eam_grm_variable_data.equipment_id = ee.equipment_id and ee.delete_flag = 0
-		AND eam_grm_variable_data.data_group_id = deg.id and deg.delete_flag = 0
-		AND eam_grm_variable_data.equipment_data_group_id = edg.id and edg.delete_flag = 0
-		AND eam_grm_variable_data.product_line_id = p.product_line_id
-		AND eam_grm_variable_data.data_element_id = e.id
-
 		<if test="productLineId != null and productLineId != ''">
 			AND eam_grm_variable_data.product_line_id = #{productLineId}
 		</if>
@@ -936,20 +940,14 @@
 		eam_grm_variable_data_history.value,
 		eam_grm_variable_data_history.update_time
 
-		<include refid="com.kuyun.eam.dao.mapper.EamGrmVariableDataHistoryMapper.Base_Column_List" />
-		from eam_grm_variable_data_history,
-		eam_product_line p,
-		eam_data_element e,
-		eam_equipment ee,
-		eam_data_element_group deg,
-		eam_equipment_data_group edg
+		from eam_grm_variable_data_history
+		LEFT JOIN eam_product_line p ON eam_grm_variable_data_history.product_line_id = p.product_line_id
+		LEFT JOIN eam_data_element e ON eam_grm_variable_data_history.data_element_id = e.id
+		LEFT JOIN eam_equipment ee ON eam_grm_variable_data_history.equipment_id = ee.equipment_id and ee.delete_flag = 0
+		LEFT JOIN eam_data_element_group deg ON eam_grm_variable_data_history.data_group_id = deg.id and deg.delete_flag = 0
+		LEFT JOIN eam_equipment_data_group edg ON eam_grm_variable_data_history.equipment_data_group_id = edg.id and edg.delete_flag = 0
 		WHERE eam_grm_variable_data_history.delete_flag = 0
 		AND p.delete_flag = 0 AND e.delete_flag = 0
-		AND eam_grm_variable_data_history.equipment_id = ee.equipment_id and ee.delete_flag = 0
-		AND eam_grm_variable_data_history.data_group_id = deg.id and deg.delete_flag = 0
-		AND eam_grm_variable_data_history.equipment_data_group_id = edg.id and edg.delete_flag = 0
-		AND eam_grm_variable_data_history.product_line_id = p.product_line_id
-		AND eam_grm_variable_data_history.data_element_id = e.id
 		<if test="productLineId != null and productLineId != ''">
 			AND eam_grm_variable_data_history.product_line_id = #{productLineId}
 		</if>

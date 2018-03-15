@@ -8,9 +8,27 @@ import java.util.Date;
  */
 public class EamGrmVariableDataExtVO implements Serializable {
     private String dataElementName;
+    private String dataElementId;
     private String unit;
     private String value;
+    private String dataType;
     private Date updateTime;
+
+    public String getDataElementId() {
+        return dataElementId;
+    }
+
+    public void setDataElementId(String dataElementId) {
+        this.dataElementId = dataElementId;
+    }
+
+    public String getDataType() {
+        return dataType;
+    }
+
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
+    }
 
     public String getDataElementName() {
         return dataElementName;

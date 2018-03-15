@@ -104,7 +104,7 @@ public abstract class AbstractAlarmHandler {
     }
 
     protected void createTicket(EamGrmVariableData variableData, EamAlarm alarm){
-        if (alarm.getIsCreateTicket()){
+        if (alarm.getIsCreateTicket() != null && alarm.getIsCreateTicket().booleanValue()){
             EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(variableData.getEquipmentId());
 
             EamTicket ticket = new EamTicket();
@@ -139,15 +139,21 @@ public abstract class AbstractAlarmHandler {
         EamAlarmRecordExample example = new EamAlarmRecordExample();
         EamAlarmRecordExample.Criteria criteria1 = example.createCriteria();
         criteria1.andAlarmIdEqualTo(alarm.getAlarmId())
-                .andEquipmentIdEqualTo(variableData.getEquipmentId())
                 .andProductLineIdEqualTo(variableData.getProductLineId())
                 .andAlarmStatusEqualTo(AlarmStatus.ANU.getCode());
 
+        if (variableData.getEquipmentId() != null){
+            criteria1.andEquipmentIdEqualTo(variableData.getEquipmentId());
+        }
+
         EamAlarmRecordExample.Criteria criteria2 = example.createCriteria();
         criteria2.andAlarmIdEqualTo(alarm.getAlarmId())
-                .andEquipmentIdEqualTo(variableData.getEquipmentId())
                 .andProductLineIdEqualTo(variableData.getProductLineId())
                 .andAlarmStatusEqualTo(AlarmStatus.ANA.getCode());
+
+        if (variableData.getEquipmentId() != null){
+            criteria2.andEquipmentIdEqualTo(variableData.getEquipmentId());
+        }
 
         example.or(criteria2);
 
@@ -158,15 +164,21 @@ public abstract class AbstractAlarmHandler {
         EamAlarmRecordHistoryExample example = new EamAlarmRecordHistoryExample();
         EamAlarmRecordHistoryExample.Criteria criteria1 = example.createCriteria();
         criteria1.andAlarmIdEqualTo(alarm.getAlarmId())
-                .andEquipmentIdEqualTo(variableData.getEquipmentId())
                 .andProductLineIdEqualTo(variableData.getProductLineId())
                 .andAlarmStatusEqualTo(AlarmStatus.ANU.getCode());
 
+        if (variableData.getEquipmentId() != null){
+            criteria1.andEquipmentIdEqualTo(variableData.getEquipmentId());
+        }
+
         EamAlarmRecordHistoryExample.Criteria criteria2 = example.createCriteria();
         criteria2.andAlarmIdEqualTo(alarm.getAlarmId())
-                .andEquipmentIdEqualTo(variableData.getEquipmentId())
                 .andProductLineIdEqualTo(variableData.getProductLineId())
                 .andAlarmStatusEqualTo(AlarmStatus.ANA.getCode());
+
+        if (variableData.getEquipmentId() != null){
+            criteria2.andEquipmentIdEqualTo(variableData.getEquipmentId());
+        }
 
         example.or(criteria2);
 

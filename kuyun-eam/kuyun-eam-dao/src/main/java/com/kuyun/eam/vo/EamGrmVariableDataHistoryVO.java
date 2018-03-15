@@ -12,7 +12,7 @@ public class EamGrmVariableDataHistoryVO extends EamGrmVariableDataHistory {
     private Date startDate;
     private Date endDate;
     private String dataElementName;
-    private Boolean equipmentIdIsNull;
+    private String equipmentIdIsNull;
 
     private Integer limit;
 
@@ -52,11 +52,11 @@ public class EamGrmVariableDataHistoryVO extends EamGrmVariableDataHistory {
         this.endDate = endDate;
     }
 
-    public Boolean getEquipmentIdIsNull() {
+    public String getEquipmentIdIsNull() {
         return equipmentIdIsNull;
     }
 
-    public void setEquipmentIdIsNull(Boolean equipmentIdIsNull) {
+    public void setEquipmentIdIsNull(String equipmentIdIsNull) {
         this.equipmentIdIsNull = equipmentIdIsNull;
     }
 

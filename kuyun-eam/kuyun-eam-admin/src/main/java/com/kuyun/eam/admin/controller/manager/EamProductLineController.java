@@ -161,6 +161,15 @@ public class EamProductLineController extends BaseController {
 		return "/manage/productLine/update.jsp";
 	}
 
+	@ApiOperation(value = "获取产线信息")
+	@RequiresPermissions("eam:productLine:read")
+	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public Object get(@PathVariable("id") String id, ModelMap modelMap) {
+		EamProductLine eamProductLine = eamProductLineService.selectByPrimaryKey(id);
+		return new EamResult(SUCCESS, eamProductLine);
+	}
+
 	@ApiOperation(value = "修改产线")
 	@RequiresPermissions("eam:productLine:update")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
