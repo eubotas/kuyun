@@ -240,8 +240,8 @@
         // 格式化操作按钮
         function actionFormatter(value, row, index) {
             return [
-                '<a href="#" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit details">	<i class="la la-edit"></i>	</a>',
-                '<button type="button" id="delete" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">	<i class="la la-trash"></i>	</button>'
+                '<a id="update" href="javascript:void(0)"" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit details">	<i class="la la-edit"></i>	</a>',
+                '<a id="delete" href="javascript:void(0)"  class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">	<i class="la la-trash"></i>	</a>'
             ].join('');
         }
 
@@ -325,43 +325,73 @@
 
 
     <script>
-        //== Class definition
-        var SweetAlert2Demo = function() {
 
-            //== Demos
-            var initDemos = function() {
-                $('#delete').click(function(e) {
-                    swal({
-                        title: 'Are you sure?',
-                        text: "请确认要删除选中的 类别 吗？",
-                        type: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: '确认',
-                        cancelButtonText: '取消'
-                    }).then(function(result) {
-                        if (result.value) {
-                            swal(
-                                'Deleted!',
-                                'Your file has been deleted.',
-                                'success'
-                            )
-                        }
-                    });
+        window.actionEvents = {
+            'click #update': function (e, value, row, index) {
+                alert('You click like action, row: ' + JSON.stringify(row));
+            },
+            'click #delete': function (e, value, row, index) {
+                deleteActionImpl(row);
+            }
+        };
+
+        function deleteAction(){
+            var rows = $table.bootstrapTable('getSelections');
+            deleteActionImpl(rows);
+        }
+
+        function deleteActionImpl(rows) {
+            if (rows.length == 0) {
+                swal({
+                    text: "请至少选择一条记录",
+                    confirmButtonText: '确认'
                 });
-            };
+            }else {
+                swal({
+                    text: "请确认要删除选中的部门吗？",
+                    showCancelButton: true,
+                    confirmButtonText: '确认',
+                    cancelButtonText: '取消'
+                }).then(function(result) {
+                    if (result.value) {
 
-            return {
-                //== Init
-                init: function() {
-                    initDemos();
-                },
-            };
-        }();
+                        var ids = new Array();
+                        for (var i in rows) {
+                            ids.push(rows[i].organizationId);
+                        }
+                        $.ajax({
+                            type: 'get',
+                            url: '${basePath}/manage/organization/delete/' + ids.join("-"),
+                            success: function(result) {
+                                if (result.code != 1) {
+                                    var errorMsgs = "";
 
-        //== Class Initialization
-        jQuery(document).ready(function() {
-            SweetAlert2Demo.init();
-        });
+                                    if (result.data instanceof Array) {
+                                        $.each(result.data, function(index, value) {
+                                            errorMsgs += value.errorMsg + "/r/n";
+                                        });
+                                    } else {
+                                        errorMsgs = result.data.errorMsg;
+                                    }
+
+                                    toastr.warning(errorMsgs);
+                                } else {
+                                    toastr.success("删除部门成功");
+                                    $table.bootstrapTable('refresh');
+                                }
+                            },
+                            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                toastr.error(textStatus);
+                            }
+                        });
+
+
+                    }
+                });
+            }
+
+        }
+
     </script>
 
 </pageResources>
