@@ -1,4 +1,4 @@
-﻿<%@ page contentType="text/html; charset=utf-8" %>
+﻿﻿﻿<%@ page contentType="text/html; charset=utf-8" %>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -48,68 +48,17 @@
     <div class="m-portlet m-portlet--mobile">
         <div class="m-portlet__body">
             <div id="toolbar">
-                <%--<div class="col-xl-4 order-1 order-xl-2 m--align-right">--%>
-                    <%--<button type="button" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--air" data-toggle="modal" data-target="#create_modal">--%>
-                        <%--<span><i class="la la-plus"></i> <span>新建</span></span>--%>
-                    <%--</button>--%>
+                <div>
+                    <a href="#" id="createButton" class="btn btn-outline-primary m-btn m-btn--icon m-btn--icon-only">
+                        <i class="la la-plus"></i>
+                    </a>
 
+                    <a href="#" id="deleteButton" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only">
+                        <i class="la la-remove"></i>
+                    </a>
 
-                    <%--&lt;%&ndash;<a href="${basePath}/manage/organization/create" data-target="#createModal" data-toggle="modal" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--air">&ndash;%&gt;--%>
-                            <%--&lt;%&ndash;<span>&ndash;%&gt;--%>
-                                <%--&lt;%&ndash;<i class="la la-plus"></i>&ndash;%&gt;--%>
-                                <%--&lt;%&ndash;<span>&ndash;%&gt;--%>
-                                    <%--&lt;%&ndash;新建&ndash;%&gt;--%>
-                                <%--&lt;%&ndash;</span>&ndash;%&gt;--%>
-                            <%--&lt;%&ndash;</span>&ndash;%&gt;--%>
-                    <%--&lt;%&ndash;</a>&ndash;%&gt;--%>
-
-                    <%--<div class="m-separator m-separator--dashed d-xl-none"></div>--%>
-                <%--</div>--%>
-                    <div class="col-xl-4 order-1 order-xl-2 m--align-right">
-
-                    <div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" data-dropdown-toggle="hover" aria-expanded="true">
-                        <a href="#" class="m-portlet__nav-link btn btn-lg btn-secondary  m-btn m-btn--outline-2x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill  m-dropdown__toggle">
-                            <i class="la la-plus m--hide"></i>
-                            <i class="la la-ellipsis-h"></i>
-                        </a>
-                        <div class="m-dropdown__wrapper">
-                            <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
-                            <div class="m-dropdown__inner">
-                                <div class="m-dropdown__body">
-                                    <div class="m-dropdown__content">
-                                        <ul class="m-nav">
-                                            <li class="m-nav__item">
-                                                <a href="" class="m-nav__link" data-toggle="modal" data-target="#create_modal">
-                                                    <i class="m-nav__link-icon flaticon-plus"></i>
-                                                    <span class="m-nav__link-text">
-																	新建
-																</span>
-
-                                                </a>
-                                            </li>
-                                            <li class="m-nav__item">
-                                                <a href="" class="m-nav__link">
-                                                    <i class="m-nav__link-icon flaticon-chat-1"></i>
-                                                    <span class="m-nav__link-text">
-																	修改
-																</span>
-                                                </a>
-                                            </li>
-                                            <li class="m-nav__separator m-nav__separator--fit"></li>
-                                            <li class="m-nav__item">
-                                                <a href="#" class="btn btn-outline-danger m-btn m-btn--pill m-btn--wide btn-sm">
-                                                    删除
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                        <div class="m-separator m-separator--dashed d-xl-none"></div>
+                    <div class="m-separator m-separator--dashed d-xl-none"></div>
                 </div>
-
             </div>
 
             <table id="table" data-toolbar="#toolbar"></table>
@@ -117,14 +66,22 @@
     </div>
 
     <!--begin::Modal-->
-    <div class="modal fade" id="create_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div id="addOrgFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
-        <form id="createForm" class="m-form m-form--fit m-form--label-align-right">
+    </div>
+
+    <div id="editOrgFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+    </div>
+
+    <div class="modal fade" id="template-org-addEditForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <form id="templateID_Form" class="m-form m-form--fit m-form--label-align-right">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">
-                            新建部门
+                            templateTitleName_部门
                         </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">
@@ -133,27 +90,26 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="m-scrollable" data-scrollbar-shown="true" data-scrollable="true" data-height="200">
-                            <div class="form-group">
-                                <label for="name" class="form-control-label">
-                                    名称:*
-                                </label>
-                                <input type="text" class="form-control" id="name" name="name">
-                            </div>
+                        <div class="form-group">
+                            <label for="templateID_name" class="form-control-label">
+                                名称:*
+                            </label>
+                            <input type="text" class="form-control" id="templateID_name" name="name">
+                        </div>
 
-                            <div class="form-group">
-                                <label for="description" class="form-control-label">
-                                    描述:*
-                                </label>
-                                <textarea class="form-control" id="description" name="description" rows="6"></textarea>
-                            </div>
+                        <div class="form-group">
+                            <label for="templateID_description" class="form-control-label">
+                                描述:*
+                            </label>
+                            <textarea class="form-control" id="templateID_description" name="description" rows="6"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <input type="hidden" id="templateID_id" name="id">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">
                             取消
                         </button>
-                        <button type="submit" class="btn btn-primary" id="m_blockui_4_1">
+                        <button type="submit" class="btn btn-primary" id="templateID_submit">
                             提交
                         </button>
                     </div>
@@ -170,23 +126,36 @@
 <pageResources>
 
 
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
-
-
-
     <script>
+
 
         $(document).ready(function()
         {
-            // codes works on all bootstrap modal windows in application
-            $('.modal').on('hidden.bs.modal', function(e)
-            {
-                $(this).find('#createForm')[0].reset();
-            }) ;
+             //codes works on all bootstrap modal windows in application
+             $('.modal').on('hidden.bs.modal', function(e)
+             {
+                 $(this).find('#createForm')[0].reset();
+             }) ;
+            applyTemplate(jQuery, '#template-org-addEditForm', 'add_', null, null, jQuery('#addOrgFormContainer'));
+            applyTemplate(jQuery, '#template-org-addEditForm', 'edit_', null, null, jQuery('#editOrgFormContainer'));
+
+            $('#createButton').click(function(){
+                $("#addOrgFormContainer").modal("show");
+            });
+
+            $('#deleteButton').click(function(){
+                deleteAction();
+            });
+
+            $('#add_submit').click(function(){
+                createSubmit();
+            });
+            $('#edit_submit').click(function(){
+                createSubmit($('#edit_id').val());
+            });
 
         });
+
 
         toastr.options = {
             "closeButton": false,
@@ -196,16 +165,15 @@
             "positionClass": "toast-top-right",
             "preventDuplicates": false,
             "onclick": null,
-            "showDuration": "200",
+            "showDuration": "300",
             "hideDuration": "1000",
-            "timeOut": "3000",
+            "timeOut": "5000",
             "extendedTimeOut": "1000",
             "showEasing": "swing",
             "hideEasing": "linear",
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
         };
-
 
     var $table = $('#table');
         $(function() {
@@ -227,8 +195,8 @@
                 smartDisplay: false,
                 escape: true,
                 searchOnEnterKey: true,
-                idField: 'organizationId',
                 maintainSelected: true,
+                idField: 'organizationId',
                 columns: [
                     {field: 'ck', checkbox: true},
                     {field: 'name', title: '部门名称'},
@@ -240,8 +208,8 @@
         // 格式化操作按钮
         function actionFormatter(value, row, index) {
             return [
-                '<a id="update" href="javascript:void(0)"" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit details">	<i class="la la-edit"></i>	</a>',
-                '<a id="delete" href="javascript:void(0)"  class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">	<i class="la la-trash"></i>	</a>'
+                '<a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit details">	<i class="la la-edit"></i>	</a>',
+                '<a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">	<i class="la la-trash"></i>	</a>'
             ].join('');
         }
 
@@ -285,17 +253,17 @@
     });
 </script>
         <script>
-            function createSubmit() {
+            function createSubmit(id) {
+                var targetUrl='${basePath}/manage/organization/create';
+                var formId='#add_Form';
+                if(id){
+                    targetUrl='${basePath}/manage/organization/update/'+id;
+                    formId='#edit_Form';
+                }
                 $.ajax({
                     type: 'post',
-                    url: '${basePath}/manage/organization/create',
-                    data: $('#createForm').serialize(),
-                    beforeSend: function() {
-                        if ($('#name').val() == '') {
-                            $('#name').focus();
-                            return false;
-                        }
-                    },
+                    url: targetUrl,
+                    data: $(formId).serialize(),
                     success: function(result) {
                         if (result.code != 1) {
                             var errorMsgs = "";
@@ -310,9 +278,14 @@
 
                             toastr.warning(errorMsgs);
                         } else {
-                            toastr.success("新建部门成功");
-                            $('#create_modal').modal('toggle');
-                            $table.bootstrapTable('refresh');
+                            if(formId=='#add_Form') {
+                                toastr.success("新建部门成功");
+                                $('#addOrgFormContainer').modal('toggle');
+                            }else{
+                                toastr.success("编辑部门成功");
+                                $('#editOrgFormContainer').modal('toggle');
+                            }
+                            //$table.bootstrapTable('refresh');
                         }
                     },
                     error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -320,18 +293,36 @@
                     }
                 });
             }
+
+
+            function updateAction(row) {
+                $("#editOrgFormContainer").modal("show");
+
+                get('${basePath}/manage/organization/update/' + row["organizationId"], function (responseData) {
+                    if (responseData) {
+                        var data = responseData;
+                        // 赋值
+                        $("#edit_id").val(data.org.organizationId);
+                        $("#edit_name").val(data.org.name);
+                        $("#edit_description").val(data.org.description);
+                    }
+                });
+            }
+
+
         </script>
-
-
 
     <script>
 
         window.actionEvents = {
             'click #update': function (e, value, row, index) {
-                alert('You click like action, row: ' + JSON.stringify(row));
+                updateAction(row);
+
             },
             'click #delete': function (e, value, row, index) {
-                deleteActionImpl(row);
+                var rows = new Array();
+                rows.push(row);
+                deleteActionImpl(rows);
             }
         };
 
@@ -354,10 +345,10 @@
                     cancelButtonText: '取消'
                 }).then(function(result) {
                     if (result.value) {
-
                         var ids = new Array();
                         for (var i in rows) {
                             ids.push(rows[i].organizationId);
+
                         }
                         $.ajax({
                             type: 'get',
@@ -393,6 +384,8 @@
         }
 
     </script>
+
+
 
 </pageResources>
 
