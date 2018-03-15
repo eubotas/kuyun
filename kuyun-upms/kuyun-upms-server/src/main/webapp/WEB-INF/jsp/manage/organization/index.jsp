@@ -1,4 +1,4 @@
-﻿<%@ page contentType="text/html; charset=utf-8" %>
+﻿﻿<%@ page contentType="text/html; charset=utf-8" %>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -48,41 +48,24 @@
     <div class="m-portlet m-portlet--mobile">
         <div class="m-portlet__body">
             <div id="toolbar">
-<<<<<<< HEAD
-                <div class="col-xl-4 order-1 order-xl-2 m--align-right">
-                    <button type="button" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--air" data-toggle="modal" data-target="#addOrgFormContainer">
-                        <span><i class="la la-plus"></i> <span>新建</span></span>
-                    </button>
-
-                    <%--<a href="${basePath}/manage/organization/create" data-target="#createModal" data-toggle="modal" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--air">--%>
-                            <%--<span>--%>
-                                <%--<i class="la la-plus"></i>--%>
-                                <%--<span>--%>
-                                    <%--新建--%>
-                                <%--</span>--%>
-                            <%--</span>--%>
-                    <%--</a>--%>
-
-                    <div class="m-separator m-separator--dashed d-xl-none"></div>
-=======
                 <%--<div class="col-xl-4 order-1 order-xl-2 m--align-right">--%>
-                    <%--<button type="button" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--air" data-toggle="modal" data-target="#create_modal">--%>
-                        <%--<span><i class="la la-plus"></i> <span>新建</span></span>--%>
-                    <%--</button>--%>
+                <%--<button type="button" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--air" data-toggle="modal" data-target="#create_modal">--%>
+                <%--<span><i class="la la-plus"></i> <span>新建</span></span>--%>
+                <%--</button>--%>
 
 
-                    <%--&lt;%&ndash;<a href="${basePath}/manage/organization/create" data-target="#createModal" data-toggle="modal" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--air">&ndash;%&gt;--%>
-                            <%--&lt;%&ndash;<span>&ndash;%&gt;--%>
-                                <%--&lt;%&ndash;<i class="la la-plus"></i>&ndash;%&gt;--%>
-                                <%--&lt;%&ndash;<span>&ndash;%&gt;--%>
-                                    <%--&lt;%&ndash;新建&ndash;%&gt;--%>
-                                <%--&lt;%&ndash;</span>&ndash;%&gt;--%>
-                            <%--&lt;%&ndash;</span>&ndash;%&gt;--%>
-                    <%--&lt;%&ndash;</a>&ndash;%&gt;--%>
+                <%--&lt;%&ndash;<a href="${basePath}/manage/organization/create" data-target="#createModal" data-toggle="modal" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--air">&ndash;%&gt;--%>
+                <%--&lt;%&ndash;<span>&ndash;%&gt;--%>
+                <%--&lt;%&ndash;<i class="la la-plus"></i>&ndash;%&gt;--%>
+                <%--&lt;%&ndash;<span>&ndash;%&gt;--%>
+                <%--&lt;%&ndash;新建&ndash;%&gt;--%>
+                <%--&lt;%&ndash;</span>&ndash;%&gt;--%>
+                <%--&lt;%&ndash;</span>&ndash;%&gt;--%>
+                <%--&lt;%&ndash;</a>&ndash;%&gt;--%>
 
-                    <%--<div class="m-separator m-separator--dashed d-xl-none"></div>--%>
+                <%--<div class="m-separator m-separator--dashed d-xl-none"></div>--%>
                 <%--</div>--%>
-                    <div class="col-xl-4 order-1 order-xl-2 m--align-right">
+                <div class="col-xl-4 order-1 order-xl-2 m--align-right">
 
                     <div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" data-dropdown-toggle="hover" aria-expanded="true">
                         <a href="#" class="m-portlet__nav-link btn btn-lg btn-secondary  m-btn m-btn--outline-2x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill  m-dropdown__toggle">
@@ -124,8 +107,7 @@
                             </div>
                         </div>
                     </div>
-                        <div class="m-separator m-separator--dashed d-xl-none"></div>
->>>>>>> ec5c087372591de5fb6625533afadd2ba1d7be4c
+                    <div class="m-separator m-separator--dashed d-xl-none"></div>
                 </div>
 
             </div>
@@ -145,7 +127,7 @@
 
     <div class="modal fade" id="template-org-addEditForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
-        <form id="createForm" class="m-form m-form--fit m-form--label-align-right">
+        <form id="templateID_Form" class="m-form m-form--fit m-form--label-align-right">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -217,7 +199,7 @@
                 createSubmit();
             });
             $('#edit_submit').click(function(){
-                createSubmit($('edit_id').val());
+                createSubmit($('#edit_id').val());
             });
         });
 
@@ -229,9 +211,9 @@
             "positionClass": "toast-top-right",
             "preventDuplicates": false,
             "onclick": null,
-            "showDuration": "200",
+            "showDuration": "300",
             "hideDuration": "1000",
-            "timeOut": "3000",
+            "timeOut": "5000",
             "extendedTimeOut": "1000",
             "showEasing": "swing",
             "hideEasing": "linear",
@@ -266,7 +248,7 @@
                     {field: 'ck', checkbox: true},
                     {field: 'name', title: '部门名称'},
                     {field: 'description', title: '部门描述'},
-                    {field: 'action', width: 100, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
+                    {field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ]
             });
         });
@@ -275,7 +257,6 @@
             return [
                 '<a href="javascript:;" onclick="updateAction()" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit details">	<i class="la la-edit"></i>	</a>',
                 '<button type="button" id="delete" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">	<i class="la la-trash"></i>	</button>'
-
             ].join('');
         }
 
@@ -321,12 +302,15 @@
         <script>
             function createSubmit(id) {
                 var targetUrl='${basePath}/manage/organization/create';
-                <%--if(id)--%>
-                    <%--targetUrl='${basePath}/manage/organization/update/'+id;--%>
+                var formId='#add_Form';
+                if(id){
+                    targetUrl='${basePath}/manage/organization/update/'+id;
+                    formId='#edit_Form';
+                }
                 $.ajax({
                     type: 'post',
                     url: targetUrl,
-                    data: $('#createForm').serialize(),
+                    data: $(formId).serialize(),
                     beforeSend: function() {
                         if ($('#name').val() == '') {
                             $('#name').focus();
@@ -347,8 +331,13 @@
 
                             toastr.warning(errorMsgs);
                         } else {
-                            toastr.success("新建部门成功");
-                            $('#addOrgFormContainer').modal('toggle');
+                            if(formId=='#add_Form') {
+                                toastr.success("新建部门成功");
+                                $('#addOrgFormContainer').modal('toggle');
+                            }else{
+                                toastr.success("编辑部门成功");
+                                $('#editOrgFormContainer').modal('toggle');
+                            }
                             $table.bootstrapTable('refresh');
                         }
                     },
@@ -388,48 +377,7 @@
             }
 
 
-
-            function loadHtmlTemplate(jQuery, prefix, el) {
-                var html = jQuery(el).html();
-                html = strReplaceAll(html, 'templateID_', prefix);
-
-                var titleName='';
-                if(prefix=='edit_')
-                    titleName='编辑';
-                else if(prefix=='add_')
-                    titleName='新建';
-                html = strReplaceAll(html, 'templateTitleName_', titleName);
-                return html;
-            }
-
-            function applyTemplate(jQuery, templateID, prefix, data, options, targetEl) {
-                prefix = ifNull(prefix, '');
-                jQuery.template((prefix+templateID), loadHtmlTemplate(jQuery, prefix, jQuery(templateID)));
-                return jQuery.tmpl((prefix+templateID), data, options).appendTo(targetEl);
-            }
-
-            function ifNull(firstValue) {
-                for(var i=0; i<arguments.length; i++) {
-                    var value = arguments[i];
-                    if((typeof value != 'undefined') && (value != null))
-                        return value;
-                }
-                return firstValue;
-            }
-
-            function strReplaceAll(str, oldValue, newValue) {
-                if(str == null)
-                    return null;
-                var idx = 0;
-                while((idx = str.indexOf(oldValue, idx)) != -1) {
-                    str = (str.substring(0, idx) + str.substring(idx).replace(oldValue, newValue));
-                    idx += newValue.length;
-                }
-                return str;
-            }
         </script>
-
-
 
     <script>
         //== Class definition
@@ -470,6 +418,7 @@
             SweetAlert2Demo.init();
         });
     </script>
+
 
 
 </pageResources>
