@@ -1,4 +1,79 @@
+///////////////// add edit/delete
+function post(targetUrl, formId, callValidate, callSuccess)
+{
+    $.ajax({
+        type: 'post',
+        url: targetUrl,
+        data: $(formId).serialize(),
+        beforeSend: function () {
+            return callValidate;
+        },
+        success: function (result) {
+            callSuccess(result);
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            swWarn(textStatus);
+        }
+    });
+}
 
+function get(targetUrl, callSuccess)
+{
+    $.ajax({
+        type: 'get',
+        url: targetUrl,
+        success: function (result) {
+            callSuccess(result);
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            swWarn(textStatus);
+        }
+    });
+}
+
+function deleteRow(newtips, callbackDel)
+{
+    swal({
+        title: "操作提示",
+        text: newtips,
+        type: "warning", showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        cancelButtonText: "取消",
+        confirmButtonText: "删除！",
+        closeOnConfirm: true
+    }, function () {
+        callbackDel;
+    });
+}
+
+function swWarn(newtips)
+{
+    swal({
+        title: "操作提示",
+        text: newtips,
+        type: "warning"
+    });
+}
+
+function swError(newtips)
+{
+    swal({
+        title: "操作提示",
+        text: newtips,
+        type: "error"
+    });
+}
+
+function swSuccess(newtips)
+{
+    swal({
+        title: "操作提示",
+        text: newtips,
+        type: "success"
+    });
+}
+
+///////////////////////
 function loadHtmlTemplate(jQuery, prefix, el) {
     var html = jQuery(el).html();
     html = strReplaceAll(html, 'templateID_', prefix);

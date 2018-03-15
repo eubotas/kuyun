@@ -181,7 +181,8 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/locale/bootstrap-table-zh-CN.min.js"></script>
     <script src="http://ajax.microsoft.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
-
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="${basePath}/resources/metronic-admin/assets/app/js/common.js" type="text/javascript"></script>
 
     <script>
 
@@ -352,34 +353,25 @@
 
                 var rows = $table.bootstrapTable('getSelections');
                 if (rows.length != 1) {
-
+                    swWarn("请选择一条记录");
                 } else {
                     $("#editOrgFormContainer").modal("show");
-                    $.ajax({
-                    url: '${basePath}/manage/organization/update/' + rows[0].organizationId,
-                    type: 'get',
-                    beforeSend: function () {
-                    // $("#tip").html("<span style='color:blue'>正在处理...</span>");
-                    return true;
-                    },
-                    success: function (responseData) {
+                    get( '${basePath}/manage/organization/update/' + rows[0].organizationId, function (responseData) {
                         if (responseData) {
-                            // 解析json数据
                             var data = responseData;
                             // 赋值
                             $("#edit_id").val(data.org.organizationId);
                             $("#edit_name").val(data.org.name);
                             $("#edit_description").val(data.org.description);
                         }
-                    }
                     });
                 }
             }
 
-
         </script>
 
     <script>
+
         //== Class definition
         var SweetAlert2Demo = function() {
 

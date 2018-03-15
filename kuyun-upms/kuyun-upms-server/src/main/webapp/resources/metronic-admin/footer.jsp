@@ -24,4 +24,5 @@
 </footer>
 <!-- end::Footer -->
 
-<script src="${basePath}/resources/metronic-admin/assets/app/js/common.js" type="text/javascript"></script>
+
+
