@@ -115,7 +115,7 @@
             <id>prod</id>
             <properties>
                 <env>prod</env>
-            </properti
+            </properties>
         </profile>
     </profiles>
 
