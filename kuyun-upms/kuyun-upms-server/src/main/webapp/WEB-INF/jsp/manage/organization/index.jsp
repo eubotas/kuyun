@@ -49,11 +49,11 @@
         <div class="m-portlet__body">
             <div id="toolbar">
                 <div>
-                    <a href="#" id="createButton" class="btn btn-outline-primary m-btn m-btn--icon m-btn--icon-only">
+                    <a href="#" id="createButton" class="btn btn-outline-primary m-btn m-btn--icon m-btn--icon-only" title="新建">
                         <i class="la la-plus"></i>
                     </a>
 
-                    <a href="#" id="deleteButton" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only">
+                    <a href="#" id="deleteButton" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only" title="删除">
                         <i class="la la-remove"></i>
                     </a>
 
@@ -202,8 +202,8 @@
         // 格式化操作按钮
         function actionFormatter(value, row, index) {
             return [
-                '<a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit details">	<i class="la la-edit"></i>	</a>',
-                '<a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">	<i class="la la-trash"></i>	</a>'
+                '<a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a>',
+                '<a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a>'
             ].join('');
         }
 
@@ -259,7 +259,7 @@
 
                     if (result.data instanceof Array) {
                         $.each(result.data, function(index, value) {
-                            errorMsgs += value.errorMsg + "/r/n";
+                            errorMsgs += value.errorMsg + "<br>";
                         });
                     } else {
                         errorMsgs = result.data.errorMsg;
@@ -335,7 +335,7 @@
                                 var errorMsgs = "";
                                 if (result.data instanceof Array) {
                                     $.each(result.data, function(index, value) {
-                                        errorMsgs += value.errorMsg + "/r/n";
+                                        errorMsgs += value.errorMsg + "<br>";
                                     });
                                 } else {
                                     errorMsgs = result.data.errorMsg;
