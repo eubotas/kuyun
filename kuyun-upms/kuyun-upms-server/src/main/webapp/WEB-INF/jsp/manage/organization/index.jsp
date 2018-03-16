@@ -127,17 +127,18 @@
 
 
     <script>
-
-
         $(document).ready(function()
         {
              //codes works on all bootstrap modal windows in application
              $('.modal').on('hidden.bs.modal', function(e)
              {
-                 $(this).find('#createForm')[0].reset();
+                 $(this).find('#add_Form')[0].reset();
+                 $(this).find('#edit_Form')[0].reset();
              }) ;
             applyTemplate(jQuery, '#template-org-addEditForm', 'add_', null, null, jQuery('#addOrgFormContainer'));
             applyTemplate(jQuery, '#template-org-addEditForm', 'edit_', null, null, jQuery('#editOrgFormContainer'));
+            FormWidgets.init('add');
+            FormWidgets.init('edit');
 
             $('#createButton').click(function(){
                 $("#addOrgFormContainer").modal("show");
@@ -145,13 +146,6 @@
 
             $('#deleteButton').click(function(){
                 deleteAction();
-            });
-
-            $('#add_submit').click(function(){
-                createSubmit();
-            });
-            $('#edit_submit').click(function(){
-                createSubmit($('#edit_id').val());
             });
 
         });
@@ -213,11 +207,9 @@
             ].join('');
         }
 
-    //== Class definition
-
     var FormWidgets = function () {
-        var createForm = function () {
-            $("#createForm").validate({
+        var createForm = function (formid) {
+            $("#"+formid+"_Form").validate({
                 // define validation rules
                 rules: {
                     name: {
@@ -232,8 +224,11 @@
                     },
                 },
                 submitHandler: function (form) {
-                    //form[0].submit(); // submit the form
-                    createSubmit();
+                    if(formid == 'add')
+                        submitForm();
+                    else{
+                        submitForm($('#edit_id').val());
+                    }
 
                 }
             });
@@ -241,78 +236,67 @@
 
         return {
             // public functions
-            init: function () {
-                createForm();
+            init: function (formid) {
+                createForm(formid);
             }
         };
-
     }();
 
-    jQuery(document).ready(function () {
-        FormWidgets.init();
-    });
-</script>
-        <script>
-            function createSubmit(id) {
-                var targetUrl='${basePath}/manage/organization/create';
-                var formId='#add_Form';
-                if(id){
-                    targetUrl='${basePath}/manage/organization/update/'+id;
-                    formId='#edit_Form';
+    function submitForm(id) {
+        var targetUrl='${basePath}/manage/organization/create';
+        var formId='#add_Form';
+        if(id){
+            targetUrl='${basePath}/manage/organization/update/'+id;
+            formId='#edit_Form';
+        }
+        $.ajax({
+            type: 'post',
+            url: targetUrl,
+            data: $(formId).serialize(),
+            success: function(result) {
+                if (result.code != 1) {
+                    var errorMsgs = "";
+
+                    if (result.data instanceof Array) {
+                        $.each(result.data, function(index, value) {
+                            errorMsgs += value.errorMsg + "/r/n";
+                        });
+                    } else {
+                        errorMsgs = result.data.errorMsg;
+                    }
+
+                    toastr.warning(errorMsgs);
+                } else {
+                    if(formId=='#add_Form') {
+                        toastr.success("新建部门成功");
+                        $('#addOrgFormContainer').modal('toggle');
+                    }else{
+                        toastr.success("编辑部门成功");
+                        $('#editOrgFormContainer').modal('toggle');
+                    }
+                    //$table.bootstrapTable('refresh');
                 }
-                $.ajax({
-                    type: 'post',
-                    url: targetUrl,
-                    data: $(formId).serialize(),
-                    success: function(result) {
-                        if (result.code != 1) {
-                            var errorMsgs = "";
-
-                            if (result.data instanceof Array) {
-                                $.each(result.data, function(index, value) {
-                                    errorMsgs += value.errorMsg + "/r/n";
-                                });
-                            } else {
-                                errorMsgs = result.data.errorMsg;
-                            }
-
-                            toastr.warning(errorMsgs);
-                        } else {
-                            if(formId=='#add_Form') {
-                                toastr.success("新建部门成功");
-                                $('#addOrgFormContainer').modal('toggle');
-                            }else{
-                                toastr.success("编辑部门成功");
-                                $('#editOrgFormContainer').modal('toggle');
-                            }
-                            //$table.bootstrapTable('refresh');
-                        }
-                    },
-                    error: function(XMLHttpRequest, textStatus, errorThrown) {
-                        toastr.error(textStatus);
-                    }
-                });
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                toastr.error(textStatus);
             }
+        });
+    }
 
 
-            function updateAction(row) {
-                $("#editOrgFormContainer").modal("show");
+    function updateAction(row) {
+        $("#editOrgFormContainer").modal("show");
 
-                get('${basePath}/manage/organization/update/' + row["organizationId"], function (responseData) {
-                    if (responseData) {
-                        var data = responseData;
-                        // 赋值
-                        $("#edit_id").val(data.org.organizationId);
-                        $("#edit_name").val(data.org.name);
-                        $("#edit_description").val(data.org.description);
-                    }
-                });
+        get('${basePath}/manage/organization/update/' + row["organizationId"], function (responseData) {
+            if (responseData) {
+                var data = responseData;
+                // 赋值
+                $("#edit_id").val(data.org.organizationId);
+                $("#edit_name").val(data.org.name);
+                $("#edit_description").val(data.org.description);
             }
-
-
-        </script>
-
-    <script>
+        });
+    }
 
         window.actionEvents = {
             'click #update': function (e, value, row, index) {
@@ -333,12 +317,9 @@
 
         function deleteActionImpl(rows) {
             if (rows.length == 0) {
-                swal({
-                    text: "请至少选择一条记录",
-                    confirmButtonText: '确认'
-                });
+                swWarn("请至少选择一条记录");
             }else {
-                swal({
+                  swal({
                     text: "请确认要删除选中的部门吗？",
                     showCancelButton: true,
                     confirmButtonText: '确认',
@@ -348,38 +329,27 @@
                         var ids = new Array();
                         for (var i in rows) {
                             ids.push(rows[i].organizationId);
-
                         }
-                        $.ajax({
-                            type: 'get',
-                            url: '${basePath}/manage/organization/delete/' + ids.join("-"),
-                            success: function(result) {
-                                if (result.code != 1) {
-                                    var errorMsgs = "";
-
-                                    if (result.data instanceof Array) {
-                                        $.each(result.data, function(index, value) {
-                                            errorMsgs += value.errorMsg + "/r/n";
-                                        });
-                                    } else {
-                                        errorMsgs = result.data.errorMsg;
-                                    }
-
-                                    toastr.warning(errorMsgs);
+                        get('${basePath}/manage/organization/delete/' + ids.join("-"), function(result){
+                            if (result.code != 1) {
+                                var errorMsgs = "";
+                                if (result.data instanceof Array) {
+                                    $.each(result.data, function(index, value) {
+                                        errorMsgs += value.errorMsg + "/r/n";
+                                    });
                                 } else {
-                                    toastr.success("删除部门成功");
-                                    $table.bootstrapTable('refresh');
+                                    errorMsgs = result.data.errorMsg;
                                 }
-                            },
-                            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                                toastr.error(textStatus);
+                                toastr.warning(errorMsgs);
+                            } else {
+                                toastr.success("删除部门成功");
+                                $table.bootstrapTable('refresh');
                             }
                         });
-
-
                     }
                 });
-            }
+
+            }//end else
 
         }
 

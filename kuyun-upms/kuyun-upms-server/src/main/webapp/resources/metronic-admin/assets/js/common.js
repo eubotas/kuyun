@@ -32,7 +32,7 @@ function get(targetUrl, callSuccess, callError)
             if(callError)
                 callError(XMLHttpRequest, textStatus);
             else
-                swWarn(textStatus);
+                toastr.error(textStatus);
         }
     });
 }
@@ -47,9 +47,7 @@ function deleteRow(newtips, callbackDel)
         cancelButtonText: "取消",
         confirmButtonText: "删除！",
         closeOnConfirm: true
-    }, function () {
-        callbackDel();
-    });
+    }).then(callbackDel(result));
 }
 
 function swWarn(newtips)
