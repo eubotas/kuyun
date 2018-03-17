@@ -1,12 +1,31 @@
 ///////////////// add edit/delete
-function ajaxPost(targetUrl, formId, callValidate, callSuccess, callError)
+toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": false,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+};
+
+function ajaxPost(targetUrl, formId, callSuccess, callValidate, callError)
 {
     $.ajax({
         type: 'post',
         url: targetUrl,
-        data: $(formId).serialize(),
+        data: $('#'+formId).serialize(),
         beforeSend: function () {
-            return callValidate;
+            if(callValidate)
+                return callValidate();
         },
         success: function (result) {
             callSuccess(result);
@@ -32,7 +51,7 @@ function ajaxGet(targetUrl, callSuccess, callError)
             if(callError)
                 callError(XMLHttpRequest, textStatus);
             else
-                swWarn(textStatus);
+                toastr.error(textStatus);
         }
     });
 }

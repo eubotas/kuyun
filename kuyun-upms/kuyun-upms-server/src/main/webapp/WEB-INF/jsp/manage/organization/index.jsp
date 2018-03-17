@@ -132,8 +132,8 @@
             //codes works on all bootstrap modal windows in application
             $('.modal').on('hidden.bs.modal', function(e)
             {
-                $(this).find('#add_Form')[0].reset();
-                $(this).find('#edit_Form')[0].reset();
+                //$(this).find('#add_Form')[0].reset();
+                //$(this).find('#edit_Form')[0].reset();
             }) ;
             applyTemplate(jQuery, '#template-org-addEditForm', 'add_', null, null, jQuery('#addOrgFormContainer'));
             applyTemplate(jQuery, '#template-org-addEditForm', 'edit_', null, null, jQuery('#editOrgFormContainer'));
@@ -149,25 +149,6 @@
             });
 
         });
-
-
-        toastr.options = {
-            "closeButton": false,
-            "debug": false,
-            "newestOnTop": false,
-            "progressBar": false,
-            "positionClass": "toast-top-right",
-            "preventDuplicates": false,
-            "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        };
 
         var $table = $('#table');
         $(function() {
@@ -244,31 +225,23 @@
 
         function submitForm(id) {
             var targetUrl='${basePath}/manage/organization/create';
-            var formId='#add_Form';
+            var formId='add_Form';
             if(id){
                 targetUrl='${basePath}/manage/organization/update/'+id;
-                formId='#edit_Form';
+                formId='edit_Form';
             }
-            $.ajax({
-                type: 'post',
-                url: targetUrl,
-                data: $(formId).serialize(),
-                success: function(result) {
-                    if (result.code != 1) {
-                        sendErrorInfo(result);
-                    } else {
-                        if(formId=='#add_Form') {
-                            toastr.success("新建部门成功");
-                            $('#addOrgFormContainer').modal('toggle');
-                        }else{
-                            toastr.success("编辑部门成功");
-                            $('#editOrgFormContainer').modal('toggle');
-                        }
-                        //$table.bootstrapTable('refresh');
+            ajaxPost(targetUrl, formId, function(result) {
+                if (result.code != 1) {
+                    sendErrorInfo(result);
+                } else {
+                    if(formId=='add_Form') {
+                        toastr.success("新建部门成功");
+                        $('#addOrgFormContainer').modal('toggle');
+                    }else{
+                        toastr.success("编辑部门成功");
+                        $('#editOrgFormContainer').modal('toggle');
                     }
-                },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    toastr.error(textStatus);
+                    $table.bootstrapTable('refresh');
                 }
             });
         }
@@ -277,7 +250,7 @@
         function updateAction(row) {
             $("#editOrgFormContainer").modal("show");
 
-            get('${basePath}/manage/organization/update/' + row["organizationId"], function (responseData) {
+            ajaxGet('${basePath}/manage/organization/update/' + row["organizationId"], function (responseData) {
                 if (responseData) {
                     var data = responseData;
                     // 赋值
@@ -311,7 +284,6 @@
             }else {
                 deleteRows(rows,'organizationId','${basePath}/manage/organization/delete/', "请确认要删除选中的部门吗？", "删除部门成功");
             }//end else
-
         }
 
     </script>
