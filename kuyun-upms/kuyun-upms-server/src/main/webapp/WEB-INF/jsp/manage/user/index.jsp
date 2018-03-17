@@ -1,340 +1,349 @@
-﻿<%@ page contentType="text/html; charset=utf-8"%>
-<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+﻿﻿﻿<%@ page contentType="text/html; charset=utf-8" %>
+<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>用户管理</title>
-	<jsp:include page="/resources/inc/head.jsp" flush="true"/>
+    <meta charset="utf-8"/>
 </head>
 <body>
-<div id="main">
-	<div id="toolbar">
-		<shiro:hasPermission name="upms:user:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增用户</a></shiro:hasPermission>
-		<shiro:hasPermission name="upms:user:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑用户</a></shiro:hasPermission>
-		<shiro:hasPermission name="upms:user:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()"><i class="zmdi zmdi-close"></i> 删除用户</a></shiro:hasPermission>
-		<shiro:hasPermission name="upms:user:organization"><a class="waves-effect waves-button" href="javascript:;" onclick="organizationAction()"><i class="zmdi zmdi-accounts-list"></i> 用户组织</a></shiro:hasPermission>
-		<shiro:hasPermission name="upms:user:role"><a class="waves-effect waves-button" href="javascript:;" onclick="roleAction()"><i class="zmdi zmdi-accounts"></i> 用户角色</a></shiro:hasPermission>
-		<shiro:hasPermission name="upms:user:permission"><a class="waves-effect waves-button" href="javascript:;" onclick="permissionAction()"><i class="zmdi zmdi-key"></i> 用户权限</a></shiro:hasPermission>
-	</div>
-	<table id="table"></table>
-</div>
-<jsp:include page="/resources/inc/footer.jsp" flush="true"/>
-<script>
-var $table = $('#table');
-$(function() {
-	// bootstrap table初始化
-	$table.bootstrapTable({
-		url: '${basePath}/manage/user/list',
-		height: getHeight(),
-		striped: true,
-		search: true,
-		showRefresh: true,
-		showColumns: true,
-		minimumCountColumns: 2,
-		clickToSelect: true,
-		detailView: true,
-		detailFormatter: 'detailFormatter',
-		pagination: true,
-		paginationLoop: false,
-		sidePagination: 'server',
-		silentSort: false,
-		smartDisplay: false,
-		escape: true,
-		searchOnEnterKey: true,
-		idField: 'userId',
-		maintainSelected: true,
-		toolbar: '#toolbar',
-		columns: [
-			{field: 'ck', checkbox: true},
-			{field: 'userId', title: '编号', sortable: true, align: 'center'},
-            {field: 'username', title: '帐号'},
-			{field: 'realname', title: '姓名'},
-			{field: 'avatar', title: '头像', align: 'center', formatter: 'avatarFormatter'},
-			{field: 'phone', title: '电话'},
-			{field: 'email', title: '邮箱'},
-			{field: 'sex', title: '性别', formatter: 'sexFormatter'},
-			{field: 'locked', title: '状态', sortable: true, align: 'center', formatter: 'lockedFormatter'},
-			{field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
-		]
-	});
-});
-// 格式化操作按钮
-function actionFormatter(value, row, index) {
-    return [
-		'<a class="update" href="javascript:;" onclick="updateAction()" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>　',
-		'<a class="delete" href="javascript:;" onclick="deleteAction()" data-toggle="tooltip" title="Remove"><i class="glyphicon glyphicon-remove"></i></a>'
-    ].join('');
-}
-// 格式化图标
-function avatarFormatter(value, row, index) {
-    return '<img src="${basePath}' + value + '" style="width:20px;height:20px;"/>';
-}
-// 格式化性别
-function sexFormatter(value, row, index) {
-	if (value == 1) {
-		return '男';
-	}
-	if (value == 2) {
-		return '女';
-	}
-	return '-';
-}
-// 格式化状态
-function lockedFormatter(value, row, index) {
-	if (value == 1) {
-		return '<span class="label label-default">锁定</span>';
-	} else {
-		return '<span class="label label-success">正常</span>';
-	}
-}
-// 新增
-var createDialog;
-function createAction() {
-	createDialog = $.dialog({
-		animationSpeed: 300,
-		title: '新增用户',
-		content: 'url:${basePath}/manage/user/create',
-		onContentReady: function () {
-			initMaterialInput();
-		}
-	});
-}
-// 编辑
-var updateDialog;
-function updateAction() {
-	var rows = $table.bootstrapTable('getSelections');
-	if (rows.length != 1) {
-		$.confirm({
-			title: false,
-			content: '请选择一条记录！',
-			autoClose: 'cancel|3000',
-			backgroundDismiss: true,
-			buttons: {
-				cancel: {
-					text: '取消',
-					btnClass: 'waves-effect waves-button'
-				}
-			}
-		});
-	} else {
-		updateDialog = $.dialog({
-			animationSpeed: 300,
-			title: '编辑用户',
-			content: 'url:${basePath}/manage/user/update/' + rows[0].userId,
-			onContentReady: function () {
-				initMaterialInput();
-			}
-		});
-	}
-}
-// 删除
-var deleteDialog;
-function deleteAction() {
-	var rows = $table.bootstrapTable('getSelections');
-	if (rows.length == 0) {
-		$.confirm({
-			title: false,
-			content: '请至少选择一条记录！',
-			autoClose: 'cancel|3000',
-			backgroundDismiss: true,
-			buttons: {
-				cancel: {
-					text: '取消',
-					btnClass: 'waves-effect waves-button'
-				}
-			}
-		});
-	} else {
-		deleteDialog = $.confirm({
-			type: 'red',
-			animationSpeed: 300,
-			title: false,
-			content: '确认删除该用户吗？',
-			buttons: {
-				confirm: {
-					text: '确认',
-					btnClass: 'waves-effect waves-button',
-					action: function () {
-						var ids = new Array();
-						for (var i in rows) {
-							ids.push(rows[i].userId);
-						}
-						$.ajax({
-							type: 'get',
-							url: '${basePath}/manage/user/delete/' + ids.join("-"),
-							success: function(result) {
-								if (result.code != 1) {
-									if (result.data instanceof Array) {
-										$.each(result.data, function(index, value) {
-											$.confirm({
-												theme: 'dark',
-												animation: 'rotateX',
-												closeAnimation: 'rotateX',
-												title: false,
-												content: value.errorMsg,
-												buttons: {
-													confirm: {
-														text: '确认',
-														btnClass: 'waves-effect waves-button waves-light'
-													}
-												}
-											});
-										});
-									} else {
-										$.confirm({
-											theme: 'dark',
-											animation: 'rotateX',
-											closeAnimation: 'rotateX',
-											title: false,
-											content: result.data.errorMsg,
-											buttons: {
-												confirm: {
-													text: '确认',
-													btnClass: 'waves-effect waves-button waves-light'
-												}
-											}
-										});
-									}
-								} else {
-									deleteDialog.close();
-									$table.bootstrapTable('refresh');
-								}
-							},
-							error: function(XMLHttpRequest, textStatus, errorThrown) {
-								$.confirm({
-									theme: 'dark',
-									animation: 'rotateX',
-									closeAnimation: 'rotateX',
-									title: false,
-									content: textStatus,
-									buttons: {
-										confirm: {
-											text: '确认',
-											btnClass: 'waves-effect waves-button waves-light'
-										}
-									}
-								});
-							}
-						});
-					}
-				},
-				cancel: {
-					text: '取消',
-					btnClass: 'waves-effect waves-button'
-				}
-			}
-		});
-	}
-}
-// 用户组织
-var organizationDialog;
-var organizationUserId;
-function organizationAction() {
-	var rows = $table.bootstrapTable('getSelections');
-	if (rows.length != 1) {
-		$.confirm({
-			title: false,
-			content: '请选择一条记录！',
-			autoClose: 'cancel|3000',
-			backgroundDismiss: true,
-			buttons: {
-				cancel: {
-					text: '取消',
-					btnClass: 'waves-effect waves-button'
-				}
-			}
-		});
-	} else {
-		organizationUserId = rows[0].userId;
-		organizationDialog = $.dialog({
-			animationSpeed: 300,
-			title: '用户组织',
-			content: 'url:${basePath}/manage/user/organization/' + organizationUserId,
-			onContentReady: function () {
-				initMaterialInput();
-				$('select').select2({
-					placeholder: '请选择用户组织',
-					allowClear: true
-				});
-			}
-		});
-	}
-}
-// 用户角色
-var roleDialog;
-var roleUserId;
-function roleAction() {
-	var rows = $table.bootstrapTable('getSelections');
-	if (rows.length != 1) {
-		$.confirm({
-			title: false,
-			content: '请选择一条记录！',
-			autoClose: 'cancel|3000',
-			backgroundDismiss: true,
-			buttons: {
-				cancel: {
-					text: '取消',
-					btnClass: 'waves-effect waves-button'
-				}
-			}
-		});
-	} else {
-		roleUserId = rows[0].userId;
-		roleDialog = $.dialog({
-			animationSpeed: 300,
-			title: '用户角色',
-			content: 'url:${basePath}/manage/user/role/' + roleUserId,
-			onContentReady: function () {
-				initMaterialInput();
-				$('select').select2({
-					placeholder: '请选择用户角色',
-					allowClear: true
-				});
-			}
-		});
-	}
-}
-// 用户权限
-var permissionDialog;
-var permissionUserId;
-function permissionAction() {
-	var rows = $table.bootstrapTable('getSelections');
-	if (rows.length != 1) {
-		$.confirm({
-			title: false,
-			content: '请选择一条记录！',
-			autoClose: 'cancel|3000',
-			backgroundDismiss: true,
-			buttons: {
-				cancel: {
-					text: '取消',
-					btnClass: 'waves-effect waves-button'
-				}
-			}
-		});
-	} else {
-		permissionUserId = rows[0].userId;
-		permissionDialog = $.dialog({
-			animationSpeed: 300,
-			title: '用户授权',
-			columnClass: 'large',
-			content: 'url:${basePath}/manage/user/permission/' + permissionUserId,
-			onContentReady: function () {
-				initMaterialInput();
-				initTree();
-			}
-		});
-	}
-}
-</script>
+
+
+<subHeader>
+    <!-- BEGIN: Subheader -->
+    <div class="m-subheader ">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                    <li class="m-nav__item m-nav__item--home">
+                        <a href="#" class="m-nav__link m-nav__link--icon">
+                            <i class="m-nav__link-icon la la-home"></i>
+                        </a>
+                    </li>
+                    <li class="m-nav__separator">
+                        -
+                    </li>
+                    <li class="m-nav__item">
+                        <a href="" class="m-nav__link">
+											<span class="m-nav__link-text">
+												用户列表
+											</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+    <!-- END: Subheader -->
+</subHeader>
+
+
+<content>
+
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__body">
+            <div id="toolbar">
+                <div>
+                    <a href="#" id="createButton" class="btn btn-outline-primary m-btn m-btn--icon m-btn--icon-only" title="新建">
+                        <i class="la la-plus"></i>
+                    </a>
+
+                    <a href="#" id="deleteButton" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only" title="删除">
+                        <i class="la la-remove"></i>
+                    </a>
+
+                    <div class="m-separator m-separator--dashed d-xl-none"></div>
+                </div>
+            </div>
+
+            <table id="table" data-toolbar="#toolbar"></table>
+        </div>
+    </div>
+
+    <!--begin::Modal-->
+    <div id="addUserFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+    </div>
+
+    <div id="editUserFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+    </div>
+
+    <div class="modal fade" id="template-org-addEditForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <form id="templateID_Form" class="m-form m-form--fit m-form--label-align-right">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">
+                            templateTitleName_用户
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">
+												&times;
+											</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="templateID_username">帐号</label>
+                            <input id="templateID_username" type="text" class="form-control" name="username" maxlength="20">
+                        </div>
+                        <div class="form-group">
+                            <label for="templateID_password">密码</label>
+                            <input id="templateID_password" type="text" class="form-control" name="password" maxlength="32">
+                        </div>
+                        <div class="form-group">
+                            <label for="templateID_realname">姓名</label>
+                            <input id="templateID_realname" type="text" class="form-control" name="realname" maxlength="20">
+                        </div>
+                        <div class="form-group">
+                            <label for="templateID_avatar">头像</label>
+                            <input id="templateID_avatar" type="text" class="form-control" name="avatar" maxlength="50">
+                        </div>
+                        <div class="form-group">
+                            <label for="templateID_phone">电话</label>
+                            <input id="templateID_phone" type="text" class="form-control" name="phone" maxlength="20">
+                        </div>
+                        <div class="form-group">
+                            <label for="templateID_email">邮箱</label>
+                            <input id="templateID_email" type="text" class="form-control" name="email" maxlength="50">
+                        </div>
+                        <div class="radio">
+                            <div class="radio radio-inline radio-info">
+                                <input id="templateID_sex_1" type="radio" name="sex" value="1" checked>
+                                <label for="templateID_sex_1">男 </label>
+                            </div>
+                            <div class="radio radio-inline radio-danger">
+                                <input id="templateID_sex_0" type="radio" name="sex" value="0">
+                                <label for="templateID_sex_0">女 </label>
+                            </div>
+                            <div class="radio radio-inline radio-success">
+                                <input id="templateID_locked_0" type="radio" name="locked" value="0" checked>
+                                <label for="templateID_locked_0">正常 </label>
+                            </div>
+                            <div class="radio radio-inline">
+                                <input id="templateID_locked_1" type="radio" name="locked" value="1">
+                                <label for="templateID_locked_1">锁定 </label>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" id="templateID_id" name="id">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            取消
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="templateID_submit">
+                            提交
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--end::Modal-->
+
+
+</content>
+
+
+<pageResources>
+
+
+    <script>
+        $(document).ready(function()
+        {
+            //codes works on all bootstrap modal windows in application
+            $('.modal').on('hidden.bs.modal', function(e)
+            {
+                //$(this).find('#add_Form')[0].reset();
+                //$(this).find('#edit_Form')[0].reset();
+            }) ;
+            applyTemplate(jQuery, '#template-org-addEditForm', 'add_', null, null, jQuery('#addUserFormContainer'));
+            applyTemplate(jQuery, '#template-org-addEditForm', 'edit_', null, null, jQuery('#editUserFormContainer'));
+            FormWidgets.init('add');
+            FormWidgets.init('edit');
+
+            $('#createButton').click(function(){
+                $("#addUserFormContainer").modal("show");
+            });
+
+            $('#deleteButton').click(function(){
+                deleteAction();
+            });
+
+        });
+
+        var $table = $('#table');
+        $(function() {
+            // bootstrap table初始化
+            $table.bootstrapTable({
+                url: '${basePath}/manage/user/list',
+                striped: true,
+                search: true,
+                searchAlign: 'left',
+                toolbarAlign: 'right',
+                minimumCountColumns: 2,
+                clickToSelect: true,
+                detailView: true,
+                detailFormatter: 'detailFormatter',
+                pagination: true,
+                paginationLoop: false,
+                sidePagination: 'server',
+                silentSort: false,
+                smartDisplay: false,
+                escape: true,
+                searchOnEnterKey: true,
+                maintainSelected: true,
+                idField: 'userId',
+                columns: [
+                    {field: 'ck', checkbox: true},
+                    {field: 'userId', title: '编号', sortable: true, align: 'center'},
+                    {field: 'username', title: '帐号'},
+                    {field: 'realname', title: '姓名'},
+                    {field: 'avatar', title: '头像', align: 'center', formatter: 'avatarFormatter'},
+                    {field: 'phone', title: '电话'},
+                    {field: 'email', title: '邮箱'},
+                    {field: 'sex', title: '性别', formatter: 'sexFormatter'},
+                    {field: 'locked', title: '状态', sortable: true, align: 'center', formatter: 'lockedFormatter'},
+                    {field: 'action', width: 100, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
+                ]
+            });
+        });
+        // 格式化操作按钮
+        function actionFormatter(value, row, index) {
+            return [
+                '<a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a>',
+                '<a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a>'
+            ].join('');
+        }
+
+        var FormWidgets = function () {
+            var createForm = function (formid) {
+                $("#"+formid+"_Form").validate({
+                    // define validation rules
+                    rules: {
+                        name: {
+                            required: true,
+                            minlength: 2,
+                            maxlength: 20
+                        },
+                        title: {
+                            required: true,
+                            minlength: 2,
+                            maxlength: 20
+                        },
+                    },
+                    submitHandler: function (form) {
+                        if(formid == 'add')
+                            submitForm();
+                        else{
+                            submitForm($('#edit_id').val());
+                        }
+
+                    }
+                });
+            }
+
+            return {
+                // public functions
+                init: function (formid) {
+                    createForm(formid);
+                }
+            };
+        }();
+
+        function submitForm(id) {
+            var targetUrl='${basePath}/manage/user/create';
+            var formId='add_Form';
+            if(id){
+                targetUrl='${basePath}/manage/user/update/'+id;
+                formId='edit_Form';
+            }
+            ajaxPost(targetUrl, formId, function(result) {
+                if (result.code != 1) {
+                    sendErrorInfo(result);
+                } else {
+                    if(formId=='add_Form') {
+                        toastr.success("新建用户成功");
+                        $('#addUserFormContainer').modal('toggle');
+                    }else{
+                        toastr.success("编辑用户成功");
+                        $('#editUserFormContainer').modal('toggle');
+                    }
+                    $table.bootstrapTable('refresh');
+                }
+            });
+        }
+
+
+        function updateAction(row) {
+            $("#editUserFormContainer").modal("show");
+
+            ajaxGet('${basePath}/manage/user/update/' + row["userId"], function (responseData) {
+                if (responseData) {
+                    var data = responseData;
+                    // 赋值
+                    $("#edit_id").val(data.user.userId);
+                    $("#edit_name").val(data.user.name);
+                    $("#edit_title").val(data.user.title);
+                    $("#edit_description").val(data.user.description);
+                }
+            });
+        }
+
+        window.actionEvents = {
+            'click #update': function (e, value, row, index) {
+                updateAction(row);
+
+            },
+            'click #delete': function (e, value, row, index) {
+                var rows = new Array();
+                rows.push(row);
+                deleteActionImpl(rows);
+            }
+        };
+
+        function deleteAction(){
+            var rows = $table.bootstrapTable('getSelections');
+            deleteActionImpl(rows);
+        }
+
+        function deleteActionImpl(rows) {
+            if (rows.length == 0) {
+                swWarn("请至少选择一条记录");
+            }else {
+                deleteRows(rows,'userId','${basePath}/manage/user/delete/', "请确认要删除选中的用户吗？", "删除用户成功");
+            }//end else
+        }
+
+        function sexFormatter(value, row, index) {
+            if (value == 1) {
+                return '男';
+            }
+            if (value == 2) {
+                return '女';
+            }
+            return '-';
+        }
+        // 格式化状态
+        function lockedFormatter(value, row, index) {
+            if (value == 1) {
+                return '<span class="label label-default">锁定</span>';
+            } else {
+                return '<span class="label label-success">正常</span>';
+            }
+        }
+    </script>
+
+
+
+</pageResources>
+
+
 </body>
 </html>

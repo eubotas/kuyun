@@ -87,7 +87,7 @@ function deleteRows(rows,idName,delUrl, tipContent, successTip, tableObj) {
             if (result.value) {
                 var ids = new Array();
                 for (var i in rows) {
-                    ids.push(rows[i].organizationId);
+                    ids.push(rows[i][idName]);
                 }
                 ajaxGet(delUrl + ids.join("-"), function(result){
                     if (result.code < 1) {

@@ -260,10 +260,12 @@ public class UpmsUserController extends BaseController {
     @ApiOperation(value = "修改用户")
     @RequiresPermissions("upms:user:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-    public String update(@PathVariable("id") int id, ModelMap modelMap) {
+    @ResponseBody
+    public Object update(@PathVariable("id") int id, ModelMap modelMap) {
         UpmsUser user = upmsUserService.selectByPrimaryKey(id);
-        modelMap.put("user", user);
-        return "/manage/user/update.jsp";
+        Map map=new HashMap();
+        map.put("user", user);
+        return map;
     }
 
     @ApiOperation(value = "修改用户")

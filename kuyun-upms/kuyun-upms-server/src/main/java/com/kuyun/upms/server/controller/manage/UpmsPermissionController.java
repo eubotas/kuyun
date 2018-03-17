@@ -158,15 +158,18 @@ public class UpmsPermissionController extends BaseController {
     @ApiOperation(value = "修改权限")
     @RequiresPermissions("upms:permission:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-    public String update(@PathVariable("id") int id, ModelMap modelMap) {
+    @ResponseBody
+    public Object update(@PathVariable("id") int id) {
         UpmsSystemExample upmsSystemExample = new UpmsSystemExample();
         upmsSystemExample.createCriteria()
                 .andStatusEqualTo((byte) 1);
         List<UpmsSystem> upmsSystems = upmsSystemService.selectByExample(upmsSystemExample);
         UpmsPermission permission = upmsPermissionService.selectByPrimaryKey(id);
-        modelMap.put("permission", permission);
-        modelMap.put("upmsSystems", upmsSystems);
-        return "/manage/permission/update.jsp";
+
+        Map map=new HashMap();
+        map.put("permission", permission);
+        map.put("upmsSystems", upmsSystems);
+        return map;
     }
 
     @ApiOperation(value = "修改权限")
