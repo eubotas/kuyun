@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemesh>
+    <mapping path="/sso/" exclue="true" />
+    <mapping path="/login" exclude="true" />
+    <mapping path="/static/*" exclude="true" />
+    <mapping path="/manage/*" decorator="/WEB-INF/layouts/default.jsp" />
+
+
+    <content-processor>
+        <tag-rule-bundle class="com.kuyun.common.sitemesh.tag.SubHeader" />
+        <tag-rule-bundle class="com.kuyun.common.sitemesh.tag.Content" />
+        <tag-rule-bundle class="com.kuyun.common.sitemesh.tag.PageResources" />
+    </content-processor>
+</sitemesh>

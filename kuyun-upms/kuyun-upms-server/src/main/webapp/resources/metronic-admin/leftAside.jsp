@@ -7,6 +7,8 @@
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 
+<c:set var="eamPath" value="http://eam.kuyun.cn:9999"/>
+
 
 <!-- BEGIN: Left Aside -->
 <button class="m-aside-left-close  m-aside-left-close--skin-dark " id="m_aside_left_close_btn">
@@ -63,7 +65,7 @@
 											</span>
                         </li>
                         <li class="m-menu__item " aria-haspopup="true" >
-                            <a  href="../components/base/state.html" class="m-menu__link ">
+                            <a  href="${eamPath}/manage/equipment/model/index" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>

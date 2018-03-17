@@ -154,12 +154,14 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 	@ApiOperation(value = "修改设备模型参数")
 	@RequiresPermissions("eam:equipmentModelProperty:update")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-	public String update(@PathVariable("id") int id, ModelMap modelMap) {
+	@ResponseBody
+	public Object update(@PathVariable("id") int id, ModelMap modelMap) {
 		EamEquipmentModelProperties eamEquipmentModelProperties = eamEquipmentModelPropertiesService.selectByPrimaryKey(id);
-		modelMap.put("equipmentModelProperties", eamEquipmentModelProperties);
-		modelMap.put("dataTypes", DataType.values());
-		modelMap.put("displayTypes", DisplayType.values());
-		return "/manage/equipment/model/property/update.jsp";
+		Map map = new HashMap(3);
+		map.put("equipmentModelProperties", eamEquipmentModelProperties);
+		map.put("dataTypes", DataType.values());
+		map.put("displayTypes", DisplayType.values());
+		return map;
 	}
 
 	@ApiOperation(value = "修改设备模型参数")
