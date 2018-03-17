@@ -74,7 +74,7 @@
          aria-hidden="true">
     </div>
 
-    <div class="modal fade" id="template-org-addEditForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="template-user-addEditForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <form id="templateID_Form" class="m-form m-form--fit m-form--label-align-right">
             <div class="modal-dialog" role="document">
@@ -142,6 +142,7 @@
                         </button>
                     </div>
                 </div>
+              </div>
             </div>
         </form>
     </div>
@@ -163,10 +164,10 @@
                 //$(this).find('#add_Form')[0].reset();
                 //$(this).find('#edit_Form')[0].reset();
             }) ;
-            applyTemplate(jQuery, '#template-org-addEditForm', 'add_', null, null, jQuery('#addUserFormContainer'));
-            applyTemplate(jQuery, '#template-org-addEditForm', 'edit_', null, null, jQuery('#editUserFormContainer'));
-            FormWidgets.init('add');
-            FormWidgets.init('edit');
+             applyTemplate(jQuery, '#template-user-addEditForm', 'add_', null, null, jQuery('#addUserFormContainer'));
+             applyTemplate(jQuery, '#template-user-addEditForm', 'edit_', null, null, jQuery('#editUserFormContainer'));
+             FormWidgets.init('add');
+             FormWidgets.init('edit');
 
             $('#createButton').click(function(){
                 $("#addUserFormContainer").modal("show");
@@ -236,7 +237,7 @@
                             required: true,
                             minlength: 2,
                             maxlength: 20
-                        },
+                        }
                     },
                     submitHandler: function (form) {
                         if(formid == 'add')
@@ -289,9 +290,14 @@
                     var data = responseData;
                     // 赋值
                     $("#edit_id").val(data.user.userId);
-                    $("#edit_name").val(data.user.name);
-                    $("#edit_title").val(data.user.title);
-                    $("#edit_description").val(data.user.description);
+                    $("#edit_username").val(data.user.username);
+                    $("#edit_password").val(data.user.password);
+                    $("#edit_realname").val(data.user.realname);
+                    $("#edit_avatar").val(data.user.avatar);
+                    $("#edit_phone").val(data.user.phone);
+                    $("#edit_email").val(data.user.email);
+                    $("#edit_sex").val(data.user.sex);
+                    $("#edit_locked").val(data.user.locked);
                 }
             });
         }
@@ -321,6 +327,15 @@
             }//end else
         }
 
+        // 格式化图标
+        function avatarFormatter(value, row, index) {
+            if(value != null && value != '')
+                return '<img src="${basePath}' + value + '" style="width:20px;height:20px;"/>';
+            else
+                return "";
+
+        }
+        // 格式化性别
         function sexFormatter(value, row, index) {
             if (value == 1) {
                 return '男';

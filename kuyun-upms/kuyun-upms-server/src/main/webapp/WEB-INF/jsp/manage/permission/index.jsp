@@ -74,7 +74,7 @@
          aria-hidden="true">
     </div>
 
-    <div class="modal fade" id="template-org-addEditForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="template-permission-addEditForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <form id="templateID_Form" class="m-form m-form--fit m-form--label-align-right">
             <div class="modal-dialog" role="document">
@@ -177,8 +177,8 @@
                 //$(this).find('#add_Form')[0].reset();
                 //$(this).find('#edit_Form')[0].reset();
             }) ;
-            applyTemplate(jQuery, '#template-org-addEditForm', 'add_', null, null, jQuery('#addPermissionFormContainer'));
-            applyTemplate(jQuery, '#template-org-addEditForm', 'edit_', null, null, jQuery('#editPermissionFormContainer'));
+            applyTemplate(jQuery, '#template-permission-addEditForm', 'add_', null, null, jQuery('#addPermissionFormContainer'));
+            applyTemplate(jQuery, '#template-permission-addEditForm', 'edit_', null, null, jQuery('#editPermissionFormContainer'));
             FormWidgets.init('add');
             FormWidgets.init('edit');
 
@@ -303,9 +303,9 @@
                 if (responseData) {
                     var data = responseData;
                     // 赋值
-                    $("#edit_id").val(data.org.permissionId);
-                    $("#edit_name").val(data.org.name);
-                    $("#edit_description").val(data.org.description);
+                    $("#edit_id").val(data.permission.permissionId);
+                    $("#edit_name").val(data.permission.name);
+                    $("#edit_description").val(data.permission.description);
                 }
             });
         }
