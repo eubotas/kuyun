@@ -169,16 +169,12 @@ public class UpmsRoleController extends BaseController {
     @ApiOperation(value = "修改角色")
     @RequiresPermissions("upms:role:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-    public String update(@PathVariable("id") int id, ModelMap modelMap) {
-        UpmsCompanyExample companyExample = new UpmsCompanyExample();
-        UpmsCompanyExample.Criteria criteria = companyExample.createCriteria();
-        criteria.andDeleteFlagEqualTo(Boolean.FALSE);
-        List<UpmsCompany> rows = upmsCompanyService.selectByExample(companyExample);
-        modelMap.put("companys", rows);
-
+    @ResponseBody
+    public Object update(@PathVariable("id") int id, ModelMap modelMap) {
         UpmsRole role = upmsRoleService.selectByPrimaryKey(id);
-        modelMap.put("role", role);
-        return "/manage/role/update.jsp";
+        Map map=new HashMap();
+        map.put("role", role);
+        return map;
     }
 
     @ApiOperation(value = "修改角色")

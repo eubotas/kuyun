@@ -274,13 +274,6 @@ public class UpmsOrganizationController extends BaseController {
         Map map=new HashMap();
         UpmsOrganization organization = upmsOrganizationService.selectByPrimaryKey(id);
         map.put("org", organization);
-
-        UpmsCompanyExample companyExample = new UpmsCompanyExample();
-        UpmsCompanyExample.Criteria criteria = companyExample.createCriteria();
-        criteria.andDeleteFlagEqualTo(Boolean.FALSE);
-        List<UpmsCompany> rows = upmsCompanyService.selectByExample(companyExample);
-        map.put("companys", rows);
-
         return map;
     }
 

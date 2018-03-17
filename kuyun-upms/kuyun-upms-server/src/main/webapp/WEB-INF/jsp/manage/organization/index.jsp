@@ -129,12 +129,12 @@
     <script>
         $(document).ready(function()
         {
-             //codes works on all bootstrap modal windows in application
-             $('.modal').on('hidden.bs.modal', function(e)
-             {
-                 $(this).find('#add_Form')[0].reset();
-                 $(this).find('#edit_Form')[0].reset();
-             }) ;
+            //codes works on all bootstrap modal windows in application
+            $('.modal').on('hidden.bs.modal', function(e)
+            {
+                //$(this).find('#add_Form')[0].reset();
+                //$(this).find('#edit_Form')[0].reset();
+            }) ;
             applyTemplate(jQuery, '#template-org-addEditForm', 'add_', null, null, jQuery('#addOrgFormContainer'));
             applyTemplate(jQuery, '#template-org-addEditForm', 'edit_', null, null, jQuery('#editOrgFormContainer'));
             FormWidgets.init('add');
@@ -150,26 +150,7 @@
 
         });
 
-
-        toastr.options = {
-            "closeButton": false,
-            "debug": false,
-            "newestOnTop": false,
-            "progressBar": false,
-            "positionClass": "toast-top-right",
-            "preventDuplicates": false,
-            "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        };
-
-    var $table = $('#table');
+        var $table = $('#table');
         $(function() {
             // bootstrap table初始化
             $table.bootstrapTable({
@@ -207,96 +188,78 @@
             ].join('');
         }
 
-    var FormWidgets = function () {
-        var createForm = function (formid) {
-            $("#"+formid+"_Form").validate({
-                // define validation rules
-                rules: {
-                    name: {
-                        required: true,
-                        minlength: 2,
-                        maxlength: 20
+        var FormWidgets = function () {
+            var createForm = function (formid) {
+                $("#"+formid+"_Form").validate({
+                    // define validation rules
+                    rules: {
+                        name: {
+                            required: true,
+                            minlength: 2,
+                            maxlength: 20
+                        },
+                        description: {
+                            required: true,
+                            minlength: 2,
+                            maxlength: 200
+                        },
                     },
-                    description: {
-                        required: true,
-                        minlength: 2,
-                        maxlength: 200
-                    },
-                },
-                submitHandler: function (form) {
-                    if(formid == 'add')
-                        submitForm();
-                    else{
-                        submitForm($('#edit_id').val());
+                    submitHandler: function (form) {
+                        if(formid == 'add')
+                            submitForm();
+                        else{
+                            submitForm($('#edit_id').val());
+                        }
+
                     }
-
-                }
-            });
-        }
-
-        return {
-            // public functions
-            init: function (formid) {
-                createForm(formid);
+                });
             }
-        };
-    }();
 
-    function submitForm(id) {
-        var targetUrl='${basePath}/manage/organization/create';
-        var formId='#add_Form';
-        if(id){
-            targetUrl='${basePath}/manage/organization/update/'+id;
-            formId='#edit_Form';
-        }
-        $.ajax({
-            type: 'post',
-            url: targetUrl,
-            data: $(formId).serialize(),
-            success: function(result) {
+            return {
+                // public functions
+                init: function (formid) {
+                    createForm(formid);
+                }
+            };
+        }();
+
+        function submitForm(id) {
+            var targetUrl='${basePath}/manage/organization/create';
+            var formId='add_Form';
+            if(id){
+                targetUrl='${basePath}/manage/organization/update/'+id;
+                formId='edit_Form';
+            }
+            ajaxPost(targetUrl, formId, function(result) {
                 if (result.code != 1) {
-                    var errorMsgs = "";
-
-                    if (result.data instanceof Array) {
-                        $.each(result.data, function(index, value) {
-                            errorMsgs += value.errorMsg + "<br>";
-                        });
-                    } else {
-                        errorMsgs = result.data.errorMsg;
-                    }
-
-                    toastr.warning(errorMsgs);
+                    sendErrorInfo(result);
                 } else {
-                    if(formId=='#add_Form') {
+                    if(formId=='add_Form') {
                         toastr.success("新建部门成功");
                         $('#addOrgFormContainer').modal('toggle');
                     }else{
                         toastr.success("编辑部门成功");
                         $('#editOrgFormContainer').modal('toggle');
                     }
-                    //$table.bootstrapTable('refresh');
+                    $table.bootstrapTable('refresh');
                 }
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                toastr.error(textStatus);
-            }
-        });
-    }
+            });
+        }
 
 
-    function updateAction(row) {
-        $("#editOrgFormContainer").modal("show");
+        function updateAction(row) {
+            $("#editOrgFormContainer").modal("show");
 
-        get('${basePath}/manage/organization/update/' + row["organizationId"], function (responseData) {
-            if (responseData) {
-                var data = responseData;
-                // 赋值
-                $("#edit_id").val(data.org.organizationId);
-                $("#edit_name").val(data.org.name);
-                $("#edit_description").val(data.org.description);
-            }
-        });
-    }
+            ajaxGet('${basePath}/manage/organization/update/' + row["organizationId"], function (responseData) {
+                if (responseData) {
+                    var data = responseData;
+                    // 赋值
+                    $("#edit_id").val(data.org.organizationId);
+                    $("#edit_name").val(data.org.name);
+                    $("#edit_description").val(data.org.description);
+                }
+            });
+        }
 
         window.actionEvents = {
             'click #update': function (e, value, row, index) {
@@ -319,38 +282,8 @@
             if (rows.length == 0) {
                 swWarn("请至少选择一条记录");
             }else {
-                  swal({
-                    text: "请确认要删除选中的部门吗？",
-                    showCancelButton: true,
-                    confirmButtonText: '确认',
-                    cancelButtonText: '取消'
-                }).then(function(result) {
-                    if (result.value) {
-                        var ids = new Array();
-                        for (var i in rows) {
-                            ids.push(rows[i].organizationId);
-                        }
-                        get('${basePath}/manage/organization/delete/' + ids.join("-"), function(result){
-                            if (result.code != 1) {
-                                var errorMsgs = "";
-                                if (result.data instanceof Array) {
-                                    $.each(result.data, function(index, value) {
-                                        errorMsgs += value.errorMsg + "<br>";
-                                    });
-                                } else {
-                                    errorMsgs = result.data.errorMsg;
-                                }
-                                toastr.warning(errorMsgs);
-                            } else {
-                                toastr.success("删除部门成功");
-                                $table.bootstrapTable('refresh');
-                            }
-                        });
-                    }
-                });
-
+                deleteRows(rows,'organizationId','${basePath}/manage/organization/delete/', "请确认要删除选中的部门吗？", "删除部门成功");
             }//end else
-
         }
 
     </script>
