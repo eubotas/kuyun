@@ -1,5 +1,5 @@
 ///////////////// add edit/delete
-function post(targetUrl, formId, callValidate, callSuccess, callError)
+function ajaxPost(targetUrl, formId, callValidate, callSuccess, callError)
 {
     $.ajax({
         type: 'post',
@@ -20,7 +20,7 @@ function post(targetUrl, formId, callValidate, callSuccess, callError)
     });
 }
 
-function get(targetUrl, callSuccess, callError)
+function ajaxGet(targetUrl, callSuccess, callError)
 {
     $.ajax({
         type: 'get',
@@ -37,19 +37,70 @@ function get(targetUrl, callSuccess, callError)
     });
 }
 
-function deleteRow(newtips, callbackDel)
+function ajaxGetDel(targetUrl, successTip, tableObj)
 {
-    swal({
-        title: "操作提示",
-        text: newtips,
-        type: "warning", showCancelButton: true,
-        confirmButtonColor: "#DD6B55",
-        cancelButtonText: "取消",
-        confirmButtonText: "删除！",
-        closeOnConfirm: true
-    }, function () {
-        callbackDel();
+    ajaxGet(targetUrl, function(result){
+        if (result.code < 1) {
+            sendErrorInfo(result);
+        } else {
+            if(successTip)
+                toastr.success(successTip);
+            else
+                toastr.success("删除成功!");
+            if(tableObj)
+                tableObj.bootstrapTable('refresh');
+            else
+                $table.bootstrapTable('refresh');
+        }
     });
+}
+
+function deleteRows(rows,idName,delUrl, tipContent, successTip, tableObj) {
+    if (rows.length == 0) {
+        swWarn("请至少选择一条记录");
+    }else {
+        swal({
+            text: tipContent,
+            showCancelButton: true,
+            confirmButtonText: '确认',
+            cancelButtonText: '取消'
+        }).then(function(result) {
+            if (result.value) {
+                var ids = new Array();
+                for (var i in rows) {
+                    ids.push(rows[i].organizationId);
+                }
+                ajaxGet(delUrl + ids.join("-"), function(result){
+                    if (result.code < 1) {
+                        sendErrorInfo(result);
+                    } else {
+                        if(successTip)
+                            toastr.success(successTip);
+                        else
+                            toastr.success("删除成功!");
+                        if(tableObj)
+                            tableObj.bootstrapTable('refresh');
+                        else
+                            $table.bootstrapTable('refresh');
+                    }
+                });
+            }
+        });
+
+    }//end else
+}
+
+function sendErrorInfo(result)
+{
+    var errorMsgs = "";
+    if (result.data instanceof Array) {
+        $.each(result.data, function(index, value) {
+            errorMsgs += value.errorMsg + "<br>";
+        });
+    } else {
+        errorMsgs = result.data.errorMsg;
+    }
+    toastr.warning(errorMsgs);
 }
 
 function swWarn(newtips)

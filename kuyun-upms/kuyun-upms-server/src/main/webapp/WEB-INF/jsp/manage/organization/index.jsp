@@ -48,68 +48,17 @@
     <div class="m-portlet m-portlet--mobile">
         <div class="m-portlet__body">
             <div id="toolbar">
-                <%--<div class="col-xl-4 order-1 order-xl-2 m--align-right">--%>
-                <%--<button type="button" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--air" data-toggle="modal" data-target="#create_modal">--%>
-                <%--<span><i class="la la-plus"></i> <span>新建</span></span>--%>
-                <%--</button>--%>
+                <div>
+                    <a href="#" id="createButton" class="btn btn-outline-primary m-btn m-btn--icon m-btn--icon-only" title="新建">
+                        <i class="la la-plus"></i>
+                    </a>
 
+                    <a href="#" id="deleteButton" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only" title="删除">
+                        <i class="la la-remove"></i>
+                    </a>
 
-                <%--&lt;%&ndash;<a href="${basePath}/manage/organization/create" data-target="#createModal" data-toggle="modal" class="btn btn-info m-btn m-btn--custom m-btn--icon m-btn--air">&ndash;%&gt;--%>
-                <%--&lt;%&ndash;<span>&ndash;%&gt;--%>
-                <%--&lt;%&ndash;<i class="la la-plus"></i>&ndash;%&gt;--%>
-                <%--&lt;%&ndash;<span>&ndash;%&gt;--%>
-                <%--&lt;%&ndash;新建&ndash;%&gt;--%>
-                <%--&lt;%&ndash;</span>&ndash;%&gt;--%>
-                <%--&lt;%&ndash;</span>&ndash;%&gt;--%>
-                <%--&lt;%&ndash;</a>&ndash;%&gt;--%>
-
-                <%--<div class="m-separator m-separator--dashed d-xl-none"></div>--%>
-                <%--</div>--%>
-                <div class="col-xl-4 order-1 order-xl-2 m--align-right">
-
-                    <div class="m-dropdown m-dropdown--inline m-dropdown--arrow m-dropdown--align-right m-dropdown--align-push" data-dropdown-toggle="hover" aria-expanded="true">
-                        <a href="#" class="m-portlet__nav-link btn btn-lg btn-secondary  m-btn m-btn--outline-2x m-btn--air m-btn--icon m-btn--icon-only m-btn--pill  m-dropdown__toggle">
-                            <i class="la la-plus m--hide"></i>
-                            <i class="la la-ellipsis-h"></i>
-                        </a>
-                        <div class="m-dropdown__wrapper">
-                            <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
-                            <div class="m-dropdown__inner">
-                                <div class="m-dropdown__body">
-                                    <div class="m-dropdown__content">
-                                        <ul class="m-nav">
-                                            <li class="m-nav__item">
-                                                <a href="" class="m-nav__link" data-toggle="modal" data-target="#create_modal">
-                                                    <i class="m-nav__link-icon flaticon-plus"></i>
-                                                    <span class="m-nav__link-text">
-																	新建
-																</span>
-
-                                                </a>
-                                            </li>
-                                            <li class="m-nav__item">
-                                                <a href="" class="m-nav__link">
-                                                    <i class="m-nav__link-icon flaticon-chat-1"></i>
-                                                    <span class="m-nav__link-text">
-																	修改
-																</span>
-                                                </a>
-                                            </li>
-                                            <li class="m-nav__separator m-nav__separator--fit"></li>
-                                            <li class="m-nav__item">
-                                                <a href="#" class="btn btn-outline-danger m-btn m-btn--pill m-btn--wide btn-sm">
-                                                    删除
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="m-separator m-separator--dashed d-xl-none"></div>
                 </div>
-
             </div>
 
             <table id="table" data-toolbar="#toolbar"></table>
@@ -178,30 +127,29 @@
 
 
     <script>
-
         $(document).ready(function()
         {
-            // codes works on all bootstrap modal windows in application
-            // $('.modal').on('hidden.bs.modal', function(e)
-            // {
-            //     $(this).find('#createForm')[0].reset();
-            // }) ;
+            //codes works on all bootstrap modal windows in application
+            $('.modal').on('hidden.bs.modal', function(e)
+            {
+                $(this).find('#add_Form')[0].reset();
+                $(this).find('#edit_Form')[0].reset();
+            }) ;
             applyTemplate(jQuery, '#template-org-addEditForm', 'add_', null, null, jQuery('#addOrgFormContainer'));
             applyTemplate(jQuery, '#template-org-addEditForm', 'edit_', null, null, jQuery('#editOrgFormContainer'));
+            FormWidgets.init('add');
+            FormWidgets.init('edit');
 
-            $('#add_submit').click(function(){
-                createSubmit();
-            });
-            $('#edit_submit').click(function(){
-                createSubmit($('#edit_id').val());
+            $('#createButton').click(function(){
+                $("#addOrgFormContainer").modal("show");
             });
 
-            $('#delete').click(function(e) {
-                deleteRow("请确认要删除选中的 类别 吗？", function () {
-                    swSuccess('Deleted!');
-                });
+            $('#deleteButton').click(function(){
+                deleteAction();
             });
+
         });
+
 
         toastr.options = {
             "closeButton": false,
@@ -221,8 +169,7 @@
             "hideMethod": "fadeOut"
         };
 
-
-    var $table = $('#table');
+        var $table = $('#table');
         $(function() {
             // bootstrap table初始化
             $table.bootstrapTable({
@@ -248,167 +195,125 @@
                     {field: 'ck', checkbox: true},
                     {field: 'name', title: '部门名称'},
                     {field: 'description', title: '部门描述'},
-                    {field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
+                    {field: 'action', width: 100, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ]
             });
         });
         // 格式化操作按钮
         function actionFormatter(value, row, index) {
             return [
-                '<a href="javascript:;" onclick="updateAction()" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="Edit details">	<i class="la la-edit"></i>	</a>',
-                '<button type="button" id="delete" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="Delete">	<i class="la la-trash"></i>	</button>'
+                '<a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a>',
+                '<a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a>'
             ].join('');
         }
 
-    //== Class definition
-
-    var FormWidgets = function () {
-        var createForm = function () {
-            $("#createForm").validate({
-                // define validation rules
-                rules: {
-                    name: {
-                        required: true,
-                        minlength: 2,
-                        maxlength: 20
+        var FormWidgets = function () {
+            var createForm = function (formid) {
+                $("#"+formid+"_Form").validate({
+                    // define validation rules
+                    rules: {
+                        name: {
+                            required: true,
+                            minlength: 2,
+                            maxlength: 20
+                        },
+                        description: {
+                            required: true,
+                            minlength: 2,
+                            maxlength: 200
+                        },
                     },
-                    description: {
-                        required: true,
-                        minlength: 2,
-                        maxlength: 200
-                    },
-                },
-                submitHandler: function (form) {
-                    //form[0].submit(); // submit the form
-                    createSubmit();
-
-                }
-            });
-        }
-
-        return {
-            // public functions
-            init: function () {
-                createForm();
-            }
-        };
-
-    }();
-
-    jQuery(document).ready(function () {
-        FormWidgets.init();
-    });
-</script>
-        <script>
-            function createSubmit(id) {
-                var targetUrl='${basePath}/manage/organization/create';
-                var formId='#add_Form';
-                if(id){
-                    targetUrl='${basePath}/manage/organization/update/'+id;
-                    formId='#edit_Form';
-                }
-                $.ajax({
-                    type: 'post',
-                    url: targetUrl,
-                    data: $(formId).serialize(),
-                    beforeSend: function() {
-                        if ($('#name').val() == '') {
-                            $('#name').focus();
-                            return false;
+                    submitHandler: function (form) {
+                        if(formid == 'add')
+                            submitForm();
+                        else{
+                            submitForm($('#edit_id').val());
                         }
-                    },
-                    success: function(result) {
-                        if (result.code != 1) {
-                            var errorMsgs = "";
 
-                            if (result.data instanceof Array) {
-                                $.each(result.data, function(index, value) {
-                                    errorMsgs += value.errorMsg + "/r/n";
-                                });
-                            } else {
-                                errorMsgs = result.data.errorMsg;
-                            }
-
-                            toastr.warning(errorMsgs);
-                        } else {
-                            if(formId=='#add_Form') {
-                                toastr.success("新建部门成功");
-                                $('#addOrgFormContainer').modal('toggle');
-                            }else{
-                                toastr.success("编辑部门成功");
-                                $('#editOrgFormContainer').modal('toggle');
-                            }
-                            $table.bootstrapTable('refresh');
-                        }
-                    },
-                    error: function(XMLHttpRequest, textStatus, errorThrown) {
-                        toastr.error(textStatus);
                     }
                 });
             }
 
-
-            function updateAction() {
-
-                var rows = $table.bootstrapTable('getSelections');
-                if (rows.length != 1) {
-                    swWarn("请选择一条记录");
-                } else {
-                    $("#editOrgFormContainer").modal("show");
-                    get( '${basePath}/manage/organization/update/' + rows[0].organizationId, function (responseData) {
-                        if (responseData) {
-                            var data = responseData;
-                            // 赋值
-                            $("#edit_id").val(data.org.organizationId);
-                            $("#edit_name").val(data.org.name);
-                            $("#edit_description").val(data.org.description);
-                        }
-                    });
-                }
-            }
-
-
-        </script>
-
-    <script>
-
-        //== Class definition
-        var SweetAlert2Demo = function() {
-
-            //== Demos
-            var initDemos = function() {
-                $('#delete').click(function(e) {
-                    swal({
-                        title: 'Are you sure?',
-                        text: "请确认要删除选中的 类别 吗？",
-                        type: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: '确认',
-                        cancelButtonText: '取消'
-                    }).then(function(result) {
-                        if (result.value) {
-                            swal(
-                                'Deleted!',
-                                'Your file has been deleted.',
-                                'success'
-                            )
-                        }
-                    });
-                });
-            };
-
             return {
-                //== Init
-                init: function() {
-                    initDemos();
-                },
+                // public functions
+                init: function (formid) {
+                    createForm(formid);
+                }
             };
         }();
 
-        //== Class Initialization
-        jQuery(document).ready(function() {
-            SweetAlert2Demo.init();
-        });
+        function submitForm(id) {
+            var targetUrl='${basePath}/manage/organization/create';
+            var formId='#add_Form';
+            if(id){
+                targetUrl='${basePath}/manage/organization/update/'+id;
+                formId='#edit_Form';
+            }
+            $.ajax({
+                type: 'post',
+                url: targetUrl,
+                data: $(formId).serialize(),
+                success: function(result) {
+                    if (result.code != 1) {
+                        sendErrorInfo(result);
+                    } else {
+                        if(formId=='#add_Form') {
+                            toastr.success("新建部门成功");
+                            $('#addOrgFormContainer').modal('toggle');
+                        }else{
+                            toastr.success("编辑部门成功");
+                            $('#editOrgFormContainer').modal('toggle');
+                        }
+                        //$table.bootstrapTable('refresh');
+                    }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    toastr.error(textStatus);
+                }
+            });
+        }
+
+
+        function updateAction(row) {
+            $("#editOrgFormContainer").modal("show");
+
+            get('${basePath}/manage/organization/update/' + row["organizationId"], function (responseData) {
+                if (responseData) {
+                    var data = responseData;
+                    // 赋值
+                    $("#edit_id").val(data.org.organizationId);
+                    $("#edit_name").val(data.org.name);
+                    $("#edit_description").val(data.org.description);
+                }
+            });
+        }
+
+        window.actionEvents = {
+            'click #update': function (e, value, row, index) {
+                updateAction(row);
+
+            },
+            'click #delete': function (e, value, row, index) {
+                var rows = new Array();
+                rows.push(row);
+                deleteActionImpl(rows);
+            }
+        };
+
+        function deleteAction(){
+            var rows = $table.bootstrapTable('getSelections');
+            deleteActionImpl(rows);
+        }
+
+        function deleteActionImpl(rows) {
+            if (rows.length == 0) {
+                swWarn("请至少选择一条记录");
+            }else {
+                deleteRows(rows,'organizationId','${basePath}/manage/organization/delete/', "请确认要删除选中的部门吗？", "删除部门成功");
+            }//end else
+
+        }
+
     </script>
 
 
