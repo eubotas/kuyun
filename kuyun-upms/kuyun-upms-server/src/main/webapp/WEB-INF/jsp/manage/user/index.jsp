@@ -296,8 +296,8 @@
                     $("#edit_avatar").val(data.user.avatar);
                     $("#edit_phone").val(data.user.phone);
                     $("#edit_email").val(data.user.email);
-                    $("#edit_sex").val(data.user.sex);
-                    $("#edit_locked").val(data.user.locked);
+                    radioBoxcheck(data.user.sex,'sex');
+                    radioBoxcheck(data.user.locked,'locked');
                 }
             });
         }

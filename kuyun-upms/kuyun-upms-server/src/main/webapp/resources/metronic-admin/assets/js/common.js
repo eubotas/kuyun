@@ -149,10 +149,27 @@ function swSuccess(newtips)
     });
 }
 
-function addOptionToHtmlSelect(defaultValue, htmlSelectId, data) {
+function ifNull(val){
+    if(val == null || val =='undefine')
+        return "";
+    else
+        return $.trim(val);
+}
+
+function radioBoxcheck(val, idtag){
+    if(val != null && val !='')
+        $("#edit_"+idtag+"_"+val).attr("checked",true);
+}
+
+function addOptionToHtmlSelect(defaultValue, htmlSelectId, data, firstItemVal, firstItemText) {
     var htmlSelectObj = jQuery("#"+htmlSelectId);
     var options = [];
-    options.push(jQuery("<option>", {"value": "", "text": "Please Select"}));
+    if(firstItemVal) {
+        if(firstItemText)
+            options.push(jQuery("<option>", {"value": firstItemVal, "text": firstItemText}));
+        else
+            options.push(jQuery("<option>", {"value": firstItemVal, "text": "请选择"}));
+    }
     for(var i = 0; i < data.length; i++) {
         var selected = false;
         if(defaultValue && defaultValue == data[i].VALUEFIELD) {

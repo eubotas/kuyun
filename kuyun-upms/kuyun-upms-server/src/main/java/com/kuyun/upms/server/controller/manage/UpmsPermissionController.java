@@ -5,6 +5,7 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
+import com.kuyun.upms.common.JspUtil;
 import com.kuyun.upms.common.constant.UpmsResult;
 import com.kuyun.upms.common.constant.UpmsResultConstant;
 import com.kuyun.upms.dao.model.*;
@@ -168,7 +169,7 @@ public class UpmsPermissionController extends BaseController {
 
         Map map=new HashMap();
         map.put("permission", permission);
-        map.put("upmsSystems", upmsSystems);
+        map.put("upmsSystems", JspUtil.getMapList(upmsSystems,"systemId","title"));
         return map;
     }
 

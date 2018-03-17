@@ -107,10 +107,6 @@
                         <div class="form-group">
                             <span class="type1 type2 type3">
                                 <select id="templateID_systemId" name="systemId">
-                                    <option value="0">请选择系统</option>
-                                    <c:forEach var="upmsSystem" items="${upmsSystems}">
-                                        <option value="${upmsSystem.systemId}">${upmsSystem.title}</option>
-                                    </c:forEach>
                                 </select>
                             </span>
                                             <span class="type2 type3" hidden>
@@ -302,10 +298,15 @@
             ajaxGet('${basePath}/manage/permission/update/' + row["permissionId"], function (responseData) {
                 if (responseData) {
                     var data = responseData;
-                    // 赋值
+
                     $("#edit_id").val(data.permission.permissionId);
+                    radioBoxcheck(data.permission.type,'type');
+                    addOptionToHtmlSelect(data.permission.systemId, "edit_systemId",data.upmsSystems, "0","请选择系统");
                     $("#edit_name").val(data.permission.name);
-                    $("#edit_description").val(data.permission.description);
+                    $("#edit_permissionValue").val(ifNull(data.permission.permissionValue));
+                    $("#edit_uri").val(ifNull(data.permission.uri));
+                    $("#edit_icon").val(ifNull(data.permission.icon));
+                    radioBoxcheck(data.permission.status,'status');
                 }
             });
         }
