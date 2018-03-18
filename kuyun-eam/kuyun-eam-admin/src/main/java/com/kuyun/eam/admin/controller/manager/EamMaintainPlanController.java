@@ -15,6 +15,7 @@ import com.kuyun.eam.vo.EamEquipmentVO;
 import com.kuyun.eam.vo.EamMaintainPlanVO;
 import com.kuyun.eam.vo.EamPlanTicketVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
+import com.kuyun.upms.common.JspUtil;
 import com.kuyun.upms.dao.model.UpmsOrganization;
 import com.kuyun.upms.dao.model.UpmsOrganizationExample;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
@@ -202,12 +203,14 @@ public class EamMaintainPlanController extends BaseController {
 	@ApiOperation(value = "修改维修计划")
 	@RequiresPermissions("eam:maintainPlan:update")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-	public String update(@PathVariable("id") int id, ModelMap modelMap) {
+	@ResponseBody
+	public Object update(@PathVariable("id") int id, ModelMap modelMap) {
 		EamMaintainPlan eamMaintainPlan = eamMaintainPlanService.selectByPrimaryKey(id);
-		modelMap.put("plan", eamMaintainPlan);
-		modelMap.put("MaintainDate",EamDateUtil.getDateStr(eamMaintainPlan.getNextMaintainDate()));
-		setWebSelect(modelMap);
-		return "/manage/maintainplan/update.jsp";
+		Map map=new HashMap();
+		setWebSelect(map);
+		map.put("plan", eamMaintainPlan);
+		map.put("MaintainDate",EamDateUtil.getDateStr(eamMaintainPlan.getNextMaintainDate()));
+		return map;
 	}
 
 	@ApiOperation(value = "修改维修计划")
@@ -234,32 +237,30 @@ public class EamMaintainPlanController extends BaseController {
 	}
 
 
-
-
-	private void setWebSelect(ModelMap modelMap){
+	private void setWebSelect(Map map){
 		EamEquipmentCategoryExample example = new EamEquipmentCategoryExample();
 		EamEquipmentCategoryExample.Criteria criteria2 = example.createCriteria();
 		criteria2.andCompanyIdEqualTo(getCompanyId());
 		List<EamEquipmentCategory> cats = eamEquipmentCategoryService.selectByExample( example );
-		modelMap.addAttribute("equipmentCategorys", cats);
+		map.put("equipmentCategorys", JspUtil.getMapList(cats,"equipmentCategoryId","name"));
 
 		EamEquipmentVO equipmentVO = new EamEquipmentVO();
 		equipmentVO.setCompanyId(getCompanyId());
 		List<EamEquipmentVO> rows = eamApiService.selectEquipments(equipmentVO);
-		modelMap.addAttribute("equipments", rows);
+		map.put("equipments", JspUtil.getMapList(rows,"equipmentId","name"));
 
 		UpmsOrganizationExample upmsOrganizationExample = new UpmsOrganizationExample();
 		UpmsOrganizationExample.Criteria criteria = upmsOrganizationExample.createCriteria();
 		criteria.andCompanyIdEqualTo(getCompanyId());
 		List<UpmsOrganization> orgs = upmsOrganizationService.selectByExample(upmsOrganizationExample);
-		modelMap.addAttribute("orgs", orgs);
+		map.put("orgs", JspUtil.getMapList(orgs,"organizationId","name"));
 
 		EamCodeValueExample eamCodeValueExample = new EamCodeValueExample();
 		EamCodeValueExample.Criteria codeCriteria = eamCodeValueExample.createCriteria();
 		codeCriteria.andCategoryEqualTo("MAINTAIN_PLAN_UNIT");
 		codeCriteria.andDeleteFlagEqualTo(Boolean.FALSE);
 		List<EamCodeValue> units = eamCodeValueService.selectByExample(eamCodeValueExample);
-		modelMap.addAttribute("units", units);
+		map.put("units", JspUtil.getMapList(units,"codeValue","codeName"));
 	}
 
 	public int getCurrUserId(){

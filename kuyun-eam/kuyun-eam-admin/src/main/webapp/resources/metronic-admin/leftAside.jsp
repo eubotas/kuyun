@@ -191,7 +191,7 @@
                     <ul class="m-menu__subnav">
 
                         <li class="m-menu__item " aria-haspopup="true" >
-                            <a  href="../components/buttons/group.html" class="m-menu__link ">
+                            <a  href="${eamPath}/manage/maintainPlan/index" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>
