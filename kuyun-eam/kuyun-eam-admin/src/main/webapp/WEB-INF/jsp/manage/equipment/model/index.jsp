@@ -90,9 +90,6 @@
 								</h3>
 							</div>
 						</div>
-
-
-
 					</div>
 
 
@@ -258,22 +255,22 @@
 
         $("#add_dataType_analog, #edit_dataType_analog, #add_dataType_digital, #edit_dataType_digital").change(function () {
 
-            if ($("#add_dataType_analog").is(":checked")) {
+            if ($("#add_dataType_analog, #edit_dataType_analog").is(":checked")) {
                 $('#displayType').show();
             }
-            if ($("#edit_dataType_analog").is(":checked")) {
-                $('#displayType').show();
-            }
+//            if ($("#edit_dataType_analog").is(":checked")) {
+//                $('#displayType').show();
+//            }
 
-            if ($("#add_dataType_digital").is(":checked")) {
+            if ($("#add_dataType_digital, #edit_dataType_digital").is(":checked")) {
                 $('#displayType').hide();
                 $('input[type="radio"][name="displayType"]').prop('checked', false);
             }
 
-            if ($("#edit_dataType_digital").is(":checked")) {
-                $('#displayType').hide();
-                $('input[type="radio"][name="displayType"]').prop('checked', false);
-            }
+//            if ($("#edit_dataType_digital").is(":checked")) {
+//                $('#displayType').hide();
+//                $('input[type="radio"][name="displayType"]').prop('checked', false);
+//            }
 
         });
 
@@ -286,17 +283,28 @@
 				if (responseData) {
 					var data = responseData;
 
-					for(var i = 0; i < data.rows.length; i++){
-
-					    var row = data.rows[i];
+                    $.each(data.rows, function(index, row) {
 
                         var html = '<li class="m-nav__item">' +
-									'<a href="javascript:void(0)" class="m-nav__link" onclick="showModelPropertis(' + row.equipmentModelId +')"> ' +
-										'<span class="m-nav__link-text">' + row.name + '</span>' +
-									'</a></li>';
+                            '<a href="javascript:void(0)" class="m-nav__link" onclick="showModelPropertis(' + row.equipmentModelId +')"> ' +
+                            '<span class="m-nav__link-text">' + row.name + '</span>' +
+                            '</a></li>';
 
                         $("#models").append(html);
-					}
+
+                    });
+
+//					for(var i = 0; i < data.rows.length; i++){
+//
+//					    var row = data.rows[i];
+//
+//                        var html = '<li class="m-nav__item">' +
+//									'<a href="javascript:void(0)" class="m-nav__link" onclick="showModelPropertis(' + row.equipmentModelId +')"> ' +
+//										'<span class="m-nav__link-text">' + row.name + '</span>' +
+//									'</a></li>';
+//
+//                        $("#models").append(html);
+//					}
 				}
 			});
 		}
@@ -308,6 +316,20 @@
             }
         };
 	}();
+
+    function showModelPropertis(id) {
+        $('#equipmentModelId').val(id);
+        refreshTable();
+    }
+
+    function refreshTable() {
+        var id = $('#equipmentModelId').val();
+        var opt = {
+            url: "${basePath}/manage/equipment/model/property/list/"+id
+        };
+
+        $table.bootstrapTable('refresh', opt);
+    }
 
 
     toastr.options = {
@@ -365,25 +387,6 @@
             '<a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-success m-btn--icon m-btn--icon-only m-btn--pill" title="读写指令">	<i class="la la-recycle"></i>	</a>',
             '<a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="报警设定">	<i class="la la-bell"></i>	</a>'
         ].join('');
-    }
-
-
-    function showModelPropertis(id) {
-        $("#createButton").removeAttr('disabled');
-        $("#deleteButton").removeAttr('disabled');
-
-        $('#equipmentModelId').val(id);
-
-        refreshTable();
-    }
-    
-    function refreshTable() {
-        var id = $('#equipmentModelId').val();
-        var opt = {
-            url: "${basePath}/manage/equipment/model/property/list/"+id
-        };
-
-        $table.bootstrapTable('refresh', opt);
     }
 
     var FormWidgets = function () {
@@ -492,19 +495,19 @@
         console.log($("#edit_name").val());
         console.log($("#edit_unit").val());
 
-//        if ('analog' == data.dataType) {
-//            $("edit_dataType_analog").prop('checked', true);
-//        } else if ('digital' == data.dataType) {
-//            $("edit_dataType_digital").prop('checked', true);
-//        }
-//
-//        if ('pie' == data.displayType) {
-//            $("edit_displayType_pie").prop('checked', true);
-//        } else if ('led' == data.displayType) {
-//            $("edit_displayType_led").prop('checked', true);
-//        } else if ('guage' == data.displayType) {
-//            $("edit_displayType_guage").prop('checked', true);
-//        }
+        if ('analog' == data.dataType) {
+            $("edit_dataType_analog").prop('checked', true);
+        } else if ('digital' == data.dataType) {
+            $("edit_dataType_digital").prop('checked', true);
+        }
+
+        if ('pie' == data.displayType) {
+            $("edit_displayType_pie").prop('checked', true);
+        } else if ('led' == data.displayType) {
+            $("edit_displayType_led").prop('checked', true);
+        } else if ('guage' == data.displayType) {
+            $("edit_displayType_guage").prop('checked', true);
+        }
     }
 
     window.actionEvents = {

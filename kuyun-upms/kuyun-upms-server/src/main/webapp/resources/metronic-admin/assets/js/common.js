@@ -179,6 +179,7 @@ function loadHtmlTemplate(jQuery, prefix, el) {
 
 function applyTemplate(jQuery, templateID, prefix, data, options, targetEl) {
     prefix = ifNull(prefix, '');
+    console.log((prefix+templateID));
     jQuery.template((prefix+templateID), loadHtmlTemplate(jQuery, prefix, jQuery(templateID)));
     return jQuery.tmpl((prefix+templateID), data, options).appendTo(targetEl);
 }
