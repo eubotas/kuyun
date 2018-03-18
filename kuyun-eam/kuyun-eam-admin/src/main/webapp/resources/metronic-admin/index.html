@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<div data-include="head"></div>
+
+<body class="m-page--fluid m--skin- m-content--skin-light2 m-header--fixed m-header--fixed-mobile m-aside-left--enabled m-aside-left--skin-dark m-aside-left--offcanvas m-footer--push m-aside--offcanvas-default"  >
+	<!-- begin:: Page -->
+		<div class="m-grid m-grid--hor m-grid--root m-page">
+			<div data-include="header"></div>
+			<div data-include="body"></div>
+			
+			<div data-include="footer"></div>
+			
+			
+			
+			
+		</div>
+	<!-- end:: Page -->
+	    <div data-include="quickSidebar"></div>
+		<div data-include="scrollTop"></div>
+		<div data-include="quickNav"></div>
+		<div data-include="baseScripts"></div>
+		<div data-include="pageResources"></div>
+		
+</body>
+
+
+
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+
+<script>
+  $(function(){
+    var includes = $('[data-include]');
+    jQuery.each(includes, function(){
+      var file = 'views/' + $(this).data('include') + '.html';
+      $(this).load(file);
+    });
+  });
+</script>
+
+
+</html>

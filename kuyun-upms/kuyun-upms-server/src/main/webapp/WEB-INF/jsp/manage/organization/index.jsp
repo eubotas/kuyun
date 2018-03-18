@@ -90,14 +90,14 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
+                        <div class="form-group m-form__group">
                             <label for="templateID_name" class="form-control-label">
                                 名称:*
                             </label>
                             <input type="text" class="form-control" id="templateID_name" name="name">
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group m-form__group">
                             <label for="templateID_description" class="form-control-label">
                                 描述:*
                             </label>
