@@ -14,6 +14,7 @@ create table fd_files
    moudle_name          varchar(500) comment '模块名，文件会存放在以模块名相同的子目录下',
    oss_id               int comment 'oss信息',
    organization_id      int,
+   company_id           int,
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,
@@ -26,6 +27,7 @@ create table fd_oss_files
 (
    id                   int not null auto_increment,
 # TODO: add related fields, like policy
+   company_id           int,
    organization_id      int,
    create_user_id       int,
    create_time          datetime,

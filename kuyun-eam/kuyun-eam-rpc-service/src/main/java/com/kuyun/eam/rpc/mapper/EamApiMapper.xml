@@ -871,48 +871,56 @@
 		select
 		e.unit,
 		e.lable_name as data_element_name,
-		eam_grm_variable_data.value,
-		eam_grm_variable_data.update_time,
+		egvd.value,
+		egvd.update_time,
 		e.data_type,
 		e.id as data_element_id
-
-		from eam_grm_variable_data
-		LEFT JOIN eam_product_line p ON eam_grm_variable_data.product_line_id = p.product_line_id
-		LEFT JOIN eam_data_element e ON eam_grm_variable_data.data_element_id = e.id
-		LEFT JOIN eam_equipment ee ON eam_grm_variable_data.equipment_id = ee.equipment_id and ee.delete_flag = 0
-		LEFT JOIN eam_data_element_group deg ON eam_grm_variable_data.data_group_id = deg.id and deg.delete_flag = 0
-		LEFT JOIN eam_equipment_data_group edg ON eam_grm_variable_data.equipment_data_group_id = edg.id and edg.delete_flag = 0
-		WHERE eam_grm_variable_data.delete_flag = 0
-		AND p.delete_flag = 0 AND e.delete_flag = 0
+		from eam_grm_variable_data egvd,
+		eam_data_element e
+		WHERE egvd.delete_flag = 0
+		AND e.delete_flag = 0
+		AND egvd.data_element_id = e.id
 		<if test="productLineId != null and productLineId != ''">
-			AND eam_grm_variable_data.product_line_id = #{productLineId}
+			AND egvd.product_line_id = #{productLineId}
 		</if>
 
 		<if test="equipmentIdIsNull != null">
-			AND eam_grm_variable_data.equipment_id IS NULL
+			AND egvd.equipment_id is null
+			AND egvd.data_element_id in (
+				select egv.data_element_id from eam_grm_variable egv
+				where egv.product_line_id = #{productLineId} and egv.equipment_id is null and egv.delete_flag = 0
+			)
 		</if>
 
 		<if test="equipmentId != null and equipmentId != ''">
-			AND eam_grm_variable_data.equipment_id = #{equipmentId}
+			AND egvd.equipment_id = #{equipmentId}
+			AND egvd.data_element_id in (
+				select egv.data_element_id from eam_grm_variable egv
+				where egvd.product_line_id = egv.product_line_id
+				and egvd.equipment_id = egv.equipment_id
+				and egvd.data_group_id = egv.data_group_id
+				and egvd.equipment_data_group_id = egv.equipment_data_group_id
+				and egv.delete_flag = 0
+			)
 		</if>
 
 		<if test="dataGroupId != null and dataGroupId != ''">
-			AND eam_grm_variable_data.data_group_id = #{dataGroupId}
+			AND egvd.data_group_id = #{dataGroupId}
 		</if>
 
 		<if test="equipmentDataGroupId != null and equipmentDataGroupId != ''">
-			AND eam_grm_variable_data.equipmentDataGroupId = #{equipmentDataGroupId}
+			AND egvd.equipmentDataGroupId = #{equipmentDataGroupId}
 		</if>
 
 		<if test="dataElementId != null and dataElementId != ''">
-			AND eam_grm_variable_data.data_element_id = #{dataElementId}
+			AND egvd.data_element_id = #{dataElementId}
 		</if>
 
 		<if test="startDate != null">
-			AND eam_grm_variable_data.update_time <![CDATA[>=]]> #{startDate}
+			AND egvd.update_time <![CDATA[>=]]> #{startDate}
 		</if>
 		<if test="endDate != null">
-			AND eam_grm_variable_data.update_time <![CDATA[<=]]>#{endDate}
+			AND egvd.update_time <![CDATA[<=]]>#{endDate}
 		</if>
 		<if test="orderByClause != null">
 			order by ${orderByClause}
@@ -937,46 +945,54 @@
 	<select id="selectEamGrmVariableDataHistories" parameterType="com.kuyun.eam.vo.EamGrmVariableDataHistoryVO" resultMap="EamGrmVariableDataHistoryVOResultMap">
 		select
 		e.unit,
-		eam_grm_variable_data_history.value,
-		eam_grm_variable_data_history.update_time
-
-		from eam_grm_variable_data_history
-		LEFT JOIN eam_product_line p ON eam_grm_variable_data_history.product_line_id = p.product_line_id
-		LEFT JOIN eam_data_element e ON eam_grm_variable_data_history.data_element_id = e.id
-		LEFT JOIN eam_equipment ee ON eam_grm_variable_data_history.equipment_id = ee.equipment_id and ee.delete_flag = 0
-		LEFT JOIN eam_data_element_group deg ON eam_grm_variable_data_history.data_group_id = deg.id and deg.delete_flag = 0
-		LEFT JOIN eam_equipment_data_group edg ON eam_grm_variable_data_history.equipment_data_group_id = edg.id and edg.delete_flag = 0
-		WHERE eam_grm_variable_data_history.delete_flag = 0
-		AND p.delete_flag = 0 AND e.delete_flag = 0
+		egvdh.value,
+		egvdh.update_time
+		from eam_grm_variable_data_history egvdh,
+		eam_data_element e
+		WHERE egvdh.delete_flag = 0
+		AND e.delete_flag = 0
+		AND egvdh.data_element_id = e.id
 		<if test="productLineId != null and productLineId != ''">
-			AND eam_grm_variable_data_history.product_line_id = #{productLineId}
+			AND egvdh.product_line_id = #{productLineId}
 		</if>
 
 		<if test="equipmentIdIsNull != null">
-			AND eam_grm_variable_data_history.equipment_id IS NULL
+			AND egvdh.equipment_id IS NULL
+			AND egvdh.data_element_id in (
+			select egv.data_element_id from eam_grm_variable egv
+			where egv.product_line_id = #{productLineId} and egv.equipment_id is null and egv.delete_flag = 0
+			)
 		</if>
 
 		<if test="equipmentId != null and equipmentId != ''">
-			AND eam_grm_variable_data_history.equipment_id = #{equipmentId}
+			AND egvdh.equipment_id = #{equipmentId}
+			AND egvdh.data_element_id in (
+			select egv.data_element_id from eam_grm_variable egv
+			where egvdh.product_line_id = egv.product_line_id
+			and egvdh.equipment_id = egv.equipment_id
+			and egvdh.data_group_id = egv.data_group_id
+			and egvdh.equipment_data_group_id = egv.equipment_data_group_id
+			and egv.delete_flag = 0
+			)
 		</if>
 
 		<if test="dataGroupId != null and dataGroupId != ''">
-			AND eam_grm_variable_data_history.data_group_id = #{dataGroupId}
+			AND egvdh.data_group_id = #{dataGroupId}
 		</if>
 
 		<if test="equipmentDataGroupId != null and equipmentDataGroupId != ''">
-			AND eam_grm_variable_data_history.equipmentDataGroupId = #{equipmentDataGroupId}
+			AND egvdh.equipmentDataGroupId = #{equipmentDataGroupId}
 		</if>
 
 		<if test="dataElementId != null and dataElementId != ''">
-			AND eam_grm_variable_data_history.data_element_id = #{dataElementId}
+			AND egvdh.data_element_id = #{dataElementId}
 		</if>
 
 		<if test="startDate != null">
-			AND eam_grm_variable_data_history.update_time <![CDATA[>=]]> #{startDate}
+			AND egvdh.update_time <![CDATA[>=]]> #{startDate}
 		</if>
 		<if test="endDate != null">
-			AND eam_grm_variable_data_history.update_time <![CDATA[<=]]>#{endDate}
+			AND egvdh.update_time <![CDATA[<=]]>#{endDate}
 		</if>
 		<if test="orderByClause != null">
 			order by ${orderByClause}

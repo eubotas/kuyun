@@ -46,7 +46,7 @@ public class EamGrmVariableDataController extends BaseController {
 	private List<EamGrmVariableDataExtVO> getGrmVariableData(EamGrmVariableDataVO eamGrmVariableDataVO) {
 
 		if (eamGrmVariableDataVO.getOrderByClause() == null){
-			eamGrmVariableDataVO.setOrderByClause("eam_grm_variable_data.update_time desc");
+			eamGrmVariableDataVO.setOrderByClause("egvd.update_time desc");
 		}
 
 

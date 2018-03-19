@@ -57,7 +57,7 @@ public class EamGrmVariableDataHistoryController extends BaseController {
 	private List<EamGrmVariableDataHistoryExtVO> getGrmVariableHistoryData(EamGrmVariableDataHistoryVO eamGrmVariableDataHistoryVO) {
 
 		if (eamGrmVariableDataHistoryVO.getOrderByClause() == null){
-			eamGrmVariableDataHistoryVO.setOrderByClause("eam_grm_variable_data_history.update_time desc");
+			eamGrmVariableDataHistoryVO.setOrderByClause("egvdh.update_time desc");
 		}
 
 
