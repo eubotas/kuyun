@@ -90,28 +90,28 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label for="templateID_name">公司名称</label>
+                        <div class="form-group m-form__group">
+                            <label for="templateID_name" class="form-control-label">公司名称</label>
                             <input id="templateID_name" type="text" class="form-control" name="name" maxlength="50" value="${company.name}">
                         </div>
-                        <div class="form-group">
-                            <label for="templateID_address">地址</label>
+                        <div class="form-group m-form__group">
+                            <label for="templateID_address" class="form-control-label">地址</label>
                             <input id="templateID_address" type="text" class="form-control" name="address" maxlength="50" value="${company.address}">
                         </div>
-                        <div class="form-group">
-                            <label for="templateID_phone">电话</label>
+                        <div class="form-group m-form__group">
+                            <label for="templateID_phone" class="form-control-label">电话</label>
                             <input id="templateID_phone" type="text" class="form-control" name="phone" maxlength="15" value="${company.phone}">
                         </div>
-                        <div class="form-group">
-                            <label for="templateID_fax">传真</label>
+                        <div class="form-group m-form__group">
+                            <label for="templateID_fax" class="form-control-label">传真</label>
                             <input id="templateID_fax" type="text" class="form-control" name="fax" maxlength="15" value="${company.fax}">
                         </div>
-                        <div class="form-group">
-                            <label for="templateID_zip">邮编</label>
+                        <div class="form-group m-form__group">
+                            <label for="templateID_zip" class="form-control-label">邮编</label>
                             <input id="templateID_zip" type="text" class="form-control" name="zip" maxlength="10" value="${company.zip}">
                         </div>
-                        <div class="form-group">
-                            <label for="templateID_www">网址</label>
+                        <div class="form-group m-form__group">
+                            <label for="templateID_www" class="form-control-label">网址</label>
                             <input id="templateID_www" type="text" class="form-control" name="www" maxlength="15" value="${company.www}">
                         </div>
                     </div>
@@ -144,6 +144,7 @@
             $('.modal').on('hidden.bs.modal', function(e)
             {
                 //$(this).find('#add_Form')[0].reset();
+                //jQuery("#add_Form").validate().resetForm();
             }) ;
             applyTemplate(jQuery, '#template-org-addEditForm', 'add_', null, null, jQuery('#addCompanyFormContainer'));
             applyTemplate(jQuery, '#template-org-addEditForm', 'edit_', null, null, jQuery('#editCompanyFormContainer'));
@@ -152,7 +153,6 @@
 
             $('#createButton').click(function(){
                 $("#addCompanyFormContainer").modal("show");
-                jQuery("#addCompanyFormContainer").validate().resetForm();
             });
 
             $('#deleteButton').click(function(){
@@ -264,8 +264,6 @@
 
         function updateAction(row) {
             jQuery("#editCompanyFormContainer").modal("show");
-            jQuery("#editCompanyFormContainer").validate().resetForm();
-
             ajaxGet('${basePath}/manage/company/update/' + row["companyId"], function (responseData) {
                 if (responseData) {
                     var data = responseData;
