@@ -194,7 +194,7 @@
                     {field: 'name', title: '角色名称'},
                     {field: 'title', title: '角色标题'},
                     {field: 'description', title: '角色描述'},
-                    {field: 'action', width: 100, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
+                    {field: 'action', width: 120, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ]
             });
         });

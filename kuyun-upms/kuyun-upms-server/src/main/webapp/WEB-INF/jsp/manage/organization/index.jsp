@@ -121,6 +121,49 @@
     </div>
     <!--end::Modal-->
 
+    <div id="assignPersonDialog" class="crudDialog modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <form id="personForm" class="m-form m-form--fit m-form--label-align-right">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="form-group text-right dialog-buttons">
+                    <button type="button" onclick="assignPersonSubmit();" class="btn btn-primary" >确认分配</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"> 取消 </button>
+                </div>
+
+                <div>
+                    <table id="tableStaff"></table>
+                </div>
+
+                <div class="form-group text-right dialog-buttons">
+                    <button type="button" onclick="assignPersonSubmit();" class="btn btn-primary" >确认分配</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"> 取消 </button>
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+
+    <div id="assignRoleDialog" class="crudDialog modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <form id="roleForm" class="m-form m-form--fit m-form--label-align-right">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="form-group text-right dialog-buttons">
+                        <button type="button" onclick="assignRoleSubmit();" class="btn btn-primary" >确认分配角色</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"> 取消 </button>
+                    </div>
+
+                    <div>
+                        <table id="tableRole"></table>
+                    </div>
+
+                    <div class="form-group text-right dialog-buttons">
+                        <button type="button" onclick="assignRoleSubmit();" class="btn btn-primary" >确认分配角色</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"> 取消 </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 
 </content>
 
@@ -178,7 +221,7 @@
                     {field: 'ck', checkbox: true},
                     {field: 'name', title: '部门名称'},
                     {field: 'description', title: '部门描述'},
-                    {field: 'action', width: 100, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
+                    {field: 'action', width: 150, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ]
             });
         });
@@ -186,7 +229,9 @@
         function actionFormatter(value, row, index) {
             return [
                 '<shiro:hasPermission name="upms:organization:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="upms:organization:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>'
+                '<shiro:hasPermission name="upms:organization:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="upms:organization:delete"><a id="assignPerson" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="分配人员">	<i class="la la-trash"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="upms:organization:delete"><a id="assignRole" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="分配角色">	<i class="la la-trash"></i>	</a></shiro:hasPermission>'
             ].join('');
         }
 
@@ -266,7 +311,16 @@
         window.actionEvents = {
             'click #update': function (e, value, row, index) {
                 updateAction(row);
-
+            },
+            'click #assignPerson': function (e, value, row, index) {
+                jQuery("#personForm").validate().resetForm();
+                selectOrgId = row["organizationId"];
+                assignPersonAction(selectOrgId);
+            },
+            'click #assignRole': function (e, value, row, index) {
+                jQuery("#roleForm").validate().resetForm();
+                selectOrgId = row["organizationId"];
+                assignRoleAction(selectOrgId);
             },
             'click #delete': function (e, value, row, index) {
                 var rows = new Array();
@@ -291,7 +345,164 @@
     </script>
 
 
+    <script>
+        var tableStaff = $('#tableStaff');
+        var selectOrgId;
+        function assignPersonAction(orgId) {
+            $("#assignPersonDialog").modal("show");
+            tableStaff.bootstrapTable({
+                url: '${basePath}/manage/organization/assign/'+orgId+'/listStaff',
+                queryParams:function(p){
+                    return {    orgId : orgId,
+                        limit : p.limit,
+                        offset: p.offset,
+                        search: p.search,
+                        sort:   p.sort,
+                        order:  p.order
+                    }
+                },
+                striped: true,
+                minimumCountColumns: 2,
+                clickToSelect: true,
+                detailFormatter: 'detailFormatter',
+                pagination: true,
+                paginationLoop: false,
+                sidePagination: 'server',
+                silentSort: false,
+                smartDisplay: false,
+                escape: true,
+                searchOnEnterKey: true,
+                idField: 'userId',
+                maintainSelected: true,
+                columns: [
+                    {field: 'ck', checkbox: true,  formatter : checkFormatter},
+                    {field: 'realname', title: '姓名', sortable: true, align: 'center'},
+                    {field: 'phone', title: '电话号码'},
+                    {field: 'email', title: 'Email地址', align: 'center'}
+                ]
+            });
+        }
 
+        function checkFormatter(value, row, index) {
+            if (row.checked == true)
+                return {
+                    disabled : false,//设置是否可用
+                    checked : true//设置选中
+                };
+            return value;
+        }
+
+        function assignPersonSubmit() {
+            var rows = tableStaff.bootstrapTable('getSelections');
+            if(!selectOrgId)
+                swWarn('出错了, 请刷新重试！');
+            else if (rows.length == 0) {
+                swWarn('请至少选择一条记录！');
+            }else {
+                var ids = new Array();
+                for (var i in rows) {
+                    if (rows[i].userId == null){
+                        alert("请选择一记录！");
+                        return false;
+                    }
+                }
+                for (var i in rows) {
+                    ids.push(rows[i].userId);
+                }
+
+                ajaxPostData('${basePath}/manage/organization/assign/'+selectOrgId, {orgId: selectOrgId, eIds: ids.join("::")}, function(result) {
+                    if (result.code != 1) {
+                        if (result.data instanceof Array) {
+                            $.each(result.data, function(index, value) {
+                                swError(value.errorMsg);
+                            });
+                        } else {
+                            swError(result.data.errorMsg);
+                        }
+                    } else {
+                        $('#assignPersonDialog').modal('toggle');
+                        $table.bootstrapTable('refresh');
+                    }
+                });
+            }//end else
+        }
+
+    </script>
+
+    <script>
+        var tableRole = $('#tableRole');
+        function assignRoleAction(orgId) {
+            $("#assignRoleDialog").modal("show");
+            // bootstrap table初始化
+            tableRole.bootstrapTable({
+                url: '${basePath}/manage/organization/assignRole/'+orgId+'/listRole',
+                queryParams:function(p){
+                    return {    orgId : orgId,
+                        limit : p.limit,
+                        offset: p.offset,
+                        search: p.search,
+                        sort:   p.sort,
+                        order:  p.order
+                    }
+                },
+                striped: true,
+                minimumCountColumns: 2,
+                clickToSelect: true,
+                detailFormatter: 'detailFormatter',
+                pagination: true,
+                paginationLoop: false,
+                sidePagination: 'server',
+                silentSort: false,
+                smartDisplay: false,
+                escape: true,
+                searchOnEnterKey: true,
+                idField: 'roleId',
+                maintainSelected: true,
+                columns: [
+                    {field: 'ck', checkbox: true,  formatter : checkFormatter},
+                    {field: 'name', title: '角色名', sortable: true, align: 'center'},
+                    {field: 'title', title: '角色标题'},
+                    {field: 'description', title: '角色描述', align: 'center'}
+                ]
+            });
+        }
+
+        function assignRoleSubmit() {
+            var rows = tableRole.bootstrapTable('getSelections');
+            if(!selectOrgId)
+                swWarn('出错了, 请刷新重试！');
+            else if (rows.length == 0) {
+                swWarn('请至少选择一条记录！');
+            }else {
+                var ids = new Array();
+                for (var i in rows) {
+                    if (rows[i].roleId == null){
+                        alert("请选择一记录！");
+                        return false;
+                    }
+                }
+                for (var i in rows) {
+                    ids.push(rows[i].roleId);
+                }
+
+                ajaxPostData('${basePath}/manage/organization/assignRole/'+selectOrgId, {orgId: selectOrgId, eIds: ids.join("::")}, function(result) {
+                    if (result.code != 1) {
+                        if (result.data instanceof Array) {
+                            $.each(result.data, function(index, value) {
+                                swError(value.errorMsg);
+                            });
+                        } else {
+                            swError(result.data.errorMsg);
+                        }
+                    } else {
+                        $('#assignRoleDialog').modal('toggle');
+                        $table.bootstrapTable('refresh');
+                    }
+                });
+            }//end else
+        }
+
+    </script>
 </pageResources>
 
 

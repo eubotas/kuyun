@@ -39,6 +39,28 @@ function ajaxPost(targetUrl, formId, callSuccess, callValidate, callError)
     });
 }
 
+function ajaxPostData(targetUrl, data, callSuccess, callValidate, callError)
+{
+    $.ajax({
+        type: 'post',
+        url: targetUrl,
+        data: data,
+        beforeSend: function () {
+            if(callValidate)
+                return callValidate();
+        },
+        success: function (result) {
+            callSuccess(result);
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            if(callError)
+                callError(XMLHttpRequest, textStatus);
+            else
+                swWarn(textStatus);
+        }
+    });
+}
+
 function ajaxGet(targetUrl, callSuccess, callError)
 {
     $.ajax({
