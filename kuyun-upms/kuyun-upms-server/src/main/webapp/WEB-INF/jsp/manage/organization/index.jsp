@@ -49,13 +49,15 @@
         <div class="m-portlet__body">
             <div id="toolbar">
                 <div>
+                    <shiro:hasPermission name="upms:organization:create">
                     <a href="#" id="createButton" class="btn btn-outline-primary m-btn m-btn--icon m-btn--icon-only" title="新建">
                         <i class="la la-plus"></i>
-                    </a>
+                    </a></shiro:hasPermission>
 
+                    <shiro:hasPermission name="upms:organization:delete">
                     <a href="#" id="deleteButton" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only" title="删除">
                         <i class="la la-remove"></i>
-                    </a>
+                    </a></shiro:hasPermission>
 
                     <div class="m-separator m-separator--dashed d-xl-none"></div>
                 </div>
@@ -183,8 +185,8 @@
         // 格式化操作按钮
         function actionFormatter(value, row, index) {
             return [
-                '<a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a>',
-                '<a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a>'
+                '<shiro:hasPermission name="upms:organization:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="upms:organization:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>'
             ].join('');
         }
 

@@ -98,13 +98,17 @@
 						<div id="toolbar">
 							<div>
 								<span>&nbsp;</span>
+                                <shiro:hasPermission name="eam:equipmentModel:create">
 								<button id="createButton" class="btn btn-outline-primary m-btn m-btn--icon m-btn--icon-only" title="新建">
 									<i class="la la-plus"></i>
 								</button>
+                                </shiro:hasPermission>
 
+                                <shiro:hasPermission name="eam:equipmentModel:delete">
 								<button id="deleteButton" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only" title="删除">
 									<i class="la la-remove"></i>
 								</button>
+                                </shiro:hasPermission>
 								<div class="m-separator m-separator--dashed d-xl-none"></div>
 							</div>
 						</div>
@@ -235,7 +239,7 @@
         EquipmentModels.init();
 
         applyTemplate(jQuery, '#template-modelProperty-addEditForm', 'add_', null, null, jQuery('#addModelPropertyFormContainer'));
-        applyTemplate(jQuery, '#template-ModelProperty-addEditForm', 'edit_', null, null, jQuery('#editModelPropertyFormContainer'));
+        applyTemplate(jQuery, '#template-modelProperty-addEditForm', 'edit_', null, null, jQuery('#editModelPropertyFormContainer'));
         FormWidgets.init('add');
         FormWidgets.init('edit');
 
@@ -471,8 +475,6 @@
         $("#editModelPropertyFormContainer").modal("show");
 
         console.log(1122);
-
-//        $("#addModelPropertyFormContainer").modal("show");
 
         <%--get('${basePath}/manage/equipment/model/property/update/' + row["equipmentModelPropertyId"], function (responseData) {--%>
             <%--if (responseData) {--%>

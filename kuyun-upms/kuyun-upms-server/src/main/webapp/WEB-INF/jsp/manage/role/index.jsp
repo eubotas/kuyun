@@ -49,13 +49,15 @@
         <div class="m-portlet__body">
             <div id="toolbar">
                 <div>
+                    <shiro:hasPermission name="upms:role:create">
                     <a href="#" id="createButton" class="btn btn-outline-primary m-btn m-btn--icon m-btn--icon-only" title="新建">
                         <i class="la la-plus"></i>
-                    </a>
+                    </a></shiro:hasPermission>
 
+                    <shiro:hasPermission name="upms:role:delete">
                     <a href="#" id="deleteButton" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only" title="删除">
                         <i class="la la-remove"></i>
-                    </a>
+                    </a></shiro:hasPermission>
 
                     <div class="m-separator m-separator--dashed d-xl-none"></div>
                 </div>
@@ -90,19 +92,19 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
+                        <div class="form-group m-form__group">
                             <label for="templateID_name" class="form-control-label">
                                 名称:*
                             </label>
                             <input type="text" class="form-control" id="templateID_name" name="name">
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group m-form__group">
                             <label for="templateID_title">标题</label>
                             <input id="templateID_title" type="text" class="form-control" name="title" maxlength="20">
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group m-form__group">
                             <label for="templateID_description">描述</label>
                             <input id="templateID_description" type="text" class="form-control" name="description" maxlength="300">
                         </div>
@@ -122,7 +124,18 @@
     </div>
     <!--end::Modal-->
 
-
+    <div id="permissionDialog" class="modal fade crudDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">>
+        <form id="permissionForm" method="post">
+            <div class="form-group">
+                <ul id="ztree" class="ztree"></ul>
+            </div>
+            <div class="form-group text-right dialog-buttons">
+                <a class="waves-effect waves-button" href="javascript:;" onclick="permissionSubmit();">保存</a>
+                <a class="waves-effect waves-button" href="javascript:;" onclick="permissionDialog.close();">取消</a>
+            </div>
+        </form>
+    </div>
 </content>
 
 
@@ -188,8 +201,9 @@
         // 格式化操作按钮
         function actionFormatter(value, row, index) {
             return [
-                '<a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a>',
-                '<a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a>'
+                '<shiro:hasPermission name="upms:role:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="upms:role:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="upms:role:permission"><a id="assignPermission" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="分配权限">	<i class="la la-edit"></i>	</a></shiro:hasPermission>'
             ].join('');
         }
 
@@ -276,7 +290,15 @@
                 var rows = new Array();
                 rows.push(row);
                 deleteActionImpl(rows);
+            },
+            'click #assignPermission': function (e, value, row, index) {
+                if (!row) {
+                    swWarn("请至少选择一条记录");
+                }else {
+                    loadTree(row.roleId);
+                }
             }
+
         };
 
         function deleteAction(){
@@ -295,7 +317,105 @@
     </script>
 
 
+    <script>
+        function loadTree(roleId) {
+            $("#permissionDialog").modal("show");
+            var changeDatas = [];
+            var setting = {
+                check: {
+                    enable: true,
+                    // 勾选关联父，取消关联子
+                    chkboxType: { "Y" : "p", "N" : "s" }
+                },
+                async: {
+                    enable: true,
+                    url: '${basePath}/manage/permission/role/' + roleId
+                },
+                data: {
+                    simpleData: {
+                        enable: true
+                    }
+                },
+                callback: {
+                    onCheck: function() {
+                        var zTree = $.fn.zTree.getZTreeObj("ztree")
+                        var changeNodes = zTree.getChangeCheckedNodes();
+                        for (var i = 0; i < changeNodes.length; i ++) {
+                            var changeData = {};
+                            changeData.id = changeNodes[i].id;
+                            changeData.checked = changeNodes[i].checked;
+                            changeDatas.push(changeData);
+                        }
+                    }
+                }
+            };
 
+            $.fn.zTree.init($('#ztree'), setting);
+        }
+
+        function permissionSubmit() {
+            $.ajax({
+                type: 'post',
+                url: '${basePath}/manage/role/permission/' + roleId,
+                data: {datas: JSON.stringify(changeDatas), roleId: roleId},
+                success: function(result) {
+                    if (result.code != 1) {
+                        if (result.data instanceof Array) {
+                            $.each(result.data, function(index, value) {
+                                $.confirm({
+                                    theme: 'dark',
+                                    animation: 'rotateX',
+                                    closeAnimation: 'rotateX',
+                                    title: false,
+                                    content: value.errorMsg,
+                                    buttons: {
+                                        confirm: {
+                                            text: '确认',
+                                            btnClass: 'waves-effect waves-button waves-light'
+                                        }
+                                    }
+                                });
+                            });
+                        } else {
+                            $.confirm({
+                                theme: 'dark',
+                                animation: 'rotateX',
+                                closeAnimation: 'rotateX',
+                                title: false,
+                                content: result.data.errorMsg,
+                                buttons: {
+                                    confirm: {
+                                        text: '确认',
+                                        btnClass: 'waves-effect waves-button waves-light'
+                                    }
+                                }
+                            });
+                        }
+                    } else {
+                        permissionDialog.close();
+                        $table.bootstrapTable('refresh');
+                    }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    $.confirm({
+                        theme: 'dark',
+                        animation: 'rotateX',
+                        closeAnimation: 'rotateX',
+                        title: false,
+                        content: textStatus,
+                        buttons: {
+                            confirm: {
+                                text: '确认',
+                                btnClass: 'waves-effect waves-button waves-light'
+                            }
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+
+    <script src="${basePath}/resources/kuyun-admin/plugins/zTree_v3/js/jquery.ztree.all.min.js"></script>
 </pageResources>
 
 

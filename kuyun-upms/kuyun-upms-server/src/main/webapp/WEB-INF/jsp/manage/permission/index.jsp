@@ -49,13 +49,15 @@
         <div class="m-portlet__body">
             <div id="toolbar">
                 <div>
+                    <shiro:hasPermission name="upms:permission:create">
                     <a href="#" id="createButton" class="btn btn-outline-primary m-btn m-btn--icon m-btn--icon-only" title="新建">
                         <i class="la la-plus"></i>
-                    </a>
+                    </a></shiro:hasPermission>
 
+                    <shiro:hasPermission name="upms:permission:delete">
                     <a href="#" id="deleteButton" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only" title="删除">
                         <i class="la la-remove"></i>
-                    </a>
+                    </a></shiro:hasPermission>
 
                     <div class="m-separator m-separator--dashed d-xl-none"></div>
                 </div>
@@ -90,21 +92,21 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="radio">
+                        <div class="radio  m-form__group">
                             <div class="radio radio-inline radio-success">
                                 <input id="templateID_type_1" type="radio" name="type" value="1" checked>
-                                <label for="templateID_type_1">目录 </label>
+                                <label for="templateID_type_1" class="form-control-label">目录 </label>
                             </div>
                             <div class="radio radio-inline radio-info">
                                 <input id="templateID_type_2" type="radio" name="type" value="2">
-                                <label for="templateID_type_2">菜单 </label>
+                                <label for="templateID_type_2" class="form-control-label">菜单 </label>
                             </div>
                             <div class="radio radio-inline radio-warning">
                                 <input id="templateID_type_3" type="radio" name="type" value="3">
-                                <label for="templateID_type_3">按钮 </label>
+                                <label for="templateID_type_3" class="form-control-label">按钮 </label>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group m-form__group">
                             <span class="type1 type2 type3">
                                 <select id="templateID_systemId" name="systemId">
                                 </select>
@@ -115,30 +117,30 @@
                                 </select>
                             </span>
                         </div>
-                        <div class="form-group">
-                            <label for="templateID_name">名称</label>
+                        <div class="form-group m-form__group">
+                            <label for="templateID_name" class="form-control-label">名称</label>
                             <input id="templateID_name" type="text" class="form-control" name="name" maxlength="20">
                         </div>
-                        <div class="form-group type2 type3" hidden>
-                            <label for="templateID_permissionValue">权限值</label>
+                        <div class="form-group m-form__group type2 type3" hidden>
+                            <label for="templateID_permissionValue" class="form-control-label">权限值</label>
                             <input id="templateID_permissionValue" type="text" class="form-control" name="permissionValue" maxlength="50">
                         </div>
-                        <div class="form-group type2 type3" hidden>
-                            <label for="templateID_uri">路径</label>
+                        <div class="form-group  m-form__group type2 type3" hidden>
+                            <label for="templateID_uri" class="form-control-label">路径</label>
                             <input id="templateID_uri" type="text" class="form-control" name="uri" maxlength="100">
                         </div>
-                        <div class="form-group type1 type3">
-                            <label for="templateID_icon">图标</label>
+                        <div class="form-group  m-form__group type1 type3">
+                            <label for="templateID_icon" class="form-control-label">图标</label>
                             <input id="templateID_icon" type="text" class="form-control" name="icon" maxlength="50" value="zmdi zmdi-widgets">
                         </div>
-                        <div class="radio">
+                        <div class="radio  m-form__group">
                             <div class="radio radio-inline radio-success">
                                 <input id="templateID_status_1" type="radio" name="status" value="1" checked>
-                                <label for="templateID_status_1">正常 </label>
+                                <label for="templateID_status_1" class="form-control-label">正常 </label>
                             </div>
                             <div class="radio radio-inline">
                                 <input id="templateID_status_0" type="radio" name="status" value="0">
-                                <label for="templateID_status_0">锁定 </label>
+                                <label for="templateID_status_0" class="form-control-label">锁定 </label>
                             </div>
                         </div>
                     </div>
@@ -228,8 +230,8 @@
         // 格式化操作按钮
         function actionFormatter(value, row, index) {
             return [
-                '<a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a>',
-                '<a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a>'
+                '<shiro:hasPermission name="upms:permission:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="upms:permission:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>'
             ].join('');
         }
 
