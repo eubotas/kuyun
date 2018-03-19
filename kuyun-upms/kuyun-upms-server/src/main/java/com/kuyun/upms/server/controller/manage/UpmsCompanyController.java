@@ -6,6 +6,7 @@ import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.upms.client.util.BaseEntityUtil;
+import com.kuyun.upms.common.JspUtil;
 import com.kuyun.upms.common.constant.UpmsResult;
 import com.kuyun.upms.common.constant.UpmsResultConstant;
 import com.kuyun.upms.dao.model.UpmsCompany;
@@ -128,10 +129,12 @@ public class UpmsCompanyController extends BaseController {
     @ApiOperation(value = "修改公司")
     @RequiresPermissions("upms:company:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-    public String update(@PathVariable("id") int id, ModelMap modelMap) {
+    @ResponseBody
+    public Object update(@PathVariable("id") int id, ModelMap modelMap) {
         UpmsCompany company = upmsCompanyService.selectByPrimaryKey(id);
-        modelMap.put("company", company);
-        return "/manage/company/update.jsp";
+        Map map=new HashMap();
+        map.put("company", company);
+        return map;
     }
 
     @ApiOperation(value = "修改公司")

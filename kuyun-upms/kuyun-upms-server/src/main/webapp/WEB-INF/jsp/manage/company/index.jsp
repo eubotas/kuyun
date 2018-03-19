@@ -1,213 +1,317 @@
-﻿<%@ page contentType="text/html; charset=utf-8"%>
-<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+﻿﻿﻿<%@ page contentType="text/html; charset=utf-8" %>
+<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>公司管理</title>
-	<jsp:include page="/resources/inc/head.jsp" flush="true"/>
+    <meta charset="utf-8"/>
 </head>
 <body>
-<div id="main">
-	<div id="toolbar">
-		<shiro:hasPermission name="upms:company:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增公司</a></shiro:hasPermission>
-		<shiro:hasPermission name="upms:company:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑公司</a></shiro:hasPermission>
-		<shiro:hasPermission name="upms:company:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()"><i class="zmdi zmdi-close"></i> 删除公司</a></shiro:hasPermission>
-	</div>
-	<table id="table"></table>
-</div>
-<jsp:include page="/resources/inc/footer.jsp" flush="true"/>
-<script>
-var $table = $('#table');
-$(function() {
-	// bootstrap table初始化
-	$table.bootstrapTable({
-		url: '${basePath}/manage/company/list',
-		height: getHeight(),
-		striped: true,
-		search: true,
-		showRefresh: true,
-		showColumns: true,
-		minimumCountColumns: 2,
-		clickToSelect: true,
-		detailView: true,
-		detailFormatter: 'detailFormatter',
-		pagination: true,
-		paginationLoop: false,
-		sidePagination: 'server',
-		silentSort: false,
-		smartDisplay: false,
-		escape: true,
-		searchOnEnterKey: true,
-		idField: 'companyId',
-		maintainSelected: true,
-		toolbar: '#toolbar',
-		columns: [
-			{field: 'ck', checkbox: true},
-			{field: 'name', title: '公司名称'},
-			{field: 'phone', title: '电话'},
-			{field: 'fax', title: '传真'},
-            {field: 'zip', title: '邮编'},
-            {field: 'www', title: '网址'},
-			{field: 'address', title: '公司地址'},
-			{field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
-		]
-	});
-});
-// 格式化操作按钮
-function actionFormatter(value, row, index) {
-    return [
-		'<a class="update" href="javascript:;" onclick="updateAction()" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>　',
-		'<a class="delete" href="javascript:;" onclick="deleteAction()" data-toggle="tooltip" title="Remove"><i class="glyphicon glyphicon-remove"></i></a>'
-    ].join('');
-}
-// 新增
-var createDialog;
-function createAction() {
-	createDialog = $.dialog({
-		animationSpeed: 300,
-		title: '新增公司',
-		content: 'url:${basePath}/manage/company/create',
-		onContentReady: function () {
-			initMaterialInput();
-		}
-	});
-}
-// 编辑
-var updateDialog;
-function updateAction() {
-	var rows = $table.bootstrapTable('getSelections');
-	if (rows.length != 1) {
-		$.confirm({
-			title: false,
-			content: '请选择一条记录！',
-			autoClose: 'cancel|3000',
-			backgroundDismiss: true,
-			buttons: {
-				cancel: {
-					text: '取消',
-					btnClass: 'waves-effect waves-button'
-				}
-			}
-		});
-	} else {
-		updateDialog = $.dialog({
-			animationSpeed: 300,
-			title: '编辑公司',
-			content: 'url:${basePath}/manage/company/update/' + rows[0].companyId,
-			onContentReady: function () {
-				initMaterialInput();
-			}
-		});
-	}
-}
-// 删除
-var deleteDialog;
-function deleteAction() {
-	var rows = $table.bootstrapTable('getSelections');
-	if (rows.length == 0) {
-		$.confirm({
-			title: false,
-			content: '请至少选择一条记录！',
-			autoClose: 'cancel|3000',
-			backgroundDismiss: true,
-			buttons: {
-				cancel: {
-					text: '取消',
-					btnClass: 'waves-effect waves-button'
-				}
-			}
-		});
-	} else {
-		deleteDialog = $.confirm({
-			type: 'red',
-			animationSpeed: 300,
-			title: false,
-			content: '确认删除该公司吗？',
-			buttons: {
-				confirm: {
-					text: '确认',
-					btnClass: 'waves-effect waves-button',
-					action: function () {
-						var ids = new Array();
-						for (var i in rows) {
-							ids.push(rows[i].companyId);
-						}
-						$.ajax({
-							type: 'get',
-							url: '${basePath}/manage/company/delete/' + ids.join("-"),
-							success: function(result) {
-								if (result.code != 1) {
-									if (result.data instanceof Array) {
-										$.each(result.data, function(index, value) {
-											$.confirm({
-												theme: 'dark',
-												animation: 'rotateX',
-												closeAnimation: 'rotateX',
-												title: false,
-												content: value.errorMsg,
-												buttons: {
-													confirm: {
-														text: '确认',
-														btnClass: 'waves-effect waves-button waves-light'
-													}
-												}
-											});
-										});
-									} else {
-										$.confirm({
-											theme: 'dark',
-											animation: 'rotateX',
-											closeAnimation: 'rotateX',
-											title: false,
-											content: result.data.errorMsg,
-											buttons: {
-												confirm: {
-													text: '确认',
-													btnClass: 'waves-effect waves-button waves-light'
-												}
-											}
-										});
-									}
-								} else {
-									deleteDialog.close();
-									$table.bootstrapTable('refresh');
-								}
-							},
-							error: function(XMLHttpRequest, textStatus, errorThrown) {
-								$.confirm({
-									theme: 'dark',
-									animation: 'rotateX',
-									closeAnimation: 'rotateX',
-									title: false,
-									content: textStatus,
-									buttons: {
-										confirm: {
-											text: '确认',
-											btnClass: 'waves-effect waves-button waves-light'
-										}
-									}
-								});
-							}
-						});
-					}
-				},
-				cancel: {
-					text: '取消',
-					btnClass: 'waves-effect waves-button'
-				}
-			}
-		});
-	}
-}
-</script>
+
+
+<subHeader>
+    <!-- BEGIN: Subheader -->
+    <div class="m-subheader ">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                    <li class="m-nav__item m-nav__item--home">
+                        <a href="#" class="m-nav__link m-nav__link--icon">
+                            <i class="m-nav__link-icon la la-home"></i>
+                        </a>
+                    </li>
+                    <li class="m-nav__separator">
+                        -
+                    </li>
+                    <li class="m-nav__item">
+                        <a href="" class="m-nav__link">
+											<span class="m-nav__link-text">
+												公司列表
+											</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+    <!-- END: Subheader -->
+</subHeader>
+
+
+<content>
+
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__body">
+            <div id="toolbar">
+                <div>
+                    <shiro:hasPermission name="upms:company:create"><a href="#" id="createButton" class="btn btn-outline-primary m-btn m-btn--icon m-btn--icon-only" title="新建">
+                        <i class="la la-plus"></i>
+                    </a></shiro:hasPermission>
+
+                    <shiro:hasPermission name="upms:company:delete"><a href="#" id="deleteButton" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only" title="删除">
+                        <i class="la la-remove"></i>
+                    </a></shiro:hasPermission>
+
+                    <div class="m-separator m-separator--dashed d-xl-none"></div>
+                </div>
+            </div>
+
+            <table id="table" data-toolbar="#toolbar"></table>
+        </div>
+    </div>
+
+    <!--begin::Modal-->
+    <div id="addCompanyFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+    </div>
+
+    <div id="editCompanyFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+    </div>
+
+    <div class="modal fade" id="template-org-addEditForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <form id="templateID_Form" class="m-form m-form--fit m-form--label-align-right">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">
+                            templateTitleName_公司
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">
+												&times;
+											</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="templateID_name">公司名称</label>
+                            <input id="templateID_name" type="text" class="form-control" name="name" maxlength="50" value="${company.name}">
+                        </div>
+                        <div class="form-group">
+                            <label for="templateID_address">地址</label>
+                            <input id="templateID_address" type="text" class="form-control" name="address" maxlength="50" value="${company.address}">
+                        </div>
+                        <div class="form-group">
+                            <label for="templateID_phone">电话</label>
+                            <input id="templateID_phone" type="text" class="form-control" name="phone" maxlength="15" value="${company.phone}">
+                        </div>
+                        <div class="form-group">
+                            <label for="templateID_fax">传真</label>
+                            <input id="templateID_fax" type="text" class="form-control" name="fax" maxlength="15" value="${company.fax}">
+                        </div>
+                        <div class="form-group">
+                            <label for="templateID_zip">邮编</label>
+                            <input id="templateID_zip" type="text" class="form-control" name="zip" maxlength="10" value="${company.zip}">
+                        </div>
+                        <div class="form-group">
+                            <label for="templateID_www">网址</label>
+                            <input id="templateID_www" type="text" class="form-control" name="www" maxlength="15" value="${company.www}">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" id="templateID_id" name="id">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            取消
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="templateID_submit">
+                            提交
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--end::Modal-->
+
+
+</content>
+
+
+<pageResources>
+
+
+    <script>
+        $(document).ready(function()
+        {
+            //codes works on all bootstrap modal windows in application
+            $('.modal').on('hidden.bs.modal', function(e)
+            {
+                //$(this).find('#add_Form')[0].reset();
+            }) ;
+            applyTemplate(jQuery, '#template-org-addEditForm', 'add_', null, null, jQuery('#addCompanyFormContainer'));
+            applyTemplate(jQuery, '#template-org-addEditForm', 'edit_', null, null, jQuery('#editCompanyFormContainer'));
+            FormWidgets.init('add');
+            FormWidgets.init('edit');
+
+            $('#createButton').click(function(){
+                $("#addCompanyFormContainer").modal("show");
+                jQuery("#addCompanyFormContainer").validate().resetForm();
+            });
+
+            $('#deleteButton').click(function(){
+                deleteAction();
+            });
+
+        });
+
+        var $table = $('#table');
+        $(function() {
+            // bootstrap table初始化
+            $table.bootstrapTable({
+                url: '${basePath}/manage/company/list',
+                striped: true,
+                search: true,
+                searchAlign: 'left',
+                toolbarAlign: 'right',
+                minimumCountColumns: 2,
+                clickToSelect: true,
+                detailView: true,
+                detailFormatter: 'detailFormatter',
+                pagination: true,
+                paginationLoop: false,
+                sidePagination: 'server',
+                silentSort: false,
+                smartDisplay: false,
+                escape: true,
+                searchOnEnterKey: true,
+                maintainSelected: true,
+                idField: 'companyId',
+                columns: [
+                    {field: 'ck', checkbox: true},
+                    {field: 'name', title: '公司名称'},
+                    {field: 'phone', title: '电话'},
+                    {field: 'fax', title: '传真'},
+                    {field: 'zip', title: '邮编'},
+                    {field: 'www', title: '网址'},
+                    {field: 'address', title: '公司地址'},
+                    {field: 'action', width: 100, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
+                ]
+            });
+        });
+        // 格式化操作按钮
+        function actionFormatter(value, row, index) {
+            return [
+                '<shiro:hasPermission name="upms:company:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="upms:company:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>'
+            ].join('');
+        }
+
+        var FormWidgets = function () {
+            var createForm = function (formid) {
+                $("#"+formid+"_Form").validate({
+                    // define validation rules
+                    rules: {
+                        name: {
+                            required: true,
+                            minlength: 2,
+                            maxlength: 50
+                        },
+                        address: {
+                            required: true,
+                            minlength: 2,
+                            maxlength: 50
+                        }
+                    },
+                    submitHandler: function (form) {
+                        if(formid == 'add')
+                            submitForm();
+                        else{
+                            submitForm($('#edit_id').val());
+                        }
+
+                    }
+                });
+            }
+
+            return {
+                // public functions
+                init: function (formid) {
+                    createForm(formid);
+                }
+            };
+        }();
+
+        function submitForm(id) {
+            var targetUrl='${basePath}/manage/company/create';
+            var formId='add_Form';
+            if(id){
+                targetUrl='${basePath}/manage/company/update/'+id;
+                formId='edit_Form';
+            }
+            ajaxPost(targetUrl, formId, function(result) {
+                if (result.code != 1) {
+                    sendErrorInfo(result);
+                } else {
+                    if(formId=='add_Form') {
+                        toastr.success("新建公司成功");
+                        $('#addCompanyFormContainer').modal('toggle');
+                    }else{
+                        toastr.success("编辑公司成功");
+                        $('#editCompanyFormContainer').modal('toggle');
+                    }
+                    $table.bootstrapTable('refresh');
+                }
+            });
+        }
+
+
+        function updateAction(row) {
+            jQuery("#editCompanyFormContainer").modal("show");
+            jQuery("#editCompanyFormContainer").validate().resetForm();
+
+            ajaxGet('${basePath}/manage/company/update/' + row["companyId"], function (responseData) {
+                if (responseData) {
+                    var data = responseData;
+                    // 赋值
+                    $("#edit_id").val(data.company.companyId);
+                    $("#edit_name").val(data.company.name);
+                    $("#edit_address").val(data.company.address);
+                    $("#edit_phone").val(data.company.phone);
+                    $("#edit_fax").val(data.company.fax);
+                    $("#edit_zip").val(data.company.zip);
+                    $("#edit_www").val(data.company.www);
+                }
+            });
+        }
+
+        window.actionEvents = {
+            'click #update': function (e, value, row, index) {
+                updateAction(row);
+
+            },
+            'click #delete': function (e, value, row, index) {
+                var rows = new Array();
+                rows.push(row);
+                deleteActionImpl(rows);
+            }
+        };
+
+        function deleteAction(){
+            var rows = $table.bootstrapTable('getSelections');
+            deleteActionImpl(rows);
+        }
+
+        function deleteActionImpl(rows) {
+            if (rows.length == 0) {
+                swWarn("请至少选择一条记录");
+            }else {
+                deleteRows(rows,'companyId','${basePath}/manage/company/delete/', "请确认要删除选中的公司吗？", "删除公司成功");
+            }//end else
+        }
+
+    </script>
+
+
+
+</pageResources>
+
+
 </body>
 </html>
