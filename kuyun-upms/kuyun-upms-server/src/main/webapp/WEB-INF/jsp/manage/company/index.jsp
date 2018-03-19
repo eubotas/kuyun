@@ -90,11 +90,11 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group m-form__group">
+                        <div class="form-group m-form__group row">
                             <label for="templateID_name" class="form-control-label">公司名称</label>
                             <input id="templateID_name" type="text" class="form-control" name="name" maxlength="50" value="${company.name}">
                         </div>
-                        <div class="form-group m-form__group">
+                        <div class="form-group m-form__group row">
                             <label for="templateID_address" class="form-control-label">地址</label>
                             <input id="templateID_address" type="text" class="form-control" name="address" maxlength="50" value="${company.address}">
                         </div>
@@ -143,8 +143,7 @@
             //codes works on all bootstrap modal windows in application
             $('.modal').on('hidden.bs.modal', function(e)
             {
-                //$(this).find('#add_Form')[0].reset();
-                //jQuery("#add_Form").validate().resetForm();
+                jQuery("#add_Form").validate().resetForm();
             }) ;
             applyTemplate(jQuery, '#template-org-addEditForm', 'add_', null, null, jQuery('#addCompanyFormContainer'));
             applyTemplate(jQuery, '#template-org-addEditForm', 'edit_', null, null, jQuery('#editCompanyFormContainer'));
