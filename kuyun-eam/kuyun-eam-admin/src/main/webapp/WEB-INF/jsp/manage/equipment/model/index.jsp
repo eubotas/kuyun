@@ -186,7 +186,7 @@
 
 							</div>
 						</div>
-						<div class="form-group m-form__group row" id="displayType">
+						<div class="form-group m-form__group row" id="templateID_displayType">
 							<label class="form-control-label">
 								展示类型:
 							</label>
@@ -257,24 +257,33 @@
             deleteAction();
         });
 
-        $("#add_dataType_analog, #edit_dataType_analog, #add_dataType_digital, #edit_dataType_digital").change(function () {
+        $("#add_dataType_analog, #add_dataType_digital").change(function () {
+
+            if ($("#add_dataType_analog").is(":checked")) {
+                console.log("select analog");
+                $('#add_displayType').show();
+            }
+
+            if ($("#add_dataType_digital").is(":checked")) {
+                console.log("select digital");
+                $('input[type="radio"][name="displayType"]').prop('checked', false);
+                $('#add_displayType').hide();
+            }
+
+        });
+
+        $("#edit_dataType_analog, #edit_dataType_digital").change(function () {
 
             if ($("#add_dataType_analog, #edit_dataType_analog").is(":checked")) {
-                $('#displayType').show();
+                console.log("select analog");
+                $('#edit_displayType').show();
             }
-//            if ($("#edit_dataType_analog").is(":checked")) {
-//                $('#displayType').show();
-//            }
 
             if ($("#add_dataType_digital, #edit_dataType_digital").is(":checked")) {
-                $('#displayType').hide();
+                console.log("select digital");
                 $('input[type="radio"][name="displayType"]').prop('checked', false);
+                $('#edit_displayType').hide();
             }
-
-//            if ($("#edit_dataType_digital").is(":checked")) {
-//                $('#displayType').hide();
-//                $('input[type="radio"][name="displayType"]').prop('checked', false);
-//            }
 
         });
 
@@ -283,7 +292,8 @@
 
     var EquipmentModels = function () {
         var getEquipmentModels = function () {
-			get('${basePath}/manage/equipment/model/list', function (responseData) {
+
+            ajaxGet('${basePath}/manage/equipment/model/list', function (responseData) {
 				if (responseData) {
 					var data = responseData;
 
@@ -298,19 +308,9 @@
 
                     });
 
-//					for(var i = 0; i < data.rows.length; i++){
-//
-//					    var row = data.rows[i];
-//
-//                        var html = '<li class="m-nav__item">' +
-//									'<a href="javascript:void(0)" class="m-nav__link" onclick="showModelPropertis(' + row.equipmentModelId +')"> ' +
-//										'<span class="m-nav__link-text">' + row.name + '</span>' +
-//									'</a></li>';
-//
-//                        $("#models").append(html);
-//					}
 				}
 			});
+
 		}
 
         return {
@@ -334,25 +334,6 @@
 
         $table.bootstrapTable('refresh', opt);
     }
-
-
-    toastr.options = {
-        "closeButton": false,
-        "debug": false,
-        "newestOnTop": false,
-        "progressBar": false,
-        "positionClass": "toast-top-right",
-        "preventDuplicates": false,
-        "onclick": null,
-        "showDuration": "300",
-        "hideDuration": "1000",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
-    };
 
     var $table = $('#table');
     $(function() {
@@ -430,60 +411,38 @@
 
     function submitForm(id) {
         var targetUrl='${basePath}/manage/equipment/model/property/create';
-        var formId='#add_Form';
+        var formId='add_Form';
         if(id){
             targetUrl='${basePath}/manage/equipment/model/property/update/'+id;
-            formId='#edit_Form';
+            formId='edit_Form';
         }
-        $.ajax({
-            type: 'post',
-            url: targetUrl,
-            data: $(formId).serialize(),
-            success: function(result) {
-                if (result.code != 1) {
-                    var errorMsgs = "";
 
-                    if (result.data instanceof Array) {
-                        $.each(result.data, function(index, value) {
-                            errorMsgs += value.errorMsg + "<br>";
-                        });
-                    } else {
-                        errorMsgs = result.data.errorMsg;
-                    }
-
-                    toastr.warning(errorMsgs);
-                } else {
-                    if(formId=='#add_Form') {
-                        toastr.success("新建设备模型参数成功");
-                        $('#addModelPropertyFormContainer').modal('toggle');
-                    }else{
-                        toastr.success("编辑设备模型参数成功");
-                        $('#editModelPropertyFormContainer').modal('toggle');
-                    }
-
-                    refreshTable();
+        ajaxPost(targetUrl, formId, function(result) {
+            if (result.code != 1) {
+                sendErrorInfo(result);
+            } else {
+                if(formId=='add_Form') {
+                    toastr.success("新建设备模型参数成功");
+                    $('#addModelPropertyFormContainer').modal('toggle');
+                }else{
+                    toastr.success("编辑设备模型参数成功");
+                    $('#editModelPropertyFormContainer').modal('toggle');
                 }
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                toastr.error(textStatus);
+                refreshTable();
             }
         });
     }
 
     function updateAction(row) {
-        console.log(row);
         $("#editModelPropertyFormContainer").modal("show");
 
-        console.log(1122);
-
-        <%--get('${basePath}/manage/equipment/model/property/update/' + row["equipmentModelPropertyId"], function (responseData) {--%>
-            <%--if (responseData) {--%>
-                <%--var data = responseData.equipmentModelProperties;--%>
-                <%--// 赋值--%>
-                <%--setModelProperty(data);--%>
-
-            <%--}--%>
-        <%--});--%>
+        ajaxGet('${basePath}/manage/equipment/model/property/update/' + row["equipmentModelPropertyId"], function (responseData) {
+            if (responseData) {
+                var data = responseData.equipmentModelProperties;
+                // 赋值
+                setModelProperty(data);
+            }
+        });
     }
 
     function setModelProperty(data) {
@@ -491,24 +450,18 @@
         $("#edit_name").val(data.name);
         $("#edit_unit").val(data.unit);
 
-        console.log(data);
-        console.log(data.equipmentModelPropertyId);
-        console.log($("#edit_id").val());
-        console.log($("#edit_name").val());
-        console.log($("#edit_unit").val());
-
         if ('analog' == data.dataType) {
-            $("edit_dataType_analog").prop('checked', true);
+            $("#edit_dataType_analog").prop('checked', true);
         } else if ('digital' == data.dataType) {
-            $("edit_dataType_digital").prop('checked', true);
+            $("#edit_dataType_digital").prop('checked', true);
         }
 
         if ('pie' == data.displayType) {
-            $("edit_displayType_pie").prop('checked', true);
+            $("#edit_displayType_pie").prop('checked', true);
         } else if ('led' == data.displayType) {
-            $("edit_displayType_led").prop('checked', true);
+            $("#edit_displayType_led").prop('checked', true);
         } else if ('guage' == data.displayType) {
-            $("edit_displayType_guage").prop('checked', true);
+            $("#edit_displayType_guage").prop('checked', true);
         }
     }
 
@@ -530,41 +483,50 @@
     }
 
     function deleteActionImpl(rows) {
+
         if (rows.length == 0) {
             swWarn("请至少选择一条记录");
         }else {
-            swal({
-                text: "请确认要删除选中的设备模型参数吗？",
-                showCancelButton: true,
-                confirmButtonText: '确认',
-                cancelButtonText: '取消'
-            }).then(function(result) {
-                if (result.value) {
-                    var ids = new Array();
-                    for (var i in rows) {
-                        ids.push(rows[i].equipmentModelPropertyId);
-                    }
-                    get('${basePath}/manage/equipment/model/property/delete/' + ids.join("-"), function(result){
-                        if (result.code != 1) {
-                            var errorMsgs = "";
-                            if (result.data instanceof Array) {
-                                $.each(result.data, function(index, value) {
-                                    errorMsgs += value.errorMsg + "<br>";
-                                });
-                            } else {
-                                errorMsgs = result.data.errorMsg;
-                            }
-                            toastr.warning(errorMsgs);
-                        } else {
-                            toastr.success("删除设备模型参数");
+            deleteRows(rows,'equipmentModelPropertyId','${basePath}/manage/equipment/model/property/delete/', "请确认要删除选中的设备模型参数吗？", "删除设备模型参数成功");
+            refreshTable();
+        }
 
-                            refreshTable();
-                        }
-                    });
-                }
-            });
 
-        }//end else
+        <%--if (rows.length == 0) {--%>
+            <%--swWarn("请至少选择一条记录");--%>
+        <%--}else {--%>
+            <%--swal({--%>
+                <%--text: "请确认要删除选中的设备模型参数吗？",--%>
+                <%--showCancelButton: true,--%>
+                <%--confirmButtonText: '确认',--%>
+                <%--cancelButtonText: '取消'--%>
+            <%--}).then(function(result) {--%>
+                <%--if (result.value) {--%>
+                    <%--var ids = new Array();--%>
+                    <%--for (var i in rows) {--%>
+                        <%--ids.push(rows[i].equipmentModelPropertyId);--%>
+                    <%--}--%>
+                    <%--get('${basePath}/manage/equipment/model/property/delete/' + ids.join("-"), function(result){--%>
+                        <%--if (result.code != 1) {--%>
+                            <%--var errorMsgs = "";--%>
+                            <%--if (result.data instanceof Array) {--%>
+                                <%--$.each(result.data, function(index, value) {--%>
+                                    <%--errorMsgs += value.errorMsg + "<br>";--%>
+                                <%--});--%>
+                            <%--} else {--%>
+                                <%--errorMsgs = result.data.errorMsg;--%>
+                            <%--}--%>
+                            <%--toastr.warning(errorMsgs);--%>
+                        <%--} else {--%>
+                            <%--toastr.success("删除设备模型参数");--%>
+
+                            <%--refreshTable();--%>
+                        <%--}--%>
+                    <%--});--%>
+                <%--}--%>
+            <%--});--%>
+
+        <%--}//end else--%>
 
     }
 

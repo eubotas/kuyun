@@ -131,6 +131,44 @@ function deleteRows(rows,idName,delUrl, tipContent, successTip, tableObj) {
     }//end else
 }
 
+function deleteRowsChar(rows,idName,delUrl,tag, tipContent, successTip, tableObj) {
+    if (rows.length == 0) {
+        swWarn("请至少选择一条记录");
+    }else {
+        swal({
+            text: tipContent,
+            showCancelButton: true,
+            confirmButtonText: '确认',
+            cancelButtonText: '取消'
+        }).then(function(result) {
+            if (result.value) {
+                var ids = new Array();
+                for (var i in rows) {
+                    ids.push(rows[i][idName]);
+                }
+                var spliteTag="-";
+                if(tag)
+                    spliteTag=tag;
+                ajaxGet(delUrl + ids.join(spliteTag), function(result){
+                    if (result.code < 1) {
+                        sendErrorInfo(result);
+                    } else {
+                        if(successTip)
+                            toastr.success(successTip);
+                        else
+                            toastr.success("删除成功!");
+                        if(tableObj)
+                            tableObj.bootstrapTable('refresh');
+                        else
+                            $table.bootstrapTable('refresh');
+                    }
+                });
+            }
+        });
+
+    }//end else
+}
+
 function sendErrorInfo(result)
 {
     var errorMsgs = "";
@@ -218,7 +256,6 @@ function loadHtmlTemplate(jQuery, prefix, el) {
 
 function applyTemplate(jQuery, templateID, prefix, data, options, targetEl) {
     prefix = ifNull(prefix, '');
-    console.log((prefix+templateID));
     jQuery.template((prefix+templateID), loadHtmlTemplate(jQuery, prefix, jQuery(templateID)));
     return jQuery.tmpl((prefix+templateID), data, options).appendTo(targetEl);
 }

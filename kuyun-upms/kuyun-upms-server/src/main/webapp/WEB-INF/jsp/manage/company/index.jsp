@@ -74,7 +74,7 @@
          aria-hidden="true">
     </div>
 
-    <div class="modal fade" id="template-org-addEditForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="template-company-addEditForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <form id="templateID_Form" class="m-form m-form--fit m-form--label-align-right">
             <div class="modal-dialog" role="document">
@@ -98,19 +98,19 @@
                             <label for="templateID_address" class="form-control-label">地址</label>
                             <input id="templateID_address" type="text" class="form-control" name="address" maxlength="50" value="${company.address}">
                         </div>
-                        <div class="form-group m-form__group">
+                        <div class="form-group m-form__group row">
                             <label for="templateID_phone" class="form-control-label">电话</label>
                             <input id="templateID_phone" type="text" class="form-control" name="phone" maxlength="15" value="${company.phone}">
                         </div>
-                        <div class="form-group m-form__group">
+                        <div class="form-group m-form__group row">
                             <label for="templateID_fax" class="form-control-label">传真</label>
                             <input id="templateID_fax" type="text" class="form-control" name="fax" maxlength="15" value="${company.fax}">
                         </div>
-                        <div class="form-group m-form__group">
+                        <div class="form-group m-form__group row">
                             <label for="templateID_zip" class="form-control-label">邮编</label>
                             <input id="templateID_zip" type="text" class="form-control" name="zip" maxlength="10" value="${company.zip}">
                         </div>
-                        <div class="form-group m-form__group">
+                        <div class="form-group m-form__group row">
                             <label for="templateID_www" class="form-control-label">网址</label>
                             <input id="templateID_www" type="text" class="form-control" name="www" maxlength="15" value="${company.www}">
                         </div>
@@ -144,9 +144,10 @@
             $('.modal').on('hidden.bs.modal', function(e)
             {
                 jQuery("#add_Form").validate().resetForm();
+                jQuery("#edit_Form").validate().resetForm();
             }) ;
-            applyTemplate(jQuery, '#template-org-addEditForm', 'add_', null, null, jQuery('#addCompanyFormContainer'));
-            applyTemplate(jQuery, '#template-org-addEditForm', 'edit_', null, null, jQuery('#editCompanyFormContainer'));
+            applyTemplate(jQuery, '#template-company-addEditForm', 'add_', null, null, jQuery('#addCompanyFormContainer'));
+            applyTemplate(jQuery, '#template-company-addEditForm', 'edit_', null, null, jQuery('#editCompanyFormContainer'));
             FormWidgets.init('add');
             FormWidgets.init('edit');
 

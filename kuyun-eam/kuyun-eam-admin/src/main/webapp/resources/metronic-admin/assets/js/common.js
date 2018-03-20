@@ -1,12 +1,31 @@
 ///////////////// add edit/delete
-function post(targetUrl, formId, callValidate, callSuccess, callError)
+toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": false,
+    "positionClass": "toast-top-right",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+};
+
+function ajaxPost(targetUrl, formId, callSuccess, callValidate, callError)
 {
     $.ajax({
         type: 'post',
         url: targetUrl,
-        data: $(formId).serialize(),
+        data: $('#'+formId).serialize(),
         beforeSend: function () {
-            return callValidate;
+            if(callValidate)
+                return callValidate();
         },
         success: function (result) {
             callSuccess(result);
@@ -20,7 +39,7 @@ function post(targetUrl, formId, callValidate, callSuccess, callError)
     });
 }
 
-function get(targetUrl, callSuccess, callError)
+function ajaxGet(targetUrl, callSuccess, callError)
 {
     $.ajax({
         type: 'get',
@@ -37,49 +56,120 @@ function get(targetUrl, callSuccess, callError)
     });
 }
 
-function deleteRow(newtips, callbackDel)
+function ajaxGetDel(targetUrl, successTip, tableObj)
 {
-    swal({
-        text: newtips,
-        type: "warning", showCancelButton: true,
-        confirmButtonColor: "#DD6B55",
-        cancelButtonText: "取消",
-        confirmButtonText: "删除！",
-        closeOnConfirm: true
-    }).then(callbackDel(result));
+    ajaxGet(targetUrl, function(result){
+        if (result.code < 1) {
+            sendErrorInfo(result);
+        } else {
+            if(successTip)
+                toastr.success(successTip);
+            else
+                toastr.success("删除成功!");
+            if(tableObj)
+                tableObj.bootstrapTable('refresh');
+            else
+                $table.bootstrapTable('refresh');
+        }
+    });
+}
+
+function deleteRows(rows,idName,delUrl, tipContent, successTip, tableObj) {
+    if (rows.length == 0) {
+        swWarn("请至少选择一条记录");
+    }else {
+        swal({
+            text: tipContent,
+            showCancelButton: true,
+            confirmButtonText: '确认',
+            cancelButtonText: '取消'
+        }).then(function(result) {
+            if (result.value) {
+                var ids = new Array();
+                for (var i in rows) {
+                    ids.push(rows[i][idName]);
+                }
+                ajaxGet(delUrl + ids.join("-"), function(result){
+                    if (result.code < 1) {
+                        sendErrorInfo(result);
+                    } else {
+                        if(successTip)
+                            toastr.success(successTip);
+                        else
+                            toastr.success("删除成功!");
+                        if(tableObj)
+                            tableObj.bootstrapTable('refresh');
+                        else
+                            $table.bootstrapTable('refresh');
+                    }
+                });
+            }
+        });
+
+    }//end else
+}
+
+function sendErrorInfo(result)
+{
+    var errorMsgs = "";
+    if (result.data instanceof Array) {
+        $.each(result.data, function(index, value) {
+            errorMsgs += value.errorMsg + "<br>";
+        });
+    } else {
+        errorMsgs = result.data.errorMsg;
+    }
+    toastr.warning(errorMsgs);
 }
 
 function swWarn(newtips)
 {
     swal({
+        title: "操作提示",
         text: newtips,
-        type: "warning",
-        confirmButtonText: "确认",
+        type: "warning"
     });
 }
 
 function swError(newtips)
 {
     swal({
+        title: "操作提示",
         text: newtips,
-        type: "error",
-        confirmButtonText: "确认",
+        type: "error"
     });
 }
 
 function swSuccess(newtips)
 {
     swal({
+        title: "操作提示",
         text: newtips,
-        type: "success",
-        confirmButtonText: "确认",
+        type: "success"
     });
 }
 
-function addOptionToHtmlSelect(defaultValue, htmlSelectId, data) {
+function ifNull(val){
+    if(val == null || val =='undefine')
+        return "";
+    else
+        return $.trim(val);
+}
+
+function radioBoxcheck(val, idtag){
+    if(val != null && val !='')
+        $("#edit_"+idtag+"_"+val).attr("checked",true);
+}
+
+function addOptionToHtmlSelect(defaultValue, htmlSelectId, data, firstItemVal, firstItemText) {
     var htmlSelectObj = jQuery("#"+htmlSelectId);
     var options = [];
-    options.push(jQuery("<option>", {"value": "", "text": "Please Select"}));
+    if(firstItemVal) {
+        if(firstItemText)
+            options.push(jQuery("<option>", {"value": firstItemVal, "text": firstItemText}));
+        else
+            options.push(jQuery("<option>", {"value": firstItemVal, "text": "请选择"}));
+    }
     for(var i = 0; i < data.length; i++) {
         var selected = false;
         if(defaultValue && defaultValue == data[i].VALUEFIELD) {
@@ -106,7 +196,6 @@ function loadHtmlTemplate(jQuery, prefix, el) {
 
 function applyTemplate(jQuery, templateID, prefix, data, options, targetEl) {
     prefix = ifNull(prefix, '');
-    console.log((prefix+templateID));
     jQuery.template((prefix+templateID), loadHtmlTemplate(jQuery, prefix, jQuery(templateID)));
     return jQuery.tmpl((prefix+templateID), data, options).appendTo(targetEl);
 }
