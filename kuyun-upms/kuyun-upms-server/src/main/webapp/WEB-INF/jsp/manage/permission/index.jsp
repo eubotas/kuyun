@@ -172,8 +172,8 @@
             //codes works on all bootstrap modal windows in application
             $('.modal').on('hidden.bs.modal', function(e)
             {
-                //$(this).find('#add_Form')[0].reset();
-                //$(this).find('#edit_Form')[0].reset();
+                jQuery("#add_Form").validate().resetForm();
+                jQuery("#edit_Form").validate().resetForm();
             }) ;
             applyTemplate(jQuery, '#template-permission-addEditForm', 'add_', null, null, jQuery('#addPermissionFormContainer'));
             applyTemplate(jQuery, '#template-permission-addEditForm', 'edit_', null, null, jQuery('#editPermissionFormContainer'));

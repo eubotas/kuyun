@@ -418,6 +418,36 @@
 												</span>
                             </a>
                         </li>
+                        <li class="m-menu__item " aria-haspopup="true" >
+                            <a  href="${basePath}/manage/system/index" class="m-menu__link ">
+                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                    <span></span>
+                                </i>
+                                <span class="m-menu__link-text">
+													系统管理
+												</span>
+                            </a>
+                        </li>
+                        <li class="m-menu__item " aria-haspopup="true" >
+                            <a  href="${basePath}/manage/session/index" class="m-menu__link ">
+                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                    <span></span>
+                                </i>
+                                <span class="m-menu__link-text">
+													会话管理
+												</span>
+                            </a>
+                        </li>
+                        <li class="m-menu__item " aria-haspopup="true" >
+                            <a  href="${basePath}/manage/log/index" class="m-menu__link ">
+                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                    <span></span>
+                                </i>
+                                <span class="m-menu__link-text">
+													日志管理
+												</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </li>
