@@ -49,13 +49,16 @@
         <div class="m-portlet__body">
             <div id="toolbar">
                 <div>
+                    <shiro:hasPermission name="upms:user:create">
                     <a href="#" id="createButton" class="btn btn-outline-primary m-btn m-btn--icon m-btn--icon-only" title="新建">
                         <i class="la la-plus"></i>
                     </a>
+                    </shiro:hasPermission>
 
+                    <shiro:hasPermission name="upms:user:delete">
                     <a href="#" id="deleteButton" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only" title="删除">
                         <i class="la la-remove"></i>
-                    </a>
+                    </a></shiro:hasPermission>
 
                     <div class="m-separator m-separator--dashed d-xl-none"></div>
                 </div>
@@ -91,15 +94,15 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="templateID_username">帐号</label>
+                            <label for="templateID_username">帐号 *</label>
                             <input id="templateID_username" type="text" class="form-control" name="username" maxlength="20">
                         </div>
                         <div class="form-group">
-                            <label for="templateID_password">密码</label>
+                            <label for="templateID_password">密码  *</label>
                             <input id="templateID_password" type="text" class="form-control" name="password" maxlength="32">
                         </div>
                         <div class="form-group">
-                            <label for="templateID_realname">姓名</label>
+                            <label for="templateID_realname">姓名  *</label>
                             <input id="templateID_realname" type="text" class="form-control" name="realname" maxlength="20">
                         </div>
                         <div class="form-group">
@@ -148,6 +151,68 @@
     </div>
     <!--end::Modal-->
 
+    <div id="orgDialog" class="modal fade crudDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <form id="organizationForm" method="post">
+            <div class="form-group">
+                <select id="organizationId" name="organizationId" multiple="multiple" style="width: 100%">
+                    <c:forEach var="upmsOrganization" items="${upmsOrganizations}">
+                        <option value="${upmsOrganization.organizationId}" <c:forEach var="upmsUserOrganization" items="${upmsUserOrganizations}"><c:if test="${upmsOrganization.organizationId==upmsUserOrganization.organizationId}">selected="selected"</c:if></c:forEach>>${upmsOrganization.name}</option>
+                    </c:forEach>
+                </select>
+            </div>
+            <div class="form-group text-right dialog-buttons">
+                <a class="waves-effect waves-button" href="javascript:;" onclick="organizationSubmit();">保存</a>
+                <a class="waves-effect waves-button" href="javascript:;" onclick="organizationDialog.close();">取消</a>
+            </div>
+        </form>
+    </div>
+
+
+    <div id="roleDialog" class="modal fade crudDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <form id="roleForm" method="post">
+            <div class="form-group">
+                <select id="roleId" name="roleId" multiple="multiple" style="width: 100%">
+                    <c:forEach var="upmsRole" items="${upmsRoles}">
+                        <option value="${upmsRole.roleId}" <c:forEach var="upmsUserRole" items="${upmsUserRoles}"><c:if test="${upmsRole.roleId==upmsUserRole.roleId}">selected="selected"</c:if></c:forEach>>${upmsRole.title}</option>
+                    </c:forEach>
+                </select>
+            </div>
+            <div class="form-group text-right dialog-buttons">
+                <a class="waves-effect waves-button" href="javascript:;" onclick="roleSubmit();">保存</a>
+                <a class="waves-effect waves-button" href="javascript:;" onclick="roleDialog.close();">取消</a>
+            </div>
+        </form>
+    </div>
+
+    <div id="permissionDialog" class="modal fade crudDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <form id="permissionForm" method="post">
+            <div class="row">
+                <div class="col-sm-6">
+                    <label>加权限</label>
+                    <div class="form-group">
+                        <div class="fg-line">
+                            <ul id="ztree1" class="ztree"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <label>减权限</label>
+                    <div class="form-group">
+                        <div class="fg-line">
+                            <ul id="ztree2" class="ztree"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group text-right dialog-buttons">
+                <a class="waves-effect waves-button" href="javascript:;" onclick="permissionSubmit();">保存</a>
+                <a class="waves-effect waves-button" href="javascript:;" onclick="permissionDialog.close();">取消</a>
+            </div>
+        </form>
+    </div>
 
 </content>
 
@@ -218,8 +283,11 @@
         // 格式化操作按钮
         function actionFormatter(value, row, index) {
             return [
-                '<a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a>',
-                '<a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a>'
+                '<shiro:hasPermission name="upms:user:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="upms:user:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="upms:user:organization"><a id="userOrg" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="用户组织">	<i class="la flaticon-map"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="upms:user:role"><a id="userRole" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="用户角色">	<i class="la flaticon-users"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="upms:user:permission"><a id="userPermission" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="用户权限">	<i class="la flaticon-user"></i>	</a></shiro:hasPermission>',
             ].join('');
         }
 
@@ -228,12 +296,12 @@
                 $("#"+formid+"_Form").validate({
                     // define validation rules
                     rules: {
-                        name: {
+                        username: {
                             required: true,
                             minlength: 2,
                             maxlength: 20
                         },
-                        title: {
+                        realname: {
                             required: true,
                             minlength: 2,
                             maxlength: 20
@@ -307,6 +375,21 @@
                 updateAction(row);
 
             },
+            'click #userOrg': function (e, value, row, index) {
+                $("#orgDialog").modal("show");
+                userOrgAction(row);
+
+            },
+            'click #userRole': function (e, value, row, index) {
+                $("#roleDialog").modal("show");
+                userRoleAction(row);
+
+            },
+            'click #userPermission': function (e, value, row, index) {
+                $("#permissionDialog").modal("show");
+                userPermissionAction(row);
+
+            },
             'click #delete': function (e, value, row, index) {
                 var rows = new Array();
                 rows.push(row);
@@ -356,7 +439,133 @@
     </script>
 
 
+    <script>
+        function organizationSubmit(organizationUserId) {
+            ajaxPost('${basePath}/manage/user/organization/' + organizationUserId,
+                'organizationForm',function(result) {
+                    if (result.code != 1) {
+                        if (result.data instanceof Array) {
+                            $.each(result.data, function (index, value) {
+                                swError(value.errorMsg);
+                            });
+                        } else {
+                            swError(result.data.errorMsg);
+                        }
+                    } else {
+                        $("#orgDialog").modal("hide");
+                        $table.bootstrapTable('refresh');
+                    }
+                }
+            );
+        }
+    </script>
 
+    <script>
+        function roleSubmit(roleUserId) {
+            ajaxPost('${basePath}/manage/user/role/' + roleUserId,
+                'roleForm',function(result) {
+                    if (result.code != 1) {
+                        if (result.data instanceof Array) {
+                            $.each(result.data, function (index, value) {
+                                swError(value.errorMsg);
+                            });
+                        } else {
+                            swError(result.data.errorMsg);
+                        }
+                    } else {
+                        $("#roleDialog").modal("hide");
+                        $table.bootstrapTable('refresh');
+                    }
+                }
+            );
+        }
+    </script>
+
+    <script>
+        //permission
+        var changeDatas = [];
+        var setting1 = {
+            check: {
+                enable: true,
+                // 勾选关联父，取消关联子
+                chkboxType: { "Y" : "", "N" : "" }
+            },
+            async: {
+                enable: true,
+                url: '${basePath}/manage/permission/user/' + permissionUserId + '?type=1'
+            },
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            },
+            callback: {
+                onCheck: function() {
+                    var zTree = $.fn.zTree.getZTreeObj("ztree1")
+                    var changeNodes = zTree.getChangeCheckedNodes();
+                    for (var i = 0; i < changeNodes.length; i ++) {
+                        var changeData = {};
+                        changeData.id = changeNodes[i].id;
+                        changeData.checked = changeNodes[i].checked;
+                        changeData.type = 1;
+                        changeDatas.push(changeData);
+                    }
+                }
+            }
+        };
+        var setting2 = {
+            check: {
+                enable: true,
+                // 勾选关联父，取消关联子
+                chkboxType: { "Y" : "", "N" : "" }
+            },
+            async: {
+                enable: true,
+                url: '${basePath}/manage/permission/user/' + permissionUserId + '?type=-1'
+            },
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            },
+            callback: {
+                onCheck: function() {
+                    var zTree = $.fn.zTree.getZTreeObj("ztree2")
+                    var changeNodes = zTree.getChangeCheckedNodes();
+                    for (var i = 0; i < changeNodes.length; i ++) {
+                        var changeData = {};
+                        changeData.id = changeNodes[i].id;
+                        changeData.checked = changeNodes[i].checked;
+                        changeData.type = -1;
+                        changeDatas.push(changeData);
+                    }
+                }
+            }
+        };
+        function initTree() {
+            $.fn.zTree.init($('#ztree1'), setting1);
+            $.fn.zTree.init($('#ztree2'), setting2);
+        }
+
+        function permissionSubmit() {
+            ajaxPostData( '${basePath}/manage/user/permission/' + permissionUserId,
+                {datas: JSON.stringify(changeDatas), permissionUserId: permissionUserId},function(result) {
+                    if (result.code != 1) {
+                        if (result.data instanceof Array) {
+                            $.each(result.data, function (index, value) {
+                                swError(value.errorMsg);
+                            });
+                        } else {
+                            swError(result.data.errorMsg);
+                        }
+                    } else {
+                        $("#permissionDialog").modal("hide");
+                        $table.bootstrapTable('refresh');
+                    }
+                }
+            );
+        }
+    </script>
 </pageResources>
 
 

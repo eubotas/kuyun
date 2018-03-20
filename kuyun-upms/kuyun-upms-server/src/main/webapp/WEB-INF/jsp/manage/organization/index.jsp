@@ -92,16 +92,16 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group m-form__group">
+                        <div class="form-group m-form__group row">
                             <label for="templateID_name" class="form-control-label">
-                                名称:*
+                                名称: *
                             </label>
                             <input type="text" class="form-control" id="templateID_name" name="name">
                         </div>
 
                         <div class="form-group m-form__group">
                             <label for="templateID_description" class="form-control-label">
-                                描述:*
+                                描述: *
                             </label>
                             <textarea class="form-control" id="templateID_description" name="description" rows="6"></textarea>
                         </div>
@@ -124,7 +124,7 @@
     <div id="assignPersonDialog" class="crudDialog modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <form id="personForm" class="m-form m-form--fit m-form--label-align-right">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
+            <div class="modal-content" style="padding:20px">
                 <div class="form-group text-right dialog-buttons">
                     <button type="button" onclick="assignPersonSubmit();" class="btn btn-primary" >确认分配</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"> 取消 </button>
@@ -146,7 +146,7 @@
     <div id="assignRoleDialog" class="crudDialog modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <form id="roleForm" class="m-form m-form--fit m-form--label-align-right">
             <div class="modal-dialog" role="document">
-                <div class="modal-content">
+                <div class="modal-content" style="padding:20px">
                     <div class="form-group text-right dialog-buttons">
                         <button type="button" onclick="assignRoleSubmit();" class="btn btn-primary" >确认分配角色</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"> 取消 </button>
@@ -230,8 +230,8 @@
             return [
                 '<shiro:hasPermission name="upms:organization:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
                 '<shiro:hasPermission name="upms:organization:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="upms:organization:delete"><a id="assignPerson" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="分配人员">	<i class="la la-file-text"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="upms:organization:delete"><a id="assignRole" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="分配角色">	<i class="la la-file-text"></i>	</a></shiro:hasPermission>'
+                '<shiro:hasPermission name="upms:organization:delete"><a id="assignPerson" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="分配人员">	<i class="la la-child"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="upms:organization:delete"><a id="assignRole" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="分配角色">	<i class="la la-chevron-circle-right"></i>	</a></shiro:hasPermission>'
             ].join('');
         }
 
@@ -350,7 +350,9 @@
         var selectOrgId;
         function assignPersonAction(orgId) {
             $("#assignPersonDialog").modal("show");
-            tableStaff.bootstrapTable({
+            tableStaff.bootstrapTable(
+                //'refresh',
+                {
                 url: '${basePath}/manage/organization/assign/'+orgId+'/listStaff',
                 queryParams:function(p){
                     return {    orgId : orgId,

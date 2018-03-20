@@ -91,11 +91,11 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group m-form__group row">
-                            <label for="templateID_name" class="form-control-label">公司名称</label>
+                            <label for="templateID_name" class="form-control-label">公司名称 *</label>
                             <input id="templateID_name" type="text" class="form-control" name="name" maxlength="50" value="${company.name}">
                         </div>
                         <div class="form-group m-form__group row">
-                            <label for="templateID_address" class="form-control-label">地址</label>
+                            <label for="templateID_address" class="form-control-label">地址 *</label>
                             <input id="templateID_address" type="text" class="form-control" name="address" maxlength="50" value="${company.address}">
                         </div>
                         <div class="form-group m-form__group row">
