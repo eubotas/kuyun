@@ -101,6 +101,7 @@ function deleteRows(rows,idName,delUrl, tipContent, successTip, tableObj) {
         swWarn("请至少选择一条记录");
     }else {
         swal({
+            title: "操作提示",
             text: tipContent,
             showCancelButton: true,
             confirmButtonText: '确认',
@@ -137,6 +138,7 @@ function deleteRowsChar(rows,idName,delUrl,tag, tipContent, successTip, tableObj
     }else {
         swal({
             text: tipContent,
+            title: "操作提示",
             showCancelButton: true,
             confirmButtonText: '确认',
             cancelButtonText: '取消'

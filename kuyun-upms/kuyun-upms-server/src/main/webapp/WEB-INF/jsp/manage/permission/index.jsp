@@ -214,9 +214,9 @@
                 idField: 'permissionId',
                 columns: [
                     {field: 'ck', checkbox: true},
-                    {field: 'permissionId', title: '编号', sortable: true, align: 'center'},
-                    {field: 'systemId', title: '所属系统'},
-                    {field: 'pid', title: '所属上级'},
+                    // {field: 'permissionId', title: '编号', sortable: true, align: 'center'},
+                    // {field: 'systemId', title: '所属系统'},
+                    // {field: 'pid', title: '所属上级'},
                     {field: 'name', title: '权限名称'},
                     {field: 'type', title: '类型', formatter: 'typeFormatter'},
                     {field: 'permissionValue', title: '权限值'},

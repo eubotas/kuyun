@@ -268,7 +268,7 @@
                 idField: 'userId',
                 columns: [
                     {field: 'ck', checkbox: true},
-                    {field: 'userId', title: '编号', sortable: true, align: 'center'},
+                    //{field: 'userId', title: '编号', sortable: true, align: 'center'},
                     {field: 'username', title: '帐号'},
                     {field: 'realname', title: '姓名'},
                     {field: 'avatar', title: '头像', align: 'center', formatter: 'avatarFormatter'},
@@ -276,7 +276,7 @@
                     {field: 'email', title: '邮箱'},
                     {field: 'sex', title: '性别', formatter: 'sexFormatter'},
                     {field: 'locked', title: '状态', sortable: true, align: 'center', formatter: 'lockedFormatter'},
-                    {field: 'action', width: 100, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
+                    {field: 'action', width: 190, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ]
             });
         });
@@ -440,6 +440,17 @@
 
 
     <script>
+        function userOrgAction(row) {
+            $("#orgDialog").modal("show");
+
+            ajaxGet('${basePath}/manage/user/organization/' + row["userId"], function (responseData) {
+                if (responseData) {
+                    var data = responseData;
+                    addOptionToHtmlSelect(data.upmsUserOrganization.organizationId, "organizationId",data.upmsOrganizations);
+                }
+            });
+        }
+
         function organizationSubmit(organizationUserId) {
             ajaxPost('${basePath}/manage/user/organization/' + organizationUserId,
                 'organizationForm',function(result) {
@@ -461,6 +472,17 @@
     </script>
 
     <script>
+        function userRoleAction(row) {
+            $("#roleDialog").modal("show");
+
+            ajaxGet('${basePath}/manage/user/role/' + row["userId"], function (responseData) {
+                if (responseData) {
+                    var data = responseData;
+                    addOptionToHtmlSelect(data.upmsRoles.roleId, "roleId",data.upmsRoles);
+                }
+            });
+        }
+
         function roleSubmit(roleUserId) {
             ajaxPost('${basePath}/manage/user/role/' + roleUserId,
                 'roleForm',function(result) {

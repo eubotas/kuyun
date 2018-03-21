@@ -125,9 +125,18 @@
         <form id="personForm" class="m-form m-form--fit m-form--label-align-right">
         <div class="modal-dialog" role="document">
             <div class="modal-content" style="padding:20px">
+                <div class="modal-header">
+                    <h5 class="modal-title" >
+                        员工列表
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">
+												&times;
+											</span>
+                    </button>
+                </div>
                 <div class="form-group text-right dialog-buttons">
                     <button type="button" onclick="assignPersonSubmit();" class="btn btn-primary" >确认分配</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"> 取消 </button>
                 </div>
 
                 <div>
@@ -147,9 +156,18 @@
         <form id="roleForm" class="m-form m-form--fit m-form--label-align-right">
             <div class="modal-dialog" role="document">
                 <div class="modal-content" style="padding:20px">
+                    <div class="modal-header">
+                        <h5 class="modal-title" >
+                            角色列表
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">
+												&times;
+											</span>
+                        </button>
+                    </div>
                     <div class="form-group text-right dialog-buttons">
                         <button type="button" onclick="assignRoleSubmit();" class="btn btn-primary" >确认分配角色</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal"> 取消 </button>
                     </div>
 
                     <div>
@@ -347,42 +365,47 @@
 
     <script>
         var tableStaff = $('#tableStaff');
-        var selectOrgId;
+        var selectOrgId, shownTableStaff;
+        var staffOpt = {
+            url: '${basePath}/manage/organization/assign/listStaff',
+            queryParams:function(p){
+                return {    orgId : selectOrgId,
+                    limit : p.limit,
+                    offset: p.offset,
+                    search: p.search,
+                    sort:   p.sort,
+                    order:  p.order
+                }
+            },
+            striped: true,
+            minimumCountColumns: 2,
+            clickToSelect: true,
+            detailFormatter: 'detailFormatter',
+            pagination: true,
+            paginationLoop: false,
+            sidePagination: 'server',
+            silentSort: false,
+            smartDisplay: false,
+            escape: true,
+            searchOnEnterKey: true,
+            idField: 'userId',
+            maintainSelected: true,
+            columns: [
+                {field: 'ck', checkbox: true,  formatter : checkFormatter},
+                {field: 'realname', title: '姓名', sortable: true, align: 'center'},
+                {field: 'phone', title: '电话号码'},
+                {field: 'email', title: 'Email地址', align: 'center'}
+            ]
+        };
+
         function assignPersonAction(orgId) {
             $("#assignPersonDialog").modal("show");
-            tableStaff.bootstrapTable(
-                //'refresh',
-                {
-                url: '${basePath}/manage/organization/assign/'+orgId+'/listStaff',
-                queryParams:function(p){
-                    return {    orgId : orgId,
-                        limit : p.limit,
-                        offset: p.offset,
-                        search: p.search,
-                        sort:   p.sort,
-                        order:  p.order
-                    }
-                },
-                striped: true,
-                minimumCountColumns: 2,
-                clickToSelect: true,
-                detailFormatter: 'detailFormatter',
-                pagination: true,
-                paginationLoop: false,
-                sidePagination: 'server',
-                silentSort: false,
-                smartDisplay: false,
-                escape: true,
-                searchOnEnterKey: true,
-                idField: 'userId',
-                maintainSelected: true,
-                columns: [
-                    {field: 'ck', checkbox: true,  formatter : checkFormatter},
-                    {field: 'realname', title: '姓名', sortable: true, align: 'center'},
-                    {field: 'phone', title: '电话号码'},
-                    {field: 'email', title: 'Email地址', align: 'center'}
-                ]
-            });
+            if(shownTableStaff){
+                tableStaff.bootstrapTable( 'refresh', staffOpt);
+            }else{
+                shownTableStaff = true;
+                tableStaff.bootstrapTable(staffOpt);
+            }
         }
 
         function checkFormatter(value, row, index) {
@@ -433,40 +456,46 @@
 
     <script>
         var tableRole = $('#tableRole');
+        var showTableRole;
+        var roleOpt={
+            url: '${basePath}/manage/organization/assignRole/listRole',
+            queryParams:function(p){
+                return {    orgId : selectOrgId,
+                    limit : p.limit,
+                    offset: p.offset,
+                    search: p.search,
+                    sort:   p.sort,
+                    order:  p.order
+                }
+            },
+            striped: true,
+            minimumCountColumns: 2,
+            clickToSelect: true,
+            detailFormatter: 'detailFormatter',
+            pagination: true,
+            paginationLoop: false,
+            sidePagination: 'server',
+            silentSort: false,
+            smartDisplay: false,
+            escape: true,
+            searchOnEnterKey: true,
+            idField: 'roleId',
+            maintainSelected: true,
+            columns: [
+                {field: 'ck', checkbox: true,  formatter : checkFormatter},
+                {field: 'name', title: '角色名', sortable: true, align: 'center'},
+                {field: 'title', title: '角色标题'},
+                {field: 'description', title: '角色描述', align: 'center'}
+            ]
+        };
         function assignRoleAction(orgId) {
             $("#assignRoleDialog").modal("show");
-            // bootstrap table初始化
-            tableRole.bootstrapTable({
-                url: '${basePath}/manage/organization/assignRole/'+orgId+'/listRole',
-                queryParams:function(p){
-                    return {    orgId : orgId,
-                        limit : p.limit,
-                        offset: p.offset,
-                        search: p.search,
-                        sort:   p.sort,
-                        order:  p.order
-                    }
-                },
-                striped: true,
-                minimumCountColumns: 2,
-                clickToSelect: true,
-                detailFormatter: 'detailFormatter',
-                pagination: true,
-                paginationLoop: false,
-                sidePagination: 'server',
-                silentSort: false,
-                smartDisplay: false,
-                escape: true,
-                searchOnEnterKey: true,
-                idField: 'roleId',
-                maintainSelected: true,
-                columns: [
-                    {field: 'ck', checkbox: true,  formatter : checkFormatter},
-                    {field: 'name', title: '角色名', sortable: true, align: 'center'},
-                    {field: 'title', title: '角色标题'},
-                    {field: 'description', title: '角色描述', align: 'center'}
-                ]
-            });
+            if(showTableRole){
+                tableRole.bootstrapTable( 'refresh', roleOpt);
+            }else{
+                showTableRole = true;
+                tableRole.bootstrapTable(roleOpt);
+            }
         }
 
         function assignRoleSubmit() {

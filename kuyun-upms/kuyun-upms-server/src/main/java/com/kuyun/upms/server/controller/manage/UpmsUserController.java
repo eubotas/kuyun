@@ -9,6 +9,7 @@ import com.kuyun.common.base.BaseController;
 import com.kuyun.common.util.MD5Util;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.common.validator.NotNullValidator;
+import com.kuyun.upms.common.JspUtil;
 import com.kuyun.upms.common.constant.UpmsResult;
 import com.kuyun.upms.common.constant.UpmsResultConstant;
 import com.kuyun.upms.dao.model.*;
@@ -70,7 +71,8 @@ public class UpmsUserController extends BaseController {
     @ApiOperation(value = "用户组织")
     @RequiresPermissions("upms:user:organization")
     @RequestMapping(value = "/organization/{id}", method = RequestMethod.GET)
-    public String organization(@PathVariable("id") int id, ModelMap modelMap) {
+    @ResponseBody
+    public Object organization(@PathVariable("id") int id, ModelMap modelMap) {
         // 所有组织
         List<UpmsOrganization> upmsOrganizations = upmsOrganizationService.selectByExample(new UpmsOrganizationExample());
         // 用户拥有组织
@@ -78,9 +80,10 @@ public class UpmsUserController extends BaseController {
         upmsUserOrganizationExample.createCriteria()
                 .andUserIdEqualTo(id);
         List<UpmsUserOrganization> upmsUserOrganizations = upmsUserOrganizationService.selectByExample(upmsUserOrganizationExample);
-        modelMap.put("upmsOrganizations", upmsOrganizations);
-        modelMap.put("upmsUserOrganizations", upmsUserOrganizations);
-        return "/manage/user/organization.jsp";
+        Map map=new HashMap();
+        map.put("upmsOrganizations", JspUtil.getMapList(upmsOrganizations,"organizationId","name"));
+        map.put("upmsUserOrganizations", upmsUserOrganizations);
+        return map;
     }
 
     @ApiOperation(value = "用户组织")
@@ -112,7 +115,8 @@ public class UpmsUserController extends BaseController {
     @ApiOperation(value = "用户角色")
     @RequiresPermissions("upms:user:role")
     @RequestMapping(value = "/role/{id}", method = RequestMethod.GET)
-    public String role(@PathVariable("id") int id, ModelMap modelMap) {
+    @ResponseBody
+    public Object role(@PathVariable("id") int id, ModelMap modelMap) {
         // 所有角色
         List<UpmsRole> upmsRoles = upmsRoleService.selectByExample(new UpmsRoleExample());
         // 用户拥有角色
@@ -120,9 +124,10 @@ public class UpmsUserController extends BaseController {
         upmsUserRoleExample.createCriteria()
                 .andUserIdEqualTo(id);
         List<UpmsUserRole> upmsUserRoles = upmsUserRoleService.selectByExample(upmsUserRoleExample);
-        modelMap.put("upmsRoles", upmsRoles);
-        modelMap.put("upmsUserRoles", upmsUserRoles);
-        return "/manage/user/role.jsp";
+        Map map=new HashMap();
+        map.put("upmsRoles", JspUtil.getMapList(upmsRoles,"roleId","name"));
+        map.put("upmsUserRoles", upmsUserRoles);
+        return map;
     }
 
     @ApiOperation(value = "用户角色")

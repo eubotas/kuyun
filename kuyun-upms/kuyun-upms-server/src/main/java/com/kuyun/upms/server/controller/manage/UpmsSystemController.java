@@ -113,10 +113,12 @@ public class UpmsSystemController extends BaseController {
 	@ApiOperation(value = "修改系统")
 	@RequiresPermissions("upms:system:update")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-	public String update(@PathVariable("id") int id, ModelMap modelMap) {
+	@ResponseBody
+	public Object update(@PathVariable("id") int id, ModelMap modelMap) {
 		UpmsSystem system = upmsSystemService.selectByPrimaryKey(id);
-		modelMap.put("system", system);
-		return "/manage/system/update.jsp";
+		Map map=new HashMap();
+		map.put("system", system);
+		return map;
 	}
 
 	@ApiOperation(value = "修改系统")

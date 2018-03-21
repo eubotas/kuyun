@@ -91,6 +91,7 @@
                 maintainSelected: true,
                 idField: 'logId',
                 columns: [
+                    {field: 'ck', checkbox: true},
                     {field: 'logId', title: '编号', sortable: true, align: 'center'},
                     {field: 'description', title: '操作'},
                     {field: 'username', title: '操作用户'},

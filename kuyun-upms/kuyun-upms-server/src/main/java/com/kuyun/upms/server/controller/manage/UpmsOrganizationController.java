@@ -123,9 +123,9 @@ public class UpmsOrganizationController extends BaseController {
 
     @ApiOperation(value = "角色列表")
     @RequiresPermissions("upms:organization:read")
-    @RequestMapping(value = "/assignRole/{id}/listRole", method = RequestMethod.GET)
+    @RequestMapping(value = "/assignRole/listRole", method = RequestMethod.GET)
     @ResponseBody
-    public Object roleList(@PathVariable("id") int id,
+    public Object roleList(@RequestParam("orgId") int id,
                             @RequestParam(required = false, defaultValue = "0", value = "offset") int offset,
                             @RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
                             @RequestParam(required = false, defaultValue = "r.role_id", value = "sort") String sort,
@@ -178,9 +178,9 @@ public class UpmsOrganizationController extends BaseController {
 
     @ApiOperation(value = "员工列表")
     @RequiresPermissions("upms:organization:read")
-    @RequestMapping(value = "/assign/{id}/listStaff", method = RequestMethod.GET)
+    @RequestMapping(value = "/assign/listStaff", method = RequestMethod.GET)
     @ResponseBody
-    public Object staffList(@PathVariable("id") int id,
+    public Object staffList(@RequestParam("orgId") int id,
             @RequestParam(required = false, defaultValue = "0", value = "offset") int offset,
             @RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
             @RequestParam(required = false, value = "sort") String sort,
