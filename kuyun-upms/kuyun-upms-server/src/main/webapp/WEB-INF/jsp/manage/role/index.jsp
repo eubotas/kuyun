@@ -360,8 +360,45 @@
                     }
                 }
             };
-
             $.fn.zTree.init($('#ztree'), setting);
+        }
+
+        //https://keenthemes.com/metronic/preview/inc/api/jstree/ajax_data.php
+        //[{"id":"node_152161101927727","icon":"fa fa-folder icon-lg m--font-success","text":"Node 1521611019","children":false},{"id":"node_152161101956477","icon":"fa fa-file icon-lg m--font-success","text":"Node 1521611019","children":true}]
+        function loadTree2() {
+            $("#permissionDialog").modal("show");
+            var changeDatas = [];
+            var pTree = function () {
+            var permissionTree = function () {
+                $('#ztree').jstree({
+                    'plugins': ["wholerow", "checkbox", "types"],
+                    'core': {
+                        "themes": {
+                            "responsive": false
+                        },
+                        "check_callback" : true,
+                        'data' : {
+                            'url' : function (node) {
+                                return '${basePath}/manage/permission/role/' + selectRoleId;
+                            },
+                            'data' : function (node) {
+                                return { 'parent' : node.id };
+                            }
+                        }
+                    },
+                    "types": {
+                        "default": {
+                            "icon": "fa fa-folder m--font-warning"
+                        }
+                    },
+                });
+            }
+
+            return {
+                init: function () {  permissionTree(); }
+            };
+        }();
+            pTree.init();
         }
 
         function permissionSubmit() {

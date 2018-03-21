@@ -95,7 +95,7 @@ public class UpmsPermissionController extends BaseController {
 
     @ApiOperation(value = "角色权限列表")
     @RequiresPermissions("upms:permission:read")
-    @RequestMapping(value = "/role/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/role/{id}")
     @ResponseBody
     public Object role(@PathVariable("id") int id) {
         return upmsPermissionService.getTreeByRoleId(id);
