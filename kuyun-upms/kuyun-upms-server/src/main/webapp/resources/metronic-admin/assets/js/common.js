@@ -242,6 +242,22 @@ function addOptionToHtmlSelect(defaultValue, htmlSelectId, data, firstItemVal, f
     htmlSelectObj.empty();
     htmlSelectObj.append(options);
 }
+
+function addOptionToHtmlMultiSelect(htmlSelectId, optData, selectedData) {
+    var htmlSelectObj = jQuery("#"+htmlSelectId);
+    var options = [];
+    for(var i = 0; i < optData.length; i++) {
+        var selected = false;
+        for(var j = 0; j < selectedData.length; j++) {
+            if (selectedData[j].VALUEFIELD == data[i].VALUEFIELD) {
+                selected = true;
+            }
+        }
+        options.push(jQuery("<option>", {"value": data[i].VALUEFIELD, "text": data[i].DESCFIELD, "selected": selected}));
+    }
+    htmlSelectObj.empty();
+    htmlSelectObj.append(options);
+}
 ///////////////////////
 function loadHtmlTemplate(jQuery, prefix, el) {
     var html = jQuery(el).html();

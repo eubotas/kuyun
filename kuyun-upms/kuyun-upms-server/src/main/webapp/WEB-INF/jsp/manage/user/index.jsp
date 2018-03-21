@@ -154,16 +154,21 @@
     <div id="orgDialog" class="modal fade crudDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <form id="organizationForm" method="post">
-            <div class="form-group">
-                <select id="organizationId" name="organizationId" multiple="multiple" style="width: 100%">
-                    <c:forEach var="upmsOrganization" items="${upmsOrganizations}">
-                        <option value="${upmsOrganization.organizationId}" <c:forEach var="upmsUserOrganization" items="${upmsUserOrganizations}"><c:if test="${upmsOrganization.organizationId==upmsUserOrganization.organizationId}">selected="selected"</c:if></c:forEach>>${upmsOrganization.name}</option>
-                    </c:forEach>
-                </select>
-            </div>
-            <div class="form-group text-right dialog-buttons">
-                <a class="waves-effect waves-button" href="javascript:;" onclick="organizationSubmit();">保存</a>
-                <a class="waves-effect waves-button" href="javascript:;" onclick="organizationDialog.close();">取消</a>
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="form-group">
+                        <select id="organizationId" name="organizationId" multiple="multiple" style="width: 100%">
+                            <c:forEach var="upmsOrganization" items="${upmsOrganizations}">
+                                <option value="${upmsOrganization.organizationId}" <c:forEach var="upmsUserOrganization" items="${upmsUserOrganizations}"><c:if test="${upmsOrganization.organizationId==upmsUserOrganization.organizationId}">selected="selected"</c:if></c:forEach>>${upmsOrganization.name}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" href="javascript:;" onclick="organizationSubmit();"> 保存 </button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"> 取消 </button>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
@@ -172,16 +177,21 @@
     <div id="roleDialog" class="modal fade crudDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <form id="roleForm" method="post">
-            <div class="form-group">
-                <select id="roleId" name="roleId" multiple="multiple" style="width: 100%">
-                    <c:forEach var="upmsRole" items="${upmsRoles}">
-                        <option value="${upmsRole.roleId}" <c:forEach var="upmsUserRole" items="${upmsUserRoles}"><c:if test="${upmsRole.roleId==upmsUserRole.roleId}">selected="selected"</c:if></c:forEach>>${upmsRole.title}</option>
-                    </c:forEach>
-                </select>
-            </div>
-            <div class="form-group text-right dialog-buttons">
-                <a class="waves-effect waves-button" href="javascript:;" onclick="roleSubmit();">保存</a>
-                <a class="waves-effect waves-button" href="javascript:;" onclick="roleDialog.close();">取消</a>
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="form-group">
+                        <select id="roleId" name="roleId" multiple="multiple" style="width: 100%">
+                            <c:forEach var="upmsRole" items="${upmsRoles}">
+                                <option value="${upmsRole.roleId}" <c:forEach var="upmsUserRole" items="${upmsUserRoles}"><c:if test="${upmsRole.roleId==upmsUserRole.roleId}">selected="selected"</c:if></c:forEach>>${upmsRole.title}</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" href="javascript:;" onclick="roleSubmit();"> 保存 </button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"> 取消 </button>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
@@ -189,27 +199,32 @@
     <div id="permissionDialog" class="modal fade crudDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <form id="permissionForm" method="post">
-            <div class="row">
-                <div class="col-sm-6">
-                    <label>加权限</label>
-                    <div class="form-group">
-                        <div class="fg-line">
-                            <ul id="ztree1" class="ztree"></ul>
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="row" style="padding:10px;">
+                        <div class="col-sm-6">
+                            <label>加权限</label>
+                            <div class="form-group">
+                                <div class="fg-line">
+                                    <ul id="ztree1" class="ztree"></ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <label>减权限</label>
+                            <div class="form-group">
+                                <div class="fg-line">
+                                    <ul id="ztree2" class="ztree"></ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-sm-6">
-                    <label>减权限</label>
-                    <div class="form-group">
-                        <div class="fg-line">
-                            <ul id="ztree2" class="ztree"></ul>
-                        </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"> 取消 </button>
+                        <button type="button" class="btn btn-primary" href="javascript:;" onclick="permissionSubmit();"> 保存 </button>
                     </div>
                 </div>
-            </div>
-            <div class="form-group text-right dialog-buttons">
-                <a class="waves-effect waves-button" href="javascript:;" onclick="permissionSubmit();">保存</a>
-                <a class="waves-effect waves-button" href="javascript:;" onclick="permissionDialog.close();">取消</a>
             </div>
         </form>
     </div>
@@ -377,18 +392,19 @@
             },
             'click #userOrg': function (e, value, row, index) {
                 $("#orgDialog").modal("show");
-                userOrgAction(row);
+                selectUserId =row["userId"];
+                userOrgAction();
 
             },
             'click #userRole': function (e, value, row, index) {
                 $("#roleDialog").modal("show");
-                userRoleAction(row);
-
+                selectUserId =row["userId"];
+                userRoleAction();
             },
             'click #userPermission': function (e, value, row, index) {
                 $("#permissionDialog").modal("show");
-                userPermissionAction(row);
-
+                selectUserId =row["userId"];
+                loadTree();
             },
             'click #delete': function (e, value, row, index) {
                 var rows = new Array();
@@ -440,19 +456,17 @@
 
 
     <script>
-        function userOrgAction(row) {
-            $("#orgDialog").modal("show");
-
-            ajaxGet('${basePath}/manage/user/organization/' + row["userId"], function (responseData) {
+        function userOrgAction() {
+            ajaxGet('${basePath}/manage/user/organization/' + selectUserId, function (responseData) {
                 if (responseData) {
                     var data = responseData;
-                    addOptionToHtmlSelect(data.upmsUserOrganization.organizationId, "organizationId",data.upmsOrganizations);
+                    addOptionToHtmlMultiSelect("organizationId",data.upmsOrganizations,data.upmsUserOrganizations);
                 }
             });
         }
 
-        function organizationSubmit(organizationUserId) {
-            ajaxPost('${basePath}/manage/user/organization/' + organizationUserId,
+        function organizationSubmit() {
+            ajaxPost('${basePath}/manage/user/organization/' + selectUserId,
                 'organizationForm',function(result) {
                     if (result.code != 1) {
                         if (result.data instanceof Array) {
@@ -472,19 +486,17 @@
     </script>
 
     <script>
-        function userRoleAction(row) {
-            $("#roleDialog").modal("show");
-
-            ajaxGet('${basePath}/manage/user/role/' + row["userId"], function (responseData) {
+        function userRoleAction() {
+            ajaxGet('${basePath}/manage/user/role/' + selectUserId, function (responseData) {
                 if (responseData) {
                     var data = responseData;
-                    addOptionToHtmlSelect(data.upmsRoles.roleId, "roleId",data.upmsRoles);
+                    addOptionToHtmlMultiSelect("roleId",data.upmsRoles,data.upmsUserRoles);
                 }
             });
         }
 
-        function roleSubmit(roleUserId) {
-            ajaxPost('${basePath}/manage/user/role/' + roleUserId,
+        function roleSubmit() {
+            ajaxPost('${basePath}/manage/user/role/' + selectUserId,
                 'roleForm',function(result) {
                     if (result.code != 1) {
                         if (result.data instanceof Array) {
@@ -505,73 +517,75 @@
 
     <script>
         //permission
-        var changeDatas = [];
-        var setting1 = {
-            check: {
-                enable: true,
-                // 勾选关联父，取消关联子
-                chkboxType: { "Y" : "", "N" : "" }
-            },
-            async: {
-                enable: true,
-                url: '${basePath}/manage/permission/user/' + permissionUserId + '?type=1'
-            },
-            data: {
-                simpleData: {
-                    enable: true
-                }
-            },
-            callback: {
-                onCheck: function() {
-                    var zTree = $.fn.zTree.getZTreeObj("ztree1")
-                    var changeNodes = zTree.getChangeCheckedNodes();
-                    for (var i = 0; i < changeNodes.length; i ++) {
-                        var changeData = {};
-                        changeData.id = changeNodes[i].id;
-                        changeData.checked = changeNodes[i].checked;
-                        changeData.type = 1;
-                        changeDatas.push(changeData);
+        var selectUserId;
+        function loadTree() {
+            var changeDatas = [];
+            var setting1 = {
+                check: {
+                    enable: true,
+                    // 勾选关联父，取消关联子
+                    chkboxType: { "Y" : "", "N" : "" }
+                },
+                async: {
+                    enable: true,
+                    url: '${basePath}/manage/permission/user/' + selectUserId + '?type=1'
+                },
+                data: {
+                    simpleData: {
+                        enable: true
+                    }
+                },
+                callback: {
+                    onCheck: function() {
+                        var zTree = $.fn.zTree.getZTreeObj("ztree1")
+                        var changeNodes = zTree.getChangeCheckedNodes();
+                        for (var i = 0; i < changeNodes.length; i ++) {
+                            var changeData = {};
+                            changeData.id = changeNodes[i].id;
+                            changeData.checked = changeNodes[i].checked;
+                            changeData.type = 1;
+                            changeDatas.push(changeData);
+                        }
                     }
                 }
-            }
-        };
-        var setting2 = {
-            check: {
-                enable: true,
-                // 勾选关联父，取消关联子
-                chkboxType: { "Y" : "", "N" : "" }
-            },
-            async: {
-                enable: true,
-                url: '${basePath}/manage/permission/user/' + permissionUserId + '?type=-1'
-            },
-            data: {
-                simpleData: {
-                    enable: true
-                }
-            },
-            callback: {
-                onCheck: function() {
-                    var zTree = $.fn.zTree.getZTreeObj("ztree2")
-                    var changeNodes = zTree.getChangeCheckedNodes();
-                    for (var i = 0; i < changeNodes.length; i ++) {
-                        var changeData = {};
-                        changeData.id = changeNodes[i].id;
-                        changeData.checked = changeNodes[i].checked;
-                        changeData.type = -1;
-                        changeDatas.push(changeData);
+            };
+            var setting2 = {
+                check: {
+                    enable: true,
+                    // 勾选关联父，取消关联子
+                    chkboxType: { "Y" : "", "N" : "" }
+                },
+                async: {
+                    enable: true,
+                    url: '${basePath}/manage/permission/user/' + selectUserId + '?type=-1'
+                },
+                data: {
+                    simpleData: {
+                        enable: true
+                    }
+                },
+                callback: {
+                    onCheck: function() {
+                        var zTree = $.fn.zTree.getZTreeObj("ztree2")
+                        var changeNodes = zTree.getChangeCheckedNodes();
+                        for (var i = 0; i < changeNodes.length; i ++) {
+                            var changeData = {};
+                            changeData.id = changeNodes[i].id;
+                            changeData.checked = changeNodes[i].checked;
+                            changeData.type = -1;
+                            changeDatas.push(changeData);
+                        }
                     }
                 }
-            }
-        };
-        function initTree() {
+            };
+
             $.fn.zTree.init($('#ztree1'), setting1);
             $.fn.zTree.init($('#ztree2'), setting2);
         }
 
         function permissionSubmit() {
-            ajaxPostData( '${basePath}/manage/user/permission/' + permissionUserId,
-                {datas: JSON.stringify(changeDatas), permissionUserId: permissionUserId},function(result) {
+            ajaxPostData( '${basePath}/manage/user/permission/' + selectUserId,
+                {datas: JSON.stringify(changeDatas), permissionUserId: selectUserId},function(result) {
                     if (result.code != 1) {
                         if (result.data instanceof Array) {
                             $.each(result.data, function (index, value) {

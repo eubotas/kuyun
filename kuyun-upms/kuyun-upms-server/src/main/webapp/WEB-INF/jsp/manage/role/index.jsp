@@ -94,7 +94,7 @@
                     <div class="modal-body">
                         <div class="form-group m-form__group">
                             <label for="templateID_name" class="form-control-label">
-                                名称:*
+                                名称: *
                             </label>
                             <input type="text" class="form-control" id="templateID_name" name="name">
                         </div>
@@ -127,12 +127,21 @@
     <div id="permissionDialog" class="modal fade crudDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <form id="permissionForm" method="post">
-            <div class="form-group">
-                <ul id="ztree" class="ztree"></ul>
-            </div>
-            <div class="form-group text-right dialog-buttons">
-                <a class="waves-effect waves-button" href="javascript:;" onclick="permissionSubmit();">保存</a>
-                <a class="waves-effect waves-button" href="javascript:;" onclick="permissionDialog.close();">取消</a>
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="form-group" style="padding:10px">
+                        <ul id="ztree" class="ztree"></ul>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            取消
+                        </button>
+                        <button type="button" class="btn btn-primary" href="javascript:;" onclick="permissionSubmit();">
+                            保存
+                        </button>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
@@ -295,7 +304,8 @@
                 if (!row) {
                     swWarn("请至少选择一条记录");
                 }else {
-                    loadTree(row.roleId);
+                    selectRoleId = row.roleId;
+                    loadTree();
                 }
             }
 
@@ -318,7 +328,8 @@
 
 
     <script>
-        function loadTree(roleId) {
+        var selectRoleId;
+        function loadTree() {
             $("#permissionDialog").modal("show");
             var changeDatas = [];
             var setting = {
@@ -329,7 +340,7 @@
                 },
                 async: {
                     enable: true,
-                    url: '${basePath}/manage/permission/role/' + roleId
+                    url: '${basePath}/manage/permission/role/' + selectRoleId
                 },
                 data: {
                     simpleData: {
@@ -354,62 +365,18 @@
         }
 
         function permissionSubmit() {
-            $.ajax({
-                type: 'post',
-                url: '${basePath}/manage/role/permission/' + roleId,
-                data: {datas: JSON.stringify(changeDatas), roleId: roleId},
-                success: function(result) {
-                    if (result.code != 1) {
-                        if (result.data instanceof Array) {
-                            $.each(result.data, function(index, value) {
-                                $.confirm({
-                                    theme: 'dark',
-                                    animation: 'rotateX',
-                                    closeAnimation: 'rotateX',
-                                    title: false,
-                                    content: value.errorMsg,
-                                    buttons: {
-                                        confirm: {
-                                            text: '确认',
-                                            btnClass: 'waves-effect waves-button waves-light'
-                                        }
-                                    }
-                                });
-                            });
-                        } else {
-                            $.confirm({
-                                theme: 'dark',
-                                animation: 'rotateX',
-                                closeAnimation: 'rotateX',
-                                title: false,
-                                content: result.data.errorMsg,
-                                buttons: {
-                                    confirm: {
-                                        text: '确认',
-                                        btnClass: 'waves-effect waves-button waves-light'
-                                    }
-                                }
-                            });
-                        }
+            ajaxPostData('${basePath}/manage/role/permission/' + selectRoleId, {datas: JSON.stringify(changeDatas), roleId: roleId}, function(result) {
+                if (result.code != 1) {
+                    if (result.data instanceof Array) {
+                        $.each(result.data, function(index, value) {
+                            swSuccess(value.errorMsg);
+                        });
                     } else {
-                        permissionDialog.close();
-                        $table.bootstrapTable('refresh');
+                        swSuccess(result.data.errorMsg);
                     }
-                },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    $.confirm({
-                        theme: 'dark',
-                        animation: 'rotateX',
-                        closeAnimation: 'rotateX',
-                        title: false,
-                        content: textStatus,
-                        buttons: {
-                            confirm: {
-                                text: '确认',
-                                btnClass: 'waves-effect waves-button waves-light'
-                            }
-                        }
-                    });
+                } else {
+                    $("#permissionDialog").modal("hide");
+                    $table.bootstrapTable('refresh');
                 }
             });
         }

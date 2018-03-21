@@ -82,7 +82,7 @@ public class UpmsUserController extends BaseController {
         List<UpmsUserOrganization> upmsUserOrganizations = upmsUserOrganizationService.selectByExample(upmsUserOrganizationExample);
         Map map=new HashMap();
         map.put("upmsOrganizations", JspUtil.getMapList(upmsOrganizations,"organizationId","name"));
-        map.put("upmsUserOrganizations", upmsUserOrganizations);
+        map.put("upmsUserOrganizations", JspUtil.getMapList(upmsUserOrganizations,"organizationId","userId"));
         return map;
     }
 
@@ -126,7 +126,7 @@ public class UpmsUserController extends BaseController {
         List<UpmsUserRole> upmsUserRoles = upmsUserRoleService.selectByExample(upmsUserRoleExample);
         Map map=new HashMap();
         map.put("upmsRoles", JspUtil.getMapList(upmsRoles,"roleId","name"));
-        map.put("upmsUserRoles", upmsUserRoles);
+        map.put("upmsUserRoles", JspUtil.getMapList(upmsUserRoles,"roleId","userId"));
         return map;
     }
 
