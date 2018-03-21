@@ -10,6 +10,7 @@ import com.kuyun.eam.common.constant.CollectStatus;
 import com.kuyun.eam.common.constant.DataType;
 import com.kuyun.eam.common.constant.TicketStatus;
 import com.kuyun.eam.dao.model.*;
+import com.kuyun.eam.pojo.GanttData;
 import com.kuyun.eam.pojo.IDS;
 import com.kuyun.eam.pojo.Position;
 import com.kuyun.eam.pojo.Positions;
@@ -534,9 +535,19 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     @Override
-    public Integer updateAlarm(String targetUserId, EamAlarm alarm) {
+    public Integer updateAlarm(String[] targetUserIds, EamAlarm alarm) {
         int result = eamAlarmService.updateByPrimaryKeySelective(alarm);
-        updateEamAlarmTargetUser(alarm.getAlarmId(), Integer.valueOf(targetUserId));
+
+        EamAlarmTargetUserExample example = new EamAlarmTargetUserExample();
+        example.createCriteria().andAlarmIdEqualTo(alarm.getAlarmId());
+        eamAlarmTargetUserService.deleteByExample(example);
+
+        if (targetUserIds != null && targetUserIds.length > 0){
+            //create new data
+            List<EamAlarmTargetUser> targetUsers = createEamAlarmTargetUsers(targetUserIds, alarm);
+            eamAlarmTargetUserService.batchInsert(targetUsers);
+        }
+
         return result;
     }
 
@@ -1786,6 +1797,86 @@ public class EamApiServiceImpl implements EamApiService {
         upmsApiService.handleCustomerReg(adminName, adminName, adminPassword, null, null, company.getName());
 
         return count;
+    }
+
+    @Override
+    public List<EamGrmVariableDataHistoryExtVO> getGrmVariableHistoryData(EamGrmVariableDataHistoryVO eamGrmVariableDataHistoryVO) {
+        if (StringUtils.isNotEmpty(eamGrmVariableDataHistoryVO.getProductLineId())){
+            EamProductLine productLine = eamProductLineService.selectByPrimaryKey(eamGrmVariableDataHistoryVO.getProductLineId());
+            eamGrmVariableDataHistoryVO.setGrmPeriod(productLine.getGrmPeriod());
+        }
+
+//		if (eamGrmVariableDataHistoryVO.getOrderByClause() == null){
+//			eamGrmVariableDataHistoryVO.setOrderByClause("egvdh.update_time asc");
+//		}
+
+
+        List<EamGrmVariableDataHistoryExtVO> result = selectEamGrmVariableDataHistories(eamGrmVariableDataHistoryVO);
+        if (result == null){
+            result = new ArrayList<>();
+        }
+        return result;
+    }
+
+    @Override
+    public List<GanttData> getGanttData(EamGrmVariableDataHistoryVO eamGrmVariableDataHistoryVO) {
+        if (eamGrmVariableDataHistoryVO.getInterval() == null){
+            /*
+              间隔为半小时
+             */
+            eamGrmVariableDataHistoryVO.setInterval(60 * 30);
+        }
+
+
+        List<EamGrmVariableDataHistoryExtVO> historyData = getGrmVariableHistoryData(eamGrmVariableDataHistoryVO);
+
+
+        List<GanttData> result = new ArrayList<>();
+
+        if (eamGrmVariableDataHistoryVO.getDataElementIds() != null && historyData != null){
+            int dataElementIdSize = eamGrmVariableDataHistoryVO.getDataElementIds().size();
+
+            int groupSize = historyData.size() / dataElementIdSize;
+            int groupIndex = 0;
+
+            while (groupIndex < groupSize){
+
+                int index = 0;
+                while (index < dataElementIdSize){
+                    EamGrmVariableDataHistoryExtVO vo = historyData.get(groupIndex * dataElementIdSize + index);
+                    String value = vo.getValue();
+                    Integer dataElementId = vo.getDataElementId();
+                    Date date = vo.getUpdateTime();
+
+                    if ("1".equalsIgnoreCase(value)){
+                        if (result.isEmpty()){
+                            addNewGantt(result, dataElementId, date);
+                        }else {
+                            GanttData lastGanttData = result.get(result.size() -1);
+                            Integer lastDataElementId = lastGanttData.getDataElementId();
+
+                            lastGanttData.setEndDate(date);
+
+                            if (!lastDataElementId.equals(dataElementId)){
+                                addNewGantt(result, dataElementId, date);
+                            }
+                        }
+                    }
+                    index++;
+                }
+                groupIndex++;
+            }
+
+        }
+
+        return result;
+    }
+
+    private void addNewGantt(List<GanttData> result, Integer dataElementId, Date date) {
+        GanttData ganttData = new GanttData();
+        ganttData.setDataElementId(dataElementId);
+        ganttData.setStartDate(date);
+        result.add(ganttData);
     }
 
     private List<Integer> coverToList(String ids){

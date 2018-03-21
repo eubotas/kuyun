@@ -9,9 +9,26 @@ import java.util.Date;
 public class EamGrmVariableDataHistoryExtVO implements Serializable {
 
     private String unit;
+    private String lableName;
+    private Integer dataElementId;
     private String value;
     private Date updateTime;
 
+    public String getLableName() {
+        return lableName;
+    }
+
+    public void setLableName(String lableName) {
+        this.lableName = lableName;
+    }
+
+    public Integer getDataElementId() {
+        return dataElementId;
+    }
+
+    public void setDataElementId(Integer dataElementId) {
+        this.dataElementId = dataElementId;
+    }
 
     public String getUnit() {
         return unit;

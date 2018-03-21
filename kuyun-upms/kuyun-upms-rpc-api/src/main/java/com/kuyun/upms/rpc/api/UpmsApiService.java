@@ -123,7 +123,7 @@ public interface UpmsApiService {
 
     List<UpmsUserVo> selectUsers(UpmsUserVo upmsUserVo);
 
-    long countUsers(UpmsUserVo upmsUserVo);
+    Long countUsers(UpmsUserVo upmsUserVo);
 
     int createUser(UpmsUser upmsUser, UpmsUserCompany upmsUserCompany);
 

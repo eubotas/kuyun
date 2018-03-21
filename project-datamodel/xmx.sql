@@ -324,6 +324,8 @@ create table eam_grm_variable_data_history
    primary key (id)
 );
 
+ALTER table eam_grm_variable_data_history ADD INDEX index_update_time(update_time);
+
 
 
 /*==============================================================*/

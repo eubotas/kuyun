@@ -937,6 +937,8 @@
 
 	<resultMap id="EamGrmVariableDataHistoryVOResultMap" type="com.kuyun.eam.vo.EamGrmVariableDataHistoryExtVO" >
 		<result column="data_element_name" jdbcType="VARCHAR" property="dataElementName" />
+		<result column="lable_name" jdbcType="VARCHAR" property="lableName" />
+		<result column="data_element_id" jdbcType="INTEGER" property="dataElementId" />
 		<result column="value" jdbcType="VARCHAR" property="value" />
 		<result column="unit" jdbcType="VARCHAR" property="unit" />
 		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -944,7 +946,10 @@
 
 	<select id="selectEamGrmVariableDataHistories" parameterType="com.kuyun.eam.vo.EamGrmVariableDataHistoryVO" resultMap="EamGrmVariableDataHistoryVOResultMap">
 		select
+		DISTINCT
 		e.unit,
+		e.lable_name,
+		egvdh.data_element_id,
 		egvdh.value,
 		egvdh.update_time
 		from eam_grm_variable_data_history egvdh,
@@ -952,6 +957,7 @@
 		WHERE egvdh.delete_flag = 0
 		AND e.delete_flag = 0
 		AND egvdh.data_element_id = e.id
+
 		<if test="productLineId != null and productLineId != ''">
 			AND egvdh.product_line_id = #{productLineId}
 		</if>
@@ -988,9 +994,27 @@
 			AND egvdh.data_element_id = #{dataElementId}
 		</if>
 
-		<if test="startDate != null">
-			AND egvdh.update_time <![CDATA[>=]]> #{startDate}
+		<if test="dataElementIds != null">
+			AND egvdh.data_element_id IN
+			<foreach item="item" index="index" collection="dataElementIds"
+					 open="(" separator="," close=")">
+				#{item}
+			</foreach>
 		</if>
+
+		<if test="startDate != null">
+			<choose>
+				<when test="startDate != null and interval != null and grmPeriod != null">
+					AND egvdh.update_time <![CDATA[>=]]> #{startDate}
+
+					AND (time_to_sec(timediff(egvdh.update_time, #{startDate})) mod #{interval} <![CDATA[<]]> #{grmPeriod})
+				</when>
+				<otherwise>
+					AND egvdh.update_time <![CDATA[>=]]> #{startDate}
+				</otherwise>
+			</choose>
+		</if>
+
 		<if test="endDate != null">
 			AND egvdh.update_time <![CDATA[<=]]>#{endDate}
 		</if>

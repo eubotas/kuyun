@@ -171,8 +171,8 @@ public class UpmsApiServiceMock implements UpmsApiService {
     }
 
     @Override
-    public long countUsers(UpmsUserVo upmsUserVo) {
-        return 0;
+    public Long countUsers(UpmsUserVo upmsUserVo) {
+        return null;
     }
 
     @Override

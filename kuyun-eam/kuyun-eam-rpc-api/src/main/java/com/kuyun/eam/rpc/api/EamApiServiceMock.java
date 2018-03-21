@@ -2,6 +2,7 @@ package com.kuyun.eam.rpc.api;
 
 import com.kuyun.eam.common.constant.CollectStatus;
 import com.kuyun.eam.dao.model.*;
+import com.kuyun.eam.pojo.GanttData;
 import com.kuyun.eam.pojo.Position;
 import com.kuyun.eam.pojo.Positions;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
@@ -90,7 +91,7 @@ public class EamApiServiceMock implements EamApiService {
     }
 
     @Override
-    public Integer updateAlarm(String targetUserId, EamAlarm alarm) {
+    public Integer updateAlarm(String[] targetUserIds, EamAlarm alarm) {
         return null;
     }
 
@@ -327,6 +328,16 @@ public class EamApiServiceMock implements EamApiService {
     @Override
     public int createCustomer(UpmsCompany companyVo) {
         return 0;
+    }
+
+    @Override
+    public List<EamGrmVariableDataHistoryExtVO> getGrmVariableHistoryData(EamGrmVariableDataHistoryVO eamGrmVariableDataHistoryVO) {
+        return null;
+    }
+
+    @Override
+    public List<GanttData> getGanttData(EamGrmVariableDataHistoryVO eamGrmVariableDataHistoryVO) {
+        return null;
     }
 
 

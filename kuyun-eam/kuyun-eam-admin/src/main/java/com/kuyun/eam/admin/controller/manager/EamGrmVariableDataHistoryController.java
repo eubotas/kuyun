@@ -1,8 +1,11 @@
 package com.kuyun.eam.admin.controller.manager;
 
+import cn.jiguang.common.utils.StringUtils;
 import com.kuyun.common.base.BaseController;
+import com.kuyun.eam.dao.model.EamProductLine;
 import com.kuyun.eam.pojo.CurveData;
 import com.kuyun.eam.rpc.api.EamApiService;
+import com.kuyun.eam.rpc.api.EamProductLineService;
 import com.kuyun.eam.vo.EamGrmVariableDataHistoryExtVO;
 import com.kuyun.eam.vo.EamGrmVariableDataHistoryVO;
 import io.swagger.annotations.Api;
@@ -33,40 +36,30 @@ public class EamGrmVariableDataHistoryController extends BaseController {
 	@Autowired
 	private EamApiService eamApiService;
 
+	@Autowired
+	private EamProductLineService eamProductLineService;
+
 
 	@ApiOperation(value = "智库历史数据曲线列表")
 	@RequiresPermissions("eam:productLine:read")
 	@RequestMapping(value = "/list/curve", method = RequestMethod.POST)
 	@ResponseBody
 	public Object listCurve(EamGrmVariableDataHistoryVO eamGrmVariableDataHistoryVO) {
-
-		List<EamGrmVariableDataHistoryExtVO> rows = getGrmVariableHistoryData(eamGrmVariableDataHistoryVO);
+		List<EamGrmVariableDataHistoryExtVO> rows = eamApiService.getGrmVariableHistoryData(eamGrmVariableDataHistoryVO);
 		return buildCurveData(rows);
 	}
 
 
 	@ApiOperation(value = "智库历史数据列表")
 	@RequiresPermissions("eam:productLine:read")
-	@RequestMapping(value = "/list/", method = RequestMethod.POST)
+	@RequestMapping(value = "/list", method = RequestMethod.POST)
 	@ResponseBody
 	public Object list(EamGrmVariableDataHistoryVO eamGrmVariableDataHistoryVO) {
-		List<EamGrmVariableDataHistoryExtVO> rows = getGrmVariableHistoryData(eamGrmVariableDataHistoryVO);
+		List<EamGrmVariableDataHistoryExtVO> rows = eamApiService.getGrmVariableHistoryData(eamGrmVariableDataHistoryVO);
 		return rows;
 	}
 
-	private List<EamGrmVariableDataHistoryExtVO> getGrmVariableHistoryData(EamGrmVariableDataHistoryVO eamGrmVariableDataHistoryVO) {
 
-		if (eamGrmVariableDataHistoryVO.getOrderByClause() == null){
-			eamGrmVariableDataHistoryVO.setOrderByClause("egvdh.update_time desc");
-		}
-
-
-		List<EamGrmVariableDataHistoryExtVO> result = eamApiService.selectEamGrmVariableDataHistories(eamGrmVariableDataHistoryVO);
-		if (result == null){
-			result = new ArrayList<>();
-		}
-		return result;
-	}
 
 	private CurveData buildCurveData(List<EamGrmVariableDataHistoryExtVO> rows){
 		List<String> value = new ArrayList<>(rows.size());
@@ -84,6 +77,13 @@ public class EamGrmVariableDataHistoryController extends BaseController {
 	}
 
 
+	@ApiOperation(value = "智库历史数据点甘特列表")
+	@RequiresPermissions("eam:productLine:read")
+	@RequestMapping(value = "/gantt", method = RequestMethod.POST)
+	@ResponseBody
+	public Object gantt(EamGrmVariableDataHistoryVO eamGrmVariableDataHistoryVO) {
+		return  eamApiService.getGanttData(eamGrmVariableDataHistoryVO);
+	}
 
 
 }

@@ -542,7 +542,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     }
 
     @Override
-    public long countUsers(UpmsUserVo upmsUserVo) {
+    public Long countUsers(UpmsUserVo upmsUserVo) {
         return upmsApiMapper.countUsers(upmsUserVo);
     }
 

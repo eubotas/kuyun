@@ -2,6 +2,7 @@ package com.kuyun.eam.rpc.api;
 
 import com.kuyun.eam.common.constant.CollectStatus;
 import com.kuyun.eam.dao.model.*;
+import com.kuyun.eam.pojo.GanttData;
 import com.kuyun.eam.pojo.Position;
 import com.kuyun.eam.pojo.Positions;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
@@ -44,7 +45,7 @@ public interface EamApiService {
 
     Integer createAlarm(String targetUserId, EamAlarm alarm);
 
-    Integer updateAlarm(String targetUserId, EamAlarm alarm);
+    Integer updateAlarm(String[] targetUserIds, EamAlarm alarm);
 
     void handleAlarm(EamGrmVariableData variableData);
 
@@ -134,4 +135,8 @@ public interface EamApiService {
     int deleteDataElements(String ids);
 
     int createCustomer(UpmsCompany companyVo);
+
+    List<EamGrmVariableDataHistoryExtVO> getGrmVariableHistoryData(EamGrmVariableDataHistoryVO eamGrmVariableDataHistoryVO);
+
+    List<GanttData> getGanttData(EamGrmVariableDataHistoryVO eamGrmVariableDataHistoryVO);
 }

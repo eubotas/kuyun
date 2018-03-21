@@ -201,10 +201,10 @@ public class EamAlarmController extends BaseController {
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	@ResponseBody
 	public Object update(HttpServletRequest request, EamAlarm alarm) {
-		String targetUserId = request.getParameter("alarmTargetUser");
+		String[] targetUserIds = request.getParameterValues("alarmTargetUser");
 
 		baseEntityUtil.updateAddtionalValue(alarm);
-		int count = eamApiService.updateAlarm(targetUserId, alarm);
+		int count = eamApiService.updateAlarm(targetUserIds, alarm);
 		return new EamResult(SUCCESS, count);
 	}
 
