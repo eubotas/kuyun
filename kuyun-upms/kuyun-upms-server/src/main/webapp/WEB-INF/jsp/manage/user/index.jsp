@@ -155,12 +155,12 @@
          aria-hidden="true">
         <form id="organizationForm" method="post">
             <div class="modal-dialog" role="document">
-                <div class="modal-content">
+                <div class="modal-content" style="padding:20px">
                     <div class="form-group">
-                        <select id="organizationId" name="organizationId" multiple="multiple" style="width: 100%">
-                            <c:forEach var="upmsOrganization" items="${upmsOrganizations}">
-                                <option value="${upmsOrganization.organizationId}" <c:forEach var="upmsUserOrganization" items="${upmsUserOrganizations}"><c:if test="${upmsOrganization.organizationId==upmsUserOrganization.organizationId}">selected="selected"</c:if></c:forEach>>${upmsOrganization.name}</option>
-                            </c:forEach>
+                        <label class="col-form-label">
+                            部门
+                        </label>
+                        <select id="organizationId" name="organizationId" class="form-control m-bootstrap-select m_selectpicker" multiple>
                         </select>
                     </div>
 
@@ -178,13 +178,16 @@
          aria-hidden="true">
         <form id="roleForm" method="post">
             <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="form-group">
-                        <select id="roleId" name="roleId" multiple="multiple" style="width: 100%">
-                            <c:forEach var="upmsRole" items="${upmsRoles}">
-                                <option value="${upmsRole.roleId}" <c:forEach var="upmsUserRole" items="${upmsUserRoles}"><c:if test="${upmsRole.roleId==upmsUserRole.roleId}">selected="selected"</c:if></c:forEach>>${upmsRole.title}</option>
-                            </c:forEach>
+                <div class="modal-content" style="padding:20px">
+                    <div class="form-group m-form__group row">
+                        <label class="col-form-label col-lg-3 col-sm-12">
+                            角色
+                        </label>
+                        <div class="col-lg-4 col-md-9 col-sm-12">
+
+                        <select id="roleId" name="roleId" class="form-control m-bootstrap-select m_selectpicker" multiple>
                         </select>
+                        </div>
                     </div>
 
                     <div class="modal-footer">
