@@ -335,6 +335,7 @@
             var setting = {
                 check: {
                     enable: true,
+                    chkStyle: "checkbox",
                     // 勾选关联父，取消关联子
                     chkboxType: { "Y" : "p", "N" : "s" }
                 },
@@ -419,6 +420,7 @@
         }
     </script>
 
+    <link href="${basePath}/resources/kuyun-admin/plugins/zTree_v3/css/zTreeStyle/zTreeStyle.css" rel="stylesheet"/>
     <script src="${basePath}/resources/kuyun-admin/plugins/zTree_v3/js/jquery.ztree.all.min.js"></script>
 </pageResources>
 

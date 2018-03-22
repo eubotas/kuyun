@@ -160,7 +160,7 @@
                         <label class="col-form-label">
                             部门
                         </label>
-                        <select id="organizationId" name="organizationId" class="form-control m-bootstrap-select m_selectpicker" multiple>
+                        <select id="organizationId" name="organizationId" multiple="multiple" style="width: 100%">
                         </select>
                     </div>
 
@@ -184,8 +184,7 @@
                             角色
                         </label>
                         <div class="col-lg-4 col-md-9 col-sm-12">
-
-                        <select id="roleId" name="roleId" class="form-control m-bootstrap-select m_selectpicker" multiple>
+                        <select id="roleId" name="roleId" multiple="multiple" style="width: 100%">
                         </select>
                         </div>
                     </div>
@@ -605,6 +604,10 @@
             );
         }
     </script>
+
+
+    <link href="${basePath}/resources/kuyun-admin/plugins/zTree_v3/css/zTreeStyle/zTreeStyle.css" rel="stylesheet"/>
+    <script src="${basePath}/resources/kuyun-admin/plugins/zTree_v3/js/jquery.ztree.all.min.js"></script>
 </pageResources>
 
 
