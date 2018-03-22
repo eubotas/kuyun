@@ -154,9 +154,11 @@ public class EamMaintainPlanController extends BaseController {
 	@ApiOperation(value = "新增维修计划")
 	@RequiresPermissions("eam:maintainPlan:create")
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public String create(ModelMap modelMap) {
-		setWebSelect(modelMap);
-		return "/manage/maintainplan/create.jsp";
+    @ResponseBody
+    public Object create(ModelMap modelMap) {
+        Map map=new HashMap();
+        setWebSelect(map);
+		return map;
 	}
 
 	@ApiOperation(value = "新增维修计划")
@@ -193,11 +195,12 @@ public class EamMaintainPlanController extends BaseController {
     @ApiOperation(value = "维修计划详细")
     @RequiresPermissions("eam:maintainPlan:read")
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
-    public String detail(@PathVariable("id") int id, ModelMap modelMap) {
-
+    @ResponseBody
+    public Object detail(@PathVariable("id") int id, ModelMap modelMap) {
+        Map map=new HashMap();
         EamMaintainPlanVO vo= eamApiService.getMaintainPlan(id);
-        modelMap.put("plan", vo);
-        return "/manage/maintainplan/detail.jsp";
+        map.put("plan", vo);
+        return map;
     }
 
 	@ApiOperation(value = "修改维修计划")
