@@ -199,6 +199,7 @@ public class EamMaintainPlanController extends BaseController {
     public Object detail(@PathVariable("id") int id, ModelMap modelMap) {
         Map map=new HashMap();
         EamMaintainPlanVO vo= eamApiService.getMaintainPlan(id);
+        vo.setStrNextMaintainDate(EamDateUtil.getDateStr(vo.getNextMaintainDate()));
         map.put("plan", vo);
         return map;
     }

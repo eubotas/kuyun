@@ -37,7 +37,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 /**
- * 设备模型控制器
+ * 工单类型控制器
  * Created by kuyun on 2017/4/9.
  */
 @Controller
@@ -46,9 +46,6 @@ import io.swagger.annotations.ApiOperation;
 public class EamTicketTypeController extends BaseController {
 
 	private static Logger _log = LoggerFactory.getLogger(EamTicketTypeController.class);
-	
-//	@Autowired
-//	private EamTicketService eamTicketService;
 
 	@Autowired
 	private EamTicketTypeService eamTicketTypeService;
@@ -136,10 +133,12 @@ public class EamTicketTypeController extends BaseController {
 	@ApiOperation(value = "修改工单类型")
 	@RequiresPermissions("eam:ticketType:update")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-	public String update(@PathVariable("id") int id, ModelMap modelMap) {
+    @ResponseBody
+    public Object update(@PathVariable("id") int id, ModelMap modelMap) {
 		EamTicketType eamTicketType = eamTicketTypeService.selectByPrimaryKey(id);
-		modelMap.put("ticketType", eamTicketType);
-		return "/manage/ticket/type/update.jsp";
+        Map map=new HashMap();
+        map.put("ticketType", eamTicketType);
+        return map;
 	}
 
 	@ApiOperation(value = "修改工单类型")

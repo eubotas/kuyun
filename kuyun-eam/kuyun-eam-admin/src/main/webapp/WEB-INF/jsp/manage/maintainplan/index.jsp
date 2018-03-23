@@ -97,9 +97,6 @@
                                 <label for="templateID_equipmentCategoryId">设备类型 *</label>
                                 <div class="form-group">
                                     <select id="templateID_equipmentCategoryId" name="equipmentCategoryId" style="width: 100%">
-                                        <c:forEach var="equipmentCategory" items="${equipmentCategorys}">
-                                            <option value="${equipmentCategory.equipmentCategoryId}" <c:if test="${plan.equipmentCategoryId== equipmentCategory.equipmentCategoryId}">selected</c:if> >${equipmentCategory.name}</option>
-                                        </c:forEach>
                                     </select>
                                 </div>
                             </div>
@@ -109,10 +106,6 @@
                                 <div class="form-group">
                                     <div class="fg-line">
                                         <select id="templateID_equipmentId" name="equipmentId" style="width: 100%">
-                                            <c:forEach var="equipment" items="${equipments}">
-                                                <option value="${equipment.equipmentId}"  <c:if test="${plan.equipmentId== equipment.equipmentId}">selected</c:if> >${equipment.name}</option>
-                                            </c:forEach>
-
                                         </select>
                                     </div>
                                 </div>
@@ -138,10 +131,6 @@
                                 <div class="form-group">
                                     <div class="fg-line">
                                         <select id="templateID_orgId" name="orgId" style="width: 100%">
-                                            <c:forEach var="org" items="${orgs}">
-                                                <option value="${org.organizationId}" <c:if test="${plan.orgId== org.organizationId}">selected</c:if> >${org.name}</option>
-                                            </c:forEach>
-
                                         </select>
                                     </div>
                                 </div>
@@ -151,8 +140,7 @@
                                 <label for="templateID_nextMaintainDate">下个维护日期 *</label>
                                 <div class="form-group">
                                     <div class="fg-line">
-                                        <input id="templateID_nextMaintainDate" name="nextMaintainDate" type="text" value="${MaintainDate}" readonly />
-                                        <img onclick="WdatePicker({dateFmt:dateFormat, minDate:getToday(), el:'nextMaintainDate'})" src="${basePath}/resources/kuyun-admin/plugins/My97DatePicker/skin/datePicker.gif" width="16" height="32" align="absmiddle">
+                                        <input id="templateID_nextMaintainDate" name="nextMaintainDate" type="date" class="form-control m-input" />
                                     </div>
                                 </div>
                             </div>
@@ -172,10 +160,6 @@
                                 <div class="form-group">
                                     <div class="fg-line">
                                         <select id="templateID_maintainFrequencyUnit" name="maintainFrequencyUnit" style="width: 100%">
-                                            <c:forEach var="unit" items="${units}">
-                                                <option value="${unit.codeValue}" <c:if test="${plan.maintainFrequencyUnit== unit.codeValue}">selected</c:if>>${unit.codeName}</option>
-                                            </c:forEach>
-
                                         </select>
                                     </div>
                                 </div>
@@ -211,7 +195,18 @@
          aria-hidden="true">
         <form id="updateForm" method="post" class="m-form m-form--fit m-form--label-align-right">
             <div class="modal-dialog" role="document">
-                <div class="modal-content" style="padding:20px">
+                <div class="modal-content" style="padding:20px; width:700px;">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            维修计划详情
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">
+												&times;
+											</span>
+                        </button>
+                    </div>
+
                     <div class="form-group m-form__group row">
                         <div class="col-sm-6">
                             <label >设备类型</label>
@@ -227,20 +222,18 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-group m-form__group row">
-                    <div class="row">
+                    <div class="form-group m-form__group row" style="padding-left: 35px">
                         <div class="col-sm-12">
                             <label for="workContent">工单描述</label>
                             <div class="form-group">
                         <textarea id="workContent" class="form-control" name="workContent"
-                                  maxlength="200" rows="4"></textarea>
+                                  maxlength="200" rows="4" cols="200"></textarea>
 
                             </div>
                         </div>
-                    </div>
                 </div>
 
-                <div class="row">
+                <div class="form-group m-form__group row">
                     <div class="col-sm-6">
                         <label >维护部门</label>
                         <div class="form-group">
@@ -253,13 +246,13 @@
                         <label for="nextMaintainDate">下个维护日期</label>
                         <div class="form-group">
                             <div class="fg-line">
-                                <input id="nextMaintainDate" name="nextMaintainDate" type="text" value="${plan.nextMaintainDate}" readonly />
+                                <input id="nextMaintainDate" name="nextMaintainDate" type="text" readonly />
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="form-group m-form__group row">
                     <div class="col-sm-6">
                         <label >维护频率</label>
                         <div class="form-group">
@@ -278,18 +271,27 @@
                     </div>
                 </div>
 
-                <div class="form-group text-right dialog-buttons">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                        取消
-                    </button>
-                </div>
+
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-12">
+                            <h5 class="modal-title">
+                                关联工单列表
+                            </h5>
+                        </div>
+                    </div>
+                    <div>
+                        <table id="ticketTable"></table>
+                    </div>
+
+
+                    <div class="form-group text-right dialog-buttons">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            关闭
+                        </button>
+                    </div>
                 </div>
             </div>
         </form>
-
-        <div >
-            <table id="ticketTable"></table>
-        </div>
     </div>
 
 
@@ -482,7 +484,7 @@
                         $("#orgId").text(data.plan.orgName);
                         $("#maintainFrequencyQuantity").text(data.plan.maintainFrequencyQuantity +' '+ data.plan.maintainFrequencyUnit);
 
-                        $("#nextMaintainDate").text(data.MaintainDate);
+                        $("#nextMaintainDate").text(data.plan.strNextMaintainDate);
                         $("#workContent").text(data.plan.workContent);
                         $("#remindTime").text(data.plan.remindTime);
                         loadTicketTab(planId);
@@ -513,8 +515,6 @@
                 url: '${basePath}/manage/maintainPlan/'+planId+'/tickets',
                 striped: true,
                 search: true,
-                showRefresh: true,
-                showColumns: true,
                 minimumCountColumns: 2,
                 clickToSelect: true,
                 detailView: true,
@@ -530,7 +530,6 @@
                 sortName: 'planTicketId',
                 sortOrder: 'desc',
                 maintainSelected: true,
-                toolbar: '#toolbar',
                 columns: [
                     {field: 'ck', checkbox: true},
                     {field: 'ticketDescription', title: '工单描述', sortable: true, align: 'center'},

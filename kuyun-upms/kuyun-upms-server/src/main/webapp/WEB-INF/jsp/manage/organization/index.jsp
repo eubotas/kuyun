@@ -378,6 +378,8 @@
                 }
             },
             striped: true,
+            // search: true,
+            // searchAlign: 'left',
             minimumCountColumns: 2,
             clickToSelect: true,
             detailFormatter: 'detailFormatter',
@@ -469,6 +471,8 @@
                 }
             },
             striped: true,
+            // search: true,
+            // searchAlign: 'left',
             minimumCountColumns: 2,
             clickToSelect: true,
             detailFormatter: 'detailFormatter',

@@ -129,10 +129,12 @@ public class EamTicketTagController extends BaseController {
 	@ApiOperation(value = "修改评价标签")
 	@RequiresPermissions("eam:ticketTag:update")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-	public String update(@PathVariable("id") int id, ModelMap modelMap) {
+    @ResponseBody
+    public Object update(@PathVariable("id") int id, ModelMap modelMap) {
 		EamTicketTag eamTicketTag = eamTicketTagService.selectByPrimaryKey(id);
-		modelMap.put("ticketTag", eamTicketTag);
-		return "/manage/ticket/tag/update.jsp";
+		Map map=new HashMap();
+        map.put("ticketTag", eamTicketTag);
+		return map;
 	}
 
 	@ApiOperation(value = "修改评价标签")

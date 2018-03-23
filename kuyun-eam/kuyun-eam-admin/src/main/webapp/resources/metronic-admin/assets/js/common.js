@@ -39,6 +39,28 @@ function ajaxPost(targetUrl, formId, callSuccess, callValidate, callError)
     });
 }
 
+function ajaxPostData(targetUrl, data, callSuccess, callValidate, callError)
+{
+    $.ajax({
+        type: 'post',
+        url: targetUrl,
+        data: data,
+        beforeSend: function () {
+            if(callValidate)
+                return callValidate();
+        },
+        success: function (result) {
+            callSuccess(result);
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            if(callError)
+                callError(XMLHttpRequest, textStatus);
+            else
+                swWarn(textStatus);
+        }
+    });
+}
+
 function ajaxGet(targetUrl, callSuccess, callError)
 {
     $.ajax({
@@ -79,6 +101,7 @@ function deleteRows(rows,idName,delUrl, tipContent, successTip, tableObj) {
         swWarn("请至少选择一条记录");
     }else {
         swal({
+            title: "操作提示",
             text: tipContent,
             showCancelButton: true,
             confirmButtonText: '确认',
@@ -90,6 +113,45 @@ function deleteRows(rows,idName,delUrl, tipContent, successTip, tableObj) {
                     ids.push(rows[i][idName]);
                 }
                 ajaxGet(delUrl + ids.join("-"), function(result){
+                    if (result.code < 1) {
+                        sendErrorInfo(result);
+                    } else {
+                        if(successTip)
+                            toastr.success(successTip);
+                        else
+                            toastr.success("删除成功!");
+                        if(tableObj)
+                            tableObj.bootstrapTable('refresh');
+                        else
+                            $table.bootstrapTable('refresh');
+                    }
+                });
+            }
+        });
+
+    }//end else
+}
+
+function deleteRowsChar(rows,idName,delUrl,tag, tipContent, successTip, tableObj) {
+    if (rows.length == 0) {
+        swWarn("请至少选择一条记录");
+    }else {
+        swal({
+            text: tipContent,
+            title: "操作提示",
+            showCancelButton: true,
+            confirmButtonText: '确认',
+            cancelButtonText: '取消'
+        }).then(function(result) {
+            if (result.value) {
+                var ids = new Array();
+                for (var i in rows) {
+                    ids.push(rows[i][idName]);
+                }
+                var spliteTag="-";
+                if(tag)
+                    spliteTag=tag;
+                ajaxGet(delUrl + ids.join(spliteTag), function(result){
                     if (result.code < 1) {
                         sendErrorInfo(result);
                     } else {
@@ -180,6 +242,31 @@ function addOptionToHtmlSelect(defaultValue, htmlSelectId, data, firstItemVal, f
     htmlSelectObj.empty();
     htmlSelectObj.append(options);
 }
+
+function addOptionToHtmlMultiSelect(htmlSelectId, optData, selectedData) {
+    var htmlSelectObj = jQuery("#"+htmlSelectId);
+    var options = [];
+    if(optData) {
+        for (var i = 0; i < optData.length; i++) {
+            var selected = false;
+            if(selectedData) {
+                for (var j = 0; j < selectedData.length; j++) {
+                    if (selectedData[j].VALUEFIELD == optData[i].VALUEFIELD) {
+                        selected = true;
+                        break;
+                    }
+                }
+            }
+            options.push(jQuery("<option>", {
+                "value": optData[i].VALUEFIELD,
+                "text": optData[i].DESCFIELD,
+                "selected": selected
+            }));
+        }
+    }
+    htmlSelectObj.empty();
+    htmlSelectObj.append(options);
+}
 ///////////////////////
 function loadHtmlTemplate(jQuery, prefix, el) {
     var html = jQuery(el).html();
@@ -218,4 +305,10 @@ function strReplaceAll(str, oldValue, newValue) {
         idx += newValue.length;
     }
     return str;
+}
+
+
+// 格式化时间
+function timeFormatter(value , row, index) {
+    return new Date(value).toLocaleString();
 }

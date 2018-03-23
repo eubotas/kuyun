@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class EamDateUtil {
-    private static String defaultFormat="yyyy/MM/dd";
+    private static String defaultFormat="yyyy-MM-dd";
 
     public static int getWeekOfDate(Date dt) {
         Calendar cal = Calendar.getInstance();

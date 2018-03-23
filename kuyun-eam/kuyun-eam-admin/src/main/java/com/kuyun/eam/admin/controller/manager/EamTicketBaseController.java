@@ -62,7 +62,7 @@ public abstract class EamTicketBaseController extends BaseController {
     @Autowired
     public com.kuyun.fileuploader.rpc.api.FileUploaderService fileUploaderService;
 
-	public void setTicketInfo( int id, ModelMap modelMap) {
+	public void setTicketInfo( int id, Map map) {
 		EamTicketExample ete = new EamTicketExample();
 		ete.createCriteria().andTicketIdEqualTo(id);
 		EamTicketVO eamTicket = eamApiService.selectTicket(ete).get(0);
@@ -72,7 +72,7 @@ public abstract class EamTicketBaseController extends BaseController {
         if(assId != null){
             eamTicket.setTagNames(getAssessmentTicketTag(assId));
         }
-		modelMap.put("ticket", eamTicket);
+        map.put("ticket", eamTicket);
 		
 		//retrieve the image list
 		List<String> imageList =  new ArrayList<String>();
@@ -84,7 +84,7 @@ public abstract class EamTicketBaseController extends BaseController {
 				imageList.add(fileUploaderService.getServerInfo().getEndpoint_show() + "/" + uuid);
 			}
 		}
-		modelMap.put("imageList", imageList);
+        map.put("imageList", imageList);
 
 		//retrieve the voice list
 		List<String> voiceList =  new ArrayList<String>();
@@ -96,38 +96,38 @@ public abstract class EamTicketBaseController extends BaseController {
 //				voiceList.add(fileUploaderService.getServerInfo().getEndpoint_show() + "/" + uuid);
 //			}
 //		}
-		modelMap.put("voiceList", voiceList);
+        map.put("voiceList", voiceList);
 
         EamTicketRecordExample etre = new EamTicketRecordExample();
 		etre.createCriteria().andTicketIdEqualTo(id);
 		etre.setOrderByClause("eam_ticket_record_create_time desc");
 
 		List<EamTicketRecord> records = eamTicketRecordService.selectByExample(etre);
-		modelMap.put("records", records);
+        map.put("records", records);
 	}
 
-    public void selectTicketUpdate(ModelMap modelMap){
+    public void selectTicketUpdate(Map map){
         List<UpmsUser> users = upmsApiService.selectUsersByUserId(baseEntityUtil.getCurrentUser().getUserId());
 
-        modelMap.put("users", users);
+        map.put("users", users);
         EamTicketTypeExample typeExample = new EamTicketTypeExample();
         EamTicketTypeExample.Criteria criteria = typeExample.createCriteria();
         criteria.andCompanyIdEqualTo(getCompanyId());
         List<EamTicketType> types = eamTicketTypeService.selectByExample( typeExample );
-        modelMap.put("ticketTypes", types);
+        map.put("ticketTypes", types);
 
         EamEquipmentCategoryExample example = new EamEquipmentCategoryExample();
         EamEquipmentCategoryExample.Criteria criteria2 = example.createCriteria();
         criteria2.andCompanyIdEqualTo(getCompanyId());
         List<EamEquipmentCategory> cats = eamEquipmentCategoryService.selectByExample( example );
-        modelMap.addAttribute("equipmentCategorys", cats);
+        map.put("equipmentCategorys", cats);
 
         EamEquipmentVO equipmentVO = new EamEquipmentVO();
         equipmentVO.setCompanyId(getCompanyId());
         List<EamEquipmentVO> rows = eamApiService.selectEquipments(equipmentVO);
-        modelMap.addAttribute("equipments", rows);
+        map.put("equipments", rows);
 
-        modelMap.put("uploadServer", fileUploaderService.getServerInfo());
+        map.put("uploadServer", fileUploaderService.getServerInfo());
     }
 
     public int getCurrUserId(){

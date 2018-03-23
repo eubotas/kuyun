@@ -31,7 +31,7 @@ import static com.kuyun.eam.common.constant.EamResultConstant.INVALID_LENGTH;
 import static com.kuyun.eam.common.constant.EamResultConstant.SUCCESS;
 
 /**
- * 设备模型控制器
+ * 工单记录控制器
  * Created by kuyun on 2017/4/9.
  */
 @Controller
@@ -133,11 +133,13 @@ public class EamTicketRecordController extends EamTicketBaseController {
 	@ApiOperation(value = "修改工单记录")
 	@RequiresPermissions("eam:ticketRecord:update")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-	public String update(@PathVariable("id") int id, ModelMap modelMap) {
+    @ResponseBody
+    public Object update(@PathVariable("id") int id, ModelMap modelMap) {
 		EamTicketRecord eamTicketRecord = eamTicketRecordService.selectByPrimaryKey(id);
-		modelMap.put("ticketRecord", eamTicketRecord);
-        setTicketInfo(  eamTicketRecord.getTicketId(),  modelMap);
-		return "/manage/ticket/record/update.jsp";
+        Map map=new HashMap();
+        setTicketInfo(  eamTicketRecord.getTicketId(),  map);
+        map.put("ticketRecord", eamTicketRecord);
+        return map;
 	}
 
 	@ApiOperation(value = "修改工单记录")

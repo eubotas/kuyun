@@ -306,3 +306,9 @@ function strReplaceAll(str, oldValue, newValue) {
     }
     return str;
 }
+
+
+// 格式化时间
+function timeFormatter(value , row, index) {
+    return new Date(value).toLocaleString();
+}
