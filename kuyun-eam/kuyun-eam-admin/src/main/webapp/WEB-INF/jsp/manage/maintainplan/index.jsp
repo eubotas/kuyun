@@ -43,8 +43,7 @@
 </subHeader>
 
 
-<div>
-
+<content>
     <div class="m-portlet m-portlet--mobile">
         <div class="m-portlet__body">
             <div id="toolbar">
@@ -210,78 +209,81 @@
 
     <div id="detailDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
-        <form id="updateForm" method="post">
-            <div class="row">
-                <div class="col-sm-6">
-                    <label >设备类型</label>
-                    <div class="form-group" id="equipmentCategoryId">
-                    </div>
-                </div>
+        <form id="updateForm" method="post" class="m-form m-form--fit m-form--label-align-right">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" style="padding:20px">
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-6">
+                            <label >设备类型</label>
+                            <div class="form-group" id="equipmentCategoryId">
+                            </div>
+                        </div>
 
-                <div class="col-sm-6">
-                    <label >设备名称</label>
-                    <div class="form-group">
-                        <div class="fg-line" id="equipmentId">
+                        <div class="col-sm-6">
+                            <label >设备名称</label>
+                            <div class="form-group">
+                                <div class="fg-line" id="equipmentId">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group m-form__group row">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label for="workContent">工单描述</label>
+                            <div class="form-group">
+                        <textarea id="workContent" class="form-control" name="workContent"
+                                  maxlength="200" rows="4"></textarea>
+
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row">
                 <div class="row">
-                    <div class="col-sm-12">
-                        <label for="workContent">工单描述</label>
+                    <div class="col-sm-6">
+                        <label >维护部门</label>
                         <div class="form-group">
-					<textarea id="workContent" class="form-control" name="workContent"
-                              maxlength="200" rows="4"></textarea>
-
+                            <div class="fg-line" id="orgId">
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="row">
-                <div class="col-sm-6">
-                    <label >维护部门</label>
-                    <div class="form-group">
-                        <div class="fg-line" id="orgId">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-sm-6">
-                    <label for="nextMaintainDate">下个维护日期</label>
-                    <div class="form-group">
-                        <div class="fg-line">
-                            <input id="nextMaintainDate" name="nextMaintainDate" type="text" value="${plan.nextMaintainDate}" readonly />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-sm-6">
-                    <label >维护频率</label>
-                    <div class="form-group">
-                        <div class="fg-line" id="maintainFrequencyQuantity">
+                    <div class="col-sm-6">
+                        <label for="nextMaintainDate">下个维护日期</label>
+                        <div class="form-group">
+                            <div class="fg-line">
+                                <input id="nextMaintainDate" name="nextMaintainDate" type="text" value="${plan.nextMaintainDate}" readonly />
+                            </div>
                         </div>
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label >维护频率</label>
+                        <div class="form-group">
+                            <div class="fg-line" id="maintainFrequencyQuantity">
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="col-sm-6">
-                    <label >维护提前提醒天数</label>
-                    <div class="form-group">
-                        <div class="fg-line" id="remindTime">
+
+                    <div class="col-sm-6">
+                        <label >维护提前提醒天数</label>
+                        <div class="form-group">
+                            <div class="fg-line" id="remindTime">
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="form-group text-right dialog-buttons">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                    取消
-                </button>
+                <div class="form-group text-right dialog-buttons">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        取消
+                    </button>
+                </div>
+                </div>
             </div>
         </form>
 
@@ -452,6 +454,7 @@
                     addOptionToHtmlSelect(data.plan.maintainFrequencyUnit, "edit_maintainFrequencyUnit", data.units );
                     $("#edit_nextMaintainDate").val(data.MaintainDate);
                     $("#edit_workContent").val(data.plan.workContent);
+                    $("#edit_maintainFrequencyQuantity").val(data.plan.maintainFrequencyQuantity);
                     $("#edit_remindTime").val(data.plan.remindTime);
                 }
             });
@@ -469,18 +472,20 @@
             },
             'click #detail': function (e, value, row, index) {
                 $("#detailDialog").modal("show");
-                ajaxGet('${basePath}/manage/maintainPlan/detail/' + row["planId"], function (responseData) {
+                var planId=row["planId"];
+                ajaxGet('${basePath}/manage/maintainPlan/detail/' +planId , function (responseData) {
                     if (responseData) {
                         var data = responseData;
                         // 赋值
-                        $("#equipmentCategoryId").val(data.plan.equipmentCategoryName);
-                        $("#equipmentId").val(data.plan.equipmentName);
-                        $("#orgId").val(data.plan.orgName);
-                        $("#maintainFrequencyQuantity").val(data.plan.maintainFrequencyQuantity +' '+ plan.maintainFrequencyUnit);
+                        $("#equipmentCategoryId").text(data.plan.equipmentCategoryName);
+                        $("#equipmentId").text(data.plan.equipmentName);
+                        $("#orgId").text(data.plan.orgName);
+                        $("#maintainFrequencyQuantity").text(data.plan.maintainFrequencyQuantity +' '+ data.plan.maintainFrequencyUnit);
 
-                    $("#nextMaintainDate").val(data.MaintainDate);
-                    $("#workContent").val(data.plan.workContent);
-                    $("#remindTime").val(data.plan.remindTime);
+                        $("#nextMaintainDate").text(data.MaintainDate);
+                        $("#workContent").text(data.plan.workContent);
+                        $("#remindTime").text(data.plan.remindTime);
+                        loadTicketTab(planId);
                 }
                 });
             }
@@ -502,7 +507,45 @@
     </script>
 
 
+    <script>
+        function loadTicketTab(planId) {
+            $('#ticketTable').bootstrapTable({
+                url: '${basePath}/manage/maintainPlan/'+planId+'/tickets',
+                striped: true,
+                search: true,
+                showRefresh: true,
+                showColumns: true,
+                minimumCountColumns: 2,
+                clickToSelect: true,
+                detailView: true,
+                detailFormatter: 'detailFormatter',
+                pagination: true,
+                paginationLoop: false,
+                sidePagination: 'server',
+                silentSort: false,
+                smartDisplay: false,
+                escape: true,
+                searchOnEnterKey: true,
+                idField: 'planTicketId',
+                sortName: 'planTicketId',
+                sortOrder: 'desc',
+                maintainSelected: true,
+                toolbar: '#toolbar',
+                columns: [
+                    {field: 'ck', checkbox: true},
+                    {field: 'ticketDescription', title: '工单描述', sortable: true, align: 'center'},
+                    {field: 'ticketPriority', title: '优先级'},
+                    {field: 'ticketTypeName', title: '工单类型'},
+                    {field: 'serviceman', title: '执行人'},
+                    {field: 'servicePhone', title: '执行人电话'},
+                    {field: 'customerContacts', title: '顾客'},
+                    {field: 'customerPhone', title: '顾客电话'},
+                    {field: 'ticketStatus', title: '当前状态'}
+                ]
+            });
+        }
 
+    </script>
 </pageResources>
 
 

@@ -11,7 +11,7 @@
 <head>
 	<meta charset="utf-8" />
 	<title>
-		Metronic | Actions
+		库云物联
 	</title>
 	<meta name="description" content="Actions example page">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
