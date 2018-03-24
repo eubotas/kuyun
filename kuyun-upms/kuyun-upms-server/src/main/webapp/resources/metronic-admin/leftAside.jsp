@@ -121,7 +121,7 @@
                         </li>
 
                         <li class="m-menu__item " aria-haspopup="true" >
-                            <a  href="${eamPath}/manage/ticket/list?category=notResolved" class="m-menu__link ">
+                            <a  href="${eamPath}/manage/ticket/index?category=notResolved" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>
@@ -132,7 +132,7 @@
                         </li>
 
                         <li class="m-menu__item " aria-haspopup="true" >
-                            <a  href="${eamPath}/manage/ticket/list?category=init" class="m-menu__link ">
+                            <a  href="${eamPath}/manage/ticket/index?category=init" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>
@@ -143,7 +143,7 @@
                         </li>
 
                         <li class="m-menu__item " aria-haspopup="true" >
-                            <a  href="${eamPath}/manage/ticket/list" class="m-menu__link ">
+                            <a  href="${eamPath}/manage/ticket/index" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>
@@ -154,7 +154,7 @@
                         </li>
 
                         <li class="m-menu__item " aria-haspopup="true" >
-                            <a  href="${eamPath}/manage/ticket/list?category=myAll" class="m-menu__link ">
+                            <a  href="${eamPath}/manage/ticket/index?category=myAll" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>

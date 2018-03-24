@@ -45,42 +45,57 @@
 
 <content>
 
-    <div class="m-portlet m-portlet--mobile">
-        <div class="m-portlet__body">
-            <div class="modal-header">
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-3">
-                        <label >累计报修</label>
-                        <a class="waves-effect waves-button" href="javascript:;" onclick="toAction('all');"><span>${ticketSummaryVo.totalTicketCount}</span></a>
+    <div class="m-content">
+        <div class="row">
+            <div class="col-xl-2 col-lg-4">
+                <div class="m-portlet m-portlet--full-height  ">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title">
+                                <h1 class="m-portlet__head-text">
+                                    统计类别
+                                </h1>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-sm-2">
-                        <label>未派工</label>
-                        <a class="waves-effect waves-button" href="javascript:;" onclick="toAction('init');"><span>${ticketSummaryVo.noAppointTicketCount}</span></a>
-                    </div>
-                    <div class="col-sm-2">
-                        <label >维修中</label>
-                        <a class="waves-effect waves-button" href="javascript:;" onclick="toAction('processing');"><span>${ticketSummaryVo.processingTicketCount}</span></a>
-                    </div>
-                    <div class="col-sm-2">
-                        <label >未完成</label>
-                        <a class="waves-effect waves-button" href="javascript:;" onclick="toAction('notResolved');"><span>${ticketSummaryVo.notResolvedTicketCount}</span></a>
-                    </div>
-                    <div class="col-sm-3">
-                        <label >已完成</label>
-                        <a class="waves-effect waves-button" href="javascript:;" onclick="toAction('resolved');"><span>${ticketSummaryVo.resolvedTicketCount}</span></a>
-                    </div>
-                </div>
 
-                <div class="row">
-                    <hr />
-                </div>
-                <div class="form-group m-form__group row">
-                    ${categoryType}列表
+                    <div class="m-portlet__body">
+                        <ul class="m-nav m-nav--hover-bg m-portlet-fit--sides" id="models">
+                            <li class="m-nav__item"><a href="javascript:;" onclick="toAction('all');" class="m-nav__link"> <span class="m-nav__link-text">累计报修(${ticketSummaryVo.totalTicketCount})</span></a></li>
+                            <li class="m-nav__item"><a href="javascript:;" onclick="toAction('init');" class="m-nav__link"> <span class="m-nav__link-text">未派工(${ticketSummaryVo.noAppointTicketCount})</span></a></li>
+                            <li class="m-nav__item"><a href="javascript:;" onclick="toAction('processing');" class="m-nav__link"> <span class="m-nav__link-text">维修中(${ticketSummaryVo.processingTicketCount})</span></a></li>
+                            <li class="m-nav__item"><a href="javascript:;" onclick="toAction('notResolved');" class="m-nav__link"> <span class="m-nav__link-text">未完成(${ticketSummaryVo.notResolvedTicketCount})</span></a></li>
+                            <li class="m-nav__item"><a href="javascript:;" onclick="toAction('resolved');" class="m-nav__link"> <span class="m-nav__link-text">已完成(${ticketSummaryVo.resolvedTicketCount})</span></a></li>
+                        </ul>
+                        <div class="m-portlet__body-separator"></div>
+
+                    </div>
                 </div>
             </div>
-            <table id="table" data-toolbar="#toolbar"></table>
+            <div class="col-xl-10 col-lg-8">
+                <div class="m-portlet m-portlet--full-height">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title">
+												<span class="m-portlet__head-icon">
+													<i class="flaticon-multimedia"></i>
+												</span>
+                                <h3 class="m-portlet__head-text">
+                                    ${categoryType}列表
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="m-portlet__body">
+                        <table id="table" data-toolbar="#toolbar"></table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+
 </content>
 
 <pageResources>
@@ -127,7 +142,7 @@
     // 格式化操作按钮
     function actionFormatter(value, row, index) {
         return [
-            '<a id="detail" href="javascript:onclick="detailAction()" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="详细"><i class="la la-file-text-o"></i></a>'
+            '<a id="detail" href="javascript:void(0)" onclick="detailAction()" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="详细"><i class="la la-file-text-o"></i></a>'
         ].join('');
     }
 
@@ -136,19 +151,8 @@
     var detailDialog;
     function detailAction() {
         var rows = $table.bootstrapTable('getSelections');
-        if (rows.length != 1) {
-            $.confirm({
-                title: false,
-                content: '请选择一条记录！',
-                autoClose: 'cancel|3000',
-                backgroundDismiss: true,
-                buttons: {
-                    cancel: {
-                        text: '取消',
-                        btnClass: 'waves-effect waves-button'
-                    }
-                }
-            });
+        if (!rows && rows.length != 1) {
+            swWarn("请选择一条记录！");
         } else {
             detailDialog = $.dialog({
                 animationSpeed: 300,

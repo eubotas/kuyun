@@ -93,9 +93,9 @@ public class EamTicketController extends EamTicketBaseController {
 	public String index(@RequestParam(required = false, defaultValue = "myAll", value = "category") String category , ModelMap modelMap) {
 		modelMap.put("category", category);
 		
-		if(category.startsWith("my"))
-            return "/manage/ticket/myTicket.jsp";
-		else
+//		if(category.startsWith("my"))
+//            return "/manage/ticket/myTicket.jsp";
+//		else
 		    return "/manage/ticket/index.jsp";
 	}
 
@@ -215,9 +215,11 @@ public class EamTicketController extends EamTicketBaseController {
     @ApiOperation(value = "修改工单")
     @RequiresPermissions("eam:ticket:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-    public String update(@PathVariable("id") int id, ModelMap modelMap) {
+    @ResponseBody
+    public Object update(@PathVariable("id") int id) {
+	    Map map =new HashMap();
         EamTicket eamTicket = eamTicketService.selectByPrimaryKey(id);
-        modelMap.put("ticket", eamTicket);
+        map.put("ticket", eamTicket);
 
         //retrieve the image list
         List<String> imageList =  new ArrayList<String>();
@@ -229,7 +231,7 @@ public class EamTicketController extends EamTicketBaseController {
                 imageList.add(fileUploaderService.getServerInfo().getEndpoint_show() + "/" + uuid);
             }
         }
-        modelMap.put("imageList", imageList);
+        map.put("imageList", imageList);
 
         //retrieve the voice list
         List<String> voiceList =  new ArrayList<String>();
@@ -241,10 +243,10 @@ public class EamTicketController extends EamTicketBaseController {
                 voiceList.add(fileUploaderService.getServerInfo().getEndpoint_show() + "/" + uuid);
             }
         }
-        modelMap.put("voiceList", voiceList);
+        map.put("voiceList", voiceList);
 
-        selectTicketUpdate(modelMap);
-        return "/manage/ticket/update.jsp";
+        selectTicketUpdate(map);
+        return map;
     }
 
     @ApiOperation(value = "修改工单")
