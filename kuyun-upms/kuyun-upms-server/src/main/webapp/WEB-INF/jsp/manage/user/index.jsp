@@ -246,8 +246,7 @@
                 jQuery("#add_Form").validate().resetForm();
                 jQuery("#edit_Form").validate().resetForm();
             }) ;
-             applyTemplate(jQuery, '#template-user-addEditForm', 'add_', null, null, jQuery('#addUserFormContainer'));
-             applyTemplate(jQuery, '#template-user-addEditForm', 'edit_', null, null, jQuery('#editUserFormContainer'));
+            generateAddEditForm('template-user-addEditForm', 'add_,edit_', null, null, 'addUserFormContainer,editUserFormContainer');
              FormWidgets.init('add');
              FormWidgets.init('edit');
 

@@ -160,8 +160,7 @@
                 jQuery("#add_Form").validate().resetForm();
                 jQuery("#edit_Form").validate().resetForm();
             }) ;
-            applyTemplate(jQuery, '#template-system-addEditForm', 'add_', null, null, jQuery('#addSystemFormContainer'));
-            applyTemplate(jQuery, '#template-system-addEditForm', 'edit_', null, null, jQuery('#editSystemFormContainer'));
+            generateAddEditForm('template-system-addEditForm', 'add_,edit_', null, null, 'addSystemFormContainer,editSystemFormContainer');
             FormWidgets.init('add');
             FormWidgets.init('edit');
 

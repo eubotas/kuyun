@@ -198,8 +198,7 @@
                 jQuery("#add_Form").validate().resetForm();
                 jQuery("#edit_Form").validate().resetForm();
             }) ;
-            applyTemplate(jQuery, '#template-org-addEditForm', 'add_', null, null, jQuery('#addOrgFormContainer'));
-            applyTemplate(jQuery, '#template-org-addEditForm', 'edit_', null, null, jQuery('#editOrgFormContainer'));
+            generateAddEditForm('template-org-addEditForm', 'add_,edit_', null, null, 'addOrgFormContainer,editOrgFormContainer');
             FormWidgets.init('add');
             FormWidgets.init('edit');
 

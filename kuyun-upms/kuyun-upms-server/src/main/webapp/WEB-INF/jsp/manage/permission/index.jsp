@@ -175,8 +175,7 @@
                 jQuery("#add_Form").validate().resetForm();
                 jQuery("#edit_Form").validate().resetForm();
             }) ;
-            applyTemplate(jQuery, '#template-permission-addEditForm', 'add_', null, null, jQuery('#addPermissionFormContainer'));
-            applyTemplate(jQuery, '#template-permission-addEditForm', 'edit_', null, null, jQuery('#editPermissionFormContainer'));
+            generateAddEditForm('template-permission-addEditForm', 'add_,edit_', null, null, 'addPermissionFormContainer,editPermissionFormContainer');
             FormWidgets.init('add');
             FormWidgets.init('edit');
 

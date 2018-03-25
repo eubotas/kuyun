@@ -76,7 +76,7 @@
          aria-hidden="true">
     </div>
 
-    <div class="modal fade" id="template-org-addEditForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="template-role-addEditForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <form id="templateID_Form" class="m-form m-form--fit m-form--label-align-right">
             <div class="modal-dialog" role="document">
@@ -160,8 +160,7 @@
                 jQuery("#add_Form").validate().resetForm();
                 jQuery("#edit_Form").validate().resetForm();
             }) ;
-            applyTemplate(jQuery, '#template-org-addEditForm', 'add_', null, null, jQuery('#addRoleFormContainer'));
-            applyTemplate(jQuery, '#template-org-addEditForm', 'edit_', null, null, jQuery('#editRoleFormContainer'));
+            generateAddEditForm('template-role-addEditForm', 'add_,edit_', null, null, 'addRoleFormContainer,editCompanyFormContainer');
             FormWidgets.init('add');
             FormWidgets.init('edit');
 

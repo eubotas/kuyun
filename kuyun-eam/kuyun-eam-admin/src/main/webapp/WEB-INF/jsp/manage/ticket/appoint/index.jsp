@@ -131,8 +131,7 @@
                 jQuery("#add_Form").validate().resetForm();
                 jQuery("#edit_Form").validate().resetForm();
             }) ;
-            applyTemplate(jQuery, '#template-ticketRecord-addEditForm', 'add_', null, null, jQuery('#addTicketRecordFormContainer'));
-            applyTemplate(jQuery, '#template-ticketRecord-addEditForm', 'edit_', null, null, jQuery('#editTicketRecordFormContainer'));
+            generateAddEditForm('template-ticketRecord-addEditForm', 'add_,edit_', null, null, 'addTicketRecordFormContainer,editTicketRecordFormContainer');
             FormWidgets.init('add');
             FormWidgets.init('edit');
 

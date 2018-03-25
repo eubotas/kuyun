@@ -267,7 +267,29 @@ function addOptionToHtmlMultiSelect(htmlSelectId, optData, selectedData) {
     htmlSelectObj.empty();
     htmlSelectObj.append(options);
 }
-///////////////////////
+///////////////////////.
+
+function generateAddEditForm(templateID, prefix, data, options, targetEl){
+    var pres= prefix.split(',');
+    var targets = targetEl.split(',');
+    if(pres.length = targets.length){
+        pres.forEach(function( val, index ) {
+            applyTemplate(jQuery, '#'+templateID, val, data, options, jQuery('#'+targets[index]));
+        });
+        removeIdHtml(templateID);
+    }
+}
+
+function removeIdHtml(templateID){
+    $("#"+templateID).remove();
+}
+
+function applyTemplate(jQuery, templateID, prefix, data, options, targetEl) {
+    prefix = ifNull(prefix, '');
+    jQuery.template((prefix+templateID), loadHtmlTemplate(jQuery, prefix, jQuery(templateID)));
+    return jQuery.tmpl((prefix+templateID), data, options).appendTo(targetEl);
+}
+
 function loadHtmlTemplate(jQuery, prefix, el) {
     var html = jQuery(el).html();
     html = strReplaceAll(html, 'templateID_', prefix);
@@ -279,12 +301,6 @@ function loadHtmlTemplate(jQuery, prefix, el) {
         titleName='新建';
     html = strReplaceAll(html, 'templateTitleName_', titleName);
     return html;
-}
-
-function applyTemplate(jQuery, templateID, prefix, data, options, targetEl) {
-    prefix = ifNull(prefix, '');
-    jQuery.template((prefix+templateID), loadHtmlTemplate(jQuery, prefix, jQuery(templateID)));
-    return jQuery.tmpl((prefix+templateID), data, options).appendTo(targetEl);
 }
 
 function ifNull(firstValue) {

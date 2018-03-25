@@ -237,9 +237,7 @@
     $(document).ready(function()
     {
         EquipmentModels.init();
-
-        applyTemplate(jQuery, '#template-modelProperty-addEditForm', 'add_', null, null, jQuery('#addModelPropertyFormContainer'));
-        applyTemplate(jQuery, '#template-modelProperty-addEditForm', 'edit_', null, null, jQuery('#editModelPropertyFormContainer'));
+        generateAddEditForm('template-modelProperty-addEditForm', 'add_,edit_', null, null, 'addModelPropertyFormContainer,editModelPropertyFormContainer');
         FormWidgets.init('add');
         FormWidgets.init('edit');
 

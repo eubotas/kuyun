@@ -309,8 +309,7 @@
                 jQuery("#add_Form").validate().resetForm();
                 jQuery("#edit_Form").validate().resetForm();
             }) ;
-            applyTemplate(jQuery, '#template-plan-addEditForm', 'add_', null, null, jQuery('#addMaintainPlanFormContainer'));
-            applyTemplate(jQuery, '#template-plan-addEditForm', 'edit_', null, null, jQuery('#editMaintainPlanFormContainer'));
+            generateAddEditForm('template-plan-addEditForm', 'add_,edit_', null, null, 'addMaintainPlanFormContainer,editMaintainPlanFormContainer');
             FormWidgets.init('add');
             FormWidgets.init('edit');
 

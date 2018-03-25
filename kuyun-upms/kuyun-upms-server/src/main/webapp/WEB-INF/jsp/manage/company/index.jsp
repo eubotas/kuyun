@@ -146,8 +146,7 @@
                 jQuery("#add_Form").validate().resetForm();
                 jQuery("#edit_Form").validate().resetForm();
             }) ;
-            applyTemplate(jQuery, '#template-company-addEditForm', 'add_', null, null, jQuery('#addCompanyFormContainer'));
-            applyTemplate(jQuery, '#template-company-addEditForm', 'edit_', null, null, jQuery('#editCompanyFormContainer'));
+            generateAddEditForm('template-company-addEditForm', 'add_,edit_', null, null, 'addCompanyFormContainer,editCompanyFormContainer');
             FormWidgets.init('add');
             FormWidgets.init('edit');
 
