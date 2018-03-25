@@ -17,6 +17,34 @@ toastr.options = {
     "hideMethod": "fadeOut"
 };
 
+var FormWidgets = function () {
+    var createForm = function (formid) {
+        $("#"+formid+"_Form").validate({
+            // define validation rules
+            rules: {
+                name: {
+                    required: true
+                }
+            },
+            submitHandler: function (form) {
+                if(formid == 'add')
+                    submitForm();
+                else{
+                    submitForm($('#edit_id').val());
+                }
+
+            }
+        });
+    }
+
+    return {
+        // public functions
+        init: function (formid) {
+            createForm(formid);
+        }
+    };
+}();
+
 function ajaxPost(targetUrl, formId, callSuccess, callValidate, callError)
 {
     $.ajax({
@@ -327,4 +355,12 @@ function strReplaceAll(str, oldValue, newValue) {
 // 格式化时间
 function timeFormatter(value , row, index) {
     return new Date(value).toLocaleString();
+}
+
+function hideModal(id) {
+    jQuery("#"+id).modal('hide');;
+}
+
+function showModal(id) {
+    jQuery("#"+id).modal('show');;
 }
