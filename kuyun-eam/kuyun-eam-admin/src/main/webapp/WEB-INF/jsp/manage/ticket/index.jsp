@@ -78,7 +78,7 @@
          aria-hidden="true">
         <form id="templateID_Form" class="m-form m-form--fit m-form--label-align-right">
             <div class="modal-dialog" role="document">
-                <div class="modal-content">
+                <div class="modal-content" style="min-width: 600px">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">
                             templateTitleName_工单
@@ -167,6 +167,104 @@
     </div>
     <!--end::Modal-->
 
+    <div class="modal fade" id="detailContainer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <form class="m-form m-form--fit m-form--label-align-right">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" style="min-width: 600px">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <label for="description">故障描述</label> <span id="description"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label >工单类型</label> <span id="ticketType"></span>
+                        </div>
+                        <div class="col-sm-6">
+                            <label>优先级</label> <span id="priority"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label >执行人</label> <span id="serviceman"></span>
+                        </div>
+                        <div class="col-sm-6">
+                            <label >执行人电话</label> <span id="servicePhone"></span>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label >顾客联系人</label> <span id="customerContacts"></span>
+                        </div>
+                        <div class="col-sm-6">
+                            <label >顾客电话</label> <span id="customerPhone"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label for="status">工单状态</label> <span id="status"></span>
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="createTime">创建时间</label> <span id="createTime"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-12" id="images">
+                        </div>
+                        <div class="col-sm-12" id="voiceList">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <hr />
+                    </div>
+
+                    <!-- records list create date desc -->
+                    <c:forEach var="record" items="${records}">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="comments${record.id}"></label> <span
+                                    id="comments${record.id}"></span>
+                            </div>
+                            <div class="col-sm-12">
+                                <label for="createTime${record.id }"></label> <span
+                                    id="createTime${record.id }"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <hr />
+                        </div>
+                    </c:forEach>
+
+                    <c:if test="${ticket.assessmentId != null}">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="assessmentLevel">评价星级</label> <span id="assessmentLevel"></span>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="tagNames">评价标签</label> <span id="tagNames"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label >评价描述</label> <span id="assessmentDescription"></span>
+                            </div>
+                        </div>
+                    </c:if>
+
+                    <div class="row">
+                        <div class="form-group text-right dialog-buttons">
+
+                            <a class="waves-effect waves-button" href="javascript:;" onclick="detailDialog.close();">取消</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
 
 </content>
 
@@ -237,7 +335,7 @@
                     {field: 'customerContacts', title: '顾客'},
                     {field: 'customerPhone', title: '顾客电话'},
                     {field: 'status', title: '当前状态'},
-                    {field: 'action', width: 100, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
+                    {field: 'action', width: 260, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ]
             });
         });
@@ -245,7 +343,18 @@
         function actionFormatter(value, row, index) {
             return [
                 '<shiro:hasPermission name="eam:ticket:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="eam:ticket:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>'
+                '<shiro:hasPermission name="eam:ticket:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="eam:ticket:read"><a id="detail" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="详细">	<i class="la la-file-text-o"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="eam:ticket:read"><a id="rejectList" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="拒单列表">	<i class="la la-times-circle"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="eam:ticket:read"><a id="assessment" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="评价">	<i class="la la-thumbs-up"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="eam:ticket:read"><a id="rejectTicket" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="拒绝工单">	<i class="la la-thumbs-o-down"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="eam:ticket:read"><a id="processTicket" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="处理工单">	<i class="la la-sign-in"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="eam:ticket:read"><a id="completeTicket" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="完成工单">	<i class="la la-ticket"></i>	</a></shiro:hasPermission>',
+
+                '<shiro:hasPermission name="eam:ticketRecord:read"><a id="ticketRecordMgr" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="工单记录管理">	<i class="la la-th-list"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="eam:ticketAppointedRecord:read"><a id="ticketAppointedRecordMgr" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="工单委派管理">	<i class="la la-step-forward"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="eam:ticketAssessment:read"><a id="ticketAssessmentMgr" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="工单评价管理">	<i class="la la-thumbs-up"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="eam:ticketAppointedRecord:read"><a id="ticketAppointedRecordMgr" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="委派工单">	<i class="la la-tasks"></i>	</a></shiro:hasPermission>'
             ].join('');
         }
 
@@ -328,12 +437,100 @@
                 updateAction(row);
 
             },
+            'click #detail': function (e, value, row, index) {
+                detailAction(row, 'detail');
+            },
             'click #delete': function (e, value, row, index) {
                 var rows = new Array();
                 rows.push(row);
                 deleteActionImpl(rows);
-            }
+            },
+            'click #rejectTicket': function (e, value, row, index) {
+                toaction(row, 'rejectTicket');
+            },
+            'click #rejectList': function (e, value, row, index) {
+                toaction(row, 'REJECT');
+            },
+            'click #processTicket': function (e, value, row, index) {
+                toaction(row, 'processTicket');
+            },
+            'click #completeTicket': function (e, value, row, index) {
+                toaction(row,'completeTicket');
+            },
+            'click #ticketRecordMgr': function (e, value, row, index) {
+                toaction(row,'ticketRecordMgr');
+            },
+            'click #ticketAppointedRecordMgr': function (e, value, row, index) {
+                toaction(row,'ticketAppointedRecordMgr');
+            },
+            'click #ticketAssessmentMgr': function (e, value, row, index) {
+                toaction(row,'ticketAssessmentMgr');
+            },
+            'click #ticketAppointedRecordMgr': function (e, value, row, index) {
+                toaction(row,'ticketAppointedRecordMgr');
+            },
         };
+
+        function toaction(row, type) {
+            var ticketId= row.ticketId;
+            var status= row.status;
+            if('ticketRecordMgr'==type)
+                window.location = '${basePath}/manage/ticket/' +ticketId  + '/record/index';
+            else if('ticketAppointedRecordMgr'==type)
+                window.location = '${basePath}/manage/ticket/' + ticketId + '/appoint/index';
+            else if('ticketAssessmentMgr'==type){
+                window.location = '${basePath}/manage/ticket/' + ticketId + '/assessment/index';
+            }
+            else if('ticketAppointedRecordMgr'==type){
+                if(status == '待派工')
+                    createChildWindow('appoint', '委派工单', '${basePath}/manage/ticket/' + ticketId + '/appoint/create');
+                else
+                    swWarn('未委派的订单才能委派');
+            }else if('TOASSESSMENT'==type){
+                if(status == '待评价')
+                    createChildWindow('assessment', '评价', '${basePath}/manage/ticket/' + ticketId + '/assessment/assess');
+                else
+                    swWarn('完成状态的订单才能评价');
+            }
+            else if('processTicket'==type)
+                createChildWindow('record', '处理工单', '${basePath}/manage/ticket/' +ticketId  + '/record/create');
+            else if('rejectTicket'==type){
+                if(status == '待维修')
+                    createChildWindow('reject', '拒绝工单', '${basePath}/manage/ticket/' + ticketId + '/appoint/toreject');
+                else
+                    swWarn('已委派的订单才能拒绝');
+            }
+            else if('completeTicket'==type){
+                if(status == '维修中')
+                    directlyAction('完成工单',  '${basePath}/manage/ticket/complete/' + ticketId);
+                else
+                    swWarn('维修状态的订单才能完成工单');
+            }
+            else if('detail'==type){
+                jQuery("#detailContainer").modal("show");
+                ajaxGet('${basePath}/manage/ticket/detail/' + row["ticketId"], function (responseData) {
+                    if (responseData) {
+                        var data = responseData.ticket;
+                        // 赋值
+                        $("#description").val(data.ticket.description);
+                        $("#ticketType").val(data.ticket.ticketType.name);
+
+                        var images;
+                        $.each(responseData.imageList,function(n,value) {
+                            images +="<image src="+value+" />";
+                        });
+                        $('#images').html(images);
+
+                        var records;
+                        $.each(responseData.records,function(n,value) {
+                            records +="<image src="+value+" />";
+                        });
+                        $('#records').html(records);
+
+                     }
+                });
+            }
+        }
 
         function deleteAction(){
             var rows = $table.bootstrapTable('getSelections');
