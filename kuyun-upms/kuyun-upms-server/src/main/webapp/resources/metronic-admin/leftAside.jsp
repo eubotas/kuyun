@@ -75,7 +75,7 @@
                             </a>
                         </li>
                         <li class="m-menu__item " aria-haspopup="true" >
-                            <a  href="../components/base/typography.html" class="m-menu__link ">
+                            <a  href="${eamPath}/manage/equipment/index" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>
@@ -85,7 +85,7 @@
                             </a>
                         </li>
                         <li class="m-menu__item " aria-haspopup="true" >
-                            <a  href="../components/base/stack.html" class="m-menu__link ">
+                            <a  href="${eamPath}/manage/dtu/index" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>
@@ -309,7 +309,7 @@
                     <ul class="m-menu__subnav">
 
                         <li class="m-menu__item " aria-haspopup="true" >
-                            <a  href="../components/portlets/base.html" class="m-menu__link ">
+                            <a  href="${eamPath}/manage/company/index" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>

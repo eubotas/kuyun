@@ -189,6 +189,14 @@
 
             $('#createButton').click(function(){
                 $("#addTicketFormContainer").modal("show");
+                ajaxGet('${basePath}/manage/ticket/create', function (responseData) {
+                    if (responseData) {
+                        var data = responseData;
+                        addOptionToHtmlSelect(null, "add_ticketTypeId", data.ticketTypes);
+                        addOptionToHtmlSelect(null, "add_equipmentCategoryId", data.equipmentCategorys);
+                        addOptionToHtmlSelect(null, "add_equipmentId", data.equipments);
+                    }
+                });
             });
 
             $('#deleteButton').click(function(){

@@ -34868,7 +34868,7 @@ body.m-content--skin-light2 {
         color: #777c9d; } }
 
 .m-subheader {
-  padding: 30px 30px 0 30px; }
+  padding: 0 30px 0 30px; }
   .m-subheader .m-subheader__title {
     display: inline-block;
     padding: 7px 25px 7px 0;

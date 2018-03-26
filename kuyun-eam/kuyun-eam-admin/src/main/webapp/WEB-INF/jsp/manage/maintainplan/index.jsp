@@ -477,11 +477,10 @@
                 ajaxGet('${basePath}/manage/maintainPlan/detail/' +planId , function (responseData) {
                     if (responseData) {
                         var data = responseData;
-                        // 赋值
                         $("#equipmentCategoryId").text(data.plan.equipmentCategoryName);
                         $("#equipmentId").text(data.plan.equipmentName);
                         $("#orgId").text(data.plan.orgName);
-                        $("#maintainFrequencyQuantity").text(data.plan.maintainFrequencyQuantity +' '+ data.plan.maintainFrequencyUnit);
+                        $("#maintainFrequencyQuantity").text(data.plan.maintainFrequencyQuantity +' '+ getUnitName(data.plan.maintainFrequencyUnit));
 
                         $("#nextMaintainDate").text(data.plan.strNextMaintainDate);
                         $("#workContent").text(data.plan.workContent);

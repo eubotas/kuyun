@@ -351,16 +351,28 @@ function strReplaceAll(str, oldValue, newValue) {
     return str;
 }
 
-
 // 格式化时间
 function timeFormatter(value , row, index) {
     return new Date(value).toLocaleString();
 }
 
 function hideModal(id) {
-    jQuery("#"+id).modal('hide');;
+    jQuery("#"+id).modal('hide');
 }
 
 function showModal(id) {
-    jQuery("#"+id).modal('show');;
+    jQuery("#"+id).modal('show');
+}
+
+function getUnitName(unit) {
+    if(!unit)
+        return "";
+    else if(unit =='YEAR')
+        return "年";
+    else if(unit =='MONTH')
+        return "月";
+    else if(unit =='WEEK')
+        return "星期";
+    else if(unit =='DAY')
+        return "天";
 }

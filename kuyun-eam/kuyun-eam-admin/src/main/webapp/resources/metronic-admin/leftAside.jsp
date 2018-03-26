@@ -5,7 +5,8 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
-<c:set var="basePath" value="http://upms.kuyun.cn:1111"/>
+<c:set var="basePath" value="${pageContext.request.contextPath}"/>
+
 <c:set var="eamPath" value="http://eam.kuyun.cn:9999"/>
 
 
@@ -74,7 +75,7 @@
                             </a>
                         </li>
                         <li class="m-menu__item " aria-haspopup="true" >
-                            <a  href="../components/base/typography.html" class="m-menu__link ">
+                            <a  href="${eamPath}/manage/equipment/index" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>
@@ -84,7 +85,7 @@
                             </a>
                         </li>
                         <li class="m-menu__item " aria-haspopup="true" >
-                            <a  href="../components/base/stack.html" class="m-menu__link ">
+                            <a  href="${eamPath}/manage/dtu/index" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>
@@ -202,7 +203,7 @@
                     <ul class="m-menu__subnav">
 
                         <li class="m-menu__item " aria-haspopup="true" >
-                            <a  href="#" class="m-menu__link ">
+                            <a  href="${eamPath}/manage/maintainPlan/index" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>
@@ -308,7 +309,7 @@
                     <ul class="m-menu__subnav">
 
                         <li class="m-menu__item " aria-haspopup="true" >
-                            <a  href="../components/portlets/base.html" class="m-menu__link ">
+                            <a  href="${eamPath}/manage/company/index" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>
@@ -378,7 +379,16 @@
                 <div class="m-menu__submenu ">
                     <span class="m-menu__arrow"></span>
                     <ul class="m-menu__subnav">
-
+                        <li class="m-menu__item " aria-haspopup="true" >
+                            <a  href="${basePath}/manage/company/index" class="m-menu__link ">
+                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                    <span></span>
+                                </i>
+                                <span class="m-menu__link-text">
+													公司管理
+												</span>
+                            </a>
+                        </li>
                         <li class="m-menu__item " aria-haspopup="true" >
                             <a  href="${basePath}/manage/organization/index" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
@@ -400,7 +410,7 @@
                             </a>
                         </li>
                         <li class="m-menu__item " aria-haspopup="true" >
-                            <a  href="../snippets/general/pricing-tables/pricing-table-2.html" class="m-menu__link ">
+                            <a  href="${basePath}/manage/role/index" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>
@@ -410,12 +420,42 @@
                             </a>
                         </li>
                         <li class="m-menu__item " aria-haspopup="true" >
-                            <a  href="../snippets/general/pricing-tables/pricing-table-2.html" class="m-menu__link ">
+                            <a  href="${basePath}/manage/permission/index" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>
                                 <span class="m-menu__link-text">
 													权限管理
+												</span>
+                            </a>
+                        </li>
+                        <li class="m-menu__item " aria-haspopup="true" >
+                            <a  href="${basePath}/manage/system/index" class="m-menu__link ">
+                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                    <span></span>
+                                </i>
+                                <span class="m-menu__link-text">
+													系统管理
+												</span>
+                            </a>
+                        </li>
+                        <li class="m-menu__item " aria-haspopup="true" >
+                            <a  href="${basePath}/manage/session/index" class="m-menu__link ">
+                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                    <span></span>
+                                </i>
+                                <span class="m-menu__link-text">
+													会话管理
+												</span>
+                            </a>
+                        </li>
+                        <li class="m-menu__item " aria-haspopup="true" >
+                            <a  href="${basePath}/manage/log/index" class="m-menu__link ">
+                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                    <span></span>
+                                </i>
+                                <span class="m-menu__link-text">
+													日志管理
 												</span>
                             </a>
                         </li>

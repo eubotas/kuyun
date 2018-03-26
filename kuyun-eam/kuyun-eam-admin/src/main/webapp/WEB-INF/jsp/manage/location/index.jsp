@@ -99,7 +99,7 @@
                             <label for="templateID_number">仓位编号</label>
                             <input id="templateID_number" type="text" class="form-control" name="number" maxlength="20">
                         </div>
-                        
+
 						<div class="form-group m-form__group row">
 							<label for="templateID_comments">描述</label>
 							<input id="templateID_comments" type="text" class="form-control" name="comments" maxlength="200" >

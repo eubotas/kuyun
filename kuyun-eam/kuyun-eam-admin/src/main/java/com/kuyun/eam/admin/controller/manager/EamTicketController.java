@@ -188,9 +188,11 @@ public class EamTicketController extends EamTicketBaseController {
 	@ApiOperation(value = "新增工单")
 	@RequiresPermissions("eam:ticket:create")
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public String create(ModelMap modelMap ) {
-        selectTicketUpdate(modelMap);
-		return "/manage/ticket/create.jsp";
+	@ResponseBody
+	public Object create(ModelMap modelMap ) {
+		Map map =new HashMap();
+        selectTicketUpdate(map);
+		return map;
 	}
 
 	@ApiOperation(value = "新增工单")

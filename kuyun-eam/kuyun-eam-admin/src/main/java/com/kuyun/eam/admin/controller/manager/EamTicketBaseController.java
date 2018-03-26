@@ -16,6 +16,7 @@ import com.kuyun.eam.vo.EamEquipmentVO;
 import com.kuyun.eam.vo.EamTicketAssessmentTagVO;
 import com.kuyun.eam.vo.EamTicketVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
+import com.kuyun.upms.common.JspUtil;
 import com.kuyun.upms.dao.model.UpmsUser;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
 import com.kuyun.upms.rpc.api.UpmsApiService;
@@ -109,23 +110,23 @@ public abstract class EamTicketBaseController extends BaseController {
     public void selectTicketUpdate(Map map){
         List<UpmsUser> users = upmsApiService.selectUsersByUserId(baseEntityUtil.getCurrentUser().getUserId());
 
-        map.put("users", users);
+        map.put("users", JspUtil.getMapList(users,"userId","realname"));
         EamTicketTypeExample typeExample = new EamTicketTypeExample();
         EamTicketTypeExample.Criteria criteria = typeExample.createCriteria();
         criteria.andCompanyIdEqualTo(getCompanyId());
         List<EamTicketType> types = eamTicketTypeService.selectByExample( typeExample );
-        map.put("ticketTypes", types);
+        map.put("ticketTypes", JspUtil.getMapList(types,"id","name"));
 
         EamEquipmentCategoryExample example = new EamEquipmentCategoryExample();
         EamEquipmentCategoryExample.Criteria criteria2 = example.createCriteria();
         criteria2.andCompanyIdEqualTo(getCompanyId());
         List<EamEquipmentCategory> cats = eamEquipmentCategoryService.selectByExample( example );
-        map.put("equipmentCategorys", cats);
+        map.put("equipmentCategorys", JspUtil.getMapList(cats,"equipmentCategoryId","name"));
 
         EamEquipmentVO equipmentVO = new EamEquipmentVO();
         equipmentVO.setCompanyId(getCompanyId());
         List<EamEquipmentVO> rows = eamApiService.selectEquipments(equipmentVO);
-        map.put("equipments", rows);
+        map.put("equipments",  JspUtil.getMapList(rows,"equipmentId","name"));
 
         map.put("uploadServer", fileUploaderService.getServerInfo());
     }
