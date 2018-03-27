@@ -221,38 +221,6 @@
                         <hr />
                     </div>
 
-                    <!-- records list create date desc -->
-                    <c:forEach var="record" items="${records}">
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <label for="comments${record.id}"></label> <span
-                                    id="comments${record.id}"></span>
-                            </div>
-                            <div class="col-sm-12">
-                                <label for="createTime${record.id }"></label> <span
-                                    id="createTime${record.id }"></span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <hr />
-                        </div>
-                    </c:forEach>
-
-                    <c:if test="${ticket.assessmentId != null}">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <label for="assessmentLevel">评价星级</label> <span id="assessmentLevel"></span>
-                            </div>
-                            <div class="col-sm-6">
-                                <label for="tagNames">评价标签</label> <span id="tagNames"></span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <label >评价描述</label> <span id="assessmentDescription"></span>
-                            </div>
-                        </div>
-                    </c:if>
 
                     <div class="row">
                         <div class="form-group text-right dialog-buttons">
@@ -511,7 +479,6 @@
                 ajaxGet('${basePath}/manage/ticket/detail/' + row["ticketId"], function (responseData) {
                     if (responseData) {
                         var data = responseData.ticket;
-                        // 赋值
                         $("#description").val(data.ticket.description);
                         $("#ticketType").val(data.ticket.ticketType.name);
 
@@ -523,9 +490,19 @@
 
                         var records;
                         $.each(responseData.records,function(n,value) {
-                            records +="<image src="+value+" />";
+                            records +='<div class="col-sm-12">';
+                            records +=' <label>'+value+'</label> <span></span>';
+                            records +=' </div>';
+                            records +='        <div class="col-sm-12">';
+                            records +='    <label ></label> <span>\'+value+\'</span>';
+                            records +='        </div>';
+                            records +='        </div>';
+                            records +='        <div class="row"> <hr />  </div>';
                         });
                         $('#records').html(records);
+
+
+
 
                      }
                 });
