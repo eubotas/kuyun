@@ -171,43 +171,46 @@
          aria-hidden="true">
         <form class="m-form m-form--fit m-form--label-align-right">
             <div class="modal-dialog" role="document">
-                <div class="modal-content" style="min-width: 600px">
+                <div class="modal-content" style="width: 600px; padding:10px;">
                     <div class="row">
-                        <div class="col-sm-12">
-                            <label for="description">故障描述</label> <span id="description"></span>
+                        <div class="col-sm-2">
+                            <label for="description">故障描述 :</label>
+                        </div>
+                        <div class="col-sm-10">
+                            <span id="description"></span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
-                            <label >工单类型</label> <span id="ticketType"></span>
+                            <label >工单类型: </label> <span id="ticketType"></span>
                         </div>
                         <div class="col-sm-6">
-                            <label>优先级</label> <span id="priority"></span>
+                            <label>优先级: </label> <span id="priority"></span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
-                            <label >执行人</label> <span id="serviceman"></span>
+                            <label >执行人: </label> <span id="serviceman"></span>
                         </div>
                         <div class="col-sm-6">
-                            <label >执行人电话</label> <span id="servicePhone"></span>
+                            <label >执行人电话: </label> <span id="servicePhone"></span>
                         </div>
 
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
-                            <label >顾客联系人</label> <span id="customerContacts"></span>
+                            <label >顾客联系人: </label> <span id="customerContacts"></span>
                         </div>
                         <div class="col-sm-6">
-                            <label >顾客电话</label> <span id="customerPhone"></span>
+                            <label >顾客电话: </label> <span id="customerPhone"></span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
-                            <label for="status">工单状态</label> <span id="status"></span>
+                            <label for="status">工单状态: </label> <span id="status"></span>
                         </div>
                         <div class="col-sm-6">
-                            <label for="createTime">创建时间</label> <span id="createTime"></span>
+                            <label for="createTime">创建时间: </label> <span id="createTime"></span>
                         </div>
                     </div>
 
@@ -221,11 +224,30 @@
                         <hr />
                     </div>
 
+                    <div id="records" ></div>
+
+                    <div id="assessmentSection" style="display:none">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="assessmentLevel">评价星级</label> <span id="assessmentLevel"></span>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="tagNames">评价标签</label> <span id="tagNames"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label >评价描述</label> <span id="assessmentDescription"></span>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="row">
-                        <div class="form-group text-right dialog-buttons">
-
-                            <a class="waves-effect waves-button" href="javascript:;" onclick="detailDialog.close();">取消</a>
+                        <div class="modal-footer">
+                            <div id="nextOperateBtn"> </div>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                取消
+                            </button>
                         </div>
                     </div>
 
@@ -313,8 +335,8 @@
                 '<shiro:hasPermission name="eam:ticket:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
                 '<shiro:hasPermission name="eam:ticket:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>',
                 '<shiro:hasPermission name="eam:ticket:read"><a id="detail" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="详细">	<i class="la la-file-text-o"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="eam:ticket:read"><a id="rejectList" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="拒单列表">	<i class="la la-times-circle"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="eam:ticket:read"><a id="assessment" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="评价">	<i class="la la-thumbs-up"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="eam:ticket:read"><a id="rejectList" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="拒绝工单列表">	<i class="la la-times-circle"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="eam:ticket:read"><a id="assessment" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="去评价">	<i class="la la-thumbs-up"></i>	</a></shiro:hasPermission>',
                 '<shiro:hasPermission name="eam:ticket:read"><a id="rejectTicket" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="拒绝工单">	<i class="la la-thumbs-o-down"></i>	</a></shiro:hasPermission>',
                 '<shiro:hasPermission name="eam:ticket:read"><a id="processTicket" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="处理工单">	<i class="la la-sign-in"></i>	</a></shiro:hasPermission>',
                 '<shiro:hasPermission name="eam:ticket:read"><a id="completeTicket" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="完成工单">	<i class="la la-ticket"></i>	</a></shiro:hasPermission>',
@@ -406,7 +428,7 @@
 
             },
             'click #detail': function (e, value, row, index) {
-                detailAction(row, 'detail');
+                toaction(row, 'detail');
             },
             'click #delete': function (e, value, row, index) {
                 var rows = new Array();
@@ -479,8 +501,22 @@
                 ajaxGet('${basePath}/manage/ticket/detail/' + row["ticketId"], function (responseData) {
                     if (responseData) {
                         var data = responseData.ticket;
-                        $("#description").val(data.ticket.description);
-                        $("#ticketType").val(data.ticket.ticketType.name);
+                        $("#description").text(data.description);
+                        $("#ticketType").text(data.ticketType.name);
+                        $("#priority").text(data.priority);
+                        $("#serviceman").text(data.serviceman);
+                        $("#servicePhone").text(data.servicePhone);
+                        $("#customerContacts").text(data.customerContacts);
+                        $("#customerPhone").text(data.customerPhone);
+                        $("#status").text(data.status);
+                        $("#createTime").text(timeFormatter(data.createTime));
+
+                        if(data.assessmentLevel) {
+                            $("#assessmentLevel").text(data.assessmentLevel);
+                            $("#tagNames").text(data.tagNames);
+                            $("#assessmentDescription").text(data.assessmentDescription);
+                            $("assessmentSection").show();
+                        }
 
                         var images;
                         $.each(responseData.imageList,function(n,value) {
@@ -491,19 +527,15 @@
                         var records;
                         $.each(responseData.records,function(n,value) {
                             records +='<div class="col-sm-12">';
-                            records +=' <label>'+value+'</label> <span></span>';
+                            records +=' <span>\'+value+\'</span>';
                             records +=' </div>';
-                            records +='        <div class="col-sm-12">';
-                            records +='    <label ></label> <span>\'+value+\'</span>';
-                            records +='        </div>';
-                            records +='        </div>';
-                            records +='        <div class="row"> <hr />  </div>';
+                            records +=' <div class="col-sm-12">';
+                            records +='    <span>\'+value+\'</span>';
+                            records +='  </div>';
+                            records +=' <div class="row"> <hr />  </div>';
                         });
                         $('#records').html(records);
-
-
-
-
+                        $("#nextOperateBtn").html(responseData.nextOperateBtn);
                      }
                 });
             }

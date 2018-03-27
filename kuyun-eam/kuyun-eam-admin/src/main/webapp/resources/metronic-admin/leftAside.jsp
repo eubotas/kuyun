@@ -143,7 +143,7 @@
                         </li>
 
                         <li class="m-menu__item " aria-haspopup="true" >
-                            <a  href="${eamPath}/manage/ticket/index" class="m-menu__link ">
+                            <a  href="${eamPath}/manage/ticket/index?category=all" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>

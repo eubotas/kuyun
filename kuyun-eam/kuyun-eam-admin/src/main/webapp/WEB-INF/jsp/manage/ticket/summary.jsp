@@ -134,31 +134,10 @@
                 {field: 'servicePhone', title: '执行人电话'},
                 {field: 'customerContacts', title: '顾客'},
                 {field: 'customerPhone', title: '顾客电话'},
-                {field: 'status', title: '当前状态'},
-                {field: 'action', width: 100, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
+                {field: 'status', title: '当前状态'}
             ]
         });
     });
-    // 格式化操作按钮
-    function actionFormatter(value, row, index) {
-        return [
-            '<a id="detail" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="详细"><i class="la la-file-text-o"></i></a>'
-        ].join('');
-    }
-
-    window.actionEvents = {
-        'click #detail': function (e, value, row, index) {
-            $("#detailDialog").modal("show");
-            var planId=row["ticketId"];
-            ajaxGet('${basePath}/manage/ticket/detail/' +planId , function (responseData) {
-                if (responseData) {
-                    var data = responseData;
-                    //$("#equipmentCategoryId").text(data.plan.equipmentCategoryName);
-
-                }
-            });
-        }
-    };
 
 </script>
 </pageResources>
