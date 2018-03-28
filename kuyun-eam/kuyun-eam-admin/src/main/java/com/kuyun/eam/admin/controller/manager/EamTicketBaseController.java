@@ -107,6 +107,50 @@ public abstract class EamTicketBaseController extends BaseController {
         map.put("records", records);
 	}
 
+    public void setTicketInfo( int id, ModelMap modelMap) {
+        EamTicketExample ete = new EamTicketExample();
+        ete.createCriteria().andTicketIdEqualTo(id);
+        EamTicketVO eamTicket = eamApiService.selectTicket(ete).get(0);
+
+        //assement
+        Integer assId= eamTicket.getAssessmentId();
+        if(assId != null){
+            eamTicket.setTagNames(getAssessmentTicketTag(assId));
+        }
+        modelMap.put("ticket", eamTicket);
+
+        //retrieve the image list
+        List<String> imageList =  new ArrayList<String>();
+        if(eamTicket.getImagePath() != null) {
+            for (String uuid : Splitter.on(',')
+                    .trimResults()
+                    .omitEmptyStrings()
+                    .split(eamTicket.getImagePath())) {
+                imageList.add(fileUploaderService.getServerInfo().getEndpoint_show() + "/" + uuid);
+            }
+        }
+        modelMap.put("imageList", imageList);
+
+        //retrieve the voice list
+        List<String> voiceList =  new ArrayList<String>();
+//		if(eamTicket.getVoicePath() != null) {
+//			for (String uuid : Splitter.on(',')
+//					.trimResults()
+//					.omitEmptyStrings()
+//					.split(eamTicket.getVoicePath())) {
+//				voiceList.add(fileUploaderService.getServerInfo().getEndpoint_show() + "/" + uuid);
+//			}
+//		}
+        modelMap.put("voiceList", voiceList);
+
+        EamTicketRecordExample etre = new EamTicketRecordExample();
+        etre.createCriteria().andTicketIdEqualTo(id);
+        etre.setOrderByClause("eam_ticket_record_create_time desc");
+
+        List<EamTicketRecord> records = eamTicketRecordService.selectByExample(etre);
+        modelMap.put("records", records);
+    }
+
     public void selectTicketUpdate(Map map){
         List<UpmsUser> users = upmsApiService.selectUsersByUserId(baseEntityUtil.getCurrentUser().getUserId());
 

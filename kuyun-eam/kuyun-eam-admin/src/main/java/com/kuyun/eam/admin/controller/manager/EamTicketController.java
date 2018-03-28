@@ -272,8 +272,7 @@ public class EamTicketController extends EamTicketBaseController {
     @ApiOperation(value = "工单详细")
     @RequiresPermissions("eam:ticket:read")
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
-    @ResponseBody
-    public Object detail(@PathVariable("id") int id) {
+    public String detail(@PathVariable("id") int id, ModelMap modelMap) {
         EamTicket eamTicket = eamTicketService.selectByPrimaryKey(id);
         String status=eamTicket.getStatus();
         String nextOperateBtn="";
@@ -287,11 +286,10 @@ public class EamTicketController extends EamTicketBaseController {
         }else if(TicketStatus.INIT.getName().equals(status)){
             nextOperateBtn="<a class=\"waves-effect waves-button\" href=\"javascript:;\" onclick=\"toaction('TOAPPOINT');\">委派工单</a>";
         }
-        Map map =new HashMap();
-        map.put("nextOperateBtn", nextOperateBtn);
+		modelMap.put("nextOperateBtn", nextOperateBtn);
 
-        setTicketInfo(id, map);
-        return map;
+        setTicketInfo(id, modelMap);
+        return  "/manage/ticket/detail.jsp";
     }
 
     @ApiOperation(value = "删除工单")

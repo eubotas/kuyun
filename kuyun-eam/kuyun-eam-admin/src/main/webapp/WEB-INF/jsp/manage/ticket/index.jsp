@@ -167,95 +167,6 @@
     </div>
     <!--end::Modal-->
 
-    <div class="modal fade" id="detailContainer" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <form class="m-form m-form--fit m-form--label-align-right">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content" style="width: 600px; padding:10px;">
-                    <div class="row">
-                        <div class="col-sm-2">
-                            <label for="description">故障描述 :</label>
-                        </div>
-                        <div class="col-sm-10">
-                            <span id="description"></span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <label >工单类型: </label> <span id="ticketType"></span>
-                        </div>
-                        <div class="col-sm-6">
-                            <label>优先级: </label> <span id="priority"></span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <label >执行人: </label> <span id="serviceman"></span>
-                        </div>
-                        <div class="col-sm-6">
-                            <label >执行人电话: </label> <span id="servicePhone"></span>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <label >顾客联系人: </label> <span id="customerContacts"></span>
-                        </div>
-                        <div class="col-sm-6">
-                            <label >顾客电话: </label> <span id="customerPhone"></span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <label for="status">工单状态: </label> <span id="status"></span>
-                        </div>
-                        <div class="col-sm-6">
-                            <label for="createTime">创建时间: </label> <span id="createTime"></span>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-sm-12" id="images">
-                        </div>
-                        <div class="col-sm-12" id="voiceList">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <hr />
-                    </div>
-
-                    <div id="records" ></div>
-
-                    <div id="assessmentSection" style="display:none">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <label for="assessmentLevel">评价星级</label> <span id="assessmentLevel"></span>
-                            </div>
-                            <div class="col-sm-6">
-                                <label for="tagNames">评价标签</label> <span id="tagNames"></span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <label >评价描述</label> <span id="assessmentDescription"></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="modal-footer">
-                            <div id="nextOperateBtn"> </div>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                                取消
-                            </button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </form>
-    </div>
-
 </content>
 
 
@@ -334,17 +245,17 @@
             return [
                 '<shiro:hasPermission name="eam:ticket:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
                 '<shiro:hasPermission name="eam:ticket:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="eam:ticket:read"><a id="detail" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="详细">	<i class="la la-file-text-o"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="eam:ticket:read"><a id="rejectList" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="拒绝工单列表">	<i class="la la-times-circle"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="eam:ticket:read"><a id="assessment" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="去评价">	<i class="la la-thumbs-up"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="eam:ticket:read"><a id="rejectTicket" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="拒绝工单">	<i class="la la-thumbs-o-down"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="eam:ticket:read"><a id="processTicket" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="处理工单">	<i class="la la-sign-in"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="eam:ticket:read"><a id="completeTicket" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="完成工单">	<i class="la la-ticket"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="eam:ticket:read"><a id="detail" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="详细">	<i class="la la-file-text-o"></i>	</a></shiro:hasPermission>'
+                <%--'<shiro:hasPermission name="eam:ticket:read"><a id="rejectList" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="拒绝工单列表">	<i class="la la-times-circle"></i>	</a></shiro:hasPermission>',--%>
+                <%--'<shiro:hasPermission name="eam:ticket:read"><a id="assessment" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="去评价">	<i class="la la-thumbs-up"></i>	</a></shiro:hasPermission>',--%>
+                <%--'<shiro:hasPermission name="eam:ticket:read"><a id="rejectTicket" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="拒绝工单">	<i class="la la-thumbs-o-down"></i>	</a></shiro:hasPermission>',--%>
+                <%--'<shiro:hasPermission name="eam:ticket:read"><a id="processTicket" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="处理工单">	<i class="la la-sign-in"></i>	</a></shiro:hasPermission>',--%>
+                <%--'<shiro:hasPermission name="eam:ticket:read"><a id="completeTicket" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="完成工单">	<i class="la la-ticket"></i>	</a></shiro:hasPermission>',--%>
 
-                '<shiro:hasPermission name="eam:ticketRecord:read"><a id="ticketRecordMgr" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="工单记录管理">	<i class="la la-th-list"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="eam:ticketAppointedRecord:read"><a id="ticketAppointedRecordMgr" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="工单委派管理">	<i class="la la-step-forward"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="eam:ticketAssessment:read"><a id="ticketAssessmentMgr" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="工单评价管理">	<i class="la la-thumbs-up"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="eam:ticketAppointedRecord:read"><a id="ticketAppointedRecordMgr" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="委派工单">	<i class="la la-tasks"></i>	</a></shiro:hasPermission>'
+                <%--'<shiro:hasPermission name="eam:ticketRecord:read"><a id="ticketRecordMgr" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="工单记录管理">	<i class="la la-th-list"></i>	</a></shiro:hasPermission>',--%>
+                <%--'<shiro:hasPermission name="eam:ticketAppointedRecord:read"><a id="ticketAppointedRecordMgr" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="工单委派管理">	<i class="la la-step-forward"></i>	</a></shiro:hasPermission>',--%>
+                <%--'<shiro:hasPermission name="eam:ticketAssessment:read"><a id="ticketAssessmentMgr" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="工单评价管理">	<i class="la la-thumbs-up"></i>	</a></shiro:hasPermission>',--%>
+                <%--'<shiro:hasPermission name="eam:ticketAppointedRecord:read"><a id="ticketAppointedRecordMgr" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="委派工单">	<i class="la la-tasks"></i>	</a></shiro:hasPermission>'--%>
             ].join('');
         }
 
@@ -428,7 +339,7 @@
 
             },
             'click #detail': function (e, value, row, index) {
-                toaction(row, 'detail');
+                window.location = '${basePath}/manage/ticket/detail/' +row['ticketId'];
             },
             'click #delete': function (e, value, row, index) {
                 var rows = new Array();
