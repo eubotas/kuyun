@@ -59,7 +59,7 @@
 
     <div class="m-content">
         <div class="row">
-            <div class="col-xl-3 col-lg-4">
+            <div class="col-xl-2 col-lg-4">
                 <div class="m-portlet m-portlet--full-height  ">
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
@@ -73,22 +73,34 @@
 
                     <div class="m-portlet__body">
                         <ul class="m-nav m-nav--hover-bg m-portlet-fit--sides" id="models">
-                            <li class="m-nav__item"><a href="${basePath}/manage/ticket/${ticket.ticketId}/appoint/create" class="m-nav__link"> <span class="m-nav__link-text">委派工单</span></a></li>
-                            <li class="m-nav__item"><a href="${basePath}/manage/ticket/${ticket.ticketId}/appoint/toreject" class="m-nav__link"> <span class="m-nav__link-text">拒绝工单</span></a></li>
-                            <li class="m-nav__item"><a href="${basePath}/manage/ticket/complete/${ticket.ticketId}" class="m-nav__link"> <span class="m-nav__link-text">完成工单</span></a></li>
-                            <li class="m-nav__item"><a href="${basePath}/manage/ticket/${ticket.ticketId}/assessment/assess" class="m-nav__link"> <span class="m-nav__link-text">评价</span></a></li>
-                            <li class="m-nav__item"><a href="${basePath}/manage/ticket/${ticket.ticketId}/record/create" class="m-nav__link"> <span class="m-nav__link-text">处理工单</span></a></li>
+                            <c:choose>
+                            <c:when test="${ticket.status=='待派工'}">
+                            <li class="m-nav__item"><shiro:hasPermission name="eam:ticketAppointedRecord:update"><a href="javascript:;" onclick="toaction('TOAPPOINT');" class="m-nav__link"> <span class="m-nav__link-text">委派工单</span></a></shiro:hasPermission></li>
+                            </c:when>
+                            <c:when test="${ticket.status=='待评价'}">
+                                <li class="m-nav__item"><shiro:hasPermission name="eam:ticketAssessment:create"><a href="javascript:;" onclick="toaction('TOASSESSMENT');" class="m-nav__link"> <span class="m-nav__link-text">评价</span></a></shiro:hasPermission></li>
+                            </c:when>
+                            <c:when test="${ticket.status=='待维修'}">
+                                <li class="m-nav__item"><shiro:hasPermission name="eam:ticketAppointedRecord:create"><a href="javascript:;" onclick="toaction('REJECT');" class="m-nav__link"> <span class="m-nav__link-text">拒绝工单</span></a></shiro:hasPermission></li>
+                            </c:when>
+                            <c:when test="${ticket.status=='维修中'}">
+                                <li class="m-nav__item"><shiro:hasPermission name="eam:ticket:update"><a href="javascript:;" onclick="toaction('COMPLETE');" class="m-nav__link"> <span class="m-nav__link-text">完成工单</span></a></shiro:hasPermission></li>
+                            </c:when>
+                            </c:choose>
+                            <li class="m-nav__item"><shiro:hasPermission name="eam:ticketRecord:create"><a href="javascript:;" onclick="toaction('TORECORD');" class="m-nav__link"> <span class="m-nav__link-text">处理工单</span></a></shiro:hasPermission></li>
+
+
                             <li></li>
-                            <li class="m-nav__item"><a href="${basePath}/manage/ticket/${ticket.ticketId}/record/index" class="m-nav__link"> <span class="m-nav__link-text">工单记录管理</span></a></li>
-                            <li class="m-nav__item"><a href="${basePath}/manage/ticket/${ticket.ticketId}/appoint/index" class="m-nav__link"> <span class="m-nav__link-text">工单委派管理</span></a></li>
-                            <li class="m-nav__item"><a href="${basePath}/manage/ticket/${ticket.ticketId}/assessment/index" class="m-nav__link"> <span class="m-nav__link-text">工单评价管理</span></a></li>
+                            <li class="m-nav__item"><shiro:hasPermission name="eam:ticketAppointedRecord:read"><a href="${basePath}/manage/ticket/${ticket.ticketId}/record/index" class="m-nav__link"> <span class="m-nav__link-text">工单记录管理</span></a></shiro:hasPermission></li>
+                            <li class="m-nav__item"><shiro:hasPermission name="eam:ticketAppointedRecord:read"><a href="${basePath}/manage/ticket/${ticket.ticketId}/appoint/index" class="m-nav__link"> <span class="m-nav__link-text">工单委派管理</span></a></shiro:hasPermission></li>
+                            <li class="m-nav__item"><shiro:hasPermission name="eam:ticketAssessment:read"><a href="${basePath}/manage/ticket/${ticket.ticketId}/assessment/index" class="m-nav__link"> <span class="m-nav__link-text">工单评价管理</span></a></shiro:hasPermission></li>
                         </ul>
                         <div class="m-portlet__body-separator"></div>
 
                     </div>
                 </div>
             </div>
-            <div class="col-xl-9 col-lg-8">
+            <div class="col-xl-10 col-lg-8">
                 <div class="m-portlet m-portlet--full-height">
                     <div class="m-portlet__head">
                         <div class="m-portlet__head-caption">
@@ -106,45 +118,43 @@
 
                     <div class="m-portlet__body">
                         <form class="m-form m-form--fit m-form--label-align-right">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content">
                                     <!-- the ticket content -->
                                     <div class="row">
                                         <div class="col-sm-12">
-                                            <label for="description">故障描述</label> <span id="description">${ticket.description }</span>
+                                            <label for="description">故障描述: </label> <span id="description">${ticket.description }</span>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-6">
-                                            <label >工单类型</label> <span>${ticket.ticketType.name }</span>
+                                            <label >工单类型: </label> <span>${ticket.ticketType.name }</span>
                                         </div>
                                         <div class="col-sm-6">
-                                            <label>优先级</label> <span>${ticket.priority }</span>
+                                            <label>优先级: </label> <span>${ticket.priority }</span>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-6">
-                                            <label >执行人</label> <span>${ticket.serviceman}</span>
+                                            <label >执行人: </label> <span>${ticket.serviceman}</span>
                                         </div>
                                         <div class="col-sm-6">
-                                            <label >执行人电话</label> <span>${ticket.servicePhone}</span>
+                                            <label >执行人电话: </label> <span>${ticket.servicePhone}</span>
                                         </div>
 
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-6">
-                                            <label >顾客联系人</label> <span>${ticket.customerContacts}</span>
+                                            <label >顾客联系人: </label> <span>${ticket.customerContacts}</span>
                                         </div>
                                         <div class="col-sm-6">
-                                            <label >顾客电话</label> <span>${ticket.customerPhone}</span>
+                                            <label >顾客电话: </label> <span>${ticket.customerPhone}</span>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-6">
-                                            <label for="status">工单状态</label> <span id="status">${ticket.status}</span>
+                                            <label for="status">工单状态: </label> <span id="status">${ticket.status}</span>
                                         </div>
                                         <div class="col-sm-6">
-                                            <label for="createTime">创建时间</label> <span id="createTime">${ticket.createTime}</span>
+                                            <label for="createTime">创建时间: </label> <span id="createTime">${ticket.createTime}</span>
                                         </div>
                                     </div>
 
@@ -186,173 +196,281 @@
                                     <c:if test="${ticket.assessmentId != null}">
                                         <div class="row">
                                             <div class="col-sm-6">
-                                                <label for="assessmentLevel">评价星级</label> <span id="assessmentLevel">${ticket.assessmentLevel}</span>
+                                                <label for="assessmentLevel">评价星级: </label> <span id="assessmentLevel">${ticket.assessmentLevel}</span>
                                             </div>
                                             <div class="col-sm-6">
-                                                <label for="tagNames">评价标签</label> <span id="tagNames">${ticket.tagNames}</span>
+                                                <label for="tagNames">评价标签: </label> <span id="tagNames">${ticket.tagNames}</span>
                                             </div>
                                         </div>
                                         <div class="row">
                                             <div class="col-sm-12">
-                                                <label>评价描述</label> <span >${ticket.assessmentDescription}</span>
+                                                <label>评价描述: </label> <span >${ticket.assessmentDescription}</span>
                                             </div>
                                         </div>
                                     </c:if>
 
-                                    <div class="row">
-                                        <div class="form-group text-right dialog-buttons">
-                                            ${nextOperateBtn}
-                                            <a class="waves-effect waves-button" href="javascript:;" onclick="detailDialog.close();">取消</a>
-                                        </div>
-                                    </div>
 
                                 </div>
                             </div>
                         </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="createAppointDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <form id="createAppointForm" method="post">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="form-group m-form__group row">
+                            <div class="col-sm-12">
+                                <label for="orderTakerId">工单执行人</label>
+                                <a class="waves-effect waves-button" href="javascript:;" onclick="createUser();">创建新用户</a>
+                                <div class="form-group">
+                                    <select id="orderTakerId" name="orderTakerId">
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group m-form__group row">
+                            <div class="col-sm-12">
+                                <label for="rejectCommont">工单委派备注/拒绝原因</label>
+                                <div class="form-group">
+                                    <input id="rejectCommont" type="text" class="form-control" name="rejectCommont" maxlength="200">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            取消
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="createAppointSubmit('createAppointForm');">
+                            提交
+                        </button>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
+    </div>
+
+    <div id="createAssessmentDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <form id="createAssessmentForm" method="post">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="form-group m-form__group row">
+                            <div class="col-sm-12">
+                                <label for="ass_assessmentLevel">工单评价星级</label>
+                                <div class="form-group">
+                                    <select id="ass_assessmentLevel"
+                                            name="assessmentLevel" style="width: 100%">
+                                        <option value="1">1星</option>
+                                        <option value="2">2星</option>
+                                        <option value="3">3星</option>
+                                        <option value="4">4星</option>
+                                        <option value="5">5星</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group m-form__group row">
+                            <div class="col-sm-12">
+                                <label for="ass_description">工单评价备注</label>
+                                <div class="form-group">
+                                    <input id="ass_description" type="text" class="form-control" name="description" maxlength="200">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group m-form__group row">
+                            <div class="col-sm-12">
+                                <label>工单评价标签</label>
+                                <div class="form-group">
+                                    <c:forEach var="ticketTag" items="${ticketTags}">
+                                        <input type="checkbox" name="ticketTag" value="${ticketTag.id}" />${ticketTag.name}
+                                    </c:forEach>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            取消
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="createAssessmentSubmit('createAssessmentForm');">
+                            提交
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="rejectTicketDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <form id="rejectTicketForm" method="post">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <input type="hidden" name="orderTakerId">
+                        <div class="form-group m-form__group row">
+                            <div class="col-sm-12">
+                                <label for="rejectCommont">工单委派备注/拒绝原因</label>
+                                <div class="form-group">
+                                    <input id="rej_rejectCommont" type="text" class="form-control" name="rejectCommont" maxlength="200">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            取消
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="rejectTicketSubmit('rejectTicketForm');">
+                            提交
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="createRecordDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <form id="createRecordForm" method="post">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <input type="hidden" name="orderTakerId">
+                        <div class="form-group m-form__group row">
+                            <div class="col-sm-12">
+                                <label for="comments">工单记录备注</label>
+                                <div class="form-group">
+                                    <input id="comments" type="text" class="form-control" name="comments" maxlength="200">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            取消
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="createRecordSubmit('createRecordForm');">
+                            提交
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
     </div>
 
 </content>
 
 <pageResources>
 <script>
-    //document ready
     $(function() {
-
         $('span[id^="createTime"]').each(function() {
             $(this).text(timeFormatter($(this).text()));
         });
-
     });
 
     //格式化时间
-    function timeFormatter(value, row, index) {
+    function timeFormatter(value) {
         return new Date(value).toLocaleString();
     }
 
     function toaction(type) {
             var ticketId= ${ticket.ticketId};
-            var status= '${ticket.status}';
            if('TOAPPOINT'==type){
-                if(status == '待派工')
-                    createChildWindow('appoint', '委派工单', '${basePath}/manage/ticket/' + ticketId + '/appoint/create');
-                else
-                    showInfo('未委派的订单才能委派');
+                $("#createAppointDialog").modal("show");
+                ajaxGet('${basePath}/manage/ticket/' + ticketId + '/appoint/create', function (responseData) {
+                    if (responseData) {
+                        var data = responseData;
+                        addOptionToHtmlSelect(null, "orderTakerId", data.users);
+                    }
+                });
             }else if('TOASSESSMENT'==type){
-                if(status == '待评价')
-                    createChildWindow('assessment', '评价', '${basePath}/manage/ticket/' + ticketId + '/assessment/assess');
-                else
-                    showInfo('完成状态的订单才能评价');
+               $("#createAssessmentDialog").modal("show");
             }
-            else if('TORECORD'==type)
-                createChildWindow('record', '处理工单', '${basePath}/manage/ticket/' +ticketId  + '/record/create');
-            else if('REJECT'==type){
-                if(status == '待维修')
-                    createChildWindow('reject', '拒绝工单', '${basePath}/manage/ticket/' + ticketId + '/appoint/toreject');
-                else
-                    showInfo('已委派的订单才能拒绝');
+            else if('TORECORD'==type){
+               $("#createRecordDialog").modal("show");
+           }else if('REJECT'==type){
+               $("#rejectTicketDialog").modal("show");
+               ajaxGet('${basePath}/manage/ticket/' + ticketId + '/appoint/toreject', function (responseData) {
+                   if (responseData) {
+                       var data = responseData;
+                       $('#orderTakerId').val(data.orderTakerId);
+                   }
+               });
             }
             else if('COMPLETE'==type){
-                if(status == '维修中')
-                    directlyAction('完成工单',  '${basePath}/manage/ticket/complete/' + ticketId);
-                else
-                    showInfo('维修状态的订单才能完成工单');
+               ajaxGet('${basePath}/manage/ticket/complete/' + ticketId, function (responseData) {
+                   if (responseData) {
+                       var data = responseData;
+                       toastr.success("工单成功完成");
+                   }
+               });
             }
     }
 
-
-    var appointDialog, rejectDialog, assessmentDialog, recordDialog;
-    function createChildWindow(vardialog, title, url) {
-        var d = $.dialog({
-            animationSpeed: 300,
-            title: title,
-            columnClass: 'xlarge',
-            content: 'url:'+url,
-            onContentReady: function () {
-                initMaterialInput();
-                $('select').select2();
-            }
-        });
-        if(vardialog == 'appoint'){
-            appointDialog = d;
-            rejectDialog  =null;
-            assessmentDialog  =null;
-            recordDialog  =null;
-        }else if(vardialog == 'reject'){
-            rejectDialog=d;
-            appointDialog  =null;
-            assessmentDialog  =null;
-            recordDialog  =null;
-        }else if(vardialog == 'assessment'){
-            assessmentDialog =d;
-            appointDialog  =null;
-            rejectDialog  =null;
-            recordDialog  =null;
-        }else if(vardialog == 'record'){
-            recordDialog =d;
-            appointDialog  =null;
-            assessmentDialog  =null;
-            rejectDialog  =null;
-        }
-    }
-
-    var directlyOperateDialog;
-    function directlyAction(name,url) {
-        directlyOperateDialog = $.confirm({
-            type: 'red',
-            animationSpeed: 300,
-            title: false,
-            content: '确认'+name+'吗？',
-            buttons: {
-                confirm: {
-                    text: '确认',
-                    btnClass: 'waves-effect waves-button',
-                    action: function () {
-                        $.ajax({
-                            type: 'get',
-                            url: url,
-                            success: function(result) {
-                                if (result.code != 1) {
-                                    showInfo('failure');
-                                } else {
-                                    directlyOperateDialog.close();
-                                    showInfo('success');
-                                    $table.bootstrapTable('refresh');
-                                }
-                            },
-                            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                                showInfo(textStatus);
-                            }
-                        });
-                    }
-                },
-                cancel: {
-                    text: '取消',
-                    btnClass: 'waves-effect waves-button'
-                }
+    function createAppointSubmit(formId){
+        var targetUrl= '${basePath}/manage/ticket/${ticket.ticketId}/appoint/create';
+        ajaxPost(targetUrl, formId, function(result) {
+            if (result.code != 1) {
+                sendErrorInfo(result);
+            } else {
+                toastr.success("委派工单成功");
+                $('#createAppointDialog').modal('toggle');
+                location.reload();
             }
         });
     }
 
-    function showInfo( textStatus) {
-        $.confirm({
-            theme: 'dark',
-            animation: 'rotateX',
-            closeAnimation: 'rotateX',
-            title: false,
-            content: textStatus,
-            buttons: {
-                confirm: {
-                    text: '确认',
-                    btnClass: 'waves-effect waves-button waves-light'
-                }
+    function createAssessmentSubmit(formId){
+        var targetUrl= '${basePath}/manage/ticket/${ticket.ticketId}/assessment/assess';
+        ajaxPost(targetUrl, formId, function(result) {
+            if (result.code != 1) {
+                sendErrorInfo(result);
+            } else {
+                toastr.success("评价工单成功");
+                $('#createAssessmentDialog').modal('toggle');
+                location.reload();
             }
         });
     }
 
+    function rejectTicketSubmit(formId){
+        var targetUrl= '${basePath}/manage/ticket/${ticket.ticketId}/appoint/reject';
+        ajaxPost(targetUrl, formId, function(result) {
+            if (result.code != 1) {
+                sendErrorInfo(result);
+            } else {
+                toastr.success("工单拒绝成功");
+                $('#rejectTicketDialog').modal('toggle');
+                location.reload();
+            }
+        });
+    }
+
+    function createRecordSubmit(formId){
+        var targetUrl= '${basePath}/manage/ticket/${ticket.ticketId}/record/create';
+        ajaxPost(targetUrl, formId, function(result) {
+            if (result.code != 1) {
+                sendErrorInfo(result);
+            } else {
+                toastr.success("工单记录创建成功");
+                $('#createRecordDialog').modal('toggle');
+                location.reload();
+            }
+        });
+    }
 
 </script>
 </pageResources>

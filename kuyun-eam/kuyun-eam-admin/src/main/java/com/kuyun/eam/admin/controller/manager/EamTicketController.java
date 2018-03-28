@@ -92,7 +92,8 @@ public class EamTicketController extends EamTicketBaseController {
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(@RequestParam(required = false, defaultValue = "myAll", value = "category") String category , ModelMap modelMap) {
 		modelMap.put("category", category);
-		
+        selectTicketUpdate(modelMap);
+
 //		if(category.startsWith("my"))
 //            return "/manage/ticket/myTicket.jsp";
 //		else
@@ -191,7 +192,7 @@ public class EamTicketController extends EamTicketBaseController {
 	@ResponseBody
 	public Object create(ModelMap modelMap ) {
 		Map map =new HashMap();
-        selectTicketUpdate(map);
+        selectTicketUpdate(modelMap);
 		return map;
 	}
 
@@ -218,7 +219,7 @@ public class EamTicketController extends EamTicketBaseController {
     @RequiresPermissions("eam:ticket:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public Object update(@PathVariable("id") int id) {
+    public Object update(@PathVariable("id") int id, ModelMap modelMap) {
 	    Map map =new HashMap();
         EamTicket eamTicket = eamTicketService.selectByPrimaryKey(id);
         map.put("ticket", eamTicket);
@@ -247,7 +248,7 @@ public class EamTicketController extends EamTicketBaseController {
         }
         map.put("voiceList", voiceList);
 
-        selectTicketUpdate(map);
+        selectTicketUpdate(modelMap);
         return map;
     }
 

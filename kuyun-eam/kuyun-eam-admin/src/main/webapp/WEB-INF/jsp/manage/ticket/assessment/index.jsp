@@ -20,8 +20,18 @@
             <div class="mr-auto">
                 <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
                     <li class="m-nav__item m-nav__item--home">
-                        <a href="#" class="m-nav__link m-nav__link--icon">
-                            <i class="m-nav__link-icon la la-home"></i>
+                        <a href="${basePath}/manage/ticket/index" class="m-nav__link m-nav__link--icon">
+                            <i class="m-nav__link-icon la la-home"></i>工单列表
+                        </a>
+                    </li>
+                    <li class="m-nav__separator">
+                        -
+                    </li>
+                    <li class="m-nav__item">
+                        <a href="${basePath}/manage/ticket/detail/${ticketId}" class="m-nav__link">
+											<span class="m-nav__link-text">
+												工单详细
+											</span>
                         </a>
                     </li>
                     <li class="m-nav__separator">
@@ -45,25 +55,69 @@
 
 <content>
 
-    <div class="m-portlet m-portlet--mobile">
-        <div class="m-portlet__body">
-            <div id="toolbar">
-                <div>
-                    <shiro:hasPermission name="eam:ticketAssessment:create"><a href="#" id="createButton" class="btn btn-outline-primary m-btn m-btn--icon m-btn--icon-only" title="新建">
-                        <i class="la la-plus"></i>
-                    </a></shiro:hasPermission>
+    <div class="m-content">
+        <div class="row">
+            <div class="col-xl-2 col-lg-4">
+                <div class="m-portlet m-portlet--full-height  ">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title">
+                                <h1 class="m-portlet__head-text">
+                                    对该工单操作
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
 
-                    <shiro:hasPermission name="eam:ticketAssessment:delete"><a href="#" id="deleteButton" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only" title="删除">
-                        <i class="la la-remove"></i>
-                    </a></shiro:hasPermission>
+                    <div class="m-portlet__body">
+                        <ul class="m-nav m-nav--hover-bg m-portlet-fit--sides" id="models">
 
-                    <div class="m-separator m-separator--dashed d-xl-none"></div>
+                            <li class="m-nav__item"><a href="${basePath}/manage/ticket/${ticketId}/record/index" class="m-nav__link"> <span class="m-nav__link-text">工单记录管理</span></a></li>
+                            <li class="m-nav__item"><a href="${basePath}/manage/ticket/${ticketId}/appoint/index" class="m-nav__link"> <span class="m-nav__link-text">工单委派管理</span></a></li>
+                            <li class="m-nav__item"><a href="${basePath}/manage/ticket/${ticketId}/assessment/index" class="m-nav__link"> <span class="m-nav__link-text">工单评价管理</span></a></li>
+                        </ul>
+                        <div class="m-portlet__body-separator"></div>
+
+                    </div>
                 </div>
             </div>
+            <div class="col-xl-10 col-lg-8">
+                <div class="m-portlet m-portlet--full-height">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title">
+												<span class="m-portlet__head-icon">
+													<i class="flaticon-multimedia"></i>
+												</span>
+                                <h3 class="m-portlet__head-text">
+                                    工单详情
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="m-portlet m-portlet--mobile">
+                        <div class="m-portlet__body">
+                            <div id="toolbar">
+                                <div>
+                                    <shiro:hasPermission name="eam:ticketAssessment:create"><a href="#" id="createButton" class="btn btn-outline-primary m-btn m-btn--icon m-btn--icon-only" title="新建">
+                                        <i class="la la-plus"></i>
+                                    </a></shiro:hasPermission>
 
-            <table id="table" data-toolbar="#toolbar"></table>
+                                    <shiro:hasPermission name="eam:ticketAssessment:delete"><a href="#" id="deleteButton" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only" title="删除">
+                                        <i class="la la-remove"></i>
+                                    </a></shiro:hasPermission>
+
+                                    <div class="m-separator m-separator--dashed d-xl-none"></div>
+                                </div>
+                            </div>
+
+                            <table id="table" data-toolbar="#toolbar"></table>
+                        </div>
+                    </div>
+             </div>
         </div>
-    </div>
+      </div>
+   </div>
 
     <!--begin::Modal-->
     <div id="addTicketAssessmentFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"

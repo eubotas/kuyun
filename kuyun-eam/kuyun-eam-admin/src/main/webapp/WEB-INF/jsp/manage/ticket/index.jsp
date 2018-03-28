@@ -246,16 +246,6 @@
                 '<shiro:hasPermission name="eam:ticket:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
                 '<shiro:hasPermission name="eam:ticket:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>',
                 '<shiro:hasPermission name="eam:ticket:read"><a id="detail" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="详细">	<i class="la la-file-text-o"></i>	</a></shiro:hasPermission>'
-                <%--'<shiro:hasPermission name="eam:ticket:read"><a id="rejectList" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="拒绝工单列表">	<i class="la la-times-circle"></i>	</a></shiro:hasPermission>',--%>
-                <%--'<shiro:hasPermission name="eam:ticket:read"><a id="assessment" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="去评价">	<i class="la la-thumbs-up"></i>	</a></shiro:hasPermission>',--%>
-                <%--'<shiro:hasPermission name="eam:ticket:read"><a id="rejectTicket" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="拒绝工单">	<i class="la la-thumbs-o-down"></i>	</a></shiro:hasPermission>',--%>
-                <%--'<shiro:hasPermission name="eam:ticket:read"><a id="processTicket" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="处理工单">	<i class="la la-sign-in"></i>	</a></shiro:hasPermission>',--%>
-                <%--'<shiro:hasPermission name="eam:ticket:read"><a id="completeTicket" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="完成工单">	<i class="la la-ticket"></i>	</a></shiro:hasPermission>',--%>
-
-                <%--'<shiro:hasPermission name="eam:ticketRecord:read"><a id="ticketRecordMgr" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="工单记录管理">	<i class="la la-th-list"></i>	</a></shiro:hasPermission>',--%>
-                <%--'<shiro:hasPermission name="eam:ticketAppointedRecord:read"><a id="ticketAppointedRecordMgr" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="工单委派管理">	<i class="la la-step-forward"></i>	</a></shiro:hasPermission>',--%>
-                <%--'<shiro:hasPermission name="eam:ticketAssessment:read"><a id="ticketAssessmentMgr" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="工单评价管理">	<i class="la la-thumbs-up"></i>	</a></shiro:hasPermission>',--%>
-                <%--'<shiro:hasPermission name="eam:ticketAppointedRecord:read"><a id="ticketAppointedRecordMgr" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="委派工单">	<i class="la la-tasks"></i>	</a></shiro:hasPermission>'--%>
             ].join('');
         }
 
@@ -295,12 +285,24 @@
         }();
 
         function submitForm(id) {
+            var uploads = galleryUploader.getUploads({
+                status : qq.status.UPLOAD_SUCCESSFUL
+            });
+            var fileUuids = '';
+            for (var i = 0; i < uploads.length; i++) {
+                fileUuids = fileUuids + uploads[i].uuid + ",";
+            }
+            console.log("fileUuids = " + fileUuids);
+
             var targetUrl='${basePath}/manage/ticket/create';
             var formId='add_Form';
             if(id){
                 targetUrl='${basePath}/manage/ticket/update/'+id;
                 formId='edit_Form';
-            }
+                $('#edit_imagePath').val(fileUuids);
+            }else
+                $('#add_imagePath').val(fileUuids);
+
             ajaxPost(targetUrl, formId, function(result) {
                 if (result.code != 1) {
                     sendErrorInfo(result);
@@ -345,112 +347,8 @@
                 var rows = new Array();
                 rows.push(row);
                 deleteActionImpl(rows);
-            },
-            'click #rejectTicket': function (e, value, row, index) {
-                toaction(row, 'rejectTicket');
-            },
-            'click #rejectList': function (e, value, row, index) {
-                toaction(row, 'REJECT');
-            },
-            'click #processTicket': function (e, value, row, index) {
-                toaction(row, 'processTicket');
-            },
-            'click #completeTicket': function (e, value, row, index) {
-                toaction(row,'completeTicket');
-            },
-            'click #ticketRecordMgr': function (e, value, row, index) {
-                toaction(row,'ticketRecordMgr');
-            },
-            'click #ticketAppointedRecordMgr': function (e, value, row, index) {
-                toaction(row,'ticketAppointedRecordMgr');
-            },
-            'click #ticketAssessmentMgr': function (e, value, row, index) {
-                toaction(row,'ticketAssessmentMgr');
-            },
-            'click #ticketAppointedRecordMgr': function (e, value, row, index) {
-                toaction(row,'ticketAppointedRecordMgr');
-            },
+            }
         };
-
-        function toaction(row, type) {
-            var ticketId= row.ticketId;
-            var status= row.status;
-            if('ticketRecordMgr'==type)
-                window.location = '${basePath}/manage/ticket/' +ticketId  + '/record/index';
-            else if('ticketAppointedRecordMgr'==type)
-                window.location = '${basePath}/manage/ticket/' + ticketId + '/appoint/index';
-            else if('ticketAssessmentMgr'==type){
-                window.location = '${basePath}/manage/ticket/' + ticketId + '/assessment/index';
-            }
-            else if('ticketAppointedRecordMgr'==type){
-                if(status == '待派工')
-                    createChildWindow('appoint', '委派工单', '${basePath}/manage/ticket/' + ticketId + '/appoint/create');
-                else
-                    swWarn('未委派的订单才能委派');
-            }else if('TOASSESSMENT'==type){
-                if(status == '待评价')
-                    createChildWindow('assessment', '评价', '${basePath}/manage/ticket/' + ticketId + '/assessment/assess');
-                else
-                    swWarn('完成状态的订单才能评价');
-            }
-            else if('processTicket'==type)
-                createChildWindow('record', '处理工单', '${basePath}/manage/ticket/' +ticketId  + '/record/create');
-            else if('rejectTicket'==type){
-                if(status == '待维修')
-                    createChildWindow('reject', '拒绝工单', '${basePath}/manage/ticket/' + ticketId + '/appoint/toreject');
-                else
-                    swWarn('已委派的订单才能拒绝');
-            }
-            else if('completeTicket'==type){
-                if(status == '维修中')
-                    directlyAction('完成工单',  '${basePath}/manage/ticket/complete/' + ticketId);
-                else
-                    swWarn('维修状态的订单才能完成工单');
-            }
-            else if('detail'==type){
-                jQuery("#detailContainer").modal("show");
-                ajaxGet('${basePath}/manage/ticket/detail/' + row["ticketId"], function (responseData) {
-                    if (responseData) {
-                        var data = responseData.ticket;
-                        $("#description").text(data.description);
-                        $("#ticketType").text(data.ticketType.name);
-                        $("#priority").text(data.priority);
-                        $("#serviceman").text(data.serviceman);
-                        $("#servicePhone").text(data.servicePhone);
-                        $("#customerContacts").text(data.customerContacts);
-                        $("#customerPhone").text(data.customerPhone);
-                        $("#status").text(data.status);
-                        $("#createTime").text(timeFormatter(data.createTime));
-
-                        if(data.assessmentLevel) {
-                            $("#assessmentLevel").text(data.assessmentLevel);
-                            $("#tagNames").text(data.tagNames);
-                            $("#assessmentDescription").text(data.assessmentDescription);
-                            $("assessmentSection").show();
-                        }
-
-                        var images;
-                        $.each(responseData.imageList,function(n,value) {
-                            images +="<image src="+value+" />";
-                        });
-                        $('#images').html(images);
-
-                        var records;
-                        $.each(responseData.records,function(n,value) {
-                            records +='<div class="col-sm-12">';
-                            records +=' <span>\'+value+\'</span>';
-                            records +=' </div>';
-                            records +=' <div class="col-sm-12">';
-                            records +='    <span>\'+value+\'</span>';
-                            records +='  </div>';
-                            records +=' <div class="row"> <hr />  </div>';
-                        });
-                        $('#records').html(records);
-                        $("#nextOperateBtn").html(responseData.nextOperateBtn);
-                     }
-                });
-            }
-        }
 
         function deleteAction(){
             var rows = $table.bootstrapTable('getSelections');
@@ -547,6 +445,58 @@
             </dialog>
         </div>
     </script>
+
+    <script>
+        var galleryUploader = new qq.FineUploader(
+            {
+                element : document.getElementById("fine-uploader-gallery"),
+                template : 'qq-template-gallery',
+                request : {
+                    endpoint : '${uploadServer.endpoint_upload}',
+                    params : {
+                        kuyunModule : "eam"
+                    }
+                },
+                thumbnails : {
+                    placeholders : {
+                        waitingPath : '${basePath}/resources/kuyun-admin/plugins/fileupload/placeholders/waiting-generic.png',
+                        notAvailablePath : '${basePath}/resources/kuyun-admin/plugins/fileupload/placeholders/not_available-generic.png'
+                    }
+                },
+                validation : {
+                    /*  allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'] */
+                },
+                chunking : {
+                    enabled : true,
+                    concurrent : {
+                        enabled : true
+                    },
+                    success : {
+                        endpoint : '${uploadServer.endpoint_uploadDone}'
+                    },
+                    mandatory : true
+                },
+                deleteFile : {
+                    enabled : true,
+                    forceConfirm : true,
+                    endpoint : '${uploadServer.endpoint_delete}'
+                },
+                cors : {
+                    //all requests are expected to be cross-domain requests
+                    expected : true,
+
+                    //if you want cookies to be sent along with the request
+                    sendCredentials : true
+                }
+                /* init file list
+                session:{
+                        endpoint: '${uploadServer.endpoint_list}?ids=${uuids}'
+			}, */
+            });
+    </script>
+
+    <link href="${basePath}/resources/kuyun-admin/plugins/fileupload/fine-uploader-gallery.css" rel="stylesheet">
+    <script src="${basePath}/resources/kuyun-admin/plugins/fileupload/fine-uploader.js"></script>
 </pageResources>
 
 

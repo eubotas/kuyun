@@ -151,7 +151,7 @@ public abstract class EamTicketBaseController extends BaseController {
         modelMap.put("records", records);
     }
 
-    public void selectTicketUpdate(Map map){
+    public void selectTicketUpdate(ModelMap map){
         List<UpmsUser> users = upmsApiService.selectUsersByUserId(baseEntityUtil.getCurrentUser().getUserId());
 
         map.put("users", JspUtil.getMapList(users,"userId","realname"));

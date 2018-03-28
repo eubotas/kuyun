@@ -109,9 +109,8 @@ public class EamTicketAppointController extends EamTicketBaseController {
 	@ApiOperation(value = "新增工单委派")
 	@RequiresPermissions("eam:ticketAppointedRecord:create")
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public String create(@PathVariable("ticketId") int ticketId, ModelMap modelMap) {
-		modelMap.addAttribute("ticketId", ticketId);
-
+    @ResponseBody
+    public Object create(@PathVariable("ticketId") int ticketId, ModelMap modelMap) {
         UpmsOrgUserVo orgUserVo = new UpmsOrgUserVo();
         UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
         if (company != null){
@@ -120,9 +119,11 @@ public class EamTicketAppointController extends EamTicketBaseController {
         orgUserVo.setOrgName(OrgDepartment.MAINTENANCE_DEPARTMENT.getName());
 
 		List<UpmsOrgUserVo> users = upmsApiService.selectOrgUsersByOrgNameCompanyId( orgUserVo);
-		modelMap.put("users", users);
-        setTicketInfo(  ticketId,  modelMap);
-		return "/manage/ticket/appoint/create.jsp";
+		Map map=new HashMap();
+
+        map.put("users", users);
+        setTicketInfo(  ticketId,  map);
+		return map;
 	}
 
 	@ApiOperation(value = "新增工单委派")
@@ -144,12 +145,14 @@ public class EamTicketAppointController extends EamTicketBaseController {
     @ApiOperation(value = "拒绝工单委派")
     @RequiresPermissions("eam:ticketAppointedRecord:create")
     @RequestMapping(value = "/toreject", method = RequestMethod.GET)
-    public String toreject(@PathVariable("ticketId") int ticketId, ModelMap modelMap) {
+    @ResponseBody
+    public Object toreject(@PathVariable("ticketId") int ticketId, ModelMap modelMap) {
         UpmsUser user = baseEntityUtil.getCurrentUser();
-        modelMap.put("orderTakerId", user.getUserId());
-        modelMap.put("ticketId", ticketId);
-        setTicketInfo(ticketId, modelMap);
-        return "/manage/ticket/appoint/reject.jsp";
+        Map map=new HashMap();
+        map.put("orderTakerId", user.getUserId());
+        map.put("ticketId", ticketId);
+        setTicketInfo(ticketId, map);
+        return map;
     }
 
 	@ApiOperation(value = "拒绝工单委派")
