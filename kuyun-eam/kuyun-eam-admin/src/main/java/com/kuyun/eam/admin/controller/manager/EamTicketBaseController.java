@@ -61,6 +61,9 @@ public abstract class EamTicketBaseController extends BaseController {
     private EamTicketRecordService eamTicketRecordService;
 
     @Autowired
+    private EamTicketTagService eamTicketTagService;
+
+    @Autowired
     public com.kuyun.fileuploader.rpc.api.FileUploaderService fileUploaderService;
 
 	public void setTicketInfo( int id, Map map) {
@@ -175,6 +178,8 @@ public abstract class EamTicketBaseController extends BaseController {
         //map.put("equipments",  JspUtil.getMapList(rows,"equipmentId","name"));
         map.put("equipments",rows);
         map.put("uploadServer", fileUploaderService.getServerInfo());
+
+        map.addAttribute("ticketTags", getTicketTag());
     }
 
     public int getCurrUserId(){
@@ -201,5 +206,19 @@ public abstract class EamTicketBaseController extends BaseController {
         if(names.endsWith(", "))
             names= names.substring(0, names.length()-2);
         return names;
+    }
+
+    protected List<EamTicketTag> getTicketTag(){
+        EamTicketTagExample eamTicketTagExample = new EamTicketTagExample();
+        EamTicketTagExample.Criteria criteria = eamTicketTagExample.createCriteria();
+        criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+
+        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+
+        if (company != null){
+            criteria.andCompanyIdEqualTo(company.getCompanyId());
+        }
+        List<EamTicketTag> rows = eamTicketTagService.selectByExample(eamTicketTagExample);
+        return rows;
     }
 }

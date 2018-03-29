@@ -11,6 +11,7 @@ import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.vo.EamTicketAssessmentTagVO;
 import com.kuyun.eam.vo.EamTicketAssessmentVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
+import com.kuyun.upms.common.JspUtil;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -61,27 +62,22 @@ public class EamTicketAssessmentController extends EamTicketBaseController {
 
     @ApiOperation(value = "评价工单")
     @RequiresPermissions("eam:TicketAssessment:create")
-    @RequestMapping(value = "/assess", method = RequestMethod.GET)
-    public String assess(@PathVariable("ticketId") int ticketId, ModelMap modelMap) {
+    @RequestMapping(value = "/assess")
+    @ResponseBody
+    public Object assess(@PathVariable("ticketId") int ticketId) {
+        Map map = new HashMap();
         EamTicketAssessment eamTicketAssessment =getTicketAssessment(ticketId);
-        setTicketInfo(  ticketId,  modelMap);
-        if(eamTicketAssessment != null) {
-            modelMap.put("ticketAssessment", eamTicketAssessment);
-            modelMap.addAttribute("ticketTags", getTicketTag());
+        if(eamTicketAssessment != null) {  //update
+            map.put("ticketAssessment", eamTicketAssessment);
 
             EamTicketAssessmentTagExample eamTicketAssessmentTagExample = new EamTicketAssessmentTagExample();
             EamTicketAssessmentTagExample.Criteria criteria = eamTicketAssessmentTagExample.createCriteria();
             criteria.andTicketIdEqualTo(ticketId);
             criteria.andDeleteFlagEqualTo(Boolean.FALSE);
             List<EamTicketAssessmentTag> list= eamTicketAssessmentTagService.selectByExample(eamTicketAssessmentTagExample);
-            modelMap.put("ticketAssessmentTags", list);
-
-            return "/manage/ticket/assessment/update.jsp";
-        }else {
-            modelMap.addAttribute("ticketId", ticketId);
-            modelMap.addAttribute("ticketTags", getTicketTag());
-            return "/manage/ticket/assessment/create.jsp";
+            map.put("ticketAssessmentTags", JspUtil.getList(list,"tagId"));
         }
+        return map;
     }
 
 	@ApiOperation(value = "工单评价管理首页")
@@ -89,6 +85,7 @@ public class EamTicketAssessmentController extends EamTicketBaseController {
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(@PathVariable("ticketId") int ticketId, ModelMap modelMap) {
 		modelMap.addAttribute("ticketId", ticketId);
+        modelMap.put("ticketTags", getTicketTag());
 		return "/manage/ticket/assessment/index.jsp";
 	}
 
@@ -184,10 +181,11 @@ public class EamTicketAssessmentController extends EamTicketBaseController {
 	@ApiOperation(value = "修改工单评价")
 	@RequiresPermissions("eam:ticketAssessment:update")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-	public String update(@PathVariable("ticketId") int ticketId, @PathVariable("id") int id, ModelMap modelMap) {
+    @ResponseBody
+    public Object update(@PathVariable("ticketId") int ticketId, @PathVariable("id") int id) {
+        Map map =new HashMap();
 		EamTicketAssessment eamTicketAssessment = eamTicketAssessmentService.selectByPrimaryKey(id);
-		modelMap.put("ticketAssessment", eamTicketAssessment);
-        modelMap.addAttribute("ticketTags", getTicketTag());
+        map.put("ticketAssessment", eamTicketAssessment);
 
         EamTicketAssessmentTagExample eamTicketAssessmentTagExample = new EamTicketAssessmentTagExample();
         EamTicketAssessmentTagExample.Criteria criteria = eamTicketAssessmentTagExample.createCriteria();
@@ -195,9 +193,8 @@ public class EamTicketAssessmentController extends EamTicketBaseController {
 		criteria.andAssessmentIdEqualTo(id);
         criteria.andDeleteFlagEqualTo(Boolean.FALSE);
         List<EamTicketAssessmentTag> list= eamTicketAssessmentTagService.selectByExample(eamTicketAssessmentTagExample);
-        modelMap.put("ticketAssessmentTags", list);
-        setTicketInfo(  ticketId,  modelMap);
-		return "/manage/ticket/assessment/update.jsp";
+        map.put("ticketAssessmentTags", list);
+		return map;
 	}
 
 	@ApiOperation(value = "修改工单评价")
@@ -230,20 +227,6 @@ public class EamTicketAssessmentController extends EamTicketBaseController {
         vo.setDescription(ass.getDescription());
         return vo;
     }
-
-	private List<EamTicketTag> getTicketTag(){
-		EamTicketTagExample eamTicketTagExample = new EamTicketTagExample();
-		EamTicketTagExample.Criteria criteria = eamTicketTagExample.createCriteria();
-		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
-
-		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
-
-		if (company != null){
-			criteria.andCompanyIdEqualTo(company.getCompanyId());
-		}
-		List<EamTicketTag> rows = eamTicketTagService.selectByExample(eamTicketTagExample);
-		return rows;
-	}
 
 	private List<EamTicketAssessmentVO> getAssessmentTicket(List<EamTicketAssessment> rows){
 		List<EamTicketAssessmentVO> vos=new ArrayList<EamTicketAssessmentVO> ();

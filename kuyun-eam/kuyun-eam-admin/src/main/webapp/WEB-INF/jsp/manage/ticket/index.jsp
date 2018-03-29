@@ -488,7 +488,7 @@
                     expected : true,
 
                     //if you want cookies to be sent along with the request
-                    sendCredentials : true
+                    // sendCredentials : true
                 }
                 /* init file list
                 session:{

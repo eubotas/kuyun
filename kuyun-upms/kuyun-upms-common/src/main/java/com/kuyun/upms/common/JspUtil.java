@@ -23,6 +23,17 @@ public class JspUtil {
         return results;
     }
 
+    public static List getList(List list, String valField){
+        List results=new ArrayList();
+        try {
+            for (Object obj : list) {
+                String val = ifNull(getFieldValueByName(valField,obj));
+                results.add(val);
+            }
+        }catch(Exception ex){}
+        return results;
+    }
+
     public static Object getFieldValueByName(String fieldName, Object o) {
         try {
             String firstLetter = fieldName.substring(0, 1).toUpperCase();

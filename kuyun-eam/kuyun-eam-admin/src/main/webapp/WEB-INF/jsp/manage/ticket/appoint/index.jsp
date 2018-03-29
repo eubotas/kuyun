@@ -190,7 +190,13 @@
             FormWidgets.init('edit');
 
             $('#createButton').click(function(){
-                $("#addTicketRecordFormContainer").modal("show");
+                $("#addTicketAppointFormContainer").modal("show");
+                ajaxGet('${basePath}/manage/ticket/' + ticketId + '/appoint/create', function (responseData) {
+                    if (responseData) {
+                        var data = responseData;
+                        addOptionToHtmlSelect(null, "add_orderTakerId", data.users);
+                    }
+                });
             });
 
             $('#deleteButton').click(function(){
@@ -220,7 +226,7 @@
                 escape: true,
                 searchOnEnterKey: true,
                 maintainSelected: true,
-                idField: 'ticketRecordId',
+                idField: 'id',
                 columns: [
                     {field: 'ck', checkbox: true},
                     {field: 'id', title: 'ID', sortable: true, align: 'center'},
@@ -292,10 +298,10 @@
                 } else {
                     if(formId=='add_Form') {
                         toastr.success("新建工单委派成功");
-                        $('#addTicketRecordFormContainer').modal('toggle');
+                        $('#addTicketAppointFormContainer').modal('toggle');
                     }else{
                         toastr.success("编辑工单委派成功");
-                        $('#editTicketRecordFormContainer').modal('toggle');
+                        $('#editTicketAppointFormContainer').modal('toggle');
                     }
                     $table.bootstrapTable('refresh');
                 }
@@ -304,18 +310,14 @@
 
 
         function updateAction(row) {
-            jQuery("#editTicketRecordFormContainer").modal("show");
-            ajaxGet('${basePath}/manage/ticket/${ticketId}/appoint/' + row["ticketRecordId"], function (responseData) {
+            jQuery("#editTicketAppointFormContainer").modal("show");
+            ajaxGet('${basePath}/manage/ticket/${ticketId}/appoint/' + row["id"], function (responseData) {
                 if (responseData) {
                     var data = responseData;
                     // 赋值
-                    $("#edit_id").val(data.ticketRecord.ticketRecordId);
-                    $("#edit_name").val(data.ticketRecord.name);
-                    $("#edit_address").val(data.ticketRecord.address);
-                    $("#edit_phone").val(data.ticketRecord.phone);
-                    $("#edit_fax").val(data.ticketRecord.fax);
-                    $("#edit_zip").val(data.ticketRecord.zip);
-                    $("#edit_www").val(data.ticketRecord.www);
+                    $("#edit_id").val(data.ticketRecord.id);
+
+                    addOptionToHtmlSelect(null, "add_orderTakerId", data.users);
                 }
             });
         }
@@ -341,7 +343,7 @@
             if (rows.length == 0) {
                 swWarn("请至少选择一条记录");
             }else {
-                deleteRows(rows,'ticketRecordId','${basePath}/manage/ticketRecord/delete/', "请确认要删除选中的工单委派吗？", "删除工单委派成功");
+                deleteRows(rows,'id','${basePath}/manage/ticket/${ticketId}/appoint/delete/', "请确认要删除选中的工单委派吗？", "删除工单委派成功");
             }//end else
         }
 

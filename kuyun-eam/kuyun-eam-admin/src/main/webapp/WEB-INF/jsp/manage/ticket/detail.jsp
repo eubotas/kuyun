@@ -228,7 +228,7 @@
                                 <label for="orderTakerId">工单执行人</label>
                                 <div class="form-group">
                                     <select id="orderTakerId" name="orderTakerId">
-                                    </select><a class="waves-effect waves-button" href="javascript:;" onclick="toaction('CREATEUSER');">创建新用户</a>
+                                    </select><a style="margin-left: 10px;" href="javascript:;" onclick="toaction('CREATEUSER');">创建新用户</a>
 
                                 </div>
                             </div>
@@ -300,6 +300,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <input type="hidden" id="ass_id">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">
                             取消
                         </button>
@@ -399,22 +400,22 @@
                             <label for="email">邮箱</label>
                             <input id="email" type="text" class="form-control" name="email" maxlength="50">
                         </div>
-                        <div class="radio">
-                            <div class="radio radio-inline radio-info">
-                                <input id="sex_1" type="radio" name="sex" value="1" checked>
-                                <label for="sex_1">男 </label>
-                            </div>
-                            <div class="radio radio-inline radio-danger">
-                                <input id="sex_0" type="radio" name="sex" value="0">
-                                <label for="sex_0">女 </label>
-                            </div>
-                            <div class="radio radio-inline radio-success">
-                                <input id="locked_0" type="radio" name="locked" value="0" checked>
-                                <label for="locked_0">正常 </label>
-                            </div>
-                            <div class="radio radio-inline">
-                                <input id="locked_1" type="radio" name="locked" value="1">
-                                <label for="locked_1">锁定 </label>
+
+                        <div class="m-form__group form-group">
+                            <div class="m-radio-inline">
+                                <label class="m-radio">
+                                    <input id="sex_1" type="radio" name="sex" value="1" checked>男
+                                    <span></span>
+                                </label>
+                                <label class="m-radio">
+                                    <input id="sex_0" type="radio" name="sex" value="0">女<span></span>
+                                </label>
+                                <label class="m-radio">
+                                    <input id="locked_0" type="radio" name="locked" value="0" checked>正常<span></span>
+                                </label>
+                                <label class="m-radio">
+                                    <input id="locked_1" type="radio" name="locked" value="1">锁定<span></span>
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -458,6 +459,26 @@
                 });
             }else if('TOASSESSMENT'==type){
                $("#createAssessmentDialog").modal("show");
+               ajaxGet('${basePath}/manage/ticket/' + ticketId + '/assessment/assess', function (responseData) {
+                   if (responseData) {
+                       var data = responseData;
+                       if(data.ticketAssessment != undefined) {
+                           $("#ass_id").val(data.ticketAssessment.id);
+                           $("#ass_assessmentLevel").val(data.ticketAssessment.assessmentLevel);
+                           $("#ass_description").val(data.ticketAssessment.description);
+                           var tags = data.ticketAssessment.ticketAssessmentTags;
+                           if(tags != undefined) {
+                               $("#createAssessmentDialog").find("input[name='ticketTag']").each(
+                                   function () {
+                                       var item = $(this).get(0);
+                                       if ($.inArray(item.val(), tags)) {
+                                           item.prop("checked", true);
+                                       }
+                                   });
+                           }
+                       }//update
+                   }
+               });
             }
             else if('TORECORD'==type){
                $("#createRecordDialog").modal("show");
@@ -475,7 +496,9 @@
                    if (responseData) {
                        var data = responseData;
                        toastr.success("工单成功完成");
-                   }
+                       location.reload();
+                   }else
+                       toastr.success("工单完成失败");
                });
             }
            else if('CREATEUSER'==type){
@@ -497,7 +520,10 @@
     }
 
     function createAssessmentSubmit(formId){
-        var targetUrl= '${basePath}/manage/ticket/${ticket.ticketId}/assessment/assess';
+        var targetUrl= '${basePath}/manage/ticket/${ticket.ticketId}/assessment/create';
+        var id= $("#ass_id").val();
+        if(id != '')
+            targetUrl= '${basePath}/manage/ticket/${ticket.ticketId}/assessment/update/'+id;
         ajaxPost(targetUrl, formId, function(result) {
             if (result.code != 1) {
                 sendErrorInfo(result);

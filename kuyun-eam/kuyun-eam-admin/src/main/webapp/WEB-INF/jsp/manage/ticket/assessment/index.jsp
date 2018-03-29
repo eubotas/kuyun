@@ -145,9 +145,31 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group m-form__group row">
+                            <label for="templateID_assessmentLevel">工单评价星级</label>
+                            <select id="templateID_assessmentLevel"
+                                    name="assessmentLevel" style="width: 100%">
+                                <option value="1" <c:if test="${ticketAssessment.assessmentLevel==1}">selected</c:if> >1星</option>
+                                <option value="2"<c:if test="${ticketAssessment.assessmentLevel==2}">selected</c:if> >2星</option>
+                                <option value="3" <c:if test="${ticketAssessment.assessmentLevel==3}">selected</c:if> >3星</option>
+                                <option value="4" <c:if test="${ticketAssessment.assessmentLevel==4}">selected</c:if> >4星</option>
+                                <option value="5" <c:if test="${ticketAssessment.assessmentLevel==5}">selected</c:if> >5星</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group m-form__group row">
                             <label for="templateID_comments">工单评价备注</label>
                             <input id="templateID_comments" type="text" class="form-control" name="comments" maxlength="200" >
                         </div>
+
+                        <div class="form-group m-form__group row">
+                            <label>工单评价标签</label>
+                            <div style="margin-left: 20px;">
+                            <c:forEach var="ticketTag" items="${ticketTags}" varStatus="status">
+                                <input type="checkbox" name="ticketTag" value="${ticketTag.id}"  />${ticketTag.name}
+                            </c:forEach>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="modal-footer">
                         <input type="hidden" id="templateID_id" name="id">
@@ -293,7 +315,18 @@
                     var data = responseData;
                     // 赋值
                     $("#edit_id").val(data.ticketAssessment.id);
-                    $("#edit_comments").val(data.ticketAssessment.comments);
+                    $("#edit_assessmentLevel").val(data.ticketAssessment.assessmentLevel);
+                    $("#edit_description").val(data.ticketAssessment.description);
+                    var tags = data.ticketAssessment.ticketAssessmentTags;
+                    if(tags != undefined) {
+                        $("#editTicketAssessmentFormContainer").find("input[name='ticketTag']").each(
+                            function () {
+                                var item = $(this).get(0);
+                                if ($.inArray(item.val(), tags)) {
+                                    item.prop("checked", true);
+                                }
+                            });
+                    }
                 }
             });
         }

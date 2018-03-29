@@ -117,24 +117,23 @@
                             <label for="templateID_email">邮箱</label>
                             <input id="templateID_email" type="text" class="form-control" name="email" maxlength="50">
                         </div>
-                        <div class="radio">
-                            <div class="radio radio-inline radio-info">
-                                <input id="templateID_sex_1" type="radio" name="sex" value="1" checked>
-                                <label for="templateID_sex_1">男 </label>
-                            </div>
-                            <div class="radio radio-inline radio-danger">
-                                <input id="templateID_sex_0" type="radio" name="sex" value="0">
-                                <label for="templateID_sex_0">女 </label>
-                            </div>
-                            <div class="radio radio-inline radio-success">
-                                <input id="templateID_locked_0" type="radio" name="locked" value="0" checked>
-                                <label for="templateID_locked_0">正常 </label>
-                            </div>
-                            <div class="radio radio-inline">
-                                <input id="templateID_locked_1" type="radio" name="locked" value="1">
-                                <label for="templateID_locked_1">锁定 </label>
-                            </div>
-                    </div>
+                        <div class="m-form__group form-group">
+                            <div class="m-radio-inline">
+                                <label class="m-radio">
+                                    <input id="templateID_sex_1" type="radio" name="sex" value="1" checked>男
+                                    <span></span>
+                                </label>
+                                <label class="m-radio">
+                                    <input id="templateID_sex_0" type="radio" name="sex" value="0">女<span></span>
+                                </label>
+                                <label class="m-radio">
+                                    <input id="templateID_locked_0" type="radio" name="locked" value="0" checked>正常<span></span>
+                                </label>
+                                <label class="m-radio">
+                                    <input id="templateID_locked_1" type="radio" name="locked" value="1">锁定<span></span>
+                                </label>
+                        </div>
+                      </div>
                     <div class="modal-footer">
                         <input type="hidden" id="templateID_id" name="id">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">
