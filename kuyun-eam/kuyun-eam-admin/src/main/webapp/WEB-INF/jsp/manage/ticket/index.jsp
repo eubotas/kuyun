@@ -107,6 +107,9 @@
                                 </div>
                             <div class="col-sm-4">
                                 <select id="templateID_ticketTypeId" name="ticketTypeId" style="width: 100%">
+                                    <c:forEach var="ticketType" items="${ticketTypes}">
+                                        <option value="${ticketType.id}">${ticketType.name}</option>
+                                    </c:forEach>
                                 </select>
                             </div>
                                 <div class="col-sm-2">
@@ -114,6 +117,9 @@
                                 </div>
                             <div class="col-sm-4">
                                     <select id="templateID_equipmentCategoryId" name="equipmentCategoryId" style="width: 100%">
+                                        <c:forEach var="equipmentCategory" items="${equipmentCategorys}">
+                                            <option value="${equipmentCategory.equipmentCategoryId}">${equipmentCategory.name}</option>
+                                        </c:forEach>
                                     </select>
                             </div>
                         </div>
@@ -124,6 +130,9 @@
                             </div>
                             <div class="col-sm-4">
                                 <select id="templateID_equipmentId" name="equipmentId" style="width: 100%">
+                                    <c:forEach var="equipment" items="${equipments}">
+                                        <option value="${equipment.equipmentId}">${equipment.name}</option>
+                                    </c:forEach>
                                 </select>
                             </div>
                             <div class="col-sm-2">
@@ -188,14 +197,6 @@
 
             $('#createButton').click(function(){
                 $("#addTicketFormContainer").modal("show");
-                ajaxGet('${basePath}/manage/ticket/create', function (responseData) {
-                    if (responseData) {
-                        var data = responseData;
-                        addOptionToHtmlSelect(null, "add_ticketTypeId", data.ticketTypes);
-                        addOptionToHtmlSelect(null, "add_equipmentCategoryId", data.equipmentCategorys);
-                        addOptionToHtmlSelect(null, "add_equipmentId", data.equipments);
-                    }
-                });
             });
 
             $('#deleteButton').click(function(){
@@ -328,9 +329,9 @@
                     // 赋值
                     $("#edit_id").val(data.ticket.ticketId);
                     $("#edit_description").val(data.ticket.description);
-                    addOptionToHtmlSelect(data.ticket.ticketTypeId, "edit_ticketTypeId", data.ticketTypes);
-                    addOptionToHtmlSelect(data.ticket.equipmentCategoryId, "edit_equipmentCategoryId", data.equipmentCategorys);
-                    addOptionToHtmlSelect(data.ticket.equipmentId, "edit_equipmentId", data.equipments);
+                    $("#edit_ticketTypeId").val(data.ticket.ticketTypeId);
+                    $("#edit_equipmentCategoryId").val(data.ticket.equipmentCategoryId);
+                    $("#edit_equipmentId").val(data.ticket.equipmentId);
                 }
             });
         }
@@ -366,7 +367,8 @@
     </script>
 
 
-
+    <link href="${basePath}/resources/kuyun-admin/plugins/fileupload/fine-uploader-gallery.css" rel="stylesheet">
+    <script src="${basePath}/resources/kuyun-admin/plugins/fileupload/fine-uploader.js"></script>
     <!-- Fine Uploader Gallery template
   ====================================================================== -->
     <script type="text/template" id="qq-template-gallery">
@@ -495,8 +497,6 @@
             });
     </script>
 
-    <link href="${basePath}/resources/kuyun-admin/plugins/fileupload/fine-uploader-gallery.css" rel="stylesheet">
-    <script src="${basePath}/resources/kuyun-admin/plugins/fileupload/fine-uploader.js"></script>
 </pageResources>
 
 

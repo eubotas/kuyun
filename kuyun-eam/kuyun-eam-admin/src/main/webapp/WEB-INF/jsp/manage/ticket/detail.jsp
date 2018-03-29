@@ -30,7 +30,7 @@
                         -
                     </li>
                     <li class="m-nav__item">
-                        <a href="" class="m-nav__link">
+                        <a href="${basePath}/manage/ticket/index" class="m-nav__link">
 											<span class="m-nav__link-text">
 												工单列表
 											</span>
@@ -226,10 +226,9 @@
                         <div class="form-group m-form__group row">
                             <div class="col-sm-12">
                                 <label for="orderTakerId">工单执行人</label>
-                                <a class="waves-effect waves-button" href="javascript:;" onclick="createUser();">创建新用户</a>
                                 <div class="form-group">
                                     <select id="orderTakerId" name="orderTakerId">
-                                    </select>
+                                    </select><a class="waves-effect waves-button" href="javascript:;" onclick="toaction('CREATEUSER');">创建新用户</a>
 
                                 </div>
                             </div>
@@ -371,6 +370,67 @@
         </form>
     </div>
 
+    <div id="createUserDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <form id="createUserForm" method="post">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="username">帐号</label>
+                            <input id="username" type="text" class="form-control" name="username" maxlength="20">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">密码</label>
+                            <input id="password" type="text" class="form-control" name="password" maxlength="32">
+                        </div>
+                        <div class="form-group">
+                            <label for="realname">姓名</label>
+                            <input id="realname" type="text" class="form-control" name="realname" maxlength="20">
+                        </div>
+                        <div class="form-group">
+                            <label for="avatar">头像</label>
+                            <input id="avatar" type="text" class="form-control" name="avatar" maxlength="50">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">电话</label>
+                            <input id="phone" type="text" class="form-control" name="phone" maxlength="20">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">邮箱</label>
+                            <input id="email" type="text" class="form-control" name="email" maxlength="50">
+                        </div>
+                        <div class="radio">
+                            <div class="radio radio-inline radio-info">
+                                <input id="sex_1" type="radio" name="sex" value="1" checked>
+                                <label for="sex_1">男 </label>
+                            </div>
+                            <div class="radio radio-inline radio-danger">
+                                <input id="sex_0" type="radio" name="sex" value="0">
+                                <label for="sex_0">女 </label>
+                            </div>
+                            <div class="radio radio-inline radio-success">
+                                <input id="locked_0" type="radio" name="locked" value="0" checked>
+                                <label for="locked_0">正常 </label>
+                            </div>
+                            <div class="radio radio-inline">
+                                <input id="locked_1" type="radio" name="locked" value="1">
+                                <label for="locked_1">锁定 </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            取消
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="createUserSubmit('createUserForm');">
+                            提交
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
 </content>
 
 <pageResources>
@@ -418,6 +478,9 @@
                    }
                });
             }
+           else if('CREATEUSER'==type){
+               $("#createUserDialog").modal("show");
+           }
     }
 
     function createAppointSubmit(formId){
@@ -468,6 +531,18 @@
                 toastr.success("工单记录创建成功");
                 $('#createRecordDialog').modal('toggle');
                 location.reload();
+            }
+        });
+    }
+
+    function createUserSubmit(formId){
+        var targetUrl= '${basePath}/manage/company/createUser';
+        ajaxPost(targetUrl, formId, function(result) {
+            if (result.code != 1) {
+                sendErrorInfo(result);
+            } else {
+                toastr.success("用户创建成功");
+                $('#createUserDialog').modal('toggle');
             }
         });
     }

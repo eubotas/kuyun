@@ -153,25 +153,27 @@ public abstract class EamTicketBaseController extends BaseController {
 
     public void selectTicketUpdate(ModelMap map){
         List<UpmsUser> users = upmsApiService.selectUsersByUserId(baseEntityUtil.getCurrentUser().getUserId());
-
-        map.put("users", JspUtil.getMapList(users,"userId","realname"));
+        map.put("users",users);
+        //map.put("users", JspUtil.getMapList(users,"userId","realname"));
         EamTicketTypeExample typeExample = new EamTicketTypeExample();
         EamTicketTypeExample.Criteria criteria = typeExample.createCriteria();
         criteria.andCompanyIdEqualTo(getCompanyId());
         List<EamTicketType> types = eamTicketTypeService.selectByExample( typeExample );
-        map.put("ticketTypes", JspUtil.getMapList(types,"id","name"));
+        //map.put("ticketTypes", JspUtil.getMapList(types,"id","name"));
+        map.put("ticketTypes",types);
 
         EamEquipmentCategoryExample example = new EamEquipmentCategoryExample();
         EamEquipmentCategoryExample.Criteria criteria2 = example.createCriteria();
         criteria2.andCompanyIdEqualTo(getCompanyId());
         List<EamEquipmentCategory> cats = eamEquipmentCategoryService.selectByExample( example );
-        map.put("equipmentCategorys", JspUtil.getMapList(cats,"equipmentCategoryId","name"));
+        //map.put("equipmentCategorys", JspUtil.getMapList(cats,"equipmentCategoryId","name"));
+        map.put("equipmentCategorys",cats);
 
         EamEquipmentVO equipmentVO = new EamEquipmentVO();
         equipmentVO.setCompanyId(getCompanyId());
         List<EamEquipmentVO> rows = eamApiService.selectEquipments(equipmentVO);
-        map.put("equipments",  JspUtil.getMapList(rows,"equipmentId","name"));
-
+        //map.put("equipments",  JspUtil.getMapList(rows,"equipmentId","name"));
+        map.put("equipments",rows);
         map.put("uploadServer", fileUploaderService.getServerInfo());
     }
 

@@ -15,6 +15,7 @@ import com.kuyun.eam.rpc.api.EamTicketAppointedRecordService;
 import com.kuyun.eam.rpc.api.EamTicketService;
 import com.kuyun.eam.vo.EamTicketAppointVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
+import com.kuyun.upms.common.JspUtil;
 import com.kuyun.upms.dao.model.UpmsUser;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
 import com.kuyun.upms.dao.vo.UpmsOrgUserVo;
@@ -120,8 +121,7 @@ public class EamTicketAppointController extends EamTicketBaseController {
 
 		List<UpmsOrgUserVo> users = upmsApiService.selectOrgUsersByOrgNameCompanyId( orgUserVo);
 		Map map=new HashMap();
-
-        map.put("users", users);
+        map.put("users", JspUtil.getMapList(users,"userId","realname"));
         setTicketInfo(  ticketId,  map);
 		return map;
 	}
