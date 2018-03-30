@@ -88,7 +88,7 @@
                             </c:when>
                             </c:choose>
                             <li class="m-nav__item"><shiro:hasPermission name="eam:ticketRecord:create"><a href="javascript:;" onclick="toaction('TORECORD');" class="m-nav__link"> <span class="m-nav__link-text">处理工单</span></a></shiro:hasPermission></li>
-
+                            <li class="m-nav__item"><shiro:hasPermission name="eam:ticketAppointedRecord:read"><a href="${basePath}/manage/ticket/rejectRecord/${ticket.ticketId}" class="m-nav__link"> <span class="m-nav__link-text">工单拒绝记录</span></a></shiro:hasPermission></li>
 
                             <li></li>
                             <li class="m-nav__item"><shiro:hasPermission name="eam:ticketAppointedRecord:read"><a href="${basePath}/manage/ticket/${ticket.ticketId}/record/index" class="m-nav__link"> <span class="m-nav__link-text">工单记录管理</span></a></shiro:hasPermission></li>

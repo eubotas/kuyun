@@ -5,7 +5,6 @@ import java.util.*;
 import com.kuyun.common.validator.NotNullValidator;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
-import com.kuyun.eam.vo.EamEquipmentVO;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -27,7 +26,6 @@ import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.google.common.base.Splitter;
-import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.common.constant.EamResultConstant;
@@ -35,8 +33,6 @@ import com.kuyun.eam.common.constant.TicketSearchCategory;
 import com.kuyun.eam.common.constant.TicketStatus;
 import com.kuyun.eam.vo.EamTicketVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
-import com.kuyun.upms.dao.model.UpmsOrganization;
-import com.kuyun.upms.dao.model.UpmsUser;
 import com.kuyun.upms.rpc.api.UpmsApiService;
 
 import io.swagger.annotations.Api;
@@ -94,10 +90,7 @@ public class EamTicketController extends EamTicketBaseController {
 		modelMap.put("category", category);
         selectTicketUpdate(modelMap);
 
-		if(category.startsWith("my"))
-            return "/manage/ticket/myTicket.jsp";
-		else
-		    return "/manage/ticket/index.jsp";
+        return "/manage/ticket/index.jsp";
 	}
 
     @ApiOperation(value = "工单管理首页")
@@ -307,8 +300,9 @@ public class EamTicketController extends EamTicketBaseController {
 	@RequestMapping(value = "/rejectRecord/{id}", method = RequestMethod.GET)
 	public String rejectRecord(@PathVariable("id") int id, ModelMap modelMap) {
 		List records=eamApiService.getTicketRejectRecord(id);
+        modelMap.put("ticketId", id);
 		modelMap.put("records", records);
-		return "/manage/ticket/ticketRejectRecord.jsp";
+		return "/manage/ticket/appoint/ticketRejectRecord.jsp";
 	}
 
 }
