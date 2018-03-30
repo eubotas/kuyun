@@ -90,7 +90,7 @@
 													<i class="flaticon-multimedia"></i>
 												</span>
                                 <h3 class="m-portlet__head-text">
-                                    工单详情
+                                    工单评价
                                 </h3>
                             </div>
                         </div>
@@ -157,8 +157,8 @@
                         </div>
 
                         <div class="form-group m-form__group row">
-                            <label for="templateID_comments">工单评价备注</label>
-                            <input id="templateID_comments" type="text" class="form-control" name="comments" maxlength="200" >
+                            <label for="templateID_description">工单评价备注</label>
+                            <input id="templateID_description" type="text" class="form-control" name="description" maxlength="200" >
                         </div>
 
                         <div class="form-group m-form__group row">
@@ -317,13 +317,13 @@
                     $("#edit_id").val(data.ticketAssessment.id);
                     $("#edit_assessmentLevel").val(data.ticketAssessment.assessmentLevel);
                     $("#edit_description").val(data.ticketAssessment.description);
-                    var tags = data.ticketAssessment.ticketAssessmentTags;
+                    var tags = data.ticketAssessmentTags;
                     if(tags != undefined) {
                         $("#editTicketAssessmentFormContainer").find("input[name='ticketTag']").each(
                             function () {
                                 var item = $(this).get(0);
-                                if ($.inArray(item.val(), tags)) {
-                                    item.prop("checked", true);
+                                if ($.inArray(Number(item.value), tags) >-1) {
+                                    item.checked =true;
                                 }
                             });
                     }

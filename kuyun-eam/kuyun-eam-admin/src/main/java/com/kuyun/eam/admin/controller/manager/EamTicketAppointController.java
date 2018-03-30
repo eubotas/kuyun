@@ -174,7 +174,7 @@ public class EamTicketAppointController extends EamTicketBaseController {
 
 	@ApiOperation(value = "删除工单委派")
 	@RequiresPermissions("eam:ticketAppointedRecord:delete")
-	@RequestMapping(value = "/delete",method = RequestMethod.GET)
+	@RequestMapping(value = "/delete/{id}",method = RequestMethod.GET)
 	@ResponseBody
 	public Object delete(@PathVariable("ticketId") int ticketId) {
 		EamTicketAppointedRecordExample eamTicketAppointRecordExample = new EamTicketAppointedRecordExample();

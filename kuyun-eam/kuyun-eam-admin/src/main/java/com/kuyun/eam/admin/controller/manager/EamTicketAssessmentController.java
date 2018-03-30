@@ -190,10 +190,10 @@ public class EamTicketAssessmentController extends EamTicketBaseController {
         EamTicketAssessmentTagExample eamTicketAssessmentTagExample = new EamTicketAssessmentTagExample();
         EamTicketAssessmentTagExample.Criteria criteria = eamTicketAssessmentTagExample.createCriteria();
         criteria.andTicketIdEqualTo(ticketId);
-		criteria.andAssessmentIdEqualTo(id);
+		//criteria.andAssessmentIdEqualTo(id);
         criteria.andDeleteFlagEqualTo(Boolean.FALSE);
         List<EamTicketAssessmentTag> list= eamTicketAssessmentTagService.selectByExample(eamTicketAssessmentTagExample);
-        map.put("ticketAssessmentTags", list);
+        map.put("ticketAssessmentTags", JspUtil.getList(list,"id"));
 		return map;
 	}
 

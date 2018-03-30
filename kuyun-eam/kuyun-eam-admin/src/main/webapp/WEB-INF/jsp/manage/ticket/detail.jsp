@@ -321,7 +321,7 @@
                         <input type="hidden" name="orderTakerId">
                         <div class="form-group m-form__group row">
                             <div class="col-sm-12">
-                                <label for="rejectCommont">工单委派备注/拒绝原因</label>
+                                <label for="rejectCommont">工单委派备注</label>
                                 <div class="form-group">
                                     <input id="rej_rejectCommont" type="text" class="form-control" name="rejectCommont" maxlength="200">
 
@@ -471,8 +471,8 @@
                                $("#createAssessmentDialog").find("input[name='ticketTag']").each(
                                    function () {
                                        var item = $(this).get(0);
-                                       if ($.inArray(item.val(), tags)) {
-                                           item.prop("checked", true);
+                                       if ($.inArray(Number(item.value), tags) >-1) {
+                                           item.checked =true;
                                        }
                                    });
                            }

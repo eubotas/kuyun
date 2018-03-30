@@ -90,7 +90,7 @@
 													<i class="flaticon-multimedia"></i>
 												</span>
                                 <h3 class="m-portlet__head-text">
-                                    工单详情
+                                    工单委派
                                 </h3>
                             </div>
                         </div>
@@ -241,7 +241,6 @@
         // 格式化操作按钮
         function actionFormatter(value, row, index) {
             return [
-                '<shiro:hasPermission name="eam:ticketRecord:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
                 '<shiro:hasPermission name="eam:ticketRecord:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>'
             ].join('');
         }
@@ -309,24 +308,7 @@
         }
 
 
-        function updateAction(row) {
-            jQuery("#editTicketAppointFormContainer").modal("show");
-            ajaxGet('${basePath}/manage/ticket/${ticketId}/appoint/' + row["id"], function (responseData) {
-                if (responseData) {
-                    var data = responseData;
-                    // 赋值
-                    $("#edit_id").val(data.ticketRecord.id);
-
-                    addOptionToHtmlSelect(null, "add_orderTakerId", data.users);
-                }
-            });
-        }
-
         window.actionEvents = {
-            'click #update': function (e, value, row, index) {
-                updateAction(row);
-
-            },
             'click #delete': function (e, value, row, index) {
                 var rows = new Array();
                 rows.push(row);

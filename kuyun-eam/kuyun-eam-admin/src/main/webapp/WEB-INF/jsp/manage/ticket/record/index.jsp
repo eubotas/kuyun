@@ -90,7 +90,7 @@
 													<i class="flaticon-multimedia"></i>
 												</span>
                                 <h3 class="m-portlet__head-text">
-                                    工单详情
+                                    工单记录
                                 </h3>
                             </div>
                         </div>
