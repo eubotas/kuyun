@@ -91,25 +91,49 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group m-form__group row">
-							<label for="templateID_category">类别</label>
-							<input id="templateID_category" type="text" class="form-control" name="category" maxlength="30" >
+                        <div class="form-group">
+                            <label for="templateID_username">帐号</label>
+                            <input id="templateID_username" type="text" class="form-control" name="username" maxlength="20">
+                        </div>
+                        <div class="form-group">
+                            <label for="templateID_password">密码</label>
+                            <input id="templateID_password" type="text" class="form-control" name="password" maxlength="32">
+                        </div>
+                        <div class="form-group">
+                            <label for="templateID_realname">姓名</label>
+                            <input id="templateID_realname" type="text" class="form-control" name="realname" maxlength="20">
+                        </div>
+                        <div class="form-group">
+                            <label for="templateID_avatar">头像</label>
+                            <input id="templateID_avatar" type="text" class="form-control" name="avatar" maxlength="50">
+                        </div>
+                        <div class="form-group">
+                            <label for="templateID_phone">电话</label>
+                            <input id="templateID_phone" type="text" class="form-control" name="phone" maxlength="20">
+                        </div>
+                        <div class="form-group">
+                            <label for="templateID_email">邮箱</label>
+                            <input id="templateID_email" type="text" class="form-control" name="email" maxlength="50">
                         </div>
 
-						<div class="form-group m-form__group row">
-							<label for="templateID_company">Code</label>
-							<input id="templateID_company" type="text" class="form-control" name="company" maxlength="30" >
-						</div>
-
-						<div class="form-group m-form__group row">
-							<label for="templateID_codeName">Code名称</label>
-							<input id="templateID_codeName" type="text" class="form-control" name="codeName" maxlength="100" >
-						</div>
-
-						<div class="form-group m-form__group row">
-							<label for="templateID_description">描述</label>
-							<input id="templateID_description" type="text" class="form-control" name="description" maxlength="200" >
-						</div>
+                        <div class="m-form__group form-group">
+                            <div class="m-radio-inline">
+                                <label class="m-radio">
+                                    <input id="templateID_sex_1" type="radio" name="sex" value="1" checked>男
+                                    <span></span>
+                                </label>
+                                <label class="m-radio">
+                                    <input id="templateID_sex_0" type="radio" name="sex" value="0">女<span></span>
+                                </label>
+                                <label class="m-radio">
+                                    <input id="templateID_locked_0" type="radio" name="locked" value="0" checked>正常<span></span>
+                                </label>
+                                <label class="m-radio">
+                                    <input id="templateID_locked_1" type="radio" name="locked" value="1">锁定<span></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                     </div>
                     <div class="modal-footer">
                         <input type="hidden" id="templateID_id" name="id">
@@ -126,7 +150,36 @@
     </div>
     <!--end::Modal-->
 
+    <div id="authEquipmentDialog" class="crudDialog modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <form id="personForm" class="m-form m-form--fit m-form--label-align-right">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" style="padding:20px">
+                    <div class="modal-header">
+                        <h5 class="modal-title" >
+                            设备列表
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">
+												&times;
+											</span>
+                        </button>
+                    </div>
+                    <div class="form-group text-right dialog-buttons">
+                        <button type="button" onclick="authEquipmentSubmit();" class="btn btn-primary" >确认授权</button>
+                    </div>
 
+                    <div>
+                        <table id="tableEquipment"></table>
+                    </div>
+
+                    <div class="form-group text-right dialog-buttons">
+                        <button type="button" onclick="authEquipmentSubmit();" class="btn btn-primary" >确认授权</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"> 取消 </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 </content>
 
 
@@ -194,7 +247,8 @@
         function actionFormatter(value, row, index) {
             return [
                 '<shiro:hasPermission name="eam:company:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="eam:company:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>'
+                '<shiro:hasPermission name="eam:company:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="eam:company:update"><a id="equipmentAction" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="设备授权">	<i class="la la-edit"></i>	</a></shiro:hasPermission>'
             ].join('');
         }
 
@@ -229,9 +283,12 @@
                     var data = responseData;
                     // 赋值
                     $("#edit_id").val(data.company.id);
-                    $("#edit_category").val(data.company.category);
-                    $("#edit_codeName").val(data.company.codeName);
-                    $("#edit_description").val(data.company.description);
+                    $("#edit_name").val(data.company.name);
+                    $("#edit_address").val(data.company.address);
+                    $("#edit_phone").val(data.company.phone);
+                    $("#edit_fax").val(data.company.fax);
+                    $("#edit_zip").val(data.company.zip);
+                    $("#edit_www").val(data.company.www);
                 }
             });
         }
@@ -239,7 +296,10 @@
         window.actionEvents = {
             'click #update': function (e, value, row, index) {
                 updateAction(row);
-
+            },
+            'click #equipmentAction': function (e, value, row, index) {
+                selectCompanyId = row['id'];
+                authEquipmentAction();
             },
             'click #delete': function (e, value, row, index) {
                 var rows = new Array();
@@ -264,6 +324,96 @@
     </script>
 
 
+    <script>
+        var tableEquipment = $('#tableEquipment');
+        var selectCompanyId, shownTableEquipment;
+
+        function authEquipmentAction() {
+            $("#authEquipmentDialog").modal("show");
+            if(shownTableEquipment){
+                tableEquipment.bootstrapTable( 'refresh', equipmentOpt);
+            }else{
+                shownTableEquipment = true;
+                tableEquipment.bootstrapTable(equipmentOpt);
+            }
+        }
+
+        var equipmentOpt = {
+                url: '${basePath}/manage/company/equipment/list',
+                queryParams:function(p){
+                    return {    companyId : selectCompanyId,
+                        limit : p.limit,
+                        offset: p.offset,
+                        search: p.search,
+                        sort:   p.sort,
+                        order:  p.order
+                    }
+                },
+                striped: true,
+                minimumCountColumns: 2,
+                clickToSelect: true,
+                detailFormatter: 'detailFormatter',
+                pagination: true,
+                paginationLoop: false,
+                sidePagination: 'server',
+                silentSort: false,
+                smartDisplay: false,
+                escape: true,
+                searchOnEnterKey: true,
+                idField: 'equipmentId',
+                maintainSelected: true,
+//            toolbar: '#toolbar',
+                columns: [
+                    {field: 'ck', checkbox: true,  formatter : checkFormatter},
+                    {field: 'name', title: '设备名称', sortable: true, align: 'center'},
+                    {field: 'number', title: '设备编号'}
+                ]
+            };
+
+        function checkFormatter(value, row, index) {
+            if (row.checked == true)
+                return {
+                    disabled : false,//设置是否可用
+                    checked : true//设置选中
+                };
+            return value;
+        }
+
+        function authEquipmentSubmit() {
+            var rows = tableEquipment.bootstrapTable('getSelections');
+            if(!selectEquipmentId)
+                swWarn('出错了, 请刷新重试！');
+            else if (rows.length == 0) {
+                swWarn('请至少选择一条记录！');
+            }else {
+                var ids = new Array();
+                for (var i in rows) {
+                    if (rows[i].equipmentId == null){
+                        alert("请选择一记录！");
+                        return false;
+                    }
+                }
+                for (var i in rows) {
+                    ids.push(rows[i].equipmentId);
+                }
+
+                ajaxPostData('${basePath}/manage/company/auth', {companyId: selectCompanyId, eIds: ids.join("::")}, function(result) {
+                    if (result.code != 1) {
+                        if (result.data instanceof Array) {
+                            $.each(result.data, function(index, value) {
+                                swError(value.errorMsg);
+                            });
+                        } else {
+                            swError(result.data.errorMsg);
+                        }
+                    } else {
+                        $('#authEquipmentDialog').modal('toggle');
+                        $table.bootstrapTable('refresh');
+                    }
+                });
+            }//end else
+        }
+    </script>
 
 </pageResources>
 

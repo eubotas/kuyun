@@ -66,71 +66,7 @@
         </div>
     </div>
 
-    <!--begin::Modal-->
-    <div id="addTrainingVideoFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-    </div>
 
-    <div id="editTrainingVideoFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-    </div>
-
-    <div class="modal fade" id="template-trainingVideo-addEditForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <form id="templateID_Form" class="m-form m-form--fit m-form--label-align-right">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">
-                            templateTitleName_培训视频
-                        </h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">
-												&times;
-											</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group m-form__group row">
-							<label for="templateID_title">标题</label>
-							<input id="templateID_title" type="text" class="form-control" name="title" maxlength="30" >
-                        </div>
-
-						<div class="form-group m-form__group row">
-							<label for="templateID_description">描述</label>
-							<input id="templateID_description" type="text" class="form-control" name="description" maxlength="30" >
-						</div>
-						<div class="form-group m-form__group row">
-							<label for="templateID_tag">标签</label>
-							<input id="templateID_tag" type="text" class="form-control" name="tag" maxlength="200" >
-						</div>
-
-                        <div class="col-sm-12">
-                            <div id="fine-uploader-gallery"></div>
-                            <input id="path" type="hidden" class="form-control"  name="path" maxlength="500">
-                        </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <input type="hidden" id="templateID_id" name="id">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                            取消
-                        </button>
-                        <button type="submit" class="btn btn-primary" id="templateID_submit">
-                            提交
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-    <!--end::Modal-->
-
-
-</content>
-
-
-<pageResources>
     <link href="${basePath}/resources/kuyun-admin/plugins/fileupload/fine-uploader-gallery.css" rel="stylesheet">
     <!-- Fine Uploader Gallery template
   ====================================================================== -->
@@ -210,6 +146,72 @@
             </dialog>
         </div>
     </script>
+    <!--begin::Modal-->
+    <div id="addTrainingVideoFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+    </div>
+
+    <div id="editTrainingVideoFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+    </div>
+
+    <div class="modal fade" id="template-trainingVideo-addEditForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <form id="templateID_Form" class="m-form m-form--fit m-form--label-align-right">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">
+                            templateTitleName_培训视频
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">
+												&times;
+											</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group m-form__group row">
+							<label for="templateID_title">标题</label>
+							<input id="templateID_title" type="text" class="form-control" name="title" maxlength="30" >
+                        </div>
+
+						<div class="form-group m-form__group row">
+							<label for="templateID_description">描述</label>
+							<input id="templateID_description" type="text" class="form-control" name="description" maxlength="30" >
+						</div>
+						<div class="form-group m-form__group row">
+							<label for="templateID_tag">标签</label>
+							<input id="templateID_tag" type="text" class="form-control" name="tag" maxlength="200" >
+						</div>
+
+                        <div class="col-sm-12">
+                            <div id="fine-uploader-gallery"></div>
+                            <input id="path" type="hidden" class="form-control"  name="path" maxlength="500">
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" id="templateID_id" name="id">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            取消
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="templateID_submit">
+                            提交
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--end::Modal-->
+
+
+</content>
+
+
+<pageResources>
+
 
     <script>
 
@@ -401,7 +403,7 @@
     </script>
 
 
-
+    <script src="${basePath}/resources/kuyun-admin/plugins/fileupload/fine-uploader.js"></script>
 </pageResources>
 
 
