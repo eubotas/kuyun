@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html lang="zh-cn">
@@ -101,7 +102,7 @@
                         </div>
 
 						<div class="form-group m-form__group row">
-							<label for="templateID_comments">描述</label>
+							<label for="templateID_comments">备注</label>
 							<input id="templateID_comments" type="text" class="form-control" name="comments" maxlength="200" >
 						</div>
                     </div>

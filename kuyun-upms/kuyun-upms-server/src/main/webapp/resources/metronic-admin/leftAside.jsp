@@ -228,7 +228,7 @@
                     <ul class="m-menu__subnav">
 
                         <li class="m-menu__item " aria-haspopup="true" >
-                            <a  href="../components/buttons/group.html" class="m-menu__link ">
+                            <a  href="${eamPath}/manage/knowledge/index" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>
@@ -239,7 +239,7 @@
                         </li>
 
                         <li class="m-menu__item " aria-haspopup="true" >
-                            <a  href="../components/buttons/group.html" class="m-menu__link ">
+                            <a  href="${eamPath}/manage/knowledge/training/video/index" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>
@@ -250,7 +250,7 @@
                         </li>
 
                         <li class="m-menu__item " aria-haspopup="true" >
-                            <a  href="../components/buttons/group.html" class="m-menu__link ">
+                            <a  href="${eamPath}/manage/knowledge/training/doc/index" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>
@@ -262,7 +262,7 @@
 
 
                         <li class="m-menu__item " aria-haspopup="true" >
-                            <a  href="../components/buttons/group.html" class="m-menu__link ">
+                            <a  href="${eamPath}/manage/knowledge/maintain/index" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>
@@ -273,7 +273,7 @@
                         </li>
 
                         <li class="m-menu__item " aria-haspopup="true" >
-                            <a  href="../components/buttons/group.html" class="m-menu__link ">
+                            <a  href="${eamPath}/manage/knowledge/repair/index" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>
@@ -283,7 +283,7 @@
                             </a>
                         </li>
                         <li class="m-menu__item " aria-haspopup="true" >
-                            <a  href="../components/buttons/group.html" class="m-menu__link ">
+                            <a  href="${eamPath}/manage/knowledge/manual/index" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>

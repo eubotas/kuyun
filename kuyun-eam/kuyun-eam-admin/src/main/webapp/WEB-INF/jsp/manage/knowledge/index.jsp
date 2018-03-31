@@ -1,16 +1,71 @@
-<%@ page contentType="text/html; charset=utf-8"%>
-<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+﻿﻿﻿<%@ page contentType="text/html; charset=utf-8" %>
+<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
-<html>
+<html lang="zh-cn">
 <head>
     <meta charset="utf-8"/>
-    <title>知识搜索</title>
+</head>
+<body>
 
+
+<subHeader>
+    <!-- BEGIN: Subheader -->
+    <div class="m-subheader ">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                    <li class="m-nav__item m-nav__item--home">
+                        <a href="#" class="m-nav__link m-nav__link--icon">
+                            <i class="m-nav__link-icon la la-home"></i>
+                        </a>
+                    </li>
+                    <li class="m-nav__separator">
+                        -
+                    </li>
+                    <li class="m-nav__item">
+                        <a href="" class="m-nav__link">
+											<span class="m-nav__link-text">
+												知识搜索
+											</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+    <!-- END: Subheader -->
+</subHeader>
+
+
+<content>
+
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__body">
+            <div class="index-search-box">
+                <input id="key" name="key" type="search" placeholder="请输入你要搜索的关键词...">
+            </div>
+
+            <div class="index-tags">
+                <div class="index-tags-wrapper clearfix">
+                    <c:forEach var="tag" items="${tags}">
+                        <a href="${basePath}/manage/knowledge/search?k=&t=${tag.tag}">${tag.tag}  </a>
+                    </c:forEach>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</content>
+
+
+<pageResources>
     <style type="text/css">
         body {
             font-family: Helvetica Neue,Helvetica,PingFang SC,Hiragino Sans GB,Microsoft YaHei,\\5FAE\8F6F\96C5\9ED1,Arial,sans-serif;
@@ -77,43 +132,30 @@
         }
 
         /*.iconfont {*/
-            /*font-family: iconfont;*/
-            /*font-size: 16px;*/
-            /*font-style: normal;*/
-            /*-webkit-font-smoothing: antialiased;*/
+        /*font-family: iconfont;*/
+        /*font-size: 16px;*/
+        /*font-style: normal;*/
+        /*-webkit-font-smoothing: antialiased;*/
         /*}*/
 
 
     </style>
-</head>
+
+    <script>
+        $(document).ready(function()
+        {
+            $("#key").keydown(function() {//给输入框绑定按键事件
+                if(event.keyCode == "13") {//判断如果按下的是回车键则执行下面的代码
+                    window.location = "${basePath}/manage/knowledge/search?k="+$('#key').val();
+                }
+            })
+        });
+    </script>
 
 
-<body>
-    <div class="index-search-box">
-        <input id="key" name="key" type="search" placeholder="请输入你要搜索的关键词...">
-    </div>
 
-<div class="index-tags">
-    <div class="index-tags-wrapper clearfix">
-        <c:forEach var="tag" items="${tags}">
-            <a href="${basePath}/manage/knowledge/search?k=&t=${tag.tag}">${tag.tag}  </a>
-        </c:forEach>
-    </div>
-</div>
+</pageResources>
 
-
-<script src="${basePath}/resources/kuyun-admin/plugins/jquery.1.12.4.min.js"></script>
-<script src="${basePath}/resources/kuyun-admin/plugins/bootstrap-3.3.0/js/bootstrap.min.js"></script>
-
-<script type="text/javascript">
-    $("#key").keydown(function() {//给输入框绑定按键事件
-        if(event.keyCode == "13") {//判断如果按下的是回车键则执行下面的代码
-            window.location = "${basePath}/manage/knowledge/search?k="+$('#key').val();
-        }
-    })
-</script>
 
 </body>
-
 </html>
-

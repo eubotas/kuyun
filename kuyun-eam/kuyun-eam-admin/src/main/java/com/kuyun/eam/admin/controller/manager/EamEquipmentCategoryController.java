@@ -128,10 +128,12 @@ public class EamEquipmentCategoryController extends BaseController {
 	@ApiOperation(value = "修改设备类别")
 	@RequiresPermissions("eam:equipmentCategory:update")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-	public String update(@PathVariable("id") int id, ModelMap modelMap) {
+	@ResponseBody
+	public Object update(@PathVariable("id") int id, ModelMap modelMap) {
+		Map map = new HashMap();
 		EamEquipmentCategory eamEquipmentCategory = eamEquipmentCategoryService.selectByPrimaryKey(id);
-		modelMap.put("equipmentCategory", eamEquipmentCategory);
-		return "/manage/equipment/category/update.jsp";
+		map.put("equipmentCategory", eamEquipmentCategory);
+		return map;
 	}
 
 	@ApiOperation(value = "修改设备类别")

@@ -1,356 +1,262 @@
-﻿<%@ page contentType="text/html; charset=utf-8"%>
-<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+﻿﻿﻿<%@ page contentType="text/html; charset=utf-8" %>
+<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>设备管理</title>
-	<jsp:include page="/resources/inc/head.jsp" flush="true"/>
-	<link href="${basePath}/resources/kuyun-admin/plugins/fileupload/fine-uploader-gallery.css" rel="stylesheet">
-
-	<!-- Fine Uploader Gallery template
-  ====================================================================== -->
-	<script type="text/template" id="qq-template-gallery">
-		<div class="qq-uploader-selector qq-uploader qq-gallery" qq-drop-area-text="Drop files here">
-			<div class="qq-total-progress-bar-container-selector qq-total-progress-bar-container">
-				<div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-total-progress-bar-selector qq-progress-bar qq-total-progress-bar"></div>
-			</div>
-			<div class="qq-upload-drop-area-selector qq-upload-drop-area" qq-hide-dropzone>
-				<span class="qq-upload-drop-area-text-selector"></span>
-			</div>
-			<div class="qq-upload-button-selector qq-upload-button">
-				<div>上传文件</div>
-			</div>
-			<span class="qq-drop-processing-selector qq-drop-processing">
-                <span>Processing dropped files...</span>
-                <span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
-            </span>
-			<ul class="qq-upload-list-selector qq-upload-list" role="region" aria-live="polite" aria-relevant="additions removals">
-				<li>
-					<span role="status" class="qq-upload-status-text-selector qq-upload-status-text"></span>
-					<div class="qq-progress-bar-container-selector qq-progress-bar-container">
-						<div role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" class="qq-progress-bar-selector qq-progress-bar"></div>
-					</div>
-					<span class="qq-upload-spinner-selector qq-upload-spinner"></span>
-					<div class="qq-thumbnail-wrapper">
-						<img class="qq-thumbnail-selector" qq-max-size="120" qq-server-scale>
-					</div>
-					<button type="button" class="qq-upload-cancel-selector qq-upload-cancel">X</button>
-					<button type="button" class="qq-upload-retry-selector qq-upload-retry">
-						<span class="qq-btn qq-retry-icon" aria-label="Retry"></span>
-						Retry
-					</button>
-
-					<div class="qq-file-info">
-						<div class="qq-file-name">
-							<span class="qq-upload-file-selector qq-upload-file"></span>
-							<span class="qq-edit-filename-icon-selector qq-edit-filename-icon" aria-label="Edit filename"></span>
-						</div>
-						<input class="qq-edit-filename-selector qq-edit-filename" tabindex="0" type="text">
-						<span class="qq-upload-size-selector qq-upload-size"></span>
-						<button type="button" class="qq-btn qq-upload-delete-selector qq-upload-delete">
-							<span class="qq-btn qq-delete-icon" aria-label="Delete"></span>
-						</button>
-						<button type="button" class="qq-btn qq-upload-pause-selector qq-upload-pause">
-							<span class="qq-btn qq-pause-icon" aria-label="Pause"></span>
-						</button>
-						<button type="button" class="qq-btn qq-upload-continue-selector qq-upload-continue">
-							<span class="qq-btn qq-continue-icon" aria-label="Continue"></span>
-						</button>
-					</div>
-				</li>
-			</ul>
-
-			<dialog class="qq-alert-dialog-selector">
-				<div class="qq-dialog-message-selector"></div>
-				<div class="qq-dialog-buttons">
-					<button type="button" class="qq-cancel-button-selector">Close</button>
-				</div>
-			</dialog>
-
-			<dialog class="qq-confirm-dialog-selector">
-				<div class="qq-dialog-message-selector"></div>
-				<div class="qq-dialog-buttons">
-					<button type="button" class="qq-cancel-button-selector">No</button>
-					<button type="button" class="qq-ok-button-selector">Yes</button>
-				</div>
-			</dialog>
-
-			<dialog class="qq-prompt-dialog-selector">
-				<div class="qq-dialog-message-selector"></div>
-				<input type="text">
-				<div class="qq-dialog-buttons">
-					<button type="button" class="qq-cancel-button-selector">Cancel</button>
-					<button type="button" class="qq-ok-button-selector">Ok</button>
-				</div>
-			</dialog>
-		</div>
-	</script>
+    <meta charset="utf-8"/>
 </head>
 <body>
-<div id="main">
-	<div id="toolbar">
-		<shiro:hasPermission name="eam:equipment:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增设备</a></shiro:hasPermission>
-		<shiro:hasPermission name="eam:equipment:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑设备</a></shiro:hasPermission>
-		<shiro:hasPermission name="eam:equipment:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()"><i class="zmdi zmdi-close"></i> 删除设备</a></shiro:hasPermission>
-		<%--<shiro:hasPermission name="eam:equipment:update"><a class="waves-effect waves-button" href="javascript:;" onclick="connectAction()"><i class="zmdi zmdi-plus"></i> 设备接入</a></shiro:hasPermission>--%>
-		<shiro:hasPermission name="eam:equipmentSensor:write"><a class="waves-effect waves-button" href="javascript:;" onclick="sensorAction()"><i class="zmdi zmdi-plus"></i> 数据写入</a></shiro:hasPermission>
-	</div>
-	<table id="table"></table>
-</div>
-<jsp:include page="/resources/inc/footer.jsp" flush="true"/>
-<script src="${basePath}/resources/kuyun-admin/plugins/fileupload/fine-uploader.js"></script>
-<script>
-var $table = $('#table');
-$(function() {
-	// bootstrap table初始化
-	$table.bootstrapTable({
-		url: '${basePath}/manage/equipment/list',
-		height: getHeight(),
-		striped: true,
-		search: true,
-		showRefresh: true,
-		showColumns: true,
-		minimumCountColumns: 2,
-		clickToSelect: true,
-		detailView: true,
-		detailFormatter: 'detailFormatter',
-		pagination: true,
-		paginationLoop: false,
-		sidePagination: 'server',
-		silentSort: false,
-		smartDisplay: false,
-		escape: true,
-		searchOnEnterKey: true,
-		idField: 'equipmentId',
-//		sortName: 'orders',
-//        sortOrder: 'desc',
-		maintainSelected: true,
-		toolbar: '#toolbar',
-		columns: [
-			{field: 'ck', checkbox: true},
-			{field: 'name', title: '设备名称', sortable: true, align: 'center'},
-			{field: 'number', title: '设备编号'},
-			{field: 'maintenancePeriod', title: '维保周期'},
-			{field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
-		]
-	});
-});
-// 格式化操作按钮
-function actionFormatter(value, row, index) {
-    return [
-        '<a class="update" href="javascript:;" onclick="updateAction()" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-edit"></i></a>　',
-        '<a class="delete" href="javascript:;" onclick="deleteAction()" data-toggle="tooltip" title="Remove"><i class="glyphicon glyphicon-remove"></i></a>'
-    ].join('');
-}
 
-// 格式化时间
-function timeFormatter(value , row, index) {
-	return new Date(value).toLocaleString();
-}
-// 新增
-var createDialog;
-function createAction() {
-	createDialog = $.dialog({
-		animationSpeed: 300,
-		title: '新增设备',
-		columnClass: 'xlarge',
-		content: 'url:${basePath}/manage/equipment/create',
-		onContentReady: function () {
-			initMaterialInput();
-			$('select').select2();
-		}
-	});
-}
-// 编辑
-var updateDialog;
-function updateAction() {
-	var rows = $table.bootstrapTable('getSelections');
-	if (rows.length != 1) {
-		$.confirm({
-			title: false,
-			content: '请选择一条记录！',
-			autoClose: 'cancel|3000',
-			backgroundDismiss: true,
-			buttons: {
-				cancel: {
-					text: '取消',
-					btnClass: 'waves-effect waves-button'
-				}
-			}
-		});
-	} else {
-		updateDialog = $.dialog({
-			animationSpeed: 300,
-			title: '编辑设备',
-			columnClass: 'xlarge',
-			content: 'url:${basePath}/manage/equipment/update/' + rows[0].equipmentId,
-			onContentReady: function () {
-				initMaterialInput();
-				$('select').select2();
-			}
-		});
-	}
-}
-// 删除
-var deleteDialog;
-function deleteAction() {
-	var rows = $table.bootstrapTable('getSelections');
-	if (rows.length == 0) {
-		$.confirm({
-			title: false,
-			content: '请至少选择一条记录！',
-			autoClose: 'cancel|3000',
-			backgroundDismiss: true,
-			buttons: {
-				cancel: {
-					text: '取消',
-					btnClass: 'waves-effect waves-button'
-				}
-			}
-		});
-	} else {
-		deleteDialog = $.confirm({
-			type: 'red',
-			animationSpeed: 300,
-			title: false,
-			content: '确认删除该设备吗？',
-			buttons: {
-				confirm: {
-					text: '确认',
-					btnClass: 'waves-effect waves-button',
-					action: function () {
-						var ids = new Array();
-						for (var i in rows) {
-							ids.push(rows[i].equipmentId);
-						}
-						$.ajax({
-							type: 'get',
-							url: '${basePath}/manage/equipment/delete/' + ids.join("-"),
-							success: function(result) {
-								if (result.code != 1) {
-									if (result.data instanceof Array) {
-										$.each(result.data, function(index, value) {
-											$.confirm({
-												theme: 'dark',
-												animation: 'rotateX',
-												closeAnimation: 'rotateX',
-												title: false,
-												content: value.errorMsg,
-												buttons: {
-													confirm: {
-														text: '确认',
-														btnClass: 'waves-effect waves-button waves-light'
-													}
-												}
-											});
-										});
-									} else {
-										$.confirm({
-											theme: 'dark',
-											animation: 'rotateX',
-											closeAnimation: 'rotateX',
-											title: false,
-											content: result.data.errorMsg,
-											buttons: {
-												confirm: {
-													text: '确认',
-													btnClass: 'waves-effect waves-button waves-light'
-												}
-											}
-										});
-									}
-								} else {
-									deleteDialog.close();
-									$table.bootstrapTable('refresh');
-								}
-							},
-							error: function(XMLHttpRequest, textStatus, errorThrown) {
-								$.confirm({
-									theme: 'dark',
-									animation: 'rotateX',
-									closeAnimation: 'rotateX',
-									title: false,
-									content: textStatus,
-									buttons: {
-										confirm: {
-											text: '确认',
-											btnClass: 'waves-effect waves-button waves-light'
-										}
-									}
-								});
-							}
-						});
-					}
-				},
-				cancel: {
-					text: '取消',
-					btnClass: 'waves-effect waves-button'
-				}
-			}
-		});
-	}
-}
 
-var connectDialog;
-function connectAction() {
-    var rows = $table.bootstrapTable('getSelections');
-    if (rows.length != 1) {
-        $.confirm({
-            title: false,
-            content: '请选择一条记录！',
-            autoClose: 'cancel|3000',
-            backgroundDismiss: true,
-            buttons: {
-                cancel: {
-                    text: '取消',
-                    btnClass: 'waves-effect waves-button'
+<subHeader>
+    <!-- BEGIN: Subheader -->
+    <div class="m-subheader ">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                    <li class="m-nav__item m-nav__item--home">
+                        <a href="#" class="m-nav__link m-nav__link--icon">
+                            <i class="m-nav__link-icon la la-home"></i>
+                        </a>
+                    </li>
+                    <li class="m-nav__separator">
+                        -
+                    </li>
+                    <li class="m-nav__item">
+                        <a href="" class="m-nav__link">
+											<span class="m-nav__link-text">
+												设备列表
+											</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+    <!-- END: Subheader -->
+</subHeader>
+
+
+<content>
+
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__body">
+            <div id="toolbar">
+                <div>
+                    <shiro:hasPermission name="eam:equipment:create"><a href="#" id="createButton" class="btn btn-outline-primary m-btn m-btn--icon m-btn--icon-only" title="新建">
+                        <i class="la la-plus"></i>
+                    </a></shiro:hasPermission>
+
+                    <shiro:hasPermission name="eam:equipment:delete"><a href="#" id="deleteButton" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only" title="删除">
+                        <i class="la la-remove"></i>
+                    </a></shiro:hasPermission>
+
+                    <div class="m-separator m-separator--dashed d-xl-none"></div>
+                </div>
+            </div>
+
+            <table id="table" data-toolbar="#toolbar"></table>
+        </div>
+    </div>
+
+    <!--begin::Modal-->
+    <div id="addEquipmentFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+    </div>
+
+    <div id="editEquipmentFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+    </div>
+
+    <div class="modal fade" id="template-equipment-addEditForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <form id="templateID_Form" class="m-form m-form--fit m-form--label-align-right">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">
+                            templateTitleName_设备
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">
+												&times;
+											</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group m-form__group row">
+                            <label for="templateID_warehouseId">仓库</label>
+                            <select id="templateID_warehouseId" name="warehouseId" style="width: 100%" />
+                        </div>
+
+                        <div class="form-group m-form__group row">
+                            <label for="templateID_number">设备编号</label>
+                            <input id="templateID_number" type="text" class="form-control" name="number" maxlength="20">
+                        </div>
+
+						<div class="form-group m-form__group row">
+							<label for="templateID_comments">备注</label>
+							<input id="templateID_comments" type="text" class="form-control" name="comments" maxlength="200" >
+						</div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" id="templateID_id" name="id">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            取消
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="templateID_submit">
+                            提交
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--end::Modal-->
+
+
+</content>
+
+
+<pageResources>
+
+
+    <script>
+        $(document).ready(function()
+        {
+            //codes works on all bootstrap modal windows in application
+            $('.modal').on('hidden.bs.modal', function(e)
+            {
+                jQuery("#add_Form").validate().resetForm();
+                jQuery("#edit_Form").validate().resetForm();
+            }) ;
+            generateAddEditForm('template-equipment-addEditForm', 'add_,edit_', null, null, 'addEquipmentFormContainer,editEquipmentFormContainer');
+            FormWidgets.init('add');
+            FormWidgets.init('edit');
+
+            $('#createButton').click(function(){
+                $("#addEquipmentFormContainer").modal("show");
+            });
+
+            $('#deleteButton').click(function(){
+                deleteAction();
+            });
+
+        });
+
+        var $table = $('#table');
+        $(function() {
+            // bootstrap table初始化
+            $table.bootstrapTable({
+                url: '${basePath}/manage/equipment/list',
+                striped: true,
+                search: true,
+                searchAlign: 'left',
+                toolbarAlign: 'right',
+                minimumCountColumns: 2,
+                clickToSelect: true,
+                detailView: true,
+                detailFormatter: 'detailFormatter',
+                pagination: true,
+                paginationLoop: false,
+                sidePagination: 'server',
+                silentSort: false,
+                smartDisplay: false,
+                escape: true,
+                searchOnEnterKey: true,
+                maintainSelected: true,
+                idField: 'equipmentId',
+                columns: [
+                    {field: 'ck', checkbox: true},
+                    {field: 'name', title: '设备名称', sortable: true, align: 'center'},
+                    {field: 'number', title: '设备编号'},
+                    {field: 'maintenancePeriod', title: '维保周期'},
+                    {field: 'action', width: 100, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
+                ]
+            });
+        });
+        // 格式化操作按钮
+        function actionFormatter(value, row, index) {
+            return [
+                '<shiro:hasPermission name="eam:equipment:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="eam:equipment:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>'
+            ].join('');
+        }
+
+        function submitForm(id) {
+            var targetUrl='${basePath}/manage/equipment/create';
+            var formId='add_Form';
+            if(id){
+                targetUrl='${basePath}/manage/equipment/update/'+id;
+                formId='edit_Form';
+            }
+            ajaxPost(targetUrl, formId, function(result) {
+                if (result.code != 1) {
+                    sendErrorInfo(result);
+                } else {
+                    if(formId=='add_Form') {
+                        toastr.success("新建设备成功");
+                        $('#addEquipmentFormContainer').modal('toggle');
+                    }else{
+                        toastr.success("编辑设备成功");
+                        $('#editEquipmentFormContainer').modal('toggle');
+                    }
+                    $table.bootstrapTable('refresh');
                 }
-            }
-        });
-    } else {
-        connectDialog = $.dialog({
-            animationSpeed: 300,
-            title: '设备接入',
-            columnClass: 'xlarge',
-            content: 'url:${basePath}/manage/equipment/connect/' + rows[0].equipmentId,
-            onContentReady: function () {
-                initMaterialInput();
-                $('select').select2();
-            }
-        });
-    }
-}
+            });
+        }
 
-function sensorAction() {
-    var rows = $table.bootstrapTable('getSelections');
-    if (rows.length != 1) {
-        $.confirm({
-            title: false,
-            content: '请选择一条记录！',
-            autoClose: 'cancel|3000',
-            backgroundDismiss: true,
-            buttons: {
-                cancel: {
-                    text: '取消',
-                    btnClass: 'waves-effect waves-button'
+
+        function updateAction(row) {
+            jQuery("#editEquipmentFormContainer").modal("show");
+            ajaxGet('${basePath}/manage/equipment/update/' + row["equipmentId"], function (responseData) {
+                if (responseData) {
+                    var data = responseData;
+                    // 赋值
+                    $("#edit_id").val(data.equipment.equipmentId);
+                    $("#edit_category").val(data.equipment.category);
                 }
+            });
+        }
+
+        window.actionEvents = {
+            'click #update': function (e, value, row, index) {
+                updateAction(row);
+
+            },
+            'click #delete': function (e, value, row, index) {
+                var rows = new Array();
+                rows.push(row);
+                deleteActionImpl(rows);
             }
-        });
-    } else {
+        };
 
-        window.location = "${basePath}/manage/equipment/sensor/" + rows[0].equipmentId;
-    }
-}
+        function deleteAction(){
+            var rows = $table.bootstrapTable('getSelections');
+            deleteActionImpl(rows);
+        }
 
-</script>
+        function deleteActionImpl(rows) {
+            if (rows.length == 0) {
+                swWarn("请至少选择一条记录");
+            }else {
+                deleteRows(rows,'equipmentId','${basePath}/manage/equipment/delete/', "请确认要删除选中的设备吗？", "删除设备成功");
+            }//end else
+        }
+
+    </script>
+
+
+
+</pageResources>
+
+
 </body>
 </html>

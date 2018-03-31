@@ -1,184 +1,236 @@
-﻿<%@ page contentType="text/html; charset=utf-8"%>
-<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+﻿﻿﻿<%@ page contentType="text/html; charset=utf-8" %>
+<%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>设备管理</title>
-	<jsp:include page="/resources/inc/head.jsp" flush="true"/>
+    <meta charset="utf-8"/>
 </head>
 <body>
-<div id="main">
-	<div id="toolbar">
-		<shiro:hasPermission name="eam:equipment:update"><a class="waves-effect waves-button" href="javascript:;" onclick="startAction()"><i class="zmdi zmdi-plus"></i> 启动</a></shiro:hasPermission>
-		<shiro:hasPermission name="eam:equipment:update"><a class="waves-effect waves-button" href="javascript:;" onclick="stopAction()"><i class="zmdi zmdi-close"></i> 停止</a></shiro:hasPermission>
-	</div>
-	<table id="table"></table>
-</div>
-<jsp:include page="/resources/inc/footer.jsp" flush="true"/>
-<script>
-var $table = $('#table');
-$(function() {
-	// bootstrap table初始化
-	$table.bootstrapTable({
-		url: '${basePath}/manage/equipment/list',
-		height: getHeight(),
-		striped: true,
-		search: true,
-		showRefresh: true,
-		showColumns: true,
-		minimumCountColumns: 2,
-		clickToSelect: true,
-		detailView: true,
-		detailFormatter: 'detailFormatter',
-		pagination: true,
-		paginationLoop: false,
-		sidePagination: 'server',
-		silentSort: false,
-		smartDisplay: false,
-		escape: true,
-		searchOnEnterKey: true,
-		idField: 'equipmentId',
-//		sortName: 'orders',
-//        sortOrder: 'desc',
-		maintainSelected: true,
-		toolbar: '#toolbar',
-		columns: [
-			{field: 'ck', checkbox: true},
-			{field: 'name', title: '设备名称', sortable: true, align: 'center'},
-			{field: 'number', title: '设备编号'},
-			{field: 'maintenancePeriod', title: '维保周期'},
-			{field: 'collectStatus', title: '采集状态'},
-			{field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
-		]
-	});
-});
-// 格式化操作按钮
-function actionFormatter(value, row, index) {
-    return [
-        '<a class="update" href="javascript:;" onclick="startAction()" data-toggle="tooltip" title="start">启动</a>　',
-        '<a class="delete" href="javascript:;" onclick="stopAction()" data-toggle="tooltip" title="stop">停止</a>'
-    ].join('');
-}
 
-// 格式化时间
-function timeFormatter(value , row, index) {
-	return new Date(value).toLocaleString();
-}
-function startAction() {
-    var rows = $table.bootstrapTable('getSelections');
-    if (rows.length == 0) {
-        $.confirm({
-            title: false,
-            content: '请至少选择一条记录！',
-            autoClose: 'cancel|3000',
-            backgroundDismiss: true,
-            buttons: {
-                cancel: {
-                    text: '取消',
-                    btnClass: 'waves-effect waves-button'
+
+<subHeader>
+    <!-- BEGIN: Subheader -->
+    <div class="m-subheader ">
+        <div class="d-flex align-items-center">
+            <div class="mr-auto">
+                <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                    <li class="m-nav__item m-nav__item--home">
+                        <a href="#" class="m-nav__link m-nav__link--icon">
+                            <i class="m-nav__link-icon la la-home"></i>
+                        </a>
+                    </li>
+                    <li class="m-nav__separator">
+                        -
+                    </li>
+                    <li class="m-nav__item">
+                        <a href="" class="m-nav__link">
+											<span class="m-nav__link-text">
+												设备列表
+											</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+    <!-- END: Subheader -->
+</subHeader>
+
+
+<content>
+
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__body">
+            <div id="toolbar">
+                <div>
+                    <shiro:hasPermission name="eam:equipment:create"><a href="#" id="createButton" class="btn btn-outline-primary m-btn m-btn--icon m-btn--icon-only" title="新建">
+                        <i class="la la-plus"></i>
+                    </a></shiro:hasPermission>
+
+                    <shiro:hasPermission name="eam:equipment:delete"><a href="#" id="deleteButton" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only" title="删除">
+                        <i class="la la-remove"></i>
+                    </a></shiro:hasPermission>
+
+                    <div class="m-separator m-separator--dashed d-xl-none"></div>
+                </div>
+            </div>
+
+            <table id="table" data-toolbar="#toolbar"></table>
+        </div>
+    </div>
+
+
+</content>
+
+
+<pageResources>
+
+
+    <script>
+        $(document).ready(function()
+        {
+            //codes works on all bootstrap modal windows in application
+            $('.modal').on('hidden.bs.modal', function(e)
+            {
+                jQuery("#add_Form").validate().resetForm();
+                jQuery("#edit_Form").validate().resetForm();
+            }) ;
+            generateAddEditForm('template-equipment-addEditForm', 'add_,edit_', null, null, 'addEquipmentFormContainer,editEquipmentFormContainer');
+            FormWidgets.init('add');
+            FormWidgets.init('edit');
+
+            $('#createButton').click(function(){
+                $("#addEquipmentFormContainer").modal("show");
+            });
+
+            $('#deleteButton').click(function(){
+                deleteAction();
+            });
+
+        });
+
+        var $table = $('#table');
+        $(function() {
+            // bootstrap table初始化
+            $table.bootstrapTable({
+                url: '${basePath}/manage/equipment/list',
+                striped: true,
+                search: true,
+                searchAlign: 'left',
+                toolbarAlign: 'right',
+                minimumCountColumns: 2,
+                clickToSelect: true,
+                detailView: true,
+                detailFormatter: 'detailFormatter',
+                pagination: true,
+                paginationLoop: false,
+                sidePagination: 'server',
+                silentSort: false,
+                smartDisplay: false,
+                escape: true,
+                searchOnEnterKey: true,
+                maintainSelected: true,
+                idField: 'equipmentId',
+                columns: [
+                    {field: 'ck', checkbox: true},
+                    {field: 'name', title: '设备名称', sortable: true, align: 'center'},
+                    {field: 'number', title: '设备编号'},
+                    {field: 'maintenancePeriod', title: '维保周期'},
+                    {field: 'collectStatus', title: '采集状态'},
+                    {field: 'action', width: 100, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
+                ]
+            });
+        });
+        // 格式化操作按钮
+        function actionFormatter(value, row, index) {
+            return [
+                '<shiro:hasPermission name="eam:equipment:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="eam:equipment:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>'
+            ].join('');
+        }
+
+        var FormWidgets = function () {
+            var createForm = function (formid) {
+                $("#"+formid+"_Form").validate({
+                    // define validation rules
+                    rules: {
+                        name: {
+                            required: true
+                        }
+                    },
+                    submitHandler: function (form) {
+                        if(formid == 'add')
+                            submitForm();
+                        else{
+                            submitForm($('#edit_id').val());
+                        }
+
+                    }
+                });
+            }
+
+            return {
+                // public functions
+                init: function (formid) {
+                    createForm(formid);
                 }
+            };
+        }();
+
+        function submitForm(id) {
+            var targetUrl='${basePath}/manage/equipment/create';
+            var formId='add_Form';
+            if(id){
+                targetUrl='${basePath}/manage/equipment/update/'+id;
+                formId='edit_Form';
             }
-        });
-    } else {
-        var ids = new Array();
-        for (var i in rows) {
-            ids.push(rows[i].equipmentId);
+            ajaxPost(targetUrl, formId, function(result) {
+                if (result.code != 1) {
+                    sendErrorInfo(result);
+                } else {
+                    if(formId=='add_Form') {
+                        toastr.success("新建设备成功");
+                        $('#addEquipmentFormContainer').modal('toggle');
+                    }else{
+                        toastr.success("编辑设备成功");
+                        $('#editEquipmentFormContainer').modal('toggle');
+                    }
+                    $table.bootstrapTable('refresh');
+                }
+            });
         }
 
-        var json = { "ids" : ids.join("-")};
 
-        console.log(json);
-
-        $.ajax({
-            type: 'post',
-            url: '${basePath}/manage/equipment/collect/start/',
-            data: JSON.stringify(json),
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: function(result) {
-                $table.bootstrapTable('refresh');
-            },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                $.confirm({
-                    theme: 'dark',
-                    animation: 'rotateX',
-                    closeAnimation: 'rotateX',
-                    title: false,
-                    content: textStatus,
-                    buttons: {
-                        confirm: {
-                            text: '确认',
-                            btnClass: 'waves-effect waves-button waves-light'
-                        }
-                    }
-                });
-            }
-        });
-    }
-}
-function stopAction() {
-	var rows = $table.bootstrapTable('getSelections');
-	if (rows.length == 0) {
-		$.confirm({
-			title: false,
-			content: '请至少选择一条记录！',
-			autoClose: 'cancel|3000',
-			backgroundDismiss: true,
-			buttons: {
-				cancel: {
-					text: '取消',
-					btnClass: 'waves-effect waves-button'
-				}
-			}
-		});
-	} else {
-        var ids = new Array();
-        for (var i in rows) {
-            ids.push(rows[i].equipmentId);
+        function updateAction(row) {
+            jQuery("#editEquipmentFormContainer").modal("show");
+            ajaxGet('${basePath}/manage/equipment/update/' + row["equipmentId"], function (responseData) {
+                if (responseData) {
+                    var data = responseData;
+                    // 赋值
+                    $("#edit_id").val(data.equipment.equipmentId);
+                    $("#edit_name").val(data.equipment.name);
+                }
+            });
         }
 
-        var json = { "ids" : ids.join("::")};
+        window.actionEvents = {
+            'click #update': function (e, value, row, index) {
+                updateAction(row);
 
-        console.log(json);
-
-
-        $.ajax({
-            type: 'post',
-            url: '${basePath}/manage/equipment/collect/stop/',
-            data: JSON.stringify(json),
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: function(result) {
-                $table.bootstrapTable('refresh');
             },
-            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                $.confirm({
-                    theme: 'dark',
-                    animation: 'rotateX',
-                    closeAnimation: 'rotateX',
-                    title: false,
-                    content: textStatus,
-                    buttons: {
-                        confirm: {
-                            text: '确认',
-                            btnClass: 'waves-effect waves-button waves-light'
-                        }
-                    }
-                });
+            'click #delete': function (e, value, row, index) {
+                var rows = new Array();
+                rows.push(row);
+                deleteActionImpl(rows);
             }
-        });
-	}
-}
+        };
 
-</script>
+        function deleteAction(){
+            var rows = $table.bootstrapTable('getSelections');
+            deleteActionImpl(rows);
+        }
+
+        function deleteActionImpl(rows) {
+            if (rows.length == 0) {
+                swWarn("请至少选择一条记录");
+            }else {
+                deleteRows(rows,'equipmentId','${basePath}/manage/equipment/delete/', "请确认要删除选中的设备吗？", "删除设备成功");
+            }//end else
+        }
+
+    </script>
+
+
+
+</pageResources>
+
+
 </body>
 </html>
