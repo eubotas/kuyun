@@ -66,7 +66,8 @@ public class EamPartsController extends BaseController {
 	@ApiOperation(value = "配件首页")
 	@RequiresPermissions("eam:part:read")
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String index() {
+	public String index(ModelMap modelMap) {
+		handleModelMap(modelMap);
 		return "/manage/part/index.jsp";
 	}
 
@@ -105,19 +106,19 @@ public class EamPartsController extends BaseController {
 		return result;
 	}
 
-	@ApiOperation(value = "新增配件")
-	@RequiresPermissions("eam:part:create")
-	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public String create(ModelMap modelMap) {
-		handleModelMap(modelMap);
-
-		return "/manage/part/create.jsp";
-	}
 
 	private void handleModelMap(ModelMap modelMap) {
 		EamPartsCategoryExample categoryExample = new EamPartsCategoryExample();
 		List<EamPartsCategory> categoryList = eamPartsCategoryService.selectByExample(categoryExample);
 		modelMap.addAttribute("categoryList", categoryList);
+
+		EamWarehouseExample warehousesExample = new EamWarehouseExample();
+		List<EamWarehouse> warehouseList = eamWarehouseService.selectByExample(warehousesExample);
+		modelMap.put("warehouseList", warehouseList);
+
+		EamLocationExample locationExample = new EamLocationExample();
+		List<EamLocation> locationList = eamLocationService.selectByExample(locationExample);
+		modelMap.put("locationList", locationList);
 	}
 
 	@ApiOperation(value = "新增配件")
@@ -174,24 +175,26 @@ public class EamPartsController extends BaseController {
 		return new EamResult(SUCCESS, count);
 	}
 
-	private void putWarehouseAndLocationInModelMap(ModelMap modelMap) {
+	private void putWarehouseAndLocationInModelMap(Map map) {
 		EamWarehouseExample warehousesExample = new EamWarehouseExample();
 		List<EamWarehouse> warehouseList = eamWarehouseService.selectByExample(warehousesExample);
-		modelMap.addAttribute("warehouseList", warehouseList);
+		map.put("warehouseList", warehouseList);
 
 		EamLocationExample locationExample = new EamLocationExample();
 		List<EamLocation> locationList = eamLocationService.selectByExample(locationExample);
-		modelMap.addAttribute("locationList", locationList);
+		map.put("locationList", locationList);
 	}
 
-	@ApiOperation(value = "配件入库")
-	@RequiresPermissions("eam:part:update")
-	@RequestMapping(value = "/intask/{id}", method = RequestMethod.GET)
-	public String intask(@PathVariable("id") int id, ModelMap modelMap) {
+	@ApiOperation(value = "配件信息")
+	@RequiresPermissions("eam:part:read")
+	@RequestMapping(value = "/getPart/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public Object getPart(@PathVariable("id") int id) {
+		Map map=new HashMap();
 		EamParts parts = eamPartsService.selectByPrimaryKey(id);
-		modelMap.put("part", parts);
-		putWarehouseAndLocationInModelMap(modelMap);
-		return "/manage/part/intask/index.jsp";
+		map.put("part", parts);
+		putWarehouseAndLocationInModelMap(map);
+		return map;
 	}
 
 	@ApiOperation(value = "配件入库")
@@ -202,16 +205,6 @@ public class EamPartsController extends BaseController {
 		baseEntityUtil.addAddtionalValue(inventory);
 		int count = eamApiService.inTask(inventory);
 		return new EamResult(SUCCESS, count);
-	}
-
-	@ApiOperation(value = "配件出库")
-	@RequiresPermissions("eam:part:update")
-	@RequestMapping(value = "/outtask/{id}", method = RequestMethod.GET)
-	public String outtask(@PathVariable("id") int id, ModelMap modelMap) {
-		EamParts parts = eamPartsService.selectByPrimaryKey(id);
-		modelMap.put("part", parts);
-		putWarehouseAndLocationInModelMap(modelMap);
-		return "/manage/part/outtask/index.jsp";
 	}
 
 	@ApiOperation(value = "配件出库")

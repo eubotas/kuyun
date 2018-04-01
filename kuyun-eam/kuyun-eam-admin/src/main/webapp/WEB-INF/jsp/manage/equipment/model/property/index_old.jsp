@@ -108,7 +108,6 @@ function readWriteAction() {
             readWriteUrl = '${basePath}/manage/equipment/model/property/modbus/${equipmentModel.equipmentModelId}/' + rows[0].equipmentModelPropertyId;
         }else if (4 == ${equipmentModel.protocolId}){
             readWriteUrl = '${basePath}/manage/equipment/model/property/grm/${equipmentModel.equipmentModelId}/' + rows[0].equipmentModelPropertyId;
-
         }
         readWriteDialog = $.dialog({
             animationSpeed: 300,

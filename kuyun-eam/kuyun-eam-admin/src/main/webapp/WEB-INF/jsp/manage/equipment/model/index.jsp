@@ -139,7 +139,7 @@
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title" id="exampleModalLabel">
-							templateTitleName_设备模型参数
+							templateTitleName_设备模型
 						</h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">
@@ -158,60 +158,7 @@
 
 						</div>
 
-						<div class="form-group m-form__group row">
-							<label for="templateID_name" class="form-control-label">
-								参数单位:*
-							</label>
-							<div class="col-6">
-								<input type="text" class="form-control" id="templateID_unit" name="unit">
-							</div>
-						</div>
 
-						<div class="form-group m-form__group row">
-							<label class="form-control-label">
-								参数类型:*
-							</label>
-							<div class="col-10">
-								<div class="m-radio-inline">
-									<label class="m-radio">
-										<input type="radio" id="templateID_dataType_analog" name="dataType" value="analog" checked>
-										模拟量
-										<span></span>
-									</label>
-									<label class="m-radio">
-										<input type="radio" id="templateID_dataType_digital" name="dataType" value="digital">
-										开关量
-										<span></span>
-									</label>
-								</div>
-
-							</div>
-						</div>
-						<div class="form-group m-form__group row" id="templateID_displayType">
-							<label class="form-control-label">
-								展示类型:
-							</label>
-							<div class="col-10">
-								<div class="m-radio-inline">
-									<label class="m-radio">
-										<input type="radio" id="templateID_displayType_pie" name="displayType" value="pie">
-										饼图
-										<span></span>
-									</label>
-									<label class="m-radio">
-										<input type="radio" id="templateID_displayType_led" name="displayType" value="led">
-										LED
-										<span></span>
-									</label>
-									<label class="m-radio">
-										<input type="radio" id="templateID_displayType_guage" name="displayType" value="guage">
-										仪表盘
-										<span></span>
-									</label>
-								</div>
-
-							</div>
-						</div>
 					</div>
 					<div class="modal-footer">
 						<input type="hidden" id="templateID_id" name="id">
@@ -355,11 +302,13 @@
             escape: true,
             searchOnEnterKey: true,
             maintainSelected: true,
+            idField: 'equipmentModelId',
             columns: [
                 {field: 'ck', checkbox: true},
-                {field: 'name', title: '参数名称'},
-                {field: 'dataType', title: '数据类型'},
-                {field: 'unit', title: '参数单位'},
+                {field: 'equipmentModelId', title: '设备模型ID', sortable: true, align: 'center'},
+                {field: 'name', title: '设备模型名称'},
+                {field: 'number', title: '设备模型编号'},
+                {field: 'createTime', title: '创建时间', formatter: 'timeFormatter'},
                 {field: 'action', width: 150, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
             ]
         });
@@ -409,10 +358,10 @@
     }();
 
     function submitForm(id) {
-        var targetUrl='${basePath}/manage/equipment/model/property/create';
+        var targetUrl='${basePath}/manage/equipment/model/create';
         var formId='add_Form';
         if(id){
-            targetUrl='${basePath}/manage/equipment/model/property/update/'+id;
+            targetUrl='${basePath}/manage/equipment/model/update/'+id;
             formId='edit_Form';
         }
 
@@ -435,7 +384,7 @@
     function updateAction(row) {
         $("#editModelPropertyFormContainer").modal("show");
 
-        ajaxGet('${basePath}/manage/equipment/model/property/update/' + row["equipmentModelPropertyId"], function (responseData) {
+        ajaxGet('${basePath}/manage/equipment/model/update/' + row["equipmentModelPropertyId"], function (responseData) {
             if (responseData) {
                 var data = responseData.equipmentModelProperties;
                 // 赋值
@@ -486,47 +435,9 @@
         if (rows.length == 0) {
             swWarn("请至少选择一条记录");
         }else {
-            deleteRows(rows,'equipmentModelPropertyId','${basePath}/manage/equipment/model/property/delete/', "请确认要删除选中的设备模型参数吗？", "删除设备模型参数成功");
+            deleteRows(rows,'equipmentModelPropertyId','${basePath}/manage/equipment/model/delete/', "请确认要删除选中的设备模型参数吗？", "删除设备模型参数成功");
             refreshTable();
         }
-
-
-        <%--if (rows.length == 0) {--%>
-            <%--swWarn("请至少选择一条记录");--%>
-        <%--}else {--%>
-            <%--swal({--%>
-                <%--text: "请确认要删除选中的设备模型参数吗？",--%>
-                <%--showCancelButton: true,--%>
-                <%--confirmButtonText: '确认',--%>
-                <%--cancelButtonText: '取消'--%>
-            <%--}).then(function(result) {--%>
-                <%--if (result.value) {--%>
-                    <%--var ids = new Array();--%>
-                    <%--for (var i in rows) {--%>
-                        <%--ids.push(rows[i].equipmentModelPropertyId);--%>
-                    <%--}--%>
-                    <%--get('${basePath}/manage/equipment/model/property/delete/' + ids.join("-"), function(result){--%>
-                        <%--if (result.code != 1) {--%>
-                            <%--var errorMsgs = "";--%>
-                            <%--if (result.data instanceof Array) {--%>
-                                <%--$.each(result.data, function(index, value) {--%>
-                                    <%--errorMsgs += value.errorMsg + "<br>";--%>
-                                <%--});--%>
-                            <%--} else {--%>
-                                <%--errorMsgs = result.data.errorMsg;--%>
-                            <%--}--%>
-                            <%--toastr.warning(errorMsgs);--%>
-                        <%--} else {--%>
-                            <%--toastr.success("删除设备模型参数");--%>
-
-                            <%--refreshTable();--%>
-                        <%--}--%>
-                    <%--});--%>
-                <%--}--%>
-            <%--});--%>
-
-        <%--}//end else--%>
-
     }
 
 </script>

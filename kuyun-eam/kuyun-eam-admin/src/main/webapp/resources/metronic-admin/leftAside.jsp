@@ -340,7 +340,7 @@
                     <ul class="m-menu__subnav">
 
                         <li class="m-menu__item " aria-haspopup="true" >
-                            <a  href="../snippets/general/pricing-tables/pricing-table-1.html" class="m-menu__link ">
+                            <a  href="${eamPath}/manage/alarm/index" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>
@@ -350,7 +350,7 @@
                             </a>
                         </li>
                         <li class="m-menu__item " aria-haspopup="true" >
-                            <a  href="../snippets/general/pricing-tables/pricing-table-2.html" class="m-menu__link ">
+                            <a  href="${eamPath}/manage/equipmentmodel/property/index" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>

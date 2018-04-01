@@ -73,6 +73,8 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 	public String index(@PathVariable("id") int id, ModelMap modelMap) {
 		modelMap.addAttribute("id", id);
 		modelMap.put("equipmentModel", eamEquipmentModelService.selectByPrimaryKey(id));
+		modelMap.put("dataTypes", DataType.values());
+		modelMap.put("displayTypes", DisplayType.values());
 		return "/manage/equipment/model/property/index.jsp";
 	}
 
@@ -159,8 +161,8 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 		EamEquipmentModelProperties eamEquipmentModelProperties = eamEquipmentModelPropertiesService.selectByPrimaryKey(id);
 		Map map = new HashMap(3);
 		map.put("equipmentModelProperties", eamEquipmentModelProperties);
-		map.put("dataTypes", DataType.values());
-		map.put("displayTypes", DisplayType.values());
+//		map.put("dataTypes", DataType.values());
+//		map.put("displayTypes", DisplayType.values());
 		return map;
 	}
 
@@ -182,7 +184,7 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 		return new EamResult(SUCCESS, count);
 	}
 
-	private void buildModelMap(int mId, int pId, ModelMap modelMap) {
+	private void buildModelMap(int mId, int pId, Map modelMap) {
 		EamEquipmentModel equipmentModel = eamEquipmentModelService.selectByPrimaryKey(mId);
 		EamEquipmentModelProperties eamEquipmentModelProperties = eamEquipmentModelPropertiesService.selectByPrimaryKey(pId);
 		EamSensor sensor = getSensor(eamEquipmentModelProperties);
@@ -198,22 +200,27 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 
 	@RequiresPermissions("eam:equipmentModelProperty:update")
 	@RequestMapping(value = "/grm/{mId}/{pId}", method = RequestMethod.GET)
-	public String grm(@PathVariable("mId") int mId, @PathVariable("pId") int pId, ModelMap modelMap) {
-		buildModelMap(mId, pId, modelMap);
-		modelMap.put("grmActions", Action.values());
-
-		return "/manage/equipment/model/property/grm.jsp";
+	@ResponseBody
+	public Object grm(@PathVariable("mId") int mId, @PathVariable("pId") int pId, ModelMap modelMap) {
+		Map map = new HashMap();
+		buildModelMap(mId, pId, map);
+		map.put("grmActions", Action.values());
+		return map;
+		//return "/manage/equipment/model/property/grm.jsp";
 	}
 
 	@RequiresPermissions("eam:equipmentModelProperty:update")
 	@RequestMapping(value = "/modbus/{mId}/{pId}", method = RequestMethod.GET)
-	public String modbus(@PathVariable("mId") int mId, @PathVariable("pId") int pId, ModelMap modelMap) {
-		buildModelMap(mId, pId, modelMap);
+	@ResponseBody
+	public Object modbus(@PathVariable("mId") int mId, @PathVariable("pId") int pId) {
+		Map map = new HashMap();
+		buildModelMap(mId, pId, map);
 
-		modelMap.put("modbusFunctionCodes", ModbusFunctionCode.values());
-		modelMap.put("dataFormats", DataFormat.values());
-		modelMap.put("bitOrders", BitOrder.values());
-		return "/manage/equipment/model/property/modbus.jsp";
+		map.put("modbusFunctionCodes", ModbusFunctionCode.values());
+		map.put("dataFormats", DataFormat.values());
+		map.put("bitOrders", BitOrder.values());
+		return map;
+		//return "/manage/equipment/model/property/modbus.jsp";
 	}
 
 	@ApiOperation(value = "Modbus传感器参数")
@@ -285,20 +292,25 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 
 	@RequiresPermissions("eam:equipmentModelProperty:update")
 	@RequestMapping(value = "/data/change/{mId}/{pId}", method = RequestMethod.GET)
-	public String dataChange(@PathVariable("mId") int mId, @PathVariable("pId") int pId, ModelMap modelMap) {
-		buildModelMap(mId, pId, modelMap);
-		return "/manage/equipment/model/property/datachange.jsp";
+	@ResponseBody
+	public Object dataChange(@PathVariable("mId") int mId, @PathVariable("pId") int pId) {
+		Map map = new HashMap();
+		buildModelMap(mId, pId, map);
+		return map;
+		//return "/manage/equipment/model/property/datachange.jsp";
 	}
 
 	@RequiresPermissions("eam:equipmentModelProperty:update")
 	@RequestMapping(value = "/alarm/{mId}/{pId}", method = RequestMethod.GET)
-	public String alarm(@PathVariable("mId") int mId, @PathVariable("pId") int pId, ModelMap modelMap) {
-		buildModelMap(mId, pId, modelMap);
-		modelMap.put("alarmTypes", AlarmType.values());
-		modelMap.put("alarmTargets", AlarmTarget.values());
-		modelMap.put("users", getUsers());
+	@ResponseBody
+	public Object alarm(@PathVariable("mId") int mId, @PathVariable("pId") int pId) {
+		Map map = new HashMap();
+		buildModelMap(mId, pId, map);
+		map.put("alarmTypes", AlarmType.values());
+		map.put("alarmTargets", AlarmTarget.values());
+		map.put("users", getUsers());
 
-		return "/manage/equipment/model/property/alarm.jsp";
+		return map;
 	}
 
 	@ApiOperation(value = "报警通知人列表")
