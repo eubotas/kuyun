@@ -11,9 +11,9 @@ import com.kuyun.upms.client.shiro.session.UpmsSession;
 import com.kuyun.upms.client.shiro.session.UpmsSessionDao;
 import com.kuyun.upms.common.constant.UpmsResult;
 import com.kuyun.upms.common.constant.UpmsResultConstant;
-import com.kuyun.upms.dao.model.UpmsSystemExample;
-import com.kuyun.upms.dao.model.UpmsUser;
-import com.kuyun.upms.dao.model.UpmsUserExample;
+import com.kuyun.upms.common.pojo.AuthRequest;
+import com.kuyun.upms.common.pojo.auth.*;
+import com.kuyun.upms.dao.model.*;
 import com.kuyun.upms.rpc.api.UpmsApiService;
 import com.kuyun.upms.rpc.api.UpmsSystemService;
 import com.kuyun.upms.rpc.api.UpmsUserService;
@@ -33,6 +33,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -43,6 +44,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -208,11 +211,19 @@ public class SSOController extends BaseController {
         // 回跳登录前地址
         String backurl = request.getParameter("backurl");
         if (StringUtils.isBlank(backurl)) {
-            return new UpmsResult(UpmsResultConstant.SUCCESS, "/");
+
+            UpmsUser user = getUpmsUser(username);
+            String phone = "";
+            if (user != null){
+                phone = user.getPhone();
+            }
+            return new UpmsResult(UpmsResultConstant.SUCCESS, phone);
         } else {
             return new UpmsResult(UpmsResultConstant.SUCCESS, backurl);
         }
     }
+
+
 
     @ApiOperation(value = "校验code")
     @RequestMapping(value = "/code", method = RequestMethod.POST)
@@ -342,7 +353,7 @@ public class SSOController extends BaseController {
         String password = request.getParameter("password");
         String confirmPassword = request.getParameter("confirmPassword");
 
-        UpmsUser user = getUpmsUser(phone);
+        UpmsUser user = getUpmsUserByPhone(phone);
         if (user == null) {
             return new UpmsResult(UpmsResultConstant.FAILED, "用户不存在");
         }
@@ -360,6 +371,13 @@ public class SSOController extends BaseController {
         int count = upmsUserService.updateByPrimaryKeySelective(user);
 
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
+    }
+
+    private UpmsUser getUpmsUserByPhone(String phone) {
+        UpmsUserExample userExample = new UpmsUserExample();
+        userExample.createCriteria().andPhoneEqualTo(phone);
+
+        return upmsUserService.selectFirstByExample(userExample);
     }
 
     @RequestMapping(value = "/back_step1", method = RequestMethod.POST)
@@ -422,5 +440,81 @@ public class SSOController extends BaseController {
         int count = upmsUserService.updateByPrimaryKeySelective(user);
 
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
+    }
+
+    @ApiOperation(value = "用户鉴权")
+    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+    @ResponseBody
+    public Object authenticate(@RequestBody AuthRequest request) {
+        String username = request.getToken().getPrincipal();
+        String password = request.getToken().getCredentials();
+        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username, password);
+        try {
+            Subject subject = SecurityUtils.getSubject();
+            subject.login(usernamePasswordToken);
+        } catch (UnknownAccountException e) {
+            return new UpmsResult(UpmsResultConstant.INVALID_USERNAME, "帐号不存在！");
+        } catch (IncorrectCredentialsException e) {
+            return new UpmsResult(UpmsResultConstant.INVALID_PASSWORD, "密码错误！");
+        } catch (LockedAccountException e) {
+            return new UpmsResult(UpmsResultConstant.INVALID_ACCOUNT, "帐号已锁定！");
+        }
+
+
+        AuthResponse response = buildAuthResponse(username);
+        return response;
+    }
+
+    private AuthResponse buildAuthResponse(String username){
+        UpmsUser upmsUser = upmsApiService.selectUpmsUserByUsername(username);
+
+        List<UpmsRole> roles = upmsApiService.selectUpmsRoleByUpmsUserId(upmsUser.getUserId());
+        List<UpmsPermission> upmsPermissions = upmsApiService.selectUpmsPermissionByUpmsUserId(upmsUser.getUserId());
+
+        AuthResponse response = new AuthResponse();
+        Info info = new Info();
+        Authc authc = new Authc();
+        Principal principal = new Principal();
+        principal.setLogin(username);
+        principal.setApiKey("*****");
+        authc.setPrincipal(principal);
+
+        Credentials credentials = new Credentials();
+        credentials.setName(upmsUser.getRealname());
+        credentials.setEmail(upmsUser.getEmail());
+        authc.setCredentials(credentials);
+
+        info.setAuthc(authc);
+
+        Authz authz = new Authz();
+        authz.setRoles(buildRoles(roles));
+        authz.setPermissions(buildPermissions(upmsPermissions));
+        info.setAuthz(authz);
+
+        response.setInfo(info);
+
+        return response;
+    }
+
+    private List<String> buildPermissions(List<UpmsPermission> upmsPermissions) {
+        List<String> result = new ArrayList<>();
+        if (upmsPermissions != null && !upmsPermissions.isEmpty()){
+            for(UpmsPermission permission : upmsPermissions){
+                if (StringUtils.isNotEmpty(permission.getPermissionValue())){
+                    result.add(permission.getPermissionValue());
+                }
+            }
+        }
+        return result;
+    }
+
+    private List<String> buildRoles(List<UpmsRole> roles) {
+        List<String> result = new ArrayList<>();
+        if (roles != null && !roles.isEmpty()){
+            for (UpmsRole role : roles){
+                result.add(role.getName());
+            }
+        }
+        return result;
     }
 }

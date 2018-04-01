@@ -3,12 +3,14 @@
 <mapper namespace="com.kuyun.eam.dao.mapper.EamPartsMapper">
   <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamParts">
     <id column="part_id" jdbcType="INTEGER" property="partId" />
+    <result column="equipment_id" jdbcType="VARCHAR" property="equipmentId" />
     <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="seq_id" jdbcType="INTEGER" property="seqId" />
+    <result column="symbol" jdbcType="VARCHAR" property="symbol" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="spec" jdbcType="VARCHAR" property="spec" />
     <result column="model" jdbcType="VARCHAR" property="model" />
-    <result column="unit" jdbcType="VARCHAR" property="unit" />
-    <result column="brand" jdbcType="VARCHAR" property="brand" />
+    <result column="material" jdbcType="VARCHAR" property="material" />
+    <result column="quantity" jdbcType="INTEGER" property="quantity" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
@@ -75,8 +77,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    part_id, category_id, name, spec, model, unit, brand, create_user_id, create_time, 
-    update_user_id, update_time, delete_flag, company_id
+    part_id, equipment_id, category_id, seq_id, symbol, name, model, material, quantity, 
+    create_user_id, create_time, update_user_id, update_time, delete_flag, company_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamPartsExample" resultMap="BaseResultMap">
     select
@@ -107,26 +109,28 @@
     where part_id = #{partId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    update eam_parts set delete_flag = 1 
+    delete from eam_parts
     where part_id = #{partId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamPartsExample">
-    update eam_parts set delete_flag = 1 
+    delete from eam_parts
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamParts">
-    insert into eam_parts (part_id, category_id, name, 
-      spec, model, unit, 
-      brand, create_user_id, create_time, 
-      update_user_id, update_time, delete_flag, 
-      company_id)
-    values (#{partId,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{spec,jdbcType=VARCHAR}, #{model,jdbcType=VARCHAR}, #{unit,jdbcType=VARCHAR}, 
-      #{brand,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
-      #{companyId,jdbcType=INTEGER})
+    insert into eam_parts (part_id, equipment_id, category_id, 
+      seq_id, symbol, name, 
+      model, material, quantity, 
+      create_user_id, create_time, update_user_id, 
+      update_time, delete_flag, company_id
+      )
+    values (#{partId,jdbcType=INTEGER}, #{equipmentId,jdbcType=VARCHAR}, #{categoryId,jdbcType=INTEGER}, 
+      #{seqId,jdbcType=INTEGER}, #{symbol,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{model,jdbcType=VARCHAR}, #{material,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, 
+      #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{companyId,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamParts">
     insert into eam_parts
@@ -134,23 +138,29 @@
       <if test="partId != null">
         part_id,
       </if>
+      <if test="equipmentId != null">
+        equipment_id,
+      </if>
       <if test="categoryId != null">
         category_id,
+      </if>
+      <if test="seqId != null">
+        seq_id,
+      </if>
+      <if test="symbol != null">
+        symbol,
       </if>
       <if test="name != null">
         name,
       </if>
-      <if test="spec != null">
-        spec,
-      </if>
       <if test="model != null">
         model,
       </if>
-      <if test="unit != null">
-        unit,
+      <if test="material != null">
+        material,
       </if>
-      <if test="brand != null">
-        brand,
+      <if test="quantity != null">
+        quantity,
       </if>
       <if test="createUserId != null">
         create_user_id,
@@ -175,23 +185,29 @@
       <if test="partId != null">
         #{partId,jdbcType=INTEGER},
       </if>
+      <if test="equipmentId != null">
+        #{equipmentId,jdbcType=VARCHAR},
+      </if>
       <if test="categoryId != null">
         #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="seqId != null">
+        #{seqId,jdbcType=INTEGER},
+      </if>
+      <if test="symbol != null">
+        #{symbol,jdbcType=VARCHAR},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="spec != null">
-        #{spec,jdbcType=VARCHAR},
-      </if>
       <if test="model != null">
         #{model,jdbcType=VARCHAR},
       </if>
-      <if test="unit != null">
-        #{unit,jdbcType=VARCHAR},
+      <if test="material != null">
+        #{material,jdbcType=VARCHAR},
       </if>
-      <if test="brand != null">
-        #{brand,jdbcType=VARCHAR},
+      <if test="quantity != null">
+        #{quantity,jdbcType=INTEGER},
       </if>
       <if test="createUserId != null">
         #{createUserId,jdbcType=INTEGER},
@@ -225,23 +241,29 @@
       <if test="record.partId != null">
         part_id = #{record.partId,jdbcType=INTEGER},
       </if>
+      <if test="record.equipmentId != null">
+        equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
+      </if>
       <if test="record.categoryId != null">
         category_id = #{record.categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.seqId != null">
+        seq_id = #{record.seqId,jdbcType=INTEGER},
+      </if>
+      <if test="record.symbol != null">
+        symbol = #{record.symbol,jdbcType=VARCHAR},
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.spec != null">
-        spec = #{record.spec,jdbcType=VARCHAR},
-      </if>
       <if test="record.model != null">
         model = #{record.model,jdbcType=VARCHAR},
       </if>
-      <if test="record.unit != null">
-        unit = #{record.unit,jdbcType=VARCHAR},
+      <if test="record.material != null">
+        material = #{record.material,jdbcType=VARCHAR},
       </if>
-      <if test="record.brand != null">
-        brand = #{record.brand,jdbcType=VARCHAR},
+      <if test="record.quantity != null">
+        quantity = #{record.quantity,jdbcType=INTEGER},
       </if>
       <if test="record.createUserId != null">
         create_user_id = #{record.createUserId,jdbcType=INTEGER},
@@ -269,12 +291,14 @@
   <update id="updateByExample" parameterType="map">
     update eam_parts
     set part_id = #{record.partId,jdbcType=INTEGER},
+      equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
       category_id = #{record.categoryId,jdbcType=INTEGER},
+      seq_id = #{record.seqId,jdbcType=INTEGER},
+      symbol = #{record.symbol,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
-      spec = #{record.spec,jdbcType=VARCHAR},
       model = #{record.model,jdbcType=VARCHAR},
-      unit = #{record.unit,jdbcType=VARCHAR},
-      brand = #{record.brand,jdbcType=VARCHAR},
+      material = #{record.material,jdbcType=VARCHAR},
+      quantity = #{record.quantity,jdbcType=INTEGER},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
@@ -288,23 +312,29 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.kuyun.eam.dao.model.EamParts">
     update eam_parts
     <set>
+      <if test="equipmentId != null">
+        equipment_id = #{equipmentId,jdbcType=VARCHAR},
+      </if>
       <if test="categoryId != null">
         category_id = #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="seqId != null">
+        seq_id = #{seqId,jdbcType=INTEGER},
+      </if>
+      <if test="symbol != null">
+        symbol = #{symbol,jdbcType=VARCHAR},
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="spec != null">
-        spec = #{spec,jdbcType=VARCHAR},
-      </if>
       <if test="model != null">
         model = #{model,jdbcType=VARCHAR},
       </if>
-      <if test="unit != null">
-        unit = #{unit,jdbcType=VARCHAR},
+      <if test="material != null">
+        material = #{material,jdbcType=VARCHAR},
       </if>
-      <if test="brand != null">
-        brand = #{brand,jdbcType=VARCHAR},
+      <if test="quantity != null">
+        quantity = #{quantity,jdbcType=INTEGER},
       </if>
       <if test="createUserId != null">
         create_user_id = #{createUserId,jdbcType=INTEGER},
@@ -329,12 +359,14 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamParts">
     update eam_parts
-    set category_id = #{categoryId,jdbcType=INTEGER},
+    set equipment_id = #{equipmentId,jdbcType=VARCHAR},
+      category_id = #{categoryId,jdbcType=INTEGER},
+      seq_id = #{seqId,jdbcType=INTEGER},
+      symbol = #{symbol,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
-      spec = #{spec,jdbcType=VARCHAR},
       model = #{model,jdbcType=VARCHAR},
-      unit = #{unit,jdbcType=VARCHAR},
-      brand = #{brand,jdbcType=VARCHAR},
+      material = #{material,jdbcType=VARCHAR},
+      quantity = #{quantity,jdbcType=INTEGER},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=INTEGER},
@@ -345,18 +377,20 @@
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into eam_parts  (part_id, category_id, name, 
-        spec, model, unit, 
-        brand, create_user_id, create_time, 
-        update_user_id, update_time, delete_flag, 
-        company_id)
+            insert into eam_parts  (part_id, equipment_id, category_id, 
+        seq_id, symbol, name, 
+        model, material, quantity, 
+        create_user_id, create_time, update_user_id, 
+        update_time, delete_flag, company_id
+        )
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.partId,jdbcType=INTEGER}, #{item.categoryId,jdbcType=INTEGER}, #{item.name,jdbcType=VARCHAR}, 
-        #{item.spec,jdbcType=VARCHAR}, #{item.model,jdbcType=VARCHAR}, #{item.unit,jdbcType=VARCHAR}, 
-        #{item.brand,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, 
-        #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, 
-        #{item.companyId,jdbcType=INTEGER})
+      (#{item.partId,jdbcType=INTEGER}, #{item.equipmentId,jdbcType=VARCHAR}, #{item.categoryId,jdbcType=INTEGER}, 
+        #{item.seqId,jdbcType=INTEGER}, #{item.symbol,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, 
+        #{item.model,jdbcType=VARCHAR}, #{item.material,jdbcType=VARCHAR}, #{item.quantity,jdbcType=INTEGER}, 
+        #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, 
+        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, #{item.companyId,jdbcType=INTEGER}
+        )
       </foreach>
     </if>
   </insert>

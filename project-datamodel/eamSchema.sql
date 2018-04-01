@@ -398,11 +398,11 @@ create table eam_parts
 (
    part_id              int not null auto_increment,
    category_id          int,
-   name                 varchar(50),
-   spec                 varchar(50),
-   model                varchar(50),
-   unit                 varchar(20),
-   brand                varchar(50),
+   spec                 varchar(50) comment '代号',
+   name                 varchar(50) comment '名称',
+   model                varchar(50) comment '型号',
+   material             varchar(50) comment '材料',
+   quantity             int comment '数量',
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,
@@ -412,7 +412,7 @@ create table eam_parts
    primary key (part_id)
 );
 
-alter table eam_parts comment '配件';
+alter table eam_parts comment '备件';
 
 /*==============================================================*/
 /* Table: eam_parts_category                                    */
@@ -431,7 +431,7 @@ create table eam_parts_category
    primary key (category_id)
 );
 
-alter table eam_parts_category comment ' 配件类别';
+alter table eam_parts_category comment ' 备件类别';
 
 /*==============================================================*/
 /* Table: eam_protocol                                          */

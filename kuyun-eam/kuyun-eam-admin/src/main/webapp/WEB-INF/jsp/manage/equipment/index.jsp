@@ -96,6 +96,12 @@
 	</script>
 </head>
 <body>
+
+<form id="uploadForm" action="" method="post" enctype="multipart/form-data">
+	<input type="file" id="uploadFile" name="uploadFile" class="waves-effect waves-button" size="1">
+	<input id="btnSubmit" type="submit" value="Upload">
+</form>
+
 <div id="main">
 	<div id="toolbar">
 		<shiro:hasPermission name="eam:equipment:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增设备</a></shiro:hasPermission>
@@ -397,6 +403,122 @@ function dataElementGroupAction() {
         var equipmentId = rows[0].equipmentId;
         window.location = "${basePath}/manage/" + equipmentId +  "/dataGroup/index";
     }
+}
+
+$(document).ready(function () {
+
+    $("#btnSubmit").click(function (event) {
+
+        //stop submit the form, we will post it manually.
+        event.preventDefault();
+
+        uploadAction();
+
+    });
+
+});
+
+function uploadAction() {
+    var rows = $table.bootstrapTable('getSelections');
+    if (rows.length != 1) {
+        $.confirm({
+            title: false,
+            content: '请选择一条记录！',
+            autoClose: 'cancel|3000',
+            backgroundDismiss: true,
+            buttons: {
+                cancel: {
+                    text: '取消',
+                    btnClass: 'waves-effect waves-button'
+                }
+            }
+        });
+    } else {
+        var form = $('#uploadForm')[0];
+        var data = new FormData(form);
+        var equipmentId = rows[0].equipmentId;
+        data.append("equipmentId", equipmentId);
+
+
+        $.ajax({
+            type: 'post',
+            url: '${basePath}/manage/${productLineId}/equipment/upload',
+            enctype: 'multipart/form-data',
+            data: data,
+            processData: false, //prevent jQuery from automatically transforming the data into a query string
+            contentType: false,
+            cache: false,
+            success: function(result) {
+                if (result.code != 1) {
+                    if (result.data instanceof Array) {
+                        $.each(result.data, function(index, value) {
+                            $.confirm({
+                                theme: 'dark',
+                                animation: 'rotateX',
+                                closeAnimation: 'rotateX',
+                                title: false,
+                                content: value.errorMsg,
+                                buttons: {
+                                    confirm: {
+                                        text: '确认',
+                                        btnClass: 'waves-effect waves-button waves-light'
+                                    }
+                                }
+                            });
+                        });
+                    } else {
+                        $.confirm({
+                            theme: 'dark',
+                            animation: 'rotateX',
+                            closeAnimation: 'rotateX',
+                            title: false,
+                            content: result.data.errorMsg,
+                            buttons: {
+                                confirm: {
+                                    text: '确认',
+                                    btnClass: 'waves-effect waves-button waves-light'
+                                }
+                            }
+                        });
+                    }
+                } else {
+
+                    $.confirm({
+                        theme: 'dark',
+                        animation: 'rotateX',
+                        closeAnimation: 'rotateX',
+                        title: false,
+                        content: "数据上传成功",
+                        buttons: {
+                            confirm: {
+                                text: '确认',
+                                btnClass: 'waves-effect waves-button waves-light'
+                            }
+                        }
+                    });
+                    //createDialog.close();
+                    //$table.bootstrapTable('refresh');
+                }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                $.confirm({
+                    theme: 'dark',
+                    animation: 'rotateX',
+                    closeAnimation: 'rotateX',
+                    title: false,
+                    content: textStatus,
+                    buttons: {
+                        confirm: {
+                            text: '确认',
+                            btnClass: 'waves-effect waves-button waves-light'
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+
 }
 
 </script>

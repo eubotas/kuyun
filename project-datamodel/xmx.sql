@@ -1,4 +1,6 @@
 use xmx;
+
+SET SQL_SAFE_UPDATES = 0;
 SET FOREIGN_KEY_CHECKS=0;
 
 drop table if exists eam_equipment_category;
@@ -24,7 +26,8 @@ create table eam_data_element
    lable_name           varchar(20) comment '显示名称',
    unit                 varchar(20) comment '单位',
    data_type            varchar(20) comment '数据类型(analog, digital)',
-   equipment_category_id int,
+   equipment_category_id int ,
+   is_statistic         boolean comment '是否统计累计量（用电量）',
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,
@@ -134,6 +137,7 @@ create table eam_equipment
    equipment_category_id  int,
    product_line_id      varchar(32),
    name                 varchar(30),
+   task_number          varchar(15) comment '任务单号',
    number               varchar(30) comment '设备型号',
    serial_number        varchar(50) comment '出厂编号',
    image_path           varchar(100),
@@ -162,6 +166,7 @@ create table eam_equipment
    is_online            boolean,
    primary key (equipment_id)
 );
+
 
 DROP TABLE IF EXISTS eam_equipment_data_group;
 create table eam_equipment_data_group
@@ -327,10 +332,73 @@ create table eam_grm_variable_data_history
 ALTER table eam_grm_variable_data_history ADD INDEX index_update_time(update_time);
 
 
+drop table if exists eam_grm_variable_data_by_day;
+create table eam_grm_variable_data_by_day
+(
+   id                   int not null auto_increment,
+   equipment_id         varchar(32),
+   product_line_id      varchar(32),
+   data_group_id        int,
+   equipment_data_group_id int comment '设备数据分组ID',
+   data_element_id      int,
+   value                varchar(30),
+   date                 date,
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   primary key (id)
+);
 
+ALTER table eam_grm_variable_data_by_day ADD INDEX index_date(date);
+
+drop table if exists eam_grm_variable_data_by_month;
+create table eam_grm_variable_data_by_month
+(
+   id                   int not null auto_increment,
+   equipment_id         varchar(32),
+   product_line_id      varchar(32),
+   data_group_id        int,
+   equipment_data_group_id int comment '设备数据分组ID',
+   data_element_id      int,
+   year                 int,
+   month                int,
+   value                varchar(30),
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   primary key (id)
+);
+
+ALTER table eam_grm_variable_data_by_month ADD INDEX index_update_time(update_time);
+
+drop table if exists eam_grm_variable_data_by_year;
+create table eam_grm_variable_data_by_year
+(
+   id                   int not null auto_increment,
+   equipment_id         varchar(32),
+   product_line_id      varchar(32),
+   data_group_id        int,
+   equipment_data_group_id int comment '设备数据分组ID',
+   data_element_id      int,
+   year                 int,
+   value                varchar(30),
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   primary key (id)
+);
+
+ALTER table eam_grm_variable_data_by_year ADD INDEX index_update_time(update_time);
 /*==============================================================*/
 /* Table: eam_inventory                                         */
 /*==============================================================*/
+drop table if exists eam_inventory;
 create table eam_inventory
 (
    inventory_id         int not null auto_increment,
@@ -353,6 +421,7 @@ alter table eam_inventory comment ' 库存明细表';
 /*==============================================================*/
 /* Table: eam_warehouse                                         */
 /*==============================================================*/
+drop table if exists eam_warehouse;
 create table eam_warehouse
 (
    warehouse_id         int not null auto_increment,
@@ -372,6 +441,7 @@ alter table eam_warehouse comment '仓库信息表';
 /*==============================================================*/
 /* Table: eam_location                                          */
 /*==============================================================*/
+drop table if exists eam_location;
 create table eam_location
 (
    location_id          int not null auto_increment,
@@ -392,6 +462,7 @@ alter table eam_location comment '仓位信息表';
 /*==============================================================*/
 /* Table: eam_maintenance                                       */
 /*==============================================================*/
+drop table if exists eam_maintenance;
 create table eam_maintenance
 (
    maintenance_id       int not null auto_increment,
@@ -416,15 +487,18 @@ alter table eam_maintenance comment ' 维保';
 /*==============================================================*/
 /* Table: eam_parts                                             */
 /*==============================================================*/
+drop table if exists eam_parts;
 create table eam_parts
 (
    part_id              int not null auto_increment,
+   equipment_id         varchar(32),
    category_id          int,
-   name                 varchar(50),
-   spec                 varchar(50),
-   model                varchar(50),
-   unit                 varchar(20),
-   brand                varchar(50),
+   seq_id               int,
+   symbol               varchar(50) comment '代号',
+   name                 varchar(50) comment '名称',
+   model                varchar(50) comment '型号',
+   material             varchar(50) comment '材料',
+   quantity             int comment '数量',
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,
@@ -434,16 +508,16 @@ create table eam_parts
    primary key (part_id)
 );
 
-alter table eam_parts comment '配件';
+alter table eam_parts comment '备件';
 
 /*==============================================================*/
 /* Table: eam_parts_category                                    */
 /*==============================================================*/
+drop table if exists eam_parts_category;
 create table eam_parts_category
 (
    category_id          int not null auto_increment,
    name                 varchar(30),
-   organization_id      int,
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,
@@ -453,5 +527,20 @@ create table eam_parts_category
    primary key (category_id)
 );
 
-alter table eam_parts_category comment ' 配件类别';
+alter table eam_parts_category comment ' 备件类别';
 
+drop table if exists eam_file_template;
+create table eam_file_template
+(
+   id                   int not null auto_increment,
+   template_id          int,
+   name                 varchar(30),
+   path                 varchar(100),
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   company_id           int,
+   primary key (id)
+);

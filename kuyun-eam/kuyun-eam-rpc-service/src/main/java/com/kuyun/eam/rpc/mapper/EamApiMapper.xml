@@ -96,23 +96,47 @@
 
 	<!-- 配件字段 -->
 	<sql id="Part_Column_List">
-		t.part_id, t.category_id, t.name, t.spec, t.model, t.unit, t.brand,
-		t.create_user_id, t.create_time, t.update_user_id, t.update_time, t.delete_flag,
-		t.company_id,
+		t.part_id, t.equipment_id, t.category_id, t.seq_id, t.symbol, t.name, t.model, t.material, t.quantity,
+    	t.create_user_id, t.create_time, t.update_user_id, t.update_time, t.delete_flag, t.company_id,
 	</sql>
 
 
 
 	<select id="selectPart" parameterType="com.kuyun.eam.vo.EamPartVO" resultMap="EamPartVOResultMap">
 		select
-
 		<include refid="Part_Column_List" />
-		e.name as category_name
+		c.name as category_name
 		from eam_parts t
-		LEFT JOIN eam_parts_category e ON t.category_id = e.category_id
-		WHERE t.delete_flag = 0
+		LEFT JOIN eam_parts_category c ON t.category_id = c.category_id
+		LEFT JOIN eam_equipment e ON t.equipment_id = e.equipment_id
+		WHERE t.delete_flag = 0 and e.delete_flag = 0
+		<if test="equipmentId != null and equipmentId != ''">
+			AND e.equipment_id = #{equipmentId}
+		</if>
+		<if test="productLineId != null and productLineId != ''">
+			AND e.product_line_id = #{productLineId}
+		</if>
+		<if test="taskNumber != null and taskNumber != ''">
+			AND e.task_number = #{taskNumber}
+		</if>
+		<if test="serialNumber != null and serialNumber != ''">
+			AND e.serial_number = #{serialNumber}
+		</if>
+		<if test="symbol != null and symbol != ''">
+			AND t.symbol = #{symbol}
+		</if>
+		<if test="categoryId != null and categoryId != ''">
+			AND t.category_id = #{categoryId}
+		</if>
+		<if test="model != null and model != ''">
+			AND t.model = #{model}
+		</if>
 		<if test="companyId != null and companyId != ''">
 			AND t.company_id = #{companyId}
+		</if>
+		<if test="name != null and name != ''">
+			<bind name="pattern" value="'%' + name + '%'" />
+			AND t.name like #{pattern}
 		</if>
 		<if test="orderByClause != null">
 			order by ${orderByClause}
@@ -1196,6 +1220,84 @@
 		select u.username, u.realname, ar.reject_commont, ar.create_time from eam_ticket_appointed_record ar, upms_user u
 		where ar.order_taker_id = u.user_id and ar.ticket_id =#{ticketId, jdbcType=INTEGER} order by ar.create_time desc
 	</select>
+
+
+	<resultMap id="CodeValueVOResultMap" type="com.kuyun.eam.vo.EamCodeValueVo" >
+	</resultMap>
+
+	<select id="summaryIndustry" resultMap="CodeValueVOResultMap">
+		select count(company_id) as value, v.code_name as name
+		from upms_company c, eam_code_value v
+		where c.industry = v.code_value
+		and v.category = 'INDUSTRY'
+		and c.delete_flag = 0 and v.delete_flag = 0
+		and c.parent_id is not null
+		group by v.code_name
+		ORDER by value desc
+	</select>
+
+	<select id="summaryProductLineType" resultMap="CodeValueVOResultMap">
+		select count(company_id) as value, v.code_name as name
+		from upms_company c, eam_code_value v
+		where c.product_line_type = v.code_value
+		and v.category = 'PRODUCT_LINE_TYPE'
+		and c.delete_flag = 0 and v.delete_flag = 0
+		and c.parent_id is not null
+		group by v.code_name
+		ORDER by value desc
+	</select>
+
+	<select id="summaryState" resultMap="CodeValueVOResultMap">
+		select count(company_id) as value, v.code_name as name
+		from upms_company c, eam_code_value v
+		where c.state = v.code_value
+		and v.category = 'STATE'
+		and c.delete_flag = 0 and v.delete_flag = 0
+		and c.parent_id is not null
+		group by v.code_name
+		ORDER by value desc
+	</select>
+
+	<resultMap id="CountryValueVOResultMap" type="com.kuyun.eam.vo.EamCountryValueVo" >
+	</resultMap>
+
+	<select id="summaryCountry" resultMap="CountryValueVOResultMap">
+		select sum(value), year, country
+		from (
+			select count(company_id) as value, year,
+			CASE
+				WHEN TRIM(country) = '中国' THEN '国内'
+				ELSE '国外'
+			END AS COUNTRY
+			from upms_company
+			where delete_flag = 0
+			and parent_id is not null
+			group by year, COUNTRY
+			ORDER BY year, country
+        ) T
+        group by year, country
+	</select>
+
+	<resultMap id="IndustryValueVOResultMap" type="com.kuyun.eam.vo.EamIndustryValueVo" >
+	</resultMap>
+
+	<select id="summaryIndustryAndCompanyName" resultMap="IndustryValueVOResultMap">
+		select industry, name, count(company_id) as count from upms_company
+		where delete_flag = 0
+		and parent_id is not null
+		group by industry, name
+		order by count desc, industry, name asc
+	</select>
+
+
+	<select id="selectStatisticGrmVariable" resultMap="com.kuyun.eam.dao.mapper.EamGrmVariableMapper.BaseResultMap">
+		select d.* from eam_grm_variable d, eam_data_element e
+		where d.delete_flag = 0 and e.delete_flag = 0
+		and d.data_element_id = e.id
+		and e.is_statistic = 1
+		ORDER by product_line_id, equipment_id, data_group_id, equipment_data_group_id, data_element_id
+	</select>
+
 
 	<!-- 缓存 -->
 	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" />

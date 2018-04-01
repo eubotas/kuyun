@@ -12,6 +12,8 @@ import com.kuyun.common.validator.NotNullValidator;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.common.constant.UpmsResult;
 import com.kuyun.upms.common.constant.UpmsResultConstant;
+import com.kuyun.upms.common.pojo.AuthRequest;
+import com.kuyun.upms.common.pojo.auth.*;
 import com.kuyun.upms.dao.model.*;
 import com.kuyun.upms.dao.vo.UpmsUserVo;
 import com.kuyun.upms.rpc.api.*;
@@ -19,7 +21,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.LockedAccountException;
+import org.apache.shiro.authc.UnknownAccountException;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +36,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * 用户controller
@@ -93,6 +98,24 @@ public class UpmsUserController extends BaseController {
 
     @ApiOperation(value = "用户组织")
     @RequiresPermissions("upms:user:organization")
+    @RequestMapping(value = "/organization/index/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public Object organizationIndex(@PathVariable("id") int id, ModelMap modelMap) {
+        // 所有组织
+        List<UpmsOrganization> upmsOrganizations = upmsOrganizationService.selectByExample(new UpmsOrganizationExample());
+        // 用户拥有组织
+        UpmsUserOrganizationExample upmsUserOrganizationExample = new UpmsUserOrganizationExample();
+        upmsUserOrganizationExample.createCriteria()
+                .andUserIdEqualTo(id);
+        List<UpmsUserOrganization> upmsUserOrganizations = upmsUserOrganizationService.selectByExample(upmsUserOrganizationExample);
+        HashMap map = new HashMap();
+        map.put("upmsOrganizations", upmsOrganizations);
+        map.put("upmsUserOrganizations", upmsUserOrganizations);
+        return map;
+    }
+
+    @ApiOperation(value = "用户组织")
+    @RequiresPermissions("upms:user:organization")
     @RequestMapping(value = "/organization/{id}", method = RequestMethod.POST)
     @ResponseBody
     public Object organization(@PathVariable("id") int id, HttpServletRequest request) {
@@ -131,6 +154,24 @@ public class UpmsUserController extends BaseController {
         modelMap.put("upmsRoles", upmsRoles);
         modelMap.put("upmsUserRoles", upmsUserRoles);
         return "/manage/user/role.jsp";
+    }
+
+    @ApiOperation(value = "用户角色")
+    @RequiresPermissions("upms:user:role")
+    @RequestMapping(value = "/role/index/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public Object roleIndex(@PathVariable("id") int id, ModelMap modelMap) {
+        // 所有角色
+        List<UpmsRole> upmsRoles = upmsRoleService.selectByExample(new UpmsRoleExample());
+        // 用户拥有角色
+        UpmsUserRoleExample upmsUserRoleExample = new UpmsUserRoleExample();
+        upmsUserRoleExample.createCriteria()
+                .andUserIdEqualTo(id);
+        List<UpmsUserRole> upmsUserRoles = upmsUserRoleService.selectByExample(upmsUserRoleExample);
+        HashMap map = new HashMap();
+        map.put("upmsRoles", upmsRoles);
+        map.put("upmsUserRoles", upmsUserRoles);
+        return map;
     }
 
     @ApiOperation(value = "用户角色")
@@ -302,7 +343,6 @@ public class UpmsUserController extends BaseController {
     }
 
     @ApiOperation(value = "查找用户")
-//    @RequiresPermissions("upms:user:read")
     @RequestMapping(value = "/find/{phone}", method = RequestMethod.GET)
     @ResponseBody
     public Object find(@PathVariable("phone") String phone) {
@@ -320,5 +360,8 @@ public class UpmsUserController extends BaseController {
 
         return new UpmsResult(UpmsResultConstant.SUCCESS, objectHashMap);
     }
+
+
+
 
 }

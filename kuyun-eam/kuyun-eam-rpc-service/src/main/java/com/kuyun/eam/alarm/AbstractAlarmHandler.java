@@ -303,10 +303,11 @@ public abstract class AbstractAlarmHandler {
     private List<String> getMobiles(EamAlarm alarm) {
         List<String> result = new ArrayList<>();
         List<UpmsUser> users = getUpmsUsers(alarm);
-
-        for (UpmsUser user : users) {
-            if (!StringUtils.isEmpty(user.getPhone())) {
-                result.add(user.getPhone());
+        if (users != null){
+            for (UpmsUser user : users) {
+                if (!StringUtils.isEmpty(user.getPhone())) {
+                    result.add(user.getPhone());
+                }
             }
         }
 

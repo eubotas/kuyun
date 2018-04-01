@@ -16,13 +16,23 @@
 	<jsp:include page="/resources/inc/head.jsp" flush="true"/>
 </head>
 <body>
+
+<form id="uploadForm" action="" method="post" enctype="multipart/form-data">
+	<input type="file" id="uploadFile" name="uploadFile" class="waves-effect waves-button" size="1">
+	<input id="btnSubmit" type="submit" value="Upload">
+</form>
+
+
 <div id="main">
-	<div id="toolbar">
-		<shiro:hasPermission name="eam:company:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增客户</a></shiro:hasPermission>
-		<shiro:hasPermission name="eam:company:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑客户</a></shiro:hasPermission>
-		<shiro:hasPermission name="eam:company:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()"><i class="zmdi zmdi-close"></i> 删除客户</a></shiro:hasPermission>
-	</div>
+
+		<div id="toolbar">
+			<shiro:hasPermission name="eam:company:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增客户</a></shiro:hasPermission>
+			<shiro:hasPermission name="eam:company:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑客户</a></shiro:hasPermission>
+			<shiro:hasPermission name="eam:company:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()"><i class="zmdi zmdi-close"></i> 删除客户</a></shiro:hasPermission>
+		</div>
+
 	<table id="table"></table>
+
 </div>
 <jsp:include page="/resources/inc/footer.jsp" flush="true"/>
 <script>
@@ -76,6 +86,7 @@ function createAction() {
 	createDialog = $.dialog({
 		animationSpeed: 300,
 		title: '新增客户',
+        columnClass: 'xlarge',
 		content: 'url:${basePath}/manage/company/create',
 		onContentReady: function () {
 			initMaterialInput();
@@ -241,6 +252,89 @@ function productLineAction() {
             }
         });
     }
+}
+
+
+$(document).ready(function () {
+
+    $("#btnSubmit").click(function (event) {
+
+        //stop submit the form, we will post it manually.
+        event.preventDefault();
+
+        uploadAction();
+
+    });
+
+});
+
+function uploadAction() {
+    var form = $('#uploadForm')[0];
+    var data = new FormData(form);
+
+    $.ajax({
+        type: 'post',
+        url: '${basePath}/manage/company/upload',
+        enctype: 'multipart/form-data',
+        data: data,
+        processData: false, //prevent jQuery from automatically transforming the data into a query string
+        contentType: false,
+        cache: false,
+        success: function(result) {
+            if (result.code != 1) {
+                if (result.data instanceof Array) {
+                    $.each(result.data, function(index, value) {
+                        $.confirm({
+                            theme: 'dark',
+                            animation: 'rotateX',
+                            closeAnimation: 'rotateX',
+                            title: false,
+                            content: value.errorMsg,
+                            buttons: {
+                                confirm: {
+                                    text: '确认',
+                                    btnClass: 'waves-effect waves-button waves-light'
+                                }
+                            }
+                        });
+                    });
+                } else {
+                    $.confirm({
+                        theme: 'dark',
+                        animation: 'rotateX',
+                        closeAnimation: 'rotateX',
+                        title: false,
+                        content: result.data.errorMsg,
+                        buttons: {
+                            confirm: {
+                                text: '确认',
+                                btnClass: 'waves-effect waves-button waves-light'
+                            }
+                        }
+                    });
+                }
+            } else {
+                //createDialog.close();
+                $table.bootstrapTable('refresh');
+            }
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            $.confirm({
+                theme: 'dark',
+                animation: 'rotateX',
+                closeAnimation: 'rotateX',
+                title: false,
+                content: textStatus,
+                buttons: {
+                    confirm: {
+                        text: '确认',
+                        btnClass: 'waves-effect waves-button waves-light'
+                    }
+                }
+            });
+        }
+    });
+
 }
 </script>
 </body>

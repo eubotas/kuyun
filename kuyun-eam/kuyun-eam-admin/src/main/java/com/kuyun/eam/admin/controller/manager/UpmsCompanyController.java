@@ -4,24 +4,30 @@ import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
+import com.kuyun.common.excel.ExcelUtils;
 import com.kuyun.common.util.SpringContextUtil;
 import com.kuyun.common.validator.LengthValidator;
+import com.kuyun.eam.admin.initialize.EamCodeValueInitialize;
+import com.kuyun.eam.common.constant.CodeValueType;
+import com.kuyun.eam.dao.model.EamCodeValue;
 import com.kuyun.eam.dao.model.EamProductLineCompany;
 import com.kuyun.eam.dao.model.EamProductLineCompanyExample;
+import com.kuyun.eam.pojo.CompanyBean;
 import com.kuyun.eam.rpc.api.EamApiService;
+import com.kuyun.eam.rpc.api.EamCodeValueService;
 import com.kuyun.eam.rpc.api.EamProductLineCompanyService;
 import com.kuyun.eam.vo.EamProductLineVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.common.constant.UpmsResult;
 import com.kuyun.upms.common.constant.UpmsResultConstant;
 import com.kuyun.upms.dao.model.UpmsCompany;
-import com.kuyun.upms.dao.model.UpmsCompanyExample;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
 import com.kuyun.upms.dao.vo.UpmsCompanyVo;
+import com.kuyun.upms.rpc.api.UpmsApiService;
 import com.kuyun.upms.rpc.api.UpmsCompanyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang.StringUtils;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 
@@ -55,6 +62,12 @@ public class UpmsCompanyController extends BaseController {
     @Autowired
     private EamProductLineCompanyService eamProductLineCompanyService;
 
+    @Autowired
+    private UpmsApiService upmsApiService;
+
+    @Autowired
+    private EamCodeValueService eamCodeValueService;
+
     @ApiOperation(value = "公司首页")
     @RequiresPermissions("eam:company:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
@@ -66,48 +79,70 @@ public class UpmsCompanyController extends BaseController {
     @RequiresPermissions("eam:company:read")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
-    public Object list(
-            @RequestParam(required = false, defaultValue = "0", value = "offset") int offset,
-            @RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
-            @RequestParam(required = false, defaultValue = "", value = "search") String search,
-            @RequestParam(required = false, value = "sort") String sort,
-            @RequestParam(required = false, value = "order") String order) {
-        UpmsCompanyExample companyExample = new UpmsCompanyExample();
-        companyExample.setOffset(offset);
-        companyExample.setLimit(limit);
-        if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
-            companyExample.setOrderByClause(sort + " " + order);
-        }else {
-            companyExample.setOrderByClause("create_time desc ");
-        }
-        if (StringUtils.isNotBlank(search)) {
-            companyExample.or()
-                    .andNameLike("%" + search + "%");
-        }
-
-        UpmsCompanyExample.Criteria criteria = companyExample.createCriteria();
-        criteria.andDeleteFlagEqualTo(Boolean.FALSE);
-
-
+    public Object list(UpmsCompanyVo companyVo) {
         UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
         if (company != null){
-            criteria.andParentIdEqualTo(company.getCompanyId());
+            companyVo.setParentId(company.getCompanyId());
         }
+        if (companyVo.getOrderByClause() == null){
+            companyVo.setOrderByClause("year, task_number desc");
+        }
+        company.setDeleteFlag(Boolean.FALSE);
 
-        List<UpmsCompany> rows = upmsCompanyService.selectByExample(companyExample);
-        long total = upmsCompanyService.countByExample(companyExample);
+        List<UpmsCompany> rows = upmsApiService.selectCompanies(companyVo);
+        long total = upmsApiService.countCompanies(companyVo);
         Map<String, Object> result = new HashMap<>();
         result.put("rows", rows);
         result.put("total", total);
         return result;
     }
 
+    @ApiOperation(value = "选择项")
+    @RequiresPermissions("eam:company:read")
+    @RequestMapping(value = "/selectOptions", method = RequestMethod.GET)
+    @ResponseBody
+    public Object selectOptions() {
+        HashMap map = new HashMap();
+
+        setSelectOptions(new ModelMap(), map);
+
+        return map;
+    }
+
     @ApiOperation(value = "新增公司")
     @RequiresPermissions("eam:company:create")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String create() {
+    public String create(ModelMap modelMap) {
+        setSelectOptions(modelMap, new HashMap());
         return "/manage/company/create.jsp";
     }
+
+    public void setSelectOptions(ModelMap modelMap, HashMap map) {
+        List<EamCodeValue> states = eamApiService.getCodeValues(CodeValueType.STATE);
+        List<EamCodeValue> industries = eamApiService.getCodeValues(CodeValueType.INDUSTRY);
+        List<EamCodeValue> productLineTypes = eamApiService.getCodeValues(CodeValueType.PRODUCT_LINE_TYPE);
+        List<EamCodeValue> productLineCapacities = eamApiService.getCodeValues(CodeValueType.PRODUCT_LINE_CAPACITY);
+        List<EamCodeValue> packagingMaterials = eamApiService.getCodeValues(CodeValueType.PACKAGING_MATERIAL);
+        List<EamCodeValue> productSpecs = eamApiService.getCodeValues(CodeValueType.PRODUCT_SPEC);
+
+        modelMap.put("states", states);
+        modelMap.put("industries", industries);
+        modelMap.put("productLineTypes", productLineTypes);
+        modelMap.put("productLineCapacities", productLineCapacities);
+        modelMap.put("packagingMaterials", packagingMaterials);
+        modelMap.put("productSpecs", productSpecs);
+
+        map.put("states", states);
+        map.put("industries", industries);
+        map.put("productLineTypes", productLineTypes);
+        map.put("productLineCapacities", productLineCapacities);
+        map.put("packagingMaterials", packagingMaterials);
+        map.put("productSpecs", productSpecs);
+
+    }
+
+
+
 
     @ApiOperation(value = "新增公司")
     @RequiresPermissions("eam:company:create")
@@ -148,6 +183,7 @@ public class UpmsCompanyController extends BaseController {
     public String update(@PathVariable("id") int id, ModelMap modelMap) {
         UpmsCompany company = upmsCompanyService.selectByPrimaryKey(id);
         modelMap.put("company", company);
+        setSelectOptions(modelMap, new HashMap());
         return "/manage/company/update.jsp";
     }
 
@@ -251,6 +287,35 @@ public class UpmsCompanyController extends BaseController {
         }
         eamProductLineCompanyService.batchInsert(productLineCompanies);
         return new UpmsResult(UpmsResultConstant.SUCCESS, 1);
+    }
+
+    @ApiOperation(value = "客户资料上传")
+    @RequiresPermissions("eam:company:update")
+    @RequestMapping(value = "/upload", method = RequestMethod.POST)
+    @ResponseBody
+    public Object uploadFile(@RequestParam("uploadFile") MultipartFile file) {
+        new EamCodeValueInitialize(eamCodeValueService);
+
+        _log.info("upload file name:{} ", file.getOriginalFilename());
+        if(!file.isEmpty()) {
+            try {
+                Workbook workbook = ExcelUtils.getWorkbook(file);
+                List<CompanyBean> list = ExcelUtils.importExcel(workbook, CompanyBean.class);
+                _log.info("upload file record size:{}", list.size());
+
+                UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+
+                eamApiService.importCompanyData(list, company);
+
+            } catch (Exception e) {
+                _log.error("导入Excel失败:", e.getMessage());
+                return new UpmsResult(UpmsResultConstant.FAILED, e.getMessage());
+            }
+            return new UpmsResult(UpmsResultConstant.SUCCESS, 1);
+        } else {
+            return new UpmsResult(UpmsResultConstant.FAILED, "导入失败");
+        }
+
     }
 
 }

@@ -242,7 +242,7 @@ public class EamProductLineController extends BaseController {
 
 
 	@ApiOperation(value = "CityTree")
-	@RequiresPermissions("eam:equipment:read")
+	@RequiresPermissions("eam:productLine:read")
 	@RequestMapping(value = "/city/tree", method = RequestMethod.GET)
 	@ResponseBody
 	public Object getCityTree() {

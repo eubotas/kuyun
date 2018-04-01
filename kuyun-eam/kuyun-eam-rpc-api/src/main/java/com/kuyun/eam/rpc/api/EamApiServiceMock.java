@@ -2,19 +2,18 @@ package com.kuyun.eam.rpc.api;
 
 import com.kuyun.eam.common.constant.CollectStatus;
 import com.kuyun.eam.dao.model.*;
-import com.kuyun.eam.pojo.GanttData;
-import com.kuyun.eam.pojo.Position;
-import com.kuyun.eam.pojo.Positions;
+import com.kuyun.eam.pojo.*;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.pojo.tree.Tree;
 import com.kuyun.eam.vo.*;
 import com.kuyun.upms.dao.model.UpmsCompany;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
-import com.kuyun.upms.dao.vo.UpmsCompanyVo;
 import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.FileInputStream;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -338,6 +337,56 @@ public class EamApiServiceMock implements EamApiService {
     @Override
     public List<GanttData> getGanttData(EamGrmVariableDataHistoryVO eamGrmVariableDataHistoryVO) {
         return null;
+    }
+
+    @Override
+    public List<EamCodeValue> getCodeValues(String category) {
+        return null;
+    }
+
+    @Override
+    public EamCodeValue getCodeValue(String category, String codeValue) {
+        return null;
+    }
+
+    @Override
+    public List<EamCodeValueVo> summaryIndustry() {
+        return null;
+    }
+
+    @Override
+    public List<EamCodeValueVo> summaryProductLineType() {
+        return null;
+    }
+
+    @Override
+    public List<EamCodeValueVo> summaryState() {
+        return null;
+    }
+
+    @Override
+    public List<EamCountryValueVo> summaryCountry() {
+        return null;
+    }
+
+    @Override
+    public HashMap summaryIndustryAndCompanyName() {
+        return null;
+    }
+
+    @Override
+    public void importCompanyData(List<CompanyBean> companyBeanList, UpmsUserCompany currentCompany) {
+
+    }
+
+    @Override
+    public void statisticJob() {
+
+    }
+
+    @Override
+    public void importPartData(List<PartBean> list, UpmsUserCompany company, EamEquipment equipment) {
+
     }
 
 

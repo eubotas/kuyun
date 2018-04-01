@@ -32,6 +32,7 @@
     <result column="eam_equipment_update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="eam_equipment_delete_flag" jdbcType="BIT" property="deleteFlag" />
     <result column="eam_equipment_is_online" jdbcType="BIT" property="isOnline" />
+    <result column="eam_equipment_task_number" jdbcType="VARCHAR" property="taskNumber" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -106,7 +107,8 @@
     eam_equipment.left_position as eam_equipment_left_position, eam_equipment.top_position as eam_equipment_top_position, 
     eam_equipment.create_user_id as eam_equipment_create_user_id, eam_equipment.create_time as eam_equipment_create_time, 
     eam_equipment.update_user_id as eam_equipment_update_user_id, eam_equipment.update_time as eam_equipment_update_time, 
-    eam_equipment.delete_flag as eam_equipment_delete_flag, eam_equipment.is_online as eam_equipment_is_online
+    eam_equipment.delete_flag as eam_equipment_delete_flag, eam_equipment.is_online as eam_equipment_is_online, 
+    eam_equipment.task_number as eam_equipment_task_number
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentExample" resultMap="BaseResultMap">
     select
@@ -137,11 +139,11 @@
     where eam_equipment.equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    update eam_equipment eam_equipment set delete_flag = 1 
+    delete from eam_equipment
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentExample">
-    update eam_equipment eam_equipment set delete_flag = 1 
+    delete from eam_equipment eam_equipment
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -157,7 +159,7 @@
       warranty_end_date, maintenance_period, left_position, 
       top_position, create_user_id, create_time, 
       update_user_id, update_time, delete_flag, 
-      is_online)
+      is_online, task_number)
     values (#{equipmentId,jdbcType=VARCHAR}, #{equipmentCategoryId,jdbcType=INTEGER}, 
       #{productLineId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, 
       #{serialNumber,jdbcType=VARCHAR}, #{imagePath,jdbcType=VARCHAR}, #{output,jdbcType=VARCHAR}, 
@@ -168,7 +170,7 @@
       #{warrantyEndDate,jdbcType=TIMESTAMP}, #{maintenancePeriod,jdbcType=VARCHAR}, #{leftPosition,jdbcType=DECIMAL}, 
       #{topPosition,jdbcType=DECIMAL}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
-      #{isOnline,jdbcType=BIT})
+      #{isOnline,jdbcType=BIT}, #{taskNumber,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamEquipment">
     insert into eam_equipment
@@ -263,6 +265,9 @@
       <if test="isOnline != null">
         is_online,
       </if>
+      <if test="taskNumber != null">
+        task_number,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="equipmentId != null">
@@ -354,6 +359,9 @@
       </if>
       <if test="isOnline != null">
         #{isOnline,jdbcType=BIT},
+      </if>
+      <if test="taskNumber != null">
+        #{taskNumber,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -456,6 +464,9 @@
       <if test="record.isOnline != null">
         eam_equipment.is_online = #{record.isOnline,jdbcType=BIT},
       </if>
+      <if test="record.taskNumber != null">
+        eam_equipment.task_number = #{record.taskNumber,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -492,7 +503,8 @@
       eam_equipment.update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       eam_equipment.update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       eam_equipment.delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      eam_equipment.is_online = #{record.isOnline,jdbcType=BIT}
+      eam_equipment.is_online = #{record.isOnline,jdbcType=BIT},
+      eam_equipment.task_number = #{record.taskNumber,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -587,6 +599,9 @@
       <if test="isOnline != null">
         is_online = #{isOnline,jdbcType=BIT},
       </if>
+      <if test="taskNumber != null">
+        task_number = #{taskNumber,jdbcType=VARCHAR},
+      </if>
     </set>
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </update>
@@ -620,7 +635,8 @@
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
-      is_online = #{isOnline,jdbcType=BIT}
+      is_online = #{isOnline,jdbcType=BIT},
+      task_number = #{taskNumber,jdbcType=VARCHAR}
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </update>
   <insert id="batchInsert">
@@ -635,7 +651,7 @@
         warranty_end_date, maintenance_period, left_position, 
         top_position, create_user_id, create_time, 
         update_user_id, update_time, delete_flag, 
-        is_online)
+        is_online, task_number)
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.equipmentId,jdbcType=VARCHAR}, #{item.equipmentCategoryId,jdbcType=INTEGER}, 
@@ -648,7 +664,7 @@
         #{item.warrantyEndDate,jdbcType=TIMESTAMP}, #{item.maintenancePeriod,jdbcType=VARCHAR}, #{item.leftPosition,jdbcType=DECIMAL}, 
         #{item.topPosition,jdbcType=DECIMAL}, #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, 
         #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, 
-        #{item.isOnline,jdbcType=BIT})
+        #{item.isOnline,jdbcType=BIT}, #{item.taskNumber,jdbcType=VARCHAR})
       </foreach>
     </if>
   </insert>

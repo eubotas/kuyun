@@ -1,8 +1,5 @@
 package com.kuyun.eam.vo;
 
-import com.kuyun.eam.dao.model.EamTicket;
-import com.kuyun.eam.dao.model.EamTicketType;
-
 import java.io.Serializable;
 
 public class EamSummaryTicketVO implements Serializable {

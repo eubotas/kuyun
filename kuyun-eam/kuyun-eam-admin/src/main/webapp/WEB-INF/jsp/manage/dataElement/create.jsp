@@ -58,6 +58,18 @@
 					</div>
 				</div>
 			</div>
+
+			<div class="col-sm-12">
+				<label for="isStatistic">是否按年、月、日统计</label>
+				<div class="radio radio-inline radio-info">
+					<input id="isStatistic_1" type="radio" name="isStatistic" value="1" >
+					<label for="isStatistic_1">是</label>
+				</div>
+				<div class="radio radio-inline radio-danger">
+					<input id="isStatistic_2" type="radio" name="isStatistic" value="0" checked>
+					<label for="isStatistic_2">否</label>
+				</div>
+			</div>
 		</div>
 
 		<div class="form-group text-right dialog-buttons">

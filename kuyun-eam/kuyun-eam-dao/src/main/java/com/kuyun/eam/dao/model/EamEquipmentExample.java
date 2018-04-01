@@ -2089,6 +2089,76 @@ public class EamEquipmentExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andTaskNumberIsNull() {
+            addCriterion("eam_equipment.task_number is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskNumberIsNotNull() {
+            addCriterion("eam_equipment.task_number is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskNumberEqualTo(String value) {
+            addCriterion("eam_equipment.task_number =", value, "taskNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskNumberNotEqualTo(String value) {
+            addCriterion("eam_equipment.task_number <>", value, "taskNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskNumberGreaterThan(String value) {
+            addCriterion("eam_equipment.task_number >", value, "taskNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskNumberGreaterThanOrEqualTo(String value) {
+            addCriterion("eam_equipment.task_number >=", value, "taskNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskNumberLessThan(String value) {
+            addCriterion("eam_equipment.task_number <", value, "taskNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskNumberLessThanOrEqualTo(String value) {
+            addCriterion("eam_equipment.task_number <=", value, "taskNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskNumberLike(String value) {
+            addCriterion("eam_equipment.task_number like", value, "taskNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskNumberNotLike(String value) {
+            addCriterion("eam_equipment.task_number not like", value, "taskNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskNumberIn(List<String> values) {
+            addCriterion("eam_equipment.task_number in", values, "taskNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskNumberNotIn(List<String> values) {
+            addCriterion("eam_equipment.task_number not in", values, "taskNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskNumberBetween(String value1, String value2) {
+            addCriterion("eam_equipment.task_number between", value1, value2, "taskNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTaskNumberNotBetween(String value1, String value2) {
+            addCriterion("eam_equipment.task_number not between", value1, value2, "taskNumber");
+            return (Criteria) this;
+        }
+
         public Criteria addConditionSql(String conditionSql) {
             addCriterion(conditionSql);
             return (Criteria) this;

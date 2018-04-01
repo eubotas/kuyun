@@ -2,9 +2,7 @@ package com.kuyun.eam.rpc.api;
 
 import com.kuyun.eam.common.constant.CollectStatus;
 import com.kuyun.eam.dao.model.*;
-import com.kuyun.eam.pojo.GanttData;
-import com.kuyun.eam.pojo.Position;
-import com.kuyun.eam.pojo.Positions;
+import com.kuyun.eam.pojo.*;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.pojo.tree.Tree;
 import com.kuyun.eam.vo.*;
@@ -12,6 +10,8 @@ import com.kuyun.upms.dao.model.UpmsCompany;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
 import javafx.util.Pair;
 
+import java.io.FileInputStream;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -139,4 +139,24 @@ public interface EamApiService {
     List<EamGrmVariableDataHistoryExtVO> getGrmVariableHistoryData(EamGrmVariableDataHistoryVO eamGrmVariableDataHistoryVO);
 
     List<GanttData> getGanttData(EamGrmVariableDataHistoryVO eamGrmVariableDataHistoryVO);
+
+    List<EamCodeValue> getCodeValues(String category);
+
+    EamCodeValue getCodeValue(String category, String codeValue);
+
+    List<EamCodeValueVo> summaryIndustry();
+
+    List<EamCodeValueVo> summaryProductLineType();
+
+    List<EamCodeValueVo> summaryState();
+
+    List<EamCountryValueVo> summaryCountry();
+
+    HashMap summaryIndustryAndCompanyName();
+
+    void importCompanyData(List<CompanyBean> companyBeanList, UpmsUserCompany currentCompany);
+
+    void statisticJob();
+
+    void importPartData(List<PartBean> partBeanList, UpmsUserCompany company, EamEquipment equipment);
 }

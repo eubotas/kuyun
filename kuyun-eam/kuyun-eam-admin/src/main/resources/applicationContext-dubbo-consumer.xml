@@ -85,6 +85,9 @@
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamGrmVariableService" id="eamGrmEquipmentVariableService" mock="true" />
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamGrmVariableDataService" id="eamGrmVariableDataService" mock="true" />
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamGrmVariableDataHistoryService" id="eamGrmVariableDataHistoryService" mock="true" />
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamGrmVariableDataByDayService" id="eamGrmVariableDataByDayService" mock="true" />
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamGrmVariableDataByMonthService" id="eamGrmVariableDataByMonthService" mock="true" />
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamGrmVariableDataByYearService" id="eamGrmVariableDataByYearService" mock="true" />
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamProductLineService" id="eamProductLineService" mock="true" />
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamProductLineCompanyService" id="eamProductLineCompanyService" mock="true" />
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamProductLineDataElementService" id="eamProductLineDataElementService" mock="true" />
@@ -107,7 +110,9 @@
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamMaintainTicketService" id="eamMaintainTicketService" mock="true" />
     <!-- base相关 -->
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamCodeValueService" id="eamCodeValueService" mock="true" />
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamFileTemplateService" id="eamFileTemplateService" mock="true" />
 
 	<!-- File upload -->
 	<dubbo:reference id="fileUploaderService" interface="com.kuyun.fileuploader.rpc.api.FileUploaderService" mock="false" />
+
 </beans>

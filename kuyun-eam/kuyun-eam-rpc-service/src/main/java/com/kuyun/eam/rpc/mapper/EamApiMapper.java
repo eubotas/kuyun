@@ -3,7 +3,6 @@ package com.kuyun.eam.rpc.mapper;
 import java.util.List;
 
 import com.kuyun.eam.dao.model.*;
-import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.vo.*;
 
 /**
@@ -77,4 +76,16 @@ public interface EamApiMapper {
     EamMaintainPlanVO getMaintainPlan(Integer planId);
 
     List<EamTicketRejectRecordVO> getTicketRejectRecord(Integer ticketId);
+
+    List<EamCodeValueVo> summaryIndustry();
+
+    List<EamCodeValueVo> summaryProductLineType();
+
+    List<EamCodeValueVo> summaryState();
+
+    List<EamCountryValueVo> summaryCountry();
+
+    List<EamIndustryValueVo> summaryIndustryAndCompanyName();
+
+    List<EamGrmVariable> selectStatisticGrmVariable();
 }

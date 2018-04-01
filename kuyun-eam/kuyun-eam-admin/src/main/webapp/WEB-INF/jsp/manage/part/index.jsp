@@ -16,6 +16,77 @@
 	<jsp:include page="/resources/inc/head.jsp" flush="true"/>
 </head>
 <body>
+<div class="crudDialog">
+	<form id="searchForm" method="post">
+		<br>
+		<div class="row">
+			<div class="col-sm-3">
+				<label for="productLineId">产线</label>
+				<div class="form-group">
+					<div class="fg-line">
+						<select id="productLineId" name="productLineId" style="width: 100%">
+							<c:forEach var="productLine" items="${productLines}">
+								<option value="${productLine.productLineId}">${productLine.name}</option>
+							</c:forEach>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3">
+				<label for="productLineId">设备</label>
+				<div class="form-group">
+					<div class="fg-line">
+						<select id="equipmentId" name="equipmentId" style="width: 100%">
+							<c:forEach var="equipment" items="${equipments}">
+								<option value="${equipment.equipmentId}">${equipment.name}</option>
+							</c:forEach>
+						</select>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-3">
+				<label for="productLineId">所属部件</label>
+				<div class="form-group">
+					<div class="fg-line">
+						<select id="categoryId" name="categoryId" style="width: 100%">
+							<c:forEach var="category" items="${partCategoryList}">
+								<option value="${category.categoryId}">${category.name}</option>
+							</c:forEach>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-sm-3">
+				<div class="form-group">
+					<div class="fg-line">
+						<label for="taskNumber">任务单</label>
+						<input id="taskNumber" type="text" class="form-control" name="taskNumber" maxlength="20">
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-3">
+				<div class="form-group">
+					<div class="fg-line">
+						<label for="name">名称</label>
+						<input id="name" type="text" class="form-control" name="name" maxlength="20">
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<a class="waves-effect waves-button" href="javascript:;" onclick="searchAction();">查询</a>
+			</div>
+
+		</div>
+
+
+	</form>
+</div>
+
 <div id="main">
 	<div id="toolbar">
 		<shiro:hasPermission name="eam:part:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增配件</a></shiro:hasPermission>
@@ -50,20 +121,17 @@ $(function() {
 		escape: true,
 		searchOnEnterKey: true,
 		idField: 'partId',
-//		sortName: 'orders',
-//        sortOrder: 'desc',
 		maintainSelected: true,
 		toolbar: '#toolbar',
 		columns: [
 			{field: 'ck', checkbox: true},
-			{field: 'partId', title: '配件ID', sortable: true, align: 'center'},
-			{field: 'name', title: '配件名称'},
-			{field: 'categoryName', title: '配件类别'},
-			{field: 'spec', title: '规格'},
+//			{field: 'partId', title: 'ID', sortable: true, align: 'center'},
+			{field: 'symbol', title: '代号'},
+			{field: 'name', title: '名称'},
 			{field: 'model', title: '型号'},
-			{field: 'unit', title: '单位'},
-			{field: 'brand', title: '品牌'},
-			{field: 'createTime', title: '创建时间', formatter: 'timeFormatter'},
+			{field: 'material', title: '材料'},
+			{field: 'quantity', title: '数量'},
+			{field: 'categoryName', title: '类别'},
 			{field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
 		]
 	});
@@ -286,6 +354,24 @@ function deleteAction() {
         });
     }
 }
+
+
+function searchAction() {
+
+    var opt = {
+        query:{
+            productLineId:$("#productLineId").val(),
+            equipmentId:$("#equipmentId").val(),
+            categoryId:$("#categoryId").val(),
+            taskNumber:$("#taskNumber").val(),
+            name:$("#name").val()
+        }
+    };
+
+    $table.bootstrapTable('refresh', opt);
+
+}
+
 </script>
 </body>
 </html>

@@ -5,10 +5,14 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.google.gson.Gson;
 import com.kuyun.common.base.BaseController;
+import com.kuyun.common.excel.ExcelUtils;
 import com.kuyun.common.validator.LengthValidator;
+import com.kuyun.eam.admin.initialize.EamCodeValueInitialize;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.*;
+import com.kuyun.eam.pojo.CompanyBean;
 import com.kuyun.eam.pojo.IDS;
+import com.kuyun.eam.pojo.PartBean;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.vo.EamEquipmentModelPropertiesVO;
@@ -21,6 +25,7 @@ import com.kuyun.upms.dao.model.UpmsUserCompany;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -359,6 +365,34 @@ public class EamEquipmentController extends BaseController {
 		}
 
 		return result;
+	}
+
+
+	@ApiOperation(value = "单机备件资料上传")
+	@RequiresPermissions("eam:equipment:update")
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	@ResponseBody
+	public Object uploadFile(@RequestParam("uploadFile") MultipartFile file, EamEquipment equipment) {
+		_log.info("upload file name:{} ", file.getOriginalFilename());
+		if(!file.isEmpty()) {
+			try {
+				Workbook workbook = ExcelUtils.getWorkbook(file);
+				List<PartBean> list = ExcelUtils.importExcel(workbook, PartBean.class);
+				_log.info("upload file record size:{}", list.size());
+
+				UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+
+				eamApiService.importPartData(list, company, equipment);
+
+			} catch (Exception e) {
+				_log.error("导入Excel失败:", e.getMessage());
+				return new UpmsResult(UpmsResultConstant.FAILED, e.getMessage());
+			}
+			return new UpmsResult(UpmsResultConstant.SUCCESS, 1);
+		} else {
+			return new UpmsResult(UpmsResultConstant.FAILED, "导入失败");
+		}
+
 	}
 
 }

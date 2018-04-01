@@ -109,11 +109,11 @@
     where maintenance_id = #{maintenanceId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    update eam_maintenance set delete_flag = 1 
+    delete from eam_maintenance
     where maintenance_id = #{maintenanceId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamMaintenanceExample">
-    update eam_maintenance set delete_flag = 1 
+    delete from eam_maintenance
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

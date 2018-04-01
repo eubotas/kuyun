@@ -60,7 +60,7 @@
 function createSubmit() {
     $.ajax({
         type: 'post',
-        url: '${basePath}/manage/company/createUser',
+        url: '${basePath}/manage/companyBean/createUser',
         data: $('#createUserForm').serialize(),
         beforeSend: function() {
             if ($('#username').val() == '') {

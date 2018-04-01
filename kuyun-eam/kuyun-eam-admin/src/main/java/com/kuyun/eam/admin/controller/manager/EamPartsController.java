@@ -5,12 +5,12 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
+import com.kuyun.eam.admin.util.EamUtil;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.vo.EamPartVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
-import com.kuyun.upms.dao.model.UpmsOrganization;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -61,14 +61,27 @@ public class EamPartsController extends BaseController {
 	@Autowired
 	private EamLocationService eamLocationService;
 
+	@Autowired
+	private EamUtil eamUtil;
 
 
 	@ApiOperation(value = "配件首页")
 	@RequiresPermissions("eam:part:read")
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String index() {
+	public String index(ModelMap modelMap) {
+		modelMap.put("productLines", eamUtil.getCurrentCompanyProductLines());
+		modelMap.put("equipments", eamUtil.getCurrentCompanyEquipments());
+		modelMap.put("partCategoryList", getPartCategoryList());
+
 		return "/manage/part/index.jsp";
 	}
+
+	private List<EamPartsCategory> getPartCategoryList() {
+		EamPartsCategoryExample example = new EamPartsCategoryExample();
+		example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE);
+		return eamPartsCategoryService.selectByExample(example);
+	}
+
 
 	@ApiOperation(value = "配件列表")
 	@RequiresPermissions("eam:part:read")
@@ -78,8 +91,7 @@ public class EamPartsController extends BaseController {
 			@RequestParam(required = false, defaultValue = "0", value = "offset") int offset,
 			@RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
 			@RequestParam(required = false, value = "sort") String sort,
-			@RequestParam(required = false, value = "order") String order) {
-		EamPartVO partVO = new EamPartVO();
+			@RequestParam(required = false, value = "order") String order, EamPartVO partVO) {
 		partVO.setOffset(offset);
 		partVO.setLimit(limit);
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {

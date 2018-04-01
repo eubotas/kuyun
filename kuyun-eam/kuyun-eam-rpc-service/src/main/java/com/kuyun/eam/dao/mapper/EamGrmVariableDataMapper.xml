@@ -111,11 +111,11 @@
     where eam_grm_variable_data.id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    update eam_grm_variable_data eam_grm_variable_data set delete_flag = 1 
+    delete from eam_grm_variable_data
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataExample">
-    update eam_grm_variable_data eam_grm_variable_data set delete_flag = 1 
+    delete from eam_grm_variable_data eam_grm_variable_data
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

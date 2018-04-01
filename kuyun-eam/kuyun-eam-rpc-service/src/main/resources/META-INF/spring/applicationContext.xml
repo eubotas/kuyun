@@ -26,4 +26,5 @@
 
     <bean id="maintainPlanUtil" class="com.kuyun.eam.job.MaintainPlanUtil"></bean>
     <bean id="quartzUtil" class="com.kuyun.eam.util.QuartzUtil"></bean>
+    <bean id="statisticJob" class="com.kuyun.eam.job.StatisticJob"></bean>
 </beans>

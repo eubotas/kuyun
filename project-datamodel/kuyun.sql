@@ -114,10 +114,10 @@ INSERT INTO `upms_permission` VALUES ('50', '1', '6', '用户角色', '3', 'upms
 INSERT INTO `upms_permission` VALUES ('51', '1', '6', '用户权限', '3', 'upms:user:permission', '/manage/user/permission', 'zmdi zmdi-key', '1', '1488092013302', '1488092013302');
 INSERT INTO `upms_permission` VALUES ('53', '1', '14', '强制退出', '3', 'upms:session:forceout', '/manage/session/forceout', 'zmdi zmdi-run', '1', '1488379514715', '1488379514715');
 
-INSERT INTO `upms_permission` VALUES ('90', '1', '1', '公司管理', '2', 'upms:company:read', '/manage/company/index', '', '1', '2', '2');
-INSERT INTO `upms_permission` VALUES ('91', '1', '90', '新增公司', '3', 'upms:company:create', '/manage/company/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
-INSERT INTO `upms_permission` VALUES ('92', '1', '90', '编辑公司', '3', 'upms:company:update', '/manage/company/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
-INSERT INTO `upms_permission` VALUES ('93', '1', '90', '删除公司', '3', 'upms:company:delete', '/manage/company/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
+INSERT INTO `upms_permission` VALUES ('90', '1', '1', '公司管理', '2', 'upms:companyBean:read', '/manage/companyBean/index', '', '1', '2', '2');
+INSERT INTO `upms_permission` VALUES ('91', '1', '90', '新增公司', '3', 'upms:companyBean:create', '/manage/companyBean/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
+INSERT INTO `upms_permission` VALUES ('92', '1', '90', '编辑公司', '3', 'upms:companyBean:update', '/manage/companyBean/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
+INSERT INTO `upms_permission` VALUES ('93', '1', '90', '删除公司', '3', 'upms:companyBean:delete', '/manage/companyBean/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
 
 
 -- ----------------------------
@@ -297,7 +297,7 @@ CREATE TABLE `upms_user` (
   `password` varchar(32) NOT NULL COMMENT '密码MD5(密码+盐)',
   `salt` varchar(32) DEFAULT NULL COMMENT '盐',
   `realname` varchar(20) DEFAULT NULL COMMENT '姓名',
-  `avatar` varchar(50) DEFAULT NULL COMMENT '头像',
+  `avatar` varchar(100) DEFAULT NULL COMMENT '头像',
   `phone` varchar(20) DEFAULT NULL COMMENT '电话',
   `email` varchar(50) DEFAULT NULL COMMENT '邮箱',
   `sex` tinyint(4) DEFAULT NULL COMMENT '性别',
@@ -368,22 +368,37 @@ INSERT INTO `upms_user_role` VALUES ('5', '1', '2');
 
 
 drop table if exists upms_company;
-CREATE TABLE `upms_company` (
-  `company_id` int(11) NOT NULL AUTO_INCREMENT,
-  `parent_id` int(11) DEFAULT NULL,
-  `name` varchar(50) NOT NULL,
-  `address` varchar(50) DEFAULT NULL,
-  `phone` varchar(15) DEFAULT NULL,
-  `fax` varchar(15) DEFAULT NULL,
-  `zip` varchar(10) DEFAULT NULL,
-  `www` varchar(20) DEFAULT NULL,
-  `admin_name` varchar(20) DEFAULT NULL,
-  `admin_password` varchar(20) DEFAULT NULL,
-   create_user_id       int,
-   create_time          datetime,
-   update_user_id       int,
-   update_time          datetime,
-   delete_flag          boolean,
+CREATE TABLE upms_company (
+  company_id                   int(11) NOT NULL AUTO_INCREMENT,
+  parent_id                    int(11) DEFAULT NULL,
+  name                         varchar(50) NOT NULL,
+  year                         varchar(5) DEFAULT NULL COMMENT '年份',
+  task_number                  varchar(10) DEFAULT NULL COMMENT '任务单号',
+  state                        varchar(8) DEFAULT NULL COMMENT '洲',
+  country                      varchar(10) DEFAULT NULL COMMENT '国家',
+  province                     varchar(10) DEFAULT NULL COMMENT '省/州',
+  city                         varchar(10) DEFAULT NULL COMMENT '地/市',
+  industry                     varchar(15) DEFAULT NULL COMMENT '所属行业',
+  product_line_type            varchar(3) DEFAULT NULL COMMENT '产线类型',
+  has_cxg                      boolean DEFAULT NULL COMMENT '是否含吹灌旋',
+  has_znlk                     boolean DEFAULT NULL COMMENT '是否含智能立库',
+  product_line_capacity        varchar(3) DEFAULT NULL COMMENT '生产线产能',
+  packaging_material           varchar(3) DEFAULT NULL COMMENT '包装材质',
+  product_spec                 varchar(3) DEFAULT NULL COMMENT '产品规格',
+  major_equipment              varchar(500) DEFAULT NULL COMMENT '主要设备',
+  comment                      TEXT DEFAULT NULL COMMENT '备注',
+  address                      TEXT DEFAULT NULL,
+  phone                        varchar(15) DEFAULT NULL,
+  fax                          varchar(15) DEFAULT NULL,
+  zip                          varchar(10) DEFAULT NULL,
+  www                          varchar(20) DEFAULT NULL,
+  admin_name                   varchar(20) DEFAULT NULL,
+  admin_password               varchar(20) DEFAULT NULL,
+  create_user_id               int,
+  create_time                  datetime,
+  update_user_id               int,
+  update_time                  datetime,
+  delete_flag                  boolean,
   PRIMARY KEY (`company_id`),
   KEY `company_company_410d0aac` (`parent_id`),
   CONSTRAINT `parent_id_refs_id_d95e7d2a` FOREIGN KEY (`parent_id`) REFERENCES `upms_company` (`company_id`)

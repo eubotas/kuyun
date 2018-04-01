@@ -97,11 +97,11 @@
     where protocol_id = #{protocolId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    update eam_protocol set delete_flag = 1 
+    delete from eam_protocol
     where protocol_id = #{protocolId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamProtocolExample">
-    update eam_protocol set delete_flag = 1 
+    delete from eam_protocol
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

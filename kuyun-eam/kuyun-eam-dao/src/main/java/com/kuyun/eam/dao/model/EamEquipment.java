@@ -111,6 +111,13 @@ public class EamEquipment extends BaseEntity implements Serializable {
 
     private Boolean isOnline;
 
+    /**
+     * 任务单号
+     *
+     * @mbg.generated
+     */
+    private String taskNumber;
+
     private static final long serialVersionUID = 1L;
 
     public String getEquipmentId() {
@@ -313,6 +320,14 @@ public class EamEquipment extends BaseEntity implements Serializable {
         this.isOnline = isOnline;
     }
 
+    public String getTaskNumber() {
+        return taskNumber;
+    }
+
+    public void setTaskNumber(String taskNumber) {
+        this.taskNumber = taskNumber;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -344,6 +359,7 @@ public class EamEquipment extends BaseEntity implements Serializable {
         sb.append(", leftPosition=").append(leftPosition);
         sb.append(", topPosition=").append(topPosition);
         sb.append(", isOnline=").append(isOnline);
+        sb.append(", taskNumber=").append(taskNumber);
         sb.append("]");
         return sb.toString();
     }
@@ -389,7 +405,8 @@ public class EamEquipment extends BaseEntity implements Serializable {
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getIsOnline() == null ? other.getIsOnline() == null : this.getIsOnline().equals(other.getIsOnline()));
+            && (this.getIsOnline() == null ? other.getIsOnline() == null : this.getIsOnline().equals(other.getIsOnline()))
+            && (this.getTaskNumber() == null ? other.getTaskNumber() == null : this.getTaskNumber().equals(other.getTaskNumber()));
     }
 
     @Override
@@ -426,6 +443,7 @@ public class EamEquipment extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getIsOnline() == null) ? 0 : getIsOnline().hashCode());
+        result = prime * result + ((getTaskNumber() == null) ? 0 : getTaskNumber().hashCode());
         return result;
     }
 }

@@ -576,9 +576,20 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     }
 
     @Override
+    public List<UpmsCompany> selectCompanies(UpmsCompanyVo companyVo) {
+        return upmsApiMapper.selectCompanies(companyVo);
+    }
+
+    @Override
+    public Long countCompanies(UpmsCompanyVo companyVo) {
+        return upmsApiMapper.countCompanies(companyVo);
+    }
+
+    @Override
     public List<UpmsOrgUserVo> selectOrgUsersByOrgNameCompanyId(UpmsOrgUserVo orgUserVo) {
         return upmsApiMapper.selectOrgUsersByOrgNameCompanyId(orgUserVo);
     }
+
 
 
 }

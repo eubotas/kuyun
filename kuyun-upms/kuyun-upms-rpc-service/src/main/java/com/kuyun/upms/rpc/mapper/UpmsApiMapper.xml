@@ -259,7 +259,8 @@
 			AND uuc.company_id = #{companyId}
 		</if>
 		<if test="searchName != null and searchName != ''">
-			AND (uu.username like '%#{searchName}%' OR uu.realname like '%#{searchName}%')
+			<bind name="pattern" value="'%' + searchName + '%'" />
+			AND (uu.username like #{pattern} OR uu.realname like #{pattern})
 		</if>
 		<if test="orderByClause != null">
 			order by ${orderByClause}
@@ -282,8 +283,40 @@
 		<if test="companyId != null and companyId != ''">
 			AND uuc.company_id = #{companyId}
 		</if>
-		<if test="searchName != null and searchName != ''">
-			AND (uu.username like '%#{searchName}%' OR uu.realname like '%#{searchName}%')
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+
+
+	<select id="selectCompanies" parameterType="com.kuyun.upms.dao.vo.UpmsCompanyVo" resultMap="com.kuyun.upms.dao.mapper.UpmsCompanyMapper.BaseResultMap">
+		select uuc.*
+		from upms_company uuc
+		WHERE 1 = 1
+		<if test="search != null and search != ''">
+			<bind name="pattern" value="'%' + search + '%'" />
+			AND uuc.name like #{pattern}
+		</if>
+		<if test="parentId != null and parentId != ''">
+			AND uuc.parent_id = #{parentId}
+		</if>
+		<if test="industry != null and industry != ''">
+			AND uuc.industry = #{industry}
+		</if>
+		<if test="productLineType != null and productLineType != ''">
+			AND uuc.product_line_type = #{productLineType}
+		</if>
+		<if test="year != null and year != ''">
+			AND uuc.year = #{year}
+		</if>
+		<if test="country != null and country != ''">
+			AND uuc.country = #{country}
+		</if>
+		<if test="province != null and province != ''">
+			AND uuc.province = #{province}
+		</if>
+		<if test="city != null and city != ''">
+			AND uuc.city = #{city}
 		</if>
 		<if test="orderByClause != null">
 			order by ${orderByClause}
@@ -295,6 +328,18 @@
 			<if test="offset == null">
 				limit ${limit}
 			</if>
+		</if>
+	</select>
+
+	<select id="countCompanies" parameterType="com.kuyun.upms.dao.vo.UpmsCompanyVo" resultType="java.lang.Long">
+		select count(uuc.company_id)
+		from upms_company uuc
+		WHERE 1 = 1
+		<if test="parentId != null and parentId != ''">
+			AND uuc.parent_id = #{parentId}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
 		</if>
 	</select>
 

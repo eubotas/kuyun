@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kuyun.eam.dao.mapper.EamGrmVariableDataByMonthMapper">
+  <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamGrmVariableDataByMonth">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="equipment_id" jdbcType="VARCHAR" property="equipmentId" />
+    <result column="product_line_id" jdbcType="VARCHAR" property="productLineId" />
+    <result column="data_group_id" jdbcType="INTEGER" property="dataGroupId" />
+    <result column="equipment_data_group_id" jdbcType="INTEGER" property="equipmentDataGroupId" />
+    <result column="data_element_id" jdbcType="INTEGER" property="dataElementId" />
+    <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="month" jdbcType="INTEGER" property="month" />
+    <result column="value" jdbcType="VARCHAR" property="value" />
+    <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, equipment_id, product_line_id, data_group_id, equipment_data_group_id, data_element_id, 
+    year, month, value, create_user_id, create_time, update_user_id, update_time, delete_flag
+  </sql>
+  <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataByMonthExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from eam_grm_variable_data_by_month
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from eam_grm_variable_data_by_month
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from eam_grm_variable_data_by_month
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataByMonthExample">
+    delete from eam_grm_variable_data_by_month
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataByMonth">
+    insert into eam_grm_variable_data_by_month (id, equipment_id, product_line_id, 
+      data_group_id, equipment_data_group_id, data_element_id, 
+      year, month, value, 
+      create_user_id, create_time, update_user_id, 
+      update_time, delete_flag)
+    values (#{id,jdbcType=INTEGER}, #{equipmentId,jdbcType=VARCHAR}, #{productLineId,jdbcType=VARCHAR}, 
+      #{dataGroupId,jdbcType=INTEGER}, #{equipmentDataGroupId,jdbcType=INTEGER}, #{dataElementId,jdbcType=INTEGER}, 
+      #{year,jdbcType=INTEGER}, #{month,jdbcType=INTEGER}, #{value,jdbcType=VARCHAR}, 
+      #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataByMonth">
+    insert into eam_grm_variable_data_by_month
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="equipmentId != null">
+        equipment_id,
+      </if>
+      <if test="productLineId != null">
+        product_line_id,
+      </if>
+      <if test="dataGroupId != null">
+        data_group_id,
+      </if>
+      <if test="equipmentDataGroupId != null">
+        equipment_data_group_id,
+      </if>
+      <if test="dataElementId != null">
+        data_element_id,
+      </if>
+      <if test="year != null">
+        year,
+      </if>
+      <if test="month != null">
+        month,
+      </if>
+      <if test="value != null">
+        value,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentId != null">
+        #{equipmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="productLineId != null">
+        #{productLineId,jdbcType=VARCHAR},
+      </if>
+      <if test="dataGroupId != null">
+        #{dataGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentDataGroupId != null">
+        #{equipmentDataGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="dataElementId != null">
+        #{dataElementId,jdbcType=INTEGER},
+      </if>
+      <if test="year != null">
+        #{year,jdbcType=INTEGER},
+      </if>
+      <if test="month != null">
+        #{month,jdbcType=INTEGER},
+      </if>
+      <if test="value != null">
+        #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null">
+        #{deleteFlag,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataByMonthExample" resultType="java.lang.Long">
+    select count(*) from eam_grm_variable_data_by_month
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update eam_grm_variable_data_by_month
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.equipmentId != null">
+        equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productLineId != null">
+        product_line_id = #{record.productLineId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataGroupId != null">
+        data_group_id = #{record.dataGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="record.equipmentDataGroupId != null">
+        equipment_data_group_id = #{record.equipmentDataGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="record.dataElementId != null">
+        data_element_id = #{record.dataElementId,jdbcType=INTEGER},
+      </if>
+      <if test="record.year != null">
+        year = #{record.year,jdbcType=INTEGER},
+      </if>
+      <if test="record.month != null">
+        month = #{record.month,jdbcType=INTEGER},
+      </if>
+      <if test="record.value != null">
+        value = #{record.value,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUserId != null">
+        create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUserId != null">
+        update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deleteFlag != null">
+        delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update eam_grm_variable_data_by_month
+    set id = #{record.id,jdbcType=INTEGER},
+      equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
+      product_line_id = #{record.productLineId,jdbcType=VARCHAR},
+      data_group_id = #{record.dataGroupId,jdbcType=INTEGER},
+      equipment_data_group_id = #{record.equipmentDataGroupId,jdbcType=INTEGER},
+      data_element_id = #{record.dataElementId,jdbcType=INTEGER},
+      year = #{record.year,jdbcType=INTEGER},
+      month = #{record.month,jdbcType=INTEGER},
+      value = #{record.value,jdbcType=VARCHAR},
+      create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      delete_flag = #{record.deleteFlag,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataByMonth">
+    update eam_grm_variable_data_by_month
+    <set>
+      <if test="equipmentId != null">
+        equipment_id = #{equipmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="productLineId != null">
+        product_line_id = #{productLineId,jdbcType=VARCHAR},
+      </if>
+      <if test="dataGroupId != null">
+        data_group_id = #{dataGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentDataGroupId != null">
+        equipment_data_group_id = #{equipmentDataGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="dataElementId != null">
+        data_element_id = #{dataElementId,jdbcType=INTEGER},
+      </if>
+      <if test="year != null">
+        year = #{year,jdbcType=INTEGER},
+      </if>
+      <if test="month != null">
+        month = #{month,jdbcType=INTEGER},
+      </if>
+      <if test="value != null">
+        value = #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag = #{deleteFlag,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataByMonth">
+    update eam_grm_variable_data_by_month
+    set equipment_id = #{equipmentId,jdbcType=VARCHAR},
+      product_line_id = #{productLineId,jdbcType=VARCHAR},
+      data_group_id = #{dataGroupId,jdbcType=INTEGER},
+      equipment_data_group_id = #{equipmentDataGroupId,jdbcType=INTEGER},
+      data_element_id = #{dataElementId,jdbcType=INTEGER},
+      year = #{year,jdbcType=INTEGER},
+      month = #{month,jdbcType=INTEGER},
+      value = #{value,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      delete_flag = #{deleteFlag,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <insert id="batchInsert">
+    <if test="items.get(0) != null">
+            insert into eam_grm_variable_data_by_month  (id, equipment_id, product_line_id, 
+        data_group_id, equipment_data_group_id, data_element_id, 
+        year, month, value, 
+        create_user_id, create_time, update_user_id, 
+        update_time, delete_flag)
+      values
+      <foreach collection="items" item="item" index="index" separator=",">
+      (#{item.id,jdbcType=INTEGER}, #{item.equipmentId,jdbcType=VARCHAR}, #{item.productLineId,jdbcType=VARCHAR}, 
+        #{item.dataGroupId,jdbcType=INTEGER}, #{item.equipmentDataGroupId,jdbcType=INTEGER}, #{item.dataElementId,jdbcType=INTEGER}, 
+        #{item.year,jdbcType=INTEGER}, #{item.month,jdbcType=INTEGER}, #{item.value,jdbcType=VARCHAR}, 
+        #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, 
+        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT})
+      </foreach>
+    </if>
+  </insert>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+</mapper>

@@ -2,18 +2,15 @@ package com.kuyun.eam.rpc.service.impl;
 
 import cn.jiguang.common.utils.StringUtils;
 import com.google.gson.Gson;
+import com.kuyun.common.excel.ExcelUtils;
+import com.kuyun.common.util.NumberUtil;
+import com.kuyun.common.util.RedisUtil;
 import com.kuyun.eam.alarm.AbstractAlarmHandler;
 import com.kuyun.eam.alarm.AlarmTypeFactory;
 import com.kuyun.eam.alarm.OfflineHandler;
-import com.kuyun.eam.common.constant.AlarmType;
-import com.kuyun.eam.common.constant.CollectStatus;
-import com.kuyun.eam.common.constant.DataType;
-import com.kuyun.eam.common.constant.TicketStatus;
+import com.kuyun.eam.common.constant.*;
 import com.kuyun.eam.dao.model.*;
-import com.kuyun.eam.pojo.GanttData;
-import com.kuyun.eam.pojo.IDS;
-import com.kuyun.eam.pojo.Position;
-import com.kuyun.eam.pojo.Positions;
+import com.kuyun.eam.pojo.*;
 import com.kuyun.eam.pojo.sensor.SensorData;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.pojo.tree.*;
@@ -30,6 +27,9 @@ import com.kuyun.upms.rpc.api.UpmsCompanyService;
 import javafx.util.Pair;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.math.NumberUtils;
+import org.apache.commons.lang.time.DateUtils;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,8 +37,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -150,6 +154,27 @@ public class EamApiServiceImpl implements EamApiService {
 
     @Autowired
     private UpmsApiService upmsApiService;
+
+    @Autowired
+    private EamCodeValueService eamCodeValueService;
+
+    @Autowired
+    private EamGrmVariableDataByDayService eamGrmVariableDataByDayService;
+
+    @Autowired
+    private EamGrmVariableDataByMonthService eamGrmVariableDataByMonthService;
+
+    @Autowired
+    private  EamGrmVariableDataByYearService eamGrmVariableDataByYearService;
+
+    @Autowired
+    private EamPartsService eamPartsService;
+
+    @Autowired
+    private EamPartsCategoryService eamPartsCategoryService;
+
+    private HashMap<String, Integer> categoryMap = new HashMap<>();
+
 
     @Override
     public List<EamMaintenanceVO> selectMaintenance(EamMaintenanceVO maintenanceVO) {
@@ -1793,7 +1818,6 @@ public class EamApiServiceImpl implements EamApiService {
 
         int count = upmsCompanyService.insertSelective(company);
 
-
         upmsApiService.handleCustomerReg(adminName, adminName, adminPassword, null, null, company.getName());
 
         return count;
@@ -1872,6 +1896,96 @@ public class EamApiServiceImpl implements EamApiService {
         return result;
     }
 
+    @Override
+    public List<EamCodeValue> getCodeValues(String category) {
+        EamCodeValueExample example = new EamCodeValueExample();
+        example.createCriteria().andCategoryEqualTo(category).andDeleteFlagEqualTo(Boolean.FALSE);
+
+        return eamCodeValueService.selectByExample(example);
+    }
+
+    @Override
+    public EamCodeValue getCodeValue(String category, String codeValue) {
+        EamCodeValueExample example = new EamCodeValueExample();
+        example.createCriteria().andCategoryEqualTo(category).
+                andCodeValueEqualTo(codeValue)
+                .andDeleteFlagEqualTo(Boolean.FALSE);
+
+        return eamCodeValueService.selectFirstByExample(example);
+    }
+
+    @Override
+    public List<EamCodeValueVo> summaryIndustry() {
+        return eamApiMapper.summaryIndustry();
+    }
+
+    @Override
+    public List<EamCodeValueVo> summaryProductLineType() {
+        return eamApiMapper.summaryProductLineType();
+    }
+
+    @Override
+    public List<EamCodeValueVo> summaryState() {
+        return eamApiMapper.summaryState();
+    }
+
+    @Override
+    public List<EamCountryValueVo> summaryCountry() {
+        return eamApiMapper.summaryCountry();
+    }
+
+
+    private String getCodeValueFromRedis(String codeType, String codeName){
+        return RedisUtil.get(codeType + "::" + org.apache.commons.lang.StringUtils.trim(codeName));
+    }
+
+    private boolean isTrue(String value){
+        boolean result = false;
+        if ("是".equals(org.apache.commons.lang.StringUtils.trim(value))){
+            result = true;
+        }
+        return result;
+    }
+
+    @Override
+    public void importCompanyData(List<CompanyBean> companyBeanList, UpmsUserCompany currentCompany) {
+        List<UpmsCompany> upmsCompanyList = new ArrayList<>();
+        if (companyBeanList != null && !companyBeanList.isEmpty()){
+            for (CompanyBean companyBean : companyBeanList){
+                UpmsCompany upmsCompany = new UpmsCompany();
+                upmsCompany.setParentId(currentCompany.getCompanyId());
+                upmsCompany.setName(companyBean.getName());
+                upmsCompany.setYear(companyBean.getYear());
+                upmsCompany.setTaskNumber(companyBean.getTaskNumber());
+
+                upmsCompany.setState(getCodeValueFromRedis(CodeValueType.STATE, companyBean.getState()));
+
+                upmsCompany.setCountry(companyBean.getCountry());
+                upmsCompany.setProvince(companyBean.getProvince());
+                upmsCompany.setCity(companyBean.getCity());
+
+                upmsCompany.setIndustry(getCodeValueFromRedis(CodeValueType.INDUSTRY, companyBean.getIndustry()));
+                upmsCompany.setProductLineType(getCodeValueFromRedis(CodeValueType.PRODUCT_LINE_TYPE, companyBean.getProductLineType()));
+                upmsCompany.setHasCxg(isTrue(companyBean.getHasCxg()));
+                upmsCompany.setHasZnlk(isTrue(companyBean.getHasZnlk()));
+                upmsCompany.setProductLineCapacity(getCodeValueFromRedis(CodeValueType.PRODUCT_LINE_CAPACITY, companyBean.getProductLineCapacity()));
+                upmsCompany.setPackagingMaterial(getCodeValueFromRedis(CodeValueType.PACKAGING_MATERIAL, companyBean.getPackagingMaterial()));
+                upmsCompany.setProductSpec(getCodeValueFromRedis(CodeValueType.PRODUCT_SPEC, companyBean.getProductSpec()));
+                upmsCompany.setMajorEquipment(companyBean.getMajorEquipment());
+                upmsCompany.setComment(companyBean.getComment());
+                upmsCompany.setDeleteFlag(Boolean.FALSE);
+                upmsCompany.setUpdateTime(new Date());
+                upmsCompany.setCreateTime(new Date());
+
+                upmsCompanyList.add(upmsCompany);
+            }
+            _log.info("upload CompanyBean size:{}", upmsCompanyList.size());
+            upmsCompanyService.batchInsert(upmsCompanyList);
+        }
+
+
+    }
+
     private void addNewGantt(List<GanttData> result, Integer dataElementId, Date date) {
         GanttData ganttData = new GanttData();
         ganttData.setDataElementId(dataElementId);
@@ -1889,6 +2003,339 @@ public class EamApiServiceImpl implements EamApiService {
             }
         }
         return result;
+    }
+
+    @Override
+    public HashMap summaryIndustryAndCompanyName(){
+        int MAX_COUNT = 3;
+
+        List<EamIndustryValueVo> industryValueVos = eamApiMapper.summaryIndustryAndCompanyName();
+
+        List<EamCodeValue> allIndustry = getAllIndustry();
+
+        HashMap<String, List<EamIndustryValueVo>> map = new HashMap<>();
+
+        for (EamCodeValue code : allIndustry){
+            String industryValue = code.getCodeValue();
+            String industryName = code.getCodeName();
+
+            map.put(industryValue, new ArrayList<>());
+
+            for (EamIndustryValueVo vo : industryValueVos){
+
+                if (industryValue.equalsIgnoreCase(vo.getIndustry())){
+
+                    List<EamIndustryValueVo> list = map.get(industryValue);
+
+                    if (list.size() < MAX_COUNT){
+                        list.add(vo);
+                    }else {
+                        break;
+                    }
+                }
+            }
+        }
+        return map;
+    }
+
+    private List<EamCodeValue> getAllIndustry(){
+        EamCodeValueExample example = new EamCodeValueExample();
+        example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE).andCategoryEqualTo(CodeValueType.INDUSTRY);
+        return eamCodeValueService.selectByExample(example);
+    }
+
+    @Override
+    public void statisticJob(){
+        String date = LocalDateTime.now().minusDays(2).format(DateTimeFormatter.ISO_LOCAL_DATE);
+
+        List<EamGrmVariable> grmVariableDataList = eamApiMapper.selectStatisticGrmVariable();
+        if (grmVariableDataList != null && !grmVariableDataList.isEmpty()){
+            for(EamGrmVariable variable : grmVariableDataList){
+                Pair<EamGrmVariableDataHistory, EamGrmVariableDataHistory> pair = getFirstAndLastData(variable, date);
+                if (pair != null){
+                    EamGrmVariableDataHistory first = pair.getKey();
+                    EamGrmVariableDataHistory last = pair.getValue();
+
+                    BigDecimal value = NumberUtil.toBigDecimal(last.getValue()).subtract(NumberUtil.toBigDecimal(first.getValue()));
+
+                    _log.info("ProductLineId:{}", variable.getProductLineId());
+                    _log.info("DataElementId:{}", variable.getDataElementId());
+                    _log.info("value:{}", value);
+
+
+                    //1. handle daily data
+                    handleGrmVariableDataByDay(variable, value, date);
+
+                    //2. handle month data
+                    handleGrmVariableDataByMonth(variable, value);
+
+                    //3. handle year data
+                    handleGrmVariableDataByYear(variable, value);
+
+                }
+            }
+        }
+
+    }
+
+    @Override
+    public void importPartData(List<PartBean> partBeanList, UpmsUserCompany company, EamEquipment equipment) {
+        List<EamParts> parts = new ArrayList<>();
+        if (partBeanList != null && !partBeanList.isEmpty()){
+            for (PartBean partBean : partBeanList){
+                EamParts part = new EamParts();
+                part.setEquipmentId(equipment.getEquipmentId());
+                part.setCategoryId(getPartCategoryId(partBean.getCategoryName(), company));
+                part.setSeqId(NumberUtil.toInteger(partBean.getSeqId()));
+                part.setName(partBean.getName());
+                part.setModel(partBean.getModel());
+                part.setSymbol(partBean.getSymbol());
+                part.setMaterial(partBean.getMaterial());
+                part.setQuantity(NumberUtil.toInteger(partBean.getQuantity()));
+                part.setCompanyId(company.getCompanyId());
+                part.setCreateTime(new Date());
+                part.setUpdateTime(new Date());
+                part.setDeleteFlag(Boolean.FALSE);
+
+                parts.add(part);
+            }
+        }
+
+        eamPartsService.batchInsert(parts);
+    }
+
+    private int getPartCategoryId(String name, UpmsUserCompany company){
+        int categoryId = -1;
+
+        if (categoryMap.containsKey(name)){
+            categoryId = categoryMap.get(name);
+        }else {
+            EamPartsCategoryExample example = new EamPartsCategoryExample();
+            example.createCriteria().andNameEqualTo(name).andDeleteFlagEqualTo(Boolean.FALSE);
+            EamPartsCategory category = eamPartsCategoryService.selectFirstByExample(example);
+            if (category != null){
+                categoryId = category.getCategoryId();
+            }else {
+                category = new EamPartsCategory();
+                category.setName(name);
+                category.setCreateTime(new Date());
+                category.setUpdateTime(new Date());
+                category.setCompanyId(company.getCompanyId());
+                category.setDeleteFlag(Boolean.FALSE);
+
+                eamPartsCategoryService.insertSelective(category);
+                categoryId = category.getCategoryId();
+            }
+
+            categoryMap.put(name, categoryId);
+        }
+
+
+        return categoryId;
+    }
+
+    private void handleGrmVariableDataByYear(EamGrmVariable variable, BigDecimal value) {
+        EamGrmVariableDataByYear data = getEamGrmVariableDataByYear(variable);
+        if (data != null){
+            BigDecimal newValue = NumberUtil.toBigDecimal(data.getValue()).add(value);
+            data.setValue(newValue.toString());
+            data.setUpdateTime(new Date());
+            eamGrmVariableDataByYearService.updateByPrimaryKeySelective(data);
+        }else {
+            data = buildEamGrmVariableDataByYear(variable, value);
+            eamGrmVariableDataByYearService.insertSelective(data);
+        }
+    }
+
+    private EamGrmVariableDataByYear buildEamGrmVariableDataByYear(EamGrmVariable variable, BigDecimal value){
+        EamGrmVariableDataByYear data = new EamGrmVariableDataByYear();
+        data.setProductLineId(variable.getProductLineId());
+        data.setEquipmentId(variable.getEquipmentId());
+        data.setDataGroupId(variable.getDataGroupId());
+        data.setEquipmentDataGroupId(variable.getEquipmentDataGroupId());
+        data.setDataElementId(variable.getDataElementId());
+        data.setValue(value.toString());
+        data.setYear(LocalDateTime.now().getYear());
+        data.setCreateTime(new Date());
+        data.setUpdateTime(new Date());
+        data.setDeleteFlag(Boolean.FALSE);
+        return data;
+    }
+
+    private EamGrmVariableDataByYear getEamGrmVariableDataByYear(EamGrmVariable variable){
+        int year = LocalDateTime.now().getYear();
+        EamGrmVariableDataByYearExample example = new EamGrmVariableDataByYearExample();
+        EamGrmVariableDataByYearExample.Criteria criteria = example.createCriteria();
+
+        criteria.andProductLineIdEqualTo(variable.getProductLineId());
+        if (org.apache.commons.lang.StringUtils.isNotEmpty(variable.getEquipmentId())){
+            criteria.andEquipmentIdEqualTo(variable.getEquipmentId());
+        }
+
+        if (variable.getDataGroupId() != null){
+            criteria.andDataGroupIdEqualTo(variable.getDataGroupId());
+        }
+
+        if (variable.getEquipmentDataGroupId() != null){
+            criteria.andEquipmentDataGroupIdEqualTo(variable.getEquipmentDataGroupId());
+        }
+
+        if (variable.getDataElementId() != null){
+            criteria.andDataElementIdEqualTo(variable.getDataElementId());
+        }
+
+        criteria.andYearEqualTo(year);
+        criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+
+        return eamGrmVariableDataByYearService.selectFirstByExample(example);
+    }
+
+    private void handleGrmVariableDataByMonth(EamGrmVariable variable, BigDecimal value) {
+        EamGrmVariableDataByMonth data = getEamGrmVariableDataByMoth(variable);
+        if (data != null){
+            BigDecimal newValue = NumberUtil.toBigDecimal(data.getValue()).add(value);
+            data.setValue(newValue.toString());
+            data.setUpdateTime(new Date());
+            eamGrmVariableDataByMonthService.updateByPrimaryKeySelective(data);
+        }else{
+            data = buildEamGrmVariableDataByMoth(variable, value);
+            eamGrmVariableDataByMonthService.insertSelective(data);
+        }
+
+    }
+
+    private EamGrmVariableDataByMonth getEamGrmVariableDataByMoth(EamGrmVariable variable){
+        int year = LocalDateTime.now().getYear();
+        int month = LocalDateTime.now().getMonthValue();
+        EamGrmVariableDataByMonthExample example = new EamGrmVariableDataByMonthExample();
+        EamGrmVariableDataByMonthExample.Criteria criteria = example.createCriteria();
+
+        criteria.andProductLineIdEqualTo(variable.getProductLineId());
+        if (org.apache.commons.lang.StringUtils.isNotEmpty(variable.getEquipmentId())){
+            criteria.andEquipmentIdEqualTo(variable.getEquipmentId());
+        }
+
+        if (variable.getDataGroupId() != null){
+            criteria.andDataGroupIdEqualTo(variable.getDataGroupId());
+        }
+
+        if (variable.getEquipmentDataGroupId() != null){
+            criteria.andEquipmentDataGroupIdEqualTo(variable.getEquipmentDataGroupId());
+        }
+
+        if (variable.getDataElementId() != null){
+            criteria.andDataElementIdEqualTo(variable.getDataElementId());
+        }
+
+        criteria.andYearEqualTo(year);
+        criteria.andMonthEqualTo(month);
+        criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+
+        return eamGrmVariableDataByMonthService.selectFirstByExample(example);
+    }
+
+    private EamGrmVariableDataByMonth buildEamGrmVariableDataByMoth(EamGrmVariable variable, BigDecimal value){
+        EamGrmVariableDataByMonth data = new EamGrmVariableDataByMonth();
+        data.setProductLineId(variable.getProductLineId());
+        data.setEquipmentId(variable.getEquipmentId());
+        data.setDataGroupId(variable.getDataGroupId());
+        data.setEquipmentDataGroupId(variable.getEquipmentDataGroupId());
+        data.setDataElementId(variable.getDataElementId());
+        data.setValue(value.toString());
+        data.setYear(LocalDateTime.now().getYear());
+        data.setMonth(LocalDateTime.now().getMonthValue());
+        data.setCreateTime(new Date());
+        data.setUpdateTime(new Date());
+        data.setDeleteFlag(Boolean.FALSE);
+        return data;
+    }
+
+    private void handleGrmVariableDataByDay(EamGrmVariable variable, BigDecimal value, String argDate){
+        EamGrmVariableDataByDay data = new EamGrmVariableDataByDay();
+        data.setProductLineId(variable.getProductLineId());
+        data.setEquipmentId(variable.getEquipmentId());
+        data.setDataGroupId(variable.getDataGroupId());
+        data.setEquipmentDataGroupId(variable.getEquipmentDataGroupId());
+        data.setDataElementId(variable.getDataElementId());
+        data.setValue(value.toString());
+        Date date = null;
+        try {
+            date = DateUtils.parseDate(argDate, new String[]{"yyyy-MM-dd"});
+        } catch (ParseException e) {
+
+        }
+        data.setDate(date);
+        data.setCreateTime(new Date());
+        data.setUpdateTime(new Date());
+        data.setDeleteFlag(Boolean.FALSE);
+
+        eamGrmVariableDataByDayService.insertSelective(data);
+
+    }
+
+
+    private Pair<EamGrmVariableDataHistory, EamGrmVariableDataHistory> getFirstAndLastData(EamGrmVariable variable, String date){
+        Pair<EamGrmVariableDataHistory, EamGrmVariableDataHistory> pair = null;
+        try {
+            Date startDate = DateUtils.parseDate(date + " 00:00:00", new String[]{"yyyy-MM-dd HH:mm:ss"});
+
+            Date endDate = DateUtils.parseDate(date + " 24:59:59", new String[]{"yyyy-MM-dd HH:mm:ss"});
+
+
+            EamGrmVariableDataHistoryExample example = new EamGrmVariableDataHistoryExample();
+            EamGrmVariableDataHistoryExample.Criteria criteria = example.createCriteria();
+            criteria.andProductLineIdEqualTo(variable.getProductLineId())
+                    .andDataElementIdEqualTo(variable.getDataElementId())
+                    .andDeleteFlagEqualTo(Boolean.FALSE)
+                    .andUpdateTimeBetween(startDate, endDate);
+            example.setOrderByClause("update_time asc");
+
+            if (eamGrmVariableDataHistoryService != null){
+
+                List<EamGrmVariableDataHistory> dataHistoryList = eamGrmVariableDataHistoryService.selectByExample(example);
+
+                if (dataHistoryList != null && !dataHistoryList.isEmpty()){
+
+                    _log.info("productLineId:{}", variable.getProductLineId());
+                    _log.info("dataElementId:{}", variable.getDataElementId());
+                    _log.info("data size:{}", dataHistoryList.size());
+
+                    EamGrmVariableDataHistory firstData = null;
+                    for (EamGrmVariableDataHistory history : dataHistoryList){
+                        double value = NumberUtils.toDouble(history.getValue());
+
+                        if (value != 0){
+                            firstData = history;
+                            break;
+                        }
+                    }
+
+                    EamGrmVariableDataHistory lastData = null;
+                    for (int i = dataHistoryList.size() - 1; i > 0; i--){
+                        EamGrmVariableDataHistory history = dataHistoryList.get(i);
+
+                        double value = NumberUtils.toDouble(history.getValue());
+
+                        if (value != 0){
+                            lastData = history;
+                            break;
+                        }
+                    }
+
+                    if (firstData != null && lastData != null){
+                        pair = new Pair<>(firstData, lastData);
+                    }
+
+                }
+            }
+
+
+        } catch (Exception e) {
+            _log.error("getFirstAndLastData: {}", e.getMessage());
+        }
+
+        return pair;
+
     }
 
 }

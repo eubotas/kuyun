@@ -7,12 +7,40 @@ import com.kuyun.eam.dao.model.EamParts;
  */
 public class EamPartVO extends EamParts {
     private String categoryName;
+    private String productLineId;
+    private String taskNumber;
+    private String serialNumber;
 
     private Integer limit;
 
     private Integer offset;
 
     private String orderByClause;
+
+    public String getProductLineId() {
+        return productLineId;
+    }
+
+    public void setProductLineId(String productLineId) {
+        this.productLineId = productLineId;
+    }
+
+
+    public String getTaskNumber() {
+        return taskNumber;
+    }
+
+    public void setTaskNumber(String taskNumber) {
+        this.taskNumber = taskNumber;
+    }
+
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
 
     public Integer getLimit() {
         return limit;

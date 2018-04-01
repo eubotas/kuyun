@@ -33,8 +33,8 @@
             <input id="name" type="text" class="form-control" name="name" maxlength="20">
         </div>
         <div class="form-group">
-            <label for="company">公司名称</label>
-            <input id="company" type="text" class="form-control" name="company" maxlength="20">
+            <label for="companyBean">公司名称</label>
+            <input id="companyBean" type="text" class="form-control" name="companyBean" maxlength="20">
         </div>
 
         <div class="form-group">

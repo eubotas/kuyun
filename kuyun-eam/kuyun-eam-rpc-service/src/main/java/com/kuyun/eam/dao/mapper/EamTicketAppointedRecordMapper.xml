@@ -102,11 +102,11 @@
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    update eam_ticket_appointed_record set delete_flag = 1 
+    delete from eam_ticket_appointed_record
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamTicketAppointedRecordExample">
-    update eam_ticket_appointed_record set delete_flag = 1 
+    delete from eam_ticket_appointed_record
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

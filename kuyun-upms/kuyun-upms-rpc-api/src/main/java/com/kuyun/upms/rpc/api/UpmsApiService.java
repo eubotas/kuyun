@@ -127,5 +127,9 @@ public interface UpmsApiService {
 
     int createUser(UpmsUser upmsUser, UpmsUserCompany upmsUserCompany);
 
+    List<UpmsCompany> selectCompanies(UpmsCompanyVo companyVo);
+
+    Long countCompanies(UpmsCompanyVo companyVo);
+
     List<UpmsOrgUserVo> selectOrgUsersByOrgNameCompanyId(UpmsOrgUserVo orgUserVo);
 }

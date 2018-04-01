@@ -130,6 +130,16 @@
     <bean id="eamGrmVariableDataHistoryServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamGrmVariableDataHistoryServiceImpl"/>
     <dubbo:service interface="com.kuyun.eam.rpc.api.EamGrmVariableDataHistoryService" ref="eamGrmVariableDataHistoryServiceImpl" timeout="10000"/>
 
+    <bean id="eamGrmVariableDataByDayServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamGrmVariableDataByDayServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamGrmVariableDataByDayService" ref="eamGrmVariableDataByDayServiceImpl" timeout="10000"/>
+
+    <bean id="eamGrmVariableDataByMonthServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamGrmVariableDataByMonthServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamGrmVariableDataByMonthService" ref="eamGrmVariableDataByMonthServiceImpl" timeout="10000"/>
+
+    <bean id="eamGrmVariableDataByYearServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamGrmVariableDataByYearServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamGrmVariableDataByYearService" ref="eamGrmVariableDataByYearServiceImpl" timeout="10000"/>
+
+
     <bean id="eamProductLineServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamProductLineServiceImpl"/>
     <dubbo:service interface="com.kuyun.eam.rpc.api.EamProductLineService" ref="eamProductLineServiceImpl" timeout="10000"/>
 
@@ -167,5 +177,8 @@
     <!-- base相关 -->
     <bean id="eamCodeValueServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamCodeValueServiceImpl" />
     <dubbo:service interface="com.kuyun.eam.rpc.api.EamCodeValueService" ref="eamCodeValueServiceImpl" timeout="10000" />
+
+    <bean id="eamFileTemplateServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamFileTemplateServiceImpl" />
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamFileTemplateService" ref="eamFileTemplateServiceImpl" timeout="10000" />
 
 </beans>

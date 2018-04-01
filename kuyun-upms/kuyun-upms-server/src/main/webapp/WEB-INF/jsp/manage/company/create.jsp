@@ -44,7 +44,7 @@
 function createSubmit() {
     $.ajax({
         type: 'post',
-        url: '${basePath}/manage/company/create',
+        url: '${basePath}/manage/companyBean/create',
         data: $('#createForm').serialize(),
         beforeSend: function() {
             if ($('#name').val() == '') {

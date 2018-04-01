@@ -9,6 +9,8 @@ public class EamMaintainPlan extends BaseEntity implements Serializable {
 
     private Integer equipmentCategoryId;
 
+    private String productLineId;
+
     private String equipmentId;
 
     /**
@@ -60,8 +62,6 @@ public class EamMaintainPlan extends BaseEntity implements Serializable {
      */
     private Integer remindTime;
 
-    private String productLineId;
-
     private static final long serialVersionUID = 1L;
 
     public Integer getPlanId() {
@@ -78,6 +78,14 @@ public class EamMaintainPlan extends BaseEntity implements Serializable {
 
     public void setEquipmentCategoryId(Integer equipmentCategoryId) {
         this.equipmentCategoryId = equipmentCategoryId;
+    }
+
+    public String getProductLineId() {
+        return productLineId;
+    }
+
+    public void setProductLineId(String productLineId) {
+        this.productLineId = productLineId;
     }
 
     public String getEquipmentId() {
@@ -144,14 +152,6 @@ public class EamMaintainPlan extends BaseEntity implements Serializable {
         this.remindTime = remindTime;
     }
 
-    public String getProductLineId() {
-        return productLineId;
-    }
-
-    public void setProductLineId(String productLineId) {
-        this.productLineId = productLineId;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -160,6 +160,7 @@ public class EamMaintainPlan extends BaseEntity implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", planId=").append(planId);
         sb.append(", equipmentCategoryId=").append(equipmentCategoryId);
+        sb.append(", productLineId=").append(productLineId);
         sb.append(", equipmentId=").append(equipmentId);
         sb.append(", workContent=").append(workContent);
         sb.append(", orgId=").append(orgId);
@@ -168,7 +169,6 @@ public class EamMaintainPlan extends BaseEntity implements Serializable {
         sb.append(", maintainFrequencyQuantity=").append(maintainFrequencyQuantity);
         sb.append(", maintainType=").append(maintainType);
         sb.append(", remindTime=").append(remindTime);
-        sb.append(", productLineId=").append(productLineId);
         sb.append("]");
         return sb.toString();
     }
@@ -187,6 +187,7 @@ public class EamMaintainPlan extends BaseEntity implements Serializable {
         EamMaintainPlan other = (EamMaintainPlan) that;
         return (this.getPlanId() == null ? other.getPlanId() == null : this.getPlanId().equals(other.getPlanId()))
             && (this.getEquipmentCategoryId() == null ? other.getEquipmentCategoryId() == null : this.getEquipmentCategoryId().equals(other.getEquipmentCategoryId()))
+            && (this.getProductLineId() == null ? other.getProductLineId() == null : this.getProductLineId().equals(other.getProductLineId()))
             && (this.getEquipmentId() == null ? other.getEquipmentId() == null : this.getEquipmentId().equals(other.getEquipmentId()))
             && (this.getWorkContent() == null ? other.getWorkContent() == null : this.getWorkContent().equals(other.getWorkContent()))
             && (this.getOrgId() == null ? other.getOrgId() == null : this.getOrgId().equals(other.getOrgId()))
@@ -200,8 +201,7 @@ public class EamMaintainPlan extends BaseEntity implements Serializable {
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()))
-            && (this.getProductLineId() == null ? other.getProductLineId() == null : this.getProductLineId().equals(other.getProductLineId()));
+            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()));
     }
 
     @Override
@@ -210,6 +210,7 @@ public class EamMaintainPlan extends BaseEntity implements Serializable {
         int result = 1;
         result = prime * result + ((getPlanId() == null) ? 0 : getPlanId().hashCode());
         result = prime * result + ((getEquipmentCategoryId() == null) ? 0 : getEquipmentCategoryId().hashCode());
+        result = prime * result + ((getProductLineId() == null) ? 0 : getProductLineId().hashCode());
         result = prime * result + ((getEquipmentId() == null) ? 0 : getEquipmentId().hashCode());
         result = prime * result + ((getWorkContent() == null) ? 0 : getWorkContent().hashCode());
         result = prime * result + ((getOrgId() == null) ? 0 : getOrgId().hashCode());
@@ -224,7 +225,6 @@ public class EamMaintainPlan extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
-        result = prime * result + ((getProductLineId() == null) ? 0 : getProductLineId().hashCode());
         return result;
     }
 }

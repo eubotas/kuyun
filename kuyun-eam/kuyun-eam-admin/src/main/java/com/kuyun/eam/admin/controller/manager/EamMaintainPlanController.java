@@ -5,6 +5,7 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.NotNullValidator;
+import com.kuyun.eam.common.constant.CodeValueType;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
@@ -260,7 +261,7 @@ public class EamMaintainPlanController extends BaseController {
 
 		EamCodeValueExample eamCodeValueExample = new EamCodeValueExample();
 		EamCodeValueExample.Criteria codeCriteria = eamCodeValueExample.createCriteria();
-		codeCriteria.andCategoryEqualTo("MAINTAIN_PLAN_UNIT");
+		codeCriteria.andCategoryEqualTo(CodeValueType.MAINTAIN_PLAN_UNIT);
 		codeCriteria.andDeleteFlagEqualTo(Boolean.FALSE);
 		List<EamCodeValue> units = eamCodeValueService.selectByExample(eamCodeValueExample);
 		modelMap.addAttribute("units", units);
