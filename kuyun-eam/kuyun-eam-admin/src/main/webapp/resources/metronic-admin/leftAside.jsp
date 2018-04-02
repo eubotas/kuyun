@@ -321,6 +321,93 @@
                     </ul>
                 </div>
             </li>
+            <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+                <a  href="#" class="m-menu__link m-menu__toggle">
+                    <i class="m-menu__link-icon flaticon-interface-1"></i>
+                    <span class="m-menu__link-text">
+										仓储管理
+									</span>
+                    <i class="m-menu__ver-arrow la la-angle-right"></i>
+                </a>
+                <div class="m-menu__submenu ">
+                    <span class="m-menu__arrow"></span>
+                    <ul class="m-menu__subnav">
+
+                        <li class="m-menu__item " aria-haspopup="true" >
+                            <a  href="${eamPath}/manage/warehouse/index" class="m-menu__link ">
+                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                    <span></span>
+                                </i>
+                                <span class="m-menu__link-text">
+													仓库管理
+												</span>
+                            </a>
+                        </li>
+
+                        <li class="m-menu__item " aria-haspopup="true" >
+                            <a  href="${eamPath}/manage/location/index" class="m-menu__link ">
+                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                    <span></span>
+                                </i>
+                                <span class="m-menu__link-text">
+													仓位管理
+												</span>
+                            </a>
+                        </li>
+
+                        <li class="m-menu__item " aria-haspopup="true" >
+                            <a  href="${eamPath}/manage/inventory/index" class="m-menu__link ">
+                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                    <span></span>
+                                </i>
+                                <span class="m-menu__link-text">
+													库存管理
+												</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </li>
+
+            <li class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+                <a  href="#" class="m-menu__link m-menu__toggle">
+                    <i class="m-menu__link-icon flaticon-interface-1"></i>
+                    <span class="m-menu__link-text">
+										备品备件
+									</span>
+                    <i class="m-menu__ver-arrow la la-angle-right"></i>
+                </a>
+                <div class="m-menu__submenu ">
+                    <span class="m-menu__arrow"></span>
+                    <ul class="m-menu__subnav">
+
+                        <li class="m-menu__item " aria-haspopup="true" >
+                            <a  href="${eamPath}/manage/part/index" class="m-menu__link ">
+                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                    <span></span>
+                                </i>
+                                <span class="m-menu__link-text">
+													配件管理
+												</span>
+                            </a>
+                        </li>
+
+                        <li class="m-menu__item " aria-haspopup="true" >
+                            <a  href="${eamPath}/manage/part/category/index" class="m-menu__link ">
+                                <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                    <span></span>
+                                </i>
+                                <span class="m-menu__link-text">
+													配件类别管理
+												</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </li>
+
             <li class="m-menu__section">
                 <h4 class="m-menu__section-text">
                     设备运营管理
@@ -340,17 +427,17 @@
                     <ul class="m-menu__subnav">
 
                         <li class="m-menu__item " aria-haspopup="true" >
-                            <a  href="${eamPath}/manage/alarm/index" class="m-menu__link ">
+                            <a  href="${eamPath}/manage/collect/index" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>
                                 <span class="m-menu__link-text">
-													设备监控
+													数据采集
 												</span>
                             </a>
                         </li>
                         <li class="m-menu__item " aria-haspopup="true" >
-                            <a  href="${eamPath}/manage/equipmentmodel/property/index" class="m-menu__link ">
+                            <a  href="${eamPath}/manage/alarm/index" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>

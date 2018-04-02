@@ -143,6 +143,12 @@
 
             $('#createButton').click(function(){
                 $("#addLocationFormContainer").modal("show");
+                ajaxGet('${basePath}/manage/location/create', function (responseData) {
+                    if (responseData) {
+                        var data = responseData;
+                        addOptionToHtmlSelect(null, 'add_warehouseId', responseData.warehouseList);
+                    }
+                });
             });
 
             $('#deleteButton').click(function(){
@@ -224,6 +230,7 @@
                     // 赋值
                     $("#edit_id").val(data.location.locationId);
                     $("#edit_category").val(data.location.category);
+                    addOptionToHtmlSelect(data.location.warehouseId, 'edit_warehouseId', responseData.warehouseList);
                 }
             });
         }

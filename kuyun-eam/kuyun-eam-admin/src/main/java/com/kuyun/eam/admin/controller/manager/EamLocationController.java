@@ -15,6 +15,7 @@ import com.kuyun.eam.rpc.api.EamLocationService;
 import com.kuyun.eam.rpc.api.EamWarehouseService;
 import com.kuyun.eam.vo.EamLocationVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
+import com.kuyun.upms.common.JspUtil;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -112,11 +113,13 @@ public class EamLocationController extends BaseController {
 	@ApiOperation(value = "新增仓位")
 	@RequiresPermissions("eam:location:create")
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public String create(ModelMap modelMap) {
+    @ResponseBody
+    public Object create() {
 		EamWarehouseExample warehousesExample = new EamWarehouseExample();
 		List<EamWarehouse> warehouseList = eamWarehouseService.selectByExample(warehousesExample);
-		modelMap.addAttribute("warehouseList", warehouseList);
-		return "/manage/location/create.jsp";
+		Map map = new HashMap();
+        map.put("warehouseList", JspUtil.getMapList(warehouseList,"warehouseId","name"));
+		return map;
 	}
 
 	@ApiOperation(value = "新增仓位")

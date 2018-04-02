@@ -92,17 +92,18 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group m-form__group row">
-							<label for="templateID_warehouseId">仓库</label>
+							<label for="templateID_warehouseId">仓库名</label>
                             <select id="templateID_warehouseId" name="warehouseId" style="width: 100%" />
                         </div>
 
 						<div class="form-group m-form__group row">
-							<label for="templateID_inventoryId">Code</label>
-                            <select id="templateID_inventoryId" name="inventoryId" style="width: 100%"/>
+							<label for="templateID_locationId">位置名</label>
+                            <select id="templateID_locationId" name="locationId" style="width: 100%"/>
 						</div>
 
+                        <div class="form-group m-form__group row"> </div>
 						<div class="form-group m-form__group row">
-							<label for="templateID_partId">名称</label>
+							<label for="templateID_partId">备件名称</label>
                             <select id="templateID_partId" name="partId" style="width: 100%" />
 						</div>
 
@@ -153,6 +154,14 @@
 
             $('#createButton').click(function(){
                 $("#addCodeValueFormContainer").modal("show");
+                ajaxGet('${basePath}/manage/inventory/create', function (responseData) {
+                    if (responseData) {
+                        var data = responseData;
+                        addOptionToHtmlSelect(null, 'add_warehouseId', data.warehouseList);
+                        addOptionToHtmlSelect(null, 'add_locationId', data.locationList);
+                        addOptionToHtmlSelect(null, 'add_partId', data.partList);
+                    }
+                });
             });
 
             $('#deleteButton').click(function(){
@@ -234,9 +243,9 @@
                     var data = responseData.inventory;
                     // 赋值
                     $("#edit_id").val(data.inventoryId);
-                    addOptionToHtmlSelect(data.warehouseId, 'warehouseId', warehouseList);
-                    addOptionToHtmlSelect(data.inventoryId, 'inventoryId', inventoryList);
-                    addOptionToHtmlSelect(data.partId, 'partId', partList);
+                    addOptionToHtmlSelect(data.warehouseId, 'edit_warehouseId', responseData.warehouseList);
+                    addOptionToHtmlSelect(data.locationId, 'edit_locationId', responseData.locationList);
+                    addOptionToHtmlSelect(data.partId, 'edit_partId', responseData.partList);
                     $("#edit_quantity").val(data.quantity);
                     $("#edit_inTaskDate").val(data.inTaskDate);
                 }

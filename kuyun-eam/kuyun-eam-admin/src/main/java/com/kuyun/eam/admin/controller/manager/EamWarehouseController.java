@@ -124,10 +124,12 @@ public class EamWarehouseController extends BaseController {
 	@ApiOperation(value = "修改仓库")
 	@RequiresPermissions("eam:warehouse:update")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-	public String update(@PathVariable("id") int id, ModelMap modelMap) {
+    @ResponseBody
+    public Object update(@PathVariable("id") int id) {
 		EamWarehouse warehouses = eamWarehouseService.selectByPrimaryKey(id);
-		modelMap.put("warehouse", warehouses);
-		return "/manage/warehouse/update.jsp";
+        Map map = new HashMap();
+        map.put("warehouse", warehouses);
+		return map;
 	}
 
 	@ApiOperation(value = "修改仓库")

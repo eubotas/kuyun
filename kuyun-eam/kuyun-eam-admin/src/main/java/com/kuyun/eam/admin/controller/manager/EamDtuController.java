@@ -137,10 +137,12 @@ public class EamDtuController extends BaseController {
 	@ApiOperation(value = "修改DTU")
 	@RequiresPermissions("eam:dtu:update")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-	public String update(@PathVariable("id") String id, ModelMap modelMap) {
+    @ResponseBody
+    public Object update(@PathVariable("id") String id, ModelMap modelMap) {
+	    Map map= new HashMap();
 		EamDtu dtu = eamDtuService.selectByPrimaryKey(id);
-		modelMap.put("dtu", dtu);
-		return "/manage/dtu/update.jsp";
+        map.put("dtu", dtu);
+		return map;
 	}
 
 	@ApiOperation(value = "修改DTU")

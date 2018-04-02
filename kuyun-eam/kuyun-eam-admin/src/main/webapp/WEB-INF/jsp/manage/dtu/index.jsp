@@ -120,6 +120,39 @@
             </div>
         </form>
     </div>
+
+
+    <div class="modal fade" id="equipmentDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <form id="equipmentForm" class="m-form m-form--fit m-form--label-align-right">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            接入设备
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">
+												&times;
+											</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table id="tableEquipment"></table>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            取消
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="equipmentSubmit('equipmentForm');">
+                            提交
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
     <!--end::Modal-->
 
 
@@ -189,7 +222,8 @@
         function actionFormatter(value, row, index) {
             return [
                 '<shiro:hasPermission name="eam:dtu:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="eam:dtu:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>'
+                '<shiro:hasPermission name="eam:dtu:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="eam:dtu:update"><a id="connectEquipment" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="接入设备">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
             ].join('');
         }
 
@@ -233,12 +267,16 @@
         window.actionEvents = {
             'click #update': function (e, value, row, index) {
                 updateAction(row);
-
             },
             'click #delete': function (e, value, row, index) {
                 var rows = new Array();
                 rows.push(row);
                 deleteActionImpl(rows);
+            },
+            'click #connectEquipment': function (e, value, row, index) {
+                $('#equipmentDialog').modal('show');
+                selectedDtuId = row['dtuId'];
+                equipmentAction();
             }
         };
 
@@ -255,6 +293,128 @@
             }//end else
         }
 
+        var selectedDtuId, showEquipmentDialog;
+        var tableEquipment = $('#tableEquipment');
+        var equipmentOpt={
+            url: '${basePath}/manage/dtu/equipment/list',
+            queryParams:function(p){
+                return {    dtuId : selectedDtuId,
+                    limit : p.limit,
+                    offset: p.offset,
+                    search: p.search,
+                    sort:   p.sort,
+                    order:  p.order
+                }
+            },
+            striped: true,
+            minimumCountColumns: 2,
+            clickToSelect: true,
+            detailFormatter: 'detailFormatter',
+            pagination: true,
+            paginationLoop: false,
+            sidePagination: 'server',
+            silentSort: false,
+            smartDisplay: false,
+            escape: true,
+            searchOnEnterKey: true,
+            idField: 'equipmentId',
+            maintainSelected: true,
+            columns: [
+                {field: 'ck', checkbox: true,  formatter : checkFormatter},
+                {field: 'name', title: '设备名称', sortable: true, align: 'center'},
+                {field: 'number', title: '设备编号'},
+                {field: 'salveId', title: '从站地址', editable: {
+                        type: 'text',
+                        validate: function (value) {
+                            if ($.trim(value) == '') {
+                                return '从站地址不能为空!';
+                            }
+                        }
+                    }, align: 'center'}
+            ],
+            onEditableSave: function(field, row, oldValue, $el) {
+                console.log(JSON.stringify(row));
+                // field:修改的欄位
+                // row:修改後的資料(JSON Object)
+                // oldValue:修改前的值
+                // -------------------------------------------------
+                // 可用ajax方法去更新資料
+                $.ajax({
+                    type: "post",
+                    url: '${basePath}/manage/dtu/equipment/write',
+                    data: JSON.stringify(row),
+                    contentType:"application/json",
+                    dataType: 'JSON',
+                    success: function(data, status) {
+                        if (status == "success") {
+                            alert(data.data);
+                        }
+                    },
+                    error: function() {
+                        alert('写入数据失败');
+                    },
+                    complete: function() {
+
+                    }
+
+                });
+                // -------------------------------------------------
+            }
+        };
+
+        function equipmentAction() {
+            $("#equipmentDialog").modal("show");
+            if(showEquipmentDialog){
+                tableEquipment.bootstrapTable( 'refresh', equipmentOpt);
+            }else{
+                showEquipmentDialog = true;
+                tableEquipment.bootstrapTable(equipmentOpt);
+            }
+        }
+
+        function equipmentSubmit() {
+            var rows = tableEquipment.bootstrapTable('getSelections');
+            if(!selectedDtuId)
+                swWarn('出错了, 请刷新重试！');
+            else if (rows.length == 0) {
+                swWarn('请至少选择一条记录！');
+            }else {
+                var ids = new Array();
+                for (var i in rows) {
+                    if (rows[i].equipmentId == null){
+                        alert("请选择一记录！");
+                        return false;
+                    }
+                }
+                for (var i in rows) {
+                    ids.push(rows[i].equipmentId);
+                }
+            ajaxPostData('${basePath}/manage/dtu/connect', {dtuId: selectedDtuId, eIds: ids.join("::")}, function(result) {
+                if (result.code != 1) {
+                    if (result.data instanceof Array) {
+                        $.each(result.data, function(index, value) {
+                            swSuccess(value.errorMsg);
+                        });
+                    } else {
+                        swSuccess(result.data.errorMsg);
+                    }
+                } else {
+                    $("#equipmentDialog").modal("hide");
+                    $table.bootstrapTable('refresh');
+                }
+            });
+            }
+        }
+
+
+        function checkFormatter(value, row, index) {
+            if (row.checked == true)
+                return {
+                    disabled : false,//设置是否可用
+                    checked : true//设置选中
+                };
+            return value;
+        }
     </script>
 
 

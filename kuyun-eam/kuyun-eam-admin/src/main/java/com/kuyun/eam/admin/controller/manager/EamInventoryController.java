@@ -6,6 +6,7 @@ import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.vo.EamInventoryVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
+import com.kuyun.upms.common.JspUtil;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -100,25 +101,25 @@ public class EamInventoryController extends BaseController {
 	@ApiOperation(value = "新增库存")
 	@RequiresPermissions("eam:inventory:create")
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public String create(ModelMap modelMap) {
+    @ResponseBody
+    public Object create() {
+        Map modelMap =new HashMap();
 		handleModelMap(modelMap);
-
-
-		return "/manage/inventory/create.jsp";
+		return modelMap;
 	}
 
-	private void handleModelMap(ModelMap modelMap) {
+	private void handleModelMap(Map modelMap) {
 		EamWarehouseExample warehousesExample = new EamWarehouseExample();
 		List<EamWarehouse> warehouseList = eamWarehouseService.selectByExample(warehousesExample);
-		modelMap.addAttribute("warehouseList", warehouseList);
+		modelMap.put("warehouseList", JspUtil.getMapList(warehouseList,"warehouseId","name"));
 
 		EamLocationExample locationExample = new EamLocationExample();
 		List<EamLocation> locationList = eamLocationService.selectByExample(locationExample);
-		modelMap.addAttribute("locationList", locationList);
+		modelMap.put("locationList", JspUtil.getMapList(locationList,"locationId","comments"));
 
 		EamPartsExample partsExample = new EamPartsExample();
 		List<EamParts> partList = eamPartsService.selectByExample(partsExample);
-		modelMap.addAttribute("partList", partList);
+		modelMap.put("partList", JspUtil.getMapList(partList,"partId","name"));
 	}
 
 	@ApiOperation(value = "新增库存")
@@ -150,11 +151,13 @@ public class EamInventoryController extends BaseController {
 	@ApiOperation(value = "修改库存")
 	@RequiresPermissions("eam:inventory:update")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-	public String update(@PathVariable("id") int id, ModelMap modelMap) {
+    @ResponseBody
+    public Object update(@PathVariable("id") int id) {
+        Map modelMap =new HashMap();
 		EamInventory inventory = eamInventoryService.selectByPrimaryKey(id);
 		modelMap.put("inventory", inventory);
 		handleModelMap(modelMap);
-		return "/manage/inventory/update.jsp";
+		return modelMap;
 	}
 
 	@ApiOperation(value = "修改库存")

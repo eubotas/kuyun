@@ -16,6 +16,7 @@ import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.vo.EamEquipmentModelPropertiesVO;
 import com.kuyun.eam.vo.EamEquipmentVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
+import com.kuyun.upms.common.JspUtil;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -126,14 +127,15 @@ public class EamEquipmentController extends BaseController {
 	@ApiOperation(value = "新增设备")
 	@RequiresPermissions("eam:equipment:create")
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public String create( ModelMap modelMap) {
+    @ResponseBody
+    public Object create() {
 		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
-
-		modelMap.put("equipmentModels", getEamEquipmentModels(company));
-		modelMap.put("equipmentCategories", getEamEquipmentCategories(company));
+        Map modelMap = new HashMap();
+		modelMap.put("equipmentModels", JspUtil.getMapList(getEamEquipmentModels(company),"equipmentModelId","name"));
+		modelMap.put("equipmentCategories", JspUtil.getMapList(getEamEquipmentCategories(company),"equipmentCategoryId","name"));
 		modelMap.put("uploadServer", fileUploaderService.getServerInfo());
 
-		return "/manage/equipment/create.jsp";
+		return modelMap;
 	}
 
 	private List<EamEquipmentCategory> getEamEquipmentCategories(UpmsUserCompany company) {
@@ -200,15 +202,16 @@ public class EamEquipmentController extends BaseController {
 	@ApiOperation(value = "修改设备")
 	@RequiresPermissions("eam:equipment:update")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-	public String update(@PathVariable("id") String id, ModelMap modelMap) {
+    @ResponseBody
+    public Object update(@PathVariable("id") String id) {
 		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
-
-		modelMap.put("equipmentModels", getEamEquipmentModels(company));
-		modelMap.put("equipmentCategories", getEamEquipmentCategories(company));
+        Map modelMap = new HashMap();
+        modelMap.put("equipmentModels", JspUtil.getMapList(getEamEquipmentModels(company),"equipmentModelId","name"));
+        modelMap.put("equipmentCategories", JspUtil.getMapList(getEamEquipmentCategories(company),"equipmentCategoryId","name"));
 
 		EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(id);
 		modelMap.put("equipment", equipment);
-		return "/manage/equipment/update.jsp";
+		return modelMap;
 	}
 
 	@ApiOperation(value = "获取设备信息")
@@ -242,14 +245,16 @@ public class EamEquipmentController extends BaseController {
 	@ApiOperation(value = "设备接入")
 	@RequiresPermissions("eam:equipment:update")
 	@RequestMapping(value = "/connect/{id}", method = RequestMethod.GET)
-	public String connect(@PathVariable("id") String id, ModelMap modelMap) {
+    @ResponseBody
+    public Object connect(@PathVariable("id") String id) {
+        Map modelMap = new HashMap();
 		EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(id);
 		EamEquipmentModel equipmentModel = equipment.getEamEquipmentModel();
 		EamProtocol protocol = protocolService.selectByPrimaryKey(equipmentModel.getProtocolId());
 		modelMap.put("equipment", equipment);
 		modelMap.put("equipmentModel", equipmentModel);
 		modelMap.put("protocol", protocol);
-		return "/manage/equipment/connect.jsp";
+		return modelMap;
 	}
 
 	@ApiOperation(value = "设备接入")
