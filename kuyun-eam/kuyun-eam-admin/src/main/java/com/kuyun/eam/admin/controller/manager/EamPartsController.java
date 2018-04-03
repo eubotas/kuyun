@@ -150,11 +150,12 @@ public class EamPartsController extends BaseController {
 	@ApiOperation(value = "修改配件")
 	@RequiresPermissions("eam:part:update")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-	public String update(@PathVariable("id") int id, ModelMap modelMap) {
+	@ResponseBody
+	public Object update(@PathVariable("id") int id) {
 		EamParts parts = eamPartsService.selectByPrimaryKey(id);
-		modelMap.put("part", parts);
-		handleModelMap(modelMap);
-		return "/manage/part/update.jsp";
+		Map map = new HashMap();
+		map.put("part", parts);
+		return map;
 	}
 
 	@ApiOperation(value = "修改配件")

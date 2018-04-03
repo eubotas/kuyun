@@ -229,7 +229,8 @@
                     var data = responseData;
                     // 赋值
                     $("#edit_id").val(data.location.locationId);
-                    $("#edit_category").val(data.location.category);
+                    $("#edit_number").val(data.location.number);
+                    $("#edit_comments").val(data.location.comments);
                     addOptionToHtmlSelect(data.location.warehouseId, 'edit_warehouseId', responseData.warehouseList);
                 }
             });

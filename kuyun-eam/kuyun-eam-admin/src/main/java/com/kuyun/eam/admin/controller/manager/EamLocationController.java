@@ -151,10 +151,16 @@ public class EamLocationController extends BaseController {
 	@ApiOperation(value = "修改仓位")
 	@RequiresPermissions("eam:location:update")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-	public String update(@PathVariable("id") int id, ModelMap modelMap) {
+	@ResponseBody
+	public Object update(@PathVariable("id") int id) {
 		EamLocation locations = eamLocationService.selectByPrimaryKey(id);
-		modelMap.put("location", locations);
-		return "/manage/location/update.jsp";
+		Map map= new HashMap();
+		map.put("location", locations);
+
+		EamWarehouseExample warehousesExample = new EamWarehouseExample();
+		List<EamWarehouse> warehouseList = eamWarehouseService.selectByExample(warehousesExample);
+		map.put("warehouseList", JspUtil.getMapList(warehouseList,"warehouseId","name"));
+		return map;
 	}
 
 	@ApiOperation(value = "修改仓位")

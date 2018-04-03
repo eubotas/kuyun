@@ -245,6 +245,7 @@
                     // 赋值
                     $("#edit_id").val(data.warehouse.warehouseId);
                     $("#edit_name").val(data.warehouse.name);
+                    $("#edit_comments").val(data.warehouse.comments);
                 }
             });
         }

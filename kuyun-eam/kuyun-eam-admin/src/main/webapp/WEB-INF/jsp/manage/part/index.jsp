@@ -168,6 +168,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <input type="hidden" id="in_id" name="partId">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">
                             取消
                         </button>
@@ -211,6 +212,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
+                        <input type="hidden" id="out_id" name="partId">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">
                             取消
                         </button>
@@ -314,13 +316,11 @@
                         else{
                             submitForm($('#edit_id').val());
                         }
-
                     }
                 });
             }
 
             return {
-                // public functions
                 init: function (formid) {
                     createForm(formid);
                 }
@@ -357,7 +357,7 @@
                 if (responseData) {
                     var data = responseData;
                     // 赋值
-                    $("#edit_id").val(data.part.id);
+                    $("#edit_id").val(data.part.partId);
                     $("#edit_name").val(data.part.name);
                     $("#edit_categoryId").val(data.part.categoryId);
                     $("#edit_spec").val(data.part.spec);
@@ -374,11 +374,11 @@
             },
             'click #intask': function (e, value, row, index) {
                 $('#intaskDialog').modal('show');
-                getPart();
+                getPart(row);
             },
             'click #outtask': function (e, value, row, index) {
                 $('#outtaskDialog').modal('show');
-                getPart();
+                getPart(row);
             },
             'click #delete': function (e, value, row, index) {
                 var rows = new Array();
@@ -426,11 +426,13 @@
             });
         }
 
-        function getPart(){
+        function getPart(row){
             selectPartId = row["partId"];
             ajaxGet('${basePath}/manage/part/getPart/' + selectPartId, function (responseData) {
                 if (responseData) {
                     var data = responseData;
+                    $("#in_id").val(data.part.partId);
+                    $("#out_id").val(data.part.partId);
                     $("#name").val(data.part.name);
                     $("#out_name").val(data.part.name);
                 }
