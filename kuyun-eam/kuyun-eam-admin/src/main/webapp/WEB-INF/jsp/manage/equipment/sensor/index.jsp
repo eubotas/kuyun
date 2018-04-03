@@ -31,7 +31,7 @@
                     <li class="m-nav__item">
                         <a href="" class="m-nav__link">
 											<span class="m-nav__link-text">
-												设备类别列表
+												Sensor列表
 											</span>
                         </a>
                     </li>
@@ -50,13 +50,7 @@
         <div class="m-portlet__body">
             <div id="toolbar">
                 <div>
-                    <shiro:hasPermission name="eam:equipmentCategory:create"><a href="#" id="createButton" class="btn btn-outline-primary m-btn m-btn--icon m-btn--icon-only" title="新建">
-                        <i class="la la-plus"></i>
-                    </a></shiro:hasPermission>
 
-                    <shiro:hasPermission name="eam:equipmentCategory:delete"><a href="#" id="deleteButton" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only" title="删除">
-                        <i class="la la-remove"></i>
-                    </a></shiro:hasPermission>
 
                     <div class="m-separator m-separator--dashed d-xl-none"></div>
                 </div>
@@ -65,52 +59,6 @@
             <table id="table" data-toolbar="#toolbar"></table>
         </div>
     </div>
-
-    <!--begin::Modal-->
-    <div id="addEquipmentCategoryFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-    </div>
-
-    <div id="editEquipmentCategoryFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-    </div>
-
-    <div class="modal fade" id="template-equipmentCategory-addEditForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <form id="templateID_Form" class="m-form m-form--fit m-form--label-align-right">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">
-                            templateTitleName_设备类别
-                        </h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">
-												&times;
-											</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group m-form__group row">
-                            <label for="templateID_name">类型名称</label>
-                            <input id="templateID_name" type="text" class="form-control" name="name" maxlength="200">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="hidden" id="templateID_id" name="id">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                            取消
-                        </button>
-                        <button type="submit" class="btn btn-primary" id="templateID_submit">
-                            提交
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-    <!--end::Modal-->
-
 
 </content>
 
@@ -121,23 +69,6 @@
     <script>
         $(document).ready(function()
         {
-            //codes works on all bootstrap modal windows in application
-            $('.modal').on('hidden.bs.modal', function(e)
-            {
-                jQuery("#add_Form").validate().resetForm();
-                jQuery("#edit_Form").validate().resetForm();
-            }) ;
-            generateAddEditForm('template-equipmentCategory-addEditForm', 'add_,edit_', null, null, 'addEquipmentCategoryFormContainer,editEquipmentCategoryFormContainer');
-            FormWidgets.init('add');
-            FormWidgets.init('edit');
-
-            $('#createButton').click(function(){
-                $("#addEquipmentCategoryFormContainer").modal("show");
-            });
-
-            $('#deleteButton').click(function(){
-                deleteAction();
-            });
 
         });
 
@@ -145,7 +76,7 @@
         $(function() {
             // bootstrap table初始化
             $table.bootstrapTable({
-                url: '${basePath}/manage/equipment/inventory/list/${equipment.equipmentId}',
+                url: '${basePath}/manage/equipment/sensor/list/${equipment.equipmentId}',
                 striped: true,
                 search: true,
                 searchAlign: 'left',
@@ -182,7 +113,7 @@
                     // 可用ajax方法去更新資料
                     $.ajax({
                         type: "post",
-                        url: '${basePath}/manage/equipment/inventory/write',
+                        url: '${basePath}/manage/equipment/sensor/write',
                         data: JSON.stringify(row),
                         contentType:"application/json",
                         dataType: 'JSON',
@@ -245,10 +176,10 @@
                     sendErrorInfo(result);
                 } else {
                     if(formId=='add_Form') {
-                        toastr.success("新建设备类别成功");
+                        toastr.success("新建Sensor成功");
                         $('#addEquipmentCategoryFormContainer').modal('toggle');
                     }else{
-                        toastr.success("编辑设备类别成功");
+                        toastr.success("编辑Sensor成功");
                         $('#editEquipmentCategoryFormContainer').modal('toggle');
                     }
                     $table.bootstrapTable('refresh');
@@ -290,7 +221,7 @@
             if (rows.length == 0) {
                 swWarn("请至少选择一条记录");
             }else {
-                deleteRows(rows,'equipment_model_property_id','${basePath}/manage/equipment/inventory/delete/', "请确认要删除选中的设备类别吗？", "删除设备类别成功");
+                deleteRows(rows,'equipment_model_property_id','${basePath}/manage/equipment/inventory/delete/', "请确认要删除选中的Sensor吗？", "删除Sensor成功");
             }//end else
         }
 

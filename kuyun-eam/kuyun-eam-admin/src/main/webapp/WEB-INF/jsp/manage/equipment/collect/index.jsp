@@ -50,13 +50,8 @@
         <div class="m-portlet__body">
             <div id="toolbar">
                 <div>
-                    <shiro:hasPermission name="eam:equipment:create"><a href="#" id="createButton" class="btn btn-outline-primary m-btn m-btn--icon m-btn--icon-only" title="新建">
-                        <i class="la la-plus"></i>
-                    </a></shiro:hasPermission>
-
-                    <shiro:hasPermission name="eam:equipment:delete"><a href="#" id="deleteButton" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only" title="删除">
-                        <i class="la la-remove"></i>
-                    </a></shiro:hasPermission>
+                    <shiro:hasPermission name="eam:equipment:update"><a class="waves-effect waves-button" href="javascript:;" onclick="startAction()"><i class="zmdi zmdi-plus"></i> 启动</a></shiro:hasPermission>
+                    <shiro:hasPermission name="eam:equipment:update"><a class="waves-effect waves-button" href="javascript:;" onclick="stopAction()"><i class="zmdi zmdi-close"></i> 停止</a></shiro:hasPermission>
 
                     <div class="m-separator m-separator--dashed d-xl-none"></div>
                 </div>
@@ -72,29 +67,7 @@
 
 <pageResources>
 
-
     <script>
-        $(document).ready(function()
-        {
-            //codes works on all bootstrap modal windows in application
-            $('.modal').on('hidden.bs.modal', function(e)
-            {
-                jQuery("#add_Form").validate().resetForm();
-                jQuery("#edit_Form").validate().resetForm();
-            }) ;
-            generateAddEditForm('template-equipment-addEditForm', 'add_,edit_', null, null, 'addEquipmentFormContainer,editEquipmentFormContainer');
-            FormWidgets.init('add');
-            FormWidgets.init('edit');
-
-            $('#createButton').click(function(){
-                $("#addEquipmentFormContainer").modal("show");
-            });
-
-            $('#deleteButton').click(function(){
-                deleteAction();
-            });
-
-        });
 
         var $table = $('#table');
         $(function() {
@@ -131,98 +104,63 @@
         // 格式化操作按钮
         function actionFormatter(value, row, index) {
             return [
-                '<shiro:hasPermission name="eam:equipment:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="eam:equipment:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>'
+                '<shiro:hasPermission name="eam:equipment:update"><a class="update" href="javascript:;" onclick="startAction()" data-toggle="tooltip" title="start">启动</a></shiro:hasPermission>　',
+                '<shiro:hasPermission name="eam:equipment:update"><a class="delete" href="javascript:;" onclick="stopAction()" data-toggle="tooltip" title="stop">停止</a></shiro:hasPermission>'
             ].join('');
         }
 
-        var FormWidgets = function () {
-            var createForm = function (formid) {
-                $("#"+formid+"_Form").validate({
-                    // define validation rules
-                    rules: {
-                        name: {
-                            required: true
-                        }
-                    },
-                    submitHandler: function (form) {
-                        if(formid == 'add')
-                            submitForm();
-                        else{
-                            submitForm($('#edit_id').val());
-                        }
 
+        function startAction() {
+            var rows = $table.bootstrapTable('getSelections');
+            if (rows.length == 0) {
+                swWarn("请至少选择一条记录");
+            } else {
+                var ids = new Array();
+                for (var i in rows) {
+                    ids.push(rows[i].equipmentId);
+                }
+                var json = { "ids" : ids.join("-")};
+
+                $.ajax({
+                    type: 'post',
+                    url: '${basePath}/manage/equipment/collect/start/',
+                    data: JSON.stringify(json),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function(result) {
+                        $table.bootstrapTable('refresh');
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        swWarn(textStatus);
                     }
                 });
             }
-
-            return {
-                // public functions
-                init: function (formid) {
-                    createForm(formid);
-                }
-            };
-        }();
-
-        function submitForm(id) {
-            var targetUrl='${basePath}/manage/equipment/create';
-            var formId='add_Form';
-            if(id){
-                targetUrl='${basePath}/manage/equipment/update/'+id;
-                formId='edit_Form';
-            }
-            ajaxPost(targetUrl, formId, function(result) {
-                if (result.code != 1) {
-                    sendErrorInfo(result);
-                } else {
-                    if(formId=='add_Form') {
-                        toastr.success("新建设备成功");
-                        $('#addEquipmentFormContainer').modal('toggle');
-                    }else{
-                        toastr.success("编辑设备成功");
-                        $('#editEquipmentFormContainer').modal('toggle');
-                    }
-                    $table.bootstrapTable('refresh');
-                }
-            });
         }
-
-
-        function updateAction(row) {
-            jQuery("#editEquipmentFormContainer").modal("show");
-            ajaxGet('${basePath}/manage/equipment/update/' + row["equipmentId"], function (responseData) {
-                if (responseData) {
-                    var data = responseData;
-                    // 赋值
-                    $("#edit_id").val(data.equipment.equipmentId);
-                    $("#edit_name").val(data.equipment.name);
-                }
-            });
-        }
-
-        window.actionEvents = {
-            'click #update': function (e, value, row, index) {
-                updateAction(row);
-
-            },
-            'click #delete': function (e, value, row, index) {
-                var rows = new Array();
-                rows.push(row);
-                deleteActionImpl(rows);
-            }
-        };
-
-        function deleteAction(){
+        function stopAction() {
             var rows = $table.bootstrapTable('getSelections');
-            deleteActionImpl(rows);
-        }
-
-        function deleteActionImpl(rows) {
             if (rows.length == 0) {
                 swWarn("请至少选择一条记录");
-            }else {
-                deleteRows(rows,'equipmentId','${basePath}/manage/equipment/delete/', "请确认要删除选中的设备吗？", "删除设备成功");
-            }//end else
+            } else {
+                var ids = new Array();
+                for (var i in rows) {
+                    ids.push(rows[i].equipmentId);
+                }
+                var json = { "ids" : ids.join("::")};
+
+                $.ajax({
+                    type: 'post',
+                    url: '${basePath}/manage/equipment/collect/stop/',
+                    data: JSON.stringify(json),
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function(result) {
+                        $table.bootstrapTable('refresh');
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        swWarn(textStatus);
+                    }
+                });
+            }
         }
 
     </script>

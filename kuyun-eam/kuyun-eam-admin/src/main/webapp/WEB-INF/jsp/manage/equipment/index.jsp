@@ -246,15 +246,15 @@
         }
 
         function submitForm(id) {
-            var uploads = galleryUploader.getUploads({
-                status: qq.status.UPLOAD_SUCCESSFUL
-            });
-            var fileUuids = '';
-            for (var i = 0; i < uploads.length; i++) {
-                fileUuids = fileUuids + uploads[i].uuid + ",";
-            }
-            console.log("fileUuids = " + fileUuids);
-            $('#imagePath').val(fileUuids);
+            // var uploads = galleryUploader.getUploads({
+            //     status: qq.status.UPLOAD_SUCCESSFUL
+            // });
+            // var fileUuids = '';
+            // for (var i = 0; i < uploads.length; i++) {
+            //     fileUuids = fileUuids + uploads[i].uuid + ",";
+            // }
+            // console.log("fileUuids = " + fileUuids);
+            // $('#imagePath').val(fileUuids);
 
             var targetUrl='${basePath}/manage/equipment/create';
             var formId='add_Form';
