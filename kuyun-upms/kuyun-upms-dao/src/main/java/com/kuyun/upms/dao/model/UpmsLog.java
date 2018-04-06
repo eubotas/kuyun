@@ -1,8 +1,9 @@
 package com.kuyun.upms.dao.model;
 
+import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
 
-public class UpmsLog implements Serializable {
+public class UpmsLog extends BaseEntity implements Serializable {
     /**
      * 编号
      *
@@ -253,6 +254,7 @@ public class UpmsLog implements Serializable {
             && (this.getUserAgent() == null ? other.getUserAgent() == null : this.getUserAgent().equals(other.getUserAgent()))
             && (this.getIp() == null ? other.getIp() == null : this.getIp().equals(other.getIp()))
             && (this.getPermissions() == null ? other.getPermissions() == null : this.getPermissions().equals(other.getPermissions()))
+            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
             && (this.getParameter() == null ? other.getParameter() == null : this.getParameter().equals(other.getParameter()))
             && (this.getResult() == null ? other.getResult() == null : this.getResult().equals(other.getResult()));
     }
@@ -273,6 +275,7 @@ public class UpmsLog implements Serializable {
         result = prime * result + ((getUserAgent() == null) ? 0 : getUserAgent().hashCode());
         result = prime * result + ((getIp() == null) ? 0 : getIp().hashCode());
         result = prime * result + ((getPermissions() == null) ? 0 : getPermissions().hashCode());
+        result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getParameter() == null) ? 0 : getParameter().hashCode());
         result = prime * result + ((getResult() == null) ? 0 : getResult().hashCode());
         return result;

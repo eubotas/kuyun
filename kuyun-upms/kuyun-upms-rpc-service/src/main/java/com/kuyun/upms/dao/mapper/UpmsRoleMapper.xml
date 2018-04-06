@@ -7,8 +7,9 @@
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="ctime" jdbcType="BIGINT" property="ctime" />
+    <result column="company_id" jdbcType="BIGINT" property="companyId" />
     <result column="orders" jdbcType="BIGINT" property="orders" />
-    <result column="company_id" jdbcType="INTEGER" property="companyId" />
+    <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    role_id, name, title, description, ctime, orders, company_id
+    role_id, name, title, description, ctime, company_id, orders, delete_flag
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.upms.dao.model.UpmsRoleExample" resultMap="BaseResultMap">
     select
@@ -111,11 +112,11 @@
   </delete>
   <insert id="insert" parameterType="com.kuyun.upms.dao.model.UpmsRole">
     insert into upms_role (role_id, name, title, 
-      description, ctime, orders, 
-      company_id)
+      description, ctime, company_id, 
+      orders, delete_flag)
     values (#{roleId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
-      #{description,jdbcType=VARCHAR}, #{ctime,jdbcType=BIGINT}, #{orders,jdbcType=BIGINT}, 
-      #{companyId,jdbcType=INTEGER})
+      #{description,jdbcType=VARCHAR}, #{ctime,jdbcType=BIGINT}, #{companyId,jdbcType=BIGINT}, 
+      #{orders,jdbcType=BIGINT}, #{deleteFlag,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.upms.dao.model.UpmsRole">
     insert into upms_role
@@ -135,11 +136,14 @@
       <if test="ctime != null">
         ctime,
       </if>
+      <if test="companyId != null">
+        company_id,
+      </if>
       <if test="orders != null">
         orders,
       </if>
-      <if test="companyId != null">
-        company_id,
+      <if test="deleteFlag != null">
+        delete_flag,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -158,11 +162,14 @@
       <if test="ctime != null">
         #{ctime,jdbcType=BIGINT},
       </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=BIGINT},
+      </if>
       <if test="orders != null">
         #{orders,jdbcType=BIGINT},
       </if>
-      <if test="companyId != null">
-        #{companyId,jdbcType=INTEGER},
+      <if test="deleteFlag != null">
+        #{deleteFlag,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -190,11 +197,14 @@
       <if test="record.ctime != null">
         ctime = #{record.ctime,jdbcType=BIGINT},
       </if>
+      <if test="record.companyId != null">
+        company_id = #{record.companyId,jdbcType=BIGINT},
+      </if>
       <if test="record.orders != null">
         orders = #{record.orders,jdbcType=BIGINT},
       </if>
-      <if test="record.companyId != null">
-        company_id = #{record.companyId,jdbcType=INTEGER},
+      <if test="record.deleteFlag != null">
+        delete_flag = #{record.deleteFlag,jdbcType=BIT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -208,8 +218,9 @@
       title = #{record.title,jdbcType=VARCHAR},
       description = #{record.description,jdbcType=VARCHAR},
       ctime = #{record.ctime,jdbcType=BIGINT},
+      company_id = #{record.companyId,jdbcType=BIGINT},
       orders = #{record.orders,jdbcType=BIGINT},
-      company_id = #{record.companyId,jdbcType=INTEGER}
+      delete_flag = #{record.deleteFlag,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -229,11 +240,14 @@
       <if test="ctime != null">
         ctime = #{ctime,jdbcType=BIGINT},
       </if>
+      <if test="companyId != null">
+        company_id = #{companyId,jdbcType=BIGINT},
+      </if>
       <if test="orders != null">
         orders = #{orders,jdbcType=BIGINT},
       </if>
-      <if test="companyId != null">
-        company_id = #{companyId,jdbcType=INTEGER},
+      <if test="deleteFlag != null">
+        delete_flag = #{deleteFlag,jdbcType=BIT},
       </if>
     </set>
     where role_id = #{roleId,jdbcType=INTEGER}
@@ -244,20 +258,21 @@
       title = #{title,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
       ctime = #{ctime,jdbcType=BIGINT},
+      company_id = #{companyId,jdbcType=BIGINT},
       orders = #{orders,jdbcType=BIGINT},
-      company_id = #{companyId,jdbcType=INTEGER}
+      delete_flag = #{deleteFlag,jdbcType=BIT}
     where role_id = #{roleId,jdbcType=INTEGER}
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
             insert into upms_role  (role_id, name, title, 
-        description, ctime, orders, 
-        company_id)
+        description, ctime, company_id, 
+        orders, delete_flag)
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.roleId,jdbcType=INTEGER}, #{item.name,jdbcType=VARCHAR}, #{item.title,jdbcType=VARCHAR}, 
-        #{item.description,jdbcType=VARCHAR}, #{item.ctime,jdbcType=BIGINT}, #{item.orders,jdbcType=BIGINT}, 
-        #{item.companyId,jdbcType=INTEGER})
+        #{item.description,jdbcType=VARCHAR}, #{item.ctime,jdbcType=BIGINT}, #{item.companyId,jdbcType=BIGINT}, 
+        #{item.orders,jdbcType=BIGINT}, #{item.deleteFlag,jdbcType=BIT})
       </foreach>
     </if>
   </insert>

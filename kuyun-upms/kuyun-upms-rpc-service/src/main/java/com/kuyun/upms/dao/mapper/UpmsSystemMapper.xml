@@ -13,6 +13,7 @@
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="ctime" jdbcType="BIGINT" property="ctime" />
     <result column="orders" jdbcType="BIGINT" property="orders" />
+    <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -74,7 +75,7 @@
   </sql>
   <sql id="Base_Column_List">
     system_id, icon, banner, theme, basepath, status, name, title, description, ctime, 
-    orders
+    orders, delete_flag
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.upms.dao.model.UpmsSystemExample" resultMap="BaseResultMap">
     select
@@ -118,11 +119,13 @@
     insert into upms_system (system_id, icon, banner, 
       theme, basepath, status, 
       name, title, description, 
-      ctime, orders)
+      ctime, orders, delete_flag
+      )
     values (#{systemId,jdbcType=INTEGER}, #{icon,jdbcType=VARCHAR}, #{banner,jdbcType=VARCHAR}, 
       #{theme,jdbcType=VARCHAR}, #{basepath,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, 
       #{name,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
-      #{ctime,jdbcType=BIGINT}, #{orders,jdbcType=BIGINT})
+      #{ctime,jdbcType=BIGINT}, #{orders,jdbcType=BIGINT}, #{deleteFlag,jdbcType=BIT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.upms.dao.model.UpmsSystem">
     insert into upms_system
@@ -160,6 +163,9 @@
       <if test="orders != null">
         orders,
       </if>
+      <if test="deleteFlag != null">
+        delete_flag,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="systemId != null">
@@ -194,6 +200,9 @@
       </if>
       <if test="orders != null">
         #{orders,jdbcType=BIGINT},
+      </if>
+      <if test="deleteFlag != null">
+        #{deleteFlag,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -239,6 +248,9 @@
       <if test="record.orders != null">
         orders = #{record.orders,jdbcType=BIGINT},
       </if>
+      <if test="record.deleteFlag != null">
+        delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -256,7 +268,8 @@
       title = #{record.title,jdbcType=VARCHAR},
       description = #{record.description,jdbcType=VARCHAR},
       ctime = #{record.ctime,jdbcType=BIGINT},
-      orders = #{record.orders,jdbcType=BIGINT}
+      orders = #{record.orders,jdbcType=BIGINT},
+      delete_flag = #{record.deleteFlag,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -294,6 +307,9 @@
       <if test="orders != null">
         orders = #{orders,jdbcType=BIGINT},
       </if>
+      <if test="deleteFlag != null">
+        delete_flag = #{deleteFlag,jdbcType=BIT},
+      </if>
     </set>
     where system_id = #{systemId,jdbcType=INTEGER}
   </update>
@@ -308,7 +324,8 @@
       title = #{title,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
       ctime = #{ctime,jdbcType=BIGINT},
-      orders = #{orders,jdbcType=BIGINT}
+      orders = #{orders,jdbcType=BIGINT},
+      delete_flag = #{deleteFlag,jdbcType=BIT}
     where system_id = #{systemId,jdbcType=INTEGER}
   </update>
   <insert id="batchInsert">
@@ -316,13 +333,15 @@
             insert into upms_system  (system_id, icon, banner, 
         theme, basepath, status, 
         name, title, description, 
-        ctime, orders)
+        ctime, orders, delete_flag
+        )
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.systemId,jdbcType=INTEGER}, #{item.icon,jdbcType=VARCHAR}, #{item.banner,jdbcType=VARCHAR}, 
         #{item.theme,jdbcType=VARCHAR}, #{item.basepath,jdbcType=VARCHAR}, #{item.status,jdbcType=TINYINT}, 
         #{item.name,jdbcType=VARCHAR}, #{item.title,jdbcType=VARCHAR}, #{item.description,jdbcType=VARCHAR}, 
-        #{item.ctime,jdbcType=BIGINT}, #{item.orders,jdbcType=BIGINT})
+        #{item.ctime,jdbcType=BIGINT}, #{item.orders,jdbcType=BIGINT}, #{item.deleteFlag,jdbcType=BIT}
+        )
       </foreach>
     </if>
   </insert>

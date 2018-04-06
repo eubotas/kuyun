@@ -58,12 +58,6 @@ $(function() {
 	});
 });
 
-
-// 格式化时间
-function timeFormatter(value , row, index) {
-	return new Date(value).toLocaleString();
-}
-
 </script>
 </body>
 </html>

@@ -5,6 +5,7 @@
     <id column="user_company_id" jdbcType="INTEGER" property="userCompanyId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
+    <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -65,7 +66,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    user_company_id, user_id, company_id
+    user_company_id, user_id, company_id, delete_flag
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.upms.dao.model.UpmsUserCompanyExample" resultMap="BaseResultMap">
     select
@@ -106,10 +107,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.upms.dao.model.UpmsUserCompany">
-    insert into upms_user_company (user_company_id, user_id, company_id
-      )
-    values (#{userCompanyId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}
-      )
+    insert into upms_user_company (user_company_id, user_id, company_id, 
+      delete_flag)
+    values (#{userCompanyId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}, 
+      #{deleteFlag,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.upms.dao.model.UpmsUserCompany">
     insert into upms_user_company
@@ -123,6 +124,9 @@
       <if test="companyId != null">
         company_id,
       </if>
+      <if test="deleteFlag != null">
+        delete_flag,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userCompanyId != null">
@@ -133,6 +137,9 @@
       </if>
       <if test="companyId != null">
         #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="deleteFlag != null">
+        #{deleteFlag,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -154,6 +161,9 @@
       <if test="record.companyId != null">
         company_id = #{record.companyId,jdbcType=INTEGER},
       </if>
+      <if test="record.deleteFlag != null">
+        delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -163,7 +173,8 @@
     update upms_user_company
     set user_company_id = #{record.userCompanyId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
-      company_id = #{record.companyId,jdbcType=INTEGER}
+      company_id = #{record.companyId,jdbcType=INTEGER},
+      delete_flag = #{record.deleteFlag,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -177,23 +188,27 @@
       <if test="companyId != null">
         company_id = #{companyId,jdbcType=INTEGER},
       </if>
+      <if test="deleteFlag != null">
+        delete_flag = #{deleteFlag,jdbcType=BIT},
+      </if>
     </set>
     where user_company_id = #{userCompanyId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kuyun.upms.dao.model.UpmsUserCompany">
     update upms_user_company
     set user_id = #{userId,jdbcType=INTEGER},
-      company_id = #{companyId,jdbcType=INTEGER}
+      company_id = #{companyId,jdbcType=INTEGER},
+      delete_flag = #{deleteFlag,jdbcType=BIT}
     where user_company_id = #{userCompanyId,jdbcType=INTEGER}
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into upms_user_company  (user_company_id, user_id, company_id
-        )
+            insert into upms_user_company  (user_company_id, user_id, company_id, 
+        delete_flag)
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.userCompanyId,jdbcType=INTEGER}, #{item.userId,jdbcType=INTEGER}, #{item.companyId,jdbcType=INTEGER}
-        )
+      (#{item.userCompanyId,jdbcType=INTEGER}, #{item.userId,jdbcType=INTEGER}, #{item.companyId,jdbcType=INTEGER}, 
+        #{item.deleteFlag,jdbcType=BIT})
       </foreach>
     </if>
   </insert>

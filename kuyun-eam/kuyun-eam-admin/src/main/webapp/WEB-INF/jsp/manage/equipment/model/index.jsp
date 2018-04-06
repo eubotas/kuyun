@@ -254,9 +254,9 @@
 					var data = responseData;
 
                     $.each(data.rows, function(index, row) {
-
-                        var html = '<li class="m-nav__item">' +
-                            '<a href="javascript:void(0)" class="m-nav__link" onclick="showModelPropertis(' + row.equipmentModelId +')"> ' +
+						var modelId=row.equipmentModelId;
+                        var html = '<li id="eqModel' +modelId +'" class="m-nav__item">' +
+                            '<a href="javascript:void(0)" class="m-nav__link" onclick="showModelPropertis(' +modelId +')"> ' +
                             '<span class="m-nav__link-text">' + row.name + '</span>' +
                             '</a></li>';
 
@@ -278,6 +278,7 @@
 	}();
 
     function showModelPropertis(id) {
+        selectedItemColor("models", 'eqModel'+id);
         $('#equipmentModelId').val(id);
         refreshTable();
     }
@@ -453,6 +454,8 @@
             refreshTable();
         }
     }
+
+
 
 </script>
 

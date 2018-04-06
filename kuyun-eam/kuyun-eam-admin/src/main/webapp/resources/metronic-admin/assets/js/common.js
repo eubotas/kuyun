@@ -378,6 +378,13 @@ function getUnitName(unit) {
         return "天";
 }
 
+function selectedItemColor(parentId, id){
+    if(!parentId || !id)
+        return;
+    $("#"+parentId).find("li>a").css("border-left",'solid 8px transparent');
+    $("#"+id).find("[href]").css("border-left",'solid 8px #ED5565');
+}
+
 $(document).ready(function() {
     if(menuSelectItem) {
         var leftMenu = "menu_" + menuSelectItem.substring(8, 14); //middle

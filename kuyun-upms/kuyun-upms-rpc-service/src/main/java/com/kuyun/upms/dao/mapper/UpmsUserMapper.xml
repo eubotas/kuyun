@@ -13,6 +13,7 @@
     <result column="sex" jdbcType="TINYINT" property="sex" />
     <result column="locked" jdbcType="TINYINT" property="locked" />
     <result column="ctime" jdbcType="BIGINT" property="ctime" />
+    <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -73,7 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    user_id, username, password, salt, realname, avatar, phone, email, sex, locked, ctime
+    user_id, username, password, salt, realname, avatar, phone, email, sex, locked, ctime, 
+    delete_flag
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.upms.dao.model.UpmsUserExample" resultMap="BaseResultMap">
     select
@@ -120,11 +122,11 @@
     insert into upms_user (username, password, salt, 
       realname, avatar, phone, 
       email, sex, locked, 
-      ctime)
+      ctime, delete_flag)
     values (#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, 
       #{realname,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{sex,jdbcType=TINYINT}, #{locked,jdbcType=TINYINT}, 
-      #{ctime,jdbcType=BIGINT})
+      #{ctime,jdbcType=BIGINT}, #{deleteFlag,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.upms.dao.model.UpmsUser">
     <selectKey keyProperty="userId" order="AFTER" resultType="java.lang.Integer">
@@ -162,6 +164,9 @@
       <if test="ctime != null">
         ctime,
       </if>
+      <if test="deleteFlag != null">
+        delete_flag,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="username != null">
@@ -193,6 +198,9 @@
       </if>
       <if test="ctime != null">
         #{ctime,jdbcType=BIGINT},
+      </if>
+      <if test="deleteFlag != null">
+        #{deleteFlag,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -238,6 +246,9 @@
       <if test="record.ctime != null">
         ctime = #{record.ctime,jdbcType=BIGINT},
       </if>
+      <if test="record.deleteFlag != null">
+        delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -255,7 +266,8 @@
       email = #{record.email,jdbcType=VARCHAR},
       sex = #{record.sex,jdbcType=TINYINT},
       locked = #{record.locked,jdbcType=TINYINT},
-      ctime = #{record.ctime,jdbcType=BIGINT}
+      ctime = #{record.ctime,jdbcType=BIGINT},
+      delete_flag = #{record.deleteFlag,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -293,6 +305,9 @@
       <if test="ctime != null">
         ctime = #{ctime,jdbcType=BIGINT},
       </if>
+      <if test="deleteFlag != null">
+        delete_flag = #{deleteFlag,jdbcType=BIT},
+      </if>
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
@@ -307,7 +322,8 @@
       email = #{email,jdbcType=VARCHAR},
       sex = #{sex,jdbcType=TINYINT},
       locked = #{locked,jdbcType=TINYINT},
-      ctime = #{ctime,jdbcType=BIGINT}
+      ctime = #{ctime,jdbcType=BIGINT},
+      delete_flag = #{deleteFlag,jdbcType=BIT}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
   <insert id="batchInsert">
@@ -315,13 +331,13 @@
             insert into upms_user  (username, password, salt, 
         realname, avatar, phone, 
         email, sex, locked, 
-        ctime)
+        ctime, delete_flag)
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.username,jdbcType=VARCHAR}, #{item.password,jdbcType=VARCHAR}, #{item.salt,jdbcType=VARCHAR}, 
         #{item.realname,jdbcType=VARCHAR}, #{item.avatar,jdbcType=VARCHAR}, #{item.phone,jdbcType=VARCHAR}, 
         #{item.email,jdbcType=VARCHAR}, #{item.sex,jdbcType=TINYINT}, #{item.locked,jdbcType=TINYINT}, 
-        #{item.ctime,jdbcType=BIGINT})
+        #{item.ctime,jdbcType=BIGINT}, #{item.deleteFlag,jdbcType=BIT})
       </foreach>
     </if>
   </insert>

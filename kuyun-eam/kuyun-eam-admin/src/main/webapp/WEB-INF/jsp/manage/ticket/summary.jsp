@@ -59,13 +59,13 @@
                         </div>
                     </div>
 
-                    <div class="m-portlet__body">
+                    <div id="ticketList" class="m-portlet__body">
                         <ul class="m-nav m-nav--hover-bg m-portlet-fit--sides" id="models">
-                            <li class="m-nav__item"><a href="javascript:;" onclick="toAction('all');" class="m-nav__link"> <span class="m-nav__link-text">累计报修(${ticketSummaryVo.totalTicketCount})</span></a></li>
-                            <li class="m-nav__item"><a href="javascript:;" onclick="toAction('init');" class="m-nav__link"> <span class="m-nav__link-text">未派工(${ticketSummaryVo.noAppointTicketCount})</span></a></li>
-                            <li class="m-nav__item"><a href="javascript:;" onclick="toAction('processing');" class="m-nav__link"> <span class="m-nav__link-text">维修中(${ticketSummaryVo.processingTicketCount})</span></a></li>
-                            <li class="m-nav__item"><a href="javascript:;" onclick="toAction('notResolved');" class="m-nav__link"> <span class="m-nav__link-text">未完成(${ticketSummaryVo.notResolvedTicketCount})</span></a></li>
-                            <li class="m-nav__item"><a href="javascript:;" onclick="toAction('resolved');" class="m-nav__link"> <span class="m-nav__link-text">已完成(${ticketSummaryVo.resolvedTicketCount})</span></a></li>
+                            <li id="all" class="m-nav__item"><a href="javascript:;" onclick="toAction('all');" class="m-nav__link"> <span class="m-nav__link-text">累计报修(${ticketSummaryVo.totalTicketCount})</span></a></li>
+                            <li id="init" class="m-nav__item"><a href="javascript:;" onclick="toAction('init');" class="m-nav__link"> <span class="m-nav__link-text">未派工(${ticketSummaryVo.noAppointTicketCount})</span></a></li>
+                            <li id="processing" class="m-nav__item"><a href="javascript:;" onclick="toAction('processing');" class="m-nav__link"> <span class="m-nav__link-text">维修中(${ticketSummaryVo.processingTicketCount})</span></a></li>
+                            <li id="notResolved" class="m-nav__item"><a href="javascript:;" onclick="toAction('notResolved');" class="m-nav__link"> <span class="m-nav__link-text">未完成(${ticketSummaryVo.notResolvedTicketCount})</span></a></li>
+                            <li id="resolved" class="m-nav__item"><a href="javascript:;" onclick="toAction('resolved');" class="m-nav__link"> <span class="m-nav__link-text">已完成(${ticketSummaryVo.resolvedTicketCount})</span></a></li>
                         </ul>
                         <div class="m-portlet__body-separator"></div>
 
@@ -100,6 +100,10 @@
 
 <pageResources>
 <script>
+    $(document).ready(function() {
+        selectedItemColor("ticketList", "${category}");
+    });
+
     function toAction(type){
         window.location = '${basePath}/manage/ticket/summary?category='+ type;
     }

@@ -519,8 +519,8 @@
     <script>
         //permission
         var selectUserId;
+        var changeDatas = [];
         function loadTree() {
-            var changeDatas = [];
             var setting1 = {
                 check: {
                     enable: true,

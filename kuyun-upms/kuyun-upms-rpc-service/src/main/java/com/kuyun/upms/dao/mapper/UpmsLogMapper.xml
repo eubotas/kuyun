@@ -14,6 +14,7 @@
     <result column="user_agent" jdbcType="VARCHAR" property="userAgent" />
     <result column="ip" jdbcType="VARCHAR" property="ip" />
     <result column="permissions" jdbcType="VARCHAR" property="permissions" />
+    <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.kuyun.upms.dao.model.UpmsLog">
     <result column="parameter" jdbcType="LONGVARCHAR" property="parameter" />
@@ -79,7 +80,7 @@
   </sql>
   <sql id="Base_Column_List">
     log_id, description, username, start_time, spend_time, base_path, uri, url, method, 
-    user_agent, ip, permissions
+    user_agent, ip, permissions, delete_flag
   </sql>
   <sql id="Blob_Column_List">
     parameter, result
@@ -144,13 +145,13 @@
     insert into upms_log (log_id, description, username, 
       start_time, spend_time, base_path, 
       uri, url, method, user_agent, 
-      ip, permissions, parameter, 
-      result)
+      ip, permissions, delete_flag, 
+      parameter, result)
     values (#{logId,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, 
       #{startTime,jdbcType=BIGINT}, #{spendTime,jdbcType=INTEGER}, #{basePath,jdbcType=VARCHAR}, 
       #{uri,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{method,jdbcType=VARCHAR}, #{userAgent,jdbcType=VARCHAR}, 
-      #{ip,jdbcType=VARCHAR}, #{permissions,jdbcType=VARCHAR}, #{parameter,jdbcType=LONGVARCHAR}, 
-      #{result,jdbcType=LONGVARCHAR})
+      #{ip,jdbcType=VARCHAR}, #{permissions,jdbcType=VARCHAR}, #{deleteFlag,jdbcType=BIT}, 
+      #{parameter,jdbcType=LONGVARCHAR}, #{result,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.upms.dao.model.UpmsLog">
     insert into upms_log
@@ -190,6 +191,9 @@
       </if>
       <if test="permissions != null">
         permissions,
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag,
       </if>
       <if test="parameter != null">
         parameter,
@@ -234,6 +238,9 @@
       </if>
       <if test="permissions != null">
         #{permissions,jdbcType=VARCHAR},
+      </if>
+      <if test="deleteFlag != null">
+        #{deleteFlag,jdbcType=BIT},
       </if>
       <if test="parameter != null">
         #{parameter,jdbcType=LONGVARCHAR},
@@ -288,6 +295,9 @@
       <if test="record.permissions != null">
         permissions = #{record.permissions,jdbcType=VARCHAR},
       </if>
+      <if test="record.deleteFlag != null">
+        delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      </if>
       <if test="record.parameter != null">
         parameter = #{record.parameter,jdbcType=LONGVARCHAR},
       </if>
@@ -313,6 +323,7 @@
       user_agent = #{record.userAgent,jdbcType=VARCHAR},
       ip = #{record.ip,jdbcType=VARCHAR},
       permissions = #{record.permissions,jdbcType=VARCHAR},
+      delete_flag = #{record.deleteFlag,jdbcType=BIT},
       parameter = #{record.parameter,jdbcType=LONGVARCHAR},
       result = #{record.result,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
@@ -332,7 +343,8 @@
       method = #{record.method,jdbcType=VARCHAR},
       user_agent = #{record.userAgent,jdbcType=VARCHAR},
       ip = #{record.ip,jdbcType=VARCHAR},
-      permissions = #{record.permissions,jdbcType=VARCHAR}
+      permissions = #{record.permissions,jdbcType=VARCHAR},
+      delete_flag = #{record.deleteFlag,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -373,6 +385,9 @@
       <if test="permissions != null">
         permissions = #{permissions,jdbcType=VARCHAR},
       </if>
+      <if test="deleteFlag != null">
+        delete_flag = #{deleteFlag,jdbcType=BIT},
+      </if>
       <if test="parameter != null">
         parameter = #{parameter,jdbcType=LONGVARCHAR},
       </if>
@@ -395,6 +410,7 @@
       user_agent = #{userAgent,jdbcType=VARCHAR},
       ip = #{ip,jdbcType=VARCHAR},
       permissions = #{permissions,jdbcType=VARCHAR},
+      delete_flag = #{deleteFlag,jdbcType=BIT},
       parameter = #{parameter,jdbcType=LONGVARCHAR},
       result = #{result,jdbcType=LONGVARCHAR}
     where log_id = #{logId,jdbcType=INTEGER}
@@ -411,7 +427,8 @@
       method = #{method,jdbcType=VARCHAR},
       user_agent = #{userAgent,jdbcType=VARCHAR},
       ip = #{ip,jdbcType=VARCHAR},
-      permissions = #{permissions,jdbcType=VARCHAR}
+      permissions = #{permissions,jdbcType=VARCHAR},
+      delete_flag = #{deleteFlag,jdbcType=BIT}
     where log_id = #{logId,jdbcType=INTEGER}
   </update>
   <insert id="batchInsert">
@@ -419,15 +436,15 @@
             insert into upms_log  (log_id, description, username, 
         start_time, spend_time, base_path, 
         uri, url, method, user_agent, 
-        ip, permissions, parameter, 
-        result)
+        ip, permissions, delete_flag, 
+        parameter, result)
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.logId,jdbcType=INTEGER}, #{item.description,jdbcType=VARCHAR}, #{item.username,jdbcType=VARCHAR}, 
         #{item.startTime,jdbcType=BIGINT}, #{item.spendTime,jdbcType=INTEGER}, #{item.basePath,jdbcType=VARCHAR}, 
         #{item.uri,jdbcType=VARCHAR}, #{item.url,jdbcType=VARCHAR}, #{item.method,jdbcType=VARCHAR}, #{item.userAgent,jdbcType=VARCHAR}, 
-        #{item.ip,jdbcType=VARCHAR}, #{item.permissions,jdbcType=VARCHAR}, #{item.parameter,jdbcType=LONGVARCHAR}, 
-        #{item.result,jdbcType=LONGVARCHAR})
+        #{item.ip,jdbcType=VARCHAR}, #{item.permissions,jdbcType=VARCHAR}, #{item.deleteFlag,jdbcType=BIT}, 
+        #{item.parameter,jdbcType=LONGVARCHAR}, #{item.result,jdbcType=LONGVARCHAR})
       </foreach>
     </if>
   </insert>

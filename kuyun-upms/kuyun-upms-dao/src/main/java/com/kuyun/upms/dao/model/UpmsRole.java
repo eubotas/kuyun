@@ -1,16 +1,15 @@
 package com.kuyun.upms.dao.model;
 
+import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
 
-public class UpmsRole implements Serializable {
+public class UpmsRole extends BaseEntity implements Serializable {
     /**
      * 编号
      *
      * @mbg.generated
      */
     private Integer roleId;
-
-    private Integer companyId;
 
     /**
      * 角色名称
@@ -39,6 +38,8 @@ public class UpmsRole implements Serializable {
      * @mbg.generated
      */
     private Long ctime;
+
+    private Integer companyId;
 
     /**
      * 排序
@@ -89,20 +90,20 @@ public class UpmsRole implements Serializable {
         this.ctime = ctime;
     }
 
-    public Long getOrders() {
-        return orders;
-    }
-
-    public void setOrders(Long orders) {
-        this.orders = orders;
-    }
-
     public Integer getCompanyId() {
         return companyId;
     }
 
     public void setCompanyId(Integer companyId) {
         this.companyId = companyId;
+    }
+
+    public Long getOrders() {
+        return orders;
+    }
+
+    public void setOrders(Long orders) {
+        this.orders = orders;
     }
 
     @Override
@@ -116,6 +117,7 @@ public class UpmsRole implements Serializable {
         sb.append(", title=").append(title);
         sb.append(", description=").append(description);
         sb.append(", ctime=").append(ctime);
+        sb.append(", companyId=").append(companyId);
         sb.append(", orders=").append(orders);
         sb.append("]");
         return sb.toString();
@@ -138,8 +140,9 @@ public class UpmsRole implements Serializable {
             && (this.getTitle() == null ? other.getTitle() == null : this.getTitle().equals(other.getTitle()))
             && (this.getDescription() == null ? other.getDescription() == null : this.getDescription().equals(other.getDescription()))
             && (this.getCtime() == null ? other.getCtime() == null : this.getCtime().equals(other.getCtime()))
+            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()))
             && (this.getOrders() == null ? other.getOrders() == null : this.getOrders().equals(other.getOrders()))
-            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()));
+            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()));
     }
 
     @Override
@@ -151,8 +154,9 @@ public class UpmsRole implements Serializable {
         result = prime * result + ((getTitle() == null) ? 0 : getTitle().hashCode());
         result = prime * result + ((getDescription() == null) ? 0 : getDescription().hashCode());
         result = prime * result + ((getCtime() == null) ? 0 : getCtime().hashCode());
-        result = prime * result + ((getOrders() == null) ? 0 : getOrders().hashCode());
         result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
+        result = prime * result + ((getOrders() == null) ? 0 : getOrders().hashCode());
+        result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         return result;
     }
 }

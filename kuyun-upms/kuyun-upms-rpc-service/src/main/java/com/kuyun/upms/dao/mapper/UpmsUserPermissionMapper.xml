@@ -6,6 +6,7 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="permission_id" jdbcType="INTEGER" property="permissionId" />
     <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -66,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    user_permission_id, user_id, permission_id, type
+    user_permission_id, user_id, permission_id, type, delete_flag
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.upms.dao.model.UpmsUserPermissionExample" resultMap="BaseResultMap">
     select
@@ -108,9 +109,9 @@
   </delete>
   <insert id="insert" parameterType="com.kuyun.upms.dao.model.UpmsUserPermission">
     insert into upms_user_permission (user_permission_id, user_id, permission_id, 
-      type)
+      type, delete_flag)
     values (#{userPermissionId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{permissionId,jdbcType=INTEGER}, 
-      #{type,jdbcType=TINYINT})
+      #{type,jdbcType=TINYINT}, #{deleteFlag,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.upms.dao.model.UpmsUserPermission">
     insert into upms_user_permission
@@ -127,6 +128,9 @@
       <if test="type != null">
         type,
       </if>
+      <if test="deleteFlag != null">
+        delete_flag,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userPermissionId != null">
@@ -140,6 +144,9 @@
       </if>
       <if test="type != null">
         #{type,jdbcType=TINYINT},
+      </if>
+      <if test="deleteFlag != null">
+        #{deleteFlag,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -164,6 +171,9 @@
       <if test="record.type != null">
         type = #{record.type,jdbcType=TINYINT},
       </if>
+      <if test="record.deleteFlag != null">
+        delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -174,7 +184,8 @@
     set user_permission_id = #{record.userPermissionId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
       permission_id = #{record.permissionId,jdbcType=INTEGER},
-      type = #{record.type,jdbcType=TINYINT}
+      type = #{record.type,jdbcType=TINYINT},
+      delete_flag = #{record.deleteFlag,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -191,6 +202,9 @@
       <if test="type != null">
         type = #{type,jdbcType=TINYINT},
       </if>
+      <if test="deleteFlag != null">
+        delete_flag = #{deleteFlag,jdbcType=BIT},
+      </if>
     </set>
     where user_permission_id = #{userPermissionId,jdbcType=INTEGER}
   </update>
@@ -198,17 +212,18 @@
     update upms_user_permission
     set user_id = #{userId,jdbcType=INTEGER},
       permission_id = #{permissionId,jdbcType=INTEGER},
-      type = #{type,jdbcType=TINYINT}
+      type = #{type,jdbcType=TINYINT},
+      delete_flag = #{deleteFlag,jdbcType=BIT}
     where user_permission_id = #{userPermissionId,jdbcType=INTEGER}
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
             insert into upms_user_permission  (user_permission_id, user_id, permission_id, 
-        type)
+        type, delete_flag)
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.userPermissionId,jdbcType=INTEGER}, #{item.userId,jdbcType=INTEGER}, #{item.permissionId,jdbcType=INTEGER}, 
-        #{item.type,jdbcType=TINYINT})
+        #{item.type,jdbcType=TINYINT}, #{item.deleteFlag,jdbcType=BIT})
       </foreach>
     </if>
   </insert>
