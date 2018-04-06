@@ -150,14 +150,24 @@
 					<div class="modal-body">
 						<div class="form-group m-form__group row">
 							<label for="templateID_name" class="form-control-label">
-								参数名称:*
+								设备模型名称: *
 							</label>
 							<div class="col-6">
-								<input type="text" class="form-control" id="templateID_name" name="name">
+								<input type="text" class="form-control" id="templateID_name" name="name" maxlength="20">
 							</div>
-
 						</div>
-
+						<div class="form-group m-form__group row">
+							<label for="templateID_name" class="form-control-label">
+								设备模型编号: *
+							</label>
+							<div class="col-6">
+								<input type="text" class="form-control" id="templateID_number" name="number" maxlength="20">
+							</div>
+						</div>
+						<div class="form-group m-form__group row">
+							<select id="templateID_protocolId" name="protocolId" style="width: 100%">
+							</select>
+						</div>
 
 					</div>
 					<div class="modal-footer">
@@ -191,13 +201,13 @@
 
 
         $('#createButton').click(function(){
-           var equipmentModelId = $('#equipmentModelId').val();
-           if (equipmentModelId == ''){
-               swWarn("请选择一个设备模型");
-		   }else {
-               $("#addModelPropertyFormContainer").modal("show");
-		   }
-        });
+			$("#addModelPropertyFormContainer").modal("show");
+            ajaxGet('${basePath}/manage/equipment/model/create', function (responseData) {
+                if (responseData) {
+                    addOptionToHtmlSelect(null, "edit_protocolId", responseData.protocols, "", "");
+                }
+        	});
+		});
 
         $('#deleteButton').click(function(){
             deleteAction();
@@ -316,9 +326,9 @@
     // 格式化操作按钮
     function actionFormatter(value, row, index) {
         return [
-            '<a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a>',
-            '<a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-success m-btn--icon m-btn--icon-only m-btn--pill" title="读写指令">	<i class="la la-recycle"></i>	</a>',
-            '<a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="报警设定">	<i class="la la-bell"></i>	</a>'
+            '<shiro:hasPermission name="eam:equipmentModel:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
+            '<shiro:hasPermission name="eam:equipmentModel:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-success m-btn--icon m-btn--icon-only m-btn--pill" title="读写指令">	<i class="la la-recycle"></i>	</a></shiro:hasPermission>',
+            '<shiro:hasPermission name="eam:equipmentModelProperty:read"><a id="modelProperty" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="设备模型参数">	<i class="la la-bell"></i>	</a></shiro:hasPermission>'
         ].join('');
     }
 
@@ -370,10 +380,10 @@
                 sendErrorInfo(result);
             } else {
                 if(formId=='add_Form') {
-                    toastr.success("新建设备模型参数成功");
+                    toastr.success("新建设备模型成功");
                     $('#addModelPropertyFormContainer').modal('toggle');
                 }else{
-                    toastr.success("编辑设备模型参数成功");
+                    toastr.success("编辑设备模型成功");
                     $('#editModelPropertyFormContainer').modal('toggle');
                 }
                 refreshTable();
@@ -384,17 +394,19 @@
     function updateAction(row) {
         $("#editModelPropertyFormContainer").modal("show");
 
-        ajaxGet('${basePath}/manage/equipment/model/update/' + row["equipmentModelPropertyId"], function (responseData) {
+        ajaxGet('${basePath}/manage/equipment/model/update/' + row["equipmentModelId"], function (responseData) {
             if (responseData) {
-                var data = responseData.equipmentModelProperties;
-                // 赋值
-                setModelProperty(data);
+                var data = responseData.equipmentModel;
+                addOptionToHtmlSelect(data.protocolId,"edit_protocolId",responseData.protocols,"","");
+                $("#edit_id").val(data.equipmentModelId);
+                $("#edit_name").val(data.name);
+                $("#edit_number").val(data.number);
             }
         });
     }
 
     function setModelProperty(data) {
-        $("#edit_id").val(data.equipmentModelPropertyId);
+        $("#edit_id").val(data.equipmentModelId);
         $("#edit_name").val(data.name);
         $("#edit_unit").val(data.unit);
 
@@ -416,7 +428,9 @@
     window.actionEvents = {
         'click #update': function (e, value, row, index) {
             updateAction(row);
-
+        },
+        'click #modelProperty': function (e, value, row, index) {
+            window.location = "${basePath}/manage/equipment/model/property/index/" + row['equipmentModelId'];
         },
         'click #delete': function (e, value, row, index) {
             var rows = new Array();
@@ -435,7 +449,7 @@
         if (rows.length == 0) {
             swWarn("请至少选择一条记录");
         }else {
-            deleteRows(rows,'equipmentModelPropertyId','${basePath}/manage/equipment/model/delete/', "请确认要删除选中的设备模型参数吗？", "删除设备模型参数成功");
+            deleteRows(rows,'equipmentModelId','${basePath}/manage/equipment/model/delete/', "请确认要删除选中的设备模型吗？", "删除设备模型成功");
             refreshTable();
         }
     }

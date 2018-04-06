@@ -64,14 +64,14 @@
                 <div id="submenu_assetsEquipment" class="m-menu__submenu ">
                     <span class="m-menu__arrow"></span>
                     <ul class="m-menu__subnav">
-                        <li id="submenu_assetsEquipment1" class="m-menu__item  m-menu__item--parent" aria-haspopup="true" onclick="setmenu(this);">
+                        <li class="m-menu__item  m-menu__item--parent" aria-haspopup="true" >
 											<span class="m-menu__link">
 												<span class="m-menu__link-text">
 													设备管理
 												</span>
 											</span>
                         </li>
-                        <li id="submenu_assetsEquipment2" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
+                        <li id="submenu_assetsEquipment1" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
                             <shiro:hasPermission name="eam:equipmentModel:read">
                                 <a  href="${eamPath}/manage/equipment/model/index" class="m-menu__link ">
                                     <i class="m-menu__link-bullet m-menu__link-bullet--dot">
@@ -82,7 +82,7 @@
 												</span>
                                 </a></shiro:hasPermission>
                         </li>
-                        <li id="submenu_assetsEquipment3" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
+                        <li id="submenu_assetsEquipment2" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
                             <shiro:hasPermission name="eam:equipment:read">
                                 <a  href="${eamPath}/manage/equipment/index" class="m-menu__link ">
                                     <i class="m-menu__link-bullet m-menu__link-bullet--dot">
@@ -93,7 +93,7 @@
 												</span>
                                 </a></shiro:hasPermission>
                         </li>
-                        <li id="submenu_assetsEquipment4" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
+                        <li id="submenu_assetsEquipment3" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
                             <shiro:hasPermission name="eam:dtu:read">
                                 <a  href="${eamPath}/manage/dtu/index" class="m-menu__link ">
                                     <i class="m-menu__link-bullet m-menu__link-bullet--dot">
@@ -220,7 +220,7 @@
                     <ul class="m-menu__subnav">
 
                         <li id="submenu_assetsMaintancePlan1" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
-                            <shiro:hasPermission name="eam:maintancePlan:read">
+                            <shiro:hasPermission name="eam:maintainPlan:read">
                                 <a  href="${eamPath}/manage/maintainPlan/index" class="m-menu__link ">
                                     <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                         <span></span>
@@ -445,7 +445,7 @@
                 </h4>
                 <i class="m-menu__section-icon flaticon-more-v3"></i>
             </li>
-            <li id="menu_equiOp" class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"  data-menu-submenu-toggle="hover" >
+            <li id="menu_equiOp" class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" >
                 <a  href="#" class="m-menu__link m-menu__toggle">
                     <i class="m-menu__link-icon flaticon-interface-9"></i>
                     <span class="m-menu__link-text">
@@ -602,6 +602,7 @@
 <!-- END: Left Aside -->
 <script>
     var menuSelectItem=getCookie("kuyunMenuSelectItem");
+    console.log("jsp menuSelectItem:"+menuSelectItem);
     $(document).ready(function() {
         if(!menuSelectItem || menuSelectItem==""){  //default
             $("#menu").append($("#menuDashboard").html()).append($("#menu_equiOpList").html());
@@ -613,4 +614,3 @@
 
 
 </script>
-

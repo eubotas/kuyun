@@ -9,6 +9,7 @@ import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.upms.client.util.BaseEntityUtil;
+import com.kuyun.upms.common.JspUtil;
 import com.kuyun.upms.dao.model.UpmsOrganization;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
 import io.swagger.annotations.Api;
@@ -95,9 +96,12 @@ public class EamEquipmentModelController extends BaseController {
 	@ApiOperation(value = "新增设备模型")
 	@RequiresPermissions("eam:equipmentModel:create")
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public String create(ModelMap modelMap) {
-		modelMap.put("protocols", protocolService.selectByExample(new EamProtocolExample()));
-		return "/manage/equipment/model/create.jsp";
+	@ResponseBody
+	public Object create(ModelMap modelMap) {
+		Map map= new HashMap();
+		List<EamProtocol> lists=protocolService.selectByExample(new EamProtocolExample());
+		map.put("protocols", JspUtil.getMapList(lists,"protocolId","name"));
+		return map;
 	}
 
 	@ApiOperation(value = "新增设备模型")
@@ -131,11 +135,15 @@ public class EamEquipmentModelController extends BaseController {
 	@ApiOperation(value = "修改设备模型")
 	@RequiresPermissions("eam:equipmentModel:update")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-	public String update(@PathVariable("id") int id, ModelMap modelMap) {
+	@ResponseBody
+	public Object update(@PathVariable("id") int id) {
 		EamEquipmentModel eamEquipmentModel = eamEquipmentModelService.selectByPrimaryKey(id);
-		modelMap.put("equipmentModel", eamEquipmentModel);
-		modelMap.put("protocols", protocolService.selectByExample(new EamProtocolExample()));
-		return "/manage/equipment/model/update.jsp";
+		Map map= new HashMap();
+		map.put("equipmentModel", eamEquipmentModel);
+
+		List<EamProtocol> lists=protocolService.selectByExample(new EamProtocolExample());
+		map.put("protocols", JspUtil.getMapList(lists,"protocolId","name"));
+		return map;
 	}
 
 	@ApiOperation(value = "修改设备模型")

@@ -220,7 +220,7 @@
                     <ul class="m-menu__subnav">
 
                         <li id="submenu_assetsMaintancePlan1" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
-                            <shiro:hasPermission name="eam:maintancePlan:read">
+                            <shiro:hasPermission name="eam:maintainPlan:read">
                             <a  href="${eamPath}/manage/maintainPlan/index" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
@@ -445,7 +445,7 @@
                 </h4>
                 <i class="m-menu__section-icon flaticon-more-v3"></i>
             </li>
-            <li id="menu_equiOp" class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"  data-menu-submenu-toggle="hover" >
+            <li id="menu_equiOp" class="m-menu__item  m-menu__item--submenu" aria-haspopup="true" >
                 <a  href="#" class="m-menu__link m-menu__toggle">
                     <i class="m-menu__link-icon flaticon-interface-9"></i>
                     <span class="m-menu__link-text">

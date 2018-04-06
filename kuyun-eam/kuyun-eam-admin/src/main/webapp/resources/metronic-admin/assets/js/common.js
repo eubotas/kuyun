@@ -298,14 +298,14 @@ function addOptionToHtmlMultiSelect(htmlSelectId, optData, selectedData) {
 ///////////////////////.
 
 function generateAddEditForm(templateID, prefix, data, options, targetEl){
-    var pres= prefix.split(',');
-    var targets = targetEl.split(',');
-    if(pres.length = targets.length){
-        pres.forEach(function( val, index ) {
-            applyTemplate(jQuery, '#'+templateID, val, data, options, jQuery('#'+targets[index]));
-        });
-        removeIdHtml(templateID);
-    }
+   var pres= prefix.split(',');
+   var targets = targetEl.split(',');
+   if(pres.length = targets.length){
+       pres.forEach(function( val, index ) {
+           applyTemplate(jQuery, '#'+templateID, val, data, options, jQuery('#'+targets[index]));
+       });
+       removeIdHtml(templateID);
+   }
 }
 
 function removeIdHtml(templateID){
@@ -351,6 +351,7 @@ function strReplaceAll(str, oldValue, newValue) {
     return str;
 }
 
+
 // 格式化时间
 function timeFormatter(value , row, index) {
     return new Date(value).toLocaleString();
@@ -376,3 +377,16 @@ function getUnitName(unit) {
     else if(unit =='DAY')
         return "天";
 }
+
+$(document).ready(function() {
+    if(menuSelectItem) {
+        var leftMenu = "menu_" + menuSelectItem.substring(8, 14); //middle
+        if (menuSelectItem.indexOf("assets") > -1) {
+            var leftSubmenu = menuSelectItem.substring(0, menuSelectItem.length - 1);
+            $("#" + leftMenu).show();
+            $("#" + leftSubmenu).show();
+        }else{
+            $("#"+leftMenu).find('.m-menu__submenu').show();
+        }
+    }
+});

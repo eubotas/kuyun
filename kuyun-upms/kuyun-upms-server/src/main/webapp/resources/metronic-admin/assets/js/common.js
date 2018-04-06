@@ -377,3 +377,16 @@ function getUnitName(unit) {
     else if(unit =='DAY')
         return "天";
 }
+
+$(document).ready(function() {
+    if(menuSelectItem) {
+        var leftMenu = "menu_" + menuSelectItem.substring(8, 14); //middle
+        if (menuSelectItem.indexOf("assets") > -1) {
+            var leftSubmenu = menuSelectItem.substring(0, menuSelectItem.length - 1);
+            $("#" + leftMenu).show();
+            $("#" + leftSubmenu).show();
+        }else{
+            $("#"+leftMenu).find('.m-menu__submenu').show();
+        }
+    }
+});
