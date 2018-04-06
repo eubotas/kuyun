@@ -60,6 +60,7 @@ public class UpmsSystemController extends BaseController {
 		UpmsSystemExample upmsSystemExample = new UpmsSystemExample();
 		upmsSystemExample.setOffset(offset);
 		upmsSystemExample.setLimit(limit);
+		upmsSystemExample.createCriteria().andDeleteFlagEqualTo(false);
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			upmsSystemExample.setOrderByClause(sort + " " + order);
 		}

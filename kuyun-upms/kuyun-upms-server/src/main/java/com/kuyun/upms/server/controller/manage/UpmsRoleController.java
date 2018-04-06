@@ -120,7 +120,7 @@ public class UpmsRoleController extends BaseController {
         }
         UpmsRoleExample.Criteria criteria = upmsRoleExample.createCriteria();
         criteria.andCompanyIdEqualTo(getCompanyId());
-
+        criteria.andDeleteFlagEqualTo(false);
         List<UpmsRole> rows = upmsRoleService.selectByExample(upmsRoleExample);
         long total = upmsRoleService.countByExample(upmsRoleExample);
         Map<String, Object> result = new HashMap<>();

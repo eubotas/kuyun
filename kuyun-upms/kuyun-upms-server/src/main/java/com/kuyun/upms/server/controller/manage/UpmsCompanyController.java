@@ -77,11 +77,10 @@ public class UpmsCompanyController extends BaseController {
         UpmsCompanyExample.Criteria criteria = companyExample.createCriteria();
         criteria.andDeleteFlagEqualTo(Boolean.FALSE);
 
-
-        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
-        if (company != null){
-            criteria.andCompanyIdEqualTo(company.getCompanyId());
-        }
+//        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+//        if (company != null){
+//            criteria.andCompanyIdEqualTo(company.getCompanyId());
+//        }
 
         List<UpmsCompany> rows = upmsCompanyService.selectByExample(companyExample);
         long total = upmsCompanyService.countByExample(companyExample);

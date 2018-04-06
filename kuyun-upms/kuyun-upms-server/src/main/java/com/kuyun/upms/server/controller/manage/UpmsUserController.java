@@ -9,6 +9,7 @@ import com.kuyun.common.base.BaseController;
 import com.kuyun.common.util.MD5Util;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.common.validator.NotNullValidator;
+import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.common.JspUtil;
 import com.kuyun.upms.common.constant.UpmsResult;
 import com.kuyun.upms.common.constant.UpmsResultConstant;
@@ -61,6 +62,9 @@ public class UpmsUserController extends BaseController {
     @Autowired
     private UpmsApiService upmsApiService;
 
+    @Autowired
+    private BaseEntityUtil baseEntityUtil;
+
     @ApiOperation(value = "用户首页")
     @RequiresPermissions("upms:user:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
@@ -74,10 +78,12 @@ public class UpmsUserController extends BaseController {
     @ResponseBody
     public Object organization(@PathVariable("id") int id, ModelMap modelMap) {
         // 所有组织
-        List<UpmsOrganization> upmsOrganizations = upmsOrganizationService.selectByExample(new UpmsOrganizationExample());
+        UpmsOrganizationExample orgEx= new UpmsOrganizationExample();
+        orgEx.createCriteria().andDeleteFlagEqualTo(false).andCompanyIdEqualTo(getCompanyId());
+        List<UpmsOrganization> upmsOrganizations = upmsOrganizationService.selectByExample(orgEx);
         // 用户拥有组织
         UpmsUserOrganizationExample upmsUserOrganizationExample = new UpmsUserOrganizationExample();
-        upmsUserOrganizationExample.createCriteria()
+        upmsUserOrganizationExample.createCriteria().andDeleteFlagEqualTo(false)
                 .andUserIdEqualTo(id);
         List<UpmsUserOrganization> upmsUserOrganizations = upmsUserOrganizationService.selectByExample(upmsUserOrganizationExample);
         Map map=new HashMap();
@@ -94,7 +100,7 @@ public class UpmsUserController extends BaseController {
         String[] organizationIds = request.getParameterValues("organizationId");
         // 删除旧记录
         UpmsUserOrganizationExample upmsUserOrganizationExample = new UpmsUserOrganizationExample();
-        upmsUserOrganizationExample.createCriteria()
+        upmsUserOrganizationExample.createCriteria().andDeleteFlagEqualTo(false)
                 .andUserIdEqualTo(id);
         upmsUserOrganizationService.deleteByExample(upmsUserOrganizationExample);
         // 增加新记录
@@ -118,10 +124,12 @@ public class UpmsUserController extends BaseController {
     @ResponseBody
     public Object role(@PathVariable("id") int id, ModelMap modelMap) {
         // 所有角色
-        List<UpmsRole> upmsRoles = upmsRoleService.selectByExample(new UpmsRoleExample());
+        UpmsRoleExample roleEx= new UpmsRoleExample();
+        roleEx.createCriteria().andDeleteFlagEqualTo(false);
+        List<UpmsRole> upmsRoles = upmsRoleService.selectByExample(roleEx);
         // 用户拥有角色
         UpmsUserRoleExample upmsUserRoleExample = new UpmsUserRoleExample();
-        upmsUserRoleExample.createCriteria()
+        upmsUserRoleExample.createCriteria().andDeleteFlagEqualTo(false)
                 .andUserIdEqualTo(id);
         List<UpmsUserRole> upmsUserRoles = upmsUserRoleService.selectByExample(upmsUserRoleExample);
         Map map=new HashMap();
@@ -138,7 +146,7 @@ public class UpmsUserController extends BaseController {
         String[] roleIds = request.getParameterValues("roleId");
         // 删除旧记录
         UpmsUserRoleExample upmsUserRoleExample = new UpmsUserRoleExample();
-        upmsUserRoleExample.createCriteria()
+        upmsUserRoleExample.createCriteria().andDeleteFlagEqualTo(false)
                 .andUserIdEqualTo(id);
         upmsUserRoleService.deleteByExample(upmsUserRoleExample);
         // 增加新记录
@@ -205,6 +213,7 @@ public class UpmsUserController extends BaseController {
         UpmsUserExample upmsUserExample = new UpmsUserExample();
         upmsUserExample.setOffset(offset);
         upmsUserExample.setLimit(limit);
+        upmsUserExample.createCriteria().andDeleteFlagEqualTo(false);
         if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
             upmsUserExample.setOrderByClause(sort + " " + order);
         }
@@ -299,7 +308,7 @@ public class UpmsUserController extends BaseController {
     @ResponseBody
     public Object find(@PathVariable("phone") String phone) {
         UpmsUserExample upmsUserExample = new UpmsUserExample();
-        upmsUserExample.createCriteria().andPhoneEqualTo(phone);
+        upmsUserExample.createCriteria().andDeleteFlagEqualTo(false).andPhoneEqualTo(phone);
         UpmsUser upmsUser = upmsUserService.selectFirstByExample(upmsUserExample);
         UpmsCompany company = new UpmsCompany();
         if (upmsUser != null){
@@ -313,4 +322,12 @@ public class UpmsUserController extends BaseController {
         return new UpmsResult(UpmsResultConstant.SUCCESS, objectHashMap);
     }
 
+    private int getCompanyId(){
+        int cId=-1;
+        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+        if (company != null){
+            cId = company.getCompanyId();
+        }
+        return cId;
+    }
 }

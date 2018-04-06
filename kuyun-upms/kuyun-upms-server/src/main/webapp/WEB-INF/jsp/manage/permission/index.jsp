@@ -182,6 +182,12 @@
 
             $('#createButton').click(function(){
                 $("#addPermissionFormContainer").modal("show");
+                ajaxGet('${basePath}/manage/permission/create', function (responseData) {
+                    if (responseData) {
+                        var data = responseData;
+                        addOptionToHtmlSelect(null, "add_systemId",data.upmsSystems, "0","请选择系统");
+                    }
+                });
             });
 
             $('#deleteButton').click(function(){

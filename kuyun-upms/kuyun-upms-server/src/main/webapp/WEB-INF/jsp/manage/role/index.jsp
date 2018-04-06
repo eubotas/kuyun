@@ -161,7 +161,7 @@
                 jQuery("#add_Form").validate().resetForm();
                 jQuery("#edit_Form").validate().resetForm();
             }) ;
-            generateAddEditForm('template-role-addEditForm', 'add_,edit_', null, null, 'addRoleFormContainer,editCompanyFormContainer');
+            generateAddEditForm('template-role-addEditForm', 'add_,edit_', null, null, 'addRoleFormContainer,editRoleFormContainer');
             FormWidgets.init('add');
             FormWidgets.init('edit');
 
@@ -329,9 +329,9 @@
 
     <script>
         var selectRoleId;
+        var changeDatas = [];
         function loadTree() {
             $("#permissionDialog").modal("show");
-            var changeDatas = [];
             var setting = {
                 check: {
                     enable: true,
@@ -403,7 +403,7 @@
         }
 
         function permissionSubmit() {
-            ajaxPostData('${basePath}/manage/role/permission/' + selectRoleId, {datas: JSON.stringify(changeDatas), roleId: roleId}, function(result) {
+            ajaxPostData('${basePath}/manage/role/permission/' + selectRoleId, {datas: JSON.stringify(changeDatas), roleId: selectRoleId}, function(result) {
                 if (result.code != 1) {
                     if (result.data instanceof Array) {
                         $.each(result.data, function(index, value) {

@@ -467,7 +467,7 @@ public class UpmsRoleExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andCompanyIdEqualTo(Long value) {
+        public Criteria andCompanyIdEqualTo(Integer value) {
             addCriterion("company_id =", value, "companyId");
             return (Criteria) this;
         }

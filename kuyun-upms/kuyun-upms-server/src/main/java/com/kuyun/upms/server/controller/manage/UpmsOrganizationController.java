@@ -83,6 +83,7 @@ public class UpmsOrganizationController extends BaseController {
         }
         UpmsOrganizationExample.Criteria criteria = upmsOrganizationExample.createCriteria();
         criteria.andCompanyIdEqualTo(getCompanyId());
+        criteria.andDeleteFlagEqualTo(Boolean.FALSE);
 
         List<UpmsOrganization> rows = upmsOrganizationService.selectByExample(upmsOrganizationExample);
         long total = upmsOrganizationService.countByExample(upmsOrganizationExample);
@@ -135,6 +136,7 @@ public class UpmsOrganizationController extends BaseController {
         vo.setOrgId(id);
         vo.setOffset(offset);
         vo.setLimit(limit);
+        vo.setDeleteFlag(false);
         if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
             vo.setOrderByClause(sort + " " + order);
         }
@@ -190,6 +192,7 @@ public class UpmsOrganizationController extends BaseController {
         vo.setOrgId(id);
         vo.setOffset(offset);
         vo.setLimit(limit);
+        vo.setDeleteFlag(false);
         if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
             vo.setOrderByClause(sort + " " + order);
         }

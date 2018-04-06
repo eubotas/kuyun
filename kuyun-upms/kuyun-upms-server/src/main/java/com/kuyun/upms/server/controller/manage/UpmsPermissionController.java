@@ -76,8 +76,10 @@ public class UpmsPermissionController extends BaseController {
         if (0 != systemId) {
             criteria.andSystemIdEqualTo(systemId);
         }
+        criteria.andDeleteFlagEqualTo(false);
         upmsPermissionExample.setOffset(offset);
         upmsPermissionExample.setLimit(limit);
+
         if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
             upmsPermissionExample.setOrderByClause(sort + " " + order);
         }
@@ -119,13 +121,15 @@ public class UpmsPermissionController extends BaseController {
     @ApiOperation(value = "新增权限")
     @RequiresPermissions("upms:permission:create")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String create(ModelMap modelMap) {
+    @ResponseBody
+    public Object create() {
         UpmsSystemExample upmsSystemExample = new UpmsSystemExample();
         upmsSystemExample.createCriteria()
                 .andStatusEqualTo((byte) 1);
         List<UpmsSystem> upmsSystems = upmsSystemService.selectByExample(upmsSystemExample);
-        modelMap.put("upmsSystems", upmsSystems);
-        return "/manage/permission/create.jsp";
+        Map map =new HashMap();
+        map.put("upmsSystems", JspUtil.getMapList(upmsSystems,"systemId","name"));
+        return map;
     }
 
     @ApiOperation(value = "新增权限")
