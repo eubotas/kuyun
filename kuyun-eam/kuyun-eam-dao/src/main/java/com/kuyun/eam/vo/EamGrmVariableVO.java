@@ -10,6 +10,54 @@ import com.kuyun.eam.dao.model.EamGrmVariable;
  */
 public class EamGrmVariableVO extends EamGrmVariable {
     private Boolean checked;
+    private String productLineName;
+    private String equipmentName;
+
+    private Integer limit;
+
+    private Integer offset;
+
+    private String orderByClause;
+
+    public Integer getLimit() {
+        return limit;
+    }
+
+    public void setLimit(Integer limit) {
+        this.limit = limit;
+    }
+
+    public Integer getOffset() {
+        return offset;
+    }
+
+    public void setOffset(Integer offset) {
+        this.offset = offset;
+    }
+
+    public String getOrderByClause() {
+        return orderByClause;
+    }
+
+    public void setOrderByClause(String orderByClause) {
+        this.orderByClause = orderByClause;
+    }
+
+    public String getProductLineName() {
+        return productLineName;
+    }
+
+    public void setProductLineName(String productLineName) {
+        this.productLineName = productLineName;
+    }
+
+    public String getEquipmentName() {
+        return equipmentName;
+    }
+
+    public void setEquipmentName(String equipmentName) {
+        this.equipmentName = equipmentName;
+    }
 
     public Boolean getChecked() {
         return checked;

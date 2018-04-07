@@ -88,4 +88,16 @@ public interface EamApiMapper {
     List<EamIndustryValueVo> summaryIndustryAndCompanyName();
 
     List<EamGrmVariable> selectStatisticGrmVariable();
+
+    List<EamOrderVO> selectOrders(EamOrderVO orderVO);
+
+    long countOrders(EamOrderVO orderVO);
+
+    List<EamGrmVariable> selectGrmVariableGroupByPeriod(String productLineId);
+
+    List<EamGrmVariableVO> selectGrmVariables(EamGrmVariableVO variableVO);
+
+    long countGrmVariables(EamGrmVariableVO variableVO);
+
+
 }

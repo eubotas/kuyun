@@ -7,5 +7,5 @@ import com.kuyun.common.base.BaseConstants;
  * Created by kuyun on 2017/2/19.
  */
 public class EamConstant extends BaseConstants {
-
+    public static String NULL = "NULL";
 }

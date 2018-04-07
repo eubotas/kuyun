@@ -10,56 +10,33 @@
 	<form id="updateForm" method="post">
 
 		<div class="row">
-				<div class="col-sm-12">
-					<div class="form-group">
-						<div class="fg-line">
-							<select id="warehouseId" name="warehouseId" style="width: 100%">
-								<c:forEach var="warehouse" items="${warehouseList}">
-									<option value="${warehouse.warehouseId}" <c:if test="${warehouse.warehouseId==inventory.warehouseId}">selected</c:if>>${warehouse.name}</option>
-								</c:forEach>
-							</select>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-12">
-					<div class="form-group">
-						<div class="fg-line">
-							<select id="inventoryId" name="inventoryId" style="width: 100%">
-								<c:forEach var="inventory" items="${inventoryList}">
-									<option value="${inventory.inventoryId}" <c:if test="${inventory.inventoryId==inventory.inventoryId}">selected</c:if>>${inventory.number}</option>
-								</c:forEach>
-							</select>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-12">
-					<div class="form-group">
-						<div class="fg-line">
-							<select id="partId" name="partId" style="width: 100%">
-								<c:forEach var="part" items="${partList}">
-									<option value="${part.partId}" <c:if test="${part.partId==inventory.partId}">selected</c:if>>${part.name}</option>
-								</c:forEach>
-							</select>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-12">
-					<div class="form-group">
-						<div class="fg-line">
-							<label for="quantity">数量</label>
-							<input id="quantity" type="text" class="form-control" name="quantity" maxlength="20" value="${inventory.quantity}">
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-12">
-					<div class="form-group">
-						<div class="fg-line">
-							<label for="inTaskDate">入库日期</label>
-							<input id="inTaskDate" type="text" class="form-control" name="inTaskDate" maxlength="20" value="${inventory.inTaskDate}">
-						</div>
+			<div class="col-sm-12">
+				<div class="form-group">
+					<div class="fg-line">
+						<select id="templateType" name="templateType" style="width: 100%">
+							<c:forEach var="code" items="${codes}">
+								<option value="${code.codeValue}">${code.codeName}</option>
+							</c:forEach>
+						</select>
 					</div>
 				</div>
 			</div>
+			<div class="col-sm-12">
+				<div class="form-group">
+					<div class="fg-line">
+						<label for="name">名称</label>
+						<input id="name" type="text" class="form-control" name="name" maxlength="20">
+					</div>
+				</div>
+			</div>
+
+			<div class="col-sm-12">
+				<div id="fine-uploader-gallery"></div>
+				<input id="path" type="hidden" class="form-control"  name="path" maxlength="500">
+			</div>
+
+
+		</div>
 
 		<div class="form-group text-right dialog-buttons">
 			<a class="waves-effect waves-button" href="javascript:;" onclick="updateSubmit();">保存</a>
@@ -71,7 +48,7 @@
 function updateSubmit() {
     $.ajax({
         type: 'post',
-        url: '${basePath}/manage/inventory/update/${inventory.inventoryId}',
+        url: '${basePath}/manage/fileTemplate/update/${inventory.inventoryId}',
         data: $('#updateForm').serialize(),
         beforeSend: function() {
 			if ($('#name').val() == '') {

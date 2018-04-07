@@ -2,7 +2,6 @@ package com.kuyun.eam.rpc.service.impl;
 
 import cn.jiguang.common.utils.StringUtils;
 import com.google.gson.Gson;
-import com.kuyun.common.excel.ExcelUtils;
 import com.kuyun.common.util.NumberUtil;
 import com.kuyun.common.util.RedisUtil;
 import com.kuyun.eam.alarm.AbstractAlarmHandler;
@@ -29,7 +28,6 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang.time.DateUtils;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +35,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -172,6 +169,9 @@ public class EamApiServiceImpl implements EamApiService {
 
     @Autowired
     private EamPartsCategoryService eamPartsCategoryService;
+
+    @Autowired
+    private EamOrderService eamOrderService;
 
     private HashMap<String, Integer> categoryMap = new HashMap<>();
 
@@ -1230,8 +1230,10 @@ public class EamApiServiceImpl implements EamApiService {
         int i= eamTicketRecordService.insertSelective(ticketRecord);
         int ticketId = ticketRecord.getTicketId();
         EamTicket ticket = eamTicketService.selectByPrimaryKey(ticketId);
-        if(TicketStatus.TO_PROCESS.getName().equals(ticket.getStatus()))
+        if(TicketStatus.TO_PROCESS.getName().equals(ticket.getStatus())){
             updateTicketStatus(ticketId, TicketStatus.PROCESSING.getName());
+        }
+
         return i;
     }
 
@@ -1239,8 +1241,9 @@ public class EamApiServiceImpl implements EamApiService {
     public void completeTicket(EamTicketAssessment ticketAssessment, int[] ticketTag){
         eamTicketAssessmentService.createTicketAssessment(ticketAssessment, ticketTag);
         EamTicket ticket = eamTicketService.selectByPrimaryKey(ticketAssessment.getTicketId());
-        if(TicketStatus.RESOLVED.getName().equals(ticket.getStatus()))
+        if(TicketStatus.RESOLVED.getName().equals(ticket.getStatus())){
             updateTicketStatus(ticketAssessment.getTicketId(), TicketStatus.COMPLETE.getName());
+        }
     }
 
     @Override
@@ -1830,11 +1833,6 @@ public class EamApiServiceImpl implements EamApiService {
             eamGrmVariableDataHistoryVO.setGrmPeriod(productLine.getGrmPeriod());
         }
 
-//		if (eamGrmVariableDataHistoryVO.getOrderByClause() == null){
-//			eamGrmVariableDataHistoryVO.setOrderByClause("egvdh.update_time asc");
-//		}
-
-
         List<EamGrmVariableDataHistoryExtVO> result = selectEamGrmVariableDataHistories(eamGrmVariableDataHistoryVO);
         if (result == null){
             result = new ArrayList<>();
@@ -1954,36 +1952,71 @@ public class EamApiServiceImpl implements EamApiService {
             for (CompanyBean companyBean : companyBeanList){
                 UpmsCompany upmsCompany = new UpmsCompany();
                 upmsCompany.setParentId(currentCompany.getCompanyId());
+                upmsCompany.setSeqId(NumberUtil.toInteger(companyBean.getSeqId()));
                 upmsCompany.setName(companyBean.getName());
-                upmsCompany.setYear(companyBean.getYear());
-                upmsCompany.setTaskNumber(companyBean.getTaskNumber());
+                upmsCompany.setPhone(companyBean.getPhone());
+                upmsCompany.setFax(companyBean.getFax());
+                upmsCompany.setWww(companyBean.getWww());
+                upmsCompany.setZip(companyBean.getZip());
+                upmsCompany.setAddress(companyBean.getAddress());
 
-                upmsCompany.setState(getCodeValueFromRedis(CodeValueType.STATE, companyBean.getState()));
-
-                upmsCompany.setCountry(companyBean.getCountry());
-                upmsCompany.setProvince(companyBean.getProvince());
-                upmsCompany.setCity(companyBean.getCity());
-
-                upmsCompany.setIndustry(getCodeValueFromRedis(CodeValueType.INDUSTRY, companyBean.getIndustry()));
-                upmsCompany.setProductLineType(getCodeValueFromRedis(CodeValueType.PRODUCT_LINE_TYPE, companyBean.getProductLineType()));
-                upmsCompany.setHasCxg(isTrue(companyBean.getHasCxg()));
-                upmsCompany.setHasZnlk(isTrue(companyBean.getHasZnlk()));
-                upmsCompany.setProductLineCapacity(getCodeValueFromRedis(CodeValueType.PRODUCT_LINE_CAPACITY, companyBean.getProductLineCapacity()));
-                upmsCompany.setPackagingMaterial(getCodeValueFromRedis(CodeValueType.PACKAGING_MATERIAL, companyBean.getPackagingMaterial()));
-                upmsCompany.setProductSpec(getCodeValueFromRedis(CodeValueType.PRODUCT_SPEC, companyBean.getProductSpec()));
-                upmsCompany.setMajorEquipment(companyBean.getMajorEquipment());
-                upmsCompany.setComment(companyBean.getComment());
                 upmsCompany.setDeleteFlag(Boolean.FALSE);
                 upmsCompany.setUpdateTime(new Date());
                 upmsCompany.setCreateTime(new Date());
 
+                String adminName = RandomStringUtils.randomAlphabetic(5);
+                String adminPassword = RandomStringUtils.randomAlphabetic(6);
+
+                upmsCompany.setAdminName(adminName);
+                upmsCompany.setAdminPassword(adminPassword);
+
+                upmsCompanyService.insertSelective(upmsCompany);
+
+                upmsApiService.handleCustomerReg(adminName, adminName, adminPassword, null, null, upmsCompany.getName());
+
+
                 upmsCompanyList.add(upmsCompany);
             }
             _log.info("upload CompanyBean size:{}", upmsCompanyList.size());
-            upmsCompanyService.batchInsert(upmsCompanyList);
         }
 
 
+    }
+
+    @Override
+    public void importOrderData(List<OrderBean> orderBeanList) {
+        List<EamOrder> eamOrders = new ArrayList<>();
+        if (orderBeanList != null && !orderBeanList.isEmpty()){
+            for (OrderBean orderBean : orderBeanList){
+                EamOrder eamOrder = new EamOrder();
+                eamOrder.setCompanyName(orderBean.getCompanyName());
+                eamOrder.setYear(orderBean.getYear());
+                eamOrder.setTaskNumber(orderBean.getTaskNumber());
+
+                eamOrder.setState(getCodeValueFromRedis(CodeValueType.STATE, orderBean.getState()));
+
+                eamOrder.setCountry(orderBean.getCountry());
+                eamOrder.setProvince(orderBean.getProvince());
+                eamOrder.setCity(orderBean.getCity());
+
+                eamOrder.setIndustry(getCodeValueFromRedis(CodeValueType.INDUSTRY, orderBean.getIndustry()));
+                eamOrder.setProductLineType(getCodeValueFromRedis(CodeValueType.PRODUCT_LINE_TYPE, orderBean.getProductLineType()));
+                eamOrder.setHasCxg(isTrue(orderBean.getHasCxg()));
+                eamOrder.setHasZnlk(isTrue(orderBean.getHasZnlk()));
+                eamOrder.setProductLineCapacity(getCodeValueFromRedis(CodeValueType.PRODUCT_LINE_CAPACITY, orderBean.getProductLineCapacity()));
+                eamOrder.setPackagingMaterial(getCodeValueFromRedis(CodeValueType.PACKAGING_MATERIAL, orderBean.getPackagingMaterial()));
+                eamOrder.setProductSpec(getCodeValueFromRedis(CodeValueType.PRODUCT_SPEC, orderBean.getProductSpec()));
+                eamOrder.setMajorEquipment(orderBean.getMajorEquipment());
+                eamOrder.setComment(orderBean.getComment());
+                eamOrder.setDeleteFlag(Boolean.FALSE);
+                eamOrder.setUpdateTime(new Date());
+                eamOrder.setCreateTime(new Date());
+
+                eamOrders.add(eamOrder);
+            }
+            _log.info("upload OrderBean size:{}", eamOrders.size());
+            eamOrderService.batchInsert(eamOrders);
+        }
     }
 
     private void addNewGantt(List<GanttData> result, Integer dataElementId, Date date) {
@@ -2102,6 +2135,71 @@ public class EamApiServiceImpl implements EamApiService {
         }
 
         eamPartsService.batchInsert(parts);
+    }
+
+    @Override
+    public List<EamOrderVO> selectOrders(EamOrderVO orderVO) {
+        return eamApiMapper.selectOrders(orderVO);
+    }
+
+    @Override
+    public long countOrders(EamOrderVO orderVO) {
+        return eamApiMapper.countOrders(orderVO);
+    }
+
+    @Override
+    public List<Pair<Integer, List<EamGrmVariable>>> selectGrmVariableGroupByPeriod(String productLineId) {
+        List<Pair<Integer, List<EamGrmVariable>>> result = new ArrayList<>();
+        List<EamGrmVariable> variables = eamApiMapper.selectGrmVariableGroupByPeriod(productLineId);
+        if (variables != null && !variables.isEmpty()){
+            for(EamGrmVariable variable : variables){
+                Integer period = variable.getGrmPeriod();
+                List<EamGrmVariable> variableList = getGrmVariables(productLineId, period);
+                if (period == null){
+                    period = getPeriod(productLineId);
+                }
+                _log.info("ProductLineId:{}, period:{}, variable size:{}", productLineId, period, variableList.size());
+                Pair<Integer, List<EamGrmVariable>> pair = new Pair(period, variableList);
+                result.add(pair);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public List<EamGrmVariableVO> selectGrmVariables(EamGrmVariableVO variableVO) {
+        return eamApiMapper.selectGrmVariables(variableVO);
+    }
+
+    @Override
+    public long countGrmVariables(EamGrmVariableVO variableVO) {
+        return eamApiMapper.countGrmVariables(variableVO);
+    }
+
+    private Integer getPeriod(String productLineId) {
+        Integer result = Integer.valueOf(30);
+        EamProductLine productLine = eamProductLineService.selectByPrimaryKey(productLineId);
+        if (productLine != null){
+            result = productLine.getGrmPeriod();
+        }else {
+            _log.warn("Please set period for the product line:{}", productLine);
+        }
+        return result;
+    }
+
+
+
+    private List<EamGrmVariable> getGrmVariables(String productLineId, Integer period) {
+        EamGrmVariableExample example = new EamGrmVariableExample();
+        EamGrmVariableExample.Criteria criteria = example.createCriteria();
+        criteria.andDeleteFlagEqualTo(Boolean.FALSE).andProductLineIdEqualTo(productLineId);
+        if (period == null){
+            criteria.andGrmPeriodIsNull();
+        }else {
+            criteria.andGrmPeriodEqualTo(period);
+        }
+
+        return eamGrmVariableService.selectByExample(example);
     }
 
     private int getPartCategoryId(String name, UpmsUserCompany company){

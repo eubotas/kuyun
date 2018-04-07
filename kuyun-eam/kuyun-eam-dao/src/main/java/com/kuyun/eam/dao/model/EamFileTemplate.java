@@ -6,7 +6,7 @@ import java.io.Serializable;
 public class EamFileTemplate extends BaseEntity implements Serializable {
     private Integer id;
 
-    private Integer templateId;
+    private Integer templateType;
 
     private String name;
 
@@ -22,12 +22,12 @@ public class EamFileTemplate extends BaseEntity implements Serializable {
         this.id = id;
     }
 
-    public Integer getTemplateId() {
-        return templateId;
+    public Integer getTemplateType() {
+        return templateType;
     }
 
-    public void setTemplateId(Integer templateId) {
-        this.templateId = templateId;
+    public void setTemplateType(Integer templateType) {
+        this.templateType = templateType;
     }
 
     public String getName() {
@@ -53,7 +53,7 @@ public class EamFileTemplate extends BaseEntity implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", templateId=").append(templateId);
+        sb.append(", templateType=").append(templateType);
         sb.append(", name=").append(name);
         sb.append(", path=").append(path);
         sb.append("]");
@@ -73,7 +73,7 @@ public class EamFileTemplate extends BaseEntity implements Serializable {
         }
         EamFileTemplate other = (EamFileTemplate) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getTemplateId() == null ? other.getTemplateId() == null : this.getTemplateId().equals(other.getTemplateId()))
+            && (this.getTemplateType() == null ? other.getTemplateType() == null : this.getTemplateType().equals(other.getTemplateType()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
             && (this.getPath() == null ? other.getPath() == null : this.getPath().equals(other.getPath()))
             && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
@@ -89,7 +89,7 @@ public class EamFileTemplate extends BaseEntity implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getTemplateId() == null) ? 0 : getTemplateId().hashCode());
+        result = prime * result + ((getTemplateType() == null) ? 0 : getTemplateType().hashCode());
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         result = prime * result + ((getPath() == null) ? 0 : getPath().hashCode());
         result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());

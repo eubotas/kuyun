@@ -11,8 +11,6 @@ public class UpmsCompanyVo extends UpmsCompany {
     private Integer offlineNumber;
 
     private String search;
-    private String adminName;
-    private String adminPassword;
 
     private Integer limit;
 
@@ -26,22 +24,6 @@ public class UpmsCompanyVo extends UpmsCompany {
 
     public void setSearch(String search) {
         this.search = search;
-    }
-
-    public String getAdminName() {
-        return adminName;
-    }
-
-    public void setAdminName(String adminName) {
-        this.adminName = adminName;
-    }
-
-    public String getAdminPassword() {
-        return adminPassword;
-    }
-
-    public void setAdminPassword(String adminPassword) {
-        this.adminPassword = adminPassword;
     }
 
     public Integer getLimit() {

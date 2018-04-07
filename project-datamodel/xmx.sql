@@ -15,7 +15,7 @@ create table eam_equipment_category
    delete_flag          boolean,
    company_id           int,
    primary key (equipment_category_id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #数据点
 drop table if exists eam_data_element;
@@ -34,7 +34,7 @@ create table eam_data_element
    update_time          datetime,
    delete_flag          boolean,
    primary key (id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #数据点分组
 drop table if exists eam_data_element_group;
@@ -48,7 +48,7 @@ create table eam_data_element_group
    update_time          datetime,
    delete_flag          boolean,
    primary key (id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 drop table if exists eam_alarm_model;
 CREATE TABLE eam_alarm_model (
@@ -98,7 +98,7 @@ create table eam_product_line
    update_time          datetime,
    delete_flag          boolean,
    primary key (product_line_id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #产线数据点
 drop table if exists eam_product_line_data_element;
@@ -113,7 +113,7 @@ create table eam_product_line_data_element
    update_time          datetime,
    delete_flag          boolean,
    primary key (id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS eam_product_line_company;
 create table eam_product_line_company
@@ -127,7 +127,7 @@ create table eam_product_line_company
    update_time          datetime,
    delete_flag          boolean,
    primary key (id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 drop table if exists eam_equipment;
 create table eam_equipment
@@ -165,7 +165,7 @@ create table eam_equipment
    delete_flag          boolean,
    is_online            boolean,
    primary key (equipment_id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS eam_equipment_data_group;
@@ -180,7 +180,7 @@ create table eam_equipment_data_group
    update_time          datetime,
    delete_flag          boolean,
    primary key (id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS eam_equipment_data_group_elemets;
 create table eam_equipment_data_group_elemets
@@ -196,7 +196,7 @@ create table eam_equipment_data_group_elemets
    update_time             datetime,
    delete_flag             boolean,
    primary key (id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS eam_alarm;
 CREATE TABLE eam_alarm (
@@ -285,13 +285,14 @@ create table eam_grm_variable
    network_permisstion  varchar(5) comment '网络权限 0/1/2，分别代表 低/中/高',
    group_name           varchar(30) comment '变量组名，返回值为字符串。如果有两级变量组，中间是.分隔',
    description          varchar(50) comment '变量描述，返回值为字符串',
+   grm_period           int         comment '巨控采集频率单位秒',
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,
    update_time          datetime,
    delete_flag          boolean,
    primary key (id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 drop table if exists eam_grm_variable_data;
 create table eam_grm_variable_data
@@ -309,7 +310,7 @@ create table eam_grm_variable_data
    update_time          datetime,
    delete_flag          boolean,
    primary key (id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 drop table if exists eam_grm_variable_data_history;
 create table eam_grm_variable_data_history
@@ -327,7 +328,7 @@ create table eam_grm_variable_data_history
    update_time          datetime,
    delete_flag          boolean,
    primary key (id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER table eam_grm_variable_data_history ADD INDEX index_update_time(update_time);
 
@@ -349,7 +350,7 @@ create table eam_grm_variable_data_by_day
    update_time          datetime,
    delete_flag          boolean,
    primary key (id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER table eam_grm_variable_data_by_day ADD INDEX index_date(date);
 
@@ -371,7 +372,7 @@ create table eam_grm_variable_data_by_month
    update_time          datetime,
    delete_flag          boolean,
    primary key (id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER table eam_grm_variable_data_by_month ADD INDEX index_update_time(update_time);
 
@@ -414,7 +415,7 @@ create table eam_inventory
    delete_flag          boolean,
    company_id      int,
    primary key (inventory_id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 alter table eam_inventory comment ' 库存明细表';
 
@@ -434,7 +435,7 @@ create table eam_warehouse
    delete_flag          boolean,
    company_id      int,
    primary key (warehouse_id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 alter table eam_warehouse comment '仓库信息表';
 
@@ -455,7 +456,7 @@ create table eam_location
    delete_flag          boolean,
    company_id      int,
    primary key (location_id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 alter table eam_location comment '仓位信息表';
 
@@ -480,7 +481,7 @@ create table eam_maintenance
    delete_flag          boolean,
    company_id      int,
    primary key (maintenance_id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 alter table eam_maintenance comment ' 维保';
 
@@ -506,7 +507,7 @@ create table eam_parts
    delete_flag          boolean,
    company_id      int,
    primary key (part_id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 alter table eam_parts comment '备件';
 
@@ -525,7 +526,7 @@ create table eam_parts_category
    delete_flag          boolean,
    company_id           int,
    primary key (category_id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 alter table eam_parts_category comment ' 备件类别';
 
@@ -533,7 +534,7 @@ drop table if exists eam_file_template;
 create table eam_file_template
 (
    id                   int not null auto_increment,
-   template_id          int,
+   template_type        int,
    name                 varchar(30),
    path                 varchar(100),
    create_user_id       int,
@@ -543,4 +544,31 @@ create table eam_file_template
    delete_flag          boolean,
    company_id           int,
    primary key (id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+drop table if exists eam_order;
+CREATE TABLE eam_order (
+  id                           int(11) NOT NULL AUTO_INCREMENT,
+  company_name                 varchar(100) NOT NULL,
+  year                         varchar(5) DEFAULT NULL COMMENT '年份',
+  task_number                  varchar(10) DEFAULT NULL COMMENT '任务单号',
+  state                        varchar(8) DEFAULT NULL COMMENT '洲',
+  country                      varchar(10) DEFAULT NULL COMMENT '国家',
+  province                     varchar(10) DEFAULT NULL COMMENT '省/州',
+  city                         varchar(10) DEFAULT NULL COMMENT '地/市',
+  industry                     varchar(15) DEFAULT NULL COMMENT '所属行业',
+  product_line_type            varchar(3) DEFAULT NULL COMMENT '产线类型',
+  has_cxg                      boolean DEFAULT NULL COMMENT '是否含吹灌旋',
+  has_znlk                     boolean DEFAULT NULL COMMENT '是否含智能立库',
+  product_line_capacity        varchar(3) DEFAULT NULL COMMENT '生产线产能',
+  packaging_material           varchar(3) DEFAULT NULL COMMENT '包装材质',
+  product_spec                 varchar(3) DEFAULT NULL COMMENT '产品规格',
+  major_equipment              varchar(500) DEFAULT NULL COMMENT '主要设备',
+  comment                      TEXT DEFAULT NULL COMMENT '备注',
+  create_user_id               int,
+  create_time                  datetime,
+  update_user_id               int,
+  update_time                  datetime,
+  delete_flag                  boolean,
+  primary key (id)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

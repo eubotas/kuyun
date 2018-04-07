@@ -32,11 +32,13 @@ public class Generator {
     }
     private static Map<String, String> ALIAS_NEEDED_TABLES = new HashMap<String,String>();
     static {
+    		ALIAS_NEEDED_TABLES.put("eam_order", "eam_");
     		ALIAS_NEEDED_TABLES.put("eam_alarm", "eam_alarm");
     		ALIAS_NEEDED_TABLES.put("eam_alarm_model", "eam_alarm_model");
     		ALIAS_NEEDED_TABLES.put("eam_product_line", "eam_product_line");
     		ALIAS_NEEDED_TABLES.put("eam_equipment", "eam_equipment");
     		ALIAS_NEEDED_TABLES.put("eam_equipment_data_group", "eam_equipment_data_group");
+    		ALIAS_NEEDED_TABLES.put("eam_grm_variable", "eam_grm_variable");
     		ALIAS_NEEDED_TABLES.put("eam_grm_variable_data", "eam_grm_variable_data");
     		ALIAS_NEEDED_TABLES.put("eam_grm_variable_data_history", "eam_grm_variable_data_history");
     		ALIAS_NEEDED_TABLES.put("eam_ticket", "eam_ticket");

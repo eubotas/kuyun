@@ -251,7 +251,7 @@
 	</select>
 
 	<select id="selectUsers" parameterType="com.kuyun.upms.dao.vo.UpmsUserVo" resultMap="com.kuyun.upms.dao.mapper.UpmsUserMapper.BaseResultMap">
-		select uu.*
+		select	uu.user_id, uu.username, uu.password, uu.salt, uu.realname, uu.avatar, uu.phone, uu.email, uu.sex, uu.locked, uu.ctime
 		from upms_user uu
 		left join upms_user_company uuc on uu.user_id = uuc.user_id
 		WHERE 1 = 1
@@ -283,6 +283,10 @@
 		<if test="companyId != null and companyId != ''">
 			AND uuc.company_id = #{companyId}
 		</if>
+		<if test="searchName != null and searchName != ''">
+			<bind name="pattern" value="'%' + searchName + '%'" />
+			AND (uu.username like #{pattern} OR uu.realname like #{pattern})
+		</if>
 		<if test="orderByClause != null">
 			order by ${orderByClause}
 		</if>
@@ -290,33 +294,17 @@
 
 
 	<select id="selectCompanies" parameterType="com.kuyun.upms.dao.vo.UpmsCompanyVo" resultMap="com.kuyun.upms.dao.mapper.UpmsCompanyMapper.BaseResultMap">
-		select uuc.*
+		select
+		uuc.company_id, uuc.seq_id, uuc.parent_id, uuc.name, uuc.phone, uuc.fax, uuc.zip, uuc.www, uuc.address, uuc.admin_name, uuc.admin_password,
+		uuc.create_user_id, uuc.create_time, uuc.update_user_id, uuc.update_time, uuc.delete_flag
 		from upms_company uuc
-		WHERE 1 = 1
+		WHERE uuc.delete_flag = 0
 		<if test="search != null and search != ''">
 			<bind name="pattern" value="'%' + search + '%'" />
 			AND uuc.name like #{pattern}
 		</if>
 		<if test="parentId != null and parentId != ''">
 			AND uuc.parent_id = #{parentId}
-		</if>
-		<if test="industry != null and industry != ''">
-			AND uuc.industry = #{industry}
-		</if>
-		<if test="productLineType != null and productLineType != ''">
-			AND uuc.product_line_type = #{productLineType}
-		</if>
-		<if test="year != null and year != ''">
-			AND uuc.year = #{year}
-		</if>
-		<if test="country != null and country != ''">
-			AND uuc.country = #{country}
-		</if>
-		<if test="province != null and province != ''">
-			AND uuc.province = #{province}
-		</if>
-		<if test="city != null and city != ''">
-			AND uuc.city = #{city}
 		</if>
 		<if test="orderByClause != null">
 			order by ${orderByClause}
@@ -334,7 +322,11 @@
 	<select id="countCompanies" parameterType="com.kuyun.upms.dao.vo.UpmsCompanyVo" resultType="java.lang.Long">
 		select count(uuc.company_id)
 		from upms_company uuc
-		WHERE 1 = 1
+		WHERE uuc.delete_flag = 0
+		<if test="search != null and search != ''">
+			<bind name="pattern" value="'%' + search + '%'" />
+			AND uuc.name like #{pattern}
+		</if>
 		<if test="parentId != null and parentId != ''">
 			AND uuc.parent_id = #{parentId}
 		</if>

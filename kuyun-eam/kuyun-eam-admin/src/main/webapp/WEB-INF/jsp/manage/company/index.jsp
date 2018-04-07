@@ -29,6 +29,7 @@
 			<shiro:hasPermission name="eam:company:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增客户</a></shiro:hasPermission>
 			<shiro:hasPermission name="eam:company:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑客户</a></shiro:hasPermission>
 			<shiro:hasPermission name="eam:company:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()"><i class="zmdi zmdi-close"></i> 删除客户</a></shiro:hasPermission>
+			<shiro:hasPermission name="eam:company:update"><a class="waves-effect waves-button" href="#" ><i class="zmdi zmdi-plus"></i> 模板下载</a></shiro:hasPermission>
 		</div>
 
 	<table id="table"></table>

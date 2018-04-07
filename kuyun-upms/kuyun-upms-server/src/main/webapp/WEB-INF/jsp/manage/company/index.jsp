@@ -18,9 +18,9 @@
 <body>
 <div id="main">
 	<div id="toolbar">
-		<shiro:hasPermission name="upms:companyBean:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增公司</a></shiro:hasPermission>
-		<shiro:hasPermission name="upms:companyBean:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑公司</a></shiro:hasPermission>
-		<shiro:hasPermission name="upms:companyBean:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()"><i class="zmdi zmdi-close"></i> 删除公司</a></shiro:hasPermission>
+		<shiro:hasPermission name="upms:orderBean:create"><a class="waves-effect waves-button" href="javascript:;" onclick="createAction()"><i class="zmdi zmdi-plus"></i> 新增公司</a></shiro:hasPermission>
+		<shiro:hasPermission name="upms:orderBean:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑公司</a></shiro:hasPermission>
+		<shiro:hasPermission name="upms:orderBean:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()"><i class="zmdi zmdi-close"></i> 删除公司</a></shiro:hasPermission>
 	</div>
 	<table id="table"></table>
 </div>
@@ -30,7 +30,7 @@ var $table = $('#table');
 $(function() {
 	// bootstrap table初始化
 	$table.bootstrapTable({
-		url: '${basePath}/manage/companyBean/list',
+		url: '${basePath}/manage/orderBean/list',
 		height: getHeight(),
 		striped: true,
 		search: true,
@@ -75,7 +75,7 @@ function createAction() {
 	createDialog = $.dialog({
 		animationSpeed: 300,
 		title: '新增公司',
-		content: 'url:${basePath}/manage/companyBean/create',
+		content: 'url:${basePath}/manage/orderBean/create',
 		onContentReady: function () {
 			initMaterialInput();
 		}
@@ -102,7 +102,7 @@ function updateAction() {
 		updateDialog = $.dialog({
 			animationSpeed: 300,
 			title: '编辑公司',
-			content: 'url:${basePath}/manage/companyBean/update/' + rows[0].companyId,
+			content: 'url:${basePath}/manage/orderBean/update/' + rows[0].companyId,
 			onContentReady: function () {
 				initMaterialInput();
 			}
@@ -143,7 +143,7 @@ function deleteAction() {
 						}
 						$.ajax({
 							type: 'get',
-							url: '${basePath}/manage/companyBean/delete/' + ids.join("-"),
+							url: '${basePath}/manage/orderBean/delete/' + ids.join("-"),
 							success: function(result) {
 								if (result.code != 1) {
 									if (result.data instanceof Array) {

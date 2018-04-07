@@ -13,9 +13,9 @@
 			<div class="col-sm-12">
 				<div class="form-group">
 					<div class="fg-line">
-						<select id="warehouseId" name="warehouseId" style="width: 100%">
-							<c:forEach var="warehouse" items="${warehouseList}">
-								<option value="${warehouse.warehouseId}">${warehouse.name}</option>
+						<select id="templateType" name="templateType" style="width: 100%">
+							<c:forEach var="code" items="${codes}">
+								<option value="${code.codeValue}">${code.codeName}</option>
 							</c:forEach>
 						</select>
 					</div>
@@ -24,41 +24,18 @@
 			<div class="col-sm-12">
 				<div class="form-group">
 					<div class="fg-line">
-						<select id="locationId" name="locationId" style="width: 100%">
-							<c:forEach var="location" items="${locationList}">
-								<option value="${location.locationId}">${location.number}</option>
-							</c:forEach>
-						</select>
+						<label for="name">名称</label>
+						<input id="name" type="text" class="form-control" name="name" maxlength="20">
 					</div>
 				</div>
 			</div>
+
 			<div class="col-sm-12">
-				<div class="form-group">
-					<div class="fg-line">
-						<select id="partId" name="partId" style="width: 100%">
-							<c:forEach var="part" items="${partList}">
-								<option value="${part.partId}">${part.name}</option>
-							</c:forEach>
-						</select>
-					</div>
-				</div>
+				<div id="fine-uploader-gallery"></div>
+				<input id="path" type="hidden" class="form-control"  name="path" maxlength="500">
 			</div>
-			<div class="col-sm-12">
-				<div class="form-group">
-					<div class="fg-line">
-						<label for="quantity">数量</label>
-						<input id="quantity" type="text" class="form-control" name="quantity" maxlength="20">
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-12">
-				<div class="form-group">
-					<div class="fg-line">
-						<label for="inTaskDate">入库日期</label>
-						<input id="inTaskDate" type="text" class="form-control" name="inTaskDate" maxlength="20">
-					</div>
-				</div>
-			</div>
+
+
 		</div>
 
 		<div class="form-group text-right dialog-buttons">
@@ -68,10 +45,66 @@
 	</form>
 </div>
 <script>
+    var galleryUploader = new qq.FineUploader(
+        {
+            element : document.getElementById("fine-uploader-gallery"),
+            template : 'qq-template-gallery',
+            request : {
+                endpoint : '${uploadServer.endpoint_upload}',
+                params : {
+                    kuyunModule : "eam"
+                }
+            },
+            thumbnails : {
+                placeholders : {
+                    waitingPath : '${basePath}/resources/kuyun-admin/plugins/fileupload/placeholders/waiting-generic.png',
+                    notAvailablePath : '${basePath}/resources/kuyun-admin/plugins/fileupload/placeholders/not_available-generic.png'
+                }
+            },
+            validation : {
+				/*  allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'] */
+            },
+            chunking : {
+                enabled : true,
+                concurrent : {
+                    enabled : true
+                },
+                success : {
+                    endpoint : '${uploadServer.endpoint_uploadDone}'
+                },
+                mandatory : true
+            },
+            deleteFile : {
+                enabled : true,
+                forceConfirm : true,
+                endpoint : '${uploadServer.endpoint_delete}'
+            },
+            cors : {
+                //all requests are expected to be cross-domain requests
+                expected : true
+
+                //if you want cookies to be sent along with the request
+                //sendCredentials : true
+            }
+
+        });
+</script>
+
+<script>
 function createSubmit() {
+    var uploads = galleryUploader.getUploads({
+        status: qq.status.UPLOAD_SUCCESSFUL
+    });
+    var fileUuids = '';
+    for (var i = 0; i < uploads.length; i++) {
+        fileUuids = fileUuids + uploads[i].uuid + ",";
+    }
+    console.log("fileUuids = " + fileUuids);
+    $('#path').val(fileUuids);
+
     $.ajax({
         type: 'post',
-        url: '${basePath}/manage/inventory/create',
+        url: '${basePath}/manage/fileTemplate/create',
         data: $('#createForm').serialize(),
         beforeSend: function() {
             if ($('#name').val() == '') {

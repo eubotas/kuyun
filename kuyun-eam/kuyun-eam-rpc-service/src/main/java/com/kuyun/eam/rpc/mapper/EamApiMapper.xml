@@ -1298,6 +1298,145 @@
 		ORDER by product_line_id, equipment_id, data_group_id, equipment_data_group_id, data_element_id
 	</select>
 
+	<resultMap id="EamOrderVOResultMap" type="com.kuyun.eam.vo.EamOrderVO" extends="com.kuyun.eam.dao.mapper.EamOrderMapper.BaseResultMap">
+		<result column="stateName" jdbcType="VARCHAR" property="stateName" />
+		<result column="industryName" jdbcType="VARCHAR" property="industryName" />
+		<result column="productLineTypeName" jdbcType="VARCHAR" property="productLineTypeName" />
+		<result column="productLineCapacityName" jdbcType="VARCHAR" property="productLineCapacityName" />
+		<result column="packagingMaterialName" jdbcType="VARCHAR" property="packagingMaterialName" />
+		<result column="productSpecName" jdbcType="VARCHAR" property="productSpecName" />
+	</resultMap>
+
+
+	<select id="selectOrders" parameterType="com.kuyun.eam.vo.EamOrderVO" resultMap="EamOrderVOResultMap">
+		select
+		<include refid="com.kuyun.eam.dao.mapper.EamOrderMapper.Base_Column_List" /> ,
+		(select code_name from eam_code_value where state = code_value and category = 'STATE') as stateName,
+		(select code_name from eam_code_value where industry = code_value and category = 'INDUSTRY') as industryName,
+		(select code_name from eam_code_value where product_line_type = code_value and category = 'PRODUCT_LINE_TYPE') as productLineTypeName,
+		(select code_name from eam_code_value where product_line_capacity = code_value and category = 'PRODUCT_LINE_CAPACITY') as productLineCapacityName,
+		(select code_name from eam_code_value where packaging_material = code_value and category = 'PACKAGING_MATERIAL') as packagingMaterialName,
+		(select code_name from eam_code_value where product_spec = code_value and category = 'PRODUCT_SPEC') as productSpecName
+		from eam_order
+		WHERE 1 = 1
+		<if test="search != null and search != ''">
+			<bind name="pattern" value="'%' + search + '%'" />
+			AND company_name like #{pattern}
+		</if>
+
+		<if test="industry != null and industry != ''">
+			AND industry = #{industry}
+		</if>
+		<if test="productLineType != null and productLineType != ''">
+			AND product_line_type = #{productLineType}
+		</if>
+		<if test="year != null and year != ''">
+			AND year = #{year}
+		</if>
+		<if test="country != null and country != ''">
+			AND country = #{country}
+		</if>
+		<if test="province != null and province != ''">
+			AND province = #{province}
+		</if>
+		<if test="city != null and city != ''">
+			AND city = #{city}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+	<select id="countOrders" parameterType="com.kuyun.eam.vo.EamOrderVO" resultType="java.lang.Long">
+		select count(id)
+		from eam_order
+		WHERE 1 = 1
+		<if test="search != null and search != ''">
+			<bind name="pattern" value="'%' + search + '%'" />
+			AND company_name like #{pattern}
+		</if>
+
+		<if test="industry != null and industry != ''">
+			AND industry = #{industry}
+		</if>
+		<if test="productLineType != null and productLineType != ''">
+			AND product_line_type = #{productLineType}
+		</if>
+		<if test="year != null and year != ''">
+			AND year = #{year}
+		</if>
+		<if test="country != null and country != ''">
+			AND country = #{country}
+		</if>
+		<if test="province != null and province != ''">
+			AND province = #{province}
+		</if>
+		<if test="city != null and city != ''">
+			AND city = #{city}
+		</if>
+	</select>
+
+	<select id="selectGrmVariableGroupByPeriod"  resultMap="com.kuyun.eam.dao.mapper.EamGrmVariableMapper.BaseResultMap">
+		select
+		max(eam_grm_variable.id) as eam_grm_variable_id,
+		eam_grm_variable.grm_period as eam_grm_variable_grm_period
+		from eam_grm_variable where delete_flag = 0 group by grm_period
+
+	</select>
+
+
+	<resultMap id="EamGrmVariableVOResultMap" type="com.kuyun.eam.vo.EamGrmVariableVO" extends="com.kuyun.eam.dao.mapper.EamGrmVariableMapper.BaseResultMap">
+		<result column="product_line_name" jdbcType="VARCHAR" property="productLineName" />
+		<result column="equipment_name" jdbcType="VARCHAR" property="equipmentName" />
+	</resultMap>
+
+	<select id="selectGrmVariables" parameterType="com.kuyun.eam.vo.EamGrmVariableVO" resultMap="EamGrmVariableVOResultMap">
+		select
+		p.name as product_line_name,
+		(select name from eam_equipment e  where e.equipment_id = eam_grm_variable.equipment_id) as equipment_name,
+		<include refid="com.kuyun.eam.dao.mapper.EamGrmVariableMapper.Base_Column_List" />
+		from eam_grm_variable
+		LEFT JOIN eam_product_line p ON eam_grm_variable.product_line_id = p.product_line_id AND p.delete_flag = 0
+		WHERE eam_grm_variable.delete_flag = 0
+		<if test="productLineId != null and productLineId != ''">
+			AND eam_grm_variable.product_line_id = #{productLineId}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+
+	</select>
+
+	<select id="countGrmVariables" parameterType="com.kuyun.eam.vo.EamGrmVariableVO" resultType="java.lang.Long">
+		select
+		count(eam_grm_variable.id)
+		from eam_grm_variable
+		LEFT JOIN eam_product_line p ON eam_grm_variable.product_line_id = p.product_line_id AND p.delete_flag = 0
+		WHERE eam_grm_variable.delete_flag = 0
+		<if test="productLineId != null and productLineId != ''">
+			AND eam_grm_variable.product_line_id = #{productLineId}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+
 
 	<!-- 缓存 -->
 	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" />

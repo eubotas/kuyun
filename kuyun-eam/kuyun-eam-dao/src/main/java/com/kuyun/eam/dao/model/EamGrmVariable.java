@@ -63,6 +63,8 @@ public class EamGrmVariable extends BaseEntity implements Serializable {
      */
     private String description;
 
+    private Integer grmPeriod;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -161,6 +163,14 @@ public class EamGrmVariable extends BaseEntity implements Serializable {
         this.description = description;
     }
 
+    public Integer getGrmPeriod() {
+        return grmPeriod;
+    }
+
+    public void setGrmPeriod(Integer grmPeriod) {
+        this.grmPeriod = grmPeriod;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -179,6 +189,7 @@ public class EamGrmVariable extends BaseEntity implements Serializable {
         sb.append(", networkPermisstion=").append(networkPermisstion);
         sb.append(", groupName=").append(groupName);
         sb.append(", description=").append(description);
+        sb.append(", grmPeriod=").append(grmPeriod);
         sb.append("]");
         return sb.toString();
     }
@@ -211,7 +222,8 @@ public class EamGrmVariable extends BaseEntity implements Serializable {
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
-            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()));
+            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
+            && (this.getGrmPeriod() == null ? other.getGrmPeriod() == null : this.getGrmPeriod().equals(other.getGrmPeriod()));
     }
 
     @Override
@@ -235,6 +247,7 @@ public class EamGrmVariable extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
+        result = prime * result + ((getGrmPeriod() == null) ? 0 : getGrmPeriod().hashCode());
         return result;
     }
 }

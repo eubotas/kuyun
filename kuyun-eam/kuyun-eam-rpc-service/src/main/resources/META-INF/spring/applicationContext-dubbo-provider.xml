@@ -165,6 +165,9 @@
     <bean id="eamAlarmModelServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamAlarmModelServiceImpl"/>
     <dubbo:service interface="com.kuyun.eam.rpc.api.EamAlarmModelService" ref="eamAlarmModelServiceImpl" timeout="10000"/>
 
+    <bean id="eamOrderServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamOrderServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamOrderService" ref="eamOrderServiceImpl" timeout="10000"/>
+
 
     <!-- 维修计划相关 -->
     <bean id="eamMaintainPlanServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamMaintainPlanServiceImpl" />

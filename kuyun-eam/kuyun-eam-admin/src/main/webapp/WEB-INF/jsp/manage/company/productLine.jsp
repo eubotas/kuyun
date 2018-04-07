@@ -27,7 +27,7 @@
     $(function() {
         // bootstrap table初始化
         $tableProductLine.bootstrapTable({
-            url: '${basePath}/manage/companyBean/productLine/list',
+            url: '${basePath}/manage/company/productLine/list',
             queryParams:function(p){
                 return {    companyId : '${companyId}',
 							limit : p.limit,
@@ -97,7 +97,7 @@ function createSubmit() {
 
         $.ajax({
             type: 'post',
-            url: '${basePath}/manage/companyBean/auth/',
+            url: '${basePath}/manage/company/auth/',
             data: {companyId: '${companyId}', pIds: ids.join("::")},
             beforeSend: function() {
                 if ($('#name').val() == '') {

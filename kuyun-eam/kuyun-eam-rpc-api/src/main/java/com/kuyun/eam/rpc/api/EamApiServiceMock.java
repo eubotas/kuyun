@@ -12,7 +12,6 @@ import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.List;
 
@@ -380,6 +379,11 @@ public class EamApiServiceMock implements EamApiService {
     }
 
     @Override
+    public void importOrderData(List<OrderBean> orderBeanList) {
+
+    }
+
+    @Override
     public void statisticJob() {
 
     }
@@ -387,6 +391,31 @@ public class EamApiServiceMock implements EamApiService {
     @Override
     public void importPartData(List<PartBean> list, UpmsUserCompany company, EamEquipment equipment) {
 
+    }
+
+    @Override
+    public List<EamOrderVO> selectOrders(EamOrderVO orderVO) {
+        return null;
+    }
+
+    @Override
+    public long countOrders(EamOrderVO orderVO) {
+        return 0;
+    }
+
+    @Override
+    public List<Pair<Integer, List<EamGrmVariable>>> selectGrmVariableGroupByPeriod(String productLineId) {
+        return null;
+    }
+
+    @Override
+    public List<EamGrmVariableVO> selectGrmVariables(EamGrmVariableVO variableVO) {
+        return null;
+    }
+
+    @Override
+    public long countGrmVariables(EamGrmVariableVO variableVO) {
+        return 0;
     }
 
 

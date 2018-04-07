@@ -8,8 +8,6 @@ import com.kuyun.common.excel.ExcelUtils;
 import com.kuyun.common.util.SpringContextUtil;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.admin.initialize.EamCodeValueInitialize;
-import com.kuyun.eam.common.constant.CodeValueType;
-import com.kuyun.eam.dao.model.EamCodeValue;
 import com.kuyun.eam.dao.model.EamProductLineCompany;
 import com.kuyun.eam.dao.model.EamProductLineCompanyExample;
 import com.kuyun.eam.pojo.CompanyBean;
@@ -85,7 +83,7 @@ public class UpmsCompanyController extends BaseController {
             companyVo.setParentId(company.getCompanyId());
         }
         if (companyVo.getOrderByClause() == null){
-            companyVo.setOrderByClause("year, task_number desc");
+            companyVo.setOrderByClause("name desc");
         }
         company.setDeleteFlag(Boolean.FALSE);
 
@@ -97,52 +95,12 @@ public class UpmsCompanyController extends BaseController {
         return result;
     }
 
-    @ApiOperation(value = "选择项")
-    @RequiresPermissions("eam:company:read")
-    @RequestMapping(value = "/selectOptions", method = RequestMethod.GET)
-    @ResponseBody
-    public Object selectOptions() {
-        HashMap map = new HashMap();
-
-        setSelectOptions(new ModelMap(), map);
-
-        return map;
-    }
-
     @ApiOperation(value = "新增公司")
     @RequiresPermissions("eam:company:create")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String create(ModelMap modelMap) {
-        setSelectOptions(modelMap, new HashMap());
         return "/manage/company/create.jsp";
     }
-
-    public void setSelectOptions(ModelMap modelMap, HashMap map) {
-        List<EamCodeValue> states = eamApiService.getCodeValues(CodeValueType.STATE);
-        List<EamCodeValue> industries = eamApiService.getCodeValues(CodeValueType.INDUSTRY);
-        List<EamCodeValue> productLineTypes = eamApiService.getCodeValues(CodeValueType.PRODUCT_LINE_TYPE);
-        List<EamCodeValue> productLineCapacities = eamApiService.getCodeValues(CodeValueType.PRODUCT_LINE_CAPACITY);
-        List<EamCodeValue> packagingMaterials = eamApiService.getCodeValues(CodeValueType.PACKAGING_MATERIAL);
-        List<EamCodeValue> productSpecs = eamApiService.getCodeValues(CodeValueType.PRODUCT_SPEC);
-
-        modelMap.put("states", states);
-        modelMap.put("industries", industries);
-        modelMap.put("productLineTypes", productLineTypes);
-        modelMap.put("productLineCapacities", productLineCapacities);
-        modelMap.put("packagingMaterials", packagingMaterials);
-        modelMap.put("productSpecs", productSpecs);
-
-        map.put("states", states);
-        map.put("industries", industries);
-        map.put("productLineTypes", productLineTypes);
-        map.put("productLineCapacities", productLineCapacities);
-        map.put("packagingMaterials", packagingMaterials);
-        map.put("productSpecs", productSpecs);
-
-    }
-
-
-
 
     @ApiOperation(value = "新增公司")
     @RequiresPermissions("eam:company:create")
@@ -183,7 +141,6 @@ public class UpmsCompanyController extends BaseController {
     public String update(@PathVariable("id") int id, ModelMap modelMap) {
         UpmsCompany company = upmsCompanyService.selectByPrimaryKey(id);
         modelMap.put("company", company);
-        setSelectOptions(modelMap, new HashMap());
         return "/manage/company/update.jsp";
     }
 

@@ -3,7 +3,7 @@
 <mapper namespace="com.kuyun.eam.dao.mapper.EamFileTemplateMapper">
   <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamFileTemplate">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="template_id" jdbcType="INTEGER" property="templateId" />
+    <result column="template_type" jdbcType="INTEGER" property="templateType" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="path" jdbcType="VARCHAR" property="path" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
@@ -72,7 +72,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, template_id, name, path, create_user_id, create_time, update_user_id, update_time, 
+    id, template_type, name, path, create_user_id, create_time, update_user_id, update_time, 
     delete_flag, company_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamFileTemplateExample" resultMap="BaseResultMap">
@@ -114,11 +114,11 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamFileTemplate">
-    insert into eam_file_template (id, template_id, name, 
+    insert into eam_file_template (id, template_type, name, 
       path, create_user_id, create_time, 
       update_user_id, update_time, delete_flag, 
       company_id)
-    values (#{id,jdbcType=INTEGER}, #{templateId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=INTEGER}, #{templateType,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{path,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
       #{companyId,jdbcType=INTEGER})
@@ -129,8 +129,8 @@
       <if test="id != null">
         id,
       </if>
-      <if test="templateId != null">
-        template_id,
+      <if test="templateType != null">
+        template_type,
       </if>
       <if test="name != null">
         name,
@@ -161,8 +161,8 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
-      <if test="templateId != null">
-        #{templateId,jdbcType=INTEGER},
+      <if test="templateType != null">
+        #{templateType,jdbcType=INTEGER},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -202,8 +202,8 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.templateId != null">
-        template_id = #{record.templateId,jdbcType=INTEGER},
+      <if test="record.templateType != null">
+        template_type = #{record.templateType,jdbcType=INTEGER},
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
@@ -237,7 +237,7 @@
   <update id="updateByExample" parameterType="map">
     update eam_file_template
     set id = #{record.id,jdbcType=INTEGER},
-      template_id = #{record.templateId,jdbcType=INTEGER},
+      template_type = #{record.templateType,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       path = #{record.path,jdbcType=VARCHAR},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
@@ -253,8 +253,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.kuyun.eam.dao.model.EamFileTemplate">
     update eam_file_template
     <set>
-      <if test="templateId != null">
-        template_id = #{templateId,jdbcType=INTEGER},
+      <if test="templateType != null">
+        template_type = #{templateType,jdbcType=INTEGER},
       </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
@@ -285,7 +285,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamFileTemplate">
     update eam_file_template
-    set template_id = #{templateId,jdbcType=INTEGER},
+    set template_type = #{templateType,jdbcType=INTEGER},
       name = #{name,jdbcType=VARCHAR},
       path = #{path,jdbcType=VARCHAR},
       create_user_id = #{createUserId,jdbcType=INTEGER},
@@ -298,13 +298,13 @@
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into eam_file_template  (id, template_id, name, 
+            insert into eam_file_template  (id, template_type, name, 
         path, create_user_id, create_time, 
         update_user_id, update_time, delete_flag, 
         company_id)
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.id,jdbcType=INTEGER}, #{item.templateId,jdbcType=INTEGER}, #{item.name,jdbcType=VARCHAR}, 
+      (#{item.id,jdbcType=INTEGER}, #{item.templateType,jdbcType=INTEGER}, #{item.name,jdbcType=VARCHAR}, 
         #{item.path,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, 
         #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, 
         #{item.companyId,jdbcType=INTEGER})

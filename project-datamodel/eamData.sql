@@ -3,8 +3,8 @@ SET SQL_SAFE_UPDATES = 0;
 SET FOREIGN_KEY_CHECKS=0;
 
 #系统设置
-delete from upms_system where system_id = 2;
-INSERT INTO `upms_system` VALUES ('2', 'zmdi zmdi-cloud', '/resources/kuyun-admin/images/kuyun-oss.png', '#0B8DE5', 'http://eam.kuyun.cn:9999', '1', 'kuyun-eam-admin', '设备管理系统', '设备管理系统', '6', '6');
+delete from upms_system where system_id = 6;
+INSERT INTO `upms_system` VALUES ('6', 'zmdi zmdi-cloud', '/resources/kuyun-admin/images/kuyun-oss.png', '#0B8DE5', 'http://eam.kuyun.cn:9999', '1', 'kuyun-eam-admin', '设备管理系统', '设备管理系统', '6', '6');
 
 delete from upms_permission where permission_id >= 200;
 
@@ -30,23 +30,6 @@ INSERT INTO `upms_permission` VALUES ('216', '6', '215', '数据采集', '2', 'e
 INSERT INTO `upms_permission` VALUES ('217', '6', '216', '启动', '3', 'eam:productLine:update', '/manage/productLine/collect/start', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
 INSERT INTO `upms_permission` VALUES ('218', '6', '216', '停止', '3', 'eam:productLine:update', '/manage/productLine/collect/stop', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
 
-
-/*INSERT INTO `upms_permission` VALUES ('220', '6', '0', ' 仓储管理', '1', null, null, 'zmdi zmdi-collection-text', '1', '220', '220');
-INSERT INTO `upms_permission` VALUES ('221', '6', '220', '仓库管理', '2', 'eam:warehouse:read',   '/manage/warehouse/index', null, '1', '221', '221');
-INSERT INTO `upms_permission` VALUES ('222', '6', '221', '新增仓库', '3', 'eam:warehouse:create', '/manage/warehouse/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
-INSERT INTO `upms_permission` VALUES ('223', '6', '221', '编辑仓库', '3', 'eam:warehouse:update', '/manage/warehouse/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
-INSERT INTO `upms_permission` VALUES ('224', '6', '221', '删除仓库', '3', 'eam:warehouse:delete', '/manage/warehouse/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
-
-INSERT INTO `upms_permission` VALUES ('225', '6', '220', '仓位管理', '2', 'eam:location:read',   '/manage/location/index', null, '1', '225', '225');
-INSERT INTO `upms_permission` VALUES ('226', '6', '225', '新增仓位', '3', 'eam:location:create', '/manage/location/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
-INSERT INTO `upms_permission` VALUES ('227', '6', '225', '编辑仓位', '3', 'eam:location:update', '/manage/location/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
-INSERT INTO `upms_permission` VALUES ('228', '6', '225', '删除仓位', '3', 'eam:location:delete', '/manage/location/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
-
-INSERT INTO `upms_permission` VALUES ('229', '6', '220', '库存管理', '2', 'eam:inventory:read',   '/manage/inventory/index', null, '1', '229', '229');
-INSERT INTO `upms_permission` VALUES ('230', '6', '229', '新增库存明细', '3', 'eam:inventory:create', '/manage/inventory/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
-INSERT INTO `upms_permission` VALUES ('231', '6', '229', '编辑库存明细', '3', 'eam:inventory:update', '/manage/inventory/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
-INSERT INTO `upms_permission` VALUES ('232', '6', '229', '删除库存明细', '3', 'eam:inventory:delete', '/manage/inventory/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
-*/
 INSERT INTO `upms_permission` VALUES ('240', '6', '0', '备品备件', '1', null, null, 'zmdi zmdi-collection-text', '1', '240', '240');
 INSERT INTO `upms_permission` VALUES ('241', '6', '240', '备件类别管理', '2', 'eam:partCategory:read',   '/manage/part/category/index', null, '1', '241', '241');
 INSERT INTO `upms_permission` VALUES ('242', '6', '241', '新增备件类别', '3', 'eam:partCategory:create', '/manage/part/category/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
@@ -58,17 +41,17 @@ INSERT INTO `upms_permission` VALUES ('246', '6', '245', '新增备件', '3', 'e
 INSERT INTO `upms_permission` VALUES ('247', '6', '245', '编辑备件', '3', 'eam:part:update', '/manage/part/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
 INSERT INTO `upms_permission` VALUES ('248', '6', '245', '删除备件', '3', 'eam:part:delete', '/manage/part/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
 
-/*INSERT INTO `upms_permission` VALUES ('260', '6', '0', ' 维保管理', '1', null, null, 'zmdi zmdi-collection-text', '1', '260', '260');
-INSERT INTO `upms_permission` VALUES ('261', '6', '260', '设备维保', '2', 'eam:maintain:read',   '/manage/maintain/index', null, '1', '261', '261');
-INSERT INTO `upms_permission` VALUES ('262', '6', '261', '新增设备维保', '3', 'eam:maintain:create', '/manage/maintain/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
-INSERT INTO `upms_permission` VALUES ('263', '6', '261', '编辑设备维保', '3', 'eam:maintain:update', '/manage/maintain/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
-INSERT INTO `upms_permission` VALUES ('264', '6', '261', '删除设备维保', '3', 'eam:maintain:delete', '/manage/maintain/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
-*/
+
 INSERT INTO `upms_permission` VALUES ('219', '6', '0', ' 客户管理', '1', null, null, 'zmdi zmdi-collection-text', '1', '219', '219');
-INSERT INTO `upms_permission` VALUES ('270', '6', '219', '客户管理', '2', 'eam:companyBean:read',   '/manage/companyBean/index', null, '1', '270', '270');
-INSERT INTO `upms_permission` VALUES ('271', '6', '270', '新增客户', '3', 'eam:companyBean:create', '/manage/companyBean/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
-INSERT INTO `upms_permission` VALUES ('272', '6', '270', '编辑客户', '3', 'eam:companyBean:update', '/manage/companyBean/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
-INSERT INTO `upms_permission` VALUES ('273', '6', '270', '删除客户', '3', 'eam:companyBean:delete', '/manage/companyBean/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
+INSERT INTO `upms_permission` VALUES ('270', '6', '219', '客户管理', '2', 'eam:company:read',   '/manage/company/index', null, '1', '270', '270');
+INSERT INTO `upms_permission` VALUES ('271', '6', '270', '新增客户', '3', 'eam:company:create', '/manage/company/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
+INSERT INTO `upms_permission` VALUES ('272', '6', '270', '编辑客户', '3', 'eam:company:update', '/manage/company/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
+INSERT INTO `upms_permission` VALUES ('273', '6', '270', '删除客户', '3', 'eam:company:delete', '/manage/company/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
+
+INSERT INTO `upms_permission` VALUES ('274', '6', '219', '任务单管理', '2', 'eam:order:read',   '/manage/order/index', null, '1', '270', '270');
+INSERT INTO `upms_permission` VALUES ('275', '6', '274', '新增任务单', '3', 'eam:order:create', '/manage/order/create', 'zmdi zmdi-plus', '1', '1489820150404', '1489820150404');
+INSERT INTO `upms_permission` VALUES ('276', '6', '274', '编辑任务单', '3', 'eam:order:update', '/manage/order/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
+INSERT INTO `upms_permission` VALUES ('277', '6', '274', '删除任务单', '3', 'eam:order:delete', '/manage/order/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607');
 
 INSERT INTO `upms_permission` VALUES ('280', '6', '205', '数据写入', '3', 'eam:equipmentSensor:write', '/manage/equipment/sensor/', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269');
 
@@ -156,14 +139,30 @@ INSERT INTO `upms_permission` VALUES ('516', '6', '513', '删除设备类别', '
 INSERT INTO `upms_permission` VALUES ('517', '6', '201', '数据点分组', '3', 'eam:dataGroup:read', '/manage/{equipmentId}/dataGroup/index', 'zmdi zmdi-close', '1', '1489820207607', '208');
 
 
+INSERT INTO `upms_permission` VALUES ('600', '6', '0', '维修计划', '1', null, null, 'zmdi zmdi-collection-text', 1, 1, 600);
+INSERT INTO `upms_permission` VALUES ('610', '6', '600', '维修计划', '2', 'eam:maintainPlan:read', '/manage/maintainPlan/index', NULL, 1, 1, 610);
+INSERT INTO `upms_permission` VALUES ('611', '6', '610', '维修计划', '3', 'eam:maintainPlan:create', '/manage/maintainPlan/create', NULL, 1, 1, 611);
+INSERT INTO `upms_permission` VALUES ('612', '6', '610', '维修计划', '3', 'eam:maintainPlan:update', '/manage/maintainPlan/update', NULL, 1, 1, 612);
+INSERT INTO `upms_permission` VALUES ('613', '6', '610', '维修计划', '3', 'eam:maintainPlan:delete', '/manage/maintainPlan/delete', NULL, 1, 1, 613);
+
+INSERT INTO `upms_permission` VALUES (700,6,0,'基础数据设置',1,NULL,NULL,'zmdi zmdi-collection-text',1,100,700);
+INSERT INTO `upms_permission` VALUES ('710', '6', '700', '数据字典', '2', 'eam:codeValue:read', '/manage/codeValue/index', NULL, 1, 1, 710);
+INSERT INTO `upms_permission` VALUES ('711', '6', '710', '新增数据字典', '3', 'eam:codeValue:create', '/manage/codeValue/create', 'zmdi zmdi-plus', 1, 1, 711);
+INSERT INTO `upms_permission` VALUES ('712', '6', '710', '编辑数据字典', '3', 'eam:codeValue:update', '/manage/codeValue/update', 'zmdi zmdi-edit', 1, 1, 712);
+INSERT INTO `upms_permission` VALUES ('713', '6', '710', '删除数据字典', '3', 'eam:codeValue:delete', '/manage/codeValue/delete', 'zmdi zmdi-close', 1, 1, 713);
+
+INSERT INTO `upms_permission` VALUES ('714', '6', '700', '文件模板管理', '2', 'eam:fileTemplate:read', '/manage/fileTemplate/index', NULL, 1, 1, 714);
+INSERT INTO `upms_permission` VALUES ('715', '6', '714', '新增文件模板', '3', 'eam:fileTemplate:create', '/manage/fileTemplate/create', 'zmdi zmdi-plus', 1, 1, 715);
+INSERT INTO `upms_permission` VALUES ('716', '6', '714', '编辑文件模板', '3', 'eam:fileTemplate:update', '/manage/fileTemplate/update', 'zmdi zmdi-edit', 1, 1, 716);
+INSERT INTO `upms_permission` VALUES ('717', '6', '714', '删除文件模板', '3', 'eam:fileTemplate:delete', '/manage/fileTemplate/delete', 'zmdi zmdi-close', 1, 1, 717);
+
+
+
 TRUNCATE TABLE `eam_ticket_type`;
-INSERT INTO `eam_ticket_type` VALUES ('报警工单',1,now(),1,now(),0,1),('其它工单',1,now(),1,now(),0,1),('手工工单',1,now(),1,now(),0,1);
+INSERT INTO `eam_ticket_type` VALUES (1, '报警工单',1,now(),1,now(),0,1),(2, '其它工单',1,now(),1,now(),0,1),(3,'手工工单',1,now(),1,now(),0,1);
 
 # end prepare ticket menu item
 
 TRUNCATE TABLE `eam_protocol`;
-INSERT INTO `eam_protocol` VALUES (1, 'Modbus RTU', '118.89.140.11', 8234);
-INSERT INTO `eam_protocol` VALUES (2, 'Modbus TCP', '118.89.140.11', 8233);
-INSERT INTO `eam_protocol` VALUES (3, 'MQTT', '118.89.140.11', 8232);
 INSERT INTO `eam_protocol` VALUES (4, '巨控', 'www.yunplc.com', 7080);
 

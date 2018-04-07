@@ -78,4 +78,5 @@ INSERT INTO eam_code_value (category,code_value,code_name,description,create_use
 
 #文件模板
 INSERT INTO eam_code_value (category,code_value,code_name,description,create_user_id,create_time,update_user_id,update_time,delete_flag) VALUES ('FILE_TEMPLATE','1','任务单模板','',1,now(),1,now(),0);
-INSERT INTO eam_code_value (category,code_value,code_name,description,create_user_id,create_time,update_user_id,update_time,delete_flag) VALUES ('FILE_TEMPLATE','2','备件模板','',1,now(),1,now(),0);
+INSERT INTO eam_code_value (category,code_value,code_name,description,create_user_id,create_time,update_user_id,update_time,delete_flag) VALUES ('FILE_TEMPLATE','2','备件资料模板','',1,now(),1,now(),0);
+INSERT INTO eam_code_value (category,code_value,code_name,description,create_user_id,create_time,update_user_id,update_time,delete_flag) VALUES ('FILE_TEMPLATE','3','客户资料模板','',1,now(),1,now(),0);

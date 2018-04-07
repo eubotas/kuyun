@@ -39,11 +39,6 @@ public class UpmsUser extends BaseEntity implements Serializable {
      */
     private String realname;
 
-    /**
-     * 头像
-     *
-     * @mbg.generated
-     */
     private String avatar;
 
     /**

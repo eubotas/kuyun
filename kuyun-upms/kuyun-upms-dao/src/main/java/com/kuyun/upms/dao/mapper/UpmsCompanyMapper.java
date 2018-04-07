@@ -16,15 +16,21 @@ public interface UpmsCompanyMapper {
 
     int insertSelective(UpmsCompany record);
 
+    List<UpmsCompany> selectByExampleWithBLOBs(UpmsCompanyExample example);
+
     List<UpmsCompany> selectByExample(UpmsCompanyExample example);
 
     UpmsCompany selectByPrimaryKey(Integer companyId);
 
     int updateByExampleSelective(@Param("record") UpmsCompany record, @Param("example") UpmsCompanyExample example);
 
+    int updateByExampleWithBLOBs(@Param("record") UpmsCompany record, @Param("example") UpmsCompanyExample example);
+
     int updateByExample(@Param("record") UpmsCompany record, @Param("example") UpmsCompanyExample example);
 
     int updateByPrimaryKeySelective(UpmsCompany record);
+
+    int updateByPrimaryKeyWithBLOBs(UpmsCompany record);
 
     int updateByPrimaryKey(UpmsCompany record);
 

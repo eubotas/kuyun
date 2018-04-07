@@ -11,27 +11,27 @@
 
 		<div class="form-group">
 			<label for="name">客户名称</label>
-			<input id="name" type="text" class="form-control" name="name" maxlength="50" value="${companyBean.name}">
+			<input id="name" type="text" class="form-control" name="name" maxlength="50" value="${company.name}">
 		</div>
 		<div class="form-group">
 			<label for="name">地址</label>
-			<input id="address" type="text" class="form-control" name="address" maxlength="50" value="${companyBean.address}">
+			<input id="address" type="text" class="form-control" name="address" maxlength="50" value="${company.address}">
 		</div>
 		<div class="form-group">
 			<label for="phone">电话</label>
-			<input id="phone" type="text" class="form-control" name="phone" maxlength="15" value="${companyBean.phone}">
+			<input id="phone" type="text" class="form-control" name="phone" maxlength="15" value="${company.phone}">
 		</div>
 		<div class="form-group">
 			<label for="fax">传真</label>
-			<input id="fax" type="text" class="form-control" name="fax" maxlength="15" value="${companyBean.fax}">
+			<input id="fax" type="text" class="form-control" name="fax" maxlength="15" value="${company.fax}">
 		</div>
 		<div class="form-group">
 			<label for="zip">邮编</label>
-			<input id="zip" type="text" class="form-control" name="zip" maxlength="10" value="${companyBean.zip}">
+			<input id="zip" type="text" class="form-control" name="zip" maxlength="10" value="${company.zip}">
 		</div>
 		<div class="form-group">
 			<label for="www">网址</label>
-			<input id="www" type="text" class="form-control" name="www" maxlength="15" value="${companyBean.www}">
+			<input id="www" type="text" class="form-control" name="www" maxlength="15" value="${company.www}">
 		</div>
 		
 		<div class="form-group text-right dialog-buttons">
@@ -44,7 +44,7 @@
 function createSubmit() {
     $.ajax({
         type: 'post',
-        url: '${basePath}/manage/companyBean/update/${companyBean.companyId}',
+        url: '${basePath}/manage/company/update/${company.companyId}',
         data: $('#updateForm').serialize(),
         beforeSend: function() {
             if ($('#name').val() == '') {

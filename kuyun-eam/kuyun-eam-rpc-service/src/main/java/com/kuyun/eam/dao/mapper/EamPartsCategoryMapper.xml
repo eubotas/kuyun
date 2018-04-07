@@ -4,7 +4,6 @@
   <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamPartsCategory">
     <id column="category_id" jdbcType="INTEGER" property="categoryId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="organization_id" jdbcType="INTEGER" property="organizationId" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
@@ -71,8 +70,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    category_id, name, organization_id, create_user_id, create_time, update_user_id, 
-    update_time, delete_flag, company_id
+    category_id, name, create_user_id, create_time, update_user_id, update_time, delete_flag, 
+    company_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamPartsCategoryExample" resultMap="BaseResultMap">
     select
@@ -116,12 +115,12 @@
     <selectKey keyProperty="categoryId" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into eam_parts_category (name, organization_id, create_user_id, 
-      create_time, update_user_id, update_time, 
-      delete_flag, company_id)
-    values (#{name,jdbcType=VARCHAR}, #{organizationId,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlag,jdbcType=BIT}, #{companyId,jdbcType=INTEGER})
+    insert into eam_parts_category (name, create_user_id, create_time, 
+      update_user_id, update_time, delete_flag, 
+      company_id)
+    values (#{name,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
+      #{companyId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamPartsCategory">
     <selectKey keyProperty="categoryId" order="AFTER" resultType="java.lang.Integer">
@@ -131,9 +130,6 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="name != null">
         name,
-      </if>
-      <if test="organizationId != null">
-        organization_id,
       </if>
       <if test="createUserId != null">
         create_user_id,
@@ -157,9 +153,6 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="organizationId != null">
-        #{organizationId,jdbcType=INTEGER},
       </if>
       <if test="createUserId != null">
         #{createUserId,jdbcType=INTEGER},
@@ -196,9 +189,6 @@
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.organizationId != null">
-        organization_id = #{record.organizationId,jdbcType=INTEGER},
-      </if>
       <if test="record.createUserId != null">
         create_user_id = #{record.createUserId,jdbcType=INTEGER},
       </if>
@@ -226,7 +216,6 @@
     update eam_parts_category
     set category_id = #{record.categoryId,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
-      organization_id = #{record.organizationId,jdbcType=INTEGER},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
@@ -242,9 +231,6 @@
     <set>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="organizationId != null">
-        organization_id = #{organizationId,jdbcType=INTEGER},
       </if>
       <if test="createUserId != null">
         create_user_id = #{createUserId,jdbcType=INTEGER},
@@ -270,7 +256,6 @@
   <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamPartsCategory">
     update eam_parts_category
     set name = #{name,jdbcType=VARCHAR},
-      organization_id = #{organizationId,jdbcType=INTEGER},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=INTEGER},
@@ -281,14 +266,14 @@
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into eam_parts_category  (name, organization_id, create_user_id, 
-        create_time, update_user_id, update_time, 
-        delete_flag, company_id)
+            insert into eam_parts_category  (name, create_user_id, create_time, 
+        update_user_id, update_time, delete_flag, 
+        company_id)
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.name,jdbcType=VARCHAR}, #{item.organizationId,jdbcType=INTEGER}, #{item.createUserId,jdbcType=INTEGER}, 
-        #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
-        #{item.deleteFlag,jdbcType=BIT}, #{item.companyId,jdbcType=INTEGER})
+      (#{item.name,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, 
+        #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, 
+        #{item.companyId,jdbcType=INTEGER})
       </foreach>
     </if>
   </insert>

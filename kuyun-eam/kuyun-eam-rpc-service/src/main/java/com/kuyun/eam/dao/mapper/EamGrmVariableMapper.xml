@@ -2,23 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kuyun.eam.dao.mapper.EamGrmVariableMapper">
   <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamGrmVariable">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="equipment_id" jdbcType="VARCHAR" property="equipmentId" />
-    <result column="product_line_id" jdbcType="VARCHAR" property="productLineId" />
-    <result column="data_group_id" jdbcType="INTEGER" property="dataGroupId" />
-    <result column="equipment_data_group_id" jdbcType="INTEGER" property="equipmentDataGroupId" />
-    <result column="data_element_id" jdbcType="INTEGER" property="dataElementId" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="type" jdbcType="VARCHAR" property="type" />
-    <result column="attribute" jdbcType="VARCHAR" property="attribute" />
-    <result column="network_permisstion" jdbcType="VARCHAR" property="networkPermisstion" />
-    <result column="group_name" jdbcType="VARCHAR" property="groupName" />
-    <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
+    <id column="eam_grm_variable_id" jdbcType="INTEGER" property="id" />
+    <result column="eam_grm_variable_equipment_id" jdbcType="VARCHAR" property="equipmentId" />
+    <result column="eam_grm_variable_product_line_id" jdbcType="VARCHAR" property="productLineId" />
+    <result column="eam_grm_variable_data_group_id" jdbcType="INTEGER" property="dataGroupId" />
+    <result column="eam_grm_variable_equipment_data_group_id" jdbcType="INTEGER" property="equipmentDataGroupId" />
+    <result column="eam_grm_variable_data_element_id" jdbcType="INTEGER" property="dataElementId" />
+    <result column="eam_grm_variable_name" jdbcType="VARCHAR" property="name" />
+    <result column="eam_grm_variable_type" jdbcType="VARCHAR" property="type" />
+    <result column="eam_grm_variable_attribute" jdbcType="VARCHAR" property="attribute" />
+    <result column="eam_grm_variable_network_permisstion" jdbcType="VARCHAR" property="networkPermisstion" />
+    <result column="eam_grm_variable_group_name" jdbcType="VARCHAR" property="groupName" />
+    <result column="eam_grm_variable_description" jdbcType="VARCHAR" property="description" />
+    <result column="eam_grm_variable_create_user_id" jdbcType="INTEGER" property="createUserId" />
+    <result column="eam_grm_variable_create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="eam_grm_variable_update_user_id" jdbcType="INTEGER" property="updateUserId" />
+    <result column="eam_grm_variable_update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="eam_grm_variable_delete_flag" jdbcType="BIT" property="deleteFlag" />
+    <result column="eam_grm_variable_grm_period" jdbcType="INTEGER" property="grmPeriod" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -79,9 +80,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, equipment_id, product_line_id, data_group_id, equipment_data_group_id, data_element_id, 
-    name, type, attribute, network_permisstion, group_name, description, create_user_id, 
-    create_time, update_user_id, update_time, delete_flag
+    eam_grm_variable.id as eam_grm_variable_id, eam_grm_variable.equipment_id as eam_grm_variable_equipment_id, 
+    eam_grm_variable.product_line_id as eam_grm_variable_product_line_id, eam_grm_variable.data_group_id as eam_grm_variable_data_group_id, 
+    eam_grm_variable.equipment_data_group_id as eam_grm_variable_equipment_data_group_id, 
+    eam_grm_variable.data_element_id as eam_grm_variable_data_element_id, eam_grm_variable.name as eam_grm_variable_name, 
+    eam_grm_variable.type as eam_grm_variable_type, eam_grm_variable.attribute as eam_grm_variable_attribute, 
+    eam_grm_variable.network_permisstion as eam_grm_variable_network_permisstion, eam_grm_variable.group_name as eam_grm_variable_group_name, 
+    eam_grm_variable.description as eam_grm_variable_description, eam_grm_variable.create_user_id as eam_grm_variable_create_user_id, 
+    eam_grm_variable.create_time as eam_grm_variable_create_time, eam_grm_variable.update_user_id as eam_grm_variable_update_user_id, 
+    eam_grm_variable.update_time as eam_grm_variable_update_time, eam_grm_variable.delete_flag as eam_grm_variable_delete_flag, 
+    eam_grm_variable.grm_period as eam_grm_variable_grm_period
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamGrmVariableExample" resultMap="BaseResultMap">
     select
@@ -89,7 +97,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from eam_grm_variable
+    from eam_grm_variable eam_grm_variable
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -108,15 +116,15 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from eam_grm_variable
-    where id = #{id,jdbcType=INTEGER}
+    from eam_grm_variable eam_grm_variable
+    where eam_grm_variable.id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from eam_grm_variable
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamGrmVariableExample">
-    delete from eam_grm_variable
+    delete from eam_grm_variable eam_grm_variable
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -127,13 +135,15 @@
       name, type, attribute, 
       network_permisstion, group_name, description, 
       create_user_id, create_time, update_user_id, 
-      update_time, delete_flag)
+      update_time, delete_flag, grm_period
+      )
     values (#{id,jdbcType=INTEGER}, #{equipmentId,jdbcType=VARCHAR}, #{productLineId,jdbcType=VARCHAR}, 
       #{dataGroupId,jdbcType=INTEGER}, #{equipmentDataGroupId,jdbcType=INTEGER}, #{dataElementId,jdbcType=INTEGER}, 
       #{name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{attribute,jdbcType=VARCHAR}, 
       #{networkPermisstion,jdbcType=VARCHAR}, #{groupName,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
       #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT})
+      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{grmPeriod,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamGrmVariable">
     insert into eam_grm_variable
@@ -189,6 +199,9 @@
       <if test="deleteFlag != null">
         delete_flag,
       </if>
+      <if test="grmPeriod != null">
+        grm_period,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -242,67 +255,73 @@
       <if test="deleteFlag != null">
         #{deleteFlag,jdbcType=BIT},
       </if>
+      <if test="grmPeriod != null">
+        #{grmPeriod,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamGrmVariableExample" resultType="java.lang.Long">
-    select count(*) from eam_grm_variable
+    select count(*) from eam_grm_variable eam_grm_variable
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update eam_grm_variable
+    update eam_grm_variable eam_grm_variable
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        eam_grm_variable.id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.equipmentId != null">
-        equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
+        eam_grm_variable.equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
       </if>
       <if test="record.productLineId != null">
-        product_line_id = #{record.productLineId,jdbcType=VARCHAR},
+        eam_grm_variable.product_line_id = #{record.productLineId,jdbcType=VARCHAR},
       </if>
       <if test="record.dataGroupId != null">
-        data_group_id = #{record.dataGroupId,jdbcType=INTEGER},
+        eam_grm_variable.data_group_id = #{record.dataGroupId,jdbcType=INTEGER},
       </if>
       <if test="record.equipmentDataGroupId != null">
-        equipment_data_group_id = #{record.equipmentDataGroupId,jdbcType=INTEGER},
+        eam_grm_variable.equipment_data_group_id = #{record.equipmentDataGroupId,jdbcType=INTEGER},
       </if>
       <if test="record.dataElementId != null">
-        data_element_id = #{record.dataElementId,jdbcType=INTEGER},
+        eam_grm_variable.data_element_id = #{record.dataElementId,jdbcType=INTEGER},
       </if>
       <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+        eam_grm_variable.name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.type != null">
-        type = #{record.type,jdbcType=VARCHAR},
+        eam_grm_variable.type = #{record.type,jdbcType=VARCHAR},
       </if>
       <if test="record.attribute != null">
-        attribute = #{record.attribute,jdbcType=VARCHAR},
+        eam_grm_variable.attribute = #{record.attribute,jdbcType=VARCHAR},
       </if>
       <if test="record.networkPermisstion != null">
-        network_permisstion = #{record.networkPermisstion,jdbcType=VARCHAR},
+        eam_grm_variable.network_permisstion = #{record.networkPermisstion,jdbcType=VARCHAR},
       </if>
       <if test="record.groupName != null">
-        group_name = #{record.groupName,jdbcType=VARCHAR},
+        eam_grm_variable.group_name = #{record.groupName,jdbcType=VARCHAR},
       </if>
       <if test="record.description != null">
-        description = #{record.description,jdbcType=VARCHAR},
+        eam_grm_variable.description = #{record.description,jdbcType=VARCHAR},
       </if>
       <if test="record.createUserId != null">
-        create_user_id = #{record.createUserId,jdbcType=INTEGER},
+        eam_grm_variable.create_user_id = #{record.createUserId,jdbcType=INTEGER},
       </if>
       <if test="record.createTime != null">
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+        eam_grm_variable.create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.updateUserId != null">
-        update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+        eam_grm_variable.update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       </if>
       <if test="record.updateTime != null">
-        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+        eam_grm_variable.update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.deleteFlag != null">
-        delete_flag = #{record.deleteFlag,jdbcType=BIT},
+        eam_grm_variable.delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="record.grmPeriod != null">
+        eam_grm_variable.grm_period = #{record.grmPeriod,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -310,24 +329,25 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update eam_grm_variable
-    set id = #{record.id,jdbcType=INTEGER},
-      equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
-      product_line_id = #{record.productLineId,jdbcType=VARCHAR},
-      data_group_id = #{record.dataGroupId,jdbcType=INTEGER},
-      equipment_data_group_id = #{record.equipmentDataGroupId,jdbcType=INTEGER},
-      data_element_id = #{record.dataElementId,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
-      type = #{record.type,jdbcType=VARCHAR},
-      attribute = #{record.attribute,jdbcType=VARCHAR},
-      network_permisstion = #{record.networkPermisstion,jdbcType=VARCHAR},
-      group_name = #{record.groupName,jdbcType=VARCHAR},
-      description = #{record.description,jdbcType=VARCHAR},
-      create_user_id = #{record.createUserId,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      update_user_id = #{record.updateUserId,jdbcType=INTEGER},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      delete_flag = #{record.deleteFlag,jdbcType=BIT}
+    update eam_grm_variable eam_grm_variable
+    set eam_grm_variable.id = #{record.id,jdbcType=INTEGER},
+      eam_grm_variable.equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
+      eam_grm_variable.product_line_id = #{record.productLineId,jdbcType=VARCHAR},
+      eam_grm_variable.data_group_id = #{record.dataGroupId,jdbcType=INTEGER},
+      eam_grm_variable.equipment_data_group_id = #{record.equipmentDataGroupId,jdbcType=INTEGER},
+      eam_grm_variable.data_element_id = #{record.dataElementId,jdbcType=INTEGER},
+      eam_grm_variable.name = #{record.name,jdbcType=VARCHAR},
+      eam_grm_variable.type = #{record.type,jdbcType=VARCHAR},
+      eam_grm_variable.attribute = #{record.attribute,jdbcType=VARCHAR},
+      eam_grm_variable.network_permisstion = #{record.networkPermisstion,jdbcType=VARCHAR},
+      eam_grm_variable.group_name = #{record.groupName,jdbcType=VARCHAR},
+      eam_grm_variable.description = #{record.description,jdbcType=VARCHAR},
+      eam_grm_variable.create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      eam_grm_variable.create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      eam_grm_variable.update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+      eam_grm_variable.update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      eam_grm_variable.delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      eam_grm_variable.grm_period = #{record.grmPeriod,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -383,6 +403,9 @@
       <if test="deleteFlag != null">
         delete_flag = #{deleteFlag,jdbcType=BIT},
       </if>
+      <if test="grmPeriod != null">
+        grm_period = #{grmPeriod,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -403,7 +426,8 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      delete_flag = #{deleteFlag,jdbcType=BIT}
+      delete_flag = #{deleteFlag,jdbcType=BIT},
+      grm_period = #{grmPeriod,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <insert id="batchInsert">
@@ -413,7 +437,8 @@
         name, type, attribute, 
         network_permisstion, group_name, description, 
         create_user_id, create_time, update_user_id, 
-        update_time, delete_flag)
+        update_time, delete_flag, grm_period
+        )
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.id,jdbcType=INTEGER}, #{item.equipmentId,jdbcType=VARCHAR}, #{item.productLineId,jdbcType=VARCHAR}, 
@@ -421,7 +446,8 @@
         #{item.name,jdbcType=VARCHAR}, #{item.type,jdbcType=VARCHAR}, #{item.attribute,jdbcType=VARCHAR}, 
         #{item.networkPermisstion,jdbcType=VARCHAR}, #{item.groupName,jdbcType=VARCHAR}, #{item.description,jdbcType=VARCHAR}, 
         #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, 
-        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT})
+        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, #{item.grmPeriod,jdbcType=INTEGER}
+        )
       </foreach>
     </if>
   </insert>

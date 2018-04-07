@@ -10,7 +10,6 @@ import com.kuyun.upms.dao.model.UpmsCompany;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
 import javafx.util.Pair;
 
-import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.List;
 
@@ -156,7 +155,19 @@ public interface EamApiService {
 
     void importCompanyData(List<CompanyBean> companyBeanList, UpmsUserCompany currentCompany);
 
+    void importOrderData(List<OrderBean> orderBeanList);
+
     void statisticJob();
 
     void importPartData(List<PartBean> partBeanList, UpmsUserCompany company, EamEquipment equipment);
+
+    List<EamOrderVO> selectOrders(EamOrderVO orderVO);
+
+    long countOrders(EamOrderVO orderVO);
+
+    List<Pair<Integer, List<EamGrmVariable>>> selectGrmVariableGroupByPeriod(String productLineId);
+
+    List<EamGrmVariableVO> selectGrmVariables(EamGrmVariableVO variableVO);
+
+    long countGrmVariables(EamGrmVariableVO variableVO);
 }

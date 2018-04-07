@@ -1,0 +1,593 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kuyun.eam.dao.mapper.EamOrderMapper">
+  <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamOrder">
+    <id column="eam_order_id" jdbcType="INTEGER" property="id" />
+    <result column="eam_order_company_name" jdbcType="VARCHAR" property="companyName" />
+    <result column="eam_order_year" jdbcType="VARCHAR" property="year" />
+    <result column="eam_order_task_number" jdbcType="VARCHAR" property="taskNumber" />
+    <result column="eam_order_state" jdbcType="VARCHAR" property="state" />
+    <result column="eam_order_country" jdbcType="VARCHAR" property="country" />
+    <result column="eam_order_province" jdbcType="VARCHAR" property="province" />
+    <result column="eam_order_city" jdbcType="VARCHAR" property="city" />
+    <result column="eam_order_industry" jdbcType="VARCHAR" property="industry" />
+    <result column="eam_order_product_line_type" jdbcType="VARCHAR" property="productLineType" />
+    <result column="eam_order_has_cxg" jdbcType="BIT" property="hasCxg" />
+    <result column="eam_order_has_znlk" jdbcType="BIT" property="hasZnlk" />
+    <result column="eam_order_product_line_capacity" jdbcType="VARCHAR" property="productLineCapacity" />
+    <result column="eam_order_packaging_material" jdbcType="VARCHAR" property="packagingMaterial" />
+    <result column="eam_order_product_spec" jdbcType="VARCHAR" property="productSpec" />
+    <result column="eam_order_major_equipment" jdbcType="VARCHAR" property="majorEquipment" />
+    <result column="eam_order_create_user_id" jdbcType="INTEGER" property="createUserId" />
+    <result column="eam_order_create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="eam_order_update_user_id" jdbcType="INTEGER" property="updateUserId" />
+    <result column="eam_order_update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="eam_order_delete_flag" jdbcType="BIT" property="deleteFlag" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.kuyun.eam.dao.model.EamOrder">
+    <result column="eam_order_comment" jdbcType="LONGVARCHAR" property="comment" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    eam_order.id as eam_order_id, eam_order.company_name as eam_order_company_name, eam_order.year as eam_order_year, 
+    eam_order.task_number as eam_order_task_number, eam_order.state as eam_order_state, 
+    eam_order.country as eam_order_country, eam_order.province as eam_order_province, 
+    eam_order.city as eam_order_city, eam_order.industry as eam_order_industry, eam_order.product_line_type as eam_order_product_line_type, 
+    eam_order.has_cxg as eam_order_has_cxg, eam_order.has_znlk as eam_order_has_znlk, 
+    eam_order.product_line_capacity as eam_order_product_line_capacity, eam_order.packaging_material as eam_order_packaging_material, 
+    eam_order.product_spec as eam_order_product_spec, eam_order.major_equipment as eam_order_major_equipment, 
+    eam_order.create_user_id as eam_order_create_user_id, eam_order.create_time as eam_order_create_time, 
+    eam_order.update_user_id as eam_order_update_user_id, eam_order.update_time as eam_order_update_time, 
+    eam_order.delete_flag as eam_order_delete_flag
+  </sql>
+  <sql id="Blob_Column_List">
+    eam_order.comment as eam_order_comment
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.kuyun.eam.dao.model.EamOrderExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from eam_order eam_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamOrderExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from eam_order eam_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from eam_order eam_order
+    where eam_order.id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from eam_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamOrderExample">
+    delete from eam_order eam_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamOrder">
+    insert into eam_order (id, company_name, year, 
+      task_number, state, country, 
+      province, city, industry, 
+      product_line_type, has_cxg, has_znlk, 
+      product_line_capacity, packaging_material, 
+      product_spec, major_equipment, create_user_id, 
+      create_time, update_user_id, update_time, 
+      delete_flag, comment)
+    values (#{id,jdbcType=INTEGER}, #{companyName,jdbcType=VARCHAR}, #{year,jdbcType=VARCHAR}, 
+      #{taskNumber,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, 
+      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{industry,jdbcType=VARCHAR}, 
+      #{productLineType,jdbcType=VARCHAR}, #{hasCxg,jdbcType=BIT}, #{hasZnlk,jdbcType=BIT}, 
+      #{productLineCapacity,jdbcType=VARCHAR}, #{packagingMaterial,jdbcType=VARCHAR}, 
+      #{productSpec,jdbcType=VARCHAR}, #{majorEquipment,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{deleteFlag,jdbcType=BIT}, #{comment,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamOrder">
+    insert into eam_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="companyName != null">
+        company_name,
+      </if>
+      <if test="year != null">
+        year,
+      </if>
+      <if test="taskNumber != null">
+        task_number,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="country != null">
+        country,
+      </if>
+      <if test="province != null">
+        province,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="industry != null">
+        industry,
+      </if>
+      <if test="productLineType != null">
+        product_line_type,
+      </if>
+      <if test="hasCxg != null">
+        has_cxg,
+      </if>
+      <if test="hasZnlk != null">
+        has_znlk,
+      </if>
+      <if test="productLineCapacity != null">
+        product_line_capacity,
+      </if>
+      <if test="packagingMaterial != null">
+        packaging_material,
+      </if>
+      <if test="productSpec != null">
+        product_spec,
+      </if>
+      <if test="majorEquipment != null">
+        major_equipment,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag,
+      </if>
+      <if test="comment != null">
+        comment,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="companyName != null">
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null">
+        #{year,jdbcType=VARCHAR},
+      </if>
+      <if test="taskNumber != null">
+        #{taskNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null">
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null">
+        #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="productLineType != null">
+        #{productLineType,jdbcType=VARCHAR},
+      </if>
+      <if test="hasCxg != null">
+        #{hasCxg,jdbcType=BIT},
+      </if>
+      <if test="hasZnlk != null">
+        #{hasZnlk,jdbcType=BIT},
+      </if>
+      <if test="productLineCapacity != null">
+        #{productLineCapacity,jdbcType=VARCHAR},
+      </if>
+      <if test="packagingMaterial != null">
+        #{packagingMaterial,jdbcType=VARCHAR},
+      </if>
+      <if test="productSpec != null">
+        #{productSpec,jdbcType=VARCHAR},
+      </if>
+      <if test="majorEquipment != null">
+        #{majorEquipment,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null">
+        #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="comment != null">
+        #{comment,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamOrderExample" resultType="java.lang.Long">
+    select count(*) from eam_order eam_order
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update eam_order eam_order
+    <set>
+      <if test="record.id != null">
+        eam_order.id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.companyName != null">
+        eam_order.company_name = #{record.companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.year != null">
+        eam_order.year = #{record.year,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskNumber != null">
+        eam_order.task_number = #{record.taskNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.state != null">
+        eam_order.state = #{record.state,jdbcType=VARCHAR},
+      </if>
+      <if test="record.country != null">
+        eam_order.country = #{record.country,jdbcType=VARCHAR},
+      </if>
+      <if test="record.province != null">
+        eam_order.province = #{record.province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null">
+        eam_order.city = #{record.city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.industry != null">
+        eam_order.industry = #{record.industry,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productLineType != null">
+        eam_order.product_line_type = #{record.productLineType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hasCxg != null">
+        eam_order.has_cxg = #{record.hasCxg,jdbcType=BIT},
+      </if>
+      <if test="record.hasZnlk != null">
+        eam_order.has_znlk = #{record.hasZnlk,jdbcType=BIT},
+      </if>
+      <if test="record.productLineCapacity != null">
+        eam_order.product_line_capacity = #{record.productLineCapacity,jdbcType=VARCHAR},
+      </if>
+      <if test="record.packagingMaterial != null">
+        eam_order.packaging_material = #{record.packagingMaterial,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productSpec != null">
+        eam_order.product_spec = #{record.productSpec,jdbcType=VARCHAR},
+      </if>
+      <if test="record.majorEquipment != null">
+        eam_order.major_equipment = #{record.majorEquipment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUserId != null">
+        eam_order.create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        eam_order.create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUserId != null">
+        eam_order.update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null">
+        eam_order.update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deleteFlag != null">
+        eam_order.delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="record.comment != null">
+        eam_order.comment = #{record.comment,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update eam_order eam_order
+    set eam_order.id = #{record.id,jdbcType=INTEGER},
+      eam_order.company_name = #{record.companyName,jdbcType=VARCHAR},
+      eam_order.year = #{record.year,jdbcType=VARCHAR},
+      eam_order.task_number = #{record.taskNumber,jdbcType=VARCHAR},
+      eam_order.state = #{record.state,jdbcType=VARCHAR},
+      eam_order.country = #{record.country,jdbcType=VARCHAR},
+      eam_order.province = #{record.province,jdbcType=VARCHAR},
+      eam_order.city = #{record.city,jdbcType=VARCHAR},
+      eam_order.industry = #{record.industry,jdbcType=VARCHAR},
+      eam_order.product_line_type = #{record.productLineType,jdbcType=VARCHAR},
+      eam_order.has_cxg = #{record.hasCxg,jdbcType=BIT},
+      eam_order.has_znlk = #{record.hasZnlk,jdbcType=BIT},
+      eam_order.product_line_capacity = #{record.productLineCapacity,jdbcType=VARCHAR},
+      eam_order.packaging_material = #{record.packagingMaterial,jdbcType=VARCHAR},
+      eam_order.product_spec = #{record.productSpec,jdbcType=VARCHAR},
+      eam_order.major_equipment = #{record.majorEquipment,jdbcType=VARCHAR},
+      eam_order.create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      eam_order.create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      eam_order.update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+      eam_order.update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      eam_order.delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      eam_order.comment = #{record.comment,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update eam_order eam_order
+    set eam_order.id = #{record.id,jdbcType=INTEGER},
+      eam_order.company_name = #{record.companyName,jdbcType=VARCHAR},
+      eam_order.year = #{record.year,jdbcType=VARCHAR},
+      eam_order.task_number = #{record.taskNumber,jdbcType=VARCHAR},
+      eam_order.state = #{record.state,jdbcType=VARCHAR},
+      eam_order.country = #{record.country,jdbcType=VARCHAR},
+      eam_order.province = #{record.province,jdbcType=VARCHAR},
+      eam_order.city = #{record.city,jdbcType=VARCHAR},
+      eam_order.industry = #{record.industry,jdbcType=VARCHAR},
+      eam_order.product_line_type = #{record.productLineType,jdbcType=VARCHAR},
+      eam_order.has_cxg = #{record.hasCxg,jdbcType=BIT},
+      eam_order.has_znlk = #{record.hasZnlk,jdbcType=BIT},
+      eam_order.product_line_capacity = #{record.productLineCapacity,jdbcType=VARCHAR},
+      eam_order.packaging_material = #{record.packagingMaterial,jdbcType=VARCHAR},
+      eam_order.product_spec = #{record.productSpec,jdbcType=VARCHAR},
+      eam_order.major_equipment = #{record.majorEquipment,jdbcType=VARCHAR},
+      eam_order.create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      eam_order.create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      eam_order.update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+      eam_order.update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      eam_order.delete_flag = #{record.deleteFlag,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kuyun.eam.dao.model.EamOrder">
+    update eam_order
+    <set>
+      <if test="companyName != null">
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null">
+        year = #{year,jdbcType=VARCHAR},
+      </if>
+      <if test="taskNumber != null">
+        task_number = #{taskNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null">
+        country = #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null">
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="industry != null">
+        industry = #{industry,jdbcType=VARCHAR},
+      </if>
+      <if test="productLineType != null">
+        product_line_type = #{productLineType,jdbcType=VARCHAR},
+      </if>
+      <if test="hasCxg != null">
+        has_cxg = #{hasCxg,jdbcType=BIT},
+      </if>
+      <if test="hasZnlk != null">
+        has_znlk = #{hasZnlk,jdbcType=BIT},
+      </if>
+      <if test="productLineCapacity != null">
+        product_line_capacity = #{productLineCapacity,jdbcType=VARCHAR},
+      </if>
+      <if test="packagingMaterial != null">
+        packaging_material = #{packagingMaterial,jdbcType=VARCHAR},
+      </if>
+      <if test="productSpec != null">
+        product_spec = #{productSpec,jdbcType=VARCHAR},
+      </if>
+      <if test="majorEquipment != null">
+        major_equipment = #{majorEquipment,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag = #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="comment != null">
+        comment = #{comment,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.kuyun.eam.dao.model.EamOrder">
+    update eam_order
+    set company_name = #{companyName,jdbcType=VARCHAR},
+      year = #{year,jdbcType=VARCHAR},
+      task_number = #{taskNumber,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR},
+      country = #{country,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      industry = #{industry,jdbcType=VARCHAR},
+      product_line_type = #{productLineType,jdbcType=VARCHAR},
+      has_cxg = #{hasCxg,jdbcType=BIT},
+      has_znlk = #{hasZnlk,jdbcType=BIT},
+      product_line_capacity = #{productLineCapacity,jdbcType=VARCHAR},
+      packaging_material = #{packagingMaterial,jdbcType=VARCHAR},
+      product_spec = #{productSpec,jdbcType=VARCHAR},
+      major_equipment = #{majorEquipment,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      delete_flag = #{deleteFlag,jdbcType=BIT},
+      comment = #{comment,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamOrder">
+    update eam_order
+    set company_name = #{companyName,jdbcType=VARCHAR},
+      year = #{year,jdbcType=VARCHAR},
+      task_number = #{taskNumber,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR},
+      country = #{country,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      industry = #{industry,jdbcType=VARCHAR},
+      product_line_type = #{productLineType,jdbcType=VARCHAR},
+      has_cxg = #{hasCxg,jdbcType=BIT},
+      has_znlk = #{hasZnlk,jdbcType=BIT},
+      product_line_capacity = #{productLineCapacity,jdbcType=VARCHAR},
+      packaging_material = #{packagingMaterial,jdbcType=VARCHAR},
+      product_spec = #{productSpec,jdbcType=VARCHAR},
+      major_equipment = #{majorEquipment,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      delete_flag = #{deleteFlag,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <insert id="batchInsert">
+    <if test="items.get(0) != null">
+            insert into eam_order  (id, company_name, year, 
+        task_number, state, country, 
+        province, city, industry, 
+        product_line_type, has_cxg, has_znlk, 
+        product_line_capacity, packaging_material, 
+        product_spec, major_equipment, create_user_id, 
+        create_time, update_user_id, update_time, 
+        delete_flag, comment)
+      values
+      <foreach collection="items" item="item" index="index" separator=",">
+      (#{item.id,jdbcType=INTEGER}, #{item.companyName,jdbcType=VARCHAR}, #{item.year,jdbcType=VARCHAR}, 
+        #{item.taskNumber,jdbcType=VARCHAR}, #{item.state,jdbcType=VARCHAR}, #{item.country,jdbcType=VARCHAR}, 
+        #{item.province,jdbcType=VARCHAR}, #{item.city,jdbcType=VARCHAR}, #{item.industry,jdbcType=VARCHAR}, 
+        #{item.productLineType,jdbcType=VARCHAR}, #{item.hasCxg,jdbcType=BIT}, #{item.hasZnlk,jdbcType=BIT}, 
+        #{item.productLineCapacity,jdbcType=VARCHAR}, #{item.packagingMaterial,jdbcType=VARCHAR}, 
+        #{item.productSpec,jdbcType=VARCHAR}, #{item.majorEquipment,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER}, 
+        #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
+        #{item.deleteFlag,jdbcType=BIT}, #{item.comment,jdbcType=LONGVARCHAR})
+      </foreach>
+    </if>
+  </insert>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+</mapper>

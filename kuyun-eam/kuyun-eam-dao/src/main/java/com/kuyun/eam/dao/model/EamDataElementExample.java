@@ -828,66 +828,6 @@ public class EamDataElementExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andIsStatisticIsNull() {
-            addCriterion("is_statistic is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsStatisticIsNotNull() {
-            addCriterion("is_statistic is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsStatisticEqualTo(Boolean value) {
-            addCriterion("is_statistic =", value, "isStatistic");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsStatisticNotEqualTo(Boolean value) {
-            addCriterion("is_statistic <>", value, "isStatistic");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsStatisticGreaterThan(Boolean value) {
-            addCriterion("is_statistic >", value, "isStatistic");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsStatisticGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_statistic >=", value, "isStatistic");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsStatisticLessThan(Boolean value) {
-            addCriterion("is_statistic <", value, "isStatistic");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsStatisticLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_statistic <=", value, "isStatistic");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsStatisticIn(List<Boolean> values) {
-            addCriterion("is_statistic in", values, "isStatistic");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsStatisticNotIn(List<Boolean> values) {
-            addCriterion("is_statistic not in", values, "isStatistic");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsStatisticBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_statistic between", value1, value2, "isStatistic");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsStatisticNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_statistic not between", value1, value2, "isStatistic");
-            return (Criteria) this;
-        }
-
         public Criteria addConditionSql(String conditionSql) {
             addCriterion(conditionSql);
             return (Criteria) this;

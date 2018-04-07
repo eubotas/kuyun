@@ -102,6 +102,7 @@
     <dubbo:reference id="eamAlarmService" interface="com.kuyun.eam.rpc.api.EamAlarmService" mock="false" />
     <dubbo:reference id="eamAlarmTargetUserService" interface="com.kuyun.eam.rpc.api.EamAlarmTargetUserService" mock="false" />
     <dubbo:reference id="eamAlarmRecordService" interface="com.kuyun.eam.rpc.api.EamAlarmRecordService" mock="false" />
+    <dubbo:reference id="eamOrderService" interface="com.kuyun.eam.rpc.api.EamOrderService" mock="false" />
 
     <!-- 维修计划相关 -->
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamMaintainPlanService" id="eamMaintainPlanService" mock="true" />
