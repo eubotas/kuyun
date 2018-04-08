@@ -101,8 +101,8 @@ function getCookie(cname){
     var ca = document.cookie.split(';');
     var len=ca.length;
     if(len > 0) {
-        for (var i = len-1; i < len; i--) {
-            var c = ca[i].trim();
+        for (var i = len-1; i > -1; i--) {
+            var c = $.trim(ca[i]);
             if (c.indexOf(name) == 0) {
                 return c.substring(name.length, c.length);
             }

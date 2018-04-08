@@ -387,8 +387,12 @@ function selectedItemColor(parentId, id){
 
 $(document).ready(function() {
     if(menuSelectItem) {
-        var leftMenu = "menu_" + menuSelectItem.substring(8, 14); //middle
-        if (menuSelectItem.indexOf("assets") > -1) {
+        var leftMenu ="";
+        if(menuSelectItem.startsWith("submenu"))
+            leftMenu = "menu_" + menuSelectItem.substring(8, 14); //middle
+        else
+            leftMenu = menuSelectItem.substring(7, 18);
+        if (!menuSelectItem.startsWith("header_") && menuSelectItem.indexOf("assets") > -1) {
             var leftSubmenu = menuSelectItem.substring(0, menuSelectItem.length - 1);
             $("#" + leftMenu).show();
             $("#" + leftSubmenu).show();
