@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class EamIndustryValueVo implements Serializable {
 
     private String industry;
-    private String name;
+    private String companyName;
     private Integer count;
 
     public String getIndustry() {
@@ -19,12 +19,12 @@ public class EamIndustryValueVo implements Serializable {
         this.industry = industry;
     }
 
-    public String getName() {
-        return name;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
     public Integer getCount() {

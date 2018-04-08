@@ -1226,34 +1226,31 @@
 	</resultMap>
 
 	<select id="summaryIndustry" resultMap="CodeValueVOResultMap">
-		select count(company_id) as value, v.code_name as name
-		from upms_company c, eam_code_value v
+		select count(c.id) as value, v.code_name as name
+		from eam_order c, eam_code_value v
 		where c.industry = v.code_value
 		and v.category = 'INDUSTRY'
 		and c.delete_flag = 0 and v.delete_flag = 0
-		and c.parent_id is not null
 		group by v.code_name
 		ORDER by value desc
 	</select>
 
 	<select id="summaryProductLineType" resultMap="CodeValueVOResultMap">
-		select count(company_id) as value, v.code_name as name
-		from upms_company c, eam_code_value v
+		select count(c.id) as value, v.code_name as name
+		from eam_order c, eam_code_value v
 		where c.product_line_type = v.code_value
 		and v.category = 'PRODUCT_LINE_TYPE'
 		and c.delete_flag = 0 and v.delete_flag = 0
-		and c.parent_id is not null
 		group by v.code_name
 		ORDER by value desc
 	</select>
 
 	<select id="summaryState" resultMap="CodeValueVOResultMap">
-		select count(company_id) as value, v.code_name as name
-		from upms_company c, eam_code_value v
+		select count(c.id) as value, v.code_name as name
+		from eam_order c, eam_code_value v
 		where c.state = v.code_value
 		and v.category = 'STATE'
 		and c.delete_flag = 0 and v.delete_flag = 0
-		and c.parent_id is not null
 		group by v.code_name
 		ORDER by value desc
 	</select>
@@ -1262,16 +1259,15 @@
 	</resultMap>
 
 	<select id="summaryCountry" resultMap="CountryValueVOResultMap">
-		select sum(value), year, country
+		select sum(value) as value, year, country
 		from (
-			select count(company_id) as value, year,
+			select count(id) as value, year,
 			CASE
 				WHEN TRIM(country) = '中国' THEN '国内'
 				ELSE '国外'
 			END AS COUNTRY
-			from upms_company
+			from eam_order
 			where delete_flag = 0
-			and parent_id is not null
 			group by year, COUNTRY
 			ORDER BY year, country
         ) T
@@ -1282,11 +1278,10 @@
 	</resultMap>
 
 	<select id="summaryIndustryAndCompanyName" resultMap="IndustryValueVOResultMap">
-		select industry, name, count(company_id) as count from upms_company
+		select industry, company_name as companyName, count(id) as count from eam_order
 		where delete_flag = 0
-		and parent_id is not null
-		group by industry, name
-		order by count desc, industry, name asc
+		group by industry, company_name
+		order by count desc, industry, company_name asc
 	</select>
 
 

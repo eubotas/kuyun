@@ -1,14 +1,14 @@
 package com.kuyun.eam.admin.controller.manager;
 
 import com.kuyun.common.base.BaseController;
+import com.kuyun.eam.dao.model.EamOrderExample;
 import com.kuyun.eam.dao.model.EamProductLineExample;
 import com.kuyun.eam.rpc.api.EamApiService;
+import com.kuyun.eam.rpc.api.EamOrderService;
 import com.kuyun.eam.rpc.api.EamProductLineService;
 import com.kuyun.eam.vo.EamCodeValueVo;
 import com.kuyun.eam.vo.EamCountryValueVo;
 import com.kuyun.upms.client.util.BaseEntityUtil;
-import com.kuyun.upms.dao.model.UpmsCompanyExample;
-import com.kuyun.upms.rpc.api.UpmsCompanyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -44,7 +44,7 @@ public class EamDashboradController extends BaseController {
 	private EamProductLineService eamProductLineService;
 
 	@Autowired
-	private UpmsCompanyService upmsCompanyService;
+	private EamOrderService eamOrderService;
 
 
 	@ApiOperation(value = "大屏首页")
@@ -100,9 +100,9 @@ public class EamDashboradController extends BaseController {
 	}
 
 	private int getTaskNumber(){
-		UpmsCompanyExample example = new UpmsCompanyExample();
-		example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE).andParentIdIsNotNull();
-		return upmsCompanyService.countByExample(example);
+		EamOrderExample example = new EamOrderExample();
+		example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE);
+		return eamOrderService.countByExample(example);
 	}
 
 
