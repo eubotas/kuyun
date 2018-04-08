@@ -1291,9 +1291,11 @@
 
 
 	<select id="selectStatisticGrmVariable" resultMap="com.kuyun.eam.dao.mapper.EamGrmVariableMapper.BaseResultMap">
-		select d.* from eam_grm_variable d, eam_data_element e
-		where d.delete_flag = 0 and e.delete_flag = 0
-		and d.data_element_id = e.id
+		select
+		<include refid="com.kuyun.eam.dao.mapper.EamGrmVariableMapper.Base_Column_List" />
+		from eam_grm_variable, eam_data_element e
+		where eam_grm_variable.delete_flag = 0 and e.delete_flag = 0
+		and eam_grm_variable.data_element_id = e.id
 		and e.is_statistic = 1
 		ORDER by product_line_id, equipment_id, data_group_id, equipment_data_group_id, data_element_id
 	</select>

@@ -2079,7 +2079,7 @@ public class EamApiServiceImpl implements EamApiService {
 
     @Override
     public void statisticJob(){
-        String date = LocalDateTime.now().minusDays(2).format(DateTimeFormatter.ISO_LOCAL_DATE);
+        String date = LocalDateTime.now().minusDays(1).format(DateTimeFormatter.ISO_LOCAL_DATE);
 
         List<EamGrmVariable> grmVariableDataList = eamApiMapper.selectStatisticGrmVariable();
         if (grmVariableDataList != null && !grmVariableDataList.isEmpty()){
