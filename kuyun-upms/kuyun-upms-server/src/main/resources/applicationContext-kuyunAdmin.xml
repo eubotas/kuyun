@@ -3,6 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
+    <bean id="kuyunInitParameter" class="com.kuyun.upms.client.util.InitParameter"></bean>
     <!-- 启动解压kuyunAdmin-x.x.x.jar到resources目录 -->
     <bean id="kuyunAdminUtil" class="com.kuyun.common.util.KuyunAdminUtil"></bean>
     <bean id="baseEntityUtil" class="com.kuyun.upms.client.util.BaseEntityUtil"></bean>

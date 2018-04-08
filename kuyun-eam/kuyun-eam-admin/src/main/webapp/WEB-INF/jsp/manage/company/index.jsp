@@ -134,7 +134,7 @@
                             </div>
                         </div>
                     </div>
-                    </div>
+
                     <div class="modal-footer">
                         <input type="hidden" id="templateID_id" name="id">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">
@@ -144,6 +144,7 @@
                             提交
                         </button>
                     </div>
+                </div>
                 </div>
             </div>
         </form>

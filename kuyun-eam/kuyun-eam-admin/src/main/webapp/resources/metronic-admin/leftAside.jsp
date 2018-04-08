@@ -1,3 +1,4 @@
+<%@ page language="java" import="com.kuyun.common.util.BasePath"%>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -7,7 +8,9 @@
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 
-<c:set var="eamPath" value="http://eam.kuyun.cn:9999"/>
+<c:set var="eamPath" value="<%=BasePath.kuyunEamAdmin%>"/>
+<c:set var="upmsPath" value="<%=BasePath.kuyunUpmsServer%>"/>
+
 <script src="${basePath}/resources/kuyun-admin/plugins/jquery.1.12.4.min.js"></script>
 <script src="${basePath}/resources/metronic-admin/assets/js/header_common.js"></script>
 <!-- BEGIN: Left Aside -->
@@ -503,7 +506,7 @@
                     <ul class="m-menu__subnav">
                         <li id="submenu_system1" class="m-menu__item " aria-haspopup="true"  onclick="setmenu(this);">
                             <shiro:hasPermission name="upms:company:read">
-                                <a  href="${basePath}/manage/company/index" class="m-menu__link ">
+                                <a  href="${upmsPath}/manage/company/index" class="m-menu__link ">
                                     <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                         <span></span>
                                     </i>
@@ -515,7 +518,7 @@
                         </li>
                         <li id="submenu_system2" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
                             <shiro:hasPermission name="upms:organization:read">
-                                <a  href="${basePath}/manage/organization/index" class="m-menu__link ">
+                                <a  href="${upmsPath}/manage/organization/index" class="m-menu__link ">
                                     <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                         <span></span>
                                     </i>
@@ -526,7 +529,7 @@
                         </li>
                         <li id="submenu_system3" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
                             <shiro:hasPermission name="upms:user:read">
-                                <a  href="${basePath}/manage/user/index" class="m-menu__link ">
+                                <a  href="${upmsPath}/manage/user/index" class="m-menu__link ">
                                     <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                         <span></span>
                                     </i>
@@ -537,7 +540,7 @@
                         </li>
                         <li id="submenu_system4" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
                             <shiro:hasPermission name="upms:role:read">
-                                <a  href="${basePath}/manage/role/index" class="m-menu__link ">
+                                <a  href="${upmsPath}/manage/role/index" class="m-menu__link ">
                                     <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                         <span></span>
                                     </i>
@@ -548,7 +551,7 @@
                         </li>
                         <li id="submenu_system5" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
                             <shiro:hasPermission name="upms:permission:read">
-                                <a  href="${basePath}/manage/permission/index" class="m-menu__link ">
+                                <a  href="${upmsPath}/manage/permission/index" class="m-menu__link ">
                                     <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                         <span></span>
                                     </i>
@@ -559,7 +562,7 @@
                         </li>
                         <li id="submenu_system6" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
                             <shiro:hasPermission name="upms:system:read">
-                                <a  href="${basePath}/manage/system/index" class="m-menu__link ">
+                                <a  href="${upmsPath}/manage/system/index" class="m-menu__link ">
                                     <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                         <span></span>
                                     </i>
@@ -570,7 +573,7 @@
                         </li>
                         <li id="submenu_system7" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
                             <shiro:hasPermission name="upms:session:read">
-                                <a  href="${basePath}/manage/session/index" class="m-menu__link ">
+                                <a  href="${upmsPath}/manage/session/index" class="m-menu__link ">
                                     <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                         <span></span>
                                     </i>
@@ -581,7 +584,7 @@
                         </li>
                         <li id="submenu_system8" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
                             <shiro:hasPermission name="upms:log:read">
-                                <a  href="${basePath}/manage/log/index" class="m-menu__link ">
+                                <a  href="${upmsPath}/manage/log/index" class="m-menu__link ">
                                     <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                         <span></span>
                                     </i>
