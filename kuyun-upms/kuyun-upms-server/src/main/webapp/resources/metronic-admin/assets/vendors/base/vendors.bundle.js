@@ -59284,7 +59284,7 @@ $.extend( $.validator, {
 	},
 
 	messages: {
-		required: "这个字段是必填.",
+		required: "This field is required.",
 		remote: "Please fix this field.",
 		email: "Please enter a valid email address.",
 		url: "Please enter a valid URL.",

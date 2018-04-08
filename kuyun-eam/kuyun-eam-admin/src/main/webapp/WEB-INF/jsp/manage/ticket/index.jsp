@@ -10,6 +10,236 @@
 <html lang="zh-cn">
 <head>
     <meta charset="utf-8"/>
+
+
+    <pageResources>
+        <jsp:include page="/resources/metronic-admin/file_upload.jsp" flush="true"/>
+        <script>
+
+            $(document).ready(function()
+            {
+                //codes works on all bootstrap modal windows in application
+                $('.modal').on('hidden.bs.modal', function(e)
+                {
+                    jQuery("#add_Form").validate().resetForm();
+                    jQuery("#edit_Form").validate().resetForm();
+                }) ;
+                generateAddEditForm('template-ticket-addEditForm', 'add_,edit_', null, null, 'addTicketFormContainer,editTicketFormContainer');
+                FormWidgets.init('add');
+                FormWidgets.init('edit');
+
+                $('#createButton').click(function(){
+                    $("#addTicketFormContainer").modal("show");
+                });
+
+                $('#deleteButton').click(function(){
+                    deleteAction();
+                });
+
+                var uploadOpt={
+                    template : 'qq-template-gallery',
+                    request : {
+                        endpoint : '${uploadServer.endpoint_upload}',
+                        params : {
+                            kuyunModule : "eam"
+                        }
+                    },
+                    thumbnails : {
+                        placeholders : {
+                            waitingPath : '${basePath}/resources/kuyun-admin/plugins/fileupload/placeholders/waiting-generic.png',
+                            notAvailablePath : '${basePath}/resources/kuyun-admin/plugins/fileupload/placeholders/not_available-generic.png'
+                        }
+                    },
+                    validation : {
+                        /*  allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'] */
+                    },
+                    chunking : {
+                        enabled : true,
+                        concurrent : {
+                            enabled : true
+                        },
+                        success : {
+                            endpoint : '${uploadServer.endpoint_uploadDone}'
+                        },
+                        mandatory : true
+                    },
+                    deleteFile : {
+                        enabled : true,
+                        forceConfirm : true,
+                        endpoint : '${uploadServer.endpoint_delete}'
+                    },
+                    cors : {
+                        //all requests are expected to be cross-domain requests
+                        expected : true,
+
+                        //if you want cookies to be sent along with the request
+                        // sendCredentials : true
+                    }
+                    /* init file list
+                    session:{
+                            endpoint: '${uploadServer.endpoint_list}?ids=${uuids}'
+                    }, */
+                };
+
+                var addGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("add_fine-uploader-gallery")}));
+                var editGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("edit_fine-uploader-gallery")}));
+            });
+
+            var $table = $('#table');
+            $(function() {
+                // bootstrap table初始化
+                $table.bootstrapTable({
+                    url: '${basePath}/manage/ticket/list?category=${category}',
+                    striped: true,
+                    search: true,
+                    searchAlign: 'left',
+                    toolbarAlign: 'right',
+                    minimumCountColumns: 2,
+                    clickToSelect: true,
+                    detailView: true,
+                    detailFormatter: 'detailFormatter',
+                    pagination: true,
+                    paginationLoop: false,
+                    sidePagination: 'server',
+                    silentSort: false,
+                    smartDisplay: false,
+                    escape: true,
+                    searchOnEnterKey: true,
+                    maintainSelected: true,
+                    idField: 'ticketId',
+                    columns: [
+                        {field: 'ck', checkbox: true},
+                        {field: 'description', title: '工单描述', sortable: true, align: 'center'},
+                        {field: 'priority', title: '优先级'},
+                        {field: 'ticketType.name', title: '工单类型'},
+                        {field: 'serviceman', title: '执行人'},
+                        {field: 'servicePhone', title: '执行人电话'},
+                        {field: 'customerContacts', title: '顾客'},
+                        {field: 'customerPhone', title: '顾客电话'},
+                        {field: 'status', title: '当前状态'},
+                        {field: 'action', width: 260, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
+                    ]
+                });
+            });
+            // 格式化操作按钮
+            function actionFormatter(value, row, index) {
+                return [
+                    '<shiro:hasPermission name="eam:ticket:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
+                    '<shiro:hasPermission name="eam:ticket:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>',
+                    '<shiro:hasPermission name="eam:ticket:read"><a id="detail" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="详细">	<i class="la la-file-text-o"></i>	</a></shiro:hasPermission>'
+                ].join('');
+            }
+
+            var FormWidgets = function () {
+                var createForm = function (formid) {
+                    $("#"+formid+"_Form").validate({
+                        // define validation rules
+                        rules: {
+                            name: {
+                                required: true,
+                                minlength: 2,
+                                maxlength: 50
+                            },
+                            address: {
+                                required: true,
+                                minlength: 2,
+                                maxlength: 50
+                            }
+                        },
+                        submitHandler: function (form) {
+                            if(formid == 'add')
+                                submitForm();
+                            else{
+                                submitForm($('#edit_id').val());
+                            }
+
+                        }
+                    });
+                }
+
+                return {
+                    // public functions
+                    init: function (formid) {
+                        createForm(formid);
+                    }
+                };
+            }();
+
+            function submitForm(id) {
+                var targetUrl='${basePath}/manage/ticket/create';
+                var formId='add_Form';
+                if(id){
+                    targetUrl='${basePath}/manage/ticket/update/'+id;
+                    formId='edit_Form';
+                    $('#edit_imagePath').val(getUploadFileName(editGalleryUploader));
+                }else
+                    $('#add_imagePath').val(getUploadFileName(addGalleryUploader));
+
+                ajaxPost(targetUrl, formId, function(result) {
+                    if (result.code != 1) {
+                        sendErrorInfo(result);
+                    } else {
+                        if(formId=='add_Form') {
+                            toastr.success("新建工单成功");
+                            $('#addTicketFormContainer').modal('toggle');
+                        }else{
+                            toastr.success("编辑工单成功");
+                            $('#editTicketFormContainer').modal('toggle');
+                        }
+                        $table.bootstrapTable('refresh');
+                    }
+                });
+            }
+
+
+            function updateAction(row) {
+                jQuery("#editTicketFormContainer").modal("show");
+                ajaxGet('${basePath}/manage/ticket/update/' + row["ticketId"], function (responseData) {
+                    if (responseData) {
+                        var data = responseData;
+                        // 赋值
+                        $("#edit_id").val(data.ticket.ticketId);
+                        $("#edit_description").val(data.ticket.description);
+                        $("#edit_ticketTypeId").val(data.ticket.ticketTypeId);
+                        $("#edit_equipmentCategoryId").val(data.ticket.equipmentCategoryId);
+                        $("#edit_equipmentId").val(data.ticket.equipmentId);
+                    }
+                });
+            }
+
+            window.actionEvents = {
+                'click #update': function (e, value, row, index) {
+                    updateAction(row);
+
+                },
+                'click #detail': function (e, value, row, index) {
+                    window.location = '${basePath}/manage/ticket/detail/' +row['ticketId'];
+                },
+                'click #delete': function (e, value, row, index) {
+                    var rows = new Array();
+                    rows.push(row);
+                    deleteActionImpl(rows);
+                }
+            };
+
+            function deleteAction(){
+                var rows = $table.bootstrapTable('getSelections');
+                deleteActionImpl(rows);
+            }
+
+            function deleteActionImpl(rows) {
+                if (rows.length == 0) {
+                    swWarn("请至少选择一条记录");
+                }else {
+                    deleteRows(rows,'ticketId','${basePath}/manage/ticket/delete/', "请确认要删除选中的工单吗？", "删除工单成功");
+                }//end else
+            }
+
+
+
+        </script>
+
+    </pageResources>
 </head>
 <body>
 
@@ -230,7 +460,7 @@
 
                         <div class="form-group m-form__group row">
                                 <div class="col-sm-6">
-                                    <div id="fine-uploader-gallery"></div>
+                                    <div id="templateID_fine-uploader-gallery"></div>
                                     <input id="templateID_imagePath" type="hidden" class="form-control"
                                            name="imagePath" maxlength="500">
                                 </div>
@@ -259,248 +489,6 @@
 </content>
 
 
-<pageResources>
-
-
-    <script>
-        $(document).ready(function()
-        {
-            //codes works on all bootstrap modal windows in application
-            $('.modal').on('hidden.bs.modal', function(e)
-            {
-                jQuery("#add_Form").validate().resetForm();
-                jQuery("#edit_Form").validate().resetForm();
-            }) ;
-            generateAddEditForm('template-ticket-addEditForm', 'add_,edit_', null, null, 'addTicketFormContainer,editTicketFormContainer');
-            FormWidgets.init('add');
-            FormWidgets.init('edit');
-
-            $('#createButton').click(function(){
-                $("#addTicketFormContainer").modal("show");
-            });
-
-            $('#deleteButton').click(function(){
-                deleteAction();
-            });
-
-        });
-
-        var $table = $('#table');
-        $(function() {
-            // bootstrap table初始化
-            $table.bootstrapTable({
-                url: '${basePath}/manage/ticket/list?category=${category}',
-                striped: true,
-                search: true,
-                searchAlign: 'left',
-                toolbarAlign: 'right',
-                minimumCountColumns: 2,
-                clickToSelect: true,
-                detailView: true,
-                detailFormatter: 'detailFormatter',
-                pagination: true,
-                paginationLoop: false,
-                sidePagination: 'server',
-                silentSort: false,
-                smartDisplay: false,
-                escape: true,
-                searchOnEnterKey: true,
-                maintainSelected: true,
-                idField: 'ticketId',
-                columns: [
-                    {field: 'ck', checkbox: true},
-                    {field: 'description', title: '工单描述', sortable: true, align: 'center'},
-                    {field: 'priority', title: '优先级'},
-                    {field: 'ticketType.name', title: '工单类型'},
-                    {field: 'serviceman', title: '执行人'},
-                    {field: 'servicePhone', title: '执行人电话'},
-                    {field: 'customerContacts', title: '顾客'},
-                    {field: 'customerPhone', title: '顾客电话'},
-                    {field: 'status', title: '当前状态'},
-                    {field: 'action', width: 260, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
-                ]
-            });
-        });
-        // 格式化操作按钮
-        function actionFormatter(value, row, index) {
-            return [
-                '<shiro:hasPermission name="eam:ticket:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="eam:ticket:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="eam:ticket:read"><a id="detail" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="详细">	<i class="la la-file-text-o"></i>	</a></shiro:hasPermission>'
-            ].join('');
-        }
-
-        var FormWidgets = function () {
-            var createForm = function (formid) {
-                $("#"+formid+"_Form").validate({
-                    // define validation rules
-                    rules: {
-                        name: {
-                            required: true,
-                            minlength: 2,
-                            maxlength: 50
-                        },
-                        address: {
-                            required: true,
-                            minlength: 2,
-                            maxlength: 50
-                        }
-                    },
-                    submitHandler: function (form) {
-                        if(formid == 'add')
-                            submitForm();
-                        else{
-                            submitForm($('#edit_id').val());
-                        }
-
-                    }
-                });
-            }
-
-            return {
-                // public functions
-                init: function (formid) {
-                    createForm(formid);
-                }
-            };
-        }();
-
-        function submitForm(id) {
-            var uploads = galleryUploader.getUploads({
-                status : qq.status.UPLOAD_SUCCESSFUL
-            });
-            var fileUuids = '';
-            for (var i = 0; i < uploads.length; i++) {
-                fileUuids = fileUuids + uploads[i].uuid + ",";
-            }
-            console.log("fileUuids = " + fileUuids);
-
-            var targetUrl='${basePath}/manage/ticket/create';
-            var formId='add_Form';
-            if(id){
-                targetUrl='${basePath}/manage/ticket/update/'+id;
-                formId='edit_Form';
-                $('#edit_imagePath').val(fileUuids);
-            }else
-                $('#add_imagePath').val(fileUuids);
-
-            ajaxPost(targetUrl, formId, function(result) {
-                if (result.code != 1) {
-                    sendErrorInfo(result);
-                } else {
-                    if(formId=='add_Form') {
-                        toastr.success("新建工单成功");
-                        $('#addTicketFormContainer').modal('toggle');
-                    }else{
-                        toastr.success("编辑工单成功");
-                        $('#editTicketFormContainer').modal('toggle');
-                    }
-                    $table.bootstrapTable('refresh');
-                }
-            });
-        }
-
-
-        function updateAction(row) {
-            jQuery("#editTicketFormContainer").modal("show");
-            ajaxGet('${basePath}/manage/ticket/update/' + row["ticketId"], function (responseData) {
-                if (responseData) {
-                    var data = responseData;
-                    // 赋值
-                    $("#edit_id").val(data.ticket.ticketId);
-                    $("#edit_description").val(data.ticket.description);
-                    $("#edit_ticketTypeId").val(data.ticket.ticketTypeId);
-                    $("#edit_equipmentCategoryId").val(data.ticket.equipmentCategoryId);
-                    $("#edit_equipmentId").val(data.ticket.equipmentId);
-                }
-            });
-        }
-
-        window.actionEvents = {
-            'click #update': function (e, value, row, index) {
-                updateAction(row);
-
-            },
-            'click #detail': function (e, value, row, index) {
-                window.location = '${basePath}/manage/ticket/detail/' +row['ticketId'];
-            },
-            'click #delete': function (e, value, row, index) {
-                var rows = new Array();
-                rows.push(row);
-                deleteActionImpl(rows);
-            }
-        };
-
-        function deleteAction(){
-            var rows = $table.bootstrapTable('getSelections');
-            deleteActionImpl(rows);
-        }
-
-        function deleteActionImpl(rows) {
-            if (rows.length == 0) {
-                swWarn("请至少选择一条记录");
-            }else {
-                deleteRows(rows,'ticketId','${basePath}/manage/ticket/delete/', "请确认要删除选中的工单吗？", "删除工单成功");
-            }//end else
-        }
-
-    </script>
-
-
-    <link href="${basePath}/resources/kuyun-admin/plugins/fileupload/fine-uploader-gallery.css" rel="stylesheet">
-    <script src="${basePath}/resources/kuyun-admin/plugins/fileupload/fine-uploader.js"></script>
-
-
-    <script>
-        var galleryUploader = new qq.FineUploader(
-            {
-                element : document.getElementById("fine-uploader-gallery"),
-                template : 'qq-template-gallery',
-                request : {
-                    endpoint : '${uploadServer.endpoint_upload}',
-                    params : {
-                        kuyunModule : "eam"
-                    }
-                },
-                thumbnails : {
-                    placeholders : {
-                        waitingPath : '${basePath}/resources/kuyun-admin/plugins/fileupload/placeholders/waiting-generic.png',
-                        notAvailablePath : '${basePath}/resources/kuyun-admin/plugins/fileupload/placeholders/not_available-generic.png'
-                    }
-                },
-                validation : {
-                    /*  allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'] */
-                },
-                chunking : {
-                    enabled : true,
-                    concurrent : {
-                        enabled : true
-                    },
-                    success : {
-                        endpoint : '${uploadServer.endpoint_uploadDone}'
-                    },
-                    mandatory : true
-                },
-                deleteFile : {
-                    enabled : true,
-                    forceConfirm : true,
-                    endpoint : '${uploadServer.endpoint_delete}'
-                },
-                cors : {
-                    //all requests are expected to be cross-domain requests
-                    expected : true,
-
-                    //if you want cookies to be sent along with the request
-                    // sendCredentials : true
-                }
-                /* init file list
-                session:{
-                        endpoint: '${uploadServer.endpoint_list}?ids=${uuids}'
-			}, */
-            });
-    </script>
-
-</pageResources>
 
 
 </body>

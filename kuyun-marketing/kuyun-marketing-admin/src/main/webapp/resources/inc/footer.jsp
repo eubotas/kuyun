@@ -15,4 +15,4 @@
 <script src="${basePath}/resources/kuyun-admin/plugins/jquery-confirm/jquery-confirm.min.js"></script>
 <script src="${basePath}/resources/kuyun-admin/plugins/select2/js/select2.min.js"></script>
 <script src="${basePath}/resources/kuyun-admin/plugins/zTree_v3/js/jquery.ztree.all.min.js"></script>
-<script src="${basePath}/resources/kuyun-admin/js/common.js"></script>
+<script src="${basePath}/resources/kuyun-admin/js/kuyun_common.js"></script>

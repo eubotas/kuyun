@@ -49,7 +49,9 @@ public class UpmsCompanyController extends BaseController {
     @ApiOperation(value = "公司首页")
     @RequiresPermissions("upms:company:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String index() {
+    public String index(ModelMap modelMap) {
+
+        modelMap.put("pid", getCompanyId());
         return "/manage/company/index.jsp";
     }
 
@@ -77,10 +79,11 @@ public class UpmsCompanyController extends BaseController {
         UpmsCompanyExample.Criteria criteria = companyExample.createCriteria();
         criteria.andDeleteFlagEqualTo(Boolean.FALSE);
 
-//        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
-//        if (company != null){
-//            criteria.andCompanyIdEqualTo(company.getCompanyId());
-//        }
+        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+        if (company != null){
+            criteria.andCompanyIdEqualTo(company.getCompanyId());
+           // criteria.andParentIdEqualTo(company.getCompanyId());
+        }
 
         List<UpmsCompany> rows = upmsCompanyService.selectByExample(companyExample);
         long total = upmsCompanyService.countByExample(companyExample);
@@ -155,4 +158,13 @@ public class UpmsCompanyController extends BaseController {
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
     }
 
+
+    public int getCompanyId(){
+        int cId=-1;
+        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+        if (company != null){
+            cId = company.getCompanyId();
+        }
+        return cId;
+    }
 }

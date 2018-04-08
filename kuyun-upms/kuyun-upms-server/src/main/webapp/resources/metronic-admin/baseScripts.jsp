@@ -16,4 +16,5 @@
 <script src="${basePath}/resources/metronic-admin/assets/js/bootstrap-table.1.11.1/bootstrap-table.min.js"></script>
 <script src="${basePath}/resources/metronic-admin/assets/js/bootstrap-table.1.11.1/bootstrap-table-zh-CN.min.js"></script>
 <script src="${basePath}/resources/metronic-admin/assets/js/jquery.tmpl.min.js"></script>
-<script src="${basePath}/resources/metronic-admin/assets/js/common.js" type="text/javascript"></script>
+<%--<script src="${basePath}/resources/metronic-admin/assets/js/sweetalert.2.1.0/sweetalert.min.js"></script>--%>
+<script src="${basePath}/resources/metronic-admin/assets/js/kuyun_common.js" type="text/javascript"></script>

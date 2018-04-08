@@ -118,6 +118,7 @@
                     </div>
                     <div class="modal-footer">
                         <input type="hidden" id="templateID_id" name="id">
+                        <input type="hidden" id="templateID_pid" name="pid" value="${pid}">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">
                             取消
                         </button>
