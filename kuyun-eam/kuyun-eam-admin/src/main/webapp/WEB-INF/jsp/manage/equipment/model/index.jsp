@@ -61,11 +61,13 @@
 						</div>
 						<div class="m-portlet__head-tools">
 							<ul class="m-portlet__nav">
+								<shiro:hasPermission name="eam:equipmentModel:create">
 								<li class="m-portlet__nav-item">
-									<a href="#" class="btn btn-outline-metal m-btn m-btn--icon m-btn--icon-only" title="新建">
+									<button id="createModelButton" class="btn btn-outline-metal m-btn m-btn--icon m-btn--icon-only" title="新建">
 										<i class="la la-plus"></i>
-									</a>
+									</button>
 								</li>
+								</shiro:hasPermission>
 							</ul>
 						</div>
 					</div>
@@ -99,14 +101,14 @@
 						<div id="toolbar">
 							<div>
 								<span>&nbsp;</span>
-                                <shiro:hasPermission name="eam:equipmentModel:create">
-								<button id="createButton" class="btn btn-outline-primary m-btn m-btn--icon m-btn--icon-only" title="新建">
+                                <shiro:hasPermission name="eam:equipmentModelProperty:create">
+								<button id="createModelPropertyButton" class="btn btn-outline-primary m-btn m-btn--icon m-btn--icon-only" title="新建">
 									<i class="la la-plus"></i>
 								</button>
                                 </shiro:hasPermission>
 
-                                <shiro:hasPermission name="eam:equipmentModel:delete">
-								<button id="deleteButton" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only" title="删除">
+                                <shiro:hasPermission name="eam:equipmentModelProperty:delete">
+								<button id="deleteModelPropertyButton" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only" title="删除">
 									<i class="la la-remove"></i>
 								</button>
                                 </shiro:hasPermission>
@@ -122,15 +124,15 @@
 
 
 	<!--begin::Modal-->
-	<div id="addModelPropertyFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+	<div id="addModelPropertyFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modelPropertiesLabel"
 		 aria-hidden="true">
 	</div>
 
-	<div id="editModelPropertyFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+	<div id="editModelPropertyFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modelPropertiesLabel"
 		 aria-hidden="true">
 	</div>
 
-	<div class="modal fade" id="template-modelProperty-addEditForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+	<div class="modal fade" id="template-modelProperty-addEditForm" tabindex="-1" role="dialog" aria-labelledby="modelPropertiesLabel"
 		 aria-hidden="true">
 		<form id="templateID_Form" class="m-form m-form--fit m-form--label-align-right">
 			<input id="equipmentModelId" type="hidden" name="equipmentModelId" value="">
@@ -138,7 +140,111 @@
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">
+						<h5 class="modal-title" id="modelPropertiesLabel">
+							templateTitleName_设备模型参数
+						</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">
+												&times;
+											</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group m-form__group row">
+							<label for="templateID_name" class="form-control-label">
+								参数名称:*
+							</label>
+							<div class="col-6">
+								<input type="text" class="form-control" id="templateID_name" name="name">
+							</div>
+
+						</div>
+
+						<div class="form-group m-form__group row">
+							<label for="templateID_name" class="form-control-label">
+								参数单位:*
+							</label>
+							<div class="col-6">
+								<input type="text" class="form-control" id="templateID_unit" name="unit">
+							</div>
+						</div>
+
+						<div class="form-group m-form__group row">
+							<label class="form-control-label">
+								参数类型:*
+							</label>
+							<div class="col-10">
+								<div class="m-radio-inline">
+									<label class="m-radio">
+										<input type="radio" id="templateID_dataType_analog" name="dataType" value="analog" checked>
+										模拟量
+										<span></span>
+									</label>
+									<label class="m-radio">
+										<input type="radio" id="templateID_dataType_digital" name="dataType" value="digital">
+										开关量
+										<span></span>
+									</label>
+								</div>
+
+							</div>
+						</div>
+						<div class="form-group m-form__group row" id="templateID_displayType">
+							<label class="form-control-label">
+								展示类型:
+							</label>
+							<div class="col-10">
+								<div class="m-radio-inline">
+									<label class="m-radio">
+										<input type="radio" id="templateID_displayType_pie" name="displayType" value="pie">
+										饼图
+										<span></span>
+									</label>
+									<label class="m-radio">
+										<input type="radio" id="templateID_displayType_led" name="displayType" value="led">
+										LED
+										<span></span>
+									</label>
+									<label class="m-radio">
+										<input type="radio" id="templateID_displayType_guage" name="displayType" value="guage">
+										仪表盘
+										<span></span>
+									</label>
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<input type="hidden" id="templateID_id" name="id">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">
+							取消
+						</button>
+						<button type="submit" class="btn btn-primary" id="templateID_submit">
+							提交
+						</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+
+	<div id="addModelFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modelLabel"
+		 aria-hidden="true">
+	</div>
+
+	<div id="editModelFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modelLabel"
+		 aria-hidden="true">
+	</div>
+	<div class="modal fade" id="template-model-AddEditForm" tabindex="-1" role="dialog" aria-labelledby="modelLabel"
+		 aria-hidden="true">
+		<form id="templateID_ModelForm" class="m-form m-form--fit m-form--label-align-right">
+
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="modelLabel">
 							templateTitleName_设备模型
 						</h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -171,7 +277,7 @@
 
 					</div>
 					<div class="modal-footer">
-						<input type="hidden" id="templateID_id" name="id">
+						<%--<input type="hidden" id="templateID_id" name="id">--%>
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">
 							取消
 						</button>
@@ -195,21 +301,40 @@
     $(document).ready(function()
     {
         EquipmentModels.init();
+        generateAddEditForm('template-model-addEditForm', 'add_,edit_', null, null, 'addModelFormContainer,editModelFormContainer');
+        ModelPropertyFormWidgets.init('add');
+        ModelPropertyFormWidgets.init('edit');
+
+
         generateAddEditForm('template-modelProperty-addEditForm', 'add_,edit_', null, null, 'addModelPropertyFormContainer,editModelPropertyFormContainer');
-        FormWidgets.init('add');
-        FormWidgets.init('edit');
+        ModelPropertyFormWidgets.init('add');
+        ModelPropertyFormWidgets.init('edit');
 
+        $('#createModelButton').click(function(){
 
-        $('#createButton').click(function(){
-			$("#addModelPropertyFormContainer").modal("show");
+            $("#addModelFormContainer").modal("show");
+
             ajaxGet('${basePath}/manage/equipment/model/create', function (responseData) {
-                if (responseData) {
-                    addOptionToHtmlSelect(null, "edit_protocolId", responseData.protocols, "", "");
-                }
-        	});
+				if (responseData) {
+					addOptionToHtmlSelect(null, "edit_protocolId", responseData.protocols, "", "");
+				}
+            });
+
+            console.log("bob");
+        });
+
+
+        $('#createModelPropertyButton').click(function(){
+
+            var equipmentModelId = $('#equipmentModelId').val();
+            if (equipmentModelId == ''){
+                swWarn("请选择一个设备模型");
+            }else {
+                $("#addModelPropertyFormContainer").modal("show");
+            }
 		});
 
-        $('#deleteButton').click(function(){
+        $('#deleteModelPropertyButton').click(function(){
             deleteAction();
         });
 
@@ -256,7 +381,7 @@
                     $.each(data.rows, function(index, row) {
 						var modelId=row.equipmentModelId;
                         var html = '<li id="eqModel' +modelId +'" class="m-nav__item">' +
-                            '<a href="javascript:void(0)" class="m-nav__link" onclick="showModelPropertis(' +modelId +')"> ' +
+                            '<a href="javascript:void(0)" class="m-nav__link" onclick="showModelProperties(' +modelId +')"> ' +
                             '<span class="m-nav__link-text">' + row.name + '</span>' +
                             '</a></li>';
 
@@ -277,7 +402,7 @@
         };
 	}();
 
-    function showModelPropertis(id) {
+    function showModelProperties(id) {
         selectedItemColor("models", 'eqModel'+id);
         $('#equipmentModelId').val(id);
         refreshTable();
@@ -316,24 +441,23 @@
             idField: 'equipmentModelId',
             columns: [
                 {field: 'ck', checkbox: true},
-                {field: 'equipmentModelId', title: '设备模型ID', sortable: true, align: 'center'},
-                {field: 'name', title: '设备模型名称'},
-                {field: 'number', title: '设备模型编号'},
-                {field: 'createTime', title: '创建时间', formatter: 'timeFormatter'},
+                {field: 'name', title: '参数名称'},
+                {field: 'dataType', title: '数据类型'},
+                {field: 'unit', title: '参数单位'},
                 {field: 'action', width: 150, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
-            ]
+			]
         });
     });
     // 格式化操作按钮
     function actionFormatter(value, row, index) {
         return [
-            '<shiro:hasPermission name="eam:equipmentModel:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
-            '<shiro:hasPermission name="eam:equipmentModel:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-success m-btn--icon m-btn--icon-only m-btn--pill" title="读写指令">	<i class="la la-recycle"></i>	</a></shiro:hasPermission>',
+            '<shiro:hasPermission name="eam:equipmentModelProperty:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
+            '<shiro:hasPermission name="eam:equipmentModelProperty:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-success m-btn--icon m-btn--icon-only m-btn--pill" title="读写指令">	<i class="la la-recycle"></i>	</a></shiro:hasPermission>',
             '<shiro:hasPermission name="eam:equipmentModelProperty:read"><a id="modelProperty" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="设备模型参数">	<i class="la la-bell"></i>	</a></shiro:hasPermission>'
         ].join('');
     }
 
-    var FormWidgets = function () {
+    var ModelPropertyFormWidgets = function () {
         var createForm = function (formid) {
             $("#"+formid+"_Form").validate({
                 // define validation rules
@@ -350,10 +474,10 @@
                     },
                 },
                 submitHandler: function (form) {
-                    if(formid == 'add')
-                        submitForm();
+                    if(formid === 'add')
+                        submitModelPropertyForm();
                     else{
-                        submitForm($('#edit_id').val());
+                        submitModelPropertyForm($('#edit_id').val());
                     }
 
                 }
@@ -368,11 +492,11 @@
         };
     }();
 
-    function submitForm(id) {
-        var targetUrl='${basePath}/manage/equipment/model/create';
+    function submitModelPropertyForm(id) {
+        var targetUrl='${basePath}/manage/equipment/model/property/create';
         var formId='add_Form';
         if(id){
-            targetUrl='${basePath}/manage/equipment/model/update/'+id;
+            targetUrl='${basePath}/manage/equipment/model/property/update/'+id;
             formId='edit_Form';
         }
 
@@ -381,10 +505,10 @@
                 sendErrorInfo(result);
             } else {
                 if(formId=='add_Form') {
-                    toastr.success("新建设备模型成功");
+                    toastr.success("新建设备模型参数成功");
                     $('#addModelPropertyFormContainer').modal('toggle');
                 }else{
-                    toastr.success("编辑设备模型成功");
+                    toastr.success("编辑设备模型参数成功");
                     $('#editModelPropertyFormContainer').modal('toggle');
                 }
                 refreshTable();
@@ -395,33 +519,34 @@
     function updateAction(row) {
         $("#editModelPropertyFormContainer").modal("show");
 
-        ajaxGet('${basePath}/manage/equipment/model/update/' + row["equipmentModelId"], function (responseData) {
+        ajaxGet('${basePath}/manage/equipment/model/property/update/' + row["equipmentModelPropertyId"], function (responseData) {
             if (responseData) {
-                var data = responseData.equipmentModel;
-                addOptionToHtmlSelect(data.protocolId,"edit_protocolId",responseData.protocols,"","");
-                $("#edit_id").val(data.equipmentModelId);
-                $("#edit_name").val(data.name);
-                $("#edit_number").val(data.number);
+                var data = responseData.equipmentModelProperties;
+                // 赋值
+                setModelProperty(data);
             }
         });
     }
 
     function setModelProperty(data) {
-        $("#edit_id").val(data.equipmentModelId);
+        $("#edit_id").val(data.equipmentModelPropertyId);
         $("#edit_name").val(data.name);
         $("#edit_unit").val(data.unit);
 
-        if ('analog' == data.dataType) {
+        console.log("data.dataType:"+data.dataType);
+        console.log("data.displayType:"+data.displayType);
+
+        if ('analog' === data.dataType) {
             $("#edit_dataType_analog").prop('checked', true);
-        } else if ('digital' == data.dataType) {
+        } else if ('digital' === data.dataType) {
             $("#edit_dataType_digital").prop('checked', true);
         }
 
-        if ('pie' == data.displayType) {
+        if ('pie' === data.displayType) {
             $("#edit_displayType_pie").prop('checked', true);
-        } else if ('led' == data.displayType) {
+        } else if ('led' === data.displayType) {
             $("#edit_displayType_led").prop('checked', true);
-        } else if ('guage' == data.displayType) {
+        } else if ('guage' === data.displayType) {
             $("#edit_displayType_guage").prop('checked', true);
         }
     }
@@ -429,9 +554,6 @@
     window.actionEvents = {
         'click #update': function (e, value, row, index) {
             updateAction(row);
-        },
-        'click #modelProperty': function (e, value, row, index) {
-            window.location = "${basePath}/manage/equipment/model/property/index/" + row['equipmentModelId'];
         },
         'click #delete': function (e, value, row, index) {
             var rows = new Array();
@@ -446,12 +568,10 @@
     }
 
     function deleteActionImpl(rows) {
-
         if (rows.length == 0) {
             swWarn("请至少选择一条记录");
         }else {
-            deleteRows(rows,'equipmentModelId','${basePath}/manage/equipment/model/delete/', "请确认要删除选中的设备模型吗？", "删除设备模型成功");
-            refreshTable();
+            deleteRows(rows,'equipmentModelPropertyId','${basePath}/manage/equipment/model/property/delete/', "请确认要删除选中的设备模型参数吗？", "删除设备模型参数成功", null, refreshTable);
         }
     }
 
