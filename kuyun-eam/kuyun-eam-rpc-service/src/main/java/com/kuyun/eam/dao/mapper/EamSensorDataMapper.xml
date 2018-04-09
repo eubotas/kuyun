@@ -109,11 +109,11 @@
     where sensor_data_id = #{sensorDataId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from eam_sensor_data
+    update eam_sensor_data set delete_flag = 1 
     where sensor_data_id = #{sensorDataId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamSensorDataExample">
-    delete from eam_sensor_data
+    update eam_sensor_data set delete_flag = 1 
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

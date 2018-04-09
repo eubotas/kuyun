@@ -11,6 +11,7 @@ public class OrderBean extends BaseImportBean{
     private String id;
 
     private String companyName;
+    private String shortName;
 
     /**
      * 年份
@@ -126,7 +127,7 @@ public class OrderBean extends BaseImportBean{
      */
     @Override
     public String[] getHeaderName() {
-        return new String[]{"序号", "客户名称", "年份", "任务单号", "洲", "国家", "省/州", "地/市", "所属行业", "产线类型", "是否含吹灌旋", "是否含智能立库", "生产线产能", "包装材质", "产品规格", "主要设备", "备注"};
+        return new String[]{"序号", "客户名称", "客户简称", "年份", "任务单号", "洲", "国家", "省/州", "地/市", "所属行业", "产线类型", "是否含吹灌旋", "是否含智能立库", "生产线产能", "包装材质", "产品规格", "主要设备", "备注"};
     }
 
     /**
@@ -135,9 +136,16 @@ public class OrderBean extends BaseImportBean{
      */
     @Override
     public String[] getSortedProperty() {
-        return new String[]{"id", "companyName", "year", "taskNumber", "state", "country", "province", "city", "industry", "productLineType", "hasCxg", "hasZnlk", "productLineCapacity", "packagingMaterial", "productSpec", "majorEquipment", "comment"};
+        return new String[]{"id", "companyName", "shortName", "year", "taskNumber", "state", "country", "province", "city", "industry", "productLineType", "hasCxg", "hasZnlk", "productLineCapacity", "packagingMaterial", "productSpec", "majorEquipment", "comment"};
     }
 
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
 
     public String getId() {
         return id;

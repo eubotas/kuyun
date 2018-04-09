@@ -16,6 +16,13 @@
 		</div>
 
 		<div class="row">
+			<div class="col-sm-12">
+				<label for="companyName">客户简称</label>
+				<input id="shortName" type="text" class="form-control" name="shortName" maxlength="50">
+			</div>
+		</div>
+
+		<div class="row">
 			<div class="col-sm-4">
 				<label for="year">年份</label>
 				<input id="year" type="text" class="form-control" name="year" maxlength="5">

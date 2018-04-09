@@ -361,6 +361,12 @@ public class UpmsUserController extends BaseController {
         return new UpmsResult(UpmsResultConstant.SUCCESS, objectHashMap);
     }
 
+    @ApiOperation(value = "查找用户")
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @ResponseBody
+    public Object getUser(@PathVariable("id") int id) {
+        return upmsUserService.selectByPrimaryKey(id);
+    }
 
 
 

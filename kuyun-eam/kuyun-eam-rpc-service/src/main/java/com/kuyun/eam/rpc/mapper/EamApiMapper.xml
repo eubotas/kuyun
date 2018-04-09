@@ -1278,7 +1278,9 @@
 	</resultMap>
 
 	<select id="summaryIndustryAndCompanyName" resultMap="IndustryValueVOResultMap">
-		select industry, company_name as companyName, count(id) as count from eam_order
+		select industry,
+		case when short_name is null then company_name else short_name END companyName,
+		count(id) as count from eam_order
 		where delete_flag = 0
 		group by industry, company_name
 		order by count desc, industry, company_name asc

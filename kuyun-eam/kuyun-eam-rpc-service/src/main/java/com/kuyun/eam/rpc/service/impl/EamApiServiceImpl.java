@@ -1929,7 +1929,47 @@ public class EamApiServiceImpl implements EamApiService {
 
     @Override
     public List<EamCountryValueVo> summaryCountry() {
-        return eamApiMapper.summaryCountry();
+        List<EamCountryValueVo> result = new ArrayList<>();
+        List<EamCountryValueVo> vos = eamApiMapper.summaryCountry();
+
+        if (vos != null && !vos.isEmpty()){
+            EamCountryValueVo firstValue = vos.get(0);
+            int firstYear = NumberUtil.toInteger(firstValue.getYear());
+
+            EamCountryValueVo lastValue = vos.get(vos.size() - 1);
+            int lastYear = NumberUtil.toInteger(lastValue.getYear());
+
+            int year = firstYear;
+            while(year <= lastYear){
+                result.add(getEamCountryValueVo(year, CountryType.ABROAD.getName(), vos));
+                result.add(getEamCountryValueVo(year, CountryType.DOMESTIC.getName(), vos));
+                year++;
+            }
+        }
+        return result;
+    }
+
+    EamCountryValueVo getEamCountryValueVo(int argYear, String argCountry, List<EamCountryValueVo> vos){
+        EamCountryValueVo result = null;
+
+        for(EamCountryValueVo vo : vos){
+            int year = NumberUtil.toInteger(vo.getYear());
+            String country = vo.getCountry();
+
+            if (argYear == year && argCountry.equalsIgnoreCase(country)){
+                result = vo;
+                break;
+            }
+        }
+
+        if (result == null){
+            result = new EamCountryValueVo();
+            result.setYear(String.valueOf(argYear));
+            result.setCountry(argCountry);
+            result.setValue(0);
+        }
+
+        return result;
     }
 
 

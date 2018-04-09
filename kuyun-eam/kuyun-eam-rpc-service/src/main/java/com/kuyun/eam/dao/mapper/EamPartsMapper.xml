@@ -109,11 +109,11 @@
     where part_id = #{partId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from eam_parts
+    update eam_parts set delete_flag = 1 
     where part_id = #{partId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamPartsExample">
-    delete from eam_parts
+    update eam_parts set delete_flag = 1 
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

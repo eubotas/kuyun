@@ -550,6 +550,7 @@ drop table if exists eam_order;
 CREATE TABLE eam_order (
   id                           int(11) NOT NULL AUTO_INCREMENT,
   company_name                 varchar(100) NOT NULL,
+  short_name                   varchar(50) DEFAULT NULL,
   year                         varchar(5) DEFAULT NULL COMMENT '年份',
   task_number                  varchar(10) DEFAULT NULL COMMENT '任务单号',
   state                        varchar(8) DEFAULT NULL COMMENT '洲',

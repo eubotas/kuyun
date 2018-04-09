@@ -7,6 +7,7 @@ import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.vo.EamEquipmentVO;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
+import com.kuyun.upms.dao.vo.UpmsOrgUserVo;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -317,6 +318,16 @@ public class EamTicketController extends EamTicketBaseController {
 		List records=eamApiService.getTicketRejectRecord(id);
 		modelMap.put("records", records);
 		return "/manage/ticket/ticketRejectRecord.jsp";
+	}
+
+	@ApiOperation(value = "维修人员列表")
+	@RequiresPermissions("eam:ticket:create")
+	@RequestMapping(value = "/operator/list", method = RequestMethod.GET)
+	@ResponseBody
+	public Object operatorList() {
+		HashMap<String, List<UpmsOrgUserVo>> map = new HashMap();
+		map.put("users", getOperatorUsers());
+		return map;
 	}
 
 }

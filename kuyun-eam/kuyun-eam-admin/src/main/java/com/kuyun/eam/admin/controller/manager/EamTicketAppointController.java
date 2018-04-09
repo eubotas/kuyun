@@ -112,19 +112,13 @@ public class EamTicketAppointController extends EamTicketBaseController {
 	public String create(@PathVariable("ticketId") int ticketId, ModelMap modelMap) {
 		modelMap.addAttribute("ticketId", ticketId);
 
-        UpmsOrgUserVo orgUserVo = new UpmsOrgUserVo();
-
-        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
-        if (company != null){
-            orgUserVo.setCompanyId(company.getCompanyId());
-        }
-        orgUserVo.setOrgName(OrgDepartment.MAINTENANCE_DEPARTMENT.getName());
-
-		List<UpmsOrgUserVo> users = upmsApiService.selectOrgUsersByOrgNameCompanyId( orgUserVo);
-		modelMap.put("users", users);
+		setOperatorList(modelMap);
         setTicketInfo(  ticketId,  modelMap);
 		return "/manage/ticket/appoint/create.jsp";
 	}
+
+
+
 
 	@ApiOperation(value = "新增工单委派")
 	@RequiresPermissions("eam:ticketAppointedRecord:create")

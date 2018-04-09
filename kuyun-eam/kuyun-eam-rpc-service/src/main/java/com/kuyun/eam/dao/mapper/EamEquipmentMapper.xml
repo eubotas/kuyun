@@ -139,11 +139,11 @@
     where eam_equipment.equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from eam_equipment
+    update eam_equipment eam_equipment set delete_flag = 1 
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentExample">
-    delete from eam_equipment eam_equipment
+    update eam_equipment eam_equipment set delete_flag = 1 
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

@@ -2,6 +2,7 @@ package com.kuyun.eam.admin.controller.manager;
 
 import com.google.common.base.Splitter;
 import com.kuyun.common.base.BaseController;
+import com.kuyun.eam.common.constant.OrgDepartment;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.vo.EamEquipmentVO;
@@ -11,6 +12,7 @@ import com.kuyun.eam.vo.EamTicketVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsUser;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
+import com.kuyun.upms.dao.vo.UpmsOrgUserVo;
 import com.kuyun.upms.rpc.api.UpmsApiService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,6 +91,23 @@ public abstract class EamTicketBaseController extends BaseController {
 		List<EamTicketRecord> records = eamTicketRecordService.selectByExample(etre);
 		modelMap.put("records", records);
 	}
+
+    public void setOperatorList(ModelMap modelMap) {
+        List<UpmsOrgUserVo> users = getOperatorUsers();
+        modelMap.put("users", users);
+    }
+
+    public List<UpmsOrgUserVo> getOperatorUsers() {
+        UpmsOrgUserVo orgUserVo = new UpmsOrgUserVo();
+
+        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+        if (company != null){
+            orgUserVo.setCompanyId(company.getCompanyId());
+        }
+        orgUserVo.setOrgName(OrgDepartment.MAINTENANCE_DEPARTMENT.getName());
+
+        return upmsApiService.selectOrgUsersByOrgNameCompanyId( orgUserVo);
+    }
 
     public void selectTicketUpdate(ModelMap modelMap){
         List<UpmsUser> users = upmsApiService.selectUsersByUserId(baseEntityUtil.getCurrentUser().getUserId());
