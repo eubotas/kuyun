@@ -137,12 +137,11 @@
                 {field: 'servicePhone', title: '执行人电话', sortable: true, align: 'center', searchable: true},
                 {field: 'customerContacts', title: '顾客', sortable: true, align: 'center', searchable: true},
                 {field: 'customerPhone', title: '顾客电话', sortable: true, align: 'center', searchable: true},
-                {field: 'status', title: '当前状态', sortable: true, align: 'center', searchable: true},
+                {field: 'status', title: '当前状态', sortable: true, align: 'center', searchable: true, formatter: 'formatStatus'},
                 {field: 'description', title: '工单描述' , searchable: true}
             ]
         });
     });
-
 </script>
 </pageResources>
 </body>

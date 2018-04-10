@@ -159,7 +159,6 @@
             $('#deleteButton').click(function(){
                 deleteAction();
             });
-
         });
 
         var $table = $('#table');

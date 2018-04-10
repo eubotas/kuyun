@@ -124,7 +124,7 @@ function ajaxGetDel(targetUrl, successTip, tableObj)
     });
 }
 
-function deleteRows(rows,idName,delUrl, tipContent, successTip, tableObj) {
+function deleteRows(rows,idName,delUrl, tipContent, successTip, tableObj, callFun) {
     if (rows.length == 0) {
         swWarn("请至少选择一条记录");
     }else {
@@ -148,10 +148,15 @@ function deleteRows(rows,idName,delUrl, tipContent, successTip, tableObj) {
                             toastr.success(successTip);
                         else
                             toastr.success("删除成功!");
-                        if(tableObj)
-                            tableObj.bootstrapTable('refresh');
-                        else
-                            $table.bootstrapTable('refresh');
+
+                        if (callFun){
+                            callFun();
+                        }else{
+                            if(tableObj)
+                                tableObj.bootstrapTable('refresh');
+                            else
+                                $table.bootstrapTable('refresh');
+                        }
                     }
                 });
             }
@@ -373,9 +378,36 @@ function getUnitName(unit) {
     else if(unit =='MONTH')
         return "月";
     else if(unit =='WEEK')
-        return "星期";
+        return "周";
     else if(unit =='DAY')
         return "天";
+}
+
+function formatStatus(value , row, index) {
+    var clazz = 'm-badge--info';
+    if(value == '评价完成')
+        clazz = ' m-badge--success';
+    else if(value == '评价完成')//Canceled
+        clazz = 'm-badge--primary';
+    else if(value == '待评价')//Delivered
+        clazz = 'm-badge--metal';
+    else if(value == '待维修')//Pending
+        clazz = 'm-badge--brand';
+    if(!isNull(value))
+        return '<span class="m-badge ' + clazz + ' m-badge--wide">' + ifNull(value) + '</span>';
+}
+
+function ifNull(val){
+    if(val == null)
+        return "";
+    else
+        return val;
+}
+function isNull(val){
+    if(val == null || val =='')
+        return true;
+    else
+        return null;
 }
 
 function selectedItemColor(parentId, id){
