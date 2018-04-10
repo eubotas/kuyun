@@ -116,8 +116,8 @@
                         {field: 'servicePhone', title: '执行人电话'},
                         {field: 'customerContacts', title: '顾客'},
                         {field: 'customerPhone', title: '顾客电话'},
-                        {field: 'status', title: '当前状态'},
-                        {field: 'action', width: 260, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
+                        {field: 'status', title: '当前状态',formatter: 'formatStatus'},
+                        {field: 'action', width: 120, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                     ]
                 });
             });

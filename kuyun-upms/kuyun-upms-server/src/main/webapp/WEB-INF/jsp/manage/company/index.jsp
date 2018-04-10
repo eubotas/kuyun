@@ -159,7 +159,6 @@
             $('#deleteButton').click(function(){
                 deleteAction();
             });
-
         });
 
         var $table = $('#table');
@@ -183,6 +182,16 @@
                 escape: true,
                 searchOnEnterKey: true,
                 maintainSelected: true,
+                queryParams: function queryParams(params) { //设置查询参数
+                    var param = {
+                        pageNumber: params.pageNumber,
+                        pageSize: params.pageSize,
+                        search:$(".bootstrap-table").find(":input").val(), //定义传输的搜索参数
+                        order:params.sortOrder,
+                        sort:params.sortName
+                    };
+                    return param;
+                },
                 idField: 'companyId',
                 columns: [
                     {field: 'ck', checkbox: true},
