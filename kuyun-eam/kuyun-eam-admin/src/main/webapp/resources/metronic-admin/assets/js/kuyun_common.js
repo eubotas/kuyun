@@ -402,6 +402,33 @@ function getUnitName(unit) {
         return "天";
 }
 
+function formatStatus(value , row, index) {
+    var clazz = 'm-badge--info';
+    if(value == '评价完成')
+        clazz = ' m-badge--success';
+    else if(value == '评价完成')//Canceled
+        clazz = 'm-badge--primary';
+    else if(value == '待评价')//Delivered
+        clazz = 'm-badge--metal';
+    else if(value == '待维修')//Pending
+        clazz = 'm-badge--brand';
+    if(!isNull(value))
+        return '<span class="m-badge ' + clazz + ' m-badge--wide">' + ifNull(value) + '</span>';
+}
+
+function ifNull(val){
+    if(val == null)
+        return "";
+    else
+        return val;
+}
+function isNull(val){
+    if(val == null || val =='')
+        return true;
+    else
+        return null;
+}
+
 function selectedItemColor(parentId, id){
     if(!parentId || !id)
         return;
