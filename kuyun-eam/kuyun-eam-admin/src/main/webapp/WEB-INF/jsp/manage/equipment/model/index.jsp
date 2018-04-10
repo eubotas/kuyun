@@ -363,7 +363,6 @@
             }
 
         });
-
     });
 
 
@@ -381,15 +380,25 @@
                             '<a href="javascript:void(0)" class="m-nav__link" onclick="showModelProperties(' +modelId +')"> ' +
                             '<span class="m-nav__link-text">' + row.name + '</span>' +
                             '</a>'+
-							'<div class="item-actions">'+
-                            '<span class="btn btn-pure btn-icon btn-edit" data-toggle="modal" data-target="#roleForm"><i class="icon wb-edit" aria-hidden="true"></i></span>'+
-                            '<span class="btn btn-pure btn-icon" data-tag="list-delete"><i class="icon wb-close" aria-hidden="true"></i></span>'+
+                            '<div class="item-actions">'+
+                            '<span class="btn btn-pure btn-icon btn-edit" data-toggle="modal" data-target="#roleForm"><i  aria-hidden="true"></i></span>'+
+                            '<span class="btn btn-pure btn-icon" data-tag="list-delete"><i  aria-hidden="true"></i></span>'+
                             '</div></li>';
 
                         $("#models").append(html);
 
+
                     });
 
+                    $('[id^="eqModel"]').hover(function(){
+                        var iObj= $(this).find("i");
+                        iObj.addClass('la la-edit');
+                        iObj.addClass('la la-remove');
+                    },function(){
+                        var iObj= $(this).find("i");
+                        iObj.removeClass('la la-edit');
+                        iObj.removeClass('la la-remove');
+                    });
 				}
 			});
 
