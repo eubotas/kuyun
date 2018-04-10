@@ -106,6 +106,24 @@ function ajaxGet(targetUrl, callSuccess, callError)
     });
 }
 
+function ajaxGetWithData(targetUrl, data, callSuccess, callError)
+{
+    $.ajax({
+        type: 'get',
+        url: targetUrl,
+        data: data,
+        success: function (result) {
+            callSuccess(result);
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            if(callError)
+                callError(XMLHttpRequest, textStatus);
+            else
+                toastr.error(textStatus);
+        }
+    });
+}
+
 function ajaxGetDel(targetUrl, successTip, tableObj)
 {
     ajaxGet(targetUrl, function(result){
@@ -320,6 +338,7 @@ function removeIdHtml(templateID){
 function applyTemplate(jQuery, templateID, prefix, data, options, targetEl) {
     prefix = ifNull(prefix, '');
     jQuery.template((prefix+templateID), loadHtmlTemplate(jQuery, prefix, jQuery(templateID)));
+
     return jQuery.tmpl((prefix+templateID), data, options).appendTo(targetEl);
 }
 

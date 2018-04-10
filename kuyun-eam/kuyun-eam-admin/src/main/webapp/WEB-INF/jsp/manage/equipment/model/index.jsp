@@ -237,9 +237,11 @@
 	<div id="editModelFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modelLabel"
 		 aria-hidden="true">
 	</div>
-	<div class="modal fade" id="template-model-AddEditForm" tabindex="-1" role="dialog" aria-labelledby="modelLabel"
+
+
+	<div class="modal fade" id="template-model-addEditForm" tabindex="-1" role="dialog" aria-labelledby="modelLabel"
 		 aria-hidden="true">
-		<form id="templateID_ModelForm" class="m-form m-form--fit m-form--label-align-right">
+		<form id="templateID_Form" class="m-form m-form--fit m-form--label-align-right">
 
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
@@ -277,7 +279,7 @@
 
 					</div>
 					<div class="modal-footer">
-						<%--<input type="hidden" id="templateID_id" name="id">--%>
+						<input type="hidden" id="templateID_id" name="id">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal">
 							取消
 						</button>
@@ -301,9 +303,9 @@
     $(document).ready(function()
     {
         EquipmentModels.init();
-        generateAddEditForm('template-model-addEditForm', 'add_,edit_', null, null, 'addModelFormContainer,editModelFormContainer');
-        ModelPropertyFormWidgets.init('add');
-        ModelPropertyFormWidgets.init('edit');
+        generateAddEditForm('template-model-addEditForm', 'addModel_,editModel_', null, null, 'addModelFormContainer,editModelFormContainer');
+        ModelFormWidgets.init('addModel');
+        ModelFormWidgets.init('editModel');
 
 
         generateAddEditForm('template-modelProperty-addEditForm', 'add_,edit_', null, null, 'addModelPropertyFormContainer,editModelPropertyFormContainer');
@@ -316,11 +318,9 @@
 
             ajaxGet('${basePath}/manage/equipment/model/create', function (responseData) {
 				if (responseData) {
-					addOptionToHtmlSelect(null, "edit_protocolId", responseData.protocols, "", "");
+					addOptionToHtmlSelect(null, "addModel_protocolId", responseData.protocols, "", "");
 				}
             });
-
-            console.log("bob");
         });
 
 
@@ -341,12 +341,10 @@
         $("#add_dataType_analog, #add_dataType_digital").change(function () {
 
             if ($("#add_dataType_analog").is(":checked")) {
-                console.log("select analog");
                 $('#add_displayType').show();
             }
 
             if ($("#add_dataType_digital").is(":checked")) {
-                console.log("select digital");
                 $('input[type="radio"][name="displayType"]').prop('checked', false);
                 $('#add_displayType').hide();
             }
@@ -356,12 +354,10 @@
         $("#edit_dataType_analog, #edit_dataType_digital").change(function () {
 
             if ($("#add_dataType_analog, #edit_dataType_analog").is(":checked")) {
-                console.log("select analog");
                 $('#edit_displayType').show();
             }
 
             if ($("#add_dataType_digital, #edit_dataType_digital").is(":checked")) {
-                console.log("select digital");
                 $('input[type="radio"][name="displayType"]').prop('checked', false);
                 $('#edit_displayType').hide();
             }
@@ -373,17 +369,22 @@
 
     var EquipmentModels = function () {
         var getEquipmentModels = function () {
-
-            ajaxGet('${basePath}/manage/equipment/model/list', function (responseData) {
+			var data = {limit:200, sort: 'update_time', order:'desc'};
+            ajaxGetWithData('${basePath}/manage/equipment/model/list', data, function (responseData) {
 				if (responseData) {
 					var data = responseData;
+                    $("#models").empty();
 
                     $.each(data.rows, function(index, row) {
 						var modelId=row.equipmentModelId;
                         var html = '<li id="eqModel' +modelId +'" class="m-nav__item">' +
                             '<a href="javascript:void(0)" class="m-nav__link" onclick="showModelProperties(' +modelId +')"> ' +
                             '<span class="m-nav__link-text">' + row.name + '</span>' +
-                            '</a></li>';
+                            '</a>'+
+							'<div class="item-actions">'+
+                            '<span class="btn btn-pure btn-icon btn-edit" data-toggle="modal" data-target="#roleForm"><i class="icon wb-edit" aria-hidden="true"></i></span>'+
+                            '<span class="btn btn-pure btn-icon" data-tag="list-delete"><i class="icon wb-close" aria-hidden="true"></i></span>'+
+                            '</div></li>';
 
                         $("#models").append(html);
 
@@ -455,6 +456,65 @@
             '<shiro:hasPermission name="eam:equipmentModelProperty:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-success m-btn--icon m-btn--icon-only m-btn--pill" title="读写指令">	<i class="la la-recycle"></i>	</a></shiro:hasPermission>',
             '<shiro:hasPermission name="eam:equipmentModelProperty:read"><a id="modelProperty" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="设备模型参数">	<i class="la la-bell"></i>	</a></shiro:hasPermission>'
         ].join('');
+    }
+
+    var ModelFormWidgets = function () {
+        var createForm = function (formid) {
+            $("#"+formid+"_Form").validate({
+                // define validation rules
+                rules: {
+                    name: {
+                        required: true,
+                        minlength: 2,
+                        maxlength: 20
+                    },
+                    number: {
+                        required: true,
+                        minlength: 1,
+                        maxlength: 20
+                    },
+                },
+                submitHandler: function (form) {
+                    if(formid === 'addModel')
+                        submitModelForm();
+                    else{
+                        submitModelForm($('#edit_id').val());
+                    }
+
+                }
+            });
+        }
+
+        return {
+            // public functions
+            init: function (formid) {
+                createForm(formid);
+            }
+        };
+    }();
+
+    function submitModelForm(id) {
+        var targetUrl='${basePath}/manage/equipment/model/create';
+        var formId='addModel_Form';
+        if(id){
+            targetUrl='${basePath}/manage/equipment/model/update/'+id;
+            formId='editModel_Form';
+        }
+
+        ajaxPost(targetUrl, formId, function(result) {
+            if (result.code != 1) {
+                sendErrorInfo(result);
+            } else {
+                if(formId=='addModel_Form') {
+                    toastr.success("新建设备模型成功");
+                    $('#addModelFormContainer').modal('toggle');
+                }else{
+                    toastr.success("编辑设备模型成功");
+                    $('#editModelFormContainer').modal('toggle');
+                }
+                EquipmentModels.init();
+            }
+        });
     }
 
     var ModelPropertyFormWidgets = function () {

@@ -14,7 +14,7 @@
             <div class="m-stack__item m-stack__item--left m-stack__item--middle m-stack__item--last">
                 <span class="m-footer__copyright">
                                 2018©库德莱兹物联科技（苏州）有限公司
-								<a href="www.coderise.cn">
+								<a href="http://www.coderise.cn" target="_blank">
 									coderise.cn
 								</a>
 							</span>
