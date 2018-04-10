@@ -109,14 +109,14 @@
                     idField: 'ticketId',
                     columns: [
                         {field: 'ck', checkbox: true},
-                        {field: 'description', title: '工单描述', sortable: true, align: 'center'},
-                        {field: 'priority', title: '优先级'},
-                        {field: 'ticketType.name', title: '工单类型'},
-                        {field: 'serviceman', title: '执行人'},
-                        {field: 'servicePhone', title: '执行人电话'},
-                        {field: 'customerContacts', title: '顾客'},
-                        {field: 'customerPhone', title: '顾客电话'},
-                        {field: 'status', title: '当前状态'},
+                        {field: 'priority', title: '优先级', sortable: true, align: 'center', searchable: true},
+                        {field: 'ticketType.name', title: '工单类型', sortable: true, align: 'center', searchable: true},
+                        {field: 'serviceman', title: '执行人', sortable: true, align: 'center', searchable: true},
+                        {field: 'servicePhone', title: '执行人电话', sortable: true, align: 'center', searchable: true},
+                        {field: 'customerContacts', title: '顾客', sortable: true, align: 'center', searchable: true},
+                        {field: 'customerPhone', title: '顾客电话', sortable: true, align: 'center', searchable: true},
+                        {field: 'status', title: '当前状态', sortable: true, align: 'center', searchable: true},
+                        {field: 'description', title: '工单描述', searchable: true},
                         {field: 'action', width: 260, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                     ]
                 });
