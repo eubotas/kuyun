@@ -10,6 +10,11 @@
 <html lang="zh-cn">
 <head>
 	<meta charset="utf-8"/>
+	<style>
+		span{ display:block;}
+		.a{float:left;}
+		.b{float:right; text-align:right}
+	</style>
 </head>
 <body>
 
@@ -375,29 +380,34 @@
                     $("#models").empty();
 
                     $.each(data.rows, function(index, row) {
-						var modelId=row.equipmentModelId;
+						var modelId=$.trim(row.equipmentModelId);
                         var html = '<li id="eqModel' +modelId +'" class="m-nav__item">' +
                             '<a href="javascript:void(0)" class="m-nav__link" onclick="showModelProperties(' +modelId +')"> ' +
                             '<span class="m-nav__link-text">' + row.name + '</span>' +
                             '</a>'+
-                            '<div class="item-actions">'+
-                            '<span class="btn btn-pure btn-icon btn-edit" data-toggle="modal" data-target="#roleForm"><i  aria-hidden="true"></i></span>'+
-                            '<span class="btn btn-pure btn-icon" data-tag="list-delete"><i  aria-hidden="true"></i></span>'+
-                            '</div></li>';
+                            '<i class="kuyunEdit " onclick="editPop('+modelId+')"></i>'+
+                            '<i class="kuyunDel " onclick="deletePop('+modelId+')"></i>'+
+
+                            // '<span class="a">'+
+                            // '<a href="javascript:void(0)" class="m-nav__link" onclick="showModelProperties(' +modelId +')"> ' +
+                            // '<span class="m-nav__link-text">' + row.name + '</span>' +
+                            // '</a></span> <span class="b">'+
+                            // '<i class="kuyunEdit " onclick="editPop('+modelId+')"></i>'+
+                            // '<i class="kuyunDel " onclick="deletePop('+modelId+')"></i></span>'+
+                            '</li>';
 
                         $("#models").append(html);
-
 
                     });
 
                     $('[id^="eqModel"]').hover(function(){
-                        var iObj= $(this).find("i");
-                        iObj.addClass('la la-edit');
-                        iObj.addClass('la la-remove');
+                        var iObj= $(this);
+                        iObj.find('.kuyunEdit').addClass('la la-edit');
+                        iObj.find('.kuyunDel').addClass('la la-remove');
                     },function(){
-                        var iObj= $(this).find("i");
-                        iObj.removeClass('la la-edit');
-                        iObj.removeClass('la la-remove');
+                        var iObj= $(this);
+                        iObj.find('.kuyunEdit').removeClass('la la-edit');
+                        iObj.find('.kuyunDel').removeClass('la la-remove');
                     });
 				}
 			});
@@ -411,6 +421,14 @@
             }
         };
 	}();
+
+    function editPop(modelId){
+        alert(modelId);
+	}
+    function deletePop(modelId){
+        alert('del'+modelId);
+    }
+
 
     function showModelProperties(id) {
         selectedItemColor("models", 'eqModel'+id);
