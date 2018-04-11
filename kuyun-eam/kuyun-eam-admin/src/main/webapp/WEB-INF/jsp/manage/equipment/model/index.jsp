@@ -307,6 +307,14 @@
 <script>
     $(document).ready(function()
     {
+        $('.modal').on('hidden.bs.modal', function(e)
+        {
+            jQuery("#addModel_Form").validate().resetForm();
+            jQuery("#add_Form").validate().resetForm();
+            jQuery("#editModel_Form").validate().resetForm();
+            jQuery("#edit_Form").validate().resetForm();
+        }) ;
+
         EquipmentModels.init();
         generateAddEditForm('template-model-addEditForm', 'addModel_,editModel_', null, null, 'addModelFormContainer,editModelFormContainer');
         ModelFormWidgets.init('addModel');
@@ -323,7 +331,7 @@
 
             ajaxGet('${basePath}/manage/equipment/model/create', function (responseData) {
 				if (responseData) {
-					addOptionToHtmlSelect(null, "addModel_protocolId", responseData.protocols, "", "");
+				    addOptionToHtmlSelect(null, "addModel_protocolId", responseData.protocols, "", "");
 				}
             });
         });
@@ -385,15 +393,8 @@
                             '<a href="javascript:void(0)" class="m-nav__link" onclick="showModelProperties(' +modelId +')"> ' +
                             '<span class="m-nav__link-text">' + row.name + '</span>' +
                             '</a>'+
-                            '<i class="kuyunEdit " onclick="editPop('+modelId+')"></i>'+
-                            '<i class="kuyunDel " onclick="deletePop('+modelId+')"></i>'+
-
-                            // '<span class="a">'+
-                            // '<a href="javascript:void(0)" class="m-nav__link" onclick="showModelProperties(' +modelId +')"> ' +
-                            // '<span class="m-nav__link-text">' + row.name + '</span>' +
-                            // '</a></span> <span class="b">'+
-                            // '<i class="kuyunEdit " onclick="editPop('+modelId+')"></i>'+
-                            // '<i class="kuyunDel " onclick="deletePop('+modelId+')"></i></span>'+
+                            '<div class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"> <i class="modelEdit " onclick="modelEdit('+modelId+')"></i></div>'+
+                            '<div class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill"><i class="modelDel " onclick="ModelDelete('+modelId+')"></i></div>'+
                             '</li>';
 
                         $("#models").append(html);
@@ -402,12 +403,12 @@
 
                     $('[id^="eqModel"]').hover(function(){
                         var iObj= $(this);
-                        iObj.find('.kuyunEdit').addClass('la la-edit');
-                        iObj.find('.kuyunDel').addClass('la la-remove');
+                        iObj.find('.modelEdit').addClass('la la-edit');
+                        iObj.find('.modelDel').addClass('la la-remove');
                     },function(){
                         var iObj= $(this);
-                        iObj.find('.kuyunEdit').removeClass('la la-edit');
-                        iObj.find('.kuyunDel').removeClass('la la-remove');
+                        iObj.find('.modelEdit').removeClass('la la-edit');
+                        iObj.find('.modelDel').removeClass('la la-remove');
                     });
 				}
 			});
@@ -422,28 +423,85 @@
         };
 	}();
 
-    function editPop(modelId){
-        alert(modelId);
+    function modelEdit(modelId){
+        $("#editModelFormContainer").modal("show");
+        ajaxGet('${basePath}/manage/equipment/model/update/' + modelId, function (responseData) {
+            if (responseData) {
+                var data = responseData.equipmentModel;
+
+                $("#editModel_id").val(modelId);
+                $("#editModel_name").val(data.name);
+                $("#editModel_number").val(data.number);
+
+                addOptionToHtmlSelect(data.protocolId, 'editModel_protocolId', responseData.protocols);
+            }
+        });
 	}
-    function deletePop(modelId){
-        alert('del'+modelId);
+    function ModelDelete(modelId){
+        var rows = new Array();
+        var row = {equipmentModelId:modelId}
+        rows.push(row);
+        deleteRows(rows,'equipmentModelId','${basePath}/manage/equipment/model/delete/', "请确认要删除选中的设备模型吗？", "删除设备模型成功", null, EquipmentModels.init);
     }
 
+    var ModelFormWidgets = function () {
+        var createForm = function (formid) {
+            $("#"+formid+"_Form").validate({
+                // define validation rules
+                rules: {
+                    name: {
+                        required: true,
+                        minlength: 2,
+                        maxlength: 20
+                    },
+                    number: {
+                        required: true,
+                        minlength: 1,
+                        maxlength: 20
+                    },
+                },
+                submitHandler: function (form) {
+                    if(formid === 'addModel')
+                        submitModelForm();
+                    else{
+                        submitModelForm($('#editModel_id').val());
+                    }
 
-    function showModelProperties(id) {
-        selectedItemColor("models", 'eqModel'+id);
-        $('#equipmentModelId').val(id);
-        refreshTable();
-    }
-
-    function refreshTable() {
-        var id = $('#equipmentModelId').val();
-        var opt = {
-            url: "${basePath}/manage/equipment/model/property/list/"+id
+                }
+            });
+        }
+        return {
+            // public functions
+            init: function (formid) {
+                createForm(formid);
+            }
         };
+    }();
 
-        $table.bootstrapTable('refresh', opt);
+    function submitModelForm(id) {
+        var targetUrl='${basePath}/manage/equipment/model/create';
+        var formId='addModel_Form';
+        if(id){
+            targetUrl='${basePath}/manage/equipment/model/update/'+id;
+            formId='editModel_Form';
+        }
+
+        ajaxPost(targetUrl, formId, function(result) {
+            if (result.code != 1) {
+                sendErrorInfo(result);
+            } else {
+                if(formId=='addModel_Form') {
+                    toastr.success("新建设备模型成功");
+                    $('#addModelFormContainer').modal('toggle');
+                }else{
+                    toastr.success("编辑设备模型成功");
+                    $('#editModelFormContainer').modal('toggle');
+                }
+                EquipmentModels.init();
+            }
+        });
     }
+
 
     var $table = $('#table');
     $(function() {
@@ -485,65 +543,6 @@
         ].join('');
     }
 
-    var ModelFormWidgets = function () {
-        var createForm = function (formid) {
-            $("#"+formid+"_Form").validate({
-                // define validation rules
-                rules: {
-                    name: {
-                        required: true,
-                        minlength: 2,
-                        maxlength: 20
-                    },
-                    number: {
-                        required: true,
-                        minlength: 1,
-                        maxlength: 20
-                    },
-                },
-                submitHandler: function (form) {
-                    if(formid === 'addModel')
-                        submitModelForm();
-                    else{
-                        submitModelForm($('#edit_id').val());
-                    }
-
-                }
-            });
-        }
-
-        return {
-            // public functions
-            init: function (formid) {
-                createForm(formid);
-            }
-        };
-    }();
-
-    function submitModelForm(id) {
-        var targetUrl='${basePath}/manage/equipment/model/create';
-        var formId='addModel_Form';
-        if(id){
-            targetUrl='${basePath}/manage/equipment/model/update/'+id;
-            formId='editModel_Form';
-        }
-
-        ajaxPost(targetUrl, formId, function(result) {
-            if (result.code != 1) {
-                sendErrorInfo(result);
-            } else {
-                if(formId=='addModel_Form') {
-                    toastr.success("新建设备模型成功");
-                    $('#addModelFormContainer').modal('toggle');
-                }else{
-                    toastr.success("编辑设备模型成功");
-                    $('#editModelFormContainer').modal('toggle');
-                }
-                EquipmentModels.init();
-            }
-        });
-    }
-
     var ModelPropertyFormWidgets = function () {
         var createForm = function (formid) {
             $("#"+formid+"_Form").validate({
@@ -578,6 +577,21 @@
             }
         };
     }();
+
+    function showModelProperties(id) {
+        selectedItemColor("models", 'eqModel'+id);
+        $('#equipmentModelId').val(id);
+        refreshTable();
+    }
+
+    function refreshTable() {
+        var id = $('#equipmentModelId').val();
+        var opt = {
+            url: "${basePath}/manage/equipment/model/property/list/"+id
+        };
+
+        $table.bootstrapTable('refresh', opt);
+    }
 
     function submitModelPropertyForm(id) {
         var targetUrl='${basePath}/manage/equipment/model/property/create';
@@ -620,9 +634,6 @@
         $("#edit_name").val(data.name);
         $("#edit_unit").val(data.unit);
 
-        console.log("data.dataType:"+data.dataType);
-        console.log("data.displayType:"+data.displayType);
-
         if ('analog' === data.dataType) {
             $("#edit_dataType_analog").prop('checked', true);
         } else if ('digital' === data.dataType) {
@@ -661,16 +672,8 @@
             deleteRows(rows,'equipmentModelPropertyId','${basePath}/manage/equipment/model/property/delete/', "请确认要删除选中的设备模型参数吗？", "删除设备模型参数成功", null, refreshTable);
         }
     }
-
-
-
 </script>
 
-
-
-
 </pageResources>
-
-
 </body>
 </html>
