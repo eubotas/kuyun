@@ -120,7 +120,7 @@ public class EamTicketController extends EamTicketBaseController {
     }
 
 	@ApiOperation(value = "工单列表")
-	@RequiresPermissions("eam:ticket:read")
+	@RequiresPermissions("eam:ticket:read,eam:myOpenTicket:read,eam:myAllTicket:read,eam:initTicket:read")
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	@ResponseBody
 	public Object list(
@@ -267,7 +267,7 @@ public class EamTicketController extends EamTicketBaseController {
     }
 
     @ApiOperation(value = "工单详细")
-    @RequiresPermissions("eam:ticket:read")
+    @RequiresPermissions("eam:ticket:read,eam:myOpenTicket:read,eam:myAllTicket:read,eam:initTicket:read")
     @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
     public String detail(@PathVariable("id") int id, ModelMap modelMap) {
         EamTicket eamTicket = eamTicketService.selectByPrimaryKey(id);
@@ -312,7 +312,7 @@ public class EamTicketController extends EamTicketBaseController {
 	}
 
 	@ApiOperation(value = "工单拒绝记录")
-	@RequiresPermissions("eam:ticket:read")
+	@RequiresPermissions("eam:ticket:update")
 	@RequestMapping(value = "/rejectRecord/{id}", method = RequestMethod.GET)
 	public String rejectRecord(@PathVariable("id") int id, ModelMap modelMap) {
 		List records=eamApiService.getTicketRejectRecord(id);
