@@ -1,6 +1,7 @@
 package com.kuyun.eam.vo;
 
 import com.kuyun.eam.dao.model.EamSensor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -27,6 +28,7 @@ public class EamSensorVO extends EamSensor {
 
     private String orderByClause;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     public Date getStartDate() {
         return startDate;
     }

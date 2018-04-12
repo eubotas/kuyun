@@ -381,6 +381,11 @@ function timeFormatter(value , row, index) {
     return new Date(value).toLocaleString();
 }
 
+function timeSimpleFormatter(value) {
+    var date= new Date(value);
+    return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+}
+
 function hideModal(id) {
     jQuery("#"+id).modal('hide');
 }

@@ -92,20 +92,28 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group m-form__group row">
-                            <label for="templateID_warehouseId">仓库</label>
+                            <div class="col-sm-3">
+                            <label for="templateID_warehouseId">仓库 :</label>
+                            </div>
+                            <div class="col-sm-9">
                             <select id="templateID_warehouseId" name="warehouseId" style="width: 100%" />
+                            </div>
                         </div>
 
                         <div class="form-group m-form__group row">
-                            <label for="templateID_number">仓位编号</label>
-                            <input id="templateID_number" type="text" class="form-control" name="number" maxlength="20">
+                            <div class="col-sm-6">
+                                <label for="templateID_number">仓位编号 :</label>
+                            </div>
+                            <div class="col-sm-6">
+                                <input id="templateID_number" type="text" class="form-control" name="number" maxlength="20">
+                            </div>
                         </div>
 
 						<div class="form-group m-form__group row">
 							<label for="templateID_comments">备注</label>
 							<input id="templateID_comments" type="text" class="form-control" name="comments" maxlength="200" >
 						</div>
-                    </div>
+
                     <div class="modal-footer">
                         <input type="hidden" id="templateID_id" name="id">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">
@@ -116,6 +124,7 @@
                         </button>
                     </div>
                 </div>
+            </div>
             </div>
         </form>
     </div>
