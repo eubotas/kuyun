@@ -113,10 +113,19 @@
 						</div>
 
                         <div class="form-group m-form__group row">
-                            <label for="templateID_inTaskDate">入库日期</label>
-                            <input id="templateID_inTaskDate" type="date" class="form-control m-input" name="inTaskDate">
+                            <label class="col-form-label col-lg-3 col-sm-12">
+                                入库日期
+                            </label>
+                            <div class="input-group date">
+                                <input id="templateID_inTaskDate" name="inTaskDate" type="text" class="form-control m-input" readonly="" >
+                                <div class="input-group-append">
+													<span class="input-group-text">
+														<i class="la la-calendar"></i>
+													</span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+
                     <div class="modal-footer">
                         <input type="hidden" id="templateID_id" name="id">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">

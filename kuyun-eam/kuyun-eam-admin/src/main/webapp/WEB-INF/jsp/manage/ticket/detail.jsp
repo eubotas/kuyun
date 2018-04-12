@@ -134,19 +134,19 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-6">
-                                            <label >执行人: </label> <span>${ticket.serviceman}</span>
+                                            <label >维修人: </label> <span>${ticket.serviceman}</span>
                                         </div>
                                         <div class="col-sm-6">
-                                            <label >执行人电话: </label> <span>${ticket.servicePhone}</span>
+                                            <label >维修人电话: </label> <span>${ticket.servicePhone}</span>
                                         </div>
 
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-6">
-                                            <label >顾客联系人: </label> <span>${ticket.customerContacts}</span>
+                                            <label >提报人: </label> <span>${ticket.customerContacts}</span>
                                         </div>
                                         <div class="col-sm-6">
-                                            <label >顾客电话: </label> <span>${ticket.customerPhone}</span>
+                                            <label >提报人电话: </label> <span>${ticket.customerPhone}</span>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -225,7 +225,7 @@
                     <div class="modal-body">
                         <div class="form-group m-form__group row">
                             <div class="col-sm-12">
-                                <label for="orderTakerId">工单执行人</label>
+                                <label for="orderTakerId">工单维修人</label>
                                 <div class="form-group">
                                     <select id="orderTakerId" name="orderTakerId">
                                     </select><a style="margin-left: 10px;" href="javascript:;" onclick="toaction('CREATEUSER');">创建新用户</a>

@@ -534,10 +534,10 @@
                     {field: 'ticketDescription', title: '工单描述', sortable: true, align: 'center'},
                     {field: 'ticketPriority', title: '优先级'},
                     {field: 'ticketTypeName', title: '工单类型'},
-                    {field: 'serviceman', title: '执行人'},
-                    {field: 'servicePhone', title: '执行人电话'},
-                    {field: 'customerContacts', title: '顾客'},
-                    {field: 'customerPhone', title: '顾客电话'},
+                    {field: 'serviceman', title: '维修人'},
+                    {field: 'servicePhone', title: '维修人电话'},
+                    {field: 'customerContacts', title: '提报人'},
+                    {field: 'customerPhone', title: '提报人电话'},
                     {field: 'ticketStatus', title: '当前状态'}
                 ]
             });
