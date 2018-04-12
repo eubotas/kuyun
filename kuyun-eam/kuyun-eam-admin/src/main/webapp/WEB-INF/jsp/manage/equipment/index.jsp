@@ -107,15 +107,18 @@
                             </div>
 						</div>
                         <div class="form-group m-form__group row">
+                            <div class="col-sm-6">
                             <select id="templateID_equipmentModelId" name="equipmentModelId" style="width: 100%"></select>
-                        </div>
-                        <div class="form-group m-form__group row">
-                            <select id="templateID_equipmentCategoryId" name="equipmentCategoryId" style="width: 100%"></select>
+                            </div>
+                            <div class="col-sm-6">
+                                <select id="templateID_equipmentCategoryId" name="equipmentCategoryId" style="width: 100%"></select>
+                            </div>
                         </div>
 
                         <div class="form-group m-form__group row">
                             <label for="templateID_imagePath">设备图片</label>
-                            <input id="templateID_imagePath" type="text" class="form-control" name="imagePath" maxlength="300">
+                            <div id="templateID_fine-uploader-gallery"></div>
+                            <input id="templateID_imagePath" type="hidden" class="form-control" name="imagePath" maxlength="300">
                         </div>
                         <div class="form-group m-form__group row">
                             <div class="col-sm-6">
@@ -203,6 +206,8 @@
                 deleteAction();
             });
 
+            var addGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("add_fine-uploader-gallery")}));
+            var editGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("edit_fine-uploader-gallery")}));
         });
 
         var $table = $('#table');
@@ -246,22 +251,15 @@
         }
 
         function submitForm(id) {
-            // var uploads = galleryUploader.getUploads({
-            //     status: qq.status.UPLOAD_SUCCESSFUL
-            // });
-            // var fileUuids = '';
-            // for (var i = 0; i < uploads.length; i++) {
-            //     fileUuids = fileUuids + uploads[i].uuid + ",";
-            // }
-            // console.log("fileUuids = " + fileUuids);
-            // $('#imagePath').val(fileUuids);
-
             var targetUrl='${basePath}/manage/equipment/create';
             var formId='add_Form';
             if(id){
                 targetUrl='${basePath}/manage/equipment/update/'+id;
                 formId='edit_Form';
-            }
+                $('#edit_imagePath').val(getUploadFileName(editGalleryUploader));
+            }else
+                $('#add_imagePath').val(getUploadFileName(addGalleryUploader));
+
             ajaxPost(targetUrl, formId, function(result) {
                 if (result.code != 1) {
                     sendErrorInfo(result);
@@ -332,11 +330,10 @@
 
     </script>
 
-
     <link href="${basePath}/resources/kuyun-admin/plugins/fileupload/fine-uploader-gallery.css" rel="stylesheet">
-
+    <script src="${basePath}/resources/kuyun-admin/plugins/fileupload/fine-uploader.js"></script>
     <!-- Fine Uploader Gallery template
-  ====================================================================== -->
+ ====================================================================== -->
     <script type="text/template" id="qq-template-gallery">
         <div class="qq-uploader-selector qq-uploader qq-gallery" qq-drop-area-text="Drop files here">
             <div class="qq-total-progress-bar-container-selector qq-total-progress-bar-container">
@@ -412,6 +409,55 @@
                 </div>
             </dialog>
         </div>
+    </script>
+
+    <script>
+
+        var uploadOpt={
+            template : 'qq-template-gallery',
+            request : {
+                endpoint : '${uploadServer.endpoint_upload}',
+                params : {
+                    kuyunModule : "eam"
+                }
+            },
+            thumbnails : {
+                placeholders : {
+                    waitingPath : '${basePath}/resources/kuyun-admin/plugins/fileupload/placeholders/waiting-generic.png',
+                    notAvailablePath : '${basePath}/resources/kuyun-admin/plugins/fileupload/placeholders/not_available-generic.png'
+                }
+            },
+            validation : {
+                /*  allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'] */
+            },
+            chunking : {
+                enabled : true,
+                concurrent : {
+                    enabled : true
+                },
+                success : {
+                    endpoint : '${uploadServer.endpoint_uploadDone}'
+                },
+                mandatory : true
+            },
+            deleteFile : {
+                enabled : true,
+                forceConfirm : true,
+                endpoint : '${uploadServer.endpoint_delete}'
+            },
+            cors : {
+                //all requests are expected to be cross-domain requests
+                expected : true,
+
+                //if you want cookies to be sent along with the request
+                // sendCredentials : true
+            }
+            /* init file list
+            session:{
+                    endpoint: '${uploadServer.endpoint_list}?ids=${uuids}'
+                    }, */
+        };
+
     </script>
 
 </pageResources>

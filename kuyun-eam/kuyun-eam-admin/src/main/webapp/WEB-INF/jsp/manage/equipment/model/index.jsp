@@ -12,8 +12,8 @@
 	<meta charset="utf-8"/>
 	<style>
 		span{ display:block;}
-		.a{float:left;}
-		.b{float:right; text-align:right}
+		.m-nav-row-left{float:left; }
+		.m-nav-row-right{float:right; text-align:right; }
 	</style>
 </head>
 <body>
@@ -389,12 +389,13 @@
 
                     $.each(data.rows, function(index, row) {
 						var modelId=$.trim(row.equipmentModelId);
-                        var html = '<li id="eqModel' +modelId +'" class="m-nav__item">' +
-                            '<a href="javascript:void(0)" class="m-nav__link" onclick="showModelProperties(' +modelId +')"> ' +
-                            '<span class="m-nav__link-text">' + row.name + '</span>' +
-                            '</a>'+
+                        var html = '<li id="eqModel' +modelId +'" class="m-nav__item" style="height:40px;">' +
+                            '<span class="m-nav-row-left">'+
+                            '<a href="javascript:void(0)" style="color:#6f727d; padding-left:15px; font-weight:400; font-size:1rem;" onclick="showModelProperties(' +modelId +')"> ' +row.name +
+                            '</a></span> <span class="m-nav-row-right">'+
                             '<div class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"> <i class="modelEdit " onclick="modelEdit('+modelId+')"></i></div>'+
                             '<div class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill"><i class="modelDel " onclick="ModelDelete('+modelId+')"></i></div>'+
+							'</span>'+
                             '</li>';
 
                         $("#models").append(html);
