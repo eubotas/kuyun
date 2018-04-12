@@ -62,9 +62,9 @@ INSERT INTO `upms_permission` VALUES ('310', '6', '300', '工单类型', '2', 'e
 INSERT INTO `upms_permission` VALUES ('311', '6', '310', '新增类型', '3', 'eam:ticketType:create', '/manage/ticket/type/create', 'zmdi zmdi-plus', 1, 1489820150404, 311);
 INSERT INTO `upms_permission` VALUES ('312', '6', '310', '编辑类型', '3', 'eam:ticketType:update', '/manage/ticket/type/update', 'zmdi zmdi-edit', 1, 1489820178269, 312);
 INSERT INTO `upms_permission` VALUES ('313', '6', '310', '删除类型', '3', 'eam:ticketType:delete', '/manage/ticket/type/delete', 'zmdi zmdi-close', 1, 1489820207607, 313);
-INSERT INTO `upms_permission` VALUES ('320', '6', '300', '我的未处理工单', '2', 'eam:ticket:read', '/manage/ticket/index?category=myOpen', NULL, 1, 225, 320);
-INSERT INTO `upms_permission` VALUES ('330', '6', '300', '我的全部工单', '2', 'eam:ticket:read', '/manage/ticket/index?category=myAll', NULL, 1, 225, 330);
-INSERT INTO `upms_permission` VALUES ('340', '6', '300', '未委派工单', '2', 'eam:ticket:read', '/manage/ticket/index?category=init', NULL, 1, 225, 340);
+INSERT INTO `upms_permission` VALUES ('320', '6', '300', '我的未处理工单', '2', 'eam:myOpenTicket:read', '/manage/ticket/index?category=myOpen', NULL, 1, 225, 320);
+INSERT INTO `upms_permission` VALUES ('330', '6', '300', '我的全部工单', '2', 'eam:myAllTicket:read', '/manage/ticket/index?category=myAll', NULL, 1, 225, 330);
+INSERT INTO `upms_permission` VALUES ('340', '6', '300', '未委派工单', '2', 'eam:initTicket:read', '/manage/ticket/index?category=init', NULL, 1, 225, 340);
 INSERT INTO `upms_permission` VALUES ('350', '6', '300', '全部工单', '2', 'eam:ticket:read', '/manage/ticket/index?category=all', NULL, 1, 225, 350);
 INSERT INTO `upms_permission` VALUES ('351', '6', '350', '新增工单', '3', 'eam:ticket:create', '/manage/ticket/create', 'zmdi zmdi-plus', 1, 1489820150404, 1489820150404);
 INSERT INTO `upms_permission` VALUES ('352', '6', '350', '编辑工单', '3', 'eam:ticket:update', '/manage/ticket/update', 'zmdi zmdi-edit', 1, 1489820178269, 1489820178269);
