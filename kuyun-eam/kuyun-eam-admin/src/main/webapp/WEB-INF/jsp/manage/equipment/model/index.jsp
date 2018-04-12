@@ -12,8 +12,8 @@
 	<meta charset="utf-8"/>
 	<style>
 		span{ display:block;}
-		.a{float:left;}
-		.b{float:right; text-align:right}
+		.m-nav-row-left{float:left; }
+		.m-nav-row-right{float:right; text-align:right; }
 	</style>
 </head>
 <body>
@@ -78,7 +78,7 @@
 					</div>
 
 					<div class="m-portlet__body">
-						<ul class="m-nav m-nav--hover-bg m-portlet-fit--sides" id="models">
+						<ul class="m-nav m-nav--hover-bg m-portlet-fit--sides" id="models" style="line-height:45px;">
 						</ul>
 						<div class="m-portlet__body-separator"></div>
 
@@ -490,11 +490,12 @@
                     $.each(data.rows, function(index, row) {
 						var modelId=$.trim(row.equipmentModelId);
                         var html = '<li id="eqModel' +modelId +'" class="m-nav__item">' +
-                            '<a href="javascript:void(0)" class="m-nav__link" onclick="showModelProperties(' +modelId +')"> ' +
-                            '<span class="m-nav__link-text">' + row.name + '</span>' +
-                            '</a>'+
+                            '<span class="m-nav-row-left">'+
+                            '<a href="javascript:void(0)" style="color:#6f727d; padding-left:15px; height:50px;font-weight:400; font-size:1rem;" onclick="showModelProperties(' +modelId +')"> ' +row.name +
+                            '</a></span> <span class="m-nav-row-right" style="position:absolute ;right:25px;">'+
                             '<div class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill"> <i class="modelEdit " onclick="modelEdit('+modelId+')"></i></div>'+
                             '<div class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill"><i class="modelDel " onclick="ModelDelete('+modelId+')"></i></div>'+
+							'</span>'+
                             '</li>';
 
                         $("#models").append(html);
@@ -505,10 +506,12 @@
                         var iObj= $(this);
                         iObj.find('.modelEdit').addClass('la la-edit');
                         iObj.find('.modelDel').addClass('la la-remove');
+                        iObj.css("background-color","#f4f5f8");
                     },function(){
                         var iObj= $(this);
                         iObj.find('.modelEdit').removeClass('la la-edit');
                         iObj.find('.modelDel').removeClass('la la-remove');
+                        iObj.css("background-color","");
                     });
 				}
 			});

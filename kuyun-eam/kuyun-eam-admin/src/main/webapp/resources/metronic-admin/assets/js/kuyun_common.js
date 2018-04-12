@@ -381,6 +381,11 @@ function timeFormatter(value , row, index) {
     return new Date(value).toLocaleString();
 }
 
+function timeSimpleFormatter(value) {
+    var date= new Date(value);
+    return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+}
+
 function hideModal(id) {
     jQuery("#"+id).modal('hide');
 }
@@ -433,6 +438,7 @@ function selectedItemColor(parentId, id){
     if(!parentId || !id)
         return;
     $("#"+parentId).find("li>a").css("border-left",'solid 8px transparent');
+    $("#"+parentId).find("li>span").find("[href]").css("border-left",'solid 8px transparent');
     $("#"+id).find("[href]").css("border-left",'solid 8px #ED5565');
 }
 

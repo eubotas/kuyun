@@ -114,7 +114,7 @@
 
                         <div class="form-group m-form__group row">
                             <label for="templateID_inTaskDate">入库日期</label>
-                            <input id="templateID_inTaskDate" type="date" class="form-control" name="inTaskDate">
+                            <input id="templateID_inTaskDate" type="date" class="form-control m-input" name="inTaskDate">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -237,7 +237,6 @@
 
 
         function updateAction(row) {
-            jQuery("#editCodeValueFormContainer").modal("show");
             ajaxGet('${basePath}/manage/inventory/update/' + row["inventoryId"], function (responseData) {
                 if (responseData) {
                     var data = responseData.inventory;
@@ -247,7 +246,9 @@
                     addOptionToHtmlSelect(data.locationId, 'edit_locationId', responseData.locationList);
                     addOptionToHtmlSelect(data.partId, 'edit_partId', responseData.partList);
                     $("#edit_quantity").val(data.quantity);
-                    $("#edit_inTaskDate").val(data.inTaskDate);
+                    var dt =timeSimpleFormatter(data.inTaskDate);
+                    $("#edit_inTaskDate").val(dt);
+                    jQuery("#editCodeValueFormContainer").modal("show");
                 }
             });
         }

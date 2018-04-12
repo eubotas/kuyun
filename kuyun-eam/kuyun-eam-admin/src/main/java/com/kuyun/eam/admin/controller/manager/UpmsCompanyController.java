@@ -147,10 +147,12 @@ public class UpmsCompanyController extends BaseController {
     @ApiOperation(value = "修改公司")
     @RequiresPermissions("eam:company:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-    public String update(@PathVariable("id") int id, ModelMap modelMap) {
+    @ResponseBody
+    public Object update(@PathVariable("id") int id) {
+        Map<String, Object> map = new HashMap<>();
         UpmsCompany company = upmsCompanyService.selectByPrimaryKey(id);
-        modelMap.put("company", company);
-        return "/manage/company/update.jsp";
+        map.put("company", company);
+        return map;
     }
 
     @ApiOperation(value = "修改公司")

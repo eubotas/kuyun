@@ -19,12 +19,19 @@ public abstract class BaseController {
 
 	private final static Logger _log = LoggerFactory.getLogger(BaseController.class);
 
-	/**
-	 * 统一异常处理
-	 * @param request
-	 * @param response
-	 * @param exception
-	 */
+//    @InitBinder
+//    public void initBinder(WebDataBinder binder) {
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//        dateFormat.setLenient(false);
+//        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+//    }
+
+        /**
+         * 统一异常处理
+         * @param request
+         * @param response
+         * @param exception
+         */
 	@ExceptionHandler
 	public String exceptionHandler(HttpServletRequest request, HttpServletResponse response, Exception exception) {
 		_log.error("统一异常处理：", exception);
