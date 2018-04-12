@@ -9,6 +9,7 @@ import com.kuyun.eam.vo.EamEquipmentVO;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
 import com.kuyun.upms.dao.vo.UpmsOrgUserVo;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -120,7 +121,7 @@ public class EamTicketController extends EamTicketBaseController {
     }
 
 	@ApiOperation(value = "工单列表")
-	@RequiresPermissions("eam:ticket:read,eam:myOpenTicket:read,eam:myAllTicket:read,eam:initTicket:read")
+	@RequiresPermissions(value = {"eam:ticket:read,eam:myOpenTicket:read,eam:myAllTicket:read,eam:initTicket:read"}, logical = Logical.OR)
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	@ResponseBody
 	public Object list(
@@ -267,8 +268,8 @@ public class EamTicketController extends EamTicketBaseController {
     }
 
     @ApiOperation(value = "工单详细")
-    @RequiresPermissions("eam:ticket:read,eam:myOpenTicket:read,eam:myAllTicket:read,eam:initTicket:read")
-    @RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
+	@RequiresPermissions(value = {"eam:ticket:read,eam:myOpenTicket:read,eam:myAllTicket:read,eam:initTicket:read"}, logical = Logical.OR)
+	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
     public String detail(@PathVariable("id") int id, ModelMap modelMap) {
         EamTicket eamTicket = eamTicketService.selectByPrimaryKey(id);
         String status=eamTicket.getStatus();
