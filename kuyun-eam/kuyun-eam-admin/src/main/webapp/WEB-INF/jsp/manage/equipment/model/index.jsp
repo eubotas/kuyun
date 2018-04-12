@@ -277,8 +277,97 @@
 								<input type="text" class="form-control" id="templateID_number" name="number" maxlength="20">
 							</div>
 						</div>
+
 						<div class="form-group m-form__group row">
-							<select id="templateID_protocolId" name="protocolId" style="width: 100%">
+							<label for="templateID_name" class="form-control-label">
+								链接协议: *
+							</label>
+							<div class="col-8">
+							    <select id="templateID_protocolId" name="protocolId" >
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<input type="hidden" id="templateID_id" name="id">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">
+							取消
+						</button>
+						<button type="submit" class="btn btn-primary" id="templateID_submit">
+							提交
+						</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<div id="addModbusFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modbusLabel"
+		 aria-hidden="true">
+	</div>
+
+	<div id="editModbusFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modbusLabel"
+		 aria-hidden="true">
+	</div>
+
+
+	<div class="modal fade" id="template-modbus-addEditForm" tabindex="-1" role="dialog" aria-labelledby="modbusLabel"
+		 aria-hidden="true">
+		<form id="templateID_Form" class="m-form m-form--fit m-form--label-align-right">
+
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="modbusLabel">
+							templateTitleName_读写指令
+						</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">
+												&times;
+											</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="form-group m-form__group row">
+							<label for="templateID_name" class="form-control-label">
+								读取模式: *
+							</label>
+							<div class="col-6">
+								<select id="templateID_functionCode" name="functionCode" style="width: 100%">
+								</select>
+							</div>
+						</div>
+						<div class="form-group m-form__group row">
+							<label for="templateID_name" class="form-control-label">
+								参数地址: *
+							</label>
+							<div class="col-6">
+								<div class="input-group bootstrap-touchspin">
+									<span class="input-group-addon bootstrap-touchspin-prefix" style="display: none;"></span>
+									<input id="m_touchspin_5" type="text" class="form-control bootstrap-touchspin-vertical-btn" value="" name="demo1" placeholder="30" style="display: block;">
+									<span class="input-group-addon bootstrap-touchspin-postfix" style="display: none;"></span>
+									<span class="input-group-btn-vertical">
+										<button class="btn btn-secondary bootstrap-touchspin-up" type="button"><i class="la la-angle-up"></i></button>
+										<button class="btn btn-secondary bootstrap-touchspin-down" type="button"><i class="la la-angle-down"></i></button>
+									</span>
+								</div>
+								<%--<input type="text" class="form-control" id="templateID_number" name="number" maxlength="20">--%>
+							</div>
+						</div>
+
+						<div class="form-group m-form__group row">
+							<label for="templateID_name" class="form-control-label">
+								数据格式: *
+							</label>
+							<select id="templateID_dataFormat" name="dataFormat" style="width: 100%">
+							</select>
+						</div>
+
+						<div class="form-group m-form__group row">
+							<label for="templateID_name" class="form-control-label">
+								字节顺序: *
+							</label>
+							<select id="templateID_bitOrder" name="bitOrder" style="width: 100%">
 							</select>
 						</div>
 
@@ -310,8 +399,13 @@
         $('.modal').on('hidden.bs.modal', function(e)
         {
             jQuery("#addModel_Form").validate().resetForm();
+            jQuery("#addModbus_Form").validate().resetForm();
+            jQuery("#addGrm_Form").validate().resetForm();
             jQuery("#add_Form").validate().resetForm();
+
             jQuery("#editModel_Form").validate().resetForm();
+            jQuery("#editModbus_Form").validate().resetForm();
+            jQuery("#editGrm_Form").validate().resetForm();
             jQuery("#edit_Form").validate().resetForm();
         }) ;
 
@@ -324,6 +418,10 @@
         generateAddEditForm('template-modelProperty-addEditForm', 'add_,edit_', null, null, 'addModelPropertyFormContainer,editModelPropertyFormContainer');
         ModelPropertyFormWidgets.init('add');
         ModelPropertyFormWidgets.init('edit');
+
+        generateAddEditForm('template-modbus-addEditForm', 'addModbus_,editMobus_', null, null, 'addModbusFormContainer,editModbusFormContainer');
+        ModelFormWidgets.init('addModbus');
+        ModelFormWidgets.init('editModbus');
 
         $('#createModelButton').click(function(){
 
@@ -378,10 +476,12 @@
         });
     });
 
+/*************Start Equipment Model******************************/
 
     var EquipmentModels = function () {
         var getEquipmentModels = function () {
 			var data = {limit:200, sort: 'update_time', order:'desc'};
+
             ajaxGetWithData('${basePath}/manage/equipment/model/list', data, function (responseData) {
 				if (responseData) {
 					var data = responseData;
@@ -502,6 +602,7 @@
         });
     }
 
+    /*************Start Equipment Model Property******************************/
 
     var $table = $('#table');
     $(function() {
@@ -537,9 +638,9 @@
     // 格式化操作按钮
     function actionFormatter(value, row, index) {
         return [
-            '<shiro:hasPermission name="eam:equipmentModelProperty:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
-            '<shiro:hasPermission name="eam:equipmentModelProperty:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-success m-btn--icon m-btn--icon-only m-btn--pill" title="读写指令">	<i class="la la-recycle"></i>	</a></shiro:hasPermission>',
-            '<shiro:hasPermission name="eam:equipmentModelProperty:read"><a id="modelProperty" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="设备模型参数">	<i class="la la-bell"></i>	</a></shiro:hasPermission>'
+            '<shiro:hasPermission name="eam:equipmentModelProperty:update"><a id="updateAction" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
+            '<shiro:hasPermission name="eam:equipmentModelProperty:update"><a id="readWriteAction" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-success m-btn--icon m-btn--icon-only m-btn--pill" title="读写指令">	<i class="la la-recycle"></i>	</a></shiro:hasPermission>',
+            '<shiro:hasPermission name="eam:equipmentModelProperty:update"><a id="alarmAction" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="报警设置">	<i class="la la-bell"></i>	</a></shiro:hasPermission>'
         ].join('');
     }
 
@@ -650,15 +751,55 @@
     }
 
     window.actionEvents = {
-        'click #update': function (e, value, row, index) {
+        'click #updateAction': function (e, value, row, index) {
             updateAction(row);
         },
-        'click #delete': function (e, value, row, index) {
-            var rows = new Array();
-            rows.push(row);
-            deleteActionImpl(rows);
+        'click #readWriteAction': function (e, value, row, index) {
+            readWriteAction(row);
+        },
+        'click #alarmAction': function (e, value, row, index) {
+            alarmAction(row);
         }
     };
+
+    function readWriteAction(row) {
+		var equipmentModelId = row["equipmentModelId"];
+        ajaxGet('${basePath}/manage/equipment/model/update/' + equipmentModelId, function (responseData) {
+            if (responseData) {
+                var protocolId = responseData.equipmentModel.protocolId;
+                console.log("protocolId:"+protocolId);
+
+                if (1 == protocolId){
+                    //modbus
+                    $("#addModbusFormContainer").modal("show");
+                    addOptionToHtmlSelect(null, "addModel_functionCode", responseData.modbusFunctionCodes, "", "");
+                    addOptionToHtmlSelect(null, "addModel_dataFormat", responseData.dataFormats, "", "");
+                    addOptionToHtmlSelect(null, "addModel_bitOrder", responseData.bitOrders, "", "");
+
+                }else if (4 == protocolId){
+                    //grm
+                }
+
+            }
+        });
+
+
+
+
+
+    }
+
+    function alarmAction(row) {
+        $("#editModelPropertyFormContainer").modal("show");
+
+        ajaxGet('${basePath}/manage/equipment/model/property/update/' + row["equipmentModelPropertyId"], function (responseData) {
+            if (responseData) {
+                var data = responseData.equipmentModelProperties;
+                // 赋值
+                setModelProperty(data);
+            }
+        });
+    }
 
     function deleteAction(){
         var rows = $table.bootstrapTable('getSelections');

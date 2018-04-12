@@ -22,15 +22,15 @@ public enum ModbusFunctionCode {
     ReadCoils(0x01, "01 读写"),
     ReadDiscreteInputs(0x02, "02 只读"),
     ReadHoldingRegisters(0x03, "03 读写"),
-    ReadInputRegisters(0x04, "04 只读"),
-    WriteSingleCoil(0x05, "05 Write Single Coil"),
-    WriteSingleRegister(0x06, "06 Write Single Register"),
+    ReadInputRegisters(0x04, "04 只读");
+//    WriteSingleCoil(0x05, "05 Write Single Coil"),
+//    WriteSingleRegister(0x06, "06 Write Single Register"),
 //    ReadExceptionStatus(0x07, " Read Exception Status"),
 //    Diagnostics(0x08),
 //    GetCommEventCounter(0x0B),
 //    GetCommEventLog(0x0C),
-    WriteMultipleCoils(0x0F, "15 WriteMultipleCoils"),
-    WriteMultipleRegisters(0x10, "16 WriteMultipleRegisters");
+//    WriteMultipleCoils(0x0F, "15 WriteMultipleCoils"),
+//    WriteMultipleRegisters(0x10, "16 WriteMultipleRegisters");
 //    ReportSlaveId(0x11),
 //    ReadFileRecord(0x14),
 //    WriteFileRecord(0x15),
