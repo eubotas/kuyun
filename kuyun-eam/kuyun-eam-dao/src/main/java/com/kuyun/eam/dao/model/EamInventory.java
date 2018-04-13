@@ -1,8 +1,6 @@
 package com.kuyun.eam.dao.model;
 
 import com.kuyun.common.dao.model.BaseEntity;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -62,7 +60,6 @@ public class EamInventory extends BaseEntity implements Serializable {
         this.quantity = quantity;
     }
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     public Date getInTaskDate() {
         return inTaskDate;
     }

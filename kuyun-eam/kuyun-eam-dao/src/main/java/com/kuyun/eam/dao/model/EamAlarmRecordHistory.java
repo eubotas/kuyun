@@ -111,13 +111,13 @@ public class EamAlarmRecordHistory extends BaseEntity implements Serializable {
             && (this.getEquipmentModelPropertyId() == null ? other.getEquipmentModelPropertyId() == null : this.getEquipmentModelPropertyId().equals(other.getEquipmentModelPropertyId()))
             && (this.getAlarmValue() == null ? other.getAlarmValue() == null : this.getAlarmValue().equals(other.getAlarmValue()))
             && (this.getAlarmStatus() == null ? other.getAlarmStatus() == null : this.getAlarmStatus().equals(other.getAlarmStatus()))
-            && (this.getAlarmClearValue() == null ? other.getAlarmClearValue() == null : this.getAlarmClearValue().equals(other.getAlarmClearValue()))
             && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()));
+            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()))
+            && (this.getAlarmClearValue() == null ? other.getAlarmClearValue() == null : this.getAlarmClearValue().equals(other.getAlarmClearValue()));
     }
 
     @Override
@@ -130,13 +130,13 @@ public class EamAlarmRecordHistory extends BaseEntity implements Serializable {
         result = prime * result + ((getEquipmentModelPropertyId() == null) ? 0 : getEquipmentModelPropertyId().hashCode());
         result = prime * result + ((getAlarmValue() == null) ? 0 : getAlarmValue().hashCode());
         result = prime * result + ((getAlarmStatus() == null) ? 0 : getAlarmStatus().hashCode());
-        result = prime * result + ((getAlarmClearValue() == null) ? 0 : getAlarmClearValue().hashCode());
         result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
+        result = prime * result + ((getAlarmClearValue() == null) ? 0 : getAlarmClearValue().hashCode());
         return result;
     }
 }

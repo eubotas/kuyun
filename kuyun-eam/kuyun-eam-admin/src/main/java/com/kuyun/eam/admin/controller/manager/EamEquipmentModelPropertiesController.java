@@ -11,7 +11,7 @@ import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.grm.common.Action;
 import com.kuyun.upms.client.util.BaseEntityUtil;
-import com.kuyun.upms.dao.model.UpmsOrganization;
+import com.kuyun.upms.common.JspUtil;
 import com.kuyun.upms.dao.model.UpmsUser;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
 import com.kuyun.upms.rpc.api.UpmsApiService;
@@ -26,10 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.kuyun.eam.common.constant.EamResultConstant.INVALID_LENGTH;
 import static com.kuyun.eam.common.constant.EamResultConstant.SUCCESS;
@@ -216,25 +213,13 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 		Map map = new HashMap();
 		buildModelMap(mId, pId, map);
 
-		map.put("modbusFunctionCodes", ModbusFunctionCode.values());
-		map.put("dataFormats", DataFormat.values());
-		map.put("bitOrders", BitOrder.values());
+		map.put("modbusFunctionCodes", JspUtil.getMapList(Arrays.asList(ModbusFunctionCode.values()),"code","name"));
+		map.put("dataFormats", JspUtil.getMapList(Arrays.asList(DataFormat.values()),"code","name"));
+		map.put("bitOrders", JspUtil.getMapList(Arrays.asList(BitOrder.values()),"name","name"));
 		return map;
-		//return "/manage/equipment/model/property/modbus.jsp";
 	}
 
-	@ApiOperation(value = "Modbus传感器参数")
-	@RequiresPermissions("eam:equipmentModelProperty:update")
-	@RequestMapping(value = "/sensor/modbus/{mId}/{pId}", method = RequestMethod.GET)
-	@ResponseBody
-	public Object sensorModbus(@PathVariable("mId") int mId, @PathVariable("pId") int pId) {
-		Map<String, Object> result = buildHashMap(mId, pId);
 
-		result.put("modbusFunctionCodes", ModbusFunctionCode.values());
-		result.put("dataFormats", DataFormat.values());
-		result.put("bitOrders", BitOrder.values());
-		return result;
-	}
 
 	@ApiOperation(value = "巨控传感器参数")
 	@RequiresPermissions("eam:equipmentModelProperty:update")
@@ -243,7 +228,7 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 	public Object sensorGrm(@PathVariable("mId") int mId, @PathVariable("pId") int pId) {
 		Map<String, Object> result = buildHashMap(mId, pId);
 
-		result.put("grmActions", Action.values());
+		result.put("grmActions", JspUtil.getMapList(Arrays.asList(Action.values()),"code","name"));
 		return result;
 	}
 
@@ -306,24 +291,13 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 	public Object alarm(@PathVariable("mId") int mId, @PathVariable("pId") int pId) {
 		Map map = new HashMap();
 		buildModelMap(mId, pId, map);
-		map.put("alarmTypes", AlarmType.values());
-		map.put("alarmTargets", AlarmTarget.values());
-		map.put("users", getUsers());
-
+		map.put("alarmTypes", JspUtil.getMapList(Arrays.asList(AlarmType.values()),"code","name"));
+		map.put("alarmTargets", JspUtil.getMapList(Arrays.asList(AlarmTarget.values()),"code","name"));
+		map.put("users", JspUtil.getMapList(getUsers(),"userId","realname"));
 		return map;
 	}
 
-	@ApiOperation(value = "报警通知人列表")
-	@RequiresPermissions("eam:equipmentModelProperty:update")
-	@RequestMapping(value = "/alarmUsers/", method = RequestMethod.GET)
-	@ResponseBody
-	public Object alarmUsers(ModelMap modelMap) {
-		HashMap<String, Object> map = new HashMap<>(3);
-		map.put("alarmTypes", AlarmType.values());
-		map.put("alarmTargets", AlarmTarget.values());
-		map.put("users", getUsers());
-		return map;
-	}
+
 
 	private List<UpmsUser> getUsers(){
 		UpmsUser user = baseEntityUtil.getCurrentUser();
@@ -337,9 +311,9 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 	public Object sensorAlarm(@PathVariable("mId") int mId, @PathVariable("pId") int pId) {
 		Map<String, Object> result = buildHashMap(mId, pId);
 
-		result.put("alarmTypes", AlarmType.values());
-		result.put("alarmTargets", AlarmTarget.values());
-		result.put("users", getUsers());
+		result.put("alarmTypes", JspUtil.getMapList(Arrays.asList(AlarmType.values()),"code","name"));
+		result.put("alarmTargets", JspUtil.getMapList(Arrays.asList(AlarmTarget.values()),"code","name"));
+		result.put("users", JspUtil.getMapList(getUsers(),"userId","realname"));
 		return result;
 	}
 

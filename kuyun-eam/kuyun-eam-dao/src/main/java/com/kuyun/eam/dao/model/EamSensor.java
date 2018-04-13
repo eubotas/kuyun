@@ -10,6 +10,13 @@ public class EamSensor extends BaseEntity implements Serializable {
     private Integer equipmentModelPropertyId;
 
     /**
+     * Modbus RTU 从站地址
+     *
+     * @mbg.generated
+     */
+    private Integer salveId;
+
+    /**
      * Modbus RTU 功能码
      *
      * @mbg.generated
@@ -123,6 +130,14 @@ public class EamSensor extends BaseEntity implements Serializable {
 
     public void setEquipmentModelPropertyId(Integer equipmentModelPropertyId) {
         this.equipmentModelPropertyId = equipmentModelPropertyId;
+    }
+
+    public Integer getSalveId() {
+        return salveId;
+    }
+
+    public void setSalveId(Integer salveId) {
+        this.salveId = salveId;
     }
 
     public Integer getFunctionCode() {
@@ -245,6 +260,7 @@ public class EamSensor extends BaseEntity implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", sensorId=").append(sensorId);
         sb.append(", equipmentModelPropertyId=").append(equipmentModelPropertyId);
+        sb.append(", salveId=").append(salveId);
         sb.append(", functionCode=").append(functionCode);
         sb.append(", address=").append(address);
         sb.append(", dataFormat=").append(dataFormat);
@@ -277,6 +293,7 @@ public class EamSensor extends BaseEntity implements Serializable {
         EamSensor other = (EamSensor) that;
         return (this.getSensorId() == null ? other.getSensorId() == null : this.getSensorId().equals(other.getSensorId()))
             && (this.getEquipmentModelPropertyId() == null ? other.getEquipmentModelPropertyId() == null : this.getEquipmentModelPropertyId().equals(other.getEquipmentModelPropertyId()))
+            && (this.getSalveId() == null ? other.getSalveId() == null : this.getSalveId().equals(other.getSalveId()))
             && (this.getFunctionCode() == null ? other.getFunctionCode() == null : this.getFunctionCode().equals(other.getFunctionCode()))
             && (this.getAddress() == null ? other.getAddress() == null : this.getAddress().equals(other.getAddress()))
             && (this.getDataFormat() == null ? other.getDataFormat() == null : this.getDataFormat().equals(other.getDataFormat()))
@@ -305,6 +322,7 @@ public class EamSensor extends BaseEntity implements Serializable {
         int result = 1;
         result = prime * result + ((getSensorId() == null) ? 0 : getSensorId().hashCode());
         result = prime * result + ((getEquipmentModelPropertyId() == null) ? 0 : getEquipmentModelPropertyId().hashCode());
+        result = prime * result + ((getSalveId() == null) ? 0 : getSalveId().hashCode());
         result = prime * result + ((getFunctionCode() == null) ? 0 : getFunctionCode().hashCode());
         result = prime * result + ((getAddress() == null) ? 0 : getAddress().hashCode());
         result = prime * result + ((getDataFormat() == null) ? 0 : getDataFormat().hashCode());

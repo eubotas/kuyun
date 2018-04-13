@@ -247,7 +247,6 @@
 	<div class="modal fade" id="template-model-addEditForm" tabindex="-1" role="dialog" aria-labelledby="modelLabel"
 		 aria-hidden="true">
 		<form id="templateID_Form" class="m-form m-form--fit m-form--label-align-right">
-
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -277,13 +276,12 @@
 								<input type="text" class="form-control" id="templateID_number" name="number" maxlength="20">
 							</div>
 						</div>
-
 						<div class="form-group m-form__group row">
-							<label for="templateID_name" class="form-control-label">
+							<label for="templateID_name" class="col-form-label col-lg-3 col-sm-12">
 								链接协议: *
 							</label>
-							<div class="col-8">
-							    <select id="templateID_protocolId" name="protocolId" >
+							<div class="col-lg-9 col-md-9 col-sm-12">
+							    <select class="form-control m-select2" style="width: 180px;" id="templateID_protocolId" name="protocolId" >
 								</select>
 							</div>
 						</div>
@@ -344,14 +342,12 @@
 							<div class="col-6">
 								<div class="input-group bootstrap-touchspin">
 									<span class="input-group-addon bootstrap-touchspin-prefix" style="display: none;"></span>
-									<input id="m_touchspin_5" type="text" class="form-control bootstrap-touchspin-vertical-btn" value="" name="demo1" placeholder="30" style="display: block;">
-									<span class="input-group-addon bootstrap-touchspin-postfix" style="display: none;"></span>
+									<input id="templateID_address" type="text" class="form-control bootstrap-touchspin-vertical-btn" value="" name="address" style="display: block;">
 									<span class="input-group-btn-vertical">
 										<button class="btn btn-secondary bootstrap-touchspin-up" type="button"><i class="la la-angle-up"></i></button>
 										<button class="btn btn-secondary bootstrap-touchspin-down" type="button"><i class="la la-angle-down"></i></button>
 									</span>
 								</div>
-								<%--<input type="text" class="form-control" id="templateID_number" name="number" maxlength="20">--%>
 							</div>
 						</div>
 
@@ -359,16 +355,20 @@
 							<label for="templateID_name" class="form-control-label">
 								数据格式: *
 							</label>
-							<select id="templateID_dataFormat" name="dataFormat" style="width: 100%">
-							</select>
+							<div class="col-6">
+								<select id="templateID_dataFormat" name="dataFormat" style="width: 100%">
+								</select>
+							</div>
 						</div>
 
 						<div class="form-group m-form__group row">
 							<label for="templateID_name" class="form-control-label">
-								字节顺序: *
+								字节顺序:
 							</label>
-							<select id="templateID_bitOrder" name="bitOrder" style="width: 100%">
-							</select>
+							<div class="col-6">
+								<select id="templateID_bitOrder" name="bitOrder" style="width: 100%">
+								</select>
+							</div>
 						</div>
 
 					</div>
@@ -415,13 +415,30 @@
         ModelFormWidgets.init('editModel');
 
 
+        $('#addModel_protocolId, #editModel_protocolId').select2();
+
         generateAddEditForm('template-modelProperty-addEditForm', 'add_,edit_', null, null, 'addModelPropertyFormContainer,editModelPropertyFormContainer');
         ModelPropertyFormWidgets.init('add');
         ModelPropertyFormWidgets.init('edit');
 
-        generateAddEditForm('template-modbus-addEditForm', 'addModbus_,editMobus_', null, null, 'addModbusFormContainer,editModbusFormContainer');
+        generateAddEditForm('template-modbus-addEditForm', 'addModbus_,editModbus_', null, null, 'addModbusFormContainer,editModbusFormContainer');
         ModelFormWidgets.init('addModbus');
         ModelFormWidgets.init('editModbus');
+
+
+        $('#addModbus_functionCode, #addModbus_dataFormat, #addModbus_bitOrder').select2();
+        $('#editModbus_functionCode, #editModbus_dataFormat, #editModbus_bitOrder').select2();
+
+
+        $('#addModbus_address, #editModbus_address').TouchSpin({
+            buttondown_class: 'btn btn-secondary',
+            buttonup_class: 'btn btn-secondary',
+            verticalbuttons: true,
+            verticalupclass: 'la la-angle-up',
+            verticaldownclass: 'la la-angle-down'
+        });
+
+
 
         $('#createModelButton').click(function(){
 
@@ -767,18 +784,36 @@
 
     function readWriteAction(row) {
 		var equipmentModelId = row["equipmentModelId"];
-        ajaxGet('${basePath}/manage/equipment/model/update/' + equipmentModelId, function (responseData) {
+		var equipmentModelPropertyId = row["equipmentModelPropertyId"];
+        ajaxGet('${basePath}/manage/equipment/model/property/modbus/' + equipmentModelId +'/' + equipmentModelPropertyId, function (responseData) {
             if (responseData) {
                 var protocolId = responseData.equipmentModel.protocolId;
-                console.log("protocolId:"+protocolId);
+
 
                 if (1 == protocolId){
-                    //modbus
-                    $("#addModbusFormContainer").modal("show");
-                    addOptionToHtmlSelect(null, "addModel_functionCode", responseData.modbusFunctionCodes, "", "");
-                    addOptionToHtmlSelect(null, "addModel_dataFormat", responseData.dataFormats, "", "");
-                    addOptionToHtmlSelect(null, "addModel_bitOrder", responseData.bitOrders, "", "");
 
+                    var sensor = responseData.sensor;
+                    if (sensor){
+                        console.log("editModbus");
+
+                        $("#editModbusFormContainer").modal("show");
+
+                        addOptionToHtmlSelect(sensor.functionCode, 'editModbus_functionCode', responseData.modbusFunctionCodes);
+                        addOptionToHtmlSelect(sensor.dataFormat, 'editModbus_dataFormat', responseData.dataFormats);
+                        addOptionToHtmlSelect(sensor.bitOrder, 'editModbus_bitOrder', responseData.bitOrders);
+                        $("#editModbus_address").val(sensor.address);
+
+
+
+
+					}else{
+                        console.log("addModbus");
+                        //modbus
+                        $("#addModbusFormContainer").modal("show");
+                        addOptionToHtmlSelect(null, "addModbus_functionCode", responseData.modbusFunctionCodes, "", "");
+                        addOptionToHtmlSelect(null, "addModbus_dataFormat", responseData.dataFormats, "", "");
+                        addOptionToHtmlSelect(null, "addModbus_bitOrder", responseData.bitOrders, "", "");
+					}
                 }else if (4 == protocolId){
                     //grm
                 }
