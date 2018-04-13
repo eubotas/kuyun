@@ -111,6 +111,32 @@
                     </ul>
                 </div>
             </li>
+            <li id="menu_assetsCustomer" class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+                <a  href="#" class="m-menu__link m-menu__toggle">
+                    <i class="m-menu__link-icon flaticon-interface-1"></i>
+                    <span class="m-menu__link-text">
+										客户管理
+									</span>
+                    <i class="m-menu__ver-arrow la la-angle-right"></i>
+                </a>
+                <div class="m-menu__submenu ">
+                    <span class="m-menu__arrow"></span>
+                    <ul class="m-menu__subnav">
+
+                        <li id="submenu_assetsCustomer1" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
+                            <shiro:hasPermission name="eam:company:read">
+                                <a  href="${eamPath}/manage/company/index" class="m-menu__link ">
+                                    <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="m-menu__link-text">
+													客户管理
+												</span>
+                                </a></shiro:hasPermission>
+                        </li>
+                    </ul>
+                </div>
+            </li>
             <li id="menu_assetsTicket" class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"  data-menu-submenu-toggle="hover">
                 <a  href="#" class="m-menu__link m-menu__toggle">
                     <i class="m-menu__link-icon flaticon-share"></i>
@@ -323,123 +349,7 @@
                     </ul>
                 </div>
             </li>
-            <li id="menu_assetsCustomer" class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"  data-menu-submenu-toggle="hover">
-                <a  href="#" class="m-menu__link m-menu__toggle">
-                    <i class="m-menu__link-icon flaticon-interface-1"></i>
-                    <span class="m-menu__link-text">
-										客户管理
-									</span>
-                    <i class="m-menu__ver-arrow la la-angle-right"></i>
-                </a>
-                <div class="m-menu__submenu ">
-                    <span class="m-menu__arrow"></span>
-                    <ul class="m-menu__subnav">
 
-                        <li id="submenu_assetsCustomer1" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
-                            <shiro:hasPermission name="eam:company:read">
-                                <a  href="${eamPath}/manage/company/index" class="m-menu__link ">
-                                    <i class="m-menu__link-bullet m-menu__link-bullet--dot">
-                                        <span></span>
-                                    </i>
-                                    <span class="m-menu__link-text">
-													客户管理
-												</span>
-                                </a></shiro:hasPermission>
-                        </li>
-                    </ul>
-                </div>
-            </li>
-            <li id="menu_assetsInventory" class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"  data-menu-submenu-toggle="hover">
-                <a  href="#" class="m-menu__link m-menu__toggle">
-                    <i class="m-menu__link-icon flaticon-interface-1"></i>
-                    <span class="m-menu__link-text">
-										仓储管理
-									</span>
-                    <i class="m-menu__ver-arrow la la-angle-right"></i>
-                </a>
-                <div id="submenu_assetsInventory" class="m-menu__submenu ">
-                    <span class="m-menu__arrow"></span>
-                    <ul class="m-menu__subnav">
-
-                        <li id="submenu_assetsInventory1" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
-                            <shiro:hasPermission name="eam:warehouse:read">
-                                <a  href="${eamPath}/manage/warehouse/index" class="m-menu__link ">
-                                    <i class="m-menu__link-bullet m-menu__link-bullet--dot">
-                                        <span></span>
-                                    </i>
-                                    <span class="m-menu__link-text">
-													仓库管理
-												</span>
-                                </a></shiro:hasPermission>
-                        </li>
-
-                        <li id="submenu_assetsInventory2" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
-                            <shiro:hasPermission name="eam:location:read">
-                                <a  href="${eamPath}/manage/location/index" class="m-menu__link ">
-                                    <i class="m-menu__link-bullet m-menu__link-bullet--dot">
-                                        <span></span>
-                                    </i>
-                                    <span class="m-menu__link-text">
-													仓位管理
-												</span>
-                                </a></shiro:hasPermission>
-                        </li>
-
-                        <li id="submenu_assetsInventory3" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
-                            <shiro:hasPermission name="eam:inventory:read">
-                                <a  href="${eamPath}/manage/inventory/index" class="m-menu__link ">
-                                    <i class="m-menu__link-bullet m-menu__link-bullet--dot">
-                                        <span></span>
-                                    </i>
-                                    <span class="m-menu__link-text">
-													库存管理
-												</span>
-                                </a></shiro:hasPermission>
-                        </li>
-
-                    </ul>
-                </div>
-            </li>
-
-            <li id="menu_assetsPart" class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"  data-menu-submenu-toggle="hover">
-                <a  href="#" class="m-menu__link m-menu__toggle">
-                    <i class="m-menu__link-icon flaticon-interface-1"></i>
-                    <span class="m-menu__link-text">
-										备品备件
-									</span>
-                    <i class="m-menu__ver-arrow la la-angle-right"></i>
-                </a>
-                <div id="submenu_assetsPart" class="m-menu__submenu ">
-                    <span class="m-menu__arrow"></span>
-                    <ul class="m-menu__subnav">
-
-                        <li id="submenu_assetsPart1" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
-                            <shiro:hasPermission name="eam:part:read">
-                                <a  href="${eamPath}/manage/part/index" class="m-menu__link ">
-                                    <i class="m-menu__link-bullet m-menu__link-bullet--dot">
-                                        <span></span>
-                                    </i>
-                                    <span class="m-menu__link-text">
-													配件管理
-												</span>
-                                </a></shiro:hasPermission>
-                        </li>
-
-                        <li id="submenu_assetsPart2" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
-                            <shiro:hasPermission name="eam:partCategory:read">
-                                <a  href="${eamPath}/manage/part/category/index" class="m-menu__link ">
-                                    <i class="m-menu__link-bullet m-menu__link-bullet--dot">
-                                        <span></span>
-                                    </i>
-                                    <span class="m-menu__link-text">
-													配件类别管理
-												</span>
-                                </a></shiro:hasPermission>
-                        </li>
-
-                    </ul>
-                </div>
-            </li>
         </div>
         <div id="menu_equiOpList" style="display: none">
             <li  id="menu_equiOpTitle" class="m-menu__section">
@@ -466,7 +376,7 @@
                                     <span></span>
                                 </i>
                                 <span class="m-menu__link-text">
-													数据采集
+													监控中心
 												</span>
                             </a>
                         </li>

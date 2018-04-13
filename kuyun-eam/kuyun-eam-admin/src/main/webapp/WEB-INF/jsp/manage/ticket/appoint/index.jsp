@@ -146,7 +146,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group m-form__group row">
-                            <label for="templateID_orderTakerId" class="form-control-label">工单执行人 *</label>
+                            <label for="templateID_orderTakerId" class="form-control-label">工单维修人 *</label>
                             <select id="templateID_orderTakerId" name="orderTakerId" style="width: 100%">
                             </select>
                         </div>
