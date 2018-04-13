@@ -148,7 +148,8 @@ $(function() {
 		toolbar: '#toolbar',
 		columns: [
 			{field: 'ck', checkbox: true},
-			{field: 'description', title: '工单描述', sortable: true, align: 'center'},
+            {field: 'ticketNumber', title: '工单编号'},
+            {field: 'description', title: '工单描述', sortable: true, align: 'center'},
 			{field: 'priority', title: '优先级'},
 			{field: 'ticketType.name', title: '工单类型'},
 			{field: 'serviceman', title: '执行人'},

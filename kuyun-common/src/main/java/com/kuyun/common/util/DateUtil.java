@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 /**
@@ -33,5 +34,10 @@ public class DateUtil {
 
     public static LocalDateTime asLocalDateTime(Date date) {
         return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
+    }
+
+    public static String getCurrentDate(){
+        DateTimeFormatter formatter = DateTimeFormatter.BASIC_ISO_DATE;
+        return formatter.format(LocalDate.now());
     }
 }

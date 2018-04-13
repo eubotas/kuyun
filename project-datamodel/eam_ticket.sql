@@ -23,6 +23,7 @@ DROP TABLE IF EXISTS `eam_ticket`;
 CREATE TABLE `eam_ticket` (
   `ticket_id` int(11) NOT NULL AUTO_INCREMENT,
   `ticket_type_id` int(11) DEFAULT NULL,
+  `ticket_number` varchar(32),
   `equipment_category_id` int(11) DEFAULT NULL,
   `product_line_id` varchar(32) DEFAULT NULL,
   `equipment_id` varchar(32) DEFAULT NULL,

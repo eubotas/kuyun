@@ -59,6 +59,8 @@ public class EamTicket extends BaseEntity implements Serializable {
 
     private Date endDate;
 
+    private String ticketNumber;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getTicketId() {
@@ -157,6 +159,14 @@ public class EamTicket extends BaseEntity implements Serializable {
         this.endDate = endDate;
     }
 
+    public String getTicketNumber() {
+        return ticketNumber;
+    }
+
+    public void setTicketNumber(String ticketNumber) {
+        this.ticketNumber = ticketNumber;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -175,6 +185,7 @@ public class EamTicket extends BaseEntity implements Serializable {
         sb.append(", executorId=").append(executorId);
         sb.append(", status=").append(status);
         sb.append(", endDate=").append(endDate);
+        sb.append(", ticketNumber=").append(ticketNumber);
         sb.append("]");
         return sb.toString();
     }
@@ -208,7 +219,8 @@ public class EamTicket extends BaseEntity implements Serializable {
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()));
+            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()))
+            && (this.getTicketNumber() == null ? other.getTicketNumber() == null : this.getTicketNumber().equals(other.getTicketNumber()));
     }
 
     @Override
@@ -233,6 +245,7 @@ public class EamTicket extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
+        result = prime * result + ((getTicketNumber() == null) ? 0 : getTicketNumber().hashCode());
         return result;
     }
 }

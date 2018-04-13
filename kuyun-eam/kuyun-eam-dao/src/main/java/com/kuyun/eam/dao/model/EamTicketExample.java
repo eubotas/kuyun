@@ -1278,6 +1278,76 @@ public class EamTicketExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andTicketNumberIsNull() {
+            addCriterion("eam_ticket.ticket_number is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTicketNumberIsNotNull() {
+            addCriterion("eam_ticket.ticket_number is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTicketNumberEqualTo(String value) {
+            addCriterion("eam_ticket.ticket_number =", value, "ticketNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTicketNumberNotEqualTo(String value) {
+            addCriterion("eam_ticket.ticket_number <>", value, "ticketNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTicketNumberGreaterThan(String value) {
+            addCriterion("eam_ticket.ticket_number >", value, "ticketNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTicketNumberGreaterThanOrEqualTo(String value) {
+            addCriterion("eam_ticket.ticket_number >=", value, "ticketNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTicketNumberLessThan(String value) {
+            addCriterion("eam_ticket.ticket_number <", value, "ticketNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTicketNumberLessThanOrEqualTo(String value) {
+            addCriterion("eam_ticket.ticket_number <=", value, "ticketNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTicketNumberLike(String value) {
+            addCriterion("eam_ticket.ticket_number like", value, "ticketNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTicketNumberNotLike(String value) {
+            addCriterion("eam_ticket.ticket_number not like", value, "ticketNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTicketNumberIn(List<String> values) {
+            addCriterion("eam_ticket.ticket_number in", values, "ticketNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTicketNumberNotIn(List<String> values) {
+            addCriterion("eam_ticket.ticket_number not in", values, "ticketNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTicketNumberBetween(String value1, String value2) {
+            addCriterion("eam_ticket.ticket_number between", value1, value2, "ticketNumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTicketNumberNotBetween(String value1, String value2) {
+            addCriterion("eam_ticket.ticket_number not between", value1, value2, "ticketNumber");
+            return (Criteria) this;
+        }
+
         public Criteria addConditionSql(String conditionSql) {
             addCriterion(conditionSql);
             return (Criteria) this;

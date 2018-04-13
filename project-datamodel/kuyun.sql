@@ -140,7 +140,9 @@ CREATE TABLE `upms_role` (
 -- ----------------------------
 INSERT INTO `upms_role` VALUES ('1', 1, 'super', '超级管理员', '拥有所有权限', '1', '1');
 INSERT INTO `upms_role` VALUES ('2', 1, 'admin', '管理员', '拥有除权限管理系统外的所有权限', '1487471013117', '1487471013117');
-
+INSERT INTO `upms_role` VALUES ('3', 1, 'ticketCreate', '工单提报', '拥有提报工单权限', '1', '1');
+INSERT INTO `upms_role` VALUES ('4', 1, 'ticketRepair', '工单维修', '拥有维修工单权限', '1', '1');
+INSERT INTO `upms_role` VALUES ('5', 1, 'ticketAppoint', '工单委派', '拥有委派工单权限', '1', '1');
 -- ----------------------------
 -- Table structure for upms_role_permission
 -- ----------------------------
