@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,8 @@ public class UploadController extends BaseController {
 	
 	@Autowired
 	private BaseEntityUtil baseEntityUtil;
+
+	private static String MODULE = "eam";
 	
 	
 	@CrossOrigin(origins = "*")
@@ -64,7 +67,7 @@ public class UploadController extends BaseController {
 			@RequestParam(required = false, defaultValue = "defaultMoudle", value = "kuyunModule") String module) {
 
 		// save file to local folder
-		String baseLocation = fus.generateLocalStorageBaseLocation(module, uuid);
+		String baseLocation = fus.generateLocalStorageBaseLocation(MODULE, uuid);
 		Path path = FileSystems.getDefault().getPath(baseLocation, qqfilename + "." + qqpartindex);
 //		System.out.println(path.toString());
 		File f = path.toFile();
@@ -160,7 +163,15 @@ public class UploadController extends BaseController {
 	public Object delete(@PathVariable("uuid") String uuid) {
 		FdFiles file = fus.getFileInfo(uuid);
 		if ( file != null) {
+
 			fus.removeUploadedFile(file);
+			//delete file folder
+			String baseLocation = fus.generateLocalStorageBaseLocation(MODULE, uuid);
+			try {
+				FileUtils.deleteDirectory(FileUtils.getFile(baseLocation));
+			} catch (IOException e) {
+				_log.info("Delete File Error,{}", e.getMessage());
+			}
 		}
 		
 		Map<String, Object> result = new HashMap<>();
@@ -172,7 +183,6 @@ public class UploadController extends BaseController {
 
 	/**
 	 * 
-	 * @param uuids
 	 * @return
 	 */
 	@CrossOrigin(origins = "*")

@@ -145,28 +145,33 @@ public class EamTicketController extends EamTicketBaseController {
 		case MY_OPEN:
 			if(subject.hasRole(TICKET_CREATE)) {
 				//工单提报人 有权限
-				criteria.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId()).andStatusNotEqualTo(TicketStatus.RESOLVED.getName());
-				criteria2.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId()).andStatusNotEqualTo(TicketStatus.COMPLETE.getName());
-				eamTicketExample.or(criteria2);
+				criteria.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId())
+						.andStatusNotEqualTo(TicketStatus.RESOLVED.getName())
+						.andStatusNotEqualTo(TicketStatus.COMPLETE.getName());
 
 			}else if(subject.hasRole(TICKET_REPAIR)) {
 				//工单维修人 有权限
-				criteria.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId()).andStatusNotEqualTo(TicketStatus.RESOLVED.getName());
-				criteria2.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId()).andStatusNotEqualTo(TicketStatus.COMPLETE.getName());
-				eamTicketExample.or(criteria2);
+				criteria.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId())
+						.andStatusNotEqualTo(TicketStatus.RESOLVED.getName())
+						.andStatusNotEqualTo(TicketStatus.COMPLETE.getName());
+
 			}
 			break;
 		case MY_RESOLVED:
 			if(subject.hasRole(TICKET_CREATE)) {
 				//工单提报人 有权限
-				criteria.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId()).andStatusEqualTo(TicketStatus.RESOLVED.getName());
-				criteria2.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId()).andStatusEqualTo(TicketStatus.COMPLETE.getName());
+				criteria.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId())
+						.andStatusEqualTo(TicketStatus.RESOLVED.getName());
+				criteria2.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId())
+						.andStatusEqualTo(TicketStatus.COMPLETE.getName());
 				eamTicketExample.or(criteria2);
 
 			}else if(subject.hasRole(TICKET_REPAIR)) {
 				//工单维修人 有权限
-				criteria.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId()).andStatusEqualTo(TicketStatus.RESOLVED.getName());
-				criteria2.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId()).andStatusEqualTo(TicketStatus.COMPLETE.getName());
+				criteria.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId())
+						.andStatusEqualTo(TicketStatus.RESOLVED.getName());
+				criteria2.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId())
+						.andStatusEqualTo(TicketStatus.COMPLETE.getName());
 				eamTicketExample.or(criteria2);
 			}
 			break;
