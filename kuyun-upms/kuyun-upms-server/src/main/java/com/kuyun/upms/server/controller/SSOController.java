@@ -235,7 +235,8 @@ public class SSOController extends BaseController {
         if (null == redirectUrl) {
             redirectUrl = "/";
         }
-        return "redirect:" + redirectUrl;
+        //return "redirect:" + redirectUrl;
+        return "redirect: /sso/login" ;
     }
 
     @ApiOperation(value = "退出登录")
