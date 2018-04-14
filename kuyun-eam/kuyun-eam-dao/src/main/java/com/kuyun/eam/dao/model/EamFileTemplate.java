@@ -3,33 +3,31 @@ package com.kuyun.eam.dao.model;
 import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
 
-public class EamDtu extends BaseEntity implements Serializable {
-    private String dtuId;
+public class EamFileTemplate extends BaseEntity implements Serializable {
+    private Integer id;
+
+    private Integer templateType;
 
     private String name;
 
-    /**
-     * 心跳包
-     *
-     * @mbg.generated
-     */
-    private String heartData;
-
-    /**
-     * 采集频率
-     *
-     * @mbg.generated
-     */
-    private Integer modbusRtuPeriod;
+    private String path;
 
     private static final long serialVersionUID = 1L;
 
-    public String getDtuId() {
-        return dtuId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setDtuId(String dtuId) {
-        this.dtuId = dtuId;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Integer getTemplateType() {
+        return templateType;
+    }
+
+    public void setTemplateType(Integer templateType) {
+        this.templateType = templateType;
     }
 
     public String getName() {
@@ -40,20 +38,12 @@ public class EamDtu extends BaseEntity implements Serializable {
         this.name = name;
     }
 
-    public String getHeartData() {
-        return heartData;
+    public String getPath() {
+        return path;
     }
 
-    public void setHeartData(String heartData) {
-        this.heartData = heartData;
-    }
-
-    public Integer getModbusRtuPeriod() {
-        return modbusRtuPeriod;
-    }
-
-    public void setModbusRtuPeriod(Integer modbusRtuPeriod) {
-        this.modbusRtuPeriod = modbusRtuPeriod;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     @Override
@@ -62,10 +52,10 @@ public class EamDtu extends BaseEntity implements Serializable {
         sb.append(getClass().getSimpleName());
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
-        sb.append(", dtuId=").append(dtuId);
+        sb.append(", id=").append(id);
+        sb.append(", templateType=").append(templateType);
         sb.append(", name=").append(name);
-        sb.append(", heartData=").append(heartData);
-        sb.append(", modbusRtuPeriod=").append(modbusRtuPeriod);
+        sb.append(", path=").append(path);
         sb.append("]");
         return sb.toString();
     }
@@ -81,11 +71,11 @@ public class EamDtu extends BaseEntity implements Serializable {
         if (getClass() != that.getClass()) {
             return false;
         }
-        EamDtu other = (EamDtu) that;
-        return (this.getDtuId() == null ? other.getDtuId() == null : this.getDtuId().equals(other.getDtuId()))
+        EamFileTemplate other = (EamFileTemplate) that;
+        return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
+            && (this.getTemplateType() == null ? other.getTemplateType() == null : this.getTemplateType().equals(other.getTemplateType()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
-            && (this.getHeartData() == null ? other.getHeartData() == null : this.getHeartData().equals(other.getHeartData()))
-            && (this.getModbusRtuPeriod() == null ? other.getModbusRtuPeriod() == null : this.getModbusRtuPeriod().equals(other.getModbusRtuPeriod()))
+            && (this.getPath() == null ? other.getPath() == null : this.getPath().equals(other.getPath()))
             && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
@@ -98,10 +88,10 @@ public class EamDtu extends BaseEntity implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((getDtuId() == null) ? 0 : getDtuId().hashCode());
+        result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+        result = prime * result + ((getTemplateType() == null) ? 0 : getTemplateType().hashCode());
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
-        result = prime * result + ((getHeartData() == null) ? 0 : getHeartData().hashCode());
-        result = prime * result + ((getModbusRtuPeriod() == null) ? 0 : getModbusRtuPeriod().hashCode());
+        result = prime * result + ((getPath() == null) ? 0 : getPath().hashCode());
         result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());

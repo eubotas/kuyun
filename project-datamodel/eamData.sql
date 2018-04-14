@@ -143,8 +143,8 @@ INSERT INTO `eam_ticket_type` VALUES (11,'警报工单',1,'2017-07-26 15:51:51',
 # end prepare ticket menu item
 
 TRUNCATE TABLE `eam_protocol`;
-INSERT INTO `eam_protocol` VALUES (1, 'Modbus RTU', '118.89.140.11', 8234);
-INSERT INTO `eam_protocol` VALUES (2, 'Modbus TCP', '118.89.140.11', 8233);
-INSERT INTO `eam_protocol` VALUES (3, 'MQTT', '118.89.140.11', 8232);
-INSERT INTO `eam_protocol` VALUES (4, '巨控', 'www.yunplc.com', 7080);
+INSERT INTO `eam_protocol` VALUES (1, 'Modbus RTU', '122.112.237.238', 8234);
+#INSERT INTO `eam_protocol` VALUES (2, 'Modbus TCP', '118.89.140.11', 8233);
+#INSERT INTO `eam_protocol` VALUES (3, 'MQTT', '118.89.140.11', 8232);
+INSERT INTO `eam_protocol` VALUES (4, '智库网关', 'www.yunplc.com', 7080);
 

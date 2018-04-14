@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class EamPartsCategoryExample implements Serializable {
+public class EamFileTemplateExample implements Serializable {
     protected String orderByClause;
 
     protected boolean distinct;
@@ -18,7 +18,7 @@ public class EamPartsCategoryExample implements Serializable {
 
     private Integer offset;
 
-    public EamPartsCategoryExample() {
+    public EamFileTemplateExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -128,63 +128,123 @@ public class EamPartsCategoryExample implements Serializable {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andCategoryIdIsNull() {
-            addCriterion("category_id is null");
+        public Criteria andIdIsNull() {
+            addCriterion("id is null");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdIsNotNull() {
-            addCriterion("category_id is not null");
+        public Criteria andIdIsNotNull() {
+            addCriterion("id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdEqualTo(Integer value) {
-            addCriterion("category_id =", value, "categoryId");
+        public Criteria andIdEqualTo(Integer value) {
+            addCriterion("id =", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdNotEqualTo(Integer value) {
-            addCriterion("category_id <>", value, "categoryId");
+        public Criteria andIdNotEqualTo(Integer value) {
+            addCriterion("id <>", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdGreaterThan(Integer value) {
-            addCriterion("category_id >", value, "categoryId");
+        public Criteria andIdGreaterThan(Integer value) {
+            addCriterion("id >", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("category_id >=", value, "categoryId");
+        public Criteria andIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("id >=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdLessThan(Integer value) {
-            addCriterion("category_id <", value, "categoryId");
+        public Criteria andIdLessThan(Integer value) {
+            addCriterion("id <", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdLessThanOrEqualTo(Integer value) {
-            addCriterion("category_id <=", value, "categoryId");
+        public Criteria andIdLessThanOrEqualTo(Integer value) {
+            addCriterion("id <=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdIn(List<Integer> values) {
-            addCriterion("category_id in", values, "categoryId");
+        public Criteria andIdIn(List<Integer> values) {
+            addCriterion("id in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdNotIn(List<Integer> values) {
-            addCriterion("category_id not in", values, "categoryId");
+        public Criteria andIdNotIn(List<Integer> values) {
+            addCriterion("id not in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdBetween(Integer value1, Integer value2) {
-            addCriterion("category_id between", value1, value2, "categoryId");
+        public Criteria andIdBetween(Integer value1, Integer value2) {
+            addCriterion("id between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andCategoryIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("category_id not between", value1, value2, "categoryId");
+        public Criteria andIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("id not between", value1, value2, "id");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemplateTypeIsNull() {
+            addCriterion("template_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemplateTypeIsNotNull() {
+            addCriterion("template_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemplateTypeEqualTo(Integer value) {
+            addCriterion("template_type =", value, "templateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemplateTypeNotEqualTo(Integer value) {
+            addCriterion("template_type <>", value, "templateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemplateTypeGreaterThan(Integer value) {
+            addCriterion("template_type >", value, "templateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemplateTypeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("template_type >=", value, "templateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemplateTypeLessThan(Integer value) {
+            addCriterion("template_type <", value, "templateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemplateTypeLessThanOrEqualTo(Integer value) {
+            addCriterion("template_type <=", value, "templateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemplateTypeIn(List<Integer> values) {
+            addCriterion("template_type in", values, "templateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemplateTypeNotIn(List<Integer> values) {
+            addCriterion("template_type not in", values, "templateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemplateTypeBetween(Integer value1, Integer value2) {
+            addCriterion("template_type between", value1, value2, "templateType");
+            return (Criteria) this;
+        }
+
+        public Criteria andTemplateTypeNotBetween(Integer value1, Integer value2) {
+            addCriterion("template_type not between", value1, value2, "templateType");
             return (Criteria) this;
         }
 
@@ -255,6 +315,76 @@ public class EamPartsCategoryExample implements Serializable {
 
         public Criteria andNameNotBetween(String value1, String value2) {
             addCriterion("name not between", value1, value2, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathIsNull() {
+            addCriterion("path is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathIsNotNull() {
+            addCriterion("path is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathEqualTo(String value) {
+            addCriterion("path =", value, "path");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathNotEqualTo(String value) {
+            addCriterion("path <>", value, "path");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathGreaterThan(String value) {
+            addCriterion("path >", value, "path");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathGreaterThanOrEqualTo(String value) {
+            addCriterion("path >=", value, "path");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathLessThan(String value) {
+            addCriterion("path <", value, "path");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathLessThanOrEqualTo(String value) {
+            addCriterion("path <=", value, "path");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathLike(String value) {
+            addCriterion("path like", value, "path");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathNotLike(String value) {
+            addCriterion("path not like", value, "path");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathIn(List<String> values) {
+            addCriterion("path in", values, "path");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathNotIn(List<String> values) {
+            addCriterion("path not in", values, "path");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathBetween(String value1, String value2) {
+            addCriterion("path between", value1, value2, "path");
+            return (Criteria) this;
+        }
+
+        public Criteria andPathNotBetween(String value1, String value2) {
+            addCriterion("path not between", value1, value2, "path");
             return (Criteria) this;
         }
 

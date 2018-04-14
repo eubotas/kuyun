@@ -18,3 +18,4 @@
 <script src="${basePath}/resources/metronic-admin/assets/js/jquery.tmpl.min.js"></script>
 <%--<script src="${basePath}/resources/metronic-admin/assets/js/sweetalert.2.1.0/sweetalert.min.js"></script>--%>
 <script src="${basePath}/resources/metronic-admin/assets/js/kuyun_common.js" type="text/javascript"></script>
+<%--<script src="${basePath}/resources/metronic-admin/assets/js/forms/widgets/select2.js" type="text/javascript"></script>--%>

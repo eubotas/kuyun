@@ -6,10 +6,7 @@ import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.google.common.base.Splitter;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
-import com.kuyun.eam.common.constant.EamResult;
-import com.kuyun.eam.common.constant.EamResultConstant;
-import com.kuyun.eam.common.constant.TicketSearchCategory;
-import com.kuyun.eam.common.constant.TicketStatus;
+import com.kuyun.eam.common.constant.*;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.vo.EamEquipmentVO;
@@ -19,6 +16,7 @@ import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.common.JspUtil;
 import com.kuyun.upms.dao.model.UpmsUser;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
+import com.kuyun.upms.dao.vo.UpmsOrgUserVo;
 import com.kuyun.upms.rpc.api.UpmsApiService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -220,5 +218,22 @@ public abstract class EamTicketBaseController extends BaseController {
         }
         List<EamTicketTag> rows = eamTicketTagService.selectByExample(eamTicketTagExample);
         return rows;
+    }
+
+    public void setOperatorList(ModelMap modelMap) {
+        List<UpmsOrgUserVo> users = getOperatorUsers();
+        modelMap.put("users", users);
+    }
+
+    public List<UpmsOrgUserVo> getOperatorUsers() {
+        UpmsOrgUserVo orgUserVo = new UpmsOrgUserVo();
+
+        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+        if (company != null){
+            orgUserVo.setCompanyId(company.getCompanyId());
+        }
+        orgUserVo.setOrgName(OrgDepartment.MAINTENANCE_DEPARTMENT.getName());
+
+        return upmsApiService.selectOrgUsersByOrgNameCompanyId( orgUserVo);
     }
 }

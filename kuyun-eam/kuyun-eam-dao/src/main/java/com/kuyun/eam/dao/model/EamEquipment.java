@@ -1,11 +1,13 @@
 package com.kuyun.eam.dao.model;
 
+import com.kuyun.common.dao.model.BaseEntity;
 import com.kuyun.eam.dao.EamEquipmentBase;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class EamEquipment extends EamEquipmentBase {
+public class EamEquipment extends EamEquipmentBase implements Serializable {
     private String equipmentId;
 
     private Integer equipmentModelId;

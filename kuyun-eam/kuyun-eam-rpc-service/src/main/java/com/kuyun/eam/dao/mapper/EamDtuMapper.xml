@@ -3,6 +3,7 @@
 <mapper namespace="com.kuyun.eam.dao.mapper.EamDtuMapper">
   <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamDtu">
     <id column="dtu_id" jdbcType="VARCHAR" property="dtuId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="heart_data" jdbcType="VARCHAR" property="heartData" />
     <result column="modbus_rtu_period" jdbcType="INTEGER" property="modbusRtuPeriod" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
@@ -11,7 +12,6 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -72,8 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    dtu_id, heart_data, modbus_rtu_period, create_user_id, create_time, update_user_id, 
-    update_time, delete_flag, company_id, name
+    dtu_id, name, heart_data, modbus_rtu_period, create_user_id, create_time, update_user_id, 
+    update_time, delete_flag, company_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamDtuExample" resultMap="BaseResultMap">
     select
@@ -114,20 +114,23 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamDtu">
-    insert into eam_dtu (dtu_id, heart_data, modbus_rtu_period, 
-      create_user_id, create_time, update_user_id, 
-      update_time, delete_flag, company_id, 
-      name)
-    values (#{dtuId,jdbcType=VARCHAR}, #{heartData,jdbcType=VARCHAR}, #{modbusRtuPeriod,jdbcType=INTEGER}, 
-      #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{companyId,jdbcType=INTEGER}, 
-      #{name,jdbcType=VARCHAR})
+    insert into eam_dtu (dtu_id, name, heart_data, 
+      modbus_rtu_period, create_user_id, create_time, 
+      update_user_id, update_time, delete_flag, 
+      company_id)
+    values (#{dtuId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{heartData,jdbcType=VARCHAR}, 
+      #{modbusRtuPeriod,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
+      #{companyId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamDtu">
     insert into eam_dtu
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="dtuId != null">
         dtu_id,
+      </if>
+      <if test="name != null">
+        name,
       </if>
       <if test="heartData != null">
         heart_data,
@@ -153,13 +156,13 @@
       <if test="companyId != null">
         company_id,
       </if>
-      <if test="name != null">
-        name,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="dtuId != null">
         #{dtuId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
       </if>
       <if test="heartData != null">
         #{heartData,jdbcType=VARCHAR},
@@ -185,9 +188,6 @@
       <if test="companyId != null">
         #{companyId,jdbcType=INTEGER},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamDtuExample" resultType="java.lang.Long">
@@ -201,6 +201,9 @@
     <set>
       <if test="record.dtuId != null">
         dtu_id = #{record.dtuId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.heartData != null">
         heart_data = #{record.heartData,jdbcType=VARCHAR},
@@ -226,9 +229,6 @@
       <if test="record.companyId != null">
         company_id = #{record.companyId,jdbcType=INTEGER},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
-      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -237,6 +237,7 @@
   <update id="updateByExample" parameterType="map">
     update eam_dtu
     set dtu_id = #{record.dtuId,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
       heart_data = #{record.heartData,jdbcType=VARCHAR},
       modbus_rtu_period = #{record.modbusRtuPeriod,jdbcType=INTEGER},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
@@ -244,8 +245,7 @@
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      company_id = #{record.companyId,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR}
+      company_id = #{record.companyId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -253,6 +253,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.kuyun.eam.dao.model.EamDtu">
     update eam_dtu
     <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
       <if test="heartData != null">
         heart_data = #{heartData,jdbcType=VARCHAR},
       </if>
@@ -277,37 +280,34 @@
       <if test="companyId != null">
         company_id = #{companyId,jdbcType=INTEGER},
       </if>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
-      </if>
     </set>
     where dtu_id = #{dtuId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamDtu">
     update eam_dtu
-    set heart_data = #{heartData,jdbcType=VARCHAR},
+    set name = #{name,jdbcType=VARCHAR},
+      heart_data = #{heartData,jdbcType=VARCHAR},
       modbus_rtu_period = #{modbusRtuPeriod,jdbcType=INTEGER},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
-      company_id = #{companyId,jdbcType=INTEGER},
-      name = #{name,jdbcType=VARCHAR}
+      company_id = #{companyId,jdbcType=INTEGER}
     where dtu_id = #{dtuId,jdbcType=VARCHAR}
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into eam_dtu  (dtu_id, heart_data, modbus_rtu_period, 
-        create_user_id, create_time, update_user_id, 
-        update_time, delete_flag, company_id, 
-        name)
+            insert into eam_dtu  (dtu_id, name, heart_data, 
+        modbus_rtu_period, create_user_id, create_time, 
+        update_user_id, update_time, delete_flag, 
+        company_id)
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.dtuId,jdbcType=VARCHAR}, #{item.heartData,jdbcType=VARCHAR}, #{item.modbusRtuPeriod,jdbcType=INTEGER}, 
-        #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, 
-        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, #{item.companyId,jdbcType=INTEGER}, 
-        #{item.name,jdbcType=VARCHAR})
+      (#{item.dtuId,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, #{item.heartData,jdbcType=VARCHAR}, 
+        #{item.modbusRtuPeriod,jdbcType=INTEGER}, #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, 
+        #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, 
+        #{item.companyId,jdbcType=INTEGER})
       </foreach>
     </if>
   </insert>

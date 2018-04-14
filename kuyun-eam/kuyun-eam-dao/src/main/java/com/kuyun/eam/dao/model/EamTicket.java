@@ -9,6 +9,8 @@ public class EamTicket extends BaseEntity implements Serializable {
 
     private Integer ticketTypeId;
 
+    private String ticketNumber;
+
     private Integer equipmentCategoryId;
 
     private String equipmentId;
@@ -73,6 +75,14 @@ public class EamTicket extends BaseEntity implements Serializable {
 
     public void setTicketTypeId(Integer ticketTypeId) {
         this.ticketTypeId = ticketTypeId;
+    }
+
+    public String getTicketNumber() {
+        return ticketNumber;
+    }
+
+    public void setTicketNumber(String ticketNumber) {
+        this.ticketNumber = ticketNumber;
     }
 
     public Integer getEquipmentCategoryId() {
@@ -155,6 +165,7 @@ public class EamTicket extends BaseEntity implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", ticketId=").append(ticketId);
         sb.append(", ticketTypeId=").append(ticketTypeId);
+        sb.append(", ticketNumber=").append(ticketNumber);
         sb.append(", equipmentCategoryId=").append(equipmentCategoryId);
         sb.append(", equipmentId=").append(equipmentId);
         sb.append(", description=").append(description);
@@ -182,6 +193,7 @@ public class EamTicket extends BaseEntity implements Serializable {
         EamTicket other = (EamTicket) that;
         return (this.getTicketId() == null ? other.getTicketId() == null : this.getTicketId().equals(other.getTicketId()))
             && (this.getTicketTypeId() == null ? other.getTicketTypeId() == null : this.getTicketTypeId().equals(other.getTicketTypeId()))
+            && (this.getTicketNumber() == null ? other.getTicketNumber() == null : this.getTicketNumber().equals(other.getTicketNumber()))
             && (this.getEquipmentCategoryId() == null ? other.getEquipmentCategoryId() == null : this.getEquipmentCategoryId().equals(other.getEquipmentCategoryId()))
             && (this.getEquipmentId() == null ? other.getEquipmentId() == null : this.getEquipmentId().equals(other.getEquipmentId()))
             && (this.getDescription() == null ? other.getDescription() == null : this.getDescription().equals(other.getDescription()))
@@ -205,6 +217,7 @@ public class EamTicket extends BaseEntity implements Serializable {
         int result = 1;
         result = prime * result + ((getTicketId() == null) ? 0 : getTicketId().hashCode());
         result = prime * result + ((getTicketTypeId() == null) ? 0 : getTicketTypeId().hashCode());
+        result = prime * result + ((getTicketNumber() == null) ? 0 : getTicketNumber().hashCode());
         result = prime * result + ((getEquipmentCategoryId() == null) ? 0 : getEquipmentCategoryId().hashCode());
         result = prime * result + ((getEquipmentId() == null) ? 0 : getEquipmentId().hashCode());
         result = prime * result + ((getDescription() == null) ? 0 : getDescription().hashCode());
