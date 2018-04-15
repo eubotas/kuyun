@@ -177,8 +177,7 @@
             url: "${basePath}/sso/send_code",
             data: {phone: $('#phone').val()},
             success: function (result) {
-                var json=$.parseJSON( result );
-                $('#code').val(json.obj);
+                swWarn("验证码已经发送到该手机");
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 swWarn(textStatus);

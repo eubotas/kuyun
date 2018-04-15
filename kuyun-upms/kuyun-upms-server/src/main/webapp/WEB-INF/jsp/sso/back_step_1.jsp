@@ -159,7 +159,7 @@
         });
     }
 
-    var currStep = 0;
+    var currStep = 1;
     var FormWidgets = function () {
         var createForm = function (formid) {
             $("#"+formid).validate({
@@ -197,16 +197,30 @@
     });
 
     function findPasswordSubmit(formId){
-        currStep = currStep + 1;
         if(currStep == 1){
-            $("#step1").removeClass("bg-blue");
-            $("#steptext1").addClass("font-grey-cascade");
-            $("#step1").addClass("font-grey-cascade");
-            $("#step2").removeClass("bg-white");
-            $("#step2").addClass("bg-blue");
-            $("#steptext2").removeClass("font-grey-cascade");
-            $("#step1Level").hide();
-            $('#step2Level').show();
+            $.ajax({
+                type: 'post',
+                url: "/sso/back",
+                data: $('#' + formId).serialize(),
+                success: function (result) {
+                    if(result.code =1) {
+                        $("#step1").removeClass("bg-blue");
+                        $("#steptext1").addClass("font-grey-cascade");
+                        $("#step1").addClass("font-grey-cascade");
+                        $("#step2").removeClass("bg-white");
+                        $("#step2").addClass("bg-blue");
+                        $("#steptext2").removeClass("font-grey-cascade");
+                        $("#step1Level").hide();
+                        $('#step2Level').show();
+                        currStep = currStep + 1;
+                    }else{
+                        swWarn(result.message);
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    swWarn(textStatus);
+                }
+            });
         }
         if(currStep > 1) {
             if ($('#password').val() == '' || $('#confirmPassword').val() == '') {
@@ -219,18 +233,23 @@
                     url: "/sso/back",
                     data: $('#' + formId).serialize(),
                     success: function (result) {
-                        swWarn("密码找回成功");
+                        if(result.code =1) {
+                            swWarn("密码找回成功");
 
-                        $("#step2").removeClass("bg-blue");
-                        $("#steptext2").addClass("font-grey-cascade");
-                        $("#step2").addClass("font-grey-cascade");
-                        $("#step3").removeClass("bg-white");
-                        $("#step3").addClass("bg-blue");
-                        $("#steptext3").removeClass("font-grey-cascade");
+                            $("#step2").removeClass("bg-blue");
+                            $("#steptext2").addClass("font-grey-cascade");
+                            $("#step2").addClass("font-grey-cascade");
+                            $("#step3").removeClass("bg-white");
+                            $("#step3").addClass("bg-blue");
+                            $("#steptext3").removeClass("font-grey-cascade");
 
-                        $("#step2Level").hide();
-                        $('#step3Level').show();
-                        $('#nextStep').hide();
+                            $("#step2Level").hide();
+                            $('#step3Level').show();
+                            $('#nextStep').hide();
+                            currStep = currStep + 1;
+                        }else{
+                            swWarn("密码找回失败:"+result.message);
+                        }
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
                         swWarn(textStatus);
