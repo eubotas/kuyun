@@ -61,7 +61,7 @@
                 </div>
                 <div class="forget-container">
                     <div class="forget-password">
-                        <a href="#" id="back-password"><span class="caption-subject  bold uppercase">忘记密码？</span></a>
+                        <a href="password_find" id="back-password"><span class="caption-subject  bold uppercase">忘记密码？</span></a>
                     </div>
                     <div class="create-account">
 
@@ -72,34 +72,6 @@
                     </div>
                 </div>
 
-            </form>
-        </div>
-
-        <div class="logincontent" id="findPwd" style="display:none">
-
-            <h3 class="form-title">找回密码</h3>
-            <form name="findpwdForm" class="login-form ng-pristine ng-invalid ng-invalid-required" method="post" >
-                <div class="form-group">
-                    <label class="control-label visible-ie8 visible-ie9">手机号码</label>
-                    <div class="input-icon">
-                        <i class="fa fa-user"></i>
-                        <input class="form-control placeholder-no-fix ng-pristine ng-untouched ng-invalid ng-invalid-required" type="text" autocomplete="off" placeholder="手机号码" name="account" id="account" > </div>
-                </div>
-                <div class="form-actions">
-                    <button type="button" id="pwd-bt" onclick="findPasswordSubmit('findpwdForm')" class="btn pull-right"> 找回密码 </button>
-                </div>
-
-                <div class="forget-container" style="margin-top: 25px;">
-                    <div class="forget-password">
-                        <a href="#" id="goLogin"><span class="caption-subject  bold uppercase">去登录</span></a>
-                    </div>
-                    <div class="create-account">
-                        <a href="reg" ><span class="caption-subject bold uppercase">立刻注册</span><i class="icon-arrow-right"></i></a>
-                    </div>
-                    <div class="device-guide">
-                        <a href="http://www.coderise.cn/col.jsp?id=152" target="_blank"><span class="caption-subject  bold uppercase">库云设备接入小课堂</span></a>
-                    </div>
-                </div>
             </form>
         </div>
 

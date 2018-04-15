@@ -1,55 +1,72 @@
+
 $(function() {
-	// Waves初始化
-	Waves.displayEffect();
-	// 输入框获取焦点后出现下划线
-	$('.form-control').focus(function() {
-		$(this).parent().addClass('fg-toggled');
-	}).blur(function() {
-		$(this).parent().removeClass('fg-toggled');
-	});
+    // 点击登录按钮
+    $('#login-bt').click(function() {
+        login();
+    });
+    // 回车事件
+    $('#username, #password').keypress(function (event) {
+        if (13 == event.keyCode) {
+            	login();
+        }
+    });
+
+    $('#username, #password').blur(function(){
+        chechLoginBtn();
+    });
+    chechLoginBtn();
 });
-Checkbix.init();
-$(function() {
-	// 点击登录按钮
-	$('#login-bt').click(function() {
-		login();
-	});
-	// 回车事件
-	$('#username, #password').keypress(function (event) {
-		if (13 == event.keyCode) {
-			login();
-		}
-	});
-});
+
+function chechLoginBtn(){
+    var username = $('#username').val();
+    var password = $('#password').val();
+    if(username !='' && password !='') {
+        $("#login-bt").css("cursor", "pointer");
+        $("#login-bt").attr("disabled", false);
+    }else if(username =='' || password =='') {
+        $("#login-bt").attr("disabled", true);
+        $("#login-bt").css("cursor", "not-allowed");
+    }
+}
+
 // 登录
 function login() {
-	$.ajax({
-		url: BASE_PATH + '/sso/login',
-		type: 'POST',
-		data: {
-			username: $('#username').val(),
-			password: $('#password').val(),
-			rememberMe: $('#rememberMe').is(':checked'),
-			backurl: BACK_URL
-		},
-		beforeSend: function() {
+    $.ajax({
+        url: BASE_PATH + '/sso/login',
+        type: 'POST',
+        data: {
+            username: $('#username').val(),
+            password: $('#password').val(),
+            rememberMe: $('#rememberMe').is(':checked'),
+            backurl: BACK_URL
+        },
+        beforeSend: function() {
 
-		},
-		success: function(json){
-			if (json.code == 1) {
-				location.href = json.data;
-			} else {
-				alert(json.data);
-				if (10101 == json.code) {
-					$('#username').focus();
-				}
-				if (10102 == json.code) {
-					$('#password').focus();
-				}
-			}
-		},
-		error: function(error){
-			console.log(error);
-		}
-	});
+        },
+        success: function(json){
+            if (json.code == 1) {
+                location.href = json.data;
+            } else {
+                swWarn(json.data);
+                if (10101 == json.code) {
+                    $('#username').focus();
+                }
+                if (10102 == json.code) {
+                    $('#password').focus();
+                }
+            }
+        },
+        error: function(error){
+            swWarn(error);
+        }
+    });
+}
+
+function swWarn(newtips)
+{
+    swal({
+        title: "操作提示",
+        text: newtips,
+        type: "warning"
+    });
 }
