@@ -95,7 +95,7 @@ function createPie(id, json, name) {
                     normal:{
                         //每个柱子的颜色即为colorList数组里的每一项，如果柱子数目多于colorList的长度，则柱子颜色循环使用该数组
                         color: function (params){
-                            var colorList = ['rgb(164,205,238)','rgb(42,170,227)','rgb(25,46,94)','rgb(195,229,235)'];
+                            var colorList = ['#2ab4c0','#f36a5a'];
                             return colorList[params.dataIndex];
                         }
                     },
@@ -200,7 +200,7 @@ function createBar(id, json, title, name, type) {
                 normal: {
                     //每个柱子的颜色即为colorList数组里的每一项，如果柱子数目多于colorList的长度，则柱子颜色循环使用该数组
                     color: function (params) {
-                        var colorList = ['rgb(164,205,238)', 'rgb(42,170,227)', 'rgb(25,46,94)', 'rgb(195,229,235)'];
+                        var colorList = ['#2ab4c0','#f36a5a','#8e44ad','#e7505a','#2ab4c0','#26c281','#193127'];
                         return colorList[params.dataIndex];
                     }
                 },

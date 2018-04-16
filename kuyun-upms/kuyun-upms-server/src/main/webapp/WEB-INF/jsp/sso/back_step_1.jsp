@@ -24,7 +24,7 @@
     <link href="${basePath}/resources/metronic-admin/assets/css/login/login-6.css" rel="stylesheet"/>
 </head>
 <body>
-<jsp:include page="/resources/inc/homeheader.jsp" flush="true"/>
+<jsp:include page="/resources/metronic-admin/homeheader.jsp" flush="true"/>
 
 <div class="m-content" style="margin: 80px;">
     <!--begin::Portlet-->
@@ -296,6 +296,6 @@
 <script src="${basePath}/resources/metronic-admin/assets/vendors/base/vendors.bundle.js" type="text/javascript"></script>
 <script src="${basePath}/resources/metronic-admin/assets/demo/default/base/scripts.bundle.js" type="text/javascript"></script>
 
-<jsp:include page="/resources/inc/homefooter.jsp" flush="true"/>
+<jsp:include page="/resources/metronic-admin/homefooter.jsp" flush="true"/>
 </body>
 </html>
