@@ -84,7 +84,7 @@ Retry
     </script>
 
 <script>
-    function getUploadFileName(uploadId){
+    function getUploadFileName(galleryUploader){
         var uploads = galleryUploader.getUploads({
             status : qq.status.UPLOAD_SUCCESSFUL
         });

@@ -161,6 +161,10 @@
             FormWidgets.init('add');
             FormWidgets.init('edit');
 
+            $('#add_warehouseId, #edit_warehouseId').select2();
+            $('#add_locationId, #edit_locationId').select2();
+            $('#add_partId, #edit_partId').select2();
+
             $('#createButton').click(function(){
                 $("#addCodeValueFormContainer").modal("show");
                 ajaxGet('${basePath}/manage/inventory/create', function (responseData) {

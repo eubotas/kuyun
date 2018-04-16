@@ -64,16 +64,7 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 	private UpmsApiService upmsApiService;
 
 
-	@ApiOperation(value = "设备模型参数首页")
-	@RequiresPermissions("eam:equipmentModelProperty:read")
-	@RequestMapping(value = "/index/{id}", method = RequestMethod.GET)
-	public String index(@PathVariable("id") int id, ModelMap modelMap) {
-		modelMap.addAttribute("id", id);
-		modelMap.put("equipmentModel", eamEquipmentModelService.selectByPrimaryKey(id));
-		modelMap.put("dataTypes", DataType.values());
-		modelMap.put("displayTypes", DisplayType.values());
-		return "/manage/equipment/model/property/index.jsp";
-	}
+
 
 	@ApiOperation(value = "设备模型参数列表")
 	@RequiresPermissions("eam:equipmentModelProperty:read")
@@ -158,8 +149,8 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 		EamEquipmentModelProperties eamEquipmentModelProperties = eamEquipmentModelPropertiesService.selectByPrimaryKey(id);
 		Map map = new HashMap(3);
 		map.put("equipmentModelProperties", eamEquipmentModelProperties);
-//		map.put("dataTypes", DataType.values());
-//		map.put("displayTypes", DisplayType.values());
+		map.put("dataTypes", DataType.values());
+		map.put("displayTypes", DisplayType.values());
 		return map;
 	}
 
@@ -203,7 +194,6 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 		buildModelMap(mId, pId, map);
 		map.put("grmActions", Action.values());
 		return map;
-		//return "/manage/equipment/model/property/grm.jsp";
 	}
 
 	@RequiresPermissions("eam:equipmentModelProperty:update")
@@ -282,7 +272,6 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 		Map map = new HashMap();
 		buildModelMap(mId, pId, map);
 		return map;
-		//return "/manage/equipment/model/property/datachange.jsp";
 	}
 
 	@RequiresPermissions("eam:equipmentModelProperty:update")

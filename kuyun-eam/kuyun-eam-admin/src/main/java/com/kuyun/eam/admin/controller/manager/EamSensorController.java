@@ -72,7 +72,7 @@ public class EamSensorController extends BaseController {
 
 		int count = 0;
 		if (sensor.getSensorId() != null){
-			count = eamSensorService.updateByPrimaryKeySelective(sensor);
+			count = eamSensorService.updateByPrimaryKey(sensor);
 			_log.info("Update Sensor");
 		}else {
 			count = eamSensorService.insertSelective(sensor);

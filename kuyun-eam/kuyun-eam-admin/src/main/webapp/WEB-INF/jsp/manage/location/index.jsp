@@ -150,6 +150,8 @@
             FormWidgets.init('add');
             FormWidgets.init('edit');
 
+            $('#add_warehouseId, #edit_warehouseId').select2();
+
             $('#createButton').click(function(){
                 $("#addLocationFormContainer").modal("show");
                 ajaxGet('${basePath}/manage/location/create', function (responseData) {

@@ -442,6 +442,8 @@
         });
     });
 
+    $('#orderTakerId').select2();
+
     //格式化时间
     function timeFormatter(value) {
         return new Date(value).toLocaleString();

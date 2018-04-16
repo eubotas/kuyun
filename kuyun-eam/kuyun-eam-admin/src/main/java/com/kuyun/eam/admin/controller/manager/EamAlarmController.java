@@ -55,7 +55,9 @@ public class EamAlarmController extends BaseController {
 	public Object create(HttpServletRequest request, EamAlarm alarm) {
 		String targetUserId = request.getParameter("targetUser");
 		Object result = validateAlarm(alarm);
-		if (result != null) return result;
+		if (result != null) {
+			return result;
+		}
 
 		return createOrUpate(targetUserId, alarm);
 	}

@@ -427,7 +427,7 @@ public class EamApiServiceImpl implements EamApiService {
 
     @Override
     public Integer updateAlarm(String targetUserId, EamAlarm alarm) {
-        int result = eamAlarmService.updateByPrimaryKeySelective(alarm);
+        int result = eamAlarmService.updateByPrimaryKey(alarm);
         updateEamAlarmTargetUser(alarm.getAlarmId(), Integer.valueOf(targetUserId));
         return result;
     }

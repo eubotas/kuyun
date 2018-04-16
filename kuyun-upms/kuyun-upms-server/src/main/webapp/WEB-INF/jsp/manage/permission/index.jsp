@@ -180,6 +180,8 @@
             FormWidgets.init('add');
             FormWidgets.init('edit');
 
+            $('#add_systemId, #edit_systemId').select2();
+
             $('#createButton').click(function(){
                 $("#addPermissionFormContainer").modal("show");
                 ajaxGet('${basePath}/manage/permission/create', function (responseData) {

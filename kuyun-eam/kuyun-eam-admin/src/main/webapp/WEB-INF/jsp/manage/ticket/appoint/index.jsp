@@ -190,6 +190,8 @@
             FormWidgets.init('add');
             FormWidgets.init('edit');
 
+            $('#add_orderTakerId, #edit_orderTakerId').select2();
+
             $('#createButton').click(function(){
                 $("#addTicketAppointFormContainer").modal("show");
                 ajaxGet('${basePath}/manage/ticket/' + ticketId + '/appoint/create', function (responseData) {

@@ -314,6 +314,11 @@
             FormWidgets.init('add');
             FormWidgets.init('edit');
 
+            $('#add_equipmentCategoryId, #edit_equipmentCategoryId').select2();
+            $('#add_equipmentId, #edit_equipmentId').select2();
+            $('#add_orgId, #edit_orgId').select2();
+            $('#add_maintainFrequencyUnit, #edit_maintainFrequencyUnit').select2();
+
             $('#createButton').click(function(){
                 $("#addMaintainPlanFormContainer").modal("show");
                 ajaxGet('${basePath}/manage/maintainPlan/create', function (responseData) {
