@@ -144,6 +144,222 @@
 
     </script>
 
+    <script>
+        $(document).ready(function()
+        {
+
+
+            //codes works on all bootstrap modal windows in application
+            $('.modal').on('hidden.bs.modal', function(e)
+            {
+                jQuery("#add_Form").validate().resetForm();
+                jQuery("#edit_Form").validate().resetForm();
+            }) ;
+            generateAddEditForm('template-equipment-addEditForm', 'add_,edit_', null, null, 'addEquipmentFormContainer,editEquipmentFormContainer');
+            FormWidgets.init('add');
+            FormWidgets.init('edit');
+
+            $('#add_equipmentModelId, #edit_equipmentModelId').select2();
+
+            $('#add_factoryDate, #add_commissioningDate, #add_warrantyStartDate, #add_warrantyEndDate, #edit_factoryDate, #edit_commissioningDate, #edit_warrantyStartDate, #edit_warrantyEndDate').datepicker({
+                format: "yyyy/mm/dd",
+                orientation: "top left",
+                templates: {
+                    leftArrow: '<i class="la la-angle-left"></i>',
+                    rightArrow: '<i class="la la-angle-right"></i>'
+                }
+            });
+
+            $('#createButton').click(function(){
+                $("#addEquipmentFormContainer").modal("show");
+                ajaxGet('${basePath}/manage/equipment/create', function (responseData) {
+                    if (responseData) {
+                        var data = responseData;
+                        addOptionToHtmlSelect(null, "add_equipmentModelId", data.equipmentModels);
+                    }
+                });
+            });
+
+            $('#deleteButton').click(function(){
+                deleteAction();
+            });
+
+            var addGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("add_fine-uploader-gallery")}));
+            var editGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("edit_fine-uploader-gallery")}));
+
+
+
+        });
+
+        var $table = $('#table');
+        $(function() {
+            // bootstrap table初始化
+            $table.bootstrapTable({
+                url: '${basePath}/manage/equipment/list',
+                striped: true,
+                search: true,
+                searchAlign: 'left',
+                toolbarAlign: 'right',
+                minimumCountColumns: 2,
+                clickToSelect: true,
+                detailView: true,
+                detailFormatter: 'detailFormatter',
+                pagination: true,
+                paginationLoop: false,
+                sidePagination: 'server',
+                silentSort: false,
+                smartDisplay: false,
+                escape: true,
+                searchOnEnterKey: true,
+                maintainSelected: true,
+                idField: 'equipmentId',
+                sortOrder: 'desc',
+                sortName: 't.create_time',
+                columns: [
+                    {field: 'ck', checkbox: true},
+                    {field: 'number', title: '设备编号'},
+                    {field: 'name', title: '设备名称'},
+                    {field: 'equipmentModelName', title: '模型'},
+                    {field: 'maintenancePeriod', title: '图片'},
+                    {field: 'maintenancePeriod', title: '接入'},
+                    {field: 'maintenancePeriod', title: '启停'},
+                    {field: 'action', width: 120, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
+                ]
+            });
+        });
+        // 格式化操作按钮
+        function actionFormatter(value, row, index) {
+            return [
+                '<shiro:hasPermission name="eam:equipment:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="eam:equipment:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="eam:equipmentSensor:write"><a id="write" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="数据写入">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
+            ].join('');
+        }
+
+
+        var FormWidgets = function () {
+            var createForm = function (formid) {
+                $("#"+formid+"_Form").validate({
+                    // define validation rules
+                    rules: {
+                        name: {
+                            required: true,
+                            maxlength: 30
+                        },
+                        number: {
+                            required: true,
+                            maxlength: 30
+                        },
+                        serialNumber: {
+                            required: true,
+                            maxlength: 30
+                        },
+                        factoryDate: {
+                            required: true
+                        },
+                    },
+                    submitHandler: function (form) {
+                        if(formid === 'add')
+                            submitForm();
+                        else{
+                            submitForm($('#edit_id').val());
+                        }
+
+                    }
+                });
+            }
+
+            return {
+                // public functions
+                init: function (formid) {
+                    createForm(formid);
+                }
+            };
+        }();
+
+        function submitForm(id) {
+            var targetUrl='${basePath}/manage/equipment/create';
+            var formId='add_Form';
+            if(id){
+                targetUrl='${basePath}/manage/equipment/update/'+id;
+                formId='edit_Form';
+                $('#edit_imagePath').val(getUploadFileName(editGalleryUploader));
+            }else{
+                $('#add_imagePath').val(getUploadFileName(addGalleryUploader));
+            }
+
+
+            ajaxPost(targetUrl, formId, function(result) {
+                if (result.code != 1) {
+                    sendErrorInfo(result);
+                } else {
+                    if(formId=='add_Form') {
+                        toastr.success("新建设备成功");
+                        $('#addEquipmentFormContainer').modal('toggle');
+                    }else{
+                        toastr.success("编辑设备成功");
+                        $('#editEquipmentFormContainer').modal('toggle');
+                    }
+                    $table.bootstrapTable('refresh');
+                }
+            });
+        }
+
+
+        function updateAction(row) {
+            jQuery("#editEquipmentFormContainer").modal("show");
+            ajaxGet('${basePath}/manage/equipment/update/' + row["equipmentId"], function (responseData) {
+                if (responseData) {
+                    var data = responseData.equipment;
+                    addOptionToHtmlSelect(data.equipmentCategoryId, "edit_equipmentCategoryId", responseData.equipmentCategories);
+                    addOptionToHtmlSelect(data.equipmentModelId, "edit_equipmentModelId", responseData.equipmentModels);
+                    $("#edit_id").val(data.equipmentId);
+                    $("#edit_name").val(data.name);
+                    $("#edit_number").val(data.number);
+                    $("#edit_serialNumber").val(data.serialNumber);
+                    $("#edit_imagePath").val(data.imagePath);
+                    $("#edit_longitude").val(data.longitude);
+                    $("#edit_latitude").val(data.latitude);
+                    $("#edit_factoryDate").val(changeTimeFormat(data.factoryDate));
+                    $("#edit_commissioningDate").val(changeTimeFormat(data.commissioningDate));
+                    $("#edit_warrantyStartDate").val(changeTimeFormat(data.warrantyStartDate));
+                    $("#edit_warrantyEndDate").val(changeTimeFormat(data.warrantyEndDate));
+                }
+            });
+        }
+
+
+
+        window.actionEvents = {
+            'click #update': function (e, value, row, index) {
+                updateAction(row);
+
+            },
+            'click #write': function (e, value, row, index) {
+                window.location = "${basePath}/manage/equipment/sensor/" + row['equipmentId'];
+            },
+            'click #delete': function (e, value, row, index) {
+                var rows = new Array();
+                rows.push(row);
+                deleteActionImpl(rows);
+            }
+        };
+
+        function deleteAction(){
+            var rows = $table.bootstrapTable('getSelections');
+            deleteActionImpl(rows);
+        }
+
+        function deleteActionImpl(rows) {
+            if (rows.length == 0) {
+                swWarn("请至少选择一条记录");
+            }else {
+                deleteRows(rows,'equipmentId','${basePath}/manage/equipment/delete/', "请确认要删除选中的设备吗？", "删除设备成功");
+            }//end else
+        }
+
+    </script>
+
 </pageResources>
 
 <subHeader>
@@ -355,270 +571,6 @@
 
 </content>
 
-
-<pageResources>
-    <jsp:include page="/resources/metronic-admin/file_upload.jsp" flush="true"/>
-
-    <script>
-        $(document).ready(function()
-        {
-
-
-            //codes works on all bootstrap modal windows in application
-            $('.modal').on('hidden.bs.modal', function(e)
-            {
-                jQuery("#add_Form").validate().resetForm();
-                jQuery("#edit_Form").validate().resetForm();
-            }) ;
-            generateAddEditForm('template-equipment-addEditForm', 'add_,edit_', null, null, 'addEquipmentFormContainer,editEquipmentFormContainer');
-            FormWidgets.init('add');
-            FormWidgets.init('edit');
-
-            $('#add_equipmentModelId, #edit_equipmentModelId').select2();
-
-            $('#add_factoryDate, #add_commissioningDate, #add_warrantyStartDate, #add_warrantyEndDate, #edit_factoryDate, #edit_commissioningDate, #edit_warrantyStartDate, #edit_warrantyEndDate').datepicker({
-                format: "yyyy/mm/dd",
-                orientation: "top left",
-                templates: {
-                    leftArrow: '<i class="la la-angle-left"></i>',
-                    rightArrow: '<i class="la la-angle-right"></i>'
-                }
-            });
-
-            $('#createButton').click(function(){
-                $("#addEquipmentFormContainer").modal("show");
-                ajaxGet('${basePath}/manage/equipment/create', function (responseData) {
-                    if (responseData) {
-                        var data = responseData;
-                        addOptionToHtmlSelect(null, "add_equipmentModelId", data.equipmentModels);
-                    }
-                });
-            });
-
-            $('#deleteButton').click(function(){
-                deleteAction();
-            });
-
-            var uploadOpt={
-                template : 'qq-template-gallery',
-                request : {
-                    endpoint : '${uploadServer.endpoint_upload}',
-                    params : {
-                        kuyunModule : "eam"
-                    }
-                },
-                thumbnails : {
-                    placeholders : {
-                        waitingPath : '${basePath}/resources/kuyun-admin/plugins/fileupload/placeholders/waiting-generic.png',
-                        notAvailablePath : '${basePath}/resources/kuyun-admin/plugins/fileupload/placeholders/not_available-generic.png'
-                    }
-                },
-                validation : {
-                    /*  allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'] */
-                },
-                chunking : {
-                    enabled : true,
-                    concurrent : {
-                        enabled : true
-                    },
-                    success : {
-                        endpoint : '${uploadServer.endpoint_uploadDone}'
-                    },
-                    mandatory : true
-                },
-                deleteFile : {
-                    enabled : true,
-                    forceConfirm : true,
-                    endpoint : '${uploadServer.endpoint_delete}'
-                },
-                cors : {
-                    //all requests are expected to be cross-domain requests
-                    expected : true,
-
-                    //if you want cookies to be sent along with the request
-                    // sendCredentials : true
-                }
-                /* init file list
-                 session:{
-                 endpoint: '${uploadServer.endpoint_list}?ids=${uuids}'
-                 }, */
-            };
-            var addGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("add_fine-uploader-gallery")}));
-            var editGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("edit_fine-uploader-gallery")}));
-
-
-
-        });
-
-        var $table = $('#table');
-        $(function() {
-            // bootstrap table初始化
-            $table.bootstrapTable({
-                url: '${basePath}/manage/equipment/list',
-                striped: true,
-                search: true,
-                searchAlign: 'left',
-                toolbarAlign: 'right',
-                minimumCountColumns: 2,
-                clickToSelect: true,
-                detailView: true,
-                detailFormatter: 'detailFormatter',
-                pagination: true,
-                paginationLoop: false,
-                sidePagination: 'server',
-                silentSort: false,
-                smartDisplay: false,
-                escape: true,
-                searchOnEnterKey: true,
-                maintainSelected: true,
-                idField: 'equipmentId',
-                sortOrder: 'desc',
-                sortName: 't.create_time',
-                columns: [
-                    {field: 'ck', checkbox: true},
-                    {field: 'number', title: '设备编号'},
-                    {field: 'name', title: '设备名称'},
-                    {field: 'equipmentModelName', title: '模型'},
-                    {field: 'maintenancePeriod', title: '图片'},
-                    {field: 'maintenancePeriod', title: '接入'},
-                    {field: 'maintenancePeriod', title: '启停'},
-                    {field: 'action', width: 120, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
-                ]
-            });
-        });
-        // 格式化操作按钮
-        function actionFormatter(value, row, index) {
-            return [
-                '<shiro:hasPermission name="eam:equipment:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="eam:equipment:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="eam:equipmentSensor:write"><a id="write" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="数据写入">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
-            ].join('');
-        }
-
-
-        var FormWidgets = function () {
-            var createForm = function (formid) {
-                $("#"+formid+"_Form").validate({
-                    // define validation rules
-                    rules: {
-                        name: {
-                            required: true,
-                            maxlength: 30
-                        },
-                        number: {
-                            required: true,
-                            maxlength: 30
-                        },
-                        serialNumber: {
-                            required: true,
-                            maxlength: 30
-                        },
-                        factoryDate: {
-                            required: true
-                        },
-                    },
-                    submitHandler: function (form) {
-                        if(formid === 'add')
-                            submitForm();
-                        else{
-                            submitForm($('#edit_id').val());
-                        }
-
-                    }
-                });
-            }
-
-            return {
-                // public functions
-                init: function (formid) {
-                    createForm(formid);
-                }
-            };
-        }();
-
-        function submitForm(id) {
-            var targetUrl='${basePath}/manage/equipment/create';
-            var formId='add_Form';
-            if(id){
-                targetUrl='${basePath}/manage/equipment/update/'+id;
-                formId='edit_Form';
-                $('#edit_imagePath').val(getUploadFileName(editGalleryUploader));
-            }else{
-                $('#add_imagePath').val(getUploadFileName(addGalleryUploader));
-            }
-
-
-            ajaxPost(targetUrl, formId, function(result) {
-                if (result.code != 1) {
-                    sendErrorInfo(result);
-                } else {
-                    if(formId=='add_Form') {
-                        toastr.success("新建设备成功");
-                        $('#addEquipmentFormContainer').modal('toggle');
-                    }else{
-                        toastr.success("编辑设备成功");
-                        $('#editEquipmentFormContainer').modal('toggle');
-                    }
-                    $table.bootstrapTable('refresh');
-                }
-            });
-        }
-
-
-        function updateAction(row) {
-            jQuery("#editEquipmentFormContainer").modal("show");
-            ajaxGet('${basePath}/manage/equipment/update/' + row["equipmentId"], function (responseData) {
-                if (responseData) {
-                    var data = responseData.equipment;
-                    addOptionToHtmlSelect(data.equipmentCategoryId, "edit_equipmentCategoryId", responseData.equipmentCategories);
-                    addOptionToHtmlSelect(data.equipmentModelId, "edit_equipmentModelId", responseData.equipmentModels);
-                    $("#edit_id").val(data.equipmentId);
-                    $("#edit_name").val(data.name);
-                    $("#edit_number").val(data.number);
-                    $("#edit_serialNumber").val(data.serialNumber);
-                    $("#edit_imagePath").val(data.imagePath);
-                    $("#edit_longitude").val(data.longitude);
-                    $("#edit_latitude").val(data.latitude);
-                    $("#edit_factoryDate").val(changeTimeFormat(data.factoryDate));
-                    $("#edit_commissioningDate").val(changeTimeFormat(data.commissioningDate));
-                    $("#edit_warrantyStartDate").val(changeTimeFormat(data.warrantyStartDate));
-                    $("#edit_warrantyEndDate").val(changeTimeFormat(data.warrantyEndDate));
-                }
-            });
-        }
-
-
-
-        window.actionEvents = {
-            'click #update': function (e, value, row, index) {
-                updateAction(row);
-
-            },
-            'click #write': function (e, value, row, index) {
-                window.location = "${basePath}/manage/equipment/sensor/" + row['equipmentId'];
-            },
-            'click #delete': function (e, value, row, index) {
-                var rows = new Array();
-                rows.push(row);
-                deleteActionImpl(rows);
-            }
-        };
-
-        function deleteAction(){
-            var rows = $table.bootstrapTable('getSelections');
-            deleteActionImpl(rows);
-        }
-
-        function deleteActionImpl(rows) {
-            if (rows.length == 0) {
-                swWarn("请至少选择一条记录");
-            }else {
-                deleteRows(rows,'equipmentId','${basePath}/manage/equipment/delete/', "请确认要删除选中的设备吗？", "删除设备成功");
-            }//end else
-        }
-
-    </script>
-</pageResources>
 
 
 </body>
