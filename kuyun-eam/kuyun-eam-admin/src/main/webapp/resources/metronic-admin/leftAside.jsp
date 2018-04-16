@@ -36,12 +36,7 @@
                     <span class="m-menu__link-title">
 										<span class="m-menu__link-wrap">
 											<span class="m-menu__link-text">
-												Dashboard
-											</span>
-											<span class="m-menu__link-badge">
-												<span class="m-badge m-badge--danger">
-													2
-												</span>
+												首页
 											</span>
 										</span>
 									</span>

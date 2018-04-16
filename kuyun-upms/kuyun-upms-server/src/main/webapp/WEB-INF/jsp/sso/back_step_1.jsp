@@ -24,7 +24,7 @@
     <link href="${basePath}/resources/metronic-admin/assets/css/login/login-6.css" rel="stylesheet"/>
 </head>
 <body>
-
+<jsp:include page="/resources/inc/homeheader.jsp" flush="true"/>
 
 <div class="m-content" style="margin: 80px;">
     <!--begin::Portlet-->
@@ -89,7 +89,7 @@
                         密码 *
                     </label>
                     <div class="col-lg-3 col-md-3 col-sm-12">
-                        <input type="" class="form-control m-input" name="confirmPassword" id="confirmPassword" placeholder="密码确认" maxlength="20"
+                        <input type="password" class="form-control m-input" name="confirmPassword" id="confirmPassword" placeholder="密码确认" maxlength="20"
                                data-toggle="m-tooltip" title="" data-original-title="再次输入密码" aria-describedby="phone-error">
                     </div>
                 </div>
@@ -149,8 +149,9 @@
             url: "${basePath}/sso/send_code",
             data: {phone: $('#phone').val()},
             success: function (result) {
-                var json=$.parseJSON( result );
-                $('#code').val(json.obj);
+                // var json=$.parseJSON( result );
+                // $('#code').val(json.obj);
+                swWarn("验证码已经发到该手机");
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 swWarn(textStatus);
@@ -295,5 +296,6 @@
 <script src="${basePath}/resources/metronic-admin/assets/vendors/base/vendors.bundle.js" type="text/javascript"></script>
 <script src="${basePath}/resources/metronic-admin/assets/demo/default/base/scripts.bundle.js" type="text/javascript"></script>
 
+<jsp:include page="/resources/inc/homefooter.jsp" flush="true"/>
 </body>
 </html>

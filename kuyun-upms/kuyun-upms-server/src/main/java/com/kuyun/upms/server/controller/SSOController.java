@@ -238,7 +238,7 @@ public class SSOController extends BaseController {
         String urltmp ="/sso/login";
         if(redirectUrl.startsWith("http://")){
             redirectUrl= redirectUrl.replace("http://","");
-            urltmp ="http://"+redirectUrl.substring(0,redirectUrl.indexOf("/"));
+            urltmp ="http://"+redirectUrl.substring(0,redirectUrl.indexOf("/"))+urltmp;
         }
         return "redirect:"+urltmp;
     }
