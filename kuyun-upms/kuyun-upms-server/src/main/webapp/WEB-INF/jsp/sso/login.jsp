@@ -75,7 +75,7 @@
             </form>
         </div>
 
-        <jsp:include page="/resources/inc/homefooter.jsp" flush="true"/>
+        <jsp:include page="/resources/metronic-admin/homefooter.jsp" flush="true"/>
         <div class="customer-service" id="customer-service">
             <ul>
                 <li class="app-service"><a title="APP" href="javascript:;"><span class="icon"></span><span class="text"></span></a>
@@ -110,7 +110,7 @@
 
 <script>var BASE_PATH = '${basePath}';</script>
 <script>var BACK_URL = '${param.backurl}';</script>
-<script src="${basePath}/resources/kuyun-admin/js/login.js"></script>
+<script src="${basePath}/resources/metronic-admin/assets/kuyun/login.js"></script>
 <script>
 <c:if test="${param.forceLogout == 1}">
 swWarn('您已被强制下线！');
