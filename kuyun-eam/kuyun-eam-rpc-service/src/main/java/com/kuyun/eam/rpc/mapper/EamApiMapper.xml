@@ -297,6 +297,8 @@
 		<result column="customerContacts" jdbcType="VARCHAR" property="customerContacts" />
 		<result column="customerPhone" jdbcType="VARCHAR" property="customerPhone" />
 		<result column="assessmentDescription" jdbcType="VARCHAR" property="assessmentDescription" />
+		<result column="productLineName" jdbcType="VARCHAR" property="productLineName" />
+		<result column="equipmentName" jdbcType="VARCHAR" property="equipmentName" />
 		<result column="assessment_level" jdbcType="INTEGER" property="assessmentLevel" />
 		<result column="assessmentId" jdbcType="INTEGER" property="assessmentId" />
 		<association property="ticketType" resultMap="com.kuyun.eam.dao.mapper.EamTicketTypeMapper.BaseResultMap"></association>
@@ -312,12 +314,16 @@
 		ass.assessment_level,
 		ass.description as assessmentDescription,
 		ass.id as assessmentId,
+		p.name as productLineName,
+		e.name as equipmentName,
 		<include refid="com.kuyun.eam.dao.mapper.EamTicketTypeMapper.Base_Column_List"/>
 		from eam_ticket
 		LEFT OUTER JOIN eam_ticket_type  ON eam_ticket.ticket_type_id = eam_ticket_type.id
 		LEFT OUTER JOIN upms_user uu ON eam_ticket.executor_id = uu.user_id
 		LEFT OUTER JOIN upms_user cu ON eam_ticket.create_user_id = cu.user_id
 		LEFT OUTER JOIN eam_ticket_assessment ass ON eam_ticket.ticket_id = ass.ticket_id
+		LEFT OUTER JOIN eam_product_line p ON eam_ticket.product_line_id = p.product_line_id
+		LEFT OUTER JOIN eam_equipment e ON eam_ticket.equipment_id = e.equipment_id
 		<if test="_parameter != null">
 			<include refid="com.kuyun.eam.dao.mapper.EamTicketMapper.Example_Where_Clause" />
 		</if>

@@ -22,6 +22,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -369,7 +370,7 @@ public class EamTicketController extends EamTicketBaseController {
 	}
 
 	@ApiOperation(value = "维修人员列表")
-	@RequiresPermissions("eam:ticket:create")
+	@RequiresRoles("ticketAppoint")
 	@RequestMapping(value = "/operator/list", method = RequestMethod.GET)
 	@ResponseBody
 	public Object operatorList() {

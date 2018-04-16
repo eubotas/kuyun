@@ -36,6 +36,8 @@ public class EamDataElement extends BaseEntity implements Serializable {
 
     private Integer equipmentCategoryId;
 
+    private Boolean isStatistic;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -86,6 +88,14 @@ public class EamDataElement extends BaseEntity implements Serializable {
         this.equipmentCategoryId = equipmentCategoryId;
     }
 
+    public Boolean getIsStatistic() {
+        return isStatistic;
+    }
+
+    public void setIsStatistic(Boolean isStatistic) {
+        this.isStatistic = isStatistic;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -98,6 +108,7 @@ public class EamDataElement extends BaseEntity implements Serializable {
         sb.append(", unit=").append(unit);
         sb.append(", dataType=").append(dataType);
         sb.append(", equipmentCategoryId=").append(equipmentCategoryId);
+        sb.append(", isStatistic=").append(isStatistic);
         sb.append("]");
         return sb.toString();
     }
@@ -124,7 +135,8 @@ public class EamDataElement extends BaseEntity implements Serializable {
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
-            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()));
+            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
+            && (this.getIsStatistic() == null ? other.getIsStatistic() == null : this.getIsStatistic().equals(other.getIsStatistic()));
     }
 
     @Override
@@ -142,6 +154,7 @@ public class EamDataElement extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
+        result = prime * result + ((getIsStatistic() == null) ? 0 : getIsStatistic().hashCode());
         return result;
     }
 }

@@ -15,7 +15,24 @@ public class EamTicketVO extends EamTicket {
     private String tagNames;
     private Integer assessmentLevel;
     private String assessmentDescription;
+    private String productLineName;
+    private String equipmentName;
 
+    public String getProductLineName() {
+        return productLineName;
+    }
+
+    public void setProductLineName(String productLineName) {
+        this.productLineName = productLineName;
+    }
+
+    public String getEquipmentName() {
+        return equipmentName;
+    }
+
+    public void setEquipmentName(String equipmentName) {
+        this.equipmentName = equipmentName;
+    }
 
     public String getServiceman() {
         return serviceman;
