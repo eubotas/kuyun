@@ -14,6 +14,7 @@ public class EamEquipmentVO extends EamEquipment {
     private String orderByClause;
 
     private String dtuId;
+    private String equipmentModelName;
 
     private Boolean checked;
 
@@ -55,5 +56,13 @@ public class EamEquipmentVO extends EamEquipment {
 
     public void setDtuId(String dtuId) {
         this.dtuId = dtuId;
+    }
+
+    public String getEquipmentModelName() {
+        return equipmentModelName;
+    }
+
+    public void setEquipmentModelName(String equipmentModelName) {
+        this.equipmentModelName = equipmentModelName;
     }
 }
