@@ -366,7 +366,7 @@
                     <ul class="m-menu__subnav">
 
                         <li id="submenu_equiOp_DataCollect" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
-                            <a  href="#" class="m-menu__link ">
+                            <a  href="${eamPath}/manage/equipment/monitor/list" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>
