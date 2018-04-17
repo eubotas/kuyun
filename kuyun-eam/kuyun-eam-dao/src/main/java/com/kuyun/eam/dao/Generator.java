@@ -25,6 +25,7 @@ public class Generator {
     static {
         LAST_INSERT_ID_TABLES.put("eam_ticket", "ticket_id");
         LAST_INSERT_ID_TABLES.put("eam_maintain_plan", "plan_id");
+        LAST_INSERT_ID_TABLES.put("eam_ticket_assessment", "id");
         LAST_INSERT_ID_TABLES.put("eam_alarm", "alarm_id");
         LAST_INSERT_ID_TABLES.put("eam_sensor_data", "sensor_data_id");
         LAST_INSERT_ID_TABLES.put("eam_sensor_data_history", "sensor_data_id");
