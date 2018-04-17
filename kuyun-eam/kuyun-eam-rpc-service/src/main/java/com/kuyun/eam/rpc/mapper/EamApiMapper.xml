@@ -670,7 +670,7 @@
 	<select id="selectEquipments" parameterType="com.kuyun.eam.vo.EamEquipmentVO" resultMap="EamEquipmentVOResultMap">
 		select
 		d.dtu_id,
-		m.equipment_model_name,
+		m.name as equipment_model_name,
 		<include refid="Equipment_Column_List" />
 		from eam_equipment t
 		LEFT JOIN eam_equipment_model m ON t.equipment_model_id = m.equipment_model_id
