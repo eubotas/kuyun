@@ -70,8 +70,6 @@ create table eam_equipment
    salve_id             int  comment 'Modbus RTU 从站地址',  
    heart_data           varchar(50) comment 'Modbus RTU',
    modbus_rtu_period    int  comment 'Modbus RTU',
-   grm                  varchar(50) comment '巨控设备ID',
-   grm_password         varchar(50) comment '巨控设备密码',
    grm_period           int         comment '巨控采集频率单位秒',
    factory_date         datetime,
    commissioning_date   datetime,
@@ -644,7 +642,6 @@ create table eam_dtu
    dtu_id         varchar(32),
    name           varchar(50),
    heart_data           varchar(50) comment '心跳包',
-   modbus_rtu_period    int  comment '采集频率',
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,
@@ -659,6 +656,36 @@ create table eam_dtu_equipment
 (
    id                   int not null auto_increment,
    dtu_id               varchar(32),
+   equipment_id         varchar(32),
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   company_id      int,
+   primary key (id)
+);
+
+DROP TABLE IF EXISTS `eam_grm`;
+create table eam_grm
+(
+   grm_id               varchar(32),
+   grm                  varchar(50) comment '巨控设备ID',
+   grm_password         varchar(50) comment '巨控设备密码',
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   company_id      int,
+   primary key (grm_id)
+);
+
+DROP TABLE IF EXISTS `eam_grm_equipment`;
+create table eam_grm_equipment
+(
+   id                   int not null auto_increment,
+   grm_id               varchar(32),
    equipment_id         varchar(32),
    create_user_id       int,
    create_time          datetime,

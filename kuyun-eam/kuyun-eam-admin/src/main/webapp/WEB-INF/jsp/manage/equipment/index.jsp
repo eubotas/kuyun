@@ -24,11 +24,19 @@
                 jQuery("#add_Form").validate().resetForm();
                 jQuery("#edit_Form").validate().resetForm();
             }) ;
+
+            var provinceList;
+            var allcity;
+            var cityList;
+
+            getCityData();
+
             generateAddEditForm('template-equipment-addEditForm', 'add_,edit_', null, null, 'addEquipmentFormContainer,editEquipmentFormContainer');
             FormWidgets.init('add');
             FormWidgets.init('edit');
 
             $('#add_equipmentModelId, #edit_equipmentModelId').select2();
+            $('#add_province, #edit_province, #add_city, #edit_city').select2();
 
             $('#add_factoryDate, #add_commissioningDate, #add_warrantyStartDate, #add_warrantyEndDate, #edit_factoryDate, #edit_commissioningDate, #edit_warrantyStartDate, #edit_warrantyEndDate').datepicker({
                 format: "yyyy/mm/dd",
@@ -45,6 +53,8 @@
                     if (responseData) {
                         var data = responseData;
                         addOptionToHtmlSelect(null, "add_equipmentModelId", data.equipmentModels);
+                        initProvinceOptions('add');
+
                     }
                 });
             });
@@ -52,6 +62,9 @@
             $('#deleteButton').click(function(){
                 deleteAction();
             });
+
+            provinceChange('add');
+            provinceChange('edit');
 
             var uploadOpt={
                 template : 'qq-template-gallery',
@@ -103,6 +116,64 @@
 
         });
 
+
+        function getCityData() {
+            $.getJSON("/resources/data/areas.json", function(value){
+                provinceList = value.province;
+                allcity = value.city;
+            })
+        }
+
+        function getProCity(procode) {
+            cityList = [];
+            if(procode!=null && procode!=''){
+                $.each(allcity,
+                    function(i, val) {
+                        if (val.id.substr(0, 2) == procode.substr(0, 2)) {
+                            cityList.push(val);
+                        }
+                    }
+                );
+            }
+        }
+
+        function provinceChange(templateId){
+            $('#'+templateId+'_province').change(function() {
+                getProCity(this.value);
+                initCityOptions(templateId);
+            });
+
+        }
+
+        function initProvinceOptions(templateId, code) {
+            $("#"+templateId+"_province").empty();
+            $("#"+templateId+"_city").empty();
+            cityList = [];
+            $("#"+templateId+"_province").append($("<option></option>"));
+
+            $.each(provinceList, function(id, obj) {
+                if (code === obj.id){
+                    $("#"+templateId+"_province").append($("<option selected></option>").attr("value",obj.id).text(obj.text));
+                    getProCity(code);
+                }else {
+                    $("#"+templateId+"_province").append($("<option></option>").attr("value",obj.id).text(obj.text));
+                }
+
+            });
+        }
+
+        function initCityOptions(templateId, code) {
+            $("#"+templateId+"_city").empty();
+            $.each(cityList, function(id, obj) {
+                if (code === obj.id){
+                    $("#"+templateId+"_city").append($("<option selected></option>").attr("value",obj.id).text(obj.text));
+                }else {
+                    $("#"+templateId+"_city").append($("<option></option>").attr("value",obj.id).text(obj.text));
+                }
+
+            });
+        }
+
         var $table = $('#table');
         $(function() {
             // bootstrap table初始化
@@ -133,7 +204,6 @@
                     {field: 'name', title: '设备名称'},
                     {field: 'equipmentModelName', title: '模型'},
                     {field: 'maintenancePeriod', title: '图片'},
-                    {field: 'maintenancePeriod', title: '接入'},
                     {field: 'maintenancePeriod', title: '启停'},
                     {field: 'action', width: 120, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ]
@@ -232,8 +302,10 @@
             ajaxGet('${basePath}/manage/equipment/update/' + row["equipmentId"], function (responseData) {
                 if (responseData) {
                     var data = responseData.equipment;
-                    addOptionToHtmlSelect(data.equipmentCategoryId, "edit_equipmentCategoryId", responseData.equipmentCategories);
                     addOptionToHtmlSelect(data.equipmentModelId, "edit_equipmentModelId", responseData.equipmentModels);
+                    initProvinceOptions('edit', data.province);
+                    initCityOptions('edit', data.city);
+
                     $("#edit_id").val(data.equipmentId);
                     $("#edit_name").val(data.name);
                     $("#edit_number").val(data.number);
@@ -361,31 +433,31 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group m-form__group row">
-                            <label for="templateID_name">设备名称:</label>
-                            <div class="col-4">
+                            <label class="col-lg-2 col-form-label">设备名称:</label>
+                            <div class="col-lg-4">
                                 <input id="templateID_name" type="text" class="form-control" name="name">
                             </div>
 
-                            <label for="templateID_number">设备编号:</label>
-                            <div class="col-sm-4">
+                            <label class="col-lg-2 col-form-label">设备编号:</label>
+                            <div class="col-lg-4">
                                 <input id="templateID_number" type="text" class="form-control" name="number">
                             </div>
                         </div>
 
                         <div class="form-group m-form__group row">
-                            <label for="templateID_serialNumber">设备序列号:</label>
-                            <div class="col-sm-4">
+                            <label class="col-lg-2 col-form-label">设备序列号:</label>
+                            <div class="col-4">
                             <input id="templateID_serialNumber" type="text" class="form-control" name="serialNumber">
                             </div>
 
-                            <label for="templateID_equipmentModelId">设备模型:</label>
-                            <div class="col-sm-4">
+                            <label class="col-lg-2 col-form-label">设备模型:</label>
+                            <div class="col-lg-4">
                                 <select id="templateID_equipmentModelId" name="equipmentModelId" style="width: 100%"></select>
                             </div>
 						</div>
                         <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space"></div>
                         <div class="form-group m-form__group row">
-                            <label for="templateID_imagePath">设备图片:</label>
+                            <label class="col-lg-2 col-form-label">设备图片:</label>
                             <div id="templateID_fine-uploader-gallery" class="col-sm-9"></div>
                             <input id="templateID_imagePath" type="hidden" class="form-control" name="imagePath">
                         </div>
@@ -393,7 +465,18 @@
                         <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space"></div>
 
                         <div class="form-group m-form__group row">
-                            <label for="templateID_name" class="form-control-label">
+                            <label class="col-lg-2 col-form-label">地区:</label>
+                            <div class="col-sm-4">
+                                <select id="templateID_province" name="province" style="width: 100%"></select>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <select id="templateID_city" name="city" style="width: 100%"></select>
+                            </div>
+                        </div>
+
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-2 col-form-label">
                                 设备位置
                             </label>
                             <div id="templateID_addDataChangeButtonDiv">
@@ -411,11 +494,11 @@
                         </div>
 
                         <div class="form-group m-form__group row">
-                            <label for="templateID_longitude"> 经度:</label>
+                            <label class="col-lg-2 col-form-label"> 经度:</label>
                             <div class="col-sm-4">
                                 <input id="templateID_longitude" type="text" class="form-control" name="longitude">
                             </div>
-                            <label for="templateID_latitude">纬度:</label>
+                            <label class="col-lg-2 col-form-label">纬度:</label>
                             <div class="col-sm-4">
                                 <input id="templateID_latitude" type="text" class="form-control" name="latitude">
                             </div>
@@ -424,7 +507,7 @@
                         <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space"></div>
 
                         <div class="form-group m-form__group row">
-                            <label for="templateID_factoryDate">出厂日期:</label>
+                            <label class="col-lg-2 col-form-label">出厂日期:</label>
                             <div class="col-sm-4">
                                 <div class="input-group date" >
                                     <input id="templateID_factoryDate" type="text" class="form-control" readonly  name="factoryDate"/>
@@ -435,7 +518,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <label for="templateID_commissioningDate">投产日期:</label>
+                            <label class="col-lg-2 col-form-label">投产日期:</label>
                             <div class="col-sm-4">
                                 <div class="input-group date" >
                                     <input id="templateID_commissioningDate" type="text" class="form-control" readonly  name="commissioningDate"/>
@@ -449,7 +532,7 @@
                         </div>
 
                         <div class="form-group m-form__group row">
-                            <label for="templateID_warrantyStartDate">质保开始日期:</label>
+                            <label class="col-lg-2 col-form-label">质保开始日期:</label>
                             <div class="col-sm-4">
                                 <div class="input-group date" >
                                     <input id="templateID_warrantyStartDate" type="text" class="form-control" readonly  name="warrantyStartDate"/>
@@ -460,7 +543,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <label for="templateID_warrantyEndDate">质保结束日期:</label>
+                            <label class="col-lg-2 col-form-label">质保结束日期:</label>
                             <div class="col-sm-4">
                                 <div class="input-group date" >
                                     <input id="templateID_warrantyEndDate" type="text" class="form-control" readonly  name="warrantyEndDate"/>

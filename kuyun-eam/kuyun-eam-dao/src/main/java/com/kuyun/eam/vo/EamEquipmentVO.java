@@ -14,6 +14,7 @@ public class EamEquipmentVO extends EamEquipment {
     private String orderByClause;
 
     private String dtuId;
+    private String grmId;
     private String equipmentModelName;
 
     private Boolean checked;
@@ -48,6 +49,14 @@ public class EamEquipmentVO extends EamEquipment {
 
     public void setChecked(Boolean checked) {
         this.checked = checked;
+    }
+
+    public String getGrmId() {
+        return grmId;
+    }
+
+    public void setGrmId(String grmId) {
+        this.grmId = grmId;
     }
 
     public String getDtuId() {

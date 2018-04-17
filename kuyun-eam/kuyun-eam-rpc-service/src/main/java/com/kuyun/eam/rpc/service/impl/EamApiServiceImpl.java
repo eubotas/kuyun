@@ -515,8 +515,18 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     @Override
+    public List<EamEquipmentVO> selectUnConnectGrmEquipments(EamEquipmentVO eamEquipmentVO) {
+        return eamApiMapper.selectUnConnectGrmEquipments(eamEquipmentVO);
+    }
+
+    @Override
     public Long countUnConnectDtuEquipments(EamEquipmentVO eamEquipmentVO) {
         return eamApiMapper.countUnConnectDtuEquipments(eamEquipmentVO);
+    }
+
+    @Override
+    public Long countUnConnectGrmEquipments(EamEquipmentVO eamEquipmentVO) {
+        return eamApiMapper.countUnConnectGrmEquipments(eamEquipmentVO);
     }
 
     @Override

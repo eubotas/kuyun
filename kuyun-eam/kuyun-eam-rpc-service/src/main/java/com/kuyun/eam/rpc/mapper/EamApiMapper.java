@@ -51,6 +51,10 @@ public interface EamApiMapper {
 
     Long countUnConnectDtuEquipments(EamEquipmentVO eamEquipmentVO);
 
+    List<EamEquipmentVO> selectUnConnectGrmEquipments(EamEquipmentVO eamEquipmentVO);
+
+    Long countUnConnectGrmEquipments(EamEquipmentVO eamEquipmentVO);
+
     List<EamSummaryTicketVO> summaryTicket(Integer companyId);
 
     List<EamMaintainPlanVO> listMaintainPlans(EamMaintainPlanVO vo);

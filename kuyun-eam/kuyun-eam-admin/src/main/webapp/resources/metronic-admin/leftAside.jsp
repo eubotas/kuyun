@@ -91,18 +91,43 @@
 												</span>
                                 </a></shiro:hasPermission>
                         </li>
-                        <li id="submenu_assetsEquipment3" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
+                    </ul>
+                </div>
+            </li>
+            <li id="menu_assetsGateway" class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"  data-menu-submenu-toggle="hover">
+                <a  href="#" class="m-menu__link m-menu__toggle">
+                    <i class="m-menu__link-icon flaticon-cogwheel-2"></i>
+                    <span class="m-menu__link-text">
+										网关管理
+									</span>
+                    <i class="m-menu__ver-arrow la la-angle-right"></i>
+                </a>
+                <div class="m-menu__submenu ">
+                    <span class="m-menu__arrow"></span>
+                    <ul class="m-menu__subnav">
+
+                        <li id="submenu_assetsGateway1" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
                             <shiro:hasPermission name="eam:dtu:read">
                                 <a  href="${eamPath}/manage/dtu/index" class="m-menu__link ">
                                     <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                         <span></span>
                                     </i>
                                     <span class="m-menu__link-text">
-													DTU管理
+													DTU
 												</span>
                                 </a></shiro:hasPermission>
                         </li>
-
+                        <li id="submenu_assetsGateway2" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
+                            <shiro:hasPermission name="eam:dtu:read">
+                                <a  href="${eamPath}/manage/grm/index" class="m-menu__link ">
+                                    <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="m-menu__link-text">
+													智库网关
+												</span>
+                                </a></shiro:hasPermission>
+                        </li>
                     </ul>
                 </div>
             </li>

@@ -156,7 +156,7 @@
 					</div>
 					<div class="modal-body">
 						<div class="form-group m-form__group row">
-							<label for="templateID_name" class="form-control-label">
+							<label class="col-3 col-form-label">
 								参数名称:*
 							</label>
 							<div class="col-6">
@@ -166,7 +166,7 @@
 						</div>
 
 						<div class="form-group m-form__group row">
-							<label for="templateID_name" class="form-control-label">
+							<label class="col-3 col-form-label">
 								参数单位:*
 							</label>
 							<div class="col-6">
@@ -175,10 +175,10 @@
 						</div>
 
 						<div class="form-group m-form__group row">
-							<label class="form-control-label">
+							<label class="col-3 col-form-label">
 								参数类型:*
 							</label>
-							<div class="col-10">
+							<div class="col-8">
 								<div class="m-radio-inline">
 									<label class="m-radio">
 										<input type="radio" id="templateID_dataType_analog" name="dataType" value="analog" checked>
@@ -195,10 +195,10 @@
 							</div>
 						</div>
 						<div class="form-group m-form__group row" id="templateID_displayType">
-							<label class="form-control-label">
+							<label class="col-3 col-form-label">
 								展示类型:
 							</label>
-							<div class="col-10">
+							<div class="col-8">
 								<div class="m-radio-inline">
 									<label class="m-radio">
 										<input type="radio" id="templateID_displayType_pie" name="displayType" value="pie">
@@ -261,7 +261,7 @@
 					</div>
 					<div class="modal-body">
 						<div class="form-group m-form__group row">
-							<label for="templateID_name" class="form-control-label">
+							<label class="col-4 col-form-label">
 								设备模型名称: *
 							</label>
 							<div class="col-6">
@@ -269,7 +269,7 @@
 							</div>
 						</div>
 						<div class="form-group m-form__group row">
-							<label for="templateID_name" class="form-control-label">
+							<label class="col-4 col-form-label">
 								设备模型编号: *
 							</label>
 							<div class="col-6">
@@ -277,10 +277,10 @@
 							</div>
 						</div>
 						<div class="form-group m-form__group row">
-							<label for="templateID_name" class="col-form-label col-lg-3 col-sm-12">
+							<label class="col-4 col-form-label">
 								链接协议: *
 							</label>
-							<div class="col-lg-9 col-md-9 col-sm-12">
+							<div class="col-6">
 							    <select class="form-control m-select2" style="width: 180px;" id="templateID_protocolId" name="protocolId" >
 								</select>
 							</div>
@@ -332,7 +332,7 @@
 					</div>
 					<div class="modal-body">
 						<div class="form-group m-form__group row">
-							<label for="templateID_name" class="form-control-label">
+							<label class="col-3 col-form-label">
 								读取模式: *
 							</label>
 							<div class="col-6">
@@ -341,7 +341,7 @@
 							</div>
 						</div>
 						<div class="form-group m-form__group row">
-							<label for="templateID_name" class="form-control-label">
+							<label class="col-3 col-form-label">
 								参数地址: *
 							</label>
 							<div class="col-6">
@@ -352,7 +352,7 @@
 						<div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space"></div>
 
 						<div class="form-group m-form__group row m-form--group-seperator-dashed">
-							<label for="templateID_name" class="form-control-label">
+							<label class="col-3 col-form-label">
 								数据格式: *
 							</label>
 							<div class="col-6">
@@ -362,7 +362,7 @@
 						</div>
 
 						<div id="templateID_bitOrderRow" class="form-group m-form__group row" >
-							<label for="templateID_name" class="form-control-label">
+							<label class="col-3 col-form-label">
 								字节顺序:
 							</label>
 							<div class="col-6">
@@ -374,7 +374,7 @@
 						<div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space"></div>
 
 						<div class="form-group m-form__group row">
-							<label for="templateID_name" class="form-control-label">
+							<label class="col-3 col-form-label">
 								数据转换
 							</label>
 							<div id="templateID_addDataChangeButtonDiv">
@@ -393,7 +393,7 @@
 
 						<div id="templateID_dataChangeDiv">
 							<div class="form-group m-form__group row">
-								<label for="templateID_name" class="form-control-label">
+								<label>
 									原始值:
 								</label>
 								<div class="col-3">
@@ -411,7 +411,7 @@
 							</div>
 
 							<div class="form-group m-form__group row">
-								<label for="templateID_name" class="form-control-label">
+								<label>
 									工程值:
 								</label>
 								<div class="col-3">
@@ -488,7 +488,7 @@
 					</div>
 					<div class="modal-body">
 						<div class="form-group m-form__group row">
-							<label for="templateID_name" class="form-control-label">
+							<label class="col-3 col-form-label">
 								变量名: *
 							</label>
 							<div class="col-6">
@@ -500,7 +500,7 @@
 						<div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space"></div>
 
 						<div class="form-group m-form__group row">
-							<label for="templateID_name" class="form-control-label">
+							<label class="col-3 col-form-label">
 								数据转换
 							</label>
 							<div id="templateID_addDataChangeButtonDiv">
@@ -519,7 +519,7 @@
 
 						<div id="templateID_dataChangeDiv">
 							<div class="form-group m-form__group row">
-								<label for="templateID_name" class="form-control-label">
+								<label class="form-control-label">
 									原始值:
 								</label>
 								<div class="col-3">
@@ -537,7 +537,7 @@
 							</div>
 
 							<div class="form-group m-form__group row">
-								<label for="templateID_name" class="form-control-label">
+								<label class="form-control-label">
 									工程值:
 								</label>
 								<div class="col-3">
@@ -607,7 +607,7 @@
 					</div>
 					<div class="modal-body">
 						<div class="form-group m-form__group row">
-							<label for="templateID_name" class="form-control-label">
+							<label class="col-3 col-form-label">
 								报警参数 *
 							</label>
 							<div class="col-9">
@@ -630,7 +630,7 @@
 						</div>
 						<div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space"></div>
 						<div class="form-group m-form__group row" >
-							<label for="templateID_name" class="form-control-label">
+							<label class="col-3 col-form-label">
 								提醒方式:
 							</label>
 							<div class="col-9">
@@ -639,7 +639,7 @@
 							</div>
 						</div>
 						<div class="form-group m-form__group row" >
-							<label for="templateID_name" class="form-control-label">
+							<label class="col-3 col-form-label">
 								提醒对象:
 							</label>
 							<div class="col-9">
@@ -1002,7 +1002,7 @@
             url: '${basePath}/manage/equipment/model/property/list/-1',
             striped: true,
             search: true,
-            searchAlign: 'right',
+            searchAlign: 'left',
             toolbarAlign: 'right',
             minimumCountColumns: 2,
             clickToSelect: true,

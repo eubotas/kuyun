@@ -62,8 +62,10 @@ public interface EamApiService {
     Long countEquipments(EamEquipmentVO eamEquipmentVO);
 
     List<EamEquipmentVO> selectUnConnectDtuEquipments(EamEquipmentVO eamEquipmentVO);
+    List<EamEquipmentVO> selectUnConnectGrmEquipments(EamEquipmentVO eamEquipmentVO);
 
     Long countUnConnectDtuEquipments(EamEquipmentVO eamEquipmentVO);
+    Long countUnConnectGrmEquipments(EamEquipmentVO eamEquipmentVO);
 
     int persistEquipment(UpmsUserCompany upmsUserCompany, EamEquipment equipment);
 

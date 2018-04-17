@@ -97,13 +97,17 @@
                     </div>
                     <div class="modal-body">
 						<div class="form-group m-form__group row">
-                            <label for="templateID_name">名称</label>
-                            <input id="templateID_name" type="text" class="form-control" name="name" maxlength="20">
+                            <label for="templateID_name" class="col-3 col-form-label">名称:*</label>
+                            <div class="col-sm-8">
+                                <input id="templateID_name" type="text" class="form-control" name="name" maxlength="20">
+                            </div>
 						</div>
 
 						<div class="form-group m-form__group row">
-                            <label for="templateID_heartData">心跳包</label>
-                            <input id="templateID_heartData" type="text" class="form-control" name="heartData" maxlength="20">
+                            <label for="templateID_heartData" class="col-3 col-form-label">心跳包:</label>
+                            <div class="col-sm-8">
+                                <input id="templateID_heartData" type="text" class="form-control" name="heartData" maxlength="20">
+                            </div>
 						</div>
 
                     </div>

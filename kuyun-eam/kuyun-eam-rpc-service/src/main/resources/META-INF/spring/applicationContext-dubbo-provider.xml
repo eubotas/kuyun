@@ -132,4 +132,10 @@
     <bean id="eamDtuEquipmentServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamDtuEquipmentServiceImpl"/>
     <dubbo:service interface="com.kuyun.eam.rpc.api.EamDtuEquipmentService" ref="eamDtuEquipmentServiceImpl" timeout="10000"/>
 
+    <bean id="eamGrmServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamGrmServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamGrmService" ref="eamGrmServiceImpl" timeout="10000"/>
+
+    <bean id="eamGrmEquipmentServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamGrmEquipmentServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamGrmEquipmentService" ref="eamGrmEquipmentServiceImpl" timeout="10000"/>
+
 </beans>
