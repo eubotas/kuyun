@@ -121,6 +121,7 @@ public class EamTicketController extends EamTicketBaseController {
 			@RequestParam(required = false, defaultValue = "0", value = "offset") int offset,
 			@RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
 			@RequestParam(required = false, defaultValue = "myAll", value = "category") String category,
+			@RequestParam(required = false, value = "ticketType") String ticketType,
 			@RequestParam(required = false, value = "sort") String sort,
 			@RequestParam(required = false, value = "order") String order) {
 		EamTicketExample eamTicketExample = new EamTicketExample();
@@ -134,8 +135,9 @@ public class EamTicketController extends EamTicketBaseController {
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			eamTicketExample.setOrderByClause(sort + " " + order);
 		}else{
-			eamTicketExample.setOrderByClause("ABS(ticket_number) desc");
+			eamTicketExample.setOrderByClause("eam_ticket.ticket_id desc");
 		}
+
 
 		Subject subject = SecurityUtils.getSubject();
 
