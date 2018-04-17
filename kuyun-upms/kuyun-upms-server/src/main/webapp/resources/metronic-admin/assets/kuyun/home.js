@@ -13,7 +13,7 @@ option = {
                  return '';
              value = value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,')
                      + '台';
-             return params.seriesName + '<br/>' + params.name + ' : ' + value;
+             return params.seriesName + '<br/>' + params.cnName + ' : ' + value;
          }
      },
 
@@ -35,10 +35,11 @@ option = {
                 emphasis:{label:{show:true}}
             },
             data:[
-                {name: 'United Arab Emirates', value: 10},
-                {name: 'Armenia', value: 100},
-                {name: 'Canada', value: 3},
-                {name: 'China',value: 2000}
+                {name: 'India',cnName:'印度', value: 9000},
+                {name: 'United States',cnName:'美国', value: 9000},
+                {name: 'Japan',cnName:'日本', value: 9000},
+                {name: 'Canada',cnName:'加拿大', value: 3},
+                {name: 'China',cnName:'中国',value: 8900}
 
             ]
         }
@@ -113,26 +114,50 @@ function createPie(id, json, name) {
 }
 
 var json = [
-    {value:1980,name:'在线'},
-    {value:1980,name:'在线2'},
-    {value:1980,name:'在线3'},
-    {value:240,name:'离线'}
+    {value:1980,name:'1月'},
+    {value:1980,name:'2月'},
+    {value:180,name:'3月'},
+    {value:1980,name:'4月'},
+    {value:180,name:'5月'},
+    {value:980,name:'6月'},
+    {value:1980,name:'7月'},
+    {value:980,name:'8月'},
+    {value:1980,name:'9月'},
+    {value:980,name:'10月'},
+    {value:1980,name:'11月'},
+    {value:240,name:'12月'}
 ];
 createBar('echarts_line', json, '能耗图','销量','line');
 
 var json = [
-    {value:1980,name:'在线'},
-    {value:1980,name:'在线2'},
-    {value:1980,name:'在线3'},
-    {value:240,name:'离线'}
+    {value:50,name:'1月'},
+    {value:80,name:'2月'},
+    {value:80,name:'3月'},
+    {value:90,name:'4月'},
+    {value:10,name:'5月'},
+    {value:80,name:'6月'},
+    {value:10,name:'7月'},
+    {value:80,name:'8月'},
+    {value:10,name:'9月'},
+    {value:90,name:'10月'},
+    {value:10,name:'11月'},
+    {value:20,name:'12月'}
 ];
 createBar('echarts_bar1', json, '开机率','销量');
 
 var json = [
-    {value:1980,name:'在线'},
-    {value:1980,name:'在线2'},
-    {value:1980,name:'在线3'},
-    {value:240,name:'离线'}
+    {value:50,name:'1月'},
+    {value:80,name:'2月'},
+    {value:80,name:'3月'},
+    {value:90,name:'4月'},
+    {value:10,name:'5月'},
+    {value:80,name:'6月'},
+    {value:10,name:'7月'},
+    {value:80,name:'8月'},
+    {value:10,name:'9月'},
+    {value:90,name:'10月'},
+    {value:10,name:'11月'},
+    {value:20,name:'12月'}
 ];
 createBar('echarts_bar2', json, '合格率','销量');
 
@@ -200,7 +225,7 @@ function createBar(id, json, title, name, type) {
                 normal: {
                     //每个柱子的颜色即为colorList数组里的每一项，如果柱子数目多于colorList的长度，则柱子颜色循环使用该数组
                     color: function (params) {
-                        var colorList = ['#2ab4c0','#f36a5a','#8e44ad','#e7505a','#2ab4c0','#26c281','#193127'];
+                        var colorList = ['#2ab4c0','#f36a5a','#8e44ad','#e7505a','#2ab4c0','#26c281','#2ab4c0','#f36a5a','#8e44ad','#e7505a','#2ab4c0','#26c281'];
                         return colorList[params.dataIndex];
                     }
                 },
