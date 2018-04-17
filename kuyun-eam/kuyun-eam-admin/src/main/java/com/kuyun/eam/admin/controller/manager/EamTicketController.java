@@ -33,10 +33,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.kuyun.eam.common.constant.EamConstant.TICKET_CREATE;
 import static com.kuyun.eam.common.constant.EamConstant.TICKET_REPAIR;
@@ -356,6 +353,7 @@ public class EamTicketController extends EamTicketBaseController {
 		EamTicket ticket=new EamTicket();
 		ticket.setTicketId(id);
 		ticket.setStatus(TicketStatus.RESOLVED.getName());
+		ticket.setUpdateTime(new Date());
 		int count= eamTicketService.updateByPrimaryKeySelective(ticket);
 		return new EamResult(EamResultConstant.SUCCESS, count);
 	}
