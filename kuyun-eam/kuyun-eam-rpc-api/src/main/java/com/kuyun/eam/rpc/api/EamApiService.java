@@ -126,6 +126,7 @@ public interface EamApiService {
     List<Position> getPositions(String productLineId);
 
     List<EamMaintainPlanVO> listMaintainPlans(EamMaintainPlanVO vo);
+    Long countMaintainPlans(EamMaintainPlanVO vo);
     List<EamPlanTicketVO> selectTicketByPlan(EamPlanTicketVO vo);
     EamMaintainPlanVO getMaintainPlan(Integer planId);
 

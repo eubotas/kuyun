@@ -224,13 +224,14 @@
 		<result column="realname" jdbcType="VARCHAR" property="realname" />
 		<result column="phone" jdbcType="VARCHAR" property="phone" />
 		<result column="email" jdbcType="VARCHAR" property="email" />
+		<result column="avatar" jdbcType="VARCHAR" property="avatar" />
 		<result column="company_name" jdbcType="VARCHAR" property="companyName" />
 		<result column="login_time" jdbcType="BIGINT" property="loginTime" />
 		<result column="login_number" jdbcType="INTEGER" property="loginNumber" />
 	</resultMap>
 
 	<select id="selectOrgUsersByOrgNameCompanyId" parameterType="com.kuyun.upms.dao.vo.UpmsOrgUserVo" resultMap="UpmsOrgUserVoResultMap">
-		select distinct uu.user_id, uu.realname, uu.phone, uu.email
+		select distinct uu.user_id, uu.realname, uu.phone, uu.email, uu.avatar
 		from upms_user uu,
 		upms_user_company uuc,
 		upms_organization uo,

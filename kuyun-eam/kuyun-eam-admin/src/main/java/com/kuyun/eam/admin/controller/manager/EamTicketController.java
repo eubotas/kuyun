@@ -317,24 +317,11 @@ public class EamTicketController extends EamTicketBaseController {
     @ApiOperation(value = "工单详细")
 	@RequiresPermissions(value = {"eam:ticket:read", "eam:myOpenTicket:read","eam:myAllTicket:read","eam:initTicket:read"}, logical = Logical.OR)
 	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET)
-    public String detail(@PathVariable("id") int id, ModelMap modelMap) {
-        EamTicket eamTicket = eamTicketService.selectByPrimaryKey(id);
-        String status=eamTicket.getStatus();
-        String nextOperateBtn="";
-        if(TicketStatus.RESOLVED.getName().equals(status)) {
-            nextOperateBtn = "<a class=\"waves-effect waves-button\" href=\"javascript:;\" onclick=\"toaction('TOASSESSMENT');\">评价</a>";
-        }else if(TicketStatus.PROCESSING.getName().equals(status)){
-            nextOperateBtn="<a class=\"waves-effect waves-button\" href=\"javascript:;\" onclick=\"toaction('COMPLETE');\">完成工单</a>";
-        }else if(TicketStatus.TO_PROCESS.getName().equals(status)){
-            nextOperateBtn="<a class=\"waves-effect waves-button\" href=\"javascript:;\" onclick=\"toaction('REJECT');\">拒绝工单</a>";
-            nextOperateBtn +="<a class=\"waves-effect waves-button\" href=\"javascript:;\" onclick=\"toaction('TORECORD');\">处理工单</a>";
-        }else if(TicketStatus.INIT.getName().equals(status)){
-            nextOperateBtn="<a class=\"waves-effect waves-button\" href=\"javascript:;\" onclick=\"toaction('TOAPPOINT');\">委派工单</a>";
-        }
-        modelMap.put("nextOperateBtn", nextOperateBtn);
-
-        setTicketInfo(id, modelMap);
-        return "/manage/ticket/detail.jsp";
+	@ResponseBody
+    public Object detail(@PathVariable("id") int id, ModelMap modelMap) {
+		HashMap<String, Object> map = new HashMap();
+        setTicketInfo(id, map);
+        return map;
     }
 
     @ApiOperation(value = "删除工单")

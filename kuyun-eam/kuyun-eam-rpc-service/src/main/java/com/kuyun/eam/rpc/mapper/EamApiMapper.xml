@@ -1125,6 +1125,7 @@
 	<resultMap id="EamMaintainPlanVOResultMap" type="com.kuyun.eam.vo.EamMaintainPlanVO" extends="com.kuyun.eam.dao.mapper.EamMaintainPlanMapper.BaseResultMap">
 		<result column="equipmentCategoryName" jdbcType="VARCHAR" property="equipmentCategoryName" />
 		<result column="equipmentName" jdbcType="VARCHAR" property="equipmentName" />
+		<result column="productLineName" jdbcType="VARCHAR" property="productLineName" />
 		<result column="orgName" jdbcType="VARCHAR" property="orgName" />
 	</resultMap>
 
@@ -1133,11 +1134,13 @@
 		plan_id, work_content, next_maintain_date, maintain_frequency_unit, maintain_frequency_quantity, maintain_type, remind_time, a.create_time ,
 		uo.name as orgName,
 		ec.name as equipmentCategoryName,
-		e.name as equipmentName
+		e.name as equipmentName,
+		p.name as productLineName
 		from eam_maintain_plan a
 		LEFT OUTER JOIN upms_organization uo ON a.org_id = uo.organization_id
 		LEFT OUTER JOIN eam_equipment_category ec ON a.equipment_category_id = ec.equipment_category_id
 		LEFT OUTER JOIN eam_equipment e ON a.equipment_id = e.equipment_id
+		LEFT OUTER JOIN eam_product_line p ON a.product_line_id = p.product_line_id
 		WHERE a.delete_flag = 0
 		<if test="companyId != null and companyId != ''">
 			AND a.company_id = #{companyId}
@@ -1152,6 +1155,20 @@
 			<if test="offset == null">
 				limit ${limit}
 			</if>
+		</if>
+	</select>
+
+	<select id="countMaintainPlans" parameterType="com.kuyun.eam.vo.EamMaintainPlanVO" resultMap="java.lang.Long">
+		select
+		count(plan_id)
+		from eam_maintain_plan a
+		LEFT OUTER JOIN upms_organization uo ON a.org_id = uo.organization_id
+		LEFT OUTER JOIN eam_equipment_category ec ON a.equipment_category_id = ec.equipment_category_id
+		LEFT OUTER JOIN eam_equipment e ON a.equipment_id = e.equipment_id
+		LEFT OUTER JOIN eam_product_line p ON a.product_line_id = p.product_line_id
+		WHERE a.delete_flag = 0
+		<if test="companyId != null and companyId != ''">
+			AND a.company_id = #{companyId}
 		</if>
 	</select>
 

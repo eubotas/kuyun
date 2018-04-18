@@ -1761,6 +1761,11 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     @Override
+    public Long countMaintainPlans(EamMaintainPlanVO vo) {
+        return eamApiMapper.countMaintainPlans(vo);
+    }
+
+    @Override
     public List<EamPlanTicketVO> selectTicketByPlan(EamPlanTicketVO vo) {
         return eamApiMapper.selectTicketByPlan(vo);
     }

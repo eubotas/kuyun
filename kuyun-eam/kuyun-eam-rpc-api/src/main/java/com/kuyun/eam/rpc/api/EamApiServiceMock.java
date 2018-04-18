@@ -304,6 +304,11 @@ public class EamApiServiceMock implements EamApiService {
     }
 
     @Override
+    public Long countMaintainPlans(EamMaintainPlanVO vo) {
+        return null;
+    }
+
+    @Override
     public List<EamPlanTicketVO> selectTicketByPlan(EamPlanTicketVO vo) {
         return null;
     }

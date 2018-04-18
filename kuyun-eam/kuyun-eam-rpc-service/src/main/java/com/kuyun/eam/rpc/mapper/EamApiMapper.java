@@ -70,6 +70,7 @@ public interface EamApiMapper {
     List<EamSummaryTicketVO> summaryTicket(Integer companyId);
 
     List<EamMaintainPlanVO> listMaintainPlans(EamMaintainPlanVO vo);
+    Long countMaintainPlans(EamMaintainPlanVO vo);
 
     List<EamPlanTicketVO> selectTicketByPlan(EamPlanTicketVO vo);
 

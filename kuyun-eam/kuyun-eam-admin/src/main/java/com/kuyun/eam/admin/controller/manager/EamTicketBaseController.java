@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -49,28 +50,12 @@ public abstract class EamTicketBaseController extends BaseController {
     public com.kuyun.fileuploader.rpc.api.FileUploaderService fileUploaderService;
 
 	public void setTicketInfo( int id, ModelMap modelMap) {
-		EamTicketExample ete = new EamTicketExample();
-		ete.createCriteria().andTicketIdEqualTo(id);
-		EamTicketVO eamTicket = eamApiService.selectTicket(ete).get(0);
-
-        //assement
-        Integer assId= eamTicket.getAssessmentId();
-        if(assId != null){
-            eamTicket.setTagNames(getAssessmentTicketTag(assId));
-        }
+        EamTicketVO eamTicket = getEamTicketVO(id);
 		modelMap.put("ticket", eamTicket);
-		
-		//retrieve the image list
-		List<String> imageList =  new ArrayList<String>();
-		if(eamTicket.getImagePath() != null) {
-			for (String uuid : Splitter.on(',')
-					.trimResults()
-					.omitEmptyStrings()
-					.split(eamTicket.getImagePath())) {
-				imageList.add(fileUploaderService.getServerInfo().getEndpoint_show() + "/" + uuid);
-			}
-		}
-		modelMap.put("imageList", imageList);
+        List<String> imageList = getTicketImageList(eamTicket);
+
+
+        modelMap.put("imageList", imageList);
 
 		//retrieve the voice list
 		List<String> voiceList =  new ArrayList<String>();
@@ -84,13 +69,74 @@ public abstract class EamTicketBaseController extends BaseController {
 //		}
 		modelMap.put("voiceList", voiceList);
 
-        EamTicketRecordExample etre = new EamTicketRecordExample();
-		etre.createCriteria().andTicketIdEqualTo(id);
-		etre.setOrderByClause("eam_ticket_record_create_time desc");
-
-		List<EamTicketRecord> records = eamTicketRecordService.selectByExample(etre);
+        List<EamTicketRecord> records = getEamTicketRecords(id);
 		modelMap.put("records", records);
 	}
+
+    private List<String> getTicketImageList(EamTicketVO eamTicket) {
+        //retrieve the image list
+        List<String> imageList =  new ArrayList<String>();
+        if(eamTicket.getImagePath() != null) {
+            for (String uuid : Splitter.on(',')
+                    .trimResults()
+                    .omitEmptyStrings()
+                    .split(eamTicket.getImagePath())) {
+                imageList.add(fileUploaderService.getServerInfo().getEndpoint_show() + "/" + uuid);
+            }
+        }
+        return imageList;
+    }
+
+    private EamTicketVO getEamTicketVO(int id) {
+        EamTicketExample ete = new EamTicketExample();
+        ete.createCriteria().andTicketIdEqualTo(id);
+        EamTicketVO eamTicket = eamApiService.selectTicket(ete).get(0);
+
+        //assement
+        Integer assId= eamTicket.getAssessmentId();
+        if(assId != null){
+            eamTicket.setTagNames(getAssessmentTicketTag(assId));
+        }
+        return eamTicket;
+    }
+
+    public void setTicketInfo( int id, HashMap map) {
+        EamTicketVO eamTicket = getEamTicketVO(id);
+        map.put("ticket", eamTicket);
+        List<String> imageList = get(eamTicket);
+
+
+        map.put("imageList", imageList);
+
+        //retrieve the voice list
+        List<String> voiceList =  new ArrayList<String>();
+//		if(eamTicket.getVoicePath() != null) {
+//			for (String uuid : Splitter.on(',')
+//					.trimResults()
+//					.omitEmptyStrings()
+//					.split(eamTicket.getVoicePath())) {
+//				voiceList.add(fileUploaderService.getServerInfo().getEndpoint_show() + "/" + uuid);
+//			}
+//		}
+        map.put("voiceList", voiceList);
+
+        List<EamTicketRecord> records = getEamTicketRecords(id);
+        map.put("records", records);
+    }
+
+    private List<EamTicketRecord> getEamTicketRecords(int id) {
+        EamTicketRecordExample etre = new EamTicketRecordExample();
+        etre.createCriteria().andTicketIdEqualTo(id);
+        etre.setOrderByClause("eam_ticket_record_create_time desc");
+
+        return eamTicketRecordService.selectByExample(etre);
+    }
+
+    private List<String> get(EamTicketVO eamTicket) {
+        //retrieve the image list
+        List<String> imageList = getTicketImageList(eamTicket);
+        return imageList;
+    }
 
     public void setOperatorList(ModelMap modelMap) {
         List<UpmsOrgUserVo> users = getOperatorUsers();

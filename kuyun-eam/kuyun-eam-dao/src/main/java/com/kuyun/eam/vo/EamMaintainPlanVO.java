@@ -8,6 +8,7 @@ import com.kuyun.eam.dao.model.EamMaintainPlan;
 public class EamMaintainPlanVO extends EamMaintainPlan {
     private String equipmentCategoryName;
     private String equipmentName;
+    private String productLineName;
     private String orgName;
     private Integer limit;
 
@@ -21,6 +22,14 @@ public class EamMaintainPlanVO extends EamMaintainPlan {
 
     public void setEquipmentCategoryName(String equipmentCategoryName) {
         this.equipmentCategoryName = equipmentCategoryName;
+    }
+
+    public String getProductLineName() {
+        return productLineName;
+    }
+
+    public void setProductLineName(String productLineName) {
+        this.productLineName = productLineName;
     }
 
     public String getEquipmentName() {
