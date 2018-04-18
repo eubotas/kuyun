@@ -490,3 +490,7 @@ $(document).ready(function() {
 function isContains(str, substr) {
     return new RegExp(substr).test(str);
 }
+
+function setText(id,val){
+    $("#"+id).text(val);
+}

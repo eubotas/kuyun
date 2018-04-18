@@ -13,7 +13,7 @@ option = {
                  return '';
              value = value[0].replace(/(\d{1,3})(?=(?:\d{3})+(?!\d))/g, '$1,')
                      + '台';
-             return params.seriesName + '<br/>' + params.cnName + ' : ' + value;
+             return params.seriesName + '<br/>' + params.data.cnName + ' : ' + value;
          }
      },
 
