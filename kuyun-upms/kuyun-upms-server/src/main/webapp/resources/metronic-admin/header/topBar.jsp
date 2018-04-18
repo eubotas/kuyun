@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=utf-8"%>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 
 <!-- BEGIN: Topbar -->

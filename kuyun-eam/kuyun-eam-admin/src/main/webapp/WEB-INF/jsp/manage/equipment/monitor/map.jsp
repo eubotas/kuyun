@@ -97,9 +97,7 @@
             </div>
 
             <div class="row">
-                <div class="col-sm-2">
-                </div>
-                <div class="col-sm-9" id="container">
+                <div class="col-sm-12" id="container">
                 </div>
             </div>
         </div>

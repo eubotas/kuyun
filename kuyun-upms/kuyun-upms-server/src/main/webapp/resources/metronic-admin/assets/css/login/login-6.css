@@ -6,7 +6,7 @@ Login page
 
 .user-login-6 {
   min-height: 100vh;
-  background: url(../img/login/bg-final.jpg) 50% 50% no-repeat;
+  background: url(../../images/bg-final.jpg) 50% 50% no-repeat;
   background-size: cover;
   overflow: hidden;
 }
@@ -48,7 +48,7 @@ a.logo {
     position: fixed;
     top: 2%;
     left: 10%;
-    background: url(../img/logos/logo-kuyun1.png) no-repeat
+    background: url(../../images/logoky.png) no-repeat
 }
 
 .logincontent {
