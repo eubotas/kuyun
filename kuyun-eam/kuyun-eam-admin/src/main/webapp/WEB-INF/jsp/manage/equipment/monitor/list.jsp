@@ -29,14 +29,14 @@
                         -
                     </li>
                     <li class="m-nav__item">
-                        <a href="" class="m-nav__link">
+                        <a href="#" class="m-nav__link">
 											<span class="m-nav__link-text">
 												列表模式
 											</span>
                         </a>
                     </li>
                     <li class="m-nav__item">
-                        <a href="" class="m-nav__link">
+                        <a href="/manage/equipment/monitor/map" class="m-nav__link">
 											<span class="m-nav__link-text">
 												地图模式
 											</span>
@@ -80,9 +80,7 @@
                     <li class="dropdown hidden" role="presentation" style="opacity: 1;"><a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"><span class="caret"></span> 更多</a><ul class="dropdown-menu" role="menu"></ul></li></ul>
                 <div class="tab-content padding-top-20">
                     <div class="tab-pane active" id="exampleTabsOne" role="tabpanel">
-                        近日沃尔沃宣布将联合瑞典汽车安全公司奥托立夫(AUTOLIV)成立一个独立子公司，该公司将专攻瞄准未来车型自动驾驶技
-                        术相关的研发。奥托立夫公司(AUTOLIV)是在瑞典设立的一家国际跨国公司，公司多年来研发汽车电子安全系统、电子控制单元，汽车方向盘系统以及夜视
-                        和雷达传感系统，新的合作能够让新公司吸取Autoliv多年来在汽车驾驶安全配件制造方面的经验，研发未来用于沃尔沃或其它厂商的无人驾驶软件系统。
+                        <ul id="tree" class="ztree" style="width:260px; overflow:auto;"></ul>
                     </div>
                     <div class="tab-pane" id="exampleTabsTwo" role="tabpanel">
                         在试运营期间，Jio将向全印度人免费提供服务，直到今年年底。在免费期过后，其数据流量月资费也低至每月149卢比（约合15元人民币）。安巴尼上周在公司年度全体大会上对投资者说：“任何、所有能实现数字化的东西都将快速走向数字化，生活将走向数字化。”目前，只有五分之一的印度成年人口能够上网。在印度，公共WiFi热点极少。城市贫困区缺乏高速宽带所需的基础设备，更不用说乡村地区了。
@@ -107,54 +105,67 @@
     <link href="${basePath}/resources/kuyun-admin/plugins/zTree_v3/css/zTreeStyle/zTreeStyle.css" rel="stylesheet"/>
     <script src="${basePath}/resources/kuyun-admin/plugins/zTree_v3/js/jquery.ztree.all.min.js"></script>
 
-    <script>
-        $(document).ready(function()
-        {
-        // <ul id="treeCity" class="ztree"></ul>
-        //     $.fn.zTree.init($("#treeCity"), setting, null);
-
-            var setting = {
-                async: {
-                    enable: true,//采用异步加载
-                    dataFilter: ajaxDataFilter,    //预处理数据
-                    url : "${basePath}/manage/equipment/city/tree",
-                    dataType : "json"
-                },
-                data : {
-                    key : {
-                        title : "c01name",
-                        name : "c01name"
-                    },
-                    simpleData : {
-                        enable : true,
-                        idKey : "c01id",
-                        pIdKey : "c01parentid",
-                        rootPid : 000
-                    }
-                },
-                callback : {
-                    beforeClick: zTreeBeforeClick,
-                    onClick : zTreeOnClick,
-                    onAsyncSuccess: zTreeOnAsyncSuccess //异步加载完成调用
+    <script type="text/javascript">
+        var zTree;
+        var setting = {
+            view: {
+                dblClickExpand: false,
+                showLine: true,
+                selectedMulti: false
+            },
+            data: {
+                simpleData: {
+                    enable:true,
+                    idKey: "id",
+                    pIdKey: "pId",
+                    rootPId: ""
                 }
-            };
-
-
-        });
-
-        /* 获取返回的数据，进行预操作 */
-        function ajaxDataFilter(treeId, parentNode, responseData) {
-            responseData = responseData.jsonArray;
-            return responseData;
+            },
+            callback: {
+                beforeClick: function(treeId, treeNode) {
+                    var zTree = $.fn.zTree.getZTreeObj("tree");
+                    if (treeNode.isParent) {
+                        zTree.expandNode(treeNode);
+                        return false;
+                    } else {
+                        return true;
+                    }
+                }
+            }
         };
-        //异步加载完成时运行，此方法将所有的节点打开
-        function zTreeOnAsyncSuccess(event, treeId, msg) {
-            var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
-            treeObj.expandAll(true);
-        }
+
+        var zNodes =[
+            {id:1, pId:0, name:"水果", open:true},
+            {id:101, pId:1, name:"苹果"},
+            {id:102, pId:1, name:"香蕉"},
+            {id:103, pId:1, name:"梨"},
+            {id:10101, pId:101, name:"红富士苹果"},
+            {id:10102, pId:101, name:"红星苹果"},
+            {id:10103, pId:101, name:"嘎拉"},
+            {id:10104, pId:101, name:"桑萨"},
+            {id:10201, pId:102, name:"千层蕉"},
+            {id:10202, pId:102, name:"仙人蕉"},
+            {id:10203, pId:102, name:"吕宋蕉"},
+        ];
+
+        $(document).ready(function(){
+            var t = $("#tree");
+
+            /**
+             * zTree 初始化方法：$.fn.zTree.init(t, setting, zNodes)
+             * t:用于展现 zTree 的 DOM 容器
+             * setting:zTree 的配置数据
+             * zNodes:zTree 的节点数据
+             */
+            t = $.fn.zTree.init(t, setting, zNodes);
+
+            //zTree默认选中指定节点并执行事件
+            // var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+            // var node = treeObj.getNodeByParam("id", "370000");
+            // treeObj.selectNode(node);
+            // setting.callback.onClick = function(){};
+        });
     </script>
-
-
 
 </pageResources>
 
