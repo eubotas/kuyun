@@ -91,29 +91,42 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label for="templateID_name">客户名称</label>
-                            <input id="templateID_name" type="text" class="form-control" name="name" maxlength="50">
+                        <div class="form-group m-form__group row">
+                            <label class="col-3 col-form-label">客户名称:*</label>
+                            <div class="col-8">
+                                <input id="templateID_name" type="text" class="form-control" name="name" maxlength="50">
+                            </div>
+
                         </div>
-                        <div class="form-group">
-                            <label for="templateID_address">地址</label>
-                            <input id="templateID_address" type="text" class="form-control" name="address" maxlength="50">
+                        <div class="form-group m-form__group row">
+                            <label class="col-3 col-form-label">地址:*</label>
+                            <div class="col-8">
+                                <input id="templateID_address" type="text" class="form-control" name="address" maxlength="50">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="templateID_phone">电话</label>
-                            <input id="templateID_phone" type="text" class="form-control" name="phone" maxlength="15">
-                        </div>
-                        <div class="form-group">
-                            <label for="templateID_fax">传真</label>
+                        <div class="form-group m-form__group row">
+                            <label class="col-3 col-form-label">电话:*</label>
+                            <div class="col-8">
+                                <input id="templateID_phone" type="text" class="form-control" name="phone" maxlength="15">
+                            </div>
+                            </div>
+                        <div class="form-group m-form__group row">
+                            <label class="col-3 col-form-label">传真:</label>
+                            <div class="col-8">
                             <input id="templateID_fax" type="text" class="form-control" name="fax" maxlength="15">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="templateID_zip">邮编</label>
-                            <input id="templateID_zip" type="text" class="form-control" name="zip" maxlength="10">
+                        <div class="form-group m-form__group row">
+                            <label class="col-3 col-form-label">邮编:</label>
+                            <div class="col-8">
+                                <input id="templateID_zip" type="text" class="form-control" name="zip" maxlength="10">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="templateID_www">网址</label>
-                            <input id="templateID_www" type="text" class="form-control" name="www" maxlength="50">
+                        <div class="form-group m-form__group row">
+                            <label class="col-3 col-form-label">网址</label>
+                            <div class="col-8">
+                                <input id="templateID_www" type="text" class="form-control" name="www" maxlength="50">
+                            </div>
                         </div>
 
                     <div class="modal-footer">
@@ -146,17 +159,14 @@
 											</span>
                         </button>
                     </div>
-                    <div class="form-group text-right dialog-buttons">
-                        <button type="button" onclick="authEquipmentSubmit();" class="btn btn-primary" >确认授权</button>
-                    </div>
 
                     <div>
                         <table id="tableEquipment"></table>
                     </div>
 
                     <div class="form-group text-right dialog-buttons">
-                        <button type="button" onclick="authEquipmentSubmit();" class="btn btn-primary" >确认授权</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"> 取消 </button>
+                        <button type="button" onclick="authEquipmentSubmit();" class="btn btn-primary" >确认授权</button>
                     </div>
                 </div>
             </div>
@@ -233,6 +243,43 @@
                 '<shiro:hasPermission name="eam:company:update"><a id="equipmentAction" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="设备授权">	<i class="la la-chevron-circle-right"></i>	</a></shiro:hasPermission>'
             ].join('');
         }
+
+        var FormWidgets = function () {
+            var createForm = function (formid) {
+                $("#"+formid+"_Form").validate({
+                    // define validation rules
+                    rules: {
+                        name: {
+                            required: true,
+                            maxlength: 100
+                        },
+                        address: {
+                            required: true,
+                            maxlength: 100
+                        },
+                        phone: {
+                            required: true,
+                            maxlength: 15
+                        }
+                    },
+                    submitHandler: function (form) {
+                        if(formid === 'add')
+                            submitForm();
+                        else{
+                            submitForm($('#edit_id').val());
+                        }
+
+                    }
+                });
+            }
+
+            return {
+                // public functions
+                init: function (formid) {
+                    createForm(formid);
+                }
+            };
+        }();
 
         function submitForm(id) {
             var targetUrl='${basePath}/manage/company/create';
@@ -344,7 +391,6 @@
                 searchOnEnterKey: true,
                 idField: 'equipmentId',
                 maintainSelected: true,
-//            toolbar: '#toolbar',
                 columns: [
                     {field: 'ck', checkbox: true,  formatter : checkFormatter},
                     {field: 'name', title: '设备名称', sortable: true, align: 'center'},
@@ -390,7 +436,7 @@
                         }
                     } else {
                         $('#authEquipmentDialog').modal('toggle');
-                        $table.bootstrapTable('refresh');
+                        //$table.bootstrapTable('refresh');
                     }
                 });
             }//end else

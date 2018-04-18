@@ -552,12 +552,14 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     @Override
-    public List<EamEquipmentModelPropertiesVO> selectEquipmentModelProperties(String equipmentId) {
-        return eamApiMapper.selectEquipmentModelProperties(equipmentId);
+    public List<EamEquipmentModelPropertiesVO> selectEquipmentModelProperties(EamEquipmentModelPropertiesVO eamEquipmentModelPropertiesVO) {
+        return eamApiMapper.selectEquipmentModelProperties(eamEquipmentModelPropertiesVO);
     }
 
-
-
+    @Override
+    public Long countEquipmentModelProperties(EamEquipmentModelPropertiesVO eamEquipmentModelPropertiesVO) {
+        return eamApiMapper.countEquipmentModelProperties(eamEquipmentModelPropertiesVO);
+    }
 
     private EamSensorData handleSensorData(String deviceId, Integer sensorId, String data){
         EamSensorDataExample example = new EamSensorDataExample();

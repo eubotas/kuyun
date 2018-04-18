@@ -284,7 +284,6 @@ public class EamDtuController extends BaseController {
 
 	@ApiOperation(value = "写入从站地址")
 	@RequiresPermissions("eam:equipment:update")
-	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/equipment/write", method = RequestMethod.POST)
 	@ResponseBody
 	public Object equipmentWrite(@RequestBody EamEquipment equipment) {
@@ -292,9 +291,9 @@ public class EamDtuController extends BaseController {
 		_log.info("Slave Id = " + equipment.getSalveId());
 		int success = eamEquipmentService.updateByPrimaryKeySelective(equipment);
 		if (success == 1){
-			return new EamResult(SUCCESS, "写入数据成功");
+			return new EamResult(SUCCESS, "更新数据成功");
 		}else {
-			return new EamResult(FAILED, "写入数据失败");
+			return new EamResult(FAILED, "更新数据失败");
 		}
 	}
 

@@ -281,4 +281,18 @@ public class EamGrmController extends BaseController {
 		return grmEquipment;
 	}
 
+	@ApiOperation(value = "更新采集频率")
+	@RequiresPermissions("eam:equipment:update")
+	@RequestMapping(value = "/equipment/write", method = RequestMethod.POST)
+	@ResponseBody
+	public Object equipmentWrite(@RequestBody EamEquipment equipment) {
+		_log.info("equipment Id = " + equipment.getEquipmentId());
+		int success = eamEquipmentService.updateByPrimaryKeySelective(equipment);
+		if (success == 1){
+			return new EamResult(SUCCESS, "更新数据成功");
+		}else {
+			return new EamResult(FAILED, "更新数据失败");
+		}
+	}
+
 }

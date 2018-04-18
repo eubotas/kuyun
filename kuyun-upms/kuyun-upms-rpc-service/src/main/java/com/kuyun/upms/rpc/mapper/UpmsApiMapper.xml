@@ -237,7 +237,7 @@
     </select>
 
 	<select id="selectOrgUsersByOrgNameCompanyId" parameterType="com.kuyun.upms.dao.vo.UpmsOrgUserVo" resultMap="UpmsOrgUserVoResultMap">
-		select distinct uu.user_id, uu.realname, uu.phone, uu.email
+		select distinct uu.user_id, uu.realname, uu.phone, uu.email, uu.avatar
 		from upms_user uu,
 		upms_user_company uuc,
 		upms_organization uo,

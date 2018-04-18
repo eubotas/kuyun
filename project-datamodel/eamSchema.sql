@@ -590,8 +590,8 @@ drop table if exists upms_company;
 CREATE TABLE `upms_company` (
   `company_id` int(11) NOT NULL AUTO_INCREMENT,
   `parent_id` int(11) DEFAULT NULL,
-  `name` varchar(50) NOT NULL,
-  `address` varchar(50) DEFAULT NULL,
+  `name` varchar(100) NOT NULL,
+  `address` varchar(100) DEFAULT NULL,
   `phone` varchar(15) DEFAULT NULL,
   `fax` varchar(15) DEFAULT NULL,
   `zip` varchar(10) DEFAULT NULL,

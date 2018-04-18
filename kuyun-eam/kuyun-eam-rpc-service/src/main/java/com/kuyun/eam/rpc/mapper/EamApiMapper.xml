@@ -822,7 +822,7 @@
     	p.delete_flag, p.company_id,
 	</sql>
 
-	<select id="selectEquipmentModelProperties" parameterType="String" resultMap="EquipmentModelPropertiesVOResultMap">
+	<select id="selectEquipmentModelProperties" parameterType="com.kuyun.eam.vo.EamEquipmentModelPropertiesVO" resultMap="EquipmentModelPropertiesVOResultMap">
 		select DISTINCT
 		<include refid="EquipmentModelProperties_Column_List" />
 		s.sensor_id,
@@ -839,7 +839,40 @@
 		AND p.delete_flag = 0
 		AND e.delete_flag = 0
 		and e.equipment_id = #{equipmentId}
-		ORDER BY p.equipment_model_property_id ASC
+		<if test="search != null and search != ''">
+			<bind name="pattern" value="'%' + search + '%'" />
+			AND (p.name like #{pattern} or p.label like #{pattern} )
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+	<select id="countEquipmentModelProperties" parameterType="com.kuyun.eam.vo.EamEquipmentModelPropertiesVO" resultType="java.lang.Long">
+		select count(p.equipment_model_property_id)
+		from eam_equipment_model_properties p
+		left join eam_sensor s on s.equipment_model_property_id = p.equipment_model_property_id
+		left join eam_equipment e on e.equipment_model_id = p.equipment_model_id
+		left join eam_sensor_write_data d on
+		d.equipment_model_property_id = p.equipment_model_property_id
+		AND d.equipment_id = e.equipment_id
+		AND d.delete_flag = 0
+		WHERE s.delete_flag = 0
+		AND p.delete_flag = 0
+		AND e.delete_flag = 0
+		and e.equipment_id = #{equipmentId}
+		<if test="search != null and search != ''">
+			<bind name="pattern" value="'%' + search + '%'" />
+			AND (p.name like #{pattern} or p.label like #{pattern} )
+		</if>
 	</select>
 
     <resultMap id="TicketRejectRecordVOResultMap" type="com.kuyun.eam.vo.EamTicketRejectRecordVO" >

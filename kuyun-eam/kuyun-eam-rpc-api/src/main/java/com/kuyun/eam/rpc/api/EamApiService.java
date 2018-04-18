@@ -71,7 +71,8 @@ public interface EamApiService {
 
     void processData(String deviceId, Integer sensorId, String data);
 
-    List<EamEquipmentModelPropertiesVO> selectEquipmentModelProperties(String equipmentId);
+    List<EamEquipmentModelPropertiesVO> selectEquipmentModelProperties(EamEquipmentModelPropertiesVO eamEquipmentModelPropertiesVO);
+    Long countEquipmentModelProperties(EamEquipmentModelPropertiesVO eamEquipmentModelPropertiesVO);
 
     public int createTicketAppoint(EamTicketAppointedRecord record, EamTicket ticket);
     public int rejectTicketAppoint(EamTicketAppointedRecord ticketAppointRecord);

@@ -14,8 +14,14 @@
 <body>
 
 <pageResources>
+    <link href="${basePath}/resources/metronic-admin/assets/js/bootstrap4-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+    <script src="${basePath}/resources/metronic-admin/assets/js/bootstrap4-editable/js/bootstrap-editable.min.js"></script>
+    <script src="${basePath}/resources/metronic-admin/assets/js/bootstrap-table.1.11.1/extensions/editable/bootstrap-table-editable.min.js"></script>
+
     <jsp:include page="/resources/metronic-admin/file_upload.jsp" flush="true"/>
     <script>
+        $.fn.editable.defaults.mode = 'inline';
+
         $(document).ready(function()
         {
             //codes works on all bootstrap modal windows in application
@@ -214,7 +220,7 @@
             return [
                 '<shiro:hasPermission name="eam:equipment:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
                 '<shiro:hasPermission name="eam:equipment:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="eam:equipmentSensor:write"><a id="write" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="数据写入">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="eam:equipmentSensor:write"><a id="write" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="数据写入">	<i class="la la-send"></i>	</a></shiro:hasPermission>',
             ].join('');
         }
 
@@ -321,7 +327,86 @@
             });
         }
 
+        function sensorAction() {
+            $('#sensorDialog').modal('show');
+            if(showSensorDialog){
+                tableSensor.bootstrapTable( 'refresh', sensorOpt);
+            }else{
+                showSensorDialog = true;
+                tableSensor.bootstrapTable(sensorOpt);
+            }
+        }
 
+        var selectedEquipmentId, showSensorDialog;
+        var tableSensor = $('#tableSensor');
+        var sensorOpt={
+            url: '${basePath}/manage/equipment/sensor/list',
+            queryParams:function(p){
+                return { equipmentId : selectedEquipmentId,
+                    limit : p.limit,
+                    offset: p.offset,
+                    search: p.search,
+                    sort:   p.sort,
+                    order:  p.order
+                }
+            },
+            striped: true,
+            search: true,
+            searchAlign: 'left',
+            toolbarAlign: 'right',
+            minimumCountColumns: 2,
+            clickToSelect: true,
+            detailView: true,
+            detailFormatter: 'detailFormatter',
+            pagination: true,
+            paginationLoop: false,
+            sidePagination: 'server',
+            silentSort: false,
+            smartDisplay: false,
+            escape: true,
+            searchOnEnterKey: true,
+            maintainSelected: true,
+            idField: 'equipment_model_property_id',
+            columns: [
+                {field: 'name', title: '名称', align: 'center'},
+                {field: 'writeValue', title: '写入值', editable: {
+                    type: 'text',
+                    tpl: '<input type="text" style="width: 80px">',
+                    validate: function (value) {
+                        if ($.trim(value) == '') {
+                            return '写入值不能为空!';
+                        }
+                    }
+                }, align: 'center'}
+            ],
+            onEditableSave: function(field, row, oldValue, $el) {
+                // field:修改的欄位
+                // row:修改後的資料(JSON Object)
+                // oldValue:修改前的值
+                // -------------------------------------------------
+                // 可用ajax方法去更新資料
+                $.ajax({
+                    type: "post",
+                    url: '${basePath}/manage/equipment/sensor/write',
+                    data: JSON.stringify(row),
+                    contentType:"application/json",
+                    dataType: 'JSON',
+                    success: function(data, status) {
+                        if (status == "success") {
+                            toastr.success(data.data);
+                        }
+                    },
+                    error: function() {
+                        toastr.error('写入数据失败');
+                    },
+                    complete: function() {
+
+                    }
+
+                });
+                // -------------------------------------------------
+            }
+        };
 
         window.actionEvents = {
             'click #update': function (e, value, row, index) {
@@ -329,7 +414,8 @@
 
             },
             'click #write': function (e, value, row, index) {
-                window.location = "${basePath}/manage/equipment/sensor/" + row['equipmentId'];
+                selectedEquipmentId = row['equipmentId'];
+                sensorAction();
             },
             'click #delete': function (e, value, row, index) {
                 var rows = new Array();
@@ -564,6 +650,35 @@
                         </button>
                         <button type="submit" class="btn btn-primary" id="templateID_submit">
                             提交
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal fade" id="sensorDialog" tabindex="-1" role="dialog" aria-labelledby="sensorModalLabel"
+         aria-hidden="true">
+        <form id="equipmentForm" class="m-form m-form--fit m-form--label-align-right">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            数据写入
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">
+												&times;
+											</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table id="tableSensor"></table>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                            取消
                         </button>
                     </div>
                 </div>

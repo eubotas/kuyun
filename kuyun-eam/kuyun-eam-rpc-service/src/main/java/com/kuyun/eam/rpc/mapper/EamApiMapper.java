@@ -64,4 +64,7 @@ public interface EamApiMapper {
     EamMaintainPlanVO getMaintainPlan(Integer planId);
 
     List<EamTicketRejectRecordVO> getTicketRejectRecord(Integer ticketId);
+
+    List<EamEquipmentModelPropertiesVO> selectEquipmentModelProperties(EamEquipmentModelPropertiesVO eamEquipmentModelPropertiesVO);
+    Long countEquipmentModelProperties(EamEquipmentModelPropertiesVO eamEquipmentModelPropertiesVO);
 }

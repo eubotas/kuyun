@@ -31,7 +31,7 @@
                     <li class="m-nav__item">
                         <a href="" class="m-nav__link">
 											<span class="m-nav__link-text">
-												DTU列表
+												智库网关列表
 											</span>
                         </a>
                     </li>
@@ -47,34 +47,14 @@
 <content>
 
     <div class="m-portlet m-portlet--mobile">
-        <div class="m-portlet__head">
-            <div class="m-portlet__head-caption">
-                <div class="m-portlet__head-title">
-                    <h3 class="m-portlet__head-text">
-                        <small>
-                        <span class="col-sm-5">
-                            设备协议: <c:out value="${protocol.name}"/>
-                        </span>
-                        <span class="col-sm-5">
-                            IP: <c:out value="${protocol.ip}"/>
-                        </span>
-                        <span class="col-sm-5">
-                            端口: <c:out value="${protocol.port}"/>
-                        </span>
-                        </small>
-                    </h3>
-                </div>
-            </div>
-        </div>
-
         <div class="m-portlet__body">
             <div id="toolbar">
                 <div>
-                    <shiro:hasPermission name="eam:dtu:create"><a href="#" id="createButton" class="btn btn-outline-primary m-btn m-btn--icon m-btn--icon-only" title="新建">
+                    <shiro:hasPermission name="eam:grm:create"><a href="#" id="createButton" class="btn btn-outline-primary m-btn m-btn--icon m-btn--icon-only" title="新建">
                         <i class="la la-plus"></i>
                     </a></shiro:hasPermission>
 
-                    <shiro:hasPermission name="eam:dtu:delete"><a href="#" id="deleteButton" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only" title="删除">
+                    <shiro:hasPermission name="eam:grm:delete"><a href="#" id="deleteButton" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only" title="删除">
                         <i class="la la-remove"></i>
                     </a></shiro:hasPermission>
 
@@ -87,22 +67,22 @@
     </div>
 
     <!--begin::Modal-->
-    <div id="addDtuFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div id="addGrmFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
     </div>
 
-    <div id="editDtuFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div id="editGrmFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
     </div>
 
-    <div class="modal fade" id="template-dtu-addEditForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="template-grm-addEditForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <form id="templateID_Form" class="m-form m-form--fit m-form--label-align-right">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">
-                            templateTitleName_DTU
+                            templateTitleName_智库网关
                         </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">
@@ -112,16 +92,16 @@
                     </div>
                     <div class="modal-body">
 						<div class="form-group m-form__group row">
-                            <label for="templateID_name" class="col-3 col-form-label">名称:*</label>
-                            <div class="col-sm-8">
-                                <input id="templateID_name" type="text" class="form-control" name="name" maxlength="20">
+                            <label class="col-4 col-form-label">智库网关ID:*</label>
+                            <div class="col-sm-6">
+                                <input id="templateID_grm" type="text" class="form-control" name="grm">
                             </div>
 						</div>
 
 						<div class="form-group m-form__group row">
-                            <label for="templateID_heartData" class="col-3 col-form-label">心跳包:</label>
-                            <div class="col-sm-8">
-                                <input id="templateID_heartData" type="text" class="form-control" name="heartData" maxlength="20">
+                            <label class="col-4 col-form-label">智库网关密码:*</label>
+                            <div class="col-sm-6">
+                                <input id="templateID_grmPassword" type="text" class="form-control" name="grmPassword">
                             </div>
 						</div>
 
@@ -196,12 +176,12 @@
                 jQuery("#add_Form").validate().resetForm();
                 jQuery("#edit_Form").validate().resetForm();
             }) ;
-            generateAddEditForm('template-dtu-addEditForm', 'add_,edit_', null, null, 'addDtuFormContainer,editDtuFormContainer');
+            generateAddEditForm('template-grm-addEditForm', 'add_,edit_', null, null, 'addGrmFormContainer,editGrmFormContainer');
             FormWidgets.init('add');
             FormWidgets.init('edit');
 
             $('#createButton').click(function(){
-                $("#addDtuFormContainer").modal("show");
+                $("#addGrmFormContainer").modal("show");
             });
 
             $('#deleteButton').click(function(){
@@ -214,7 +194,7 @@
         $(function() {
             // bootstrap table初始化
             $table.bootstrapTable({
-                url: '${basePath}/manage/dtu/list',
+                url: '${basePath}/manage/grm/list',
                 striped: true,
                 search: true,
                 searchAlign: 'left',
@@ -231,12 +211,11 @@
                 escape: true,
                 searchOnEnterKey: true,
                 maintainSelected: true,
-                idField: 'dtuId',
+                idField: 'grmId',
                 columns: [
                     {field: 'ck', checkbox: true},
-                    {field: 'dtuId', title: '注册包', align: 'center'},
-                    {field: 'name', title: '名称', align: 'center'},
-                    {field: 'heartData', title: '心跳包', align: 'center'},
+                    {field: 'grm', title: '智库网关ID', align: 'center'},
+                    {field: 'grmPassword', title: '智库网关密码', align: 'center'},
                     {field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ]
             });
@@ -244,9 +223,9 @@
         // 格式化操作按钮
         function actionFormatter(value, row, index) {
             return [
-                '<shiro:hasPermission name="eam:dtu:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="eam:dtu:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="eam:dtu:update"><a id="connectEquipment" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="接入设备">	<i class="la la-cogs"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="eam:grm:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="eam:grm:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="eam:grm:update"><a id="connectEquipment" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="接入设备">	<i class="la la-cogs"></i>	</a></shiro:hasPermission>',
             ].join('');
         }
 
@@ -256,10 +235,14 @@
                 $("#"+formid+"_Form").validate({
                     // define validation rules
                     rules: {
-                        name: {
+                        grm: {
                             required: true,
                             maxlength: 50
                         },
+                        grmPassword: {
+                            required: true,
+                            maxlength: 50
+                        }
                     },
                     submitHandler: function (form) {
                         if(formid === 'add')
@@ -281,10 +264,10 @@
         }();
 
         function submitForm(id) {
-            var targetUrl='${basePath}/manage/dtu/create';
+            var targetUrl='${basePath}/manage/grm/create';
             var formId='add_Form';
             if(id){
-                targetUrl='${basePath}/manage/dtu/update/'+id;
+                targetUrl='${basePath}/manage/grm/update/'+id;
                 formId='edit_Form';
             }
             ajaxPost(targetUrl, formId, function(result) {
@@ -292,11 +275,11 @@
                     sendErrorInfo(result);
                 } else {
                     if(formId=='add_Form') {
-                        toastr.success("新建DTU成功");
-                        $('#addDtuFormContainer').modal('toggle');
+                        toastr.success("新建智库网关成功");
+                        $('#addGrmFormContainer').modal('toggle');
                     }else{
-                        toastr.success("编辑DTU成功");
-                        $('#editDtuFormContainer').modal('toggle');
+                        toastr.success("编辑智库网关成功");
+                        $('#editGrmFormContainer').modal('toggle');
                     }
                     $table.bootstrapTable('refresh');
                 }
@@ -305,14 +288,14 @@
 
 
         function updateAction(row) {
-            jQuery("#editDtuFormContainer").modal("show");
-            ajaxGet('${basePath}/manage/dtu/update/' + row["dtuId"], function (responseData) {
+            jQuery("#editGrmFormContainer").modal("show");
+            ajaxGet('${basePath}/manage/grm/update/' + row["grmId"], function (responseData) {
                 if (responseData) {
                     var data = responseData;
                     // 赋值
-                    $("#edit_id").val(data.dtu.dtuId);
-                    $("#edit_name").val(data.dtu.name);
-                    $("#edit_heartData").val(data.dtu.heartData);
+                    $("#edit_id").val(data.grm.grmId);
+                    $("#edit_grm").val(data.grm.grm);
+                    $("#edit_grmPassword").val(data.grm.grmPassword);
                 }
             });
         }
@@ -328,7 +311,7 @@
             },
             'click #connectEquipment': function (e, value, row, index) {
                 $('#equipmentDialog').modal('show');
-                selectedDtuId = row['dtuId'];
+                selectedGrmId = row['grmId'];
                 equipmentAction();
             }
         };
@@ -342,16 +325,16 @@
             if (rows.length == 0) {
                 swWarn("请至少选择一条记录");
             }else {
-                deleteRows(rows,'dtuId','${basePath}/manage/dtu/delete/', "请确认要删除选中的DTU吗？", "删除DTU成功");
+                deleteRows(rows,'grmId','${basePath}/manage/grm/delete/', "请确认要删除选中的智库网关吗？", "删除智库网关成功");
             }//end else
         }
 
-        var selectedDtuId, showEquipmentDialog;
+        var selectedGrmId, showEquipmentDialog;
         var tableEquipment = $('#tableEquipment');
         var equipmentOpt={
-            url: '${basePath}/manage/dtu/equipment/list',
+            url: '${basePath}/manage/grm/equipment/list',
             queryParams:function(p){
-                return {    dtuId : selectedDtuId,
+                return {    grmId : selectedGrmId,
                     limit : p.limit,
                     offset: p.offset,
                     search: p.search,
@@ -384,17 +367,7 @@
                             return '采集频率不能为空!';
                         }
                     }
-                }, align: 'center'},
-
-                {field: 'salveId', title: '从站地址', editable: {
-                        type: 'text',
-                        tpl: '<input type="number" style="width: 80px">',
-                        validate: function (value) {
-                            if ($.trim(value) == '') {
-                                return '从站地址不能为空!';
-                            }
-                        }
-                    }, align: 'center'}
+                }, align: 'center'}
             ],
             onEditableSave: function(field, row, oldValue, $el) {
                 console.log(JSON.stringify(row));
@@ -405,7 +378,7 @@
                 // 可用ajax方法去更新資料
                 $.ajax({
                     type: "post",
-                    url: '${basePath}/manage/dtu/equipment/write',
+                    url: '${basePath}/manage/grm/equipment/write',
                     data: JSON.stringify(row),
                     contentType:"application/json",
                     dataType: 'JSON',
@@ -443,9 +416,6 @@
                 if (rows[i].modbusRtuPeriod == null ){
                     toastr.error("请输入采集频率");
                     return false;
-                }else if (rows[i].salveId == null ){
-                    toastr.error("请输入从站地址");
-                    return false;
                 }
             }
 
@@ -453,7 +423,7 @@
             for (var i in rows) {
                 ids.push(rows[i].equipmentId);
             }
-            ajaxPostData('${basePath}/manage/dtu/connect', {dtuId: selectedDtuId, eIds: ids.join("::")}, function(result) {
+            ajaxPostData('${basePath}/manage/grm/connect', {grmId: selectedGrmId, eIds: ids.join("::")}, function(result) {
                 if (result.code != 1) {
                     if (result.data instanceof Array) {
                         $.each(result.data, function(index, value) {

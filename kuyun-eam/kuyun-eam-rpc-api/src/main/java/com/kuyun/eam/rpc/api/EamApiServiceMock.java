@@ -1,16 +1,15 @@
 package com.kuyun.eam.rpc.api;
 
-import java.util.List;
-
 import com.kuyun.eam.common.constant.CollectStatus;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.pojo.tree.Tree;
 import com.kuyun.eam.vo.*;
-import com.kuyun.upms.dao.model.UpmsOrganization;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /**
  * Created by user on 4/24/2017.
@@ -166,9 +165,15 @@ public class EamApiServiceMock implements EamApiService {
     }
 
     @Override
-    public List<EamEquipmentModelPropertiesVO> selectEquipmentModelProperties(String equipmentId) {
+    public List<EamEquipmentModelPropertiesVO> selectEquipmentModelProperties(EamEquipmentModelPropertiesVO eamEquipmentModelPropertiesVO) {
         return null;
     }
+
+    @Override
+    public Long countEquipmentModelProperties(EamEquipmentModelPropertiesVO eamEquipmentModelPropertiesVO) {
+        return null;
+    }
+
 
     @Override
     public int createTicketAppoint(EamTicketAppointedRecord record, EamTicket ticket) {

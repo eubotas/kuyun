@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.common.constant.EamResult;
-import com.kuyun.eam.common.constant.EamResultConstant;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.pojo.IDS;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
@@ -34,9 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.kuyun.eam.common.constant.CollectStatus.NO_START;
-import static com.kuyun.eam.common.constant.EamResultConstant.FAILED;
-import static com.kuyun.eam.common.constant.EamResultConstant.INVALID_LENGTH;
-import static com.kuyun.eam.common.constant.EamResultConstant.SUCCESS;
+import static com.kuyun.eam.common.constant.EamResultConstant.*;
 
 /**
  * 设备控制器
@@ -286,22 +283,31 @@ public class EamEquipmentController extends BaseController {
 		return new EamResult(SUCCESS, sensorGroups);
 	}
 
-	@RequiresPermissions("eam:equipmentSensor:write")
-	@RequestMapping(value = "/sensor/{eId}", method = RequestMethod.GET)
-	public String sensor(@PathVariable("eId") String eId, ModelMap modelMap) {
-		EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(eId);
-
-		modelMap.put("equipment", equipment);
-		return "/manage/equipment/sensor/index.jsp";
-	}
-
 	@ApiOperation(value = "设备参数列表")
 	@RequiresPermissions("eam:equipmentSensor:write")
-	@RequestMapping(value = "/sensor/list/{eId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/sensor/list", method = RequestMethod.GET)
 	@ResponseBody
-	public Object sensorList(@PathVariable("eId") String eId) {
-		Map<String, Object> result = new HashMap<>();
-		result.put("rows", eamApiService.selectEquipmentModelProperties(eId));
+	public Object sensorList(@RequestParam(required = false, defaultValue = "0", value = "offset") int offset,
+							 @RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
+							 @RequestParam(required = false, value = "sort") String sort,
+							 @RequestParam(required = false, value = "order") String order,
+							 @RequestParam(required = false, value = "search") String search,
+							 @RequestParam(required = true, value = "equipmentId") String equipmentId) {
+		EamEquipmentModelPropertiesVO vo = new EamEquipmentModelPropertiesVO();
+		vo.setOffset(offset);
+		vo.setLimit(limit);
+		vo.setEquipmentId(equipmentId);
+		vo.setSearch(search);
+		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
+			vo.setOrderByClause(sort + " " + order);
+		}
+
+
+		Map<String, Object> result = new HashMap<>(1);
+		List<EamEquipmentModelPropertiesVO> rows = eamApiService.selectEquipmentModelProperties(vo);
+		Long total = eamApiService.countEquipmentModelProperties(vo);
+		result.put("rows", rows);
+		result.put("total", total);
 		return result;
 	}
 
