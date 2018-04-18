@@ -52,6 +52,26 @@
 
 
 <content>
+    <div class="m-content">
+        <div class="row">
+            <div class="col-xl-3 col-lg-4">
+                <div class="m-portlet m-portlet--full-height  ">
+                    <div class="m-portlet__head">
+                        <div class="m-portlet__head-caption">
+                            <div class="m-portlet__head-title">
+                                <h2 class="m-portlet__head-text">
+                                    各地设备列表
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="ticketList" class="m-portlet__body">
+                        <ul id="treeCity" class="ztree" style="width:260px; overflow:auto;"></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-9 col-lg-8">
 
     <div class="m-portlet m-portlet--mobile">
         <div class="m-portlet__body">
@@ -80,7 +100,7 @@
                     <li class="dropdown hidden" role="presentation" style="opacity: 1;"><a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false"><span class="caret"></span> 更多</a><ul class="dropdown-menu" role="menu"></ul></li></ul>
                 <div class="tab-content padding-top-20">
                     <div class="tab-pane active" id="exampleTabsOne" role="tabpanel">
-                        <ul id="tree" class="ztree" style="width:260px; overflow:auto;"></ul>
+
                     </div>
                     <div class="tab-pane" id="exampleTabsTwo" role="tabpanel">
                         在试运营期间，Jio将向全印度人免费提供服务，直到今年年底。在免费期过后，其数据流量月资费也低至每月149卢比（约合15元人民币）。安巴尼上周在公司年度全体大会上对投资者说：“任何、所有能实现数字化的东西都将快速走向数字化，生活将走向数字化。”目前，只有五分之一的印度成年人口能够上网。在印度，公共WiFi热点极少。城市贫困区缺乏高速宽带所需的基础设备，更不用说乡村地区了。
@@ -94,10 +114,11 @@
                 </div>
             </div>
 
-
+        </div>  <!--end row -->
+    </div>
         </div>
     </div>
-
+    </div>
 </content>
 
 
@@ -123,7 +144,7 @@
             },
             callback: {
                 beforeClick: function(treeId, treeNode) {
-                    var zTree = $.fn.zTree.getZTreeObj("tree");
+                    var zTree = $.fn.zTree.getZTreeObj("treeCity");
                     if (treeNode.isParent) {
                         zTree.expandNode(treeNode);
                         return false;
@@ -149,15 +170,34 @@
         ];
 
         $(document).ready(function(){
-            var t = $("#tree");
+            ajaxGet('${basePath}/manage/equipment/city/tree', function (responseData) {
+                if (responseData) {
+                    var data = responseData.data.provices;
+                    var jsonstr = "[]",  jsonTemp, pid=null, online, latitude,longitude;
+                    var jsonarray = eval('('+jsonstr+')');
+                    $.each(data, function (n, value) {
+                        jsonTemp ={"id":value.code, "name":value.name,"pid":pid,"online":value.online};
+                        jsonarray.push(jsonTemp);
+                        pid=value.code;
+                        $.each(value.children, function (n, value) {
+                            jsonTemp ={"id":value.code, "name":value.name,"pid":pid,"online":value.online,"latitude":value.latitude,"longitude":value.longitude};
+                            jsonarray.push(jsonTemp);
+                            pid=value.code;
+                            online = value.online;
+                            latitude=value.latitude;
+                            longitude = value.longitude;
+                            $.each(value.children, function (n, value) {
+                                jsonTemp ={"id":value.id, "name":value.name,"pid":pid,"online":online,"latitude":latitude,"longitude":longitude};
+                                jsonarray.push(jsonTemp);
+                            });
+                        });
+                        pid= null;
+                    });
+                    var t = $("#treeCity");
+                    t = $.fn.zTree.init(t, setting, jsonarray);
+                }
+            });
 
-            /**
-             * zTree 初始化方法：$.fn.zTree.init(t, setting, zNodes)
-             * t:用于展现 zTree 的 DOM 容器
-             * setting:zTree 的配置数据
-             * zNodes:zTree 的节点数据
-             */
-            t = $.fn.zTree.init(t, setting, zNodes);
 
             //zTree默认选中指定节点并执行事件
             // var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
