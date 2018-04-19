@@ -67,11 +67,11 @@
     </div>
 
     <!--begin::Modal-->
-    <div id="addmaintainKnowledgeFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div id="addMaintainKnowledgeFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
     </div>
 
-    <div id="editmaintainKnowledgeFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div id="editMaintainKnowledgeFormContainer" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
     </div>
 
@@ -92,24 +92,37 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group m-form__group row">
-							<label for="templateID_title">标题</label>
-							<input id="templateID_title" type="text" class="form-control" name="title" maxlength="30" >
+                            <label class="col-3 col-form-label">标题:*</label>
+                            <div class="col-8">
+                                <input id="templateID_title" type="text" class="form-control" name="title" >
+                            </div>
                         </div>
 
-						<div class="form-group m-form__group row">
-							<label for="templateID_description">描述</label>
-							<input id="templateID_description" type="text" class="form-control" name="description" maxlength="30" >
-						</div>
+                        <div class="form-group m-form__group row">
+                            <label class="col-3 col-form-label">描述:*</label>
+                            <div class="col-8">
+                                <textarea class="form-control m-input m-input--air" id="templateID_description" name="description" rows="3"></textarea>
+                            </div>
+                        </div>
 
-						<div class="form-group m-form__group row">
-							<label for="templateID_content">内容</label>
-							<input id="templateID_content" type="text" class="form-control" name="content" maxlength="100" >
-						</div>
+                        <div class="form-group m-form__group row">
+                            <label class="col-3 col-form-label">内容</label>
+                            <div class="col-8">
+                                <textarea class="form-control m-input m-input--air" id="templateID_content"  name="content"rows="5"></textarea>
+                            </div>
+                        </div>
 
-						<div class="form-group m-form__group row">
-							<label for="templateID_tag">标签</label>
-							<input id="templateID_tag" type="text" class="form-control" name="tag" maxlength="200" >
-						</div>
+                        <div class="form-group m-form__group row">
+                            <label class="col-3 col-form-label">标签</label>
+                            <div class="col-8">
+                                <input id="templateID_tag" type="text" class="form-control" name="tag"  >
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row">
+                            <label class="col-3 col-form-label">附件:</label>
+                            <div id="templateID_fine-uploader-gallery" class="col-8"></div>
+                            <input id="templateID_path" type="hidden" class="form-control" name="path">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <input type="hidden" id="templateID_id" name="id">
@@ -131,9 +144,12 @@
 
 
 <pageResources>
-
+    <jsp:include page="/resources/metronic-admin/file_upload.jsp" flush="true"/>
 
     <script>
+        var addGalleryUploader;
+        var editGalleryUploader;
+
         $(document).ready(function()
         {
             //codes works on all bootstrap modal windows in application
@@ -142,12 +158,16 @@
                 jQuery("#add_Form").validate().resetForm();
                 jQuery("#edit_Form").validate().resetForm();
             }) ;
-            generateAddEditForm('template-maintainKnowledge-addEditForm', 'add_,edit_', null, null, 'addmaintainKnowledgeFormContainer,editmaintainKnowledgeFormContainer');
+            generateAddEditForm('template-maintainKnowledge-addEditForm', 'add_,edit_', null, null, 'addMaintainKnowledgeFormContainer,editMaintainKnowledgeFormContainer');
             FormWidgets.init('add');
             FormWidgets.init('edit');
+            
+            addGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("add_fine-uploader-gallery")}));
+            editGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("edit_fine-uploader-gallery")}));
+
 
             $('#createButton').click(function(){
-                $("#addmaintainKnowledgeFormContainer").modal("show");
+                $("#addMaintainKnowledgeFormContainer").modal("show");
             });
 
             $('#deleteButton').click(function(){
@@ -180,10 +200,10 @@
                 idField: 'id',
                 columns: [
                     {field: 'ck', checkbox: true},
-                    {field: 'tag', title: '标签'},
                     {field: 'title', title: '标题'},
+                    {field: 'description', title: '描述'},
                     {field: 'path', title: '附件'},
-                    {field: 'createTime', title: '创建时间', formatter: 'timeFormatter'},
+                    {field: 'tag', title: '标签'},
                     {field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ]
             });
@@ -196,12 +216,46 @@
             ].join('');
         }
 
+        var FormWidgets = function () {
+            var createForm = function (formid) {
+                $("#"+formid+"_Form").validate({
+                    // define validation rules
+                    rules: {
+                        title: {
+                            required: true,
+                        },
+                        description: {
+                            required: true,
+                        }
+                    },
+                    submitHandler: function (form) {
+                        if(formid === 'add')
+                            submitForm();
+                        else{
+                            submitForm($('#edit_id').val());
+                        }
+
+                    }
+                });
+            }
+
+            return {
+                // public functions
+                init: function (formid) {
+                    createForm(formid);
+                }
+            };
+        }();
+
         function submitForm(id) {
             var targetUrl='${basePath}/manage/knowledge/maintain/create';
             var formId='add_Form';
             if(id){
                 targetUrl='${basePath}/manage/knowledge/maintain/update/'+id;
                 formId='edit_Form';
+                $('#edit_path').val(getUploadFileName(editGalleryUploader));
+            }else {
+                $('#add_path').val(getUploadFileName(addGalleryUploader));
             }
             ajaxPost(targetUrl, formId, function(result) {
                 if (result.code != 1) {
@@ -209,10 +263,10 @@
                 } else {
                     if(formId=='add_Form') {
                         toastr.success("新建保养知识成功");
-                        $('#addmaintainKnowledgeFormContainer').modal('toggle');
+                        $('#addMaintainKnowledgeFormContainer').modal('toggle');
                     }else{
                         toastr.success("编辑保养知识成功");
-                        $('#editmaintainKnowledgeFormContainer').modal('toggle');
+                        $('#editMaintainKnowledgeFormContainer').modal('toggle');
                     }
                     $table.bootstrapTable('refresh');
                 }
@@ -221,7 +275,7 @@
 
 
         function updateAction(row) {
-            jQuery("#editmaintainKnowledgeFormContainer").modal("show");
+            jQuery("#editMaintainKnowledgeFormContainer").modal("show");
             ajaxGet('${basePath}/manage/knowledge/maintain/update/' + row["id"], function (responseData) {
                 if (responseData) {
                     var data = responseData;
@@ -256,7 +310,7 @@
             if (rows.length == 0) {
                 swWarn("请至少选择一条记录");
             }else {
-                deleteRows(rows,'id','${basePath}/manage/knowledge/maintain/delete/', "请确认要删除选中的保养知识吗？", "删除保养知识成功");
+                deleteRowsChar(rows,'id','${basePath}/manage/knowledge/maintain/delete/', '::', "请确认要删除选中的保养知识吗？", "删除保养知识成功");
             }//end else
         }
 

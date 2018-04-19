@@ -7,6 +7,7 @@ import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.admin.model.RepairKnowledge;
 import com.kuyun.eam.admin.repository.RepairKnowledgeRepository;
+import com.kuyun.eam.admin.util.ActionEnum;
 import com.kuyun.eam.admin.util.BaseModelUtil;
 import com.kuyun.eam.admin.util.KnowledgeCategory;
 import com.kuyun.eam.admin.util.TagUtil;
@@ -65,6 +66,10 @@ public class RepairKnowledgeController extends BaseController {
     @Autowired
     private BaseEntityUtil baseEntityUtil;
 
+    @Autowired
+    private com.kuyun.fileuploader.rpc.api.FileUploaderService fileUploaderService;
+
+
     @ApiOperation(value = "维修知识首页")
     @RequiresPermissions("eam:repairKnowledge:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
@@ -120,27 +125,22 @@ public class RepairKnowledgeController extends BaseController {
 
     @ApiOperation(value = "新增维修知识")
     @RequiresPermissions("eam:repairKnowledge:create")
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String create() {
-        return "/manage/knowledge/repair/create.jsp";
-    }
-
-    @ApiOperation(value = "新增维修知识")
-    @RequiresPermissions("eam:repairKnowledge:create")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
-    public Object create(RepairKnowledge doc) {
+    public Object create(RepairKnowledge repair) {
         ComplexResult result = FluentValidator.checkAll()
-                .on(doc.getCodes(), new LengthValidator(1, 20, "故障代码"))
+                .on(repair.getCodes(), new LengthValidator(1, 20, "故障代码"))
                 .doValidate()
                 .result(ResultCollectors.toComplex());
         if (!result.isSuccess()) {
             return new EamResult(INVALID_LENGTH, result.getErrors());
         }
-        baseModelUtil.addAddtionalValue(doc);
+        baseModelUtil.addAddtionalValue(repair);
+        repair.setId(null);
 
-        tagUtil.handleTag(doc.getTag());
-        repairKnowledgeRepository.save(doc);
+        tagUtil.handleTag(ActionEnum.CREATE.getName(), null, repair.getTag());
+
+        repairKnowledgeRepository.save(repair);
         return new EamResult(SUCCESS, 1);
     }
 
@@ -155,6 +155,13 @@ public class RepairKnowledgeController extends BaseController {
                 if (StringUtils.isBlank(id)) {
                     continue;
                 }
+
+                Optional<RepairKnowledge> optional = repairKnowledgeRepository.findById(id);
+                RepairKnowledge repairKnowledge = optional.orElse(null);
+                String tag = repairKnowledge.getTag() == null ? null : repairKnowledge.getTag();
+                tagUtil.handleTag(ActionEnum.DELETE.getName(), null, tag);
+
+
                 repairKnowledgeRepository.deleteById(id);
             }
         }
@@ -164,31 +171,39 @@ public class RepairKnowledgeController extends BaseController {
     @ApiOperation(value = "修改维修知识")
     @RequiresPermissions("eam:repairKnowledge:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-    public String update(@PathVariable("id") String id, ModelMap modelMap) {
-
+    @ResponseBody
+    public Object update(@PathVariable("id") String id) {
+        HashMap<String, Object> map = new HashMap<>(1);
         Optional<RepairKnowledge> repair = repairKnowledgeRepository.findById(id);
         if (repair.isPresent()){
-            modelMap.put("repair", repair.orElse(null));
+            map.put("repair", repair.orElse(null));
         }
 
-        return "/manage/knowledge/repair/update.jsp";
+        return map;
     }
+
 
     @ApiOperation(value = "修改维修知识")
     @RequiresPermissions("eam:repairKnowledge:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public Object update(@PathVariable("id") String id, RepairKnowledge doc) {
+    public Object update(@PathVariable("id") String id, RepairKnowledge repair) {
         ComplexResult result = FluentValidator.checkAll()
-                .on(doc.getCodes(), new LengthValidator(1, 20, "故障代码"))
+                .on(repair.getCodes(), new LengthValidator(1, 20, "故障代码"))
                 .doValidate()
                 .result(ResultCollectors.toComplex());
         if (!result.isSuccess()) {
             return new EamResult(INVALID_LENGTH, result.getErrors());
         }
-        baseModelUtil.updateAddtionalValue(doc);
-        tagUtil.handleTag(doc.getTag());
-        repairKnowledgeRepository.save(doc);
+        baseModelUtil.updateAddtionalValue(repair);
+
+        Optional<RepairKnowledge> optional = repairKnowledgeRepository.findById(id);
+        RepairKnowledge oldRepair = optional.orElse(null);
+        String oldTag = oldRepair.getTag() == null ? null : oldRepair.getTag();
+
+        tagUtil.handleTag(ActionEnum.UPDATE.getName(), oldTag, repair.getTag());
+
+        repairKnowledgeRepository.save(repair);
         return new EamResult(SUCCESS, 1);
     }
 

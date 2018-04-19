@@ -21,6 +21,8 @@
     <jsp:include page="/resources/metronic-admin/file_upload.jsp" flush="true"/>
     <script>
         $.fn.editable.defaults.mode = 'inline';
+        var addGalleryUploader;
+        var editGalleryUploader;
 
         $(document).ready(function()
         {
@@ -71,51 +73,6 @@
 
             provinceChange('add');
             provinceChange('edit');
-
-            var uploadOpt={
-                template : 'qq-template-gallery',
-                request : {
-                    endpoint : '${uploadServer.endpoint_upload}',
-                    params : {
-                        kuyunModule : "eam"
-                    }
-                },
-                thumbnails : {
-                    placeholders : {
-                        waitingPath : '${basePath}/resources/kuyun-admin/plugins/fileupload/placeholders/waiting-generic.png',
-                        notAvailablePath : '${basePath}/resources/kuyun-admin/plugins/fileupload/placeholders/not_available-generic.png'
-                    }
-                },
-                validation : {
-                    /*  allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'] */
-                },
-                chunking : {
-                    enabled : true,
-                    concurrent : {
-                        enabled : true
-                    },
-                    success : {
-                        endpoint : '${uploadServer.endpoint_uploadDone}'
-                    },
-                    mandatory : true
-                },
-                deleteFile : {
-                    enabled : true,
-                    forceConfirm : true,
-                    endpoint : '${uploadServer.endpoint_delete}'
-                },
-                cors : {
-                    //all requests are expected to be cross-domain requests
-                    expected : true,
-
-                    //if you want cookies to be sent along with the request
-                    //sendCredentials : true
-                }
-                /* init file list
-                 session:{
-                 endpoint: '${uploadServer.endpoint_list}?ids=${uuids}'
-                 }, */
-            };
 
             addGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("add_fine-uploader-gallery")}));
             editGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("edit_fine-uploader-gallery")}));

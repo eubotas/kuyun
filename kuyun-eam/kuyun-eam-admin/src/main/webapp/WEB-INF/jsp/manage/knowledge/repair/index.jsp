@@ -92,24 +92,38 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group m-form__group row">
-							<label for="templateID_codes">故障代码</label>
-							<input id="templateID_codes" type="text" class="form-control" name="codes" maxlength="30" >
+                            <label class="col-4 col-form-label">故障代码:*</label>
+                            <div class="col-8">
+                                <input id="templateID_codes" type="text" class="form-control" name="codes">
+                            </div>
                         </div>
 
 						<div class="form-group m-form__group row">
-							<label for="templateID_description">故障描述</label>
-							<input id="templateID_description" type="text" class="form-control" name="description" maxlength="30" >
-						</div>
+							<label class="col-4 col-form-label">故障描述:*</label>
+                            <div class="col-8">
+                                <textarea class="form-control m-input m-input--air" id="templateID_description"  name="description" rows="3"></textarea>
+                            </div>
+                        </div>
 
 						<div class="form-group m-form__group row">
-							<label for="templateID_method">解决故障的方法</label>
-							<input id="templateID_method" type="text" class="form-control" name="method" maxlength="100" >
+							<label class="col-4 col-form-label">解决故障的方法:*</label>
+                            <div class="col-8">
+                                <textarea class="form-control m-input m-input--air" id="templateID_method"  name="method" rows="5"></textarea>
+                            </div>
 						</div>
 
-						<div class="form-group m-form__group row">
-							<label for="templateID_tag">标签</label>
-							<input id="templateID_tag" type="text" class="form-control" name="tag" maxlength="200" >
-						</div>
+                        <div class="form-group m-form__group row">
+                            <label class="col-4 col-form-label">标签</label>
+                            <div class="col-8">
+                                <input id="templateID_tag" type="text" class="form-control" name="tag" >
+                            </div>
+                        </div>
+
+                        <div class="form-group m-form__group row">
+                            <label class="col-4 col-form-label">附件:</label>
+                            <div id="templateID_fine-uploader-gallery" class="col-8"></div>
+                            <input id="templateID_path" type="hidden" class="form-control" name="path">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <input type="hidden" id="templateID_id" name="id">
@@ -131,9 +145,12 @@
 
 
 <pageResources>
-
+    <jsp:include page="/resources/metronic-admin/file_upload.jsp" flush="true"/>
 
     <script>
+        var addGalleryUploader;
+        var editGalleryUploader;
+
         $(document).ready(function()
         {
             //codes works on all bootstrap modal windows in application
@@ -145,6 +162,10 @@
             generateAddEditForm('template-repairKnowledge-addEditForm', 'add_,edit_', null, null, 'addRepairKnowledgeFormContainer,editRepairKnowledgeFormContainer');
             FormWidgets.init('add');
             FormWidgets.init('edit');
+
+            addGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("add_fine-uploader-gallery")}));
+            editGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("edit_fine-uploader-gallery")}));
+
 
             $('#createButton').click(function(){
                 $("#addRepairKnowledgeFormContainer").modal("show");
@@ -180,10 +201,9 @@
                 idField: 'id',
                 columns: [
                     {field: 'ck', checkbox: true},
-                    {field: 'tag', title: '标签'},
                     {field: 'codes', title: '故障代码'},
                     {field: 'description', title: '故障描述'},
-                    {field: 'createTime', title: '创建时间', formatter: 'timeFormatter'},
+                    {field: 'tag', title: '标签'},
                     {field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ]
             });
@@ -196,13 +216,51 @@
             ].join('');
         }
 
+        var FormWidgets = function () {
+            var createForm = function (formid) {
+                $("#"+formid+"_Form").validate({
+                    // define validation rules
+                    rules: {
+                        codes: {
+                            required: true,
+                        },
+                        description: {
+                            required: true,
+                        },
+                        method: {
+                            required: true,
+                        }
+                    },
+                    submitHandler: function (form) {
+                        if(formid === 'add')
+                            submitForm();
+                        else{
+                            submitForm($('#edit_id').val());
+                        }
+
+                    }
+                });
+            }
+
+            return {
+                // public functions
+                init: function (formid) {
+                    createForm(formid);
+                }
+            };
+        }();
+
         function submitForm(id) {
             var targetUrl='${basePath}/manage/knowledge/repair/create';
             var formId='add_Form';
             if(id){
                 targetUrl='${basePath}/manage/knowledge/repair/update/'+id;
                 formId='edit_Form';
+                $('#edit_path').val(getUploadFileName(editGalleryUploader));
+            }else {
+                $('#add_path').val(getUploadFileName(addGalleryUploader));
             }
+
             ajaxPost(targetUrl, formId, function(result) {
                 if (result.code != 1) {
                     sendErrorInfo(result);
@@ -256,7 +314,7 @@
             if (rows.length == 0) {
                 swWarn("请至少选择一条记录");
             }else {
-                deleteRows(rows,'id','${basePath}/manage/knowledge/repair/delete/', "请确认要删除选中的维修知识吗？", "删除维修知识成功");
+                deleteRowsChar(rows,'id','${basePath}/manage/knowledge/repair/delete/', '::', "请确认要删除选中的维修知识吗？", "删除维修知识成功");
             }//end else
         }
 

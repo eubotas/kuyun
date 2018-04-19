@@ -7,6 +7,7 @@ import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.admin.model.MaintainKnowledge;
 import com.kuyun.eam.admin.repository.MaintainKnowledgeRepository;
+import com.kuyun.eam.admin.util.ActionEnum;
 import com.kuyun.eam.admin.util.BaseModelUtil;
 import com.kuyun.eam.admin.util.KnowledgeCategory;
 import com.kuyun.eam.admin.util.TagUtil;
@@ -65,6 +66,10 @@ public class MaintainKnowledgeController extends BaseController {
     @Autowired
     private BaseEntityUtil baseEntityUtil;
 
+    @Autowired
+    private com.kuyun.fileuploader.rpc.api.FileUploaderService fileUploaderService;
+
+
     @ApiOperation(value = "保养知识首页")
     @RequiresPermissions("eam:maintainKnowledge:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
@@ -117,29 +122,25 @@ public class MaintainKnowledgeController extends BaseController {
         return result;
     }
 
-    @ApiOperation(value = "新增保养知识")
-    @RequiresPermissions("eam:maintainKnowledge:create")
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String create() {
-        return "/manage/knowledge/maintain/create.jsp";
-    }
 
     @ApiOperation(value = "新增保养知识")
     @RequiresPermissions("eam:maintainKnowledge:create")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
-    public Object create(MaintainKnowledge doc) {
+    public Object create(MaintainKnowledge maintain) {
         ComplexResult result = FluentValidator.checkAll()
-                .on(doc.getTitle(), new LengthValidator(1, 20, "保养知识标题"))
+                .on(maintain.getTitle(), new LengthValidator(1, 20, "保养知识标题"))
                 .doValidate()
                 .result(ResultCollectors.toComplex());
         if (!result.isSuccess()) {
             return new EamResult(INVALID_LENGTH, result.getErrors());
         }
-        baseModelUtil.addAddtionalValue(doc);
+        baseModelUtil.addAddtionalValue(maintain);
+        maintain.setId(null);
 
-        tagUtil.handleTag(doc.getTag());
-        maintainKnowledgeRepository.save(doc);
+        tagUtil.handleTag(ActionEnum.CREATE.getName(), null, maintain.getTag());
+
+        maintainKnowledgeRepository.save(maintain);
         return new EamResult(SUCCESS, 1);
     }
 
@@ -154,6 +155,12 @@ public class MaintainKnowledgeController extends BaseController {
                 if (StringUtils.isBlank(id)) {
                     continue;
                 }
+
+                Optional<MaintainKnowledge> optional = maintainKnowledgeRepository.findById(id);
+                MaintainKnowledge maintainKnowledge = optional.orElse(null);
+                String tag = maintainKnowledge.getTag() == null ? null : maintainKnowledge.getTag();
+                tagUtil.handleTag(ActionEnum.DELETE.getName(), null, tag);
+
                 maintainKnowledgeRepository.deleteById(id);
             }
         }
@@ -163,31 +170,39 @@ public class MaintainKnowledgeController extends BaseController {
     @ApiOperation(value = "修改保养知识")
     @RequiresPermissions("eam:maintainKnowledge:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-    public String update(@PathVariable("id") String id, ModelMap modelMap) {
+    @ResponseBody
+    public Object update(@PathVariable("id") String id) {
+        HashMap<String, Object> map = new HashMap<>(1);
 
         Optional<MaintainKnowledge> maintain = maintainKnowledgeRepository.findById(id);
         if (maintain.isPresent()){
-            modelMap.put("maintain", maintain.orElse(null));
+            map.put("maintain", maintain.orElse(null));
         }
 
-        return "/manage/knowledge/maintain/update.jsp";
+        return map;
     }
 
     @ApiOperation(value = "修改保养知识")
     @RequiresPermissions("eam:maintainKnowledge:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public Object update(@PathVariable("id") String id, MaintainKnowledge doc) {
+    public Object update(@PathVariable("id") String id, MaintainKnowledge maintain) {
         ComplexResult result = FluentValidator.checkAll()
-                .on(doc.getTitle(), new LengthValidator(1, 20, "保养知识标题"))
+                .on(maintain.getTitle(), new LengthValidator(1, 20, "保养知识标题"))
                 .doValidate()
                 .result(ResultCollectors.toComplex());
         if (!result.isSuccess()) {
             return new EamResult(INVALID_LENGTH, result.getErrors());
         }
-        baseModelUtil.updateAddtionalValue(doc);
-        tagUtil.handleTag(doc.getTag());
-        maintainKnowledgeRepository.save(doc);
+        baseModelUtil.updateAddtionalValue(maintain);
+
+        Optional<MaintainKnowledge> optional = maintainKnowledgeRepository.findById(id);
+        MaintainKnowledge oldMaintain = optional.orElse(null);
+        String oldTag = oldMaintain.getTag() == null ? null : oldMaintain.getTag();
+
+        tagUtil.handleTag(ActionEnum.UPDATE.getName(), oldTag, maintain.getTag());
+
+        maintainKnowledgeRepository.save(maintain);
         return new EamResult(SUCCESS, 1);
     }
 

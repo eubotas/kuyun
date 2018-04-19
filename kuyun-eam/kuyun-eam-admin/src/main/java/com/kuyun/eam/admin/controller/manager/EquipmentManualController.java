@@ -7,6 +7,7 @@ import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.admin.model.EquipmentManual;
 import com.kuyun.eam.admin.repository.EquipmentManualRepository;
+import com.kuyun.eam.admin.util.ActionEnum;
 import com.kuyun.eam.admin.util.BaseModelUtil;
 import com.kuyun.eam.admin.util.KnowledgeCategory;
 import com.kuyun.eam.admin.util.TagUtil;
@@ -28,7 +29,6 @@ import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -64,6 +64,10 @@ public class EquipmentManualController extends BaseController {
 
     @Autowired
     private BaseEntityUtil baseEntityUtil;
+
+    @Autowired
+    private com.kuyun.fileuploader.rpc.api.FileUploaderService fileUploaderService;
+
 
     @ApiOperation(value = "设备手册首页")
     @RequiresPermissions("eam:equipmentManual:read")
@@ -120,27 +124,22 @@ public class EquipmentManualController extends BaseController {
 
     @ApiOperation(value = "新增设备手册")
     @RequiresPermissions("eam:equipmentManual:create")
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String create() {
-        return "/manage/knowledge/manual/create.jsp";
-    }
-
-    @ApiOperation(value = "新增设备手册")
-    @RequiresPermissions("eam:equipmentManual:create")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
-    public Object create(EquipmentManual doc) {
+    public Object create(EquipmentManual manual) {
         ComplexResult result = FluentValidator.checkAll()
-                .on(doc.getTitle(), new LengthValidator(1, 20, "设备手册标题"))
+                .on(manual.getTitle(), new LengthValidator(1, 20, "设备手册标题"))
                 .doValidate()
                 .result(ResultCollectors.toComplex());
         if (!result.isSuccess()) {
             return new EamResult(INVALID_LENGTH, result.getErrors());
         }
-        baseModelUtil.addAddtionalValue(doc);
+        baseModelUtil.addAddtionalValue(manual);
+        manual.setId(null);
 
-        tagUtil.handleTag(doc.getTag());
-        equipmentManualRepository.save(doc);
+        tagUtil.handleTag(ActionEnum.CREATE.getName(), null, manual.getTag());
+
+        equipmentManualRepository.save(manual);
         return new EamResult(SUCCESS, 1);
     }
 
@@ -155,6 +154,12 @@ public class EquipmentManualController extends BaseController {
                 if (StringUtils.isBlank(id)) {
                     continue;
                 }
+
+                Optional<EquipmentManual> optional = equipmentManualRepository.findById(id);
+                EquipmentManual manual = optional.orElse(null);
+                String tag = manual.getTag() == null ? null : manual.getTag();
+                tagUtil.handleTag(ActionEnum.DELETE.getName(), null, tag);
+
                 equipmentManualRepository.deleteById(id);
             }
         }
@@ -164,31 +169,39 @@ public class EquipmentManualController extends BaseController {
     @ApiOperation(value = "修改设备手册")
     @RequiresPermissions("eam:equipmentManual:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-    public String update(@PathVariable("id") String id, ModelMap modelMap) {
+    @ResponseBody
+    public Object update(@PathVariable("id") String id) {
+        HashMap<String, Object> map = new HashMap<>(1);
 
         Optional<EquipmentManual> manual = equipmentManualRepository.findById(id);
         if (manual.isPresent()){
-            modelMap.put("manual", manual.orElse(null));
+            map.put("manual", manual.orElse(null));
         }
 
-        return "/manage/knowledge/manual/update.jsp";
+        return map;
     }
 
     @ApiOperation(value = "修改设备手册")
     @RequiresPermissions("eam:equipmentManual:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public Object update(@PathVariable("id") String id, EquipmentManual doc) {
+    public Object update(@PathVariable("id") String id, EquipmentManual manual) {
         ComplexResult result = FluentValidator.checkAll()
-                .on(doc.getTitle(), new LengthValidator(1, 20, "设备手册标题"))
+                .on(manual.getTitle(), new LengthValidator(1, 20, "设备手册标题"))
                 .doValidate()
                 .result(ResultCollectors.toComplex());
         if (!result.isSuccess()) {
             return new EamResult(INVALID_LENGTH, result.getErrors());
         }
-        baseModelUtil.updateAddtionalValue(doc);
-        tagUtil.handleTag(doc.getTag());
-        equipmentManualRepository.save(doc);
+        baseModelUtil.updateAddtionalValue(manual);
+
+        Optional<EquipmentManual> optional = equipmentManualRepository.findById(id);
+        EquipmentManual oldManual = optional.orElse(null);
+        String oldTag = oldManual.getTag() == null ? null : oldManual.getTag();
+
+        tagUtil.handleTag(ActionEnum.UPDATE.getName(), oldTag, manual.getTag());
+
+        equipmentManualRepository.save(manual);
         return new EamResult(SUCCESS, 1);
     }
 

@@ -95,4 +95,49 @@ Retry
 
         return fileUuids;
     }
+
+    var uploadOpt={
+        template : 'qq-template-gallery',
+        request : {
+            endpoint : '${uploadServer.endpoint_upload}',
+            params : {
+                kuyunModule : "eam"
+            }
+        },
+        thumbnails : {
+            placeholders : {
+                waitingPath : '${basePath}/resources/kuyun-admin/plugins/fileupload/placeholders/waiting-generic.png',
+                notAvailablePath : '${basePath}/resources/kuyun-admin/plugins/fileupload/placeholders/not_available-generic.png'
+            }
+        },
+        validation : {
+            /*  allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'] */
+        },
+        chunking : {
+            enabled : true,
+            concurrent : {
+                enabled : true
+            },
+            success : {
+                endpoint : '${uploadServer.endpoint_uploadDone}'
+            },
+            mandatory : true
+        },
+        deleteFile : {
+            enabled : true,
+            forceConfirm : true,
+            endpoint : '${uploadServer.endpoint_delete}'
+        },
+        cors : {
+            //all requests are expected to be cross-domain requests
+            expected : true,
+
+            //if you want cookies to be sent along with the request
+            // sendCredentials : true
+        }
+        /* init file list
+         session:{
+         endpoint: '${uploadServer.endpoint_list}?ids=${uuids}'
+         }, */
+    };
 </script>

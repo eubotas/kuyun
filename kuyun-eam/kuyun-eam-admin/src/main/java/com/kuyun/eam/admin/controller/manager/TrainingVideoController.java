@@ -7,6 +7,7 @@ import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.admin.model.TrainingVideo;
 import com.kuyun.eam.admin.repository.TrainingVideoRepository;
+import com.kuyun.eam.admin.util.ActionEnum;
 import com.kuyun.eam.admin.util.BaseModelUtil;
 import com.kuyun.eam.admin.util.KnowledgeCategory;
 import com.kuyun.eam.admin.util.TagUtil;
@@ -65,6 +66,10 @@ public class TrainingVideoController extends BaseController {
     @Autowired
     private BaseModelUtil baseModelUtil;
 
+    @Autowired
+    private com.kuyun.fileuploader.rpc.api.FileUploaderService fileUploaderService;
+
+
     @ApiOperation(value = "培训视频首页")
     @RequiresPermissions("eam:trainingVideo:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
@@ -117,12 +122,6 @@ public class TrainingVideoController extends BaseController {
         return result;
     }
 
-    @ApiOperation(value = "新增培训视频")
-    @RequiresPermissions("eam:trainingVideo:create")
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String create() {
-        return "/manage/knowledge/training/video/create.jsp";
-    }
 
     @ApiOperation(value = "新增培训视频")
     @RequiresPermissions("eam:trainingVideo:create")
@@ -137,8 +136,9 @@ public class TrainingVideoController extends BaseController {
             return new EamResult(INVALID_LENGTH, result.getErrors());
         }
         baseModelUtil.addAddtionalValue(video);
+        video.setId(null);
 
-        tagUtil.handleTag(video.getTag());
+        tagUtil.handleTag(ActionEnum.CREATE.getName(), null, video.getTag());
         trainingVideoRepository.save(video);
         return new EamResult(SUCCESS, 1);
     }
@@ -154,23 +154,32 @@ public class TrainingVideoController extends BaseController {
                 if (StringUtils.isBlank(id)) {
                     continue;
                 }
+
+                Optional<TrainingVideo> optional = trainingVideoRepository.findById(id);
+                TrainingVideo video = optional.orElse(null);
+                String tag = video.getTag() == null ? null : video.getTag();
+
+                tagUtil.handleTag(ActionEnum.DELETE.getName(), null, tag);
                 trainingVideoRepository.deleteById(id);
             }
         }
         return new EamResult(SUCCESS, 1);
     }
 
+
     @ApiOperation(value = "修改培训视频")
     @RequiresPermissions("eam:trainingVideo:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-    public String update(@PathVariable("id") String id, ModelMap modelMap) {
+    @ResponseBody
+    public Object update(@PathVariable("id") String id) {
+        HashMap map = new HashMap(1);
 
         Optional<TrainingVideo> video = trainingVideoRepository.findById(id);
         if (video.isPresent()){
-            modelMap.put("video", video.orElse(null));
+            map.put("video", video.orElse(null));
         }
 
-        return "/manage/knowledge/training/video/update.jsp";
+        return map;
     }
 
     @ApiOperation(value = "修改培训视频")
@@ -186,7 +195,13 @@ public class TrainingVideoController extends BaseController {
             return new EamResult(INVALID_LENGTH, result.getErrors());
         }
         baseModelUtil.updateAddtionalValue(video);
-        tagUtil.handleTag(video.getTag());
+
+        Optional<TrainingVideo> optional = trainingVideoRepository.findById(id);
+        TrainingVideo oldVideo = optional.orElse(null);
+        String oldTag = oldVideo.getTag() == null ? null : oldVideo.getTag();
+
+        tagUtil.handleTag(ActionEnum.UPDATE.getName(), oldTag, video.getTag());
+
         trainingVideoRepository.save(video);
         return new EamResult(SUCCESS, 1);
     }

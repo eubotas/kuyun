@@ -231,7 +231,7 @@
                     {field: 'zip', title: '邮编'},
                     {field: 'www', title: '网址'},
                     {field: 'address', title: '客户地址'},
-                    {field: 'action', title: '设备授权', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
+                    {field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ]
             });
         });

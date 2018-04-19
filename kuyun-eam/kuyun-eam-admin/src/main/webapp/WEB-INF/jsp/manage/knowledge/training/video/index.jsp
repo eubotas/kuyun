@@ -13,7 +13,6 @@
 </head>
 <body>
 
-
 <subHeader>
     <!-- BEGIN: Subheader -->
     <div class="m-subheader ">
@@ -93,24 +92,30 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group m-form__group row">
-							<label for="templateID_title">标题</label>
-							<input id="templateID_title" type="text" class="form-control" name="title" maxlength="30" >
+							<label class="col-3 col-form-label">标题:*</label>
+                            <div class="col-8">
+							    <input id="templateID_title" type="text" class="form-control" name="title">
+                            </div>
                         </div>
 
 						<div class="form-group m-form__group row">
-							<label for="templateID_description">描述</label>
-							<input id="templateID_description" type="text" class="form-control" name="description" maxlength="30" >
+							<label class="col-3 col-form-label">描述:*</label>
+                            <div class="col-8">
+                                <textarea class="form-control m-input m-input--air" id="templateID_description"  name="description"rows="3"></textarea>
+                            </div>
 						</div>
 						<div class="form-group m-form__group row">
-							<label for="templateID_tag">标签</label>
-							<input id="templateID_tag" type="text" class="form-control" name="tag" maxlength="200" >
+							<label class="col-3 col-form-label">标签</label>
+                            <div class="col-8">
+							    <input id="templateID_tag" type="text" class="form-control" name="tag" >
+                            </div>
 						</div>
 
-                        <div class="col-sm-12">
-                            <div id="templateID_fine-uploader-gallery"></div>
-                            <input id="templateID_path" type="hidden" class="form-control"  name="path" maxlength="500">
+                        <div class="form-group m-form__group row">
+                            <label class="col-3 col-form-label">附件:</label>
+                            <div id="templateID_fine-uploader-gallery" class="col-8"></div>
+                            <input id="templateID_path" type="hidden" class="form-control" name="path">
                         </div>
-
                     </div>
                     <div class="modal-footer">
                         <input type="hidden" id="templateID_id" name="id">
@@ -130,62 +135,13 @@
 
 </content>
 
-
 <pageResources>
-
     <jsp:include page="/resources/metronic-admin/file_upload.jsp" flush="true"/>
-    <script>
-
-        var uploadOpt={
-            template : 'qq-template-gallery',
-            request : {
-                endpoint : '${uploadServer.endpoint_upload}',
-                params : {
-                    kuyunModule : "eam"
-                }
-            },
-            thumbnails : {
-                placeholders : {
-                    waitingPath : '${basePath}/resources/kuyun-admin/plugins/fileupload/placeholders/waiting-generic.png',
-                    notAvailablePath : '${basePath}/resources/kuyun-admin/plugins/fileupload/placeholders/not_available-generic.png'
-                }
-            },
-            validation : {
-                /*  allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'] */
-            },
-            chunking : {
-                enabled : true,
-                concurrent : {
-                    enabled : true
-                },
-                success : {
-                    endpoint : '${uploadServer.endpoint_uploadDone}'
-                },
-                mandatory : true
-            },
-            deleteFile : {
-                enabled : true,
-                forceConfirm : true,
-                endpoint : '${uploadServer.endpoint_delete}'
-            },
-            cors : {
-                //all requests are expected to be cross-domain requests
-                expected : true,
-
-                //if you want cookies to be sent along with the request
-                // sendCredentials : true
-            }
-            /* init file list
-            session:{
-                    endpoint: '${uploadServer.endpoint_list}?ids=${uuids}'
-                    }, */
-        };
-
-        var addGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("add_fine-uploader-gallery")}));
-        var editGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("edit_fine-uploader-gallery")}));
-    </script>
 
     <script>
+        var addGalleryUploader;
+        var editGalleryUploader;
+
         $(document).ready(function()
         {
             //codes works on all bootstrap modal windows in application
@@ -197,6 +153,10 @@
             generateAddEditForm('template-trainingVideo-addEditForm', 'add_,edit_', null, null, 'addTrainingVideoFormContainer,editTrainingVideoFormContainer');
             FormWidgets.init('add');
             FormWidgets.init('edit');
+
+            addGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("add_fine-uploader-gallery")}));
+            editGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("edit_fine-uploader-gallery")}));
+
 
             $('#createButton').click(function(){
                 $("#addTrainingVideoFormContainer").modal("show");
@@ -232,10 +192,10 @@
                 idField: 'id',
                 columns: [
                     {field: 'ck', checkbox: true},
-                    {field: 'tag', title: '标签'},
                     {field: 'title', title: '标题'},
+                    {field: 'description', title: '描述'},
                     {field: 'path', title: '附件'},
-                    {field: 'createTime', title: '创建时间', formatter: 'timeFormatter'},
+                    {field: 'tag', title: '标签'},
                     {field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ]
             });
@@ -248,6 +208,37 @@
             ].join('');
         }
 
+        var FormWidgets = function () {
+            var createForm = function (formid) {
+                $("#"+formid+"_Form").validate({
+                    // define validation rules
+                    rules: {
+                        title: {
+                            required: true,
+                        },
+                        description: {
+                            required: true,
+                        }
+                    },
+                    submitHandler: function (form) {
+                        if(formid === 'add')
+                            submitForm();
+                        else{
+                            submitForm($('#edit_id').val());
+                        }
+
+                    }
+                });
+            }
+
+            return {
+                // public functions
+                init: function (formid) {
+                    createForm(formid);
+                }
+            };
+        }();
+
         function submitForm(id) {
             var targetUrl='${basePath}/manage/knowledge/training/video/create';
             var formId='add_Form';
@@ -255,8 +246,9 @@
                 targetUrl='${basePath}/manage/knowledge/training/video/update/'+id;
                 formId='edit_Form';
                 $('#edit_path').val(getUploadFileName(editGalleryUploader));
-            }else
+            }else{
                 $('#add_path').val(getUploadFileName(addGalleryUploader));
+            }
 
             ajaxPost(targetUrl, formId, function(result) {
                 if (result.code != 1) {
@@ -276,16 +268,15 @@
 
 
         function updateAction(row) {
-            jQuery("#editTrainingVideoFormContainer").modal("show");
+            $("#editTrainingVideoFormContainer").modal("show");
             ajaxGet('${basePath}/manage/knowledge/training/video/update/' + row["id"], function (responseData) {
                 if (responseData) {
                     var data = responseData;
                     // 赋值
-                    $("#edit_id").val(data.maintain.id);
-                    $("#edit_title").val(data.maintain.title);
-                    $("#edit_description").val(data.maintain.description);
-                    $("#edit_content").val(data.maintain.content);
-                    $("#edit_tag").val(data.maintain.tag);
+                    $("#edit_id").val(data.video.id);
+                    $("#edit_title").val(data.video.title);
+                    $("#edit_description").val(data.video.description);
+                    $("#edit_tag").val(data.video.tag);
                 }
             });
         }
@@ -311,15 +302,15 @@
             if (rows.length == 0) {
                 swWarn("请至少选择一条记录");
             }else {
-                deleteRows(rows,'id','${basePath}/manage/knowledge/training/video/delete/', "请确认要删除选中的培训视频吗？", "删除培训视频成功");
+                deleteRowsChar(rows,'id','${basePath}/manage/knowledge/training/video/delete/', '::', "请确认要删除选中的培训视频吗？", "删除培训视频成功");
             }//end else
         }
 
     </script>
 
 
-    <script src="${basePath}/resources/kuyun-admin/plugins/fileupload/fine-uploader.js"></script>
 </pageResources>
+
 
 
 </body>
