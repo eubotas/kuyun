@@ -50,6 +50,7 @@
     };
 
     var equipmentId, longitude, latitude, isOnline;
+    var equipmentLocations =[];
     $(document).ready(function(){
         ajaxGet('${basePath}/manage/equipment/city/tree', function (responseData) {
             if (responseData) {
@@ -78,6 +79,7 @@
                         $.each(value.children, function (n, value) { //data
                             jsonTemp ={"id":value.id, "name":value.name,"pId":pid,"online":online,"latitude":latitude,"longitude":longitude};
                             jsonarray.push(jsonTemp);
+                            equipmentLocations.push(jsonTemp);
                         });
                     });
                     pid= 0;

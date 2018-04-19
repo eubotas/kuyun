@@ -98,32 +98,39 @@
         map.plugin(["AMap.ToolBar"], function() {
             map.addControl(new AMap.ToolBar());
         });
-        var infoWindow = new AMap.InfoWindow({});     //创建信息窗口对象  ps.高德目前不支持多信息窗口，即使创建多个窗口对象，也只会显示一个
+        var infoWindow = new AMap.InfoWindow({});
 
-        var lnglats= [["116.4123","39.906422"],["116.4352","39.906933"],["113.65", "34.76"]];
-        var data = [{"id":1,"name":"我是第1个点","type":1},{"id":2,"name":"我是第2个点","type":3},{"id":3,"name":"我是第3个点","type":7}];
-        for(var i= 0;i<lnglats.length;i++){
-            var marker=new AMap.Marker({
-                position:lnglats[i],        //采用默认样式，无需自定义
-                map:map
-            });
-            content = [];
-            content.push('ID：'+data[i].id);
-            content.push('名称：<a href="http://www.baidu.com">'+data[i].name+'</a>');
-            marker.content = content;
-            marker.title = data[i].id+"."+data[i].name;     //标记点的title
-
-            if(i==0){              //默认打开第1个点的信息窗口
-                infoWindow.setContent(content.join("<br/>"));
-                infoWindow.open(map,lnglats[i]);
-            }
-
-            marker.on('dblclick',openAmap);
-            //给Marker绑定单击事件
-            marker.on('click', markerClick);
+        function selectedMark(eqloc){
+            //infoWindow.setContent(e.target.content.join('<br/>'));
+            infoWindow.open(map, [eqloc.longitude, eqloc.latitude]);
         }
 
-        map.setFitView();
+        function setMarkOnMap() {
+            $.each(equipmentLocations, function (n, eqloc) {
+                var loc=[eqloc.longitude, eqloc.latitude];
+                var marker = new AMap.Marker({
+                    position: loc,        //采用默认样式，无需自定义
+                    map: map
+                });
+                var content = [];
+                content.push('设备名称：<a href="${basePath}/manage/equipment/monitor/list/'+eqloc.id+'">' + eqloc.name + '</a>');
+                content.push('ID：' + eqloc.id);
+                content.push('状态：' + (eqloc.online==0? '离线' :'在线'));
+                marker.content = content;
+                marker.title = eqloc.name;     //标记点的title
+
+                if (n == 0) {              //默认打开第1个点的信息窗口
+                    infoWindow.setContent(content.join("<br/>"));
+                    infoWindow.open(map, loc);
+                }
+
+                marker.on('dblclick', openAmap);
+                //给Marker绑定单击事件
+                marker.on('click', markerClick);
+            });
+            map.setFitView();
+        }
+
         //跳至地图当中导航
         function openAmap(e){
             e.target.markOnAMAP({
@@ -139,6 +146,7 @@
 
         //地图加载完成事件
         map.on('complete', function() {
+            setMarkOnMap();
         });
     </script>
 
@@ -146,7 +154,7 @@
         //toMap
         function callbackClickItem(treeNode){
             var equipId=treeNode.id;
-            alert(1);
+            selectedMark(treeNode);
         }
     </script>
 
