@@ -332,28 +332,4 @@ public class EamEquipmentController extends BaseController {
 		return "/manage/equipment/monitor/list.jsp";
 	}
 
-	@ApiOperation(value = "设备监控列表")
-	@RequiresPermissions("eam:equipment:read")
-	@RequestMapping(value = "/monitor/list/{eqid}", method = RequestMethod.GET)
-	public String monitorListById(@PathVariable("eqid") String eqid, ModelMap modelMap) {
-		EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(eqid);
-		modelMap.put("equipment",equipment);
-		return "/manage/equipment/monitor/list.jsp";
-	}
-
-	@ApiOperation(value = "设备监控地图")
-	@RequiresPermissions("eam:equipment:read")
-	@RequestMapping(value = "/monitor/map", method = RequestMethod.GET)
-	public String monitorMap(ModelMap modelMap) {
-		return "/manage/equipment/monitor/map.jsp";
-	}
-
-	@ApiOperation(value = "设备监控地图")
-	@RequiresPermissions("eam:equipment:read")
-	@RequestMapping(value = "/monitor/map/{eqid}", method = RequestMethod.GET)
-	public String monitorMapById(@PathVariable("eqid") String eqid, ModelMap modelMap) {
-		EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(eqid);
-		modelMap.put("equipment",equipment);
-		return "/manage/equipment/monitor/map.jsp";
-	}
 }
