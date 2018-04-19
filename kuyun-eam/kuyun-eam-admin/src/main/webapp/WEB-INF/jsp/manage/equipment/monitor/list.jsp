@@ -20,9 +20,11 @@
         <div class="d-flex align-items-center">
             <div class="mr-auto">
                 <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
-                    <li class="m-nav__item m-nav__item--home">
-                        <a href="#" class="m-nav__link m-nav__link--icon">
-                            <i class="m-nav__link-icon la la-home">设备监控</i>
+                    <li class="m-nav__item">
+                        <a href="#" class="m-nav__link">
+											<span class="m-nav__link-text">
+												设备监控
+											</span>
                         </a>
                     </li>
                     <li class="m-nav__separator">
@@ -55,21 +57,9 @@
     <div class="m-content">
         <div class="row">
             <div class="col-xl-3 col-lg-4">
-                <div class="m-portlet m-portlet--full-height  ">
-                    <div class="m-portlet__head">
-                        <div class="m-portlet__head-caption">
-                            <div class="m-portlet__head-title">
-                                <h2 class="m-portlet__head-text">
-                                    各地设备列表
-                                </h2>
-                            </div>
-                        </div>
-                    </div>
 
-                    <div id="ticketList" class="m-portlet__body">
-                        <ul id="treeCity" class="ztree" style="width:260px; overflow:auto;"></ul>
-                    </div>
-                </div>
+                <jsp:include page="./city.jsp" flush="true"/>
+
             </div>
             <div class="col-xl-9 col-lg-8">
 
@@ -255,7 +245,7 @@
                                     </div>
                                     <div class="m-portlet__body">
                                         <div class="portlet-body">
-                                                <video style="max-width:1200px;width:95%;height:500px;" id="myPlayer" poster="" controls playsInline webkit-playsinline >
+                                                <video style="max-width:1200px;width:95%;height:300px;" id="myPlayer" poster="" controls playsInline webkit-playsinline >
                                                     <source src="http://hls.open.ys7.com/openlive/6e84099c7983453998b2a3c3c5c95ac1.hd.m3u8" type="application/x-mpegURL" />
                                                 </video>
 
@@ -280,44 +270,22 @@
                                     <div class="m-portlet__body">
                                         <div class="portlet-body">
                                             <div class="row static-info">
-                                                <!-- ngRepeat: vars in varsArr0 --><div class="col-md-6 ng-scope" ng-repeat="vars in varsArr0">
-                                                <div class="col-md-6" style="margin-bottom:15px;" ng-bind-html="htmlStr2">
-                                                    <button type="button" class="btn btn-success">
+
+                                                <div class="col-md-2" style="margin-bottom:15px;">
+                                                    <button type="button" class="btn btn-outline-primary m-btn m-btn--outline-2x" id="itenBtn">
                                                         生产速度
                                                     </button>
                                                  </div>
-                                                <div class="col-md-6 value ng-binding" style="margin-bottom:15px;" ng-bind-html="htmlStr"><a class="btn green btn-info">60000个</a></div>
-                                            </div><!-- end ngRepeat: vars in varsArr0 --><div class="col-md-6 ng-scope" ng-repeat="vars in varsArr0">
-                                                <div class="col-md-6" style="margin-bottom:15px;" ng-bind-html="htmlStr2">
-                                                    <button type="button" class="btn btn-success">
-                                                        设定速度
-                                                    </button></div>
-                                                <div class="col-md-6 value ng-binding" style="margin-bottom:15px;" ng-bind-html="htmlStr"><a class="btn green btn-info">60000个</a></div>
-                                            </div><!-- end ngRepeat: vars in varsArr0 --><div class="col-md-6 ng-scope" ng-repeat="vars in varsArr0">
-                                                <div class="col-md-6" style="margin-bottom:15px;" ng-bind-html="htmlStr2">
-                                                    <button type="button" class="btn btn-success">
-                                                    消耗瓶胚
-                                                </button></div>
-                                                <div class="col-md-6 value ng-binding" style="margin-bottom:15px;" ng-bind-html="htmlStr"><a class="btn green btn-info">429760个</a></div>
-                                            </div><!-- end ngRepeat: vars in varsArr0 --><div class="col-md-6 ng-scope" ng-repeat="vars in varsArr0">
-                                                <div class="col-md-6" style="margin-bottom:15px;" ng-bind-html="htmlStr2">
-                                                    <button type="button" class="btn btn-success">
-                                                        合格瓶数
-                                                    </button></div>
-                                                <div class="col-md-6 value ng-binding" style="margin-bottom:15px;" ng-bind-html="htmlStr"><a class="btn green btn-info">428458个</a></div>
-                                            </div><!-- end ngRepeat: vars in varsArr0 --><div class="col-md-6 ng-scope" ng-repeat="vars in varsArr0">
-                                                <div class="col-md-6" style="margin-bottom:15px;" ng-bind-html="htmlStr2">
-                                                    <button type="button" class="btn btn-success">
-                                                        合格品率
-                                                    </button></div>
-                                                <div class="col-md-6 value ng-binding" style="margin-bottom:15px;" ng-bind-html="htmlStr"><a class="btn green btn-info">99.94%</a></div>
-                                            </div><!-- end ngRepeat: vars in varsArr0 --><div class="col-md-6 ng-scope" ng-repeat="vars in varsArr0">
-                                                <div class="col-md-6" style="margin-bottom:15px;" ng-bind-html="htmlStr2">
-                                                    <button type="button" class="btn btn-success">
-                                                        主机运转时间
-                                                    </button></div>
-                                                <div class="col-md-6 value ng-binding" style="margin-bottom:15px;" ng-bind-html="htmlStr"><a class="btn green btn-info">1分</a></div>
-                                            </div><!-- end ngRepeat: vars in varsArr0 -->
+                                                <div class="col-md-4 value" style="margin-bottom:15px;" ><a class="btn green btn-info" id="ItemVal">60000个</a></div>
+
+                                                <div class="col-md-2" style="margin-bottom:15px;">
+                                                    <button type="button" class="btn btn-outline-primary m-btn m-btn--outline-2x" id="itenBtn">
+                                                        生产速度
+                                                    </button>
+                                                </div>
+                                                <div class="col-md-4 value" style="margin-bottom:15px;" ><a class="btn green btn-info" id="ItemVal">60000个</a></div>
+
+
                                             </div>
 
 
@@ -342,24 +310,20 @@
                                     <div class="m-portlet__body">
                                             <div class="row static-info">
 
+                                                <div class="col-md-2 text-right name" style="margin-bottom:15px;" >
                                                 <button type="button" class="btn btn-outline-primary m-btn m-btn--outline-2x ">
                                                     操作模式
-                                                </button>
-                                                <!-- ngRepeat: vars in varsArr1 --><div class="col-md-6 ng-scope" ng-repeat="vars in varsArr1">
-                                                <div class="col-md-6 text-right name ng-binding" style="margin-bottom:15px;" ng-bind-html="htmlStr2"><a class="btn blue btn-outline">操作模式</a></div>
-                                                <div class="col-md-6 value ng-binding" style="margin-bottom:15px;" ng-bind-html="htmlStr"><a class="btn green btn-info">0</a></div>
-                                            </div><!-- end ngRepeat: vars in varsArr1 --><div class="col-md-6 ng-scope" ng-repeat="vars in varsArr1">
-                                                <div class="col-md-6 text-right name ng-binding" style="margin-bottom:15px;" ng-bind-html="htmlStr2"><a class="btn blue btn-outline">停机中</a></div>
-                                                <div class="col-md-6 value ng-binding" style="margin-bottom:15px;" ng-bind-html="htmlStr"><a class="btn green btn-info">0</a></div>
-                                            </div><!-- end ngRepeat: vars in varsArr1 --><div class="col-md-6 ng-scope" ng-repeat="vars in varsArr1">
-                                                <div class="col-md-6 text-right name ng-binding" style="margin-bottom:15px;" ng-bind-html="htmlStr2"><a class="btn blue btn-outline">班次开始</a></div>
-                                                <div class="col-md-6 value ng-binding" style="margin-bottom:15px;" ng-bind-html="htmlStr"><a class="btn green btn-info">1</a></div>
-                                            </div><!-- end ngRepeat: vars in varsArr1 --><div class="col-md-6 ng-scope" ng-repeat="vars in varsArr1">
-                                                <div class="col-md-6 text-right name ng-binding" style="margin-bottom:15px;" ng-bind-html="htmlStr2"><a class="btn blue btn-outline">班次结束</a></div>
-                                                <div class="col-md-6 value ng-binding" style="margin-bottom:15px;" ng-bind-html="htmlStr"><a class="btn green btn-info">0</a></div>
-                                            </div><!-- end ngRepeat: vars in varsArr1 -->
-                                            </div>
+                                                </button></div>
+                                                <div class="col-md-4 value" style="margin-bottom:15px;"><a class="btn green btn-info">0</a></div>
 
+                                                <div class="col-md-2 text-right name" style="margin-bottom:15px;" >
+                                                    <button type="button" class="btn btn-outline-primary m-btn m-btn--outline-2x ">
+                                                        操作模式
+                                                    </button></div>
+                                                <div class="col-md-4 value" style="margin-bottom:15px;"><a class="btn green btn-info">0</a></div>
+
+
+                                            </div>
                                     </div>
                                 </div>
 
@@ -385,9 +349,10 @@
                                             </div>
                                             <div class="col-md-8 margin-top-10">
                                                 <div class="input-group input-large input-daterange">
-                                                    <input type="text" class="form-control date start_date col-md-3" style="width: 150px" placeholder="选择开始时间">
+
+                                                    <input type="text" class="form-control input-group date col-md-3" style="width: 150px" placeholder="选择开始时间">
                                                     <span class="input-group-addon"> ~ </span>
-                                                    <input type="text" class="form-control date end_date col-md-3" style="width: 150px" placeholder="选择结束时间">
+                                                    <input type="text" class="form-control input-group date col-md-3" style="width: 150px" placeholder="选择结束时间">
                                                     <span class="input-group-btn">
                                                                     <button class="btn default" type="button" ng-click="setCurvetime()">
                                                                         设置
@@ -395,14 +360,15 @@
                                                                 </span>
                                                 </div>
 
+
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="margin-top-10 margin-bottom-20 text-center">
                                                     <div class="clearfix">
-                                                        <input type="button" class="btn blue btn-outline" ng-click="setHistoryTime(1)" value="最近10分钟">
-                                                        <input type="button" class="btn red btn-outline" ng-click="setHistoryTime(2)" value="最近24小时">
-                                                        <input type="button" class="btn green btn-outline" ng-click="setHistoryTime(3)" value="最近7天">
-                                                        <input type="button" class="btn purple btn-outline" ng-click="setFreeTime()" ng-value="curve.setTime" value="自定义时间">
+                                                        <input type="button" class="btn blue btn-outline" onclick="setHistoryTime(1)" value="最近10分钟">
+                                                        <input type="button" class="btn red btn-outline" onclick="setHistoryTime(2)" value="最近24小时">
+                                                        <input type="button" class="btn green btn-outline" onclick="setHistoryTime(3)" value="最近7天">
+                                                        <input type="button" class="btn purple btn-outline" onclick="setFreeTime()" value="curve.setTime" value="自定义时间">
                                                     </div>
                                                 </div>
                                             </div>
@@ -434,107 +400,38 @@
     <link href="${basePath}/resources/kuyun-admin/plugins/zTree_v3/css/zTreeStyle/zTreeStyle.css" rel="stylesheet"/>
     <script src="${basePath}/resources/kuyun-admin/plugins/zTree_v3/js/jquery.ztree.all.min.js"></script>
 
-    <script type="text/javascript">
-        var zTree;
-        var setting = {
-            view: {
-                dblClickExpand: false,
-                showLine: true,
-                selectedMulti: false
-            },
-            data: {
-                simpleData: {
-                    enable:true,
-                    idKey: "id",
-                    pIdKey: "pId",
-                    rootPId: ""
-                }
-            },
-            callback: {
-                beforeClick: function(treeId, treeNode) {
-                    var zTree = $.fn.zTree.getZTreeObj("treeCity");
-                    if (treeNode.isParent) {
-                        zTree.expandNode(treeNode);
-                        return false;
-                    } else {
-                        var selId=treeNode.id;
-                        ajaxGet('${basePath}/manage/equipment/'+selId, function (responseData) {
-                            if (responseData) {
-                                var data=responseData.data;
-                                setText('serialNumber',data.serialNumber);
-                                setText('equipmentId',data.equipmentId);
-                                setText('equipname',data.name);
-                                setText('number',data.number);
-                                setText('factoryDate',data.factoryDate);
-                                setText('commissioningDate',changeTimeFormat(data.commissioningDate));
-                                setText('warrantyStartDate',changeTimeFormat(data.warrantyStartDate));
-                                setText('warrantyEndDate',changeTimeFormat(data.warrantyEndDate));
-                                isOnline = data.isOnline;
-                                if(isOnline==null){
-                                    isOnline = false;
-                                }
-                                setText('isOnline',data.isOnline? '在线':'离线');
-                                longitude = data.longitude;
-                                latitude =data.latitude;
+    <script>
+        //loadEquipment
+        function callbackClickItem(treeNode){
+            var equipId=treeNode.id;
+            ajaxGet('${basePath}/manage/equipment/'+equipId, function (responseData) {
+                if (responseData) {
+                    var data=responseData.data;
+                    equipmentId = data.equipmentId;
+                    setText('serialNumber',data.serialNumber);
+                    setText('equipmentId',data.equipmentId);
+                    setText('equipname',data.name);
+                    setText('number',data.number);
+                    setText('factoryDate',data.factoryDate);
+                    setText('commissioningDate',changeTimeFormat(data.commissioningDate));
+                    setText('warrantyStartDate',changeTimeFormat(data.warrantyStartDate));
+                    setText('warrantyEndDate',changeTimeFormat(data.warrantyEndDate));
+                    isOnline = data.isOnline;
+                    if(isOnline==null){
+                        isOnline = false;
+                    }
+                    setText('isOnline',data.isOnline? '在线':'离线');
+                    longitude = data.longitude;
+                    latitude =data.latitude;
 
-                                if(data.imagePath ==''|| data.imagePath ==null){
-                                    $("#imagesrc").attr("src","../assets/pages/media/works/img7.jpg");
-                                }else{
-                                    $("#imagesrc").attr("src",'/files/'+data.imagePath);//uploaderUrl
-                                }
-                            }
-                        });
-                        return true;
+                    if(data.imagePath ==''|| data.imagePath ==null){
+                        $("#imagesrc").attr("src","../assets/pages/media/works/img7.jpg");
+                    }else{
+                        $("#imagesrc").attr("src",'/files/'+data.imagePath);//uploaderUrl
                     }
                 }
-            }
-        };
-
-        $(document).ready(function(){
-            var longitude, latitude, isOnline;
-            ajaxGet('${basePath}/manage/equipment/city/tree', function (responseData) {
-                if (responseData) {
-                    var data = responseData.data.provices;
-                    var jsonstr = "[]",  jsonTemp, pid=0, online, latitude,longitude, tmpId;
-                    var jsonarray = eval('('+jsonstr+')');
-                    $.each(data, function (n, value) {  //省
-                        tmpId=parseInt(value.code);
-                        if(n==0)
-                            jsonTemp ={"id":tmpId, "name":value.name,"pId":pid,"online":value.online, "open":true};
-                        else
-                            jsonTemp ={"id":tmpId, "name":value.name,"pId":pid,"online":value.online};
-                        jsonarray.push(jsonTemp);
-                        pid=tmpId;
-                        $.each(value.children, function (n, value) { //市
-                            tmpId=parseInt(value.code);
-                            if(n==0)
-                                jsonTemp ={"id":tmpId, "name":value.name,"pId":pid,"online":value.online,"latitude":value.latitude,"longitude":value.longitude, "open":true};
-                            else
-                                jsonTemp ={"id":tmpId, "name":value.name,"pId":pid,"online":value.online,"latitude":value.latitude,"longitude":value.longitude};
-                            jsonarray.push(jsonTemp);
-                            pid=tmpId;
-                            online = value.online;
-                            latitude=value.latitude;
-                            longitude = value.longitude;
-                            $.each(value.children, function (n, value) { //data
-                                jsonTemp ={"id":value.id, "name":value.name,"pId":pid,"online":online,"latitude":latitude,"longitude":longitude};
-                                jsonarray.push(jsonTemp);
-                            });
-                        });
-                        pid= 0;
-                    });
-                    var t = $("#treeCity");
-                    t = $.fn.zTree.init(t, setting, jsonarray);
-                }
             });
-
-
-            //zTree默认选中指定节点并执行事件
-            // var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
-            // var node = treeObj.getNodeByParam("id", "370000");
-            // treeObj.selectNode(node);
-            // setting.callback.onClick = function(){};
-        });
+        }
     </script>
 
 </pageResources>
