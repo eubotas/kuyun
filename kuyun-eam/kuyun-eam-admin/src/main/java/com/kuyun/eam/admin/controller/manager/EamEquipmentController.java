@@ -332,10 +332,4 @@ public class EamEquipmentController extends BaseController {
 		return "/manage/equipment/monitor/list.jsp";
 	}
 
-	@ApiOperation(value = "设备监控地图")
-	@RequiresPermissions("eam:equipment:read")
-	@RequestMapping(value = "/monitor/map", method = RequestMethod.GET)
-	public String monitorMap(ModelMap modelMap) {
-		return "/manage/equipment/monitor/map.jsp";
-	}
 }

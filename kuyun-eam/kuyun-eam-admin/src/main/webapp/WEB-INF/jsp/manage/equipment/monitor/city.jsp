@@ -42,7 +42,10 @@
                     zTree.expandNode(treeNode);
                     return false;
                 } else {
-                    callbackClickItem(treeNode);
+                    if(!currMode || currMode=='list')
+                        callbackShowEquip(treeNode);
+                    else
+                        callbackShowMap(treeNode);
                     return true;
                 }
             }
@@ -50,9 +53,10 @@
     };
 
     var equipmentId, longitude, latitude, isOnline;
+    var equipmentLocations =[];
     $(document).ready(function(){
         ajaxGet('${basePath}/manage/equipment/city/tree', function (responseData) {
-            if (responseData) {
+            if(responseData.code == 1) {
                 var data = responseData.data.provices;
                 var jsonstr = "[]",  jsonTemp, pid=0, online, latitude,longitude, tmpId;
                 var jsonarray = eval('('+jsonstr+')');
@@ -78,12 +82,14 @@
                         $.each(value.children, function (n, value) { //data
                             jsonTemp ={"id":value.id, "name":value.name,"pId":pid,"online":online,"latitude":latitude,"longitude":longitude};
                             jsonarray.push(jsonTemp);
+                            equipmentLocations.push(jsonTemp);
                         });
                     });
                     pid= 0;
                 });
                 var t = $("#treeCity");
                 t = $.fn.zTree.init(t, setting, jsonarray);
+                //t.expandAll(true);
             }
         });
 
