@@ -1078,6 +1078,76 @@ public class EamPartsExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andProductLineIdIsNull() {
+            addCriterion("product_line_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdIsNotNull() {
+            addCriterion("product_line_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdEqualTo(String value) {
+            addCriterion("product_line_id =", value, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdNotEqualTo(String value) {
+            addCriterion("product_line_id <>", value, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdGreaterThan(String value) {
+            addCriterion("product_line_id >", value, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdGreaterThanOrEqualTo(String value) {
+            addCriterion("product_line_id >=", value, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdLessThan(String value) {
+            addCriterion("product_line_id <", value, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdLessThanOrEqualTo(String value) {
+            addCriterion("product_line_id <=", value, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdLike(String value) {
+            addCriterion("product_line_id like", value, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdNotLike(String value) {
+            addCriterion("product_line_id not like", value, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdIn(List<String> values) {
+            addCriterion("product_line_id in", values, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdNotIn(List<String> values) {
+            addCriterion("product_line_id not in", values, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdBetween(String value1, String value2) {
+            addCriterion("product_line_id between", value1, value2, "productLineId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProductLineIdNotBetween(String value1, String value2) {
+            addCriterion("product_line_id not between", value1, value2, "productLineId");
+            return (Criteria) this;
+        }
+
         public Criteria addConditionSql(String conditionSql) {
             addCriterion(conditionSql);
             return (Criteria) this;

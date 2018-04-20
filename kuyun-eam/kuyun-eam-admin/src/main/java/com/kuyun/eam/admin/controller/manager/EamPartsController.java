@@ -127,9 +127,7 @@ public class EamPartsController extends BaseController {
 	}
 
 	private void handleModelMap(ModelMap modelMap) {
-		EamPartsCategoryExample categoryExample = new EamPartsCategoryExample();
-		List<EamPartsCategory> categoryList = eamPartsCategoryService.selectByExample(categoryExample);
-		modelMap.addAttribute("categoryList", categoryList);
+		modelMap.addAttribute("categoryList", getPartCategoryList());
 	}
 
 	@ApiOperation(value = "新增配件")

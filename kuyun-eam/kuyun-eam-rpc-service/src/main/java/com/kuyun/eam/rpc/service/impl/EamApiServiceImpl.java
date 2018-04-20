@@ -1214,6 +1214,7 @@ public class EamApiServiceImpl implements EamApiService {
 
     @Override
     public int rejectTicketAppoint(EamTicketAppointedRecord ticketAppointRecord){
+        ticketAppointRecord.setAction(EamConstant.TICKET_APPOINT_REJECT);
         int count = eamTicketAppointRecordService.insertSelective(ticketAppointRecord);
         rejectTicketStatus(ticketAppointRecord.getTicketId(), TicketStatus.INIT.getName());
         return count;
@@ -2162,6 +2163,7 @@ public class EamApiServiceImpl implements EamApiService {
         if (partBeanList != null && !partBeanList.isEmpty()){
             for (PartBean partBean : partBeanList){
                 EamParts part = new EamParts();
+                part.setProductLineId(equipment.getProductLineId());
                 part.setEquipmentId(equipment.getEquipmentId());
                 part.setCategoryId(getPartCategoryId(partBean.getCategoryName(), company));
                 part.setSeqId(NumberUtil.toInteger(partBean.getSeqId()));

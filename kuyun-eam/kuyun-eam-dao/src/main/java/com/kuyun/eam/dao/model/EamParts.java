@@ -47,6 +47,8 @@ public class EamParts extends BaseEntity implements Serializable {
      */
     private Integer quantity;
 
+    private String productLineId;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getPartId() {
@@ -121,6 +123,14 @@ public class EamParts extends BaseEntity implements Serializable {
         this.quantity = quantity;
     }
 
+    public String getProductLineId() {
+        return productLineId;
+    }
+
+    public void setProductLineId(String productLineId) {
+        this.productLineId = productLineId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -136,6 +146,7 @@ public class EamParts extends BaseEntity implements Serializable {
         sb.append(", model=").append(model);
         sb.append(", material=").append(material);
         sb.append(", quantity=").append(quantity);
+        sb.append(", productLineId=").append(productLineId);
         sb.append("]");
         return sb.toString();
     }
@@ -166,7 +177,8 @@ public class EamParts extends BaseEntity implements Serializable {
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()));
+            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()))
+            && (this.getProductLineId() == null ? other.getProductLineId() == null : this.getProductLineId().equals(other.getProductLineId()));
     }
 
     @Override
@@ -188,6 +200,7 @@ public class EamParts extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
+        result = prime * result + ((getProductLineId() == null) ? 0 : getProductLineId().hashCode());
         return result;
     }
 }

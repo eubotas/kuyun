@@ -492,6 +492,7 @@ drop table if exists eam_parts;
 create table eam_parts
 (
    part_id              int not null auto_increment,
+   product_line_id      varchar(32),
    equipment_id         varchar(32),
    category_id          int,
    seq_id               int,

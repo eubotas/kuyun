@@ -10,6 +10,8 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
+    <result column="appoint_commont" jdbcType="VARCHAR" property="appointCommont" />
+    <result column="action" jdbcType="VARCHAR" property="action" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -71,7 +73,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, ticket_id, order_taker_id, reject_commont, create_user_id, create_time, delete_flag, 
-    company_id
+    company_id, appoint_commont, action
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamTicketAppointedRecordExample" resultMap="BaseResultMap">
     select
@@ -114,10 +116,12 @@
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamTicketAppointedRecord">
     insert into eam_ticket_appointed_record (id, ticket_id, order_taker_id, 
       reject_commont, create_user_id, create_time, 
-      delete_flag, company_id)
+      delete_flag, company_id, appoint_commont, 
+      action)
     values (#{id,jdbcType=INTEGER}, #{ticketId,jdbcType=INTEGER}, #{orderTakerId,jdbcType=INTEGER}, 
       #{rejectCommont,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlag,jdbcType=BIT}, #{companyId,jdbcType=INTEGER})
+      #{deleteFlag,jdbcType=BIT}, #{companyId,jdbcType=INTEGER}, #{appointCommont,jdbcType=VARCHAR}, 
+      #{action,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamTicketAppointedRecord">
     insert into eam_ticket_appointed_record
@@ -146,6 +150,12 @@
       <if test="companyId != null">
         company_id,
       </if>
+      <if test="appointCommont != null">
+        appoint_commont,
+      </if>
+      <if test="action != null">
+        action,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -171,6 +181,12 @@
       </if>
       <if test="companyId != null">
         #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="appointCommont != null">
+        #{appointCommont,jdbcType=VARCHAR},
+      </if>
+      <if test="action != null">
+        #{action,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -207,6 +223,12 @@
       <if test="record.companyId != null">
         company_id = #{record.companyId,jdbcType=INTEGER},
       </if>
+      <if test="record.appointCommont != null">
+        appoint_commont = #{record.appointCommont,jdbcType=VARCHAR},
+      </if>
+      <if test="record.action != null">
+        action = #{record.action,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -221,7 +243,9 @@
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      company_id = #{record.companyId,jdbcType=INTEGER}
+      company_id = #{record.companyId,jdbcType=INTEGER},
+      appoint_commont = #{record.appointCommont,jdbcType=VARCHAR},
+      action = #{record.action,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -250,6 +274,12 @@
       <if test="companyId != null">
         company_id = #{companyId,jdbcType=INTEGER},
       </if>
+      <if test="appointCommont != null">
+        appoint_commont = #{appointCommont,jdbcType=VARCHAR},
+      </if>
+      <if test="action != null">
+        action = #{action,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -261,19 +291,23 @@
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
-      company_id = #{companyId,jdbcType=INTEGER}
+      company_id = #{companyId,jdbcType=INTEGER},
+      appoint_commont = #{appointCommont,jdbcType=VARCHAR},
+      action = #{action,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
             insert into eam_ticket_appointed_record  (id, ticket_id, order_taker_id, 
         reject_commont, create_user_id, create_time, 
-        delete_flag, company_id)
+        delete_flag, company_id, appoint_commont, 
+        action)
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.id,jdbcType=INTEGER}, #{item.ticketId,jdbcType=INTEGER}, #{item.orderTakerId,jdbcType=INTEGER}, 
         #{item.rejectCommont,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, 
-        #{item.deleteFlag,jdbcType=BIT}, #{item.companyId,jdbcType=INTEGER})
+        #{item.deleteFlag,jdbcType=BIT}, #{item.companyId,jdbcType=INTEGER}, #{item.appointCommont,jdbcType=VARCHAR}, 
+        #{item.action,jdbcType=VARCHAR})
       </foreach>
     </if>
   </insert>

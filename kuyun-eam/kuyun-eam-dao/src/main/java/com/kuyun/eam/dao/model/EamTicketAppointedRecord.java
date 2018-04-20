@@ -22,6 +22,20 @@ public class EamTicketAppointedRecord extends BaseEntity implements Serializable
      */
     private String rejectCommont;
 
+    /**
+     * 委派备注，可为空
+     *
+     * @mbg.generated
+     */
+    private String appointCommont;
+
+    /**
+     * 接单/拒单
+     *
+     * @mbg.generated
+     */
+    private String action;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -56,6 +70,22 @@ public class EamTicketAppointedRecord extends BaseEntity implements Serializable
         this.rejectCommont = rejectCommont;
     }
 
+    public String getAppointCommont() {
+        return appointCommont;
+    }
+
+    public void setAppointCommont(String appointCommont) {
+        this.appointCommont = appointCommont;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -66,6 +96,8 @@ public class EamTicketAppointedRecord extends BaseEntity implements Serializable
         sb.append(", ticketId=").append(ticketId);
         sb.append(", orderTakerId=").append(orderTakerId);
         sb.append(", rejectCommont=").append(rejectCommont);
+        sb.append(", appointCommont=").append(appointCommont);
+        sb.append(", action=").append(action);
         sb.append("]");
         return sb.toString();
     }
@@ -89,7 +121,9 @@ public class EamTicketAppointedRecord extends BaseEntity implements Serializable
             && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()));
+            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()))
+            && (this.getAppointCommont() == null ? other.getAppointCommont() == null : this.getAppointCommont().equals(other.getAppointCommont()))
+            && (this.getAction() == null ? other.getAction() == null : this.getAction().equals(other.getAction()));
     }
 
     @Override
@@ -104,6 +138,8 @@ public class EamTicketAppointedRecord extends BaseEntity implements Serializable
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
+        result = prime * result + ((getAppointCommont() == null) ? 0 : getAppointCommont().hashCode());
+        result = prime * result + ((getAction() == null) ? 0 : getAction().hashCode());
         return result;
     }
 }

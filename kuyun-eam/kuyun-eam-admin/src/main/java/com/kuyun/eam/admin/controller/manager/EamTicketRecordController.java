@@ -3,12 +3,15 @@ package com.kuyun.eam.admin.controller.manager;
 import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
-import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
+import com.kuyun.eam.common.constant.EamConstant;
 import com.kuyun.eam.common.constant.EamResult;
+import com.kuyun.eam.dao.model.EamTicketAppointedRecord;
+import com.kuyun.eam.dao.model.EamTicketAppointedRecordExample;
 import com.kuyun.eam.dao.model.EamTicketRecord;
 import com.kuyun.eam.dao.model.EamTicketRecordExample;
 import com.kuyun.eam.rpc.api.EamApiService;
+import com.kuyun.eam.rpc.api.EamTicketAppointedRecordService;
 import com.kuyun.eam.rpc.api.EamTicketRecordService;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
@@ -49,6 +52,9 @@ public class EamTicketRecordController extends EamTicketBaseController {
 
     @Autowired
     private EamApiService eamApiService;
+
+    @Autowired
+	private EamTicketAppointedRecordService eamTicketAppointedRecord;
 
 	@ApiOperation(value = "工单记录管理首页")
 	@RequiresPermissions("eam:ticketRecord:read")
@@ -114,9 +120,27 @@ public class EamTicketRecordController extends EamTicketBaseController {
 		if (!result.isSuccess()) {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
+		updateLastTicketAppointedRecord(ticketRecord);
 		baseEntityUtil.addAddtionalValue(ticketRecord);
 		int count = eamApiService.addTicketRecord(ticketRecord);
 		return new EamResult(SUCCESS, count);
+	}
+
+	private void updateLastTicketAppointedRecord(EamTicketRecord ticketRecord){
+
+		EamTicketAppointedRecordExample example = new EamTicketAppointedRecordExample();
+
+		example.createCriteria()
+				.andTicketIdEqualTo(ticketRecord.getTicketId())
+				.andOrderTakerIdEqualTo(getCurrUserId())
+				.andDeleteFlagEqualTo(Boolean.FALSE);
+		example.setOrderByClause("create_time desc");
+
+		EamTicketAppointedRecord appointedRecord = eamTicketAppointedRecord.selectFirstByExample(example);
+		if (appointedRecord != null && appointedRecord.getAction() == null){
+			appointedRecord.setAction(EamConstant.TICKET_APPOINT_ACCEPT);
+			eamTicketAppointedRecord.updateByPrimaryKeySelective(appointedRecord);
+		}
 	}
 
 	@ApiOperation(value = "删除工单记录")

@@ -17,6 +17,7 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
+    <result column="product_line_id" jdbcType="VARCHAR" property="productLineId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -78,7 +79,8 @@
   </sql>
   <sql id="Base_Column_List">
     part_id, equipment_id, category_id, seq_id, symbol, name, model, material, quantity, 
-    create_user_id, create_time, update_user_id, update_time, delete_flag, company_id
+    create_user_id, create_time, update_user_id, update_time, delete_flag, company_id, 
+    product_line_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamPartsExample" resultMap="BaseResultMap">
     select
@@ -123,14 +125,14 @@
       seq_id, symbol, name, 
       model, material, quantity, 
       create_user_id, create_time, update_user_id, 
-      update_time, delete_flag, company_id
-      )
+      update_time, delete_flag, company_id, 
+      product_line_id)
     values (#{partId,jdbcType=INTEGER}, #{equipmentId,jdbcType=VARCHAR}, #{categoryId,jdbcType=INTEGER}, 
       #{seqId,jdbcType=INTEGER}, #{symbol,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{model,jdbcType=VARCHAR}, #{material,jdbcType=VARCHAR}, #{quantity,jdbcType=INTEGER}, 
       #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{companyId,jdbcType=INTEGER}
-      )
+      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{companyId,jdbcType=INTEGER}, 
+      #{productLineId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamParts">
     insert into eam_parts
@@ -180,6 +182,9 @@
       <if test="companyId != null">
         company_id,
       </if>
+      <if test="productLineId != null">
+        product_line_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="partId != null">
@@ -226,6 +231,9 @@
       </if>
       <if test="companyId != null">
         #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="productLineId != null">
+        #{productLineId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -283,6 +291,9 @@
       <if test="record.companyId != null">
         company_id = #{record.companyId,jdbcType=INTEGER},
       </if>
+      <if test="record.productLineId != null">
+        product_line_id = #{record.productLineId,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -304,7 +315,8 @@
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      company_id = #{record.companyId,jdbcType=INTEGER}
+      company_id = #{record.companyId,jdbcType=INTEGER},
+      product_line_id = #{record.productLineId,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -354,6 +366,9 @@
       <if test="companyId != null">
         company_id = #{companyId,jdbcType=INTEGER},
       </if>
+      <if test="productLineId != null">
+        product_line_id = #{productLineId,jdbcType=VARCHAR},
+      </if>
     </set>
     where part_id = #{partId,jdbcType=INTEGER}
   </update>
@@ -372,7 +387,8 @@
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
-      company_id = #{companyId,jdbcType=INTEGER}
+      company_id = #{companyId,jdbcType=INTEGER},
+      product_line_id = #{productLineId,jdbcType=VARCHAR}
     where part_id = #{partId,jdbcType=INTEGER}
   </update>
   <insert id="batchInsert">
@@ -381,16 +397,16 @@
         seq_id, symbol, name, 
         model, material, quantity, 
         create_user_id, create_time, update_user_id, 
-        update_time, delete_flag, company_id
-        )
+        update_time, delete_flag, company_id, 
+        product_line_id)
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.partId,jdbcType=INTEGER}, #{item.equipmentId,jdbcType=VARCHAR}, #{item.categoryId,jdbcType=INTEGER}, 
         #{item.seqId,jdbcType=INTEGER}, #{item.symbol,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, 
         #{item.model,jdbcType=VARCHAR}, #{item.material,jdbcType=VARCHAR}, #{item.quantity,jdbcType=INTEGER}, 
         #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, 
-        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, #{item.companyId,jdbcType=INTEGER}
-        )
+        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, #{item.companyId,jdbcType=INTEGER}, 
+        #{item.productLineId,jdbcType=VARCHAR})
       </foreach>
     </if>
   </insert>

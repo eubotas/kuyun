@@ -1131,7 +1131,10 @@
 
 	<select id="listMaintainPlans" parameterType="com.kuyun.eam.vo.EamMaintainPlanVO" resultMap="EamMaintainPlanVOResultMap">
 		select
-		plan_id, work_content, next_maintain_date, maintain_frequency_unit, maintain_frequency_quantity, maintain_type, remind_time, a.create_time ,
+		plan_id, work_content, next_maintain_date, maintain_frequency_unit,
+		maintain_frequency_quantity, maintain_type, remind_time, a.create_time,
+		a.equipment_id,
+		a.product_line_id,
 		uo.name as orgName,
 		ec.name as equipmentCategoryName,
 		e.name as equipmentName,
