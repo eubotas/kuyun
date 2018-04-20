@@ -1,5 +1,6 @@
 package com.kuyun.eam.rpc.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.kuyun.eam.dao.model.*;
@@ -67,4 +68,7 @@ public interface EamApiMapper {
 
     List<EamEquipmentModelPropertiesVO> selectEquipmentModelProperties(EamEquipmentModelPropertiesVO eamEquipmentModelPropertiesVO);
     Long countEquipmentModelProperties(EamEquipmentModelPropertiesVO eamEquipmentModelPropertiesVO);
+
+    List<EamHomeStatusSummaryVO> getStatusSummaryRecord(Integer companyId);
+    HashMap getSummaryRecord(Integer companyId);
 }

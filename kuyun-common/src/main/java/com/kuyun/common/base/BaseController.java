@@ -19,13 +19,6 @@ public abstract class BaseController {
 
 	private final static Logger _log = LoggerFactory.getLogger(BaseController.class);
 
-//    @InitBinder
-//    public void initBinder(WebDataBinder binder) {
-//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-//        dateFormat.setLenient(false);
-//        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
-//    }
-
         /**
          * 统一异常处理
          * @param request

@@ -1,5 +1,6 @@
 package com.kuyun.eam.rpc.api;
 
+import java.util.HashMap;
 import java.util.List;
 
 import com.kuyun.eam.common.constant.CollectStatus;
@@ -86,4 +87,7 @@ public interface EamApiService {
     EamMaintainPlanVO getMaintainPlan(Integer planId);
 
     List<EamTicketRejectRecordVO> getTicketRejectRecord(Integer ticketId);
+
+    List<EamHomeStatusSummaryVO> getStatusSummaryRecord(Integer companyId);
+    HashMap getSummaryRecord(Integer companyId);
 }

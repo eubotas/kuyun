@@ -708,6 +708,16 @@ public class EamApiServiceImpl implements EamApiService {
         return eamApiMapper.getTicketRejectRecord(ticketId);
     }
 
+    @Override
+    public List<EamHomeStatusSummaryVO> getStatusSummaryRecord(Integer companyId) {
+        return eamApiMapper.getStatusSummaryRecord(companyId);
+    }
+
+    @Override
+    public HashMap getSummaryRecord(Integer companyId) {
+        return eamApiMapper.getSummaryRecord(companyId);
+    }
+
     private int rejectTicketStatus(int ticketId, String status){
         EamTicket ticket=new EamTicket();
         ticket.setTicketId(ticketId);

@@ -9,6 +9,7 @@ import com.kuyun.upms.dao.model.UpmsUserCompany;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -222,6 +223,16 @@ public class EamApiServiceMock implements EamApiService {
 
     @Override
     public List<EamTicketRejectRecordVO> getTicketRejectRecord(Integer ticketId) {
+        return null;
+    }
+
+    @Override
+    public List<EamHomeStatusSummaryVO> getStatusSummaryRecord(Integer companyId) {
+        return null;
+    }
+
+    @Override
+    public HashMap getSummaryRecord(Integer companyId) {
         return null;
     }
 

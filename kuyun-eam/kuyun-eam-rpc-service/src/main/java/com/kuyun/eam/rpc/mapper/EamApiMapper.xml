@@ -942,6 +942,29 @@
         WHERE a.delete_flag = 0 and a.plan_id=#{planId, jdbcType=INTEGER}
 
     </select>
+
+    <resultMap id="SummaryResultMap" type="com.kuyun.eam.vo.EamHomeSummaryVO" >
+        <result column="alarmNum" jdbcType="INTEGER" property="alarmNumber" />
+        <result column="ticketNum" jdbcType="INTEGER" property="ticketNumber" />
+        <result column="eqNum" jdbcType="INTEGER" property="equipmentNumber" />
+    </resultMap>
+
+    <select id="getSummaryRecord" parameterType="Integer" resultMap="java.util.HashMap">
+        select count(alarm_id) as alarmNum, IFNULL((select count(ticket_id) from eam_ticket where delete_flag=0 and company_id=#{ticketId, jdbcType=INTEGER}),0) as ticketNum,
+        IFNULL((select count(eq.equipment_id) from eam_equipment eq, eam_equipment_company c where eq.equipment_id = c.equipment_id and c.delete_flag=0 and c.company_id=#{ticketId, jdbcType=INTEGER}),0) as eqNum
+        from eam_alarm_record a where a.delete_flag=0 and a.company_id=#{ticketId, jdbcType=INTEGER}
+    </select>
+
+    <resultMap id="StatusSummaryResultMap" type="com.kuyun.eam.vo.EamHomeStatusSummaryVO" >
+        <result column="type" jdbcType="VARCHAR" property="statusName" />
+        <result column="num" jdbcType="INTEGER" property="count" />
+    </resultMap>
+
+    <select id="getStatusSummaryRecord" parameterType="Integer" resultMap="StatusSummaryResultMap">
+        select  IFNULL(is_online,0) as type, count(eq.equipment_id) as num from eam_equipment eq, eam_equipment_company c where eq.equipment_id = c.equipment_id
+        and c.delete_flag=0 and c.company_id=#{ticketId, jdbcType=INTEGER} group by type
+    </select>
+
 	<!-- 缓存 -->
 	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 
