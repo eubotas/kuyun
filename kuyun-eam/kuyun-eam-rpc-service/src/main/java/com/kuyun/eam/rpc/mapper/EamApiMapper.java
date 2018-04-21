@@ -70,5 +70,5 @@ public interface EamApiMapper {
     Long countEquipmentModelProperties(EamEquipmentModelPropertiesVO eamEquipmentModelPropertiesVO);
 
     List<EamHomeStatusSummaryVO> getStatusSummaryRecord(Integer companyId);
-    HashMap getSummaryRecord(Integer companyId);
+    List<EamHomeSummaryVO> getSummaryRecord(Integer companyId);
 }

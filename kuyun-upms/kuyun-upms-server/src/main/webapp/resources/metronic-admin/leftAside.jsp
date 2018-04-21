@@ -31,7 +31,7 @@
 
         <div id="menuDashboard" style="display: none">
             <li class="m-menu__item " aria-haspopup="true" >
-                <a  href="#" class="m-menu__link ">
+                <a  href="${eamPath}/manage/index" class="m-menu__link ">
                     <i class="m-menu__link-icon flaticon-line-graph"></i>
                     <span class="m-menu__link-title">
 										<span class="m-menu__link-wrap">

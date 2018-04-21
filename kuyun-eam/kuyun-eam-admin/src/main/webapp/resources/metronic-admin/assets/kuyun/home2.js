@@ -1,6 +1,6 @@
 
-var json = [${statusSummary}];
-createPie('echarts_pie1', json, '设备在线状态');
+
+createPie('echarts_pie1', statusPie, '设备在线状态');
 
 var json = [
     {value: 1980, name: '正常运行'},
@@ -64,8 +64,7 @@ function createPie(id, json, name) {
 
 $(function() {
     $('#maintainplanTable').bootstrapTable({
-        url: '${basePath}/manage/maintainPlan/list',
-        striped: true,
+        url: '/manage/maintainPlan/list',
         searchAlign: 'left',
         toolbarAlign: 'right',
         minimumCountColumns: 2,
@@ -80,7 +79,6 @@ $(function() {
         escape: true,
         maintainSelected: true,
         columns: [
-            {field: 'ck', checkbox: true},
             {field: 'planId', title: 'ID', sortable: true, align: 'center'},
             {field: 'equipmentCategoryName', title: '设备目录'},
             {field: 'equipmentName', title: '设备名称'},
@@ -107,7 +105,6 @@ $(function() {
         escape: true,
         maintainSelected: true,
         columns: [
-            {field: 'ck', checkbox: true},
             {field: 'priority', title: '优先级', sortable: true, align: 'center', searchable: true},
             {field: 'ticketType.name', title: '工单类型', sortable: true, align: 'center', searchable: true},
             {field: 'serviceman', title: '维修人', sortable: true, align: 'center', searchable: true},
@@ -136,7 +133,6 @@ $(function() {
         escape: true,
         maintainSelected: true,
         columns: [
-            {field: 'ck', checkbox: true},
             {field: 'priority', title: '优先级', sortable: true, align: 'center', searchable: true},
             {field: 'ticketType.name', title: '工单类型', sortable: true, align: 'center', searchable: true},
             {field: 'serviceman', title: '维修人', sortable: true, align: 'center', searchable: true},
@@ -164,7 +160,6 @@ $(function() {
         escape: true,
         maintainSelected: true,
         columns: [
-            {field: 'ck', checkbox: true},
             {field: 'priority', title: '优先级', sortable: true, align: 'center', searchable: true},
             {field: 'ticketType.name', title: '工单类型', sortable: true, align: 'center', searchable: true},
             {field: 'customerContacts', title: '提报人', sortable: true, align: 'center', searchable: true},

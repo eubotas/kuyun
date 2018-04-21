@@ -232,7 +232,7 @@ public class EamApiServiceMock implements EamApiService {
     }
 
     @Override
-    public HashMap getSummaryRecord(Integer companyId) {
+    public List<EamHomeSummaryVO> getSummaryRecord(Integer companyId) {
         return null;
     }
 

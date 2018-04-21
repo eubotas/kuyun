@@ -89,5 +89,5 @@ public interface EamApiService {
     List<EamTicketRejectRecordVO> getTicketRejectRecord(Integer ticketId);
 
     List<EamHomeStatusSummaryVO> getStatusSummaryRecord(Integer companyId);
-    HashMap getSummaryRecord(Integer companyId);
+    List<EamHomeSummaryVO> getSummaryRecord(Integer companyId);
 }

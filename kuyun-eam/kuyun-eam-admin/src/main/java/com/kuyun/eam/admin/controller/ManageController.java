@@ -3,10 +3,12 @@ package com.kuyun.eam.admin.controller;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.eam.rpc.api.EamApiService;
 import com.kuyun.eam.vo.EamHomeStatusSummaryVO;
+import com.kuyun.eam.vo.EamHomeSummaryVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,19 +45,22 @@ public class ManageController extends BaseController {
 	@ApiOperation(value = "后台首页")
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(ModelMap modelMap) {
-        modelMap.put("summary",eamApiService.getSummaryRecord(getCompanyId()));
+        List<EamHomeSummaryVO> vos=eamApiService.getSummaryRecord(getCompanyId());
+        modelMap.put("summary",vos.size()>0? vos.get(0): new EamHomeSummaryVO());
 
         List<EamHomeStatusSummaryVO> list=eamApiService.getStatusSummaryRecord(getCompanyId());
-        EamHomeStatusSummaryVO statusVo=null;
+        JSONArray arr = new JSONArray();
+        JSONObject json;
         for(EamHomeStatusSummaryVO vo: list){
-            statusVo=new EamHomeStatusSummaryVO();
+            json = new JSONObject();
             if("0".equals(vo.getStatusName()))
-                statusVo.setStatusName("离线");
+                json.put("name", "离线");
             else
-                statusVo.setStatusName("在线");
-            statusVo.setCount(vo.getCount());
+                json.put("name","在线");
+            json.put("value",vo.getCount());
+            arr.add(json);
         }
-        modelMap.put("statusSummary", JSONObject.fromObject(statusVo));
+        modelMap.put("statusSummary", arr);
 	    return "/manage/index.jsp";
 	}
 

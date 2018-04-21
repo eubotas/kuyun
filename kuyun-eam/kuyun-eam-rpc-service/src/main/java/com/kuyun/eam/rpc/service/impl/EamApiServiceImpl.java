@@ -714,7 +714,7 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     @Override
-    public HashMap getSummaryRecord(Integer companyId) {
+    public List<EamHomeSummaryVO> getSummaryRecord(Integer companyId) {
         return eamApiMapper.getSummaryRecord(companyId);
     }
 

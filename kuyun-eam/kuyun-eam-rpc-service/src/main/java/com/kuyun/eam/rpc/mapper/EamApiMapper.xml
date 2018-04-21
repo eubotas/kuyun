@@ -949,7 +949,7 @@
         <result column="eqNum" jdbcType="INTEGER" property="equipmentNumber" />
     </resultMap>
 
-    <select id="getSummaryRecord" parameterType="Integer" resultMap="java.util.HashMap">
+    <select id="getSummaryRecord" parameterType="Integer" resultMap="SummaryResultMap">
         select count(alarm_id) as alarmNum, IFNULL((select count(ticket_id) from eam_ticket where delete_flag=0 and company_id=#{ticketId, jdbcType=INTEGER}),0) as ticketNum,
         IFNULL((select count(eq.equipment_id) from eam_equipment eq, eam_equipment_company c where eq.equipment_id = c.equipment_id and c.delete_flag=0 and c.company_id=#{ticketId, jdbcType=INTEGER}),0) as eqNum
         from eam_alarm_record a where a.delete_flag=0 and a.company_id=#{ticketId, jdbcType=INTEGER}

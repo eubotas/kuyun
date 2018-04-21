@@ -43,6 +43,10 @@
 
 
 <content>
+    <script>
+        var statusPie = ${statusSummary};
+    </script>
+
     <div class="m-content">
         <div class="row">
             <div class="col-lg-6">
@@ -66,8 +70,8 @@
                             <span class="m-widget17__subtitle">
 															设备数量
 														</span>
-                            <span class="m-widget17__desc" id="eqNumber">
-															${summary.eqNum}
+                            <span class="m-widget17__desc" >
+															${summary.equipmentNumber}
 														</span>
                         </div>
 
@@ -79,7 +83,7 @@
 															报警提醒数量
 														</span>
                             <span class="m-widget17__desc">
-                                                            ${summary.alarmNum}
+                                                            ${summary.alarmNumber}
 														</span>
                         </div>
 
@@ -91,7 +95,7 @@
 															工单处理数量
 														</span>
                             <span class="m-widget17__desc">
-                                                             ${summary.ticketNum}
+                                                             ${summary.ticketNumber}
 														</span>
                         </div>
 
@@ -206,7 +210,6 @@
 <pageResources>
     <script src="${basePath}/resources/kuyun-admin/plugins/echarts/echarts.min.js"></script>
     <script src="${basePath}/resources/metronic-admin/assets/kuyun/home2.js"></script>
-
 
 </pageResources>
 
