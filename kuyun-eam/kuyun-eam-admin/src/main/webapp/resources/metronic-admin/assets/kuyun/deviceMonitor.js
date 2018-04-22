@@ -98,13 +98,13 @@
       $('#myModal_alert').modal('hide');
     };
     var linechart;
-    // player = new EZUIPlayer('myPlayer');
-    // player.on('play', function(){
-    //   console.log('startPlayVedio');
-    // });
-    // player.on('pause', function(){
-    //   console.log('pausePlayVedio');
-    // });
+    player = new EZUIPlayer('myPlayer');
+    player.on('play', function(){
+      console.log('startPlayVedio');
+    });
+    player.on('pause', function(){
+      console.log('pausePlayVedio');
+    });
 
     if (location.href.indexOf('&guide=1') !== -1) {
         map.setStatus({
@@ -433,11 +433,11 @@
           //$('.tab-content').find(_id).addClass('active').siblings().removeClass('active');
           switch (_id) {　　　　
               case "#equipment":
-                //player.pause();
+                player.pause();
                 clearInterval(timer);
                 break;　　　　
               case "#run":
-                //player.pause();
+                player.pause();
                 clearInterval(timer);
                 if(isOnline==true){
                   refreshData();
@@ -458,7 +458,7 @@
               case "#histroyData":
                   {
                     clearInterval(timer);
-                   // player.pause();
+                    player.pause();
                     $('.start_date').datetimepicker({
                         language: 'zh-CN',
                         weekStart: 1,

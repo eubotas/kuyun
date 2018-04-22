@@ -9,6 +9,8 @@
 
 <link href="${basePath}/resources/kuyun-admin/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.css" rel="stylesheet"/>
 <script src="${basePath}/resources/kuyun-admin/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.js"></script>
+<script src="${basePath}/resources/kuyun-admin/plugins/ezuikit/ezuikit.js"></script>
+
 <div class="nav-tabs-horizontal" data-approve="nav-tabs">
     <div class="m-portlet m-portlet--tabs m-portlet--head-solid-bg m-portlet--head-sm">
         <div class="m-portlet__head">
