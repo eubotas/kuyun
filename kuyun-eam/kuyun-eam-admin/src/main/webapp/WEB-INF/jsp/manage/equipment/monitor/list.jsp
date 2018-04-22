@@ -19,8 +19,6 @@
 
     <script>
         var currMode='list';
-        var equipId;
-
         function changeMode(){
             if(currMode=='list'){
                 currMode='map';

@@ -162,7 +162,7 @@
                         </div>
                     </div>
                     <div class="m-portlet__head-tools">
-                        <ul class="nav nav-pills nav-pills--brand m-nav-pills--align-right m-nav-pills--btn-pill m-nav-pills--btn-sm" role="tablist">
+                        <ul class="nav nav-pills nav-pills--brand m-nav-pills--align-left m-nav-pills--btn-pill m-nav-pills--btn-sm" role="tablist">
                             <li class="nav-item m-tabs__item">
                                 <a class="nav-link m-tabs__link" data-toggle="tab" href="#allTicket" role="tab" aria-selected="false">
                                     所有工单

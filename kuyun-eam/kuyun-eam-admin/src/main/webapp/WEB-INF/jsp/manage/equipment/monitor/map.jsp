@@ -37,7 +37,9 @@
         var markContentMap = new Map();
 
         function selectedMark(eqloc){
-            var content=markContentMap.get(eqloc.id);
+            selectedequipid = eqloc.id;
+            selectNode();
+            var content=markContentMap.get(selectedequipid);
             if(content) {
                 infoWindow.setContent(content.join('<br/>'));
                 infoWindow.open(map, [eqloc.longitude, eqloc.latitude]);
@@ -93,13 +95,13 @@
     <script>
         //toMap
         function callbackShowMap(treeNode){
-            equipId=treeNode.id;
+            selectedequipid=treeNode.id;
             selectedMark(treeNode);
         }
 
         function change2Map(){
             setMarkOnMap();
-            var eqloc=getEqloc(equipId);
+            var eqloc=getEqloc(selectedequipid);
             if(eqloc)
                 selectedMark(eqloc);
             changeMode();
@@ -108,6 +110,7 @@
         function change2List(id){
             showEquipmentInfo(id);
             changeMode();
+            selectNode();
         }
 
         function getEqloc(eid){
@@ -119,6 +122,17 @@
             });
             return equipmentloc;
         }
+
+        function selectNode(){
+            if(selectedequipid) {
+                var treeObj = $.fn.zTree.getZTreeObj("treeCity");
+                var devNodes = treeObj.getNodesByParam("id", selectedequipid, null);
+                treeObj.selectNode(devNodes[0]);
+                treeObj.expandAll(true);
+            }
+        }
+
+
     </script>
 
 

@@ -422,6 +422,15 @@ function showModal(id) {
     jQuery("#"+id).modal('show');
 }
 
+function showId(id, val) {
+    if(id) {
+        if(val == true)
+            jQuery("#" + id).show();
+        else
+            jQuery("#" + id).hide();
+    }
+}
+
 function getUnitName(unit) {
     if(!unit)
         return "";
