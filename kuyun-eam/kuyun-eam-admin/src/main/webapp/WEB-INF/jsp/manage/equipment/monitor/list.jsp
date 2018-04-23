@@ -19,8 +19,8 @@
 
     <script>
         var currMode='list';
-        var equipId;
-
+        var uploadServerPath ="${uploadServerPath}";
+        var basePath ="${basePath}";
         function changeMode(){
             if(currMode=='list'){
                 currMode='map';

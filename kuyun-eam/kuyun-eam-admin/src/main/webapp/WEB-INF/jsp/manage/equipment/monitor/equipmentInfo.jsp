@@ -7,38 +7,42 @@
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 
+<link href="${basePath}/resources/kuyun-admin/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.css" rel="stylesheet"/>
+<script src="${basePath}/resources/kuyun-admin/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.js"></script>
+<script src="${basePath}/resources/kuyun-admin/plugins/ezuikit/ezuikit.js"></script>
+
 <div class="nav-tabs-horizontal" data-approve="nav-tabs">
     <div class="m-portlet m-portlet--tabs m-portlet--head-solid-bg m-portlet--head-sm">
         <div class="m-portlet__head">
-            <div class="m-portlet__head-tools">
-                <ul class="nav nav-tabs m-tabs m-tabs-line  m-tabs-line--right" role="tablist">
+            <div class="m-portlet__head-tools" id="navContainer">
+                <ul class="nav nav-tabs m-tabs m-tabs-line  m-tabs-line--left" role="tablist">
                     <li class="nav-item m-tabs__item">
-                        <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#equipment" role="tab" aria-selected="true">
+                        <a id="tab_equipment" class="nav-link m-tabs__link active show" data-toggle="tab" href="#equipment" role="tab" aria-selected="true">
                             设备概况
                         </a>
                     </li>
                     <li class="nav-item m-tabs__item">
-                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#run" role="tab" aria-selected="false">
+                        <a id="tab_run" class="nav-link m-tabs__link" data-toggle="tab" href="#run" role="tab" aria-selected="false">
                             运行监控
                         </a>
                     </li>
                     <li class="nav-item m-tabs__item">
-                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#video" role="tab" aria-selected="false">
+                        <a id="tab_video" class="nav-link m-tabs__link" data-toggle="tab" href="#video" role="tab" aria-selected="false">
                             视频监控
                         </a>
                     </li>
-                    <li class="nav-item m-tabs__item">
-                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#runData" role="tab" aria-selected="false">
+                    <li class="nav-item m-tabs__item" id="nav_runData" style="display:none">
+                        <a id="tab_runData" class="nav-link m-tabs__link" data-toggle="tab" href="#runData" role="tab" aria-selected="false">
                             运行数据
                         </a>
                     </li>
-                    <li class="nav-item m-tabs__item">
-                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#startStop" role="tab" aria-selected="false">
+                    <li class="nav-item m-tabs__item" id="nav_startStop" style="display:none">
+                        <a id="tab_startStop" class="nav-link m-tabs__link" data-toggle="tab" href="#startStop" role="tab" aria-selected="false">
                             机组启停
                         </a>
                     </li>
                     <li class="nav-item m-tabs__item">
-                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#histroyData" role="tab" aria-selected="false">
+                        <a id="tab_histroyData" class="nav-link m-tabs__link" data-toggle="tab" href="#histroyData" role="tab" aria-selected="false">
                             历史数据
                         </a>
                     </li>
@@ -159,14 +163,18 @@
                                 <div class="m-portlet__head-title">
                                     <h3 class="m-portlet__head-text">
                                         <i class="fa fa-cogs"></i>
-                                        运行监控
+                                        <span id="gg">运行监控</span>
                                     </h3>
                                 </div>
                             </div>
                         </div>
                         <div class="m-portlet__body">
-                            <div class="tab-content">
+                            <div class="row">
+                                <div id="runDataList" class="isOnline row">
+                                </div>
+                                <div class="tab-content notOnline">
                                 采集器中断，请确认您的设备连接和设置是否正常，并在资产管理->设备信息管理 中开启设备
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -187,47 +195,32 @@
                         </div>
                         <div class="m-portlet__body">
                             <div class="portlet-body">
+                                <div class="row" style="text-align: center;">
                                 <video style="max-width:1200px;width:95%;height:300px;" id="myPlayer" poster="" controls playsInline webkit-playsinline >
                                     <source src="http://hls.open.ys7.com/openlive/6e84099c7983453998b2a3c3c5c95ac1.hd.m3u8" type="application/x-mpegURL" />
                                 </video>
-
+                                </div>
                             </div>
                         </div>
                     </div>
 
 
                 </div>
-                <div class="tab-pane" id="runData" role="tabpanel">
+                <div class="tab-pane" id="runData" role="tabpanel" >
                     <div class="m-portlet m-portlet--tabs m-portlet--brand m-portlet--head-solid-bg m-portlet--head-sm m-portlet--bordered">
                         <div class="m-portlet__head">
                             <div class="m-portlet__head-caption">
                                 <div class="m-portlet__head-title">
                                     <h3 class="m-portlet__head-text">
                                         <i class="fa fa-cogs"></i>
-                                        <span id="typeName">运行数据</span>
+                                        <span id="groupname0">运行数据</span>
                                     </h3>
                                 </div>
                             </div>
                         </div>
                         <div class="m-portlet__body">
                             <div class="portlet-body">
-                                <div class="row static-info" id="typeList">
-
-                                    <div class="col-md-2" style="margin-bottom:15px;">
-                                        <button type="button" class="btn btn-outline-primary m-btn m-btn--outline-2x">
-                                            生产速度
-                                        </button>
-                                    </div>
-                                    <div class="col-md-4 value" style="margin-bottom:15px;" ><a class="btn green btn-info">60000个</a></div>
-
-                                    <div class="col-md-2" style="margin-bottom:15px;">
-                                        <button type="button" class="btn btn-outline-primary m-btn m-btn--outline-2x" id="itenBtn">
-                                            生产速度
-                                        </button>
-                                    </div>
-                                    <div class="col-md-4 value" style="margin-bottom:15px;" ><a class="btn green btn-info" id="ItemVal">60000个</a></div>
-
-
+                                <div class="row static-info" id="groupname0List">
                                 </div>
 
 
@@ -244,26 +237,14 @@
                                 <div class="m-portlet__head-title">
                                     <h3 class="m-portlet__head-text">
                                         <i class="fa fa-cogs"></i>
-                                        机组启停
+                                        <span id="groupname1">机组启停</span>
+
                                     </h3>
                                 </div>
                             </div>
                         </div>
                         <div class="m-portlet__body">
-                            <div class="row static-info">
-
-                                <div class="col-md-2 text-right name" style="margin-bottom:15px;" >
-                                    <button type="button" class="btn btn-outline-primary m-btn m-btn--outline-2x ">
-                                        操作模式
-                                    </button></div>
-                                <div class="col-md-4 value" style="margin-bottom:15px;"><a class="btn green btn-info">0</a></div>
-
-                                <div class="col-md-2 text-right name" style="margin-bottom:15px;" >
-                                    <button type="button" class="btn btn-outline-primary m-btn m-btn--outline-2x ">
-                                        操作模式
-                                    </button></div>
-                                <div class="col-md-4 value" style="margin-bottom:15px;"><a class="btn green btn-info">0</a></div>
-
+                            <div class="row static-info" id="groupname1List">
 
                             </div>
                         </div>
@@ -278,55 +259,56 @@
                                 <div class="m-portlet__head-title">
                                     <h3 class="m-portlet__head-text">
                                         <i class="fa fa-cogs"></i>
-                                        历史数据
+                                        <span id="lineLabel">历史数据</span>
                                     </h3>
+
                                 </div>
                             </div>
                         </div>
                         <div class="m-portlet__body">
                             <div class="margin-top-10 margin-bottom-10 text-center row">
-                                <!-- <select class="selectAnalogTab" ng-model="selectedlinetab"  ng-options="var.name for var in linevarstab" ng-change="checktab()"></select> -->
+                                <div class="row">
                                 <div class="col-md-3 col-md-offset-1 margin-top-10">
-                                    <select class="form-control m-select2 select2-hidden-accessible" id="m_select2_1" name="param" data-select2-id="m_select2_1" tabindex="-1" aria-hidden="true">
-                                        <option value="AK" data-select2-id="2">
-                                            温度
-                                        </option>
-                                        <option value="HI" data-select2-id="148">
-                                            湿度
-                                        </option>
-                                        <option value="HI" data-select2-id="148">
-                                            光照度
-                                        </option>
-                                    </select>
+                                    <select id="equipmentModelType" name="equipmentModelType" style="width: 100%"></select>
                                 </div>
                                 <div class="col-md-8 margin-top-10">
                                     <div class="input-group input-large input-daterange">
-
-                                        <input type="text" class="form-control input-group date col-md-3" style="width: 150px" placeholder="选择开始时间">
+                                        <input type="text" class="start_date input-group date form-control m-input col-md-3" readonly style="width: 150px" placeholder="选择开始时间">
                                         <span class="input-group-addon"> ~ </span>
-                                        <input type="text" class="form-control input-group date col-md-3" style="width: 150px" placeholder="选择结束时间">
+                                        <input type="text" class="end_date input-group date form-control m-input col-md-3" readonly style="width: 150px" placeholder="选择结束时间">
                                         <span class="input-group-btn">
-                                                                    <button class="btn default" type="button" ng-click="setCurvetime()">
+                                                                    <button class="btn default" type="button" onclick="setCurvetime()">
                                                                         设置
                                                                     </button>
                                                                 </span>
                                     </div>
-
-
                                 </div>
-                                <div class="col-md-12">
+                                </div>
+                                <div class="col-md-12 margin-top-10">
                                     <div class="margin-top-10 margin-bottom-20 text-center">
+
                                         <div class="clearfix">
-                                            <input type="button" class="btn blue btn-outline" onclick="setHistoryTime(1)" value="最近10分钟">
-                                            <input type="button" class="btn red btn-outline" onclick="setHistoryTime(2)" value="最近24小时">
-                                            <input type="button" class="btn green btn-outline" onclick="setHistoryTime(3)" value="最近7天">
-                                            <input type="button" class="btn purple btn-outline" onclick="setFreeTime()" value="curve.setTime" value="自定义时间">
+                                            <button class="btn btn-circle btn-icon-only btn-default"  onclick="changemode('line')" uib-tooltip="显示曲线">
+                                                <i class="fa fa-line-chart"></i>
+
+                                            </button>
+                                            <button class="btn btn-circle btn-icon-only btn-default"  onclick="changemode('table')" uib-tooltip="显示表格">
+                                                <i class="fa fa-table"></i>
+                                            </button>
+
+                                            <input type="button" class="btn blue btn-outline-primary m-btn m-btn--outline-2x" onclick="setHistoryTime(1)" value="最近10分钟">
+                                            <input type="button" class="btn red btn-outline-primary m-btn m-btn--outline-2x" onclick="setHistoryTime(2)" value="最近24小时">
+                                            <input type="button" class="btn green btn-outline-primary m-btn m-btn--outline-2x" onclick="setHistoryTime(3)" value="最近7天">
+                                            <input type="button" id="curveTimeBtn" class="btn purple btn-outline-primary m-btn m-btn--outline-2x" onclick="setFreeTime()"  value="自定义时间">
                                         </div>
                                     </div>
                                 </div>
 
                             </div>
 
+                            <div id="echarts_line" style="height: 500px" ></div>
+                            <table id="historyTableParams"  class="table table-striped table-bordered table-hover table-checkable order-column" style="margin-top: 5px" style="display:none">
+                            </table>
 
                         </div>
                     </div>
@@ -338,20 +320,29 @@
         </div>
     </div>
 </div>  <!-- nav end -->
-
+<script src="${basePath}/resources/kuyun-admin/plugins/echarts/echarts.min.js"></script>
+<script src="${basePath}/resources/metronic-admin/assets/kuyun/deviceMonitor.js"></script>
 
 <script>
+    $(document).ready(function()
+    {
+        $('#equipmentModelType').select2();
+
+    });
 
     function callbackShowEquip(treeNode){
-        equipId=treeNode.id;
-        showEquipmentInfo(equipId);
+        selectedequipid=treeNode.id;
+        showEquipmentInfo(selectedequipid);
+        getDataModel(selectedequipid);
     }
 
     function showEquipmentInfo(eid){
-        equipId = eid;
-        ajaxGet('${basePath}/manage/equipment/'+equipId, function (responseData) {
+        ajaxGet('${basePath}/manage/equipment/'+selectedequipid, function (responseData) {
             if (responseData.code ==1) {
                 var data=responseData.data;
+
+                $('#tab_equipment').addClass('active').siblings().removeClass('active');
+                $('.tab-content').find('#equipment').addClass('active').siblings().removeClass('active');
                 equipmentId = data.equipmentId;
                 setText('serialNumber',data.serialNumber);
                 setText('equipmentId',data.equipmentId);
@@ -370,41 +361,96 @@
                 latitude =data.latitude;
 
                 if(data.imagePath ==''|| data.imagePath ==null){
-                    $("#imagesrc").attr("src","../assets/pages/media/works/img7.jpg");
+                    $("#imagesrc").attr("src","/resources/kuyun-admin/images/logo.png");
                 }else{
-                    $("#imagesrc").attr("src",'/files/'+data.imagePath);//uploaderUrl
+                    $("#imagesrc").attr("src",uploadServerPath+'/files/'+data.imagePath);
                 }
+                onlineHideShow(isOnline);
             }
         });
 
-        <%--ajaxGet('${basePath}/manage/equipment/sensor/data/'+equipId, function (responseData) {--%>
-        <%--if (responseData.code ==1) {--%>
-        <%--var dataArr=responseData.data;--%>
-        <%--if(dataArr!=null && dataArr.length>0){--%>
-        <%--$.each(dataArr, function(i, val) {--%>
-        <%--if(val.type == 'analog'){--%>
-        <%--$('#typeName').text(val.groupName);--%>
-        <%--showListInfo(val.vars)--%>
-        <%--}--%>
-        <%--if(val.type == 'digital'){--%>
-        <%--$('#typeName').text(val.groupName);--%>
-        <%--//list--%>
-        <%--}--%>
-        <%--}--%>
-        <%--);--%>
-        <%--}--%>
-        <%--}--%>
-        <%--});--%>
     }
 
-    function showListInfo(list){
-        var html="";
-        $.each(list, function(i, val) {
-            html= html+'<div class="col-md-2" style="margin-bottom:15px;"><button type="button" class="btn btn-outline-primary m-btn m-btn--outline-2x">'+
-                val+ '</button></div>'+
-                '<div class="col-md-4 value" style="margin-bottom:15px;" ><a class="btn green btn-info">'+
-                val+'</a></div>';
-        });
-        return html;
+    function getDataModel(equipid){
+        ajaxGet('${basePath}/manage/equipment/sensor/data/'+selectedequipid, function (responseData) {
+                if(responseData.code == 1) {
+                    runDataList
+                    var analogflag=0,digitalflag=0;
+                    var dataArr=responseData.data;
+                    if(dataArr!=null && dataArr.length>0){
+                        $.each(dataArr,function(i, val) {
+                                if(val.type == 'analog'){
+                                    analogflag = analogflag+1;
+                                    showAnalogTab = true;
+                                    setText('groupname0',val.groupName);
+                                    varsArr0=val.vars;
+                                    $('#groupname0List').html(showRunDataListHtml(varsArr0));
+                                    showHistorySelect2(varsArr0);
+                                    formatEchartValue(varsArr0);
+                                    linevarstab = [];
+                                    for(var j=0;j<val.vars.length;j++){
+                                        if(val.vars[j].showchart == true){
+                                            linevarstab.push(val.vars[j]);
+                                        }
+                                    }
+                                    if(linevarstab.length>0){
+                                        selectedlinetab = linevarstab[0];
+                                        lineTab=selectedlinetab.name;
+                                        lineLabel=lineType+lineTab;
+                                    }
+                                }
+                                if(val.type == 'digital'){
+                                    digitalflag = digitalflag+1;
+                                    showDigitalTab = true;
+                                    setText('groupname1',val.groupName);
+                                    varsArr1=val.vars;
+                                    $('#groupname1List').html(showRunDataListHtml(varsArr1));
+                                    showHistorySelect2(varsArr1);
+                                }
+                                if(digitalflag == 0){showDigitalTab = false;}
+                                if(analogflag == 0){showAnalogTab = false;}
+                            }
+                        );
+                        generateRunHtml();
+                    }else if(dataArr!=null && dataArr.length==0){
+                        groupname0=null;
+                        varsArr0=[];
+                        formatEchartValue(varsArr0);
+                        linevarstab = [];
+                        groupname1=null;
+                        varsArr1=[];
+                        showDigitalTab = false;
+                        showAnalogTab = false;
+                    }
+
+                    showId('nav_runData',showAnalogTab);
+                    showId('nav_startStop',showDigitalTab);
+                    onlineHideShow(isOnline);
+                }
+            });
     }
+
+    function getDataModelAndValues(equipid) {
+        ajaxGet('${basePath}/manage/equipment/sensor/data/'+selectedequipid, function (responseData) {
+            if(responseData.code == 1) {
+                    var dataArr=responseData.data;
+                    if(dataArr!=null && dataArr.length>0){
+                        $.each(dataArr,function(i, val) {
+                                if(val.type == 'analog'){
+                                    groupname0=val.groupName;
+                                    varsArr0=val.vars;
+                                    formatEchartValue(varsArr0);
+                                }
+                                if(val.type == 'digital'){
+                                    groupname1=val.groupName;
+                                    varsArr1=val.vars;
+                                }
+                            });
+                        onlineHideShow(isOnline);
+                    }
+                }
+            });
+    }
+
+
 </script>

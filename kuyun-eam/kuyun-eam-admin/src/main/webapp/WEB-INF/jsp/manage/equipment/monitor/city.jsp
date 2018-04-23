@@ -42,6 +42,7 @@
                     zTree.expandNode(treeNode);
                     return false;
                 } else {
+                    removeActiveTab();
                     if(!currMode || currMode=='list')
                         callbackShowEquip(treeNode);
                     else
@@ -52,7 +53,7 @@
         }
     };
 
-    var equipmentId, longitude, latitude, isOnline;
+    var selectedequipid, longitude, latitude, isOnline;
     var equipmentLocations =[];
     $(document).ready(function(){
         ajaxGet('${basePath}/manage/equipment/city/tree', function (responseData) {
@@ -80,6 +81,8 @@
                         latitude=value.latitude;
                         longitude = value.longitude;
                         $.each(value.children, function (n, value) { //data
+                            if(!selectedequipid)
+                                selectedequipid = value.id;
                             jsonTemp ={"id":value.id, "name":value.name,"pId":pid,"online":online,"latitude":latitude,"longitude":longitude};
                             jsonarray.push(jsonTemp);
                             equipmentLocations.push(jsonTemp);
@@ -89,20 +92,16 @@
                 });
                 var t = $("#treeCity");
                 t = $.fn.zTree.init(t, setting, jsonarray);
-                //t.expandAll(true);
+                selectNode();
+                showEquipmentInfo(selectedequipid);
+                getDataModel(selectedequipid);
             }
         });
 
-
-        //zTree默认选中指定节点并执行事件
-        // var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
-        // var node = treeObj.getNodeByParam("id", "370000");
-        // treeObj.selectNode(node);
-        // setting.callback.onClick = function(){};
     });
 
     function changelistState(){
-        window.location.href="${basePath}/manage/equipment/monitor/map?equipmentId="+equipmentId+"&longitude="+longitude+"&latitude="+latitude;
+        window.location.href="${basePath}/manage/equipment/monitor/map?equipmentId="+selectedequipid+"&longitude="+longitude+"&latitude="+latitude;
     }
 
 </script>

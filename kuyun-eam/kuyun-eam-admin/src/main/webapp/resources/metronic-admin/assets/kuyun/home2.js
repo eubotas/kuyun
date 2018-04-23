@@ -61,6 +61,10 @@ function createPie(id, json, name) {
     echarts_pie2.setOption(option);
 }
 
+function formatMaintainFrequency(value , row, index){
+    var unit=row.maintainFrequencyUnit;
+    return row.maintainFrequencyQuantity+getUnitName(unit);
+}
 
 $(function() {
     $('#maintainplanTable').bootstrapTable({
@@ -80,11 +84,10 @@ $(function() {
         maintainSelected: true,
         columns: [
             {field: 'planId', title: 'ID', sortable: true, align: 'center'},
-            {field: 'equipmentCategoryName', title: '设备目录'},
             {field: 'equipmentName', title: '设备名称'},
             {field: 'workContent', title: '工单内容'},
-            {field: 'orgName', title: '负责部门'},
-            {field: 'createTime', title: '创建时间', formatter: 'timeFormatter'}
+            {field: 'nextMaintainDate', title: '下次维保日期', formatter: 'timeSimpleFormatter'},
+            {field: 'maintainFrequencyQuantity', title: '设备维保周期',formatter: 'formatMaintainFrequency'}
         ]
     });
 

@@ -228,7 +228,7 @@
 	</select>
 
 	<sql id="Sensor_Column_List">
-		s.sensor_id, s.equipment_model_property_id, s.salve_id, s.function_code, s.address, s.data_format,
+		s.sensor_id, s.equipment_model_property_id, s.function_code, s.address, s.data_format,
 		s.bit_order, s.period, s.quantity, s.write_number, s.grm_action, s.grm_variable, s.grm_variable_value,
 		s.osh, s.osl, s.ish, s.isl, s.create_user_id, s.create_time, s.update_user_id,
 		s.update_time, s.delete_flag, s.company_id,
