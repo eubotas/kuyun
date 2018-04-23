@@ -329,7 +329,8 @@ public class EamEquipmentController extends BaseController {
 	@RequiresPermissions("eam:equipment:read")
 	@RequestMapping(value = "/monitor/list", method = RequestMethod.GET)
 	public String monitorList(ModelMap modelMap) {
-		return "/manage/equipment/monitor/list.jsp";
+        modelMap.put("uploadServerPath", fileUploaderService.getServerInfo().getServerBaseUri());
+	    return "/manage/equipment/monitor/list.jsp";
 	}
 
 }

@@ -19,6 +19,8 @@
 
     <script>
         var currMode='list';
+        var uploadServerPath ="${uploadServerPath}";
+        var basePath ="${basePath}";
         function changeMode(){
             if(currMode=='list'){
                 currMode='map';

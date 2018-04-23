@@ -361,9 +361,9 @@
                 latitude =data.latitude;
 
                 if(data.imagePath ==''|| data.imagePath ==null){
-                    $("#imagesrc").attr("src","../assets/pages/media/works/img7.jpg");
+                    $("#imagesrc").attr("src","/resources/kuyun-admin/images/logo.png");
                 }else{
-                    $("#imagesrc").attr("src",'/files/'+data.imagePath);//uploaderUrl
+                    $("#imagesrc").attr("src",uploadServerPath+'/files/'+data.imagePath);
                 }
                 onlineHideShow(isOnline);
             }
