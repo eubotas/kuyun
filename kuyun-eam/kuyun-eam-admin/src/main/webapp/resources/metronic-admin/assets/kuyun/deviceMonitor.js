@@ -225,22 +225,30 @@
               }
           });
       }else if(historyType == 'table'){
-        //App.startPageLoading({animate: true});
-        //获取表格信息
-        ajaxGet('/manage/sensor/data/list/?eId='+selectedequipid+'&sensorId='+tab.varid+'&startDate='+starttime+'&endDate='+endtime, function (result) {
-              if(result.length>0 && result.data) {
-                  for(var i=0;i<result.data.length;i++){
-                    result.data[i].updateTime = changeTimeFormat2(result.data[i].updateTime);
-                  }
-                  //tableParams = new NgTableParams({}, { dataset: result.data});
-                  // App.stopPageLoading();
-              }else {
-                //tableParams = new NgTableParams({}, { dataset: null});
-                //App.stopPageLoading();
-              }
+          $('#historyTableParams').bootstrapTable({
+              url: '/manage/sensor/data/list/?eId='+selectedequipid+'&sensorId='+tab.varid+'&startDate='+starttime+'&endDate='+endtime,
+              searchAlign: 'left',
+              toolbarAlign: 'right',
+              minimumCountColumns: 2,
+              clickToSelect: true,
+              detailView: true,
+              detailFormatter: 'detailFormatter',
+              pagination: true,
+              paginationLoop: false,
+              sidePagination: 'server',
+              silentSort: false,
+              smartDisplay: false,
+              escape: true,
+              maintainSelected: true,
+              columns: [
+                  {field: 'updateTime', title: '时间', formatter: 'changeTimeFormat2'},
+                  {field: 'stringValue', title: '值'},
+                  {field: 'stringValue', title: '单位', formatter: 'unitFormat'}
+              ]
           });
       }
-
+        showId('echarts_line', historyType == 'line');
+        showId('historyTableParams', historyType == 'table');
     }
 
     function formatEchartValue(origindata) {
@@ -261,6 +269,7 @@
               var tempoption = {
                 widgetName:origindata[i].name,
                 widgetType: 'pie',
+                widgetId: origindata[i].varid,
                 tooltip: {
                     trigger: 'item',
                     formatter: "{a} <br/>{b}: {c} ({d}%)"
@@ -289,7 +298,7 @@
                                 show: false
                             }
                         },
-                        color: ['#36d7b7', '#cdcdcd'],
+                        color: ['#f36a5a','#2ab4c0'],
                         data: [{
                                 value: origindata[i].value,
                                 name: origindata[i].name + origindata[i].value +origindata[i].unit,
@@ -310,6 +319,7 @@
               var tempoption = {
                 widgetName:origindata[i].name,
                 widgetType: 'gauge',
+                  widgetId: origindata[i].varid,
                 tooltip : {
                     formatter: "{a} <br/>{b} : {c}%"
                 },
@@ -328,7 +338,7 @@
                         splitNumber: 10,       // 分割段数，默认为5
                         axisLine: {            // 坐标轴线
                             lineStyle: {       // 属性lineStyle控制线条样式
-                                color: [[0.2, '#228b22'],[0.8, '#48b'],[1, '#ff4500']],
+                                color: [[0.2, '#f36a5a'],[0.8, '#48b'],[1, '#2ab4c0']],
                                 width: 8
                             }
                         },
@@ -602,21 +612,71 @@
     function generateRunHtml() {
         var html="";
         $.each(echartValue, function(i, val) {
-            html= html+generateBtnHtml(val.widgetName,val.widgetType,val.value+val.unit);
+            html= html+generateRunTabHtml(val);
         });
         $('#runDataList').html(html);
     }
 
-    function generateRunPieHtml(widgetName, widgetType, items){
-        var html= '<div class="col-md-4 isOnline" >  <div class="portlet light portlet-fit bordered">'+
-            '<div class="portlet-title"> <div class="caption"> <i class=" icon-layers font-green"></i>'+
-            '<span class="caption-subject font-green bold uppercase">'+widgetName+'</span></div></div>'+
-            '<div class="portlet-body">'+
-            '<div  widget e-data="'+items+'" e-type="'+widgetType+'" style="height:300px"></div>'+
-            '</div> </div> </div>';
+    function generateRunTabHtml(val){
+        var widgetType = val.widgetType;
+        var widgetName=val.widgetName;
+        if("led"==widgetType){
+            return generateRunBtnHtml(widgetName, val.value, val.unit);
+        }else if("pie"==widgetType){
+            return generateRunPieHtml(widgetName,'pie'+val.widgetId, val);
+        }else if("guage"==widgetType){
+            return generateRunPieHtml(widgetName,'guage'+val.widgetId, val);
+        }
+        return "";
+    }
+
+    function generateRunBtnHtml(widgetName, val, unit){
+        var html='<div class="col-md-4 m-portlet m-portlet--tab">  <div class="m-portlet__head" style="background-color:#b2b3c9;"> <div class="m-portlet__head-caption">' +
+                    '<div class="m-portlet__head-title">  <span class="m-portlet__head-icon m--hide"> <i class="la la-gear"></i> </span><h5 class="m-portlet__head-text">'+
+                    widgetName+'</h5> </div> </div> </div>'+
+                    '<div class="m-portlet__body"> <div class="led-text">'+
+                    '<div class="led-text-value">'+val+'</div><div class="led-text-unit">( '+unit+' )</div> </div></div>  </div> </div>';
         return html;
+    }
+
+    function generateRunPieHtml(widgetName,id, opt){
+        var html='<div class="col-md-4 m-portlet m-portlet--tab">  <div class="m-portlet__head" style="background-color:#b2b3c9;"> <div class="m-portlet__head-caption">' +
+            '<div class="m-portlet__head-title">  <span class="m-portlet__head-icon m--hide"> <i class="la la-gear"></i> </span><h5 class="m-portlet__head-text">'+
+            widgetName+'</h5> </div> </div> </div>'+
+            '<div class="m-portlet__body"> <div id="'+id+'" style="width:160px; height:100px;margin-left:-40px;"> </div></div>  </div> </div>';
+
+        setTimeout(function(){delayCreatePie(id, opt)}, 2000);
+        return html;
+    }
+
+    function delayCreatePie(id, opt){
+        var docId=document.getElementById(id);
+        if(docId) {
+            var echartsId = echarts.init(docId);
+            echartsId.setOption(opt, true);
+        }
     }
 
     function removeActiveTab(){
         $("#navContainer").find("[id^='tab_']").removeClass("active");
+    }
+
+    function unitFormat(row){
+        return "个";
+    }
+
+    function showRunDataListHtml(list){
+        var html="";
+        $.each(list, function(i, val) {
+            html= html+generateBtnHtml(val.name,formatStateValue(val.value,val.unit));
+        });
+        return html;
+    }
+
+    function generateBtnHtml(name, val){
+        var html= '<div class="col-md-2" style="margin-bottom:15px;"><button type="button" class="btn btn-outline-primary m-btn m-btn--outline-2x">'+
+            name+ '</button></div>'+
+            '<div class="col-md-4 value" style="margin-bottom:15px;" ><a class="btn green btn-info">'+
+            val+'</a></div>';
+        return html;
     }

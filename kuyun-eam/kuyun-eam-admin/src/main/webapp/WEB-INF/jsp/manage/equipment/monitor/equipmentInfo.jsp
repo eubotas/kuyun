@@ -170,7 +170,8 @@
                         </div>
                         <div class="m-portlet__body">
                             <div class="row">
-                                <div id="runDataList" class="isOnline"></div>
+                                <div id="runDataList" class="isOnline row">
+                                </div>
                                 <div class="tab-content notOnline">
                                 采集器中断，请确认您的设备连接和设置是否正常，并在资产管理->设备信息管理 中开启设备
                                 </div>
@@ -305,7 +306,7 @@
 
                             </div>
 
-                            <div id="echarts_line" style="height: 500px" ng-show="historyType=='line'"></div>
+                            <div id="echarts_line" style="height: 500px" ></div>
                             <table id="historyTableParams"  class="table table-striped table-bordered table-hover table-checkable order-column" style="margin-top: 5px" style="display:none">
                             </table>
 
@@ -451,19 +452,5 @@
             });
     }
 
-    function showRunDataListHtml(list){
-        var html="";
-        $.each(list, function(i, val) {
-            html= html+generateBtnHtml(val.name,formatStateValue(val.value,val.unit));
-        });
-        return html;
-    }
 
-    function generateBtnHtml(name, val){
-        var html= '<div class="col-md-2" style="margin-bottom:15px;"><button type="button" class="btn btn-outline-primary m-btn m-btn--outline-2x">'+
-                name+ '</button></div>'+
-                '<div class="col-md-4 value" style="margin-bottom:15px;" ><a class="btn green btn-info">'+
-                val+'</a></div>';
-        return html;
-    }
 </script>
