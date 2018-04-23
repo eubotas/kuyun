@@ -2,31 +2,33 @@ package com.kuyun.eam.common.constant;
 
 public enum TicketSearchCategory {
     //我的未处理
-    MY_OPEN("myOpen"),
+    MY_OPEN("myOpen", "未处理"),
     //我的已处理
-    MY_RESOLVED("myResolved"),
+    MY_RESOLVED("myResolved", "已处理"),
     //我的全部
-    MY_ALL("myAll"),
+    MY_ALL("myAll", "全部"),
     //状态未完成
-    OPEN("open"),
+    OPEN("open", "未完成"),
     //所有工单
-    ALL("all"),
+    ALL("all", "全部"),
     //待派工
-    INIT("init"),
+    INIT("init", "待派工"),
     //维修中
-    PROCESSING("processing"),
+    PROCESSING("processing", "维修中"),
     //状态未完成
-    NOTRESOLVED("notResolved"),
+    NOTRESOLVED("notResolved", "未完成"),
     //已完成
-    RESOLVED("resolved"),
+    RESOLVED("resolved", "已完成"),
     //其他
-    OTHER("other");
+    OTHER("other", "其他");
 
-    private TicketSearchCategory(String name){
+    private TicketSearchCategory(String code, String name){
+        this.code = code;
         this.name = name;
     }
 
     private String name;
+    private String code;
 
 
     public String getName() {
@@ -37,16 +39,22 @@ public enum TicketSearchCategory {
         this.name = name;
     }
 
-    public String toString() {
-        return this.name;
+
+    public boolean match(String code){
+        return this.getCode().equalsIgnoreCase(code);
     }
 
-    public boolean equalTo (String name) {
-        return this.name.equals(name);
+
+    public String getCode() {
+        return code;
     }
 
-    public static TicketSearchCategory getCategroy (String name) {
-        switch (name) {
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public static TicketSearchCategory getCategroy (String code) {
+        switch (code) {
             case "myAll":
                 return MY_ALL;
             case "myOpen":

@@ -95,14 +95,6 @@
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-sm-6">
-                                <label for="templateID_equipmentCategoryId">设备类型 *</label>
-                                <div class="form-group">
-                                    <select id="templateID_equipmentCategoryId" name="equipmentCategoryId" style="width: 100%">
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-6">
                                 <label for="templateID_equipmentId">设备名称 * </label>
                                 <div class="form-group">
                                     <div class="fg-line">
@@ -116,19 +108,22 @@
                         <div class="row">
                             <div class="row">
                                 <div class="col-sm-12" style="margin-left: 10px">
-                                    <label for="templateID_workContent">工单描述</label>
+                                    <label for="templateID_workContent">工作内容 *</label>
                                     <div class="form-group">
 					<textarea id="templateID_workContent" class="form-control" name="workContent"
-                              maxlength="200" rows="4" cols="50">${plan.workContent }</textarea>
+                              maxlength="200" rows="5" cols="100">${plan.workContent }</textarea>
 
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+                        <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space"></div>
+
+
                         <div class="row">
                             <div class="col-sm-6">
-                                <label for="templateID_orgId">维护部门 *</label>
+                                <label for="templateID_orgId">维修部门 *</label>
                                 <div class="form-group">
                                     <div class="fg-line">
                                         <select id="templateID_orgId" name="orgId" style="width: 100%">
@@ -138,18 +133,28 @@
                             </div>
 
                             <div class="col-sm-6">
-                                <label for="templateID_nextMaintainDate">下个维护日期 *</label>
+                                <label for="templateID_nextMaintainDate">下个维修日期 *</label>
                                 <div class="form-group">
                                     <div class="fg-line">
-                                        <input id="templateID_nextMaintainDate" name="nextMaintainDate" type="date" class="form-control m-input" />
+                                        <div class="input-group date" >
+                                            <input id="templateID_nextMaintainDate" type="text" class="form-control" readonly  name="nextMaintainDate"/>
+                                            <div class="input-group-append">
+                                        <span class="input-group-text">
+                                            <i class="la la-calendar-check-o"></i>
+                                        </span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
+                        <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space"></div>
+
+
                         <div class="row">
                             <div class="col-sm-3">
-                                <label for="templateID_maintainFrequencyQuantity">维护频率 *</label>
+                                <label for="templateID_maintainFrequencyQuantity">维修频率 *</label>
                                 <div class="form-group">
                                     <div class="fg-line">
                                         <input id="templateID_maintainFrequencyQuantity" type="text" class="form-control" name="maintainFrequencyQuantity" maxlength="4" value="${plan.maintainFrequencyQuantity}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
@@ -157,7 +162,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-4">
-                                <label for="templateID_maintainFrequencyUnit">维护频率单位 *</label>
+                                <label for="templateID_maintainFrequencyUnit">维修频率单位 *</label>
                                 <div class="form-group">
                                     <div class="fg-line">
                                         <select id="templateID_maintainFrequencyUnit" name="maintainFrequencyUnit" style="width: 100%">
@@ -167,7 +172,7 @@
                             </div>
 
                             <div class="col-sm-5">
-                                <label for="templateID_remindTime">维护提前提醒天数 *</label>
+                                <label for="templateID_remindTime">维修提前提醒天数 *</label>
                                 <div class="form-group">
                                     <div class="fg-line">
                                         <input id="templateID_remindTime" type="text" class="form-control" name="remindTime" maxlength="4" value="${plan.remindTime}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
@@ -194,9 +199,9 @@
 
     <div id="detailDialog" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
-        <form id="updateForm" method="post" class="m-form m-form--fit m-form--label-align-right">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content" style="padding:20px; width:700px;">
+        <form id="updateForm" class="m-form m-form--fit m-form--label-align-right">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">
                             维修计划详情
@@ -207,88 +212,68 @@
 											</span>
                         </button>
                     </div>
-
-                    <div class="form-group m-form__group row">
-                        <div class="col-sm-6">
-                            <label >设备类型</label>
-                            <div class="form-group" id="equipmentCategoryId">
+                    <div class="modal-body">
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-2 col-form-label">设备名称: </label>
+                            <div class="col-sm-3" >
+                                <span class="form-control" id="equipmentId"></span>
                             </div>
-                        </div>
 
-                        <div class="col-sm-6">
-                            <label >设备名称</label>
-                            <div class="form-group">
-                                <div class="fg-line" id="equipmentId">
-                                </div>
-                            </div>
                         </div>
-                    </div>
-                    <div class="form-group m-form__group row" style="padding-left: 35px">
-                        <div class="col-sm-12">
-                            <label for="workContent">工单描述</label>
-                            <div class="form-group">
-                        <textarea id="workContent" class="form-control" name="workContent"
-                                  maxlength="200" rows="4" cols="200"></textarea>
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-2 col-form-label">工单描述: </label>
+
+                            <div class="col-sm-10">
+
+                               <textarea id="workContent" class="form-control" name="workContent"
+                                      maxlength="200" rows="5" cols="150" readonly></textarea>
 
                             </div>
                         </div>
-                </div>
+                        <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space"></div>
 
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-6">
-                        <label >维护部门</label>
-                        <div class="form-group">
-                            <div class="fg-line" id="orgId">
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-2 col-form-label">维修部门: </label>
+                            <div class="col-sm-3" >
+                                <span class="form-control" id="orgId"></span>
+                            </div>
+
+                            <label class="col-lg-3 col-form-label">下个维修日期: </label>
+                            <div class="col-sm-3" >
+                                <span class="form-control" id="nextMaintainDate"></span>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="col-sm-6">
-                        <label for="nextMaintainDate">下个维护日期</label>
-                        <div class="form-group">
-                            <div class="fg-line">
-                                <input id="nextMaintainDate" name="nextMaintainDate" type="text" readonly />
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-2 col-form-label">维修频率: </label>
+                            <div class="col-sm-3" >
+                                <span class="form-control" id="maintainFrequencyQuantity"></span>
+                            </div>
+                            <label class="col-lg-3 col-form-label">维修提前提醒天数: </label>
+                            <div class="col-sm-3" >
+                                <span class="form-control" id="remindTime"></span>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-6">
-                        <label >维护频率</label>
-                        <div class="form-group">
-                            <div class="fg-line" id="maintainFrequencyQuantity">
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="col-sm-6">
-                        <label >维护提前提醒天数</label>
-                        <div class="form-group">
-                            <div class="fg-line" id="remindTime">
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space"></div>
 
 
                     <div class="form-group m-form__group row">
-                        <div class="col-sm-12">
-                            <h5 class="modal-title">
-                                关联工单列表
-                            </h5>
+                            <div class="col-sm-12">
+                                <h5 class="modal-title">
+                                    关联工单列表
+                                </h5>
+                            </div>
                         </div>
-                    </div>
-                    <div>
-                        <table id="ticketTable"></table>
-                    </div>
+                        <div>
+                            <table id="ticketTable"></table>
+                        </div>
 
 
-                    <div class="form-group text-right dialog-buttons">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                            关闭
-                        </button>
+                        <div class="form-group text-right dialog-buttons">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                关闭
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -313,6 +298,15 @@
             generateAddEditForm('template-plan-addEditForm', 'add_,edit_', null, null, 'addMaintainPlanFormContainer,editMaintainPlanFormContainer');
             FormWidgets.init('add');
             FormWidgets.init('edit');
+
+            $('#add_nextMaintainDate, #edit_nextMaintainDate').datepicker({
+                format: "yyyy/mm/dd",
+                orientation: "top left",
+                templates: {
+                    leftArrow: '<i class="la la-angle-left"></i>',
+                    rightArrow: '<i class="la la-angle-right"></i>'
+                }
+            });
 
             $('#add_equipmentCategoryId, #edit_equipmentCategoryId').select2();
             $('#add_equipmentId, #edit_equipmentId').select2();
@@ -361,14 +355,13 @@
                 searchOnEnterKey: true,
                 maintainSelected: true,
                 idField: 'planId',
+                sortOrder: 'desc',
+                sortName: 'a.create_time',
                 columns: [
                     {field: 'ck', checkbox: true},
-                    {field: 'planId', title: 'ID', sortable: true, align: 'center'},
-                    {field: 'equipmentCategoryName', title: '设备目录'},
                     {field: 'equipmentName', title: '设备名称'},
-                    {field: 'workContent', title: '工单内容'},
-                    {field: 'orgName', title: '负责部门'},
-                    {field: 'createTime', title: '创建时间', formatter: 'timeFormatter'},
+                    {field: 'workContent', title: '维修内容'},
+                    {field: 'orgName', title: '维修部门'},
                     {field: 'action', width: 120, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ]
             });
@@ -391,17 +384,13 @@
                             required: true
                         },
                         maintainFrequencyQuantity: {
-                            required: true,
-                            minlength: 1,
-                            maxlength: 200
+                            required: true
                         },
                         maintainFrequencyUnit: {
                             required: true
                         },
                         remindTime: {
-                            required: true,
-                            minlength: 1,
-                            maxlength: 200
+                            required: true
                         }
                     },
                     submitHandler: function (form) {
@@ -455,7 +444,7 @@
                     var data = responseData;
                     // 赋值
                     $("#edit_id").val(data.plan.planId);
-                    addOptionToHtmlSelect(data.plan.equipmentCategoryId, "edit_equipmentCategoryId", data.equipmentCategorys );
+                    //addOptionToHtmlSelect(data.plan.equipmentCategoryId, "edit_equipmentCategoryId", data.equipmentCategorys );
                     addOptionToHtmlSelect(data.plan.equipmentId, "edit_equipmentId", data.equipments );
                     addOptionToHtmlSelect(data.plan.orgId, "edit_orgId", data.orgs );
                     addOptionToHtmlSelect(data.plan.maintainFrequencyUnit, "edit_maintainFrequencyUnit", data.units );
@@ -483,7 +472,7 @@
                 ajaxGet('${basePath}/manage/maintainPlan/detail/' +planId , function (responseData) {
                     if (responseData) {
                         var data = responseData;
-                        $("#equipmentCategoryId").text(data.plan.equipmentCategoryName);
+                        //$("#equipmentCategoryId").text(data.plan.equipmentCategoryName);
                         $("#equipmentId").text(data.plan.equipmentName);
                         $("#orgId").text(data.plan.orgName);
                         $("#maintainFrequencyQuantity").text(data.plan.maintainFrequencyQuantity +' '+ getUnitName(data.plan.maintainFrequencyUnit));
@@ -506,7 +495,7 @@
             if (rows.length == 0) {
                 swWarn("请至少选择一条记录");
             }else {
-                deleteRows(rows,'maintainPlanId','${basePath}/manage/maintainPlan/delete/', "请确认要删除选中的维修计划吗？", "删除维修计划成功");
+                deleteRows(rows,'planId','${basePath}/manage/maintainPlan/delete/', "请确认要删除选中的维修计划吗？", "删除维修计划成功");
             }//end else
         }
 
@@ -518,7 +507,7 @@
             $('#ticketTable').bootstrapTable({
                 url: '${basePath}/manage/maintainPlan/'+planId+'/tickets',
                 striped: true,
-                search: true,
+                search: false,
                 minimumCountColumns: 2,
                 clickToSelect: true,
                 detailView: true,
@@ -537,13 +526,10 @@
                 columns: [
                     {field: 'ck', checkbox: true},
                     {field: 'ticketDescription', title: '工单描述', sortable: true, align: 'center'},
-                    {field: 'ticketPriority', title: '优先级'},
-                    {field: 'ticketTypeName', title: '工单类型'},
                     {field: 'serviceman', title: '维修人'},
                     {field: 'servicePhone', title: '维修人电话'},
-                    {field: 'customerContacts', title: '提报人'},
-                    {field: 'customerPhone', title: '提报人电话'},
-                    {field: 'ticketStatus', title: '当前状态'}
+                    {field: 'ticketStatus', title: '当前状态'},
+                    {field: 'createTime', title: '创建时间', formatter: 'timeFormatter'}
                 ]
             });
         }

@@ -62,7 +62,7 @@
                     <div id="ticketList" class="m-portlet__body">
                         <ul class="m-nav m-nav--hover-bg m-portlet-fit--sides" id="models">
                             <li id="all" class="m-nav__item"><a href="javascript:;" onclick="toAction('all');" class="m-nav__link"> <span class="m-nav__link-text">累计报修(${ticketSummaryVo.totalTicketCount})</span></a></li>
-                            <li id="init" class="m-nav__item"><a href="javascript:;" onclick="toAction('init');" class="m-nav__link"> <span class="m-nav__link-text">未派工(${ticketSummaryVo.noAppointTicketCount})</span></a></li>
+                            <li id="init" class="m-nav__item"><a href="javascript:;" onclick="toAction('init');" class="m-nav__link"> <span class="m-nav__link-text">待派工(${ticketSummaryVo.noAppointTicketCount})</span></a></li>
                             <li id="processing" class="m-nav__item"><a href="javascript:;" onclick="toAction('processing');" class="m-nav__link"> <span class="m-nav__link-text">维修中(${ticketSummaryVo.processingTicketCount})</span></a></li>
                             <li id="notResolved" class="m-nav__item"><a href="javascript:;" onclick="toAction('notResolved');" class="m-nav__link"> <span class="m-nav__link-text">未完成(${ticketSummaryVo.notResolvedTicketCount})</span></a></li>
                             <li id="resolved" class="m-nav__item"><a href="javascript:;" onclick="toAction('resolved');" class="m-nav__link"> <span class="m-nav__link-text">已完成(${ticketSummaryVo.resolvedTicketCount})</span></a></li>
@@ -81,7 +81,7 @@
 													<i class="flaticon-multimedia"></i>
 												</span>
                                 <h3 class="m-portlet__head-text">
-                                    ${categoryType}列表
+                                    ${categoryType}工单列表
                                 </h3>
                             </div>
                         </div>

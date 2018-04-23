@@ -167,13 +167,13 @@ public class EamMaintainPlanController extends BaseController {
 	@ResponseBody
 	public Object create(EamMaintainPlan plan) {
 		ComplexResult result = FluentValidator.checkAll()
-				.on(plan.getEquipmentCategoryId(), new NotNullValidator("设备类别"))
+//				.on(plan.getEquipmentCategoryId(), new NotNullValidator("设备类别"))
                 .on(plan.getEquipmentId(), new NotNullValidator("设备名称"))
                 .on(plan.getWorkContent(), new LengthValidator(1, 2000,"工单描述"))
-                .on(plan.getNextMaintainDate(), new NotNullValidator("下个维护日期"))
-                .on(plan.getMaintainFrequencyQuantity(), new SizeValidator(1, 10,"维护频率"))
-                .on(plan.getMaintainFrequencyUnit(), new NotNullValidator("维护频率单位"))
-                .on(plan.getRemindTime(), new SizeValidator(1,10,"维护提前提醒天数"))
+                .on(plan.getNextMaintainDate(), new NotNullValidator("下个维修日期"))
+                .on(plan.getMaintainFrequencyQuantity(), new SizeValidator(1, 10,"维修频率"))
+                .on(plan.getMaintainFrequencyUnit(), new NotNullValidator("维修频率单位"))
+                .on(plan.getRemindTime(), new SizeValidator(1,10,"维修提前提醒天数"))
 				.doValidate()
 				.result(ResultCollectors.toComplex());
 		if (!result.isSuccess()) {
@@ -226,10 +226,10 @@ public class EamMaintainPlanController extends BaseController {
 				.on(plan.getEquipmentCategoryId(), new NotNullValidator("设备类别"))
 				.on(plan.getEquipmentId(), new NotNullValidator("设备名称"))
 				.on(plan.getWorkContent(), new LengthValidator(1, 2000,"工单描述"))
-				.on(plan.getNextMaintainDate(), new NotNullValidator("下个维护日期"))
-				.on(plan.getMaintainFrequencyQuantity(), new SizeValidator(1, 10,"维护频率"))
-				.on(plan.getMaintainFrequencyUnit(), new NotNullValidator("维护频率单位"))
-				.on(plan.getRemindTime(), new SizeValidator(1,10,"维护提前提醒天数"))
+				.on(plan.getNextMaintainDate(), new NotNullValidator("下个维修日期"))
+				.on(plan.getMaintainFrequencyQuantity(), new SizeValidator(1, 10,"维修频率"))
+				.on(plan.getMaintainFrequencyUnit(), new NotNullValidator("维修频率单位"))
+				.on(plan.getRemindTime(), new SizeValidator(1,10,"维修提前提醒天数"))
 				.doValidate()
 				.result(ResultCollectors.toComplex());
 		if (!result.isSuccess()) {

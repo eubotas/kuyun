@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
+import static com.kuyun.eam.common.constant.EamConstant.TICKET_APPOINT;
 import static com.kuyun.eam.common.constant.EamConstant.TICKET_CREATE;
 import static com.kuyun.eam.common.constant.EamConstant.TICKET_REPAIR;
 import static com.kuyun.eam.common.constant.EamResultConstant.SUCCESS;
@@ -87,10 +88,34 @@ public class EamTicketController extends EamTicketBaseController {
 	public String index(@RequestParam(required = false, defaultValue = "myAll", value = "category") String category , ModelMap modelMap) {
 		modelMap.put("category", category);
 
-		if(category.startsWith("my"))
-			return "/manage/ticket/myTicket.jsp";
-		else
-			return "/manage/ticket/index.jsp";
+		Subject subject = SecurityUtils.getSubject();
+		String categoryType = TicketSearchCategory.MY_OPEN.getName();
+
+		if(subject.hasRole(TICKET_REPAIR) || subject.hasRole(TICKET_CREATE)) {
+			categoryType = TicketSearchCategory.MY_OPEN.getName();
+		} else if(subject.hasRole(TICKET_APPOINT)) {
+			categoryType = TicketSearchCategory.INIT.getName();
+		}
+
+		if(TicketSearchCategory.MY_OPEN.match(category)){
+			categoryType = TicketSearchCategory.MY_OPEN.getName();
+		}else if(TicketSearchCategory.MY_RESOLVED.match(category)){
+			categoryType = TicketSearchCategory.MY_RESOLVED.getName();
+		}else if(TicketSearchCategory.MY_ALL.match(category)){
+			categoryType = TicketSearchCategory.MY_ALL.getName();
+		}else if(TicketSearchCategory.INIT.match(category)){
+			categoryType = TicketSearchCategory.INIT.getName();
+		}else if(TicketSearchCategory.RESOLVED.match(category)){
+			categoryType = TicketSearchCategory.RESOLVED.getName();
+		}else if(TicketSearchCategory.ALL.match(category)){
+			categoryType = TicketSearchCategory.ALL.getName();
+		}
+
+		modelMap.put("categoryType", categoryType);
+
+		selectTicketUpdate(modelMap);
+
+		return "/manage/ticket/index.jsp";
 	}
 
 	@ApiOperation(value = "工单管理首页")
@@ -100,14 +125,17 @@ public class EamTicketController extends EamTicketBaseController {
 		modelMap.put("category", category);
 		modelMap.put("ticketSummaryVo" ,eamApiService.summaryTicket(getCompanyId()));
 		String categoryType="累计报修";
-		if("init".equals(category))
-			categoryType="未派工";
-		else if("processing".equals(category))
-			categoryType="维修中";
-		else if("notResolved".equals(category))
-			categoryType="未完成";
-		else if("resolved".equals(category))
-			categoryType="已完成";
+
+		if(TicketSearchCategory.INIT.match(category)){
+			categoryType = TicketSearchCategory.INIT.getName();
+		}else if(TicketSearchCategory.PROCESSING.match(category)){
+			categoryType = TicketSearchCategory.PROCESSING.getName();
+		}else if(TicketSearchCategory.NOTRESOLVED.match(category)){
+			categoryType = TicketSearchCategory.NOTRESOLVED.getName();
+		}else if(TicketSearchCategory.RESOLVED.match(category)){
+			categoryType = TicketSearchCategory.RESOLVED.getName();
+		}
+
 		modelMap.put("categoryType", categoryType);
 		return "/manage/ticket/summary.jsp";
 	}

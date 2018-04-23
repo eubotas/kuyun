@@ -378,7 +378,8 @@ function strReplaceAll(str, oldValue, newValue) {
 
 // 格式化时间
 function timeFormatter(value , row, index) {
-    return new Date(value).toLocaleString();
+    return timeSimpleFormatter(value);
+    //return new Date(value).toLocaleString();
 }
 
 function timeSimpleFormatter(value) {
@@ -437,14 +438,18 @@ function getUnitName(unit) {
 
 function formatStatus(value , row, index) {
     var clazz = 'm-badge--info';
-    if(value == '评价完成')
-        clazz = ' m-badge--success';
-    else if(value == '评价完成')//Canceled
-        clazz = 'm-badge--primary';
-    else if(value == '待评价')//Delivered
+    if(value == '评价完成'){
+        clazz = 'm-badge--success';
+    }else if(value == '待评价'){
         clazz = 'm-badge--metal';
-    else if(value == '待维修')//Pending
+    } else if(value == '待维修'){
         clazz = 'm-badge--brand';
+    } else if(value == '待派工'){
+        clazz = 'm-badge--brand';
+    }else if(value == '维修中'){
+        clazz = 'm-badge--warning';
+    }
+
     if(!isNull(value))
         return '<span class="m-badge ' + clazz + ' m-badge--wide">' + ifNull(value) + '</span>';
 }
@@ -494,3 +499,4 @@ function isContains(str, substr) {
 function setText(id,val){
     $("#"+id).text(val);
 }
+

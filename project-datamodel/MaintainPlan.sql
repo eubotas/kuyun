@@ -2,7 +2,7 @@
 DROP TABLE IF EXISTS eam_maintain_plan;
 CREATE TABLE eam_maintain_plan (
    plan_id int(11) NOT NULL AUTO_INCREMENT,
-   equipment_category_id int(11) NOT NULL,
+   equipment_category_id int(11) DEFAULT NULL,
    equipment_id varchar(32) NOT NULL,
    work_content varchar(2000) not NULL COMMENT '维保内容',
    org_id int(11) DEFAULT NULL COMMENT '负责部门',
@@ -84,5 +84,5 @@ INSERT INTO `upms_permission` VALUES ('713', '6', '710', '删除数据字典', '
 
 INSERT INTO `eam_code_value` (`id`,`category`,`code_value`,`code_name`,`description`,`create_user_id`,`create_time`,`update_user_id`,`update_time`,`delete_flag`) VALUES (1,'MAINTAIN_PLAN_UNIT','YEAR','年','',1,'2018-01-30 09:53:16',1,'2018-01-30 09:53:16',0);
 INSERT INTO `eam_code_value` (`id`,`category`,`code_value`,`code_name`,`description`,`create_user_id`,`create_time`,`update_user_id`,`update_time`,`delete_flag`) VALUES (2,'MAINTAIN_PLAN_UNIT','MONTH','月','',1,'2018-01-30 09:53:39',1,'2018-01-30 09:53:39',0);
-INSERT INTO `eam_code_value` (`id`,`category`,`code_value`,`code_name`,`description`,`create_user_id`,`create_time`,`update_user_id`,`update_time`,`delete_flag`) VALUES (3,'MAINTAIN_PLAN_UNIT','WEEK','星期','',1,'2018-01-30 09:54:03',1,'2018-01-30 09:54:03',0);
+INSERT INTO `eam_code_value` (`id`,`category`,`code_value`,`code_name`,`description`,`create_user_id`,`create_time`,`update_user_id`,`update_time`,`delete_flag`) VALUES (3,'MAINTAIN_PLAN_UNIT','WEEK','周','',1,'2018-01-30 09:54:03',1,'2018-01-30 09:54:03',0);
 INSERT INTO `eam_code_value` (`id`,`category`,`code_value`,`code_name`,`description`,`create_user_id`,`create_time`,`update_user_id`,`update_time`,`delete_flag`) VALUES (4,'MAINTAIN_PLAN_UNIT','DAY','天','',1,'2018-01-30 09:54:18',1,'2018-01-30 09:54:18',0);

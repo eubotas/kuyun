@@ -92,8 +92,10 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group m-form__group row">
-                            <label for="templateID_name">类型名称</label>
-                            <input id="templateID_name" type="text" class="form-control" name="name" maxlength="200">
+                            <label class="col-4 col-form-label">标签名称:*</label>
+                            <div class="col-sm-6">
+                                <input id="templateID_name" type="text" class="form-control" name="name">
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -163,9 +165,10 @@
                 searchOnEnterKey: true,
                 maintainSelected: true,
                 idField: 'id',
+                sortName: 'id',
+                sortOrder: 'desc',
                 columns: [
                     {field: 'ck', checkbox: true},
-                    {field: 'id', title: 'ID', sortable: true, align: 'center'},
                     {field: 'name', title: '名称'},
                     {field: 'createTime', title: '创建时间', formatter: 'timeFormatter'},
                     {field: 'action', width: 100, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
@@ -186,7 +189,8 @@
                     // define validation rules
                     rules: {
                         name: {
-                            required: true
+                            required: true,
+                            maxlength: 30
                         }
                     },
                     submitHandler: function (form) {

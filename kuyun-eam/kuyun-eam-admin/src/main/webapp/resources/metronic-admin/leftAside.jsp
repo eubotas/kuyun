@@ -181,54 +181,67 @@
                         </li>
 
                         <li id="submenu_assetsTicket2" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
-                            <shiro:hasPermission name="eam:ticket:read">
-                                <a  href="${eamPath}/manage/ticket/index?category=notResolved" class="m-menu__link ">
+                            <%--<shiro:hasPermission name="eam:ticket:summary">--%>
+                                <a  href="${eamPath}/manage/ticket/index" class="m-menu__link ">
                                     <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                         <span></span>
                                     </i>
                                     <span class="m-menu__link-text">
-													未处理工单
-												</span>
-                                </a></shiro:hasPermission>
+                                        工单列表
+									</span>
+                                </a>
+                            <%--</shiro:hasPermission>--%>
                         </li>
+
+                        <%--<li id="submenu_assetsTicket2" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">--%>
+                            <%--<shiro:hasPermission name="eam:ticket:read">--%>
+                                <%--<a  href="${eamPath}/manage/ticket/index?category=notResolved" class="m-menu__link ">--%>
+                                    <%--<i class="m-menu__link-bullet m-menu__link-bullet--dot">--%>
+                                        <%--<span></span>--%>
+                                    <%--</i>--%>
+                                    <%--<span class="m-menu__link-text">--%>
+													<%--未处理工单--%>
+												<%--</span>--%>
+                                <%--</a></shiro:hasPermission>--%>
+                        <%--</li>--%>
+
+                        <%--<li id="submenu_assetsTicket3" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">--%>
+                            <%--<shiro:hasPermission name="eam:ticket:read">--%>
+                                <%--<a  href="${eamPath}/manage/ticket/index?category=init" class="m-menu__link ">--%>
+                                    <%--<i class="m-menu__link-bullet m-menu__link-bullet--dot">--%>
+                                        <%--<span></span>--%>
+                                    <%--</i>--%>
+                                    <%--<span class="m-menu__link-text">--%>
+													<%--未委派工单--%>
+												<%--</span>--%>
+                                <%--</a></shiro:hasPermission>--%>
+                        <%--</li>--%>
+
+                        <%--<li id="submenu_assetsTicket4" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">--%>
+                            <%--<shiro:hasPermission name="eam:ticket:read">--%>
+                                <%--<a  href="${eamPath}/manage/ticket/index?category=all" class="m-menu__link ">--%>
+                                    <%--<i class="m-menu__link-bullet m-menu__link-bullet--dot">--%>
+                                        <%--<span></span>--%>
+                                    <%--</i>--%>
+                                    <%--<span class="m-menu__link-text">--%>
+													<%--全部工单--%>
+												<%--</span>--%>
+                                <%--</a></shiro:hasPermission>--%>
+                        <%--</li>--%>
+
+                        <%--<li id="submenu_assetsTicket5" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">--%>
+                            <%--<shiro:hasPermission name="eam:ticket:read">--%>
+                                <%--<a  href="${eamPath}/manage/ticket/index?category=myAll" class="m-menu__link ">--%>
+                                    <%--<i class="m-menu__link-bullet m-menu__link-bullet--dot">--%>
+                                        <%--<span></span>--%>
+                                    <%--</i>--%>
+                                    <%--<span class="m-menu__link-text">--%>
+													<%--我的工单--%>
+												<%--</span>--%>
+                                <%--</a></shiro:hasPermission>--%>
+                        <%--</li>--%>
 
                         <li id="submenu_assetsTicket3" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
-                            <shiro:hasPermission name="eam:ticket:read">
-                                <a  href="${eamPath}/manage/ticket/index?category=init" class="m-menu__link ">
-                                    <i class="m-menu__link-bullet m-menu__link-bullet--dot">
-                                        <span></span>
-                                    </i>
-                                    <span class="m-menu__link-text">
-													未委派工单
-												</span>
-                                </a></shiro:hasPermission>
-                        </li>
-
-                        <li id="submenu_assetsTicket4" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
-                            <shiro:hasPermission name="eam:ticket:read">
-                                <a  href="${eamPath}/manage/ticket/index?category=all" class="m-menu__link ">
-                                    <i class="m-menu__link-bullet m-menu__link-bullet--dot">
-                                        <span></span>
-                                    </i>
-                                    <span class="m-menu__link-text">
-													全部工单
-												</span>
-                                </a></shiro:hasPermission>
-                        </li>
-
-                        <li id="submenu_assetsTicket5" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
-                            <shiro:hasPermission name="eam:ticket:read">
-                                <a  href="${eamPath}/manage/ticket/index?category=myAll" class="m-menu__link ">
-                                    <i class="m-menu__link-bullet m-menu__link-bullet--dot">
-                                        <span></span>
-                                    </i>
-                                    <span class="m-menu__link-text">
-													我的工单
-												</span>
-                                </a></shiro:hasPermission>
-                        </li>
-
-                        <li id="submenu_assetsTicket6" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
                             <shiro:hasPermission name="eam:ticketType:read">
                                 <a  href="${eamPath}/manage/ticket/type/index" class="m-menu__link ">
                                     <i class="m-menu__link-bullet m-menu__link-bullet--dot">
@@ -239,7 +252,7 @@
 												</span>
                                 </a></shiro:hasPermission>
                         </li>
-                        <li id="submenu_assetsTicket7" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
+                        <li id="submenu_assetsTicket4" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
                             <shiro:hasPermission name="eam:TicketAssessment:read">
                                 <a  href="${eamPath}/manage/ticket/tag/index" class="m-menu__link ">
                                     <i class="m-menu__link-bullet m-menu__link-bullet--dot">
