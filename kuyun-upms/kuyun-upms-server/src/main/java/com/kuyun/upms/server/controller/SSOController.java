@@ -9,6 +9,7 @@ import com.kuyun.common.util.MD5Util;
 import com.kuyun.common.util.RedisUtil;
 import com.kuyun.upms.client.shiro.session.UpmsSession;
 import com.kuyun.upms.client.shiro.session.UpmsSessionDao;
+import com.kuyun.upms.common.constant.UpmsConstant;
 import com.kuyun.upms.common.constant.UpmsResult;
 import com.kuyun.upms.common.constant.UpmsResultConstant;
 import com.kuyun.upms.dao.model.UpmsSystemExample;
@@ -155,6 +156,17 @@ public class SSOController extends BaseController {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String rememberMe = request.getParameter("rememberMe");
+
+        if(UpmsConstant.UPMS_URL == null) {
+            int port = request.getServerPort();
+            String basePath = "";
+            if (port != 0)
+                basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+            else
+                basePath = request.getScheme() + "://" + request.getServerName();
+            UpmsConstant.UPMS_URL = basePath;
+        }
+
         if (StringUtils.isBlank(username)) {
             return new UpmsResult(UpmsResultConstant.EMPTY_USERNAME, "帐号不能为空！");
         }
@@ -235,12 +247,10 @@ public class SSOController extends BaseController {
         if (null == redirectUrl) {
             redirectUrl = "/";
         }
-        String urltmp ="/sso/login";
-        if(redirectUrl.startsWith("http://")){
-            redirectUrl= redirectUrl.replace("http://","");
-            urltmp ="http://"+redirectUrl.substring(0,redirectUrl.indexOf("/"))+urltmp;
-        }
-        return "redirect:"+urltmp;
+
+        if(UpmsConstant.UPMS_URL != null)
+            redirectUrl = UpmsConstant.UPMS_URL +"/sso/login";
+        return "redirect:"+redirectUrl;
     }
 
     @ApiOperation(value = "退出登录")
