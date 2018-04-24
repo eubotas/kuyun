@@ -4,12 +4,10 @@ import com.kuyun.common.jpush.JpushUtil;
 import com.kuyun.common.mail.service.EmailService;
 import com.kuyun.common.netease.SMSUtil;
 import com.kuyun.common.util.EhCacheUtil;
-import com.kuyun.eam.common.constant.AlarmStatus;
-import com.kuyun.eam.common.constant.AlarmTarget;
-import com.kuyun.eam.common.constant.TicketPriority;
-import com.kuyun.eam.common.constant.TicketStatus;
+import com.kuyun.eam.common.constant.*;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
+import com.kuyun.eam.util.TicketUtil;
 import com.kuyun.upms.dao.model.UpmsUser;
 import com.kuyun.upms.dao.model.UpmsUserExample;
 import com.kuyun.upms.rpc.api.UpmsUserService;
@@ -106,22 +104,32 @@ public abstract class AbstractAlarmHandler {
     protected void createTicket(EamGrmVariableData variableData, EamAlarm alarm){
         if (alarm.getIsCreateTicket() != null && alarm.getIsCreateTicket().booleanValue()){
             EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(variableData.getEquipmentId());
+            List<UpmsUser> users = getUpmsUsers(alarm);
+            List<EamTicket> tickets = new ArrayList<>(users != null ? users.size() : 0);
+            for (UpmsUser user : users){
+                EamTicket ticket = new EamTicket();
+                ticket.setProductLineId(variableData.getProductLineId());
+                ticket.setEquipmentId(variableData.getEquipmentId());
+                ticket.setEquipmentCategoryId(equipment.getEquipmentCategoryId());
+                String message = buildSmsMessage(variableData, alarm, false);
+                ticket.setDescription(message);
+                ticket.setPriority(TicketPriority.URGENT.getCode());
+                ticket.setStatus(TicketStatus.TO_PROCESS.getCode());
+                ticket.setTicketTypeId(TicketType.ALARM.getCode());
+                ticket.setTicketNumber(TicketUtil.generatorTicketNumber());
+                ticket.setExecutorId(user.getUserId());
 
-            EamTicket ticket = new EamTicket();
-            ticket.setEquipmentId(variableData.getEquipmentId());
-            ticket.setEquipmentCategoryId(equipment.getEquipmentCategoryId());
-            String message = buildSmsMessage(variableData, alarm, false);
-            ticket.setDescription(message);
-            ticket.setPriority(TicketPriority.URGENT.getCode());
-            ticket.setStatus(TicketStatus.INIT.getCode());
-            ticket.setCreateTime(new Date());
-            ticket.setUpdateTime(new Date());
-            ticket.setDeleteFlag(Boolean.FALSE);
-
-            eamTicketService.insertSelective(ticket);
+                ticket.setCreateTime(new Date());
+                ticket.setUpdateTime(new Date());
+                ticket.setDeleteFlag(Boolean.FALSE);
+                tickets.add(ticket);
+            }
+            eamTicketService.batchInsert(tickets);
         }
 
     }
+
+
 
     private void updateAlarmRecordHistory(EamGrmVariableData variableData, EamAlarm alarm, AlarmStatus alarmStatus) {
         EamAlarmRecordHistory alarmRecordHistory = getAlarmRecordHistory(variableData, alarm);

@@ -32,6 +32,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -154,7 +155,7 @@ public class EamMaintainPlanController extends BaseController {
 	@RequiresPermissions("eam:maintainPlan:create")
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	@ResponseBody
-	public Object create(EamMaintainPlan plan) {
+	public Object create(HttpServletRequest request, EamMaintainPlan plan) {
 		ComplexResult result = FluentValidator.checkAll()
                 .on(plan.getEquipmentId(), new NotNullValidator("设备"))
                 .on(plan.getWorkContent(), new NotNullValidator("工单描述"))
@@ -169,7 +170,9 @@ public class EamMaintainPlanController extends BaseController {
 		}
 		baseEntityUtil.addAddtionalValue(plan);
 
-        return new EamResult(SUCCESS, eamMaintainPlanService.createMaintainPlan(plan));
+		String[] maintainUserIds = request.getParameterValues("maintainUserId");
+
+        return new EamResult(SUCCESS, eamMaintainPlanService.createMaintainPlan(plan, maintainUserIds));
 	}
 
 	@ApiOperation(value = "删除维修计划")
@@ -205,7 +208,7 @@ public class EamMaintainPlanController extends BaseController {
 	@RequiresPermissions("eam:maintainPlan:update")
 	@RequestMapping(value = "/update/{planId}", method = RequestMethod.POST)
 	@ResponseBody
-	public Object update(EamMaintainPlan plan) {
+	public Object update(HttpServletRequest request, EamMaintainPlan plan) {
 		ComplexResult result = FluentValidator.checkAll()
 				.on(plan.getEquipmentId(), new NotNullValidator("设备"))
 				.on(plan.getWorkContent(), new NotNullValidator("工单描述"))
@@ -220,7 +223,9 @@ public class EamMaintainPlanController extends BaseController {
 		}
 		baseEntityUtil.updateAddtionalValue(plan);
 
-		return new EamResult(SUCCESS, eamMaintainPlanService.updateMaintainPlan(plan));
+		String[] maintainUserIds = request.getParameterValues("maintainUserId");
+
+		return new EamResult(SUCCESS, eamMaintainPlanService.updateMaintainPlan(plan, maintainUserIds));
 	}
 
 

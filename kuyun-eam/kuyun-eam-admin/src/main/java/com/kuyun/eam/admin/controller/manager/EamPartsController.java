@@ -97,19 +97,15 @@ public class EamPartsController extends BaseController {
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			partVO.setOrderByClause(sort + " " + order);
 		}
-		EamPartsExample partExample = new EamPartsExample();
-		EamPartsExample.Criteria criteria = partExample.createCriteria();
-		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
 
 		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
 
 		if (company != null){
 			partVO.setCompanyId(company.getCompanyId());
-			criteria.andCompanyIdEqualTo(company.getCompanyId());
 		}
 
-		List<EamPartVO> rows = eamApiService.selectPart(partVO);
-		int total = eamPartsService.countByExample(partExample);
+		List<EamPartVO> rows = eamApiService.selectParts(partVO);
+		Long total = eamApiService.countParts(partVO);
 
 		Map<String, Object> result = new HashMap<>();
 		result.put("rows", rows);

@@ -177,6 +177,9 @@
     <bean id="eamAlertMessageServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamAlertMessageServiceImpl" />
     <dubbo:service interface="com.kuyun.eam.rpc.api.EamAlertMessageService" ref="eamAlertMessageServiceImpl" timeout="10000" />
 
+    <bean id="eamMaintainUserServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamMaintainUserServiceImpl" />
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamMaintainUserService" ref="eamMaintainUserServiceImpl" timeout="10000" />
+
     <!-- base相关 -->
     <bean id="eamCodeValueServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamCodeValueServiceImpl" />
     <dubbo:service interface="com.kuyun.eam.rpc.api.EamCodeValueService" ref="eamCodeValueServiceImpl" timeout="10000" />

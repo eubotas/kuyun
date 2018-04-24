@@ -5,28 +5,30 @@ package com.kuyun.eam.common.constant;
  */
 public enum TicketType {
 
-    ALARM("1", "报警工单");
+    REPAIR(1, "故障报修"),
+    MIANTAIN(2, "维保计划"),
+    ALARM(3, "报警工单");
 
-    private String code;
+    private int code;
     private String name;
 
-    TicketType(String code, String name){
+    TicketType(int code, String name){
         this.code = code;
         this.name = name;
     }
 
 
 
-    public static String getName(String code) {
+    public static String getName(int code) {
         for (TicketType c : TicketType.values()) {
-            if (c.getCode().equals(code) ) {
+            if (c.getCode() == code ) {
                 return c.name;
             }
         }
         return null;
     }
 
-    public String getCode() {
+    public int getCode() {
         return code;
     }
 

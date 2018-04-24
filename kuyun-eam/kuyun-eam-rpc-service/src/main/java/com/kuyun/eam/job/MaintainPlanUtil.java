@@ -1,14 +1,16 @@
 package com.kuyun.eam.job;
 
 import com.kuyun.common.dao.model.BaseEntity;
+import com.kuyun.common.util.NumberUtil;
+import com.kuyun.eam.common.constant.EamConstant;
+import com.kuyun.eam.common.constant.TicketPriority;
 import com.kuyun.eam.common.constant.TicketStatus;
+import com.kuyun.eam.common.constant.TicketType;
 import com.kuyun.eam.dao.mapper.EamMaintainPlanMapper;
-import com.kuyun.eam.dao.model.EamAlertMessage;
-import com.kuyun.eam.dao.model.EamMaintainPlan;
-import com.kuyun.eam.dao.model.EamMaintainTicket;
-import com.kuyun.eam.dao.model.EamTicket;
+import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.util.EamDateUtil;
+import com.kuyun.eam.util.TicketUtil;
 import com.kuyun.upms.dao.model.UpmsUserOrganization;
 import com.kuyun.upms.dao.model.UpmsUserOrganizationExample;
 import com.kuyun.upms.rpc.api.UpmsUserOrganizationService;
@@ -44,51 +46,66 @@ public class MaintainPlanUtil {
     @Autowired
     public EamEquipmentService eamEquipmentService;
 
+    @Autowired
+    public EamMaintainUserService maintainUserService;
+
 
     public EamMaintainPlan getEamMaintainPlan(String planId){
         return eamMainTainPlanService.selectByPrimaryKey(Integer.parseInt(planId));
     }
 
+    private List<EamMaintainUser> getEamMaintainUsers(String planId){
+        EamMaintainUserExample example = new EamMaintainUserExample();
+        example.createCriteria().andPlanIdEqualTo(NumberUtil.toInteger(planId)).andDeleteFlagEqualTo(Boolean.FALSE);
+
+        return maintainUserService.selectByExample(example);
+    }
+
     public void createTicket(String planId){
         EamMaintainPlan plan = getEamMaintainPlan(planId);
         if(plan != null) {
-            EamTicket ticket = new EamTicket();
-            ticket.setStatus(TicketStatus.INIT.getName());
-            ticket.setDescription(plan.getWorkContent());
-            ticket.setTicketTypeId(0);
-            ticket.setEquipmentCategoryId(plan.getEquipmentCategoryId());
-            ticket.setEquipmentId(plan.getEquipmentId());
-            ticket.setCompanyId(plan.getCompanyId());
-            addAddtionalValue(ticket, plan.getCompanyId());
 
-            ticket=eamTicketService.insertSelectiveCust(ticket);
+            List<EamMaintainUser> maintainUsers = getEamMaintainUsers(planId);
+            for(EamMaintainUser maintainUser : maintainUsers){
+                EamTicket ticket = new EamTicket();
+                ticket.setStatus(TicketStatus.TO_PROCESS.getName());
+                ticket.setDescription(plan.getWorkContent());
+                ticket.setTicketTypeId(TicketType.MIANTAIN.getCode());
+                ticket.setProductLineId(plan.getProductLineId());
+                ticket.setTicketNumber(TicketUtil.generatorTicketNumber());
+                ticket.setPriority(TicketPriority.URGENT.getName());
+                ticket.setExecutorId(maintainUser.getId());
 
-            EamMaintainTicket mt=new EamMaintainTicket();
-            mt.setPlanId(plan.getPlanId());
-            mt.setTicketId(ticket.getTicketId());
-            addAddtionalValue(mt, plan.getCompanyId());
-            eamMaintainTicketService.insert(mt);
+                ticket.setEquipmentId(plan.getEquipmentId());
+                ticket.setCompanyId(plan.getCompanyId());
+                addAddtionalValue(ticket, plan.getCompanyId());
+
+                ticket=eamTicketService.insertSelectiveCust(ticket);
+
+                EamMaintainTicket mt=new EamMaintainTicket();
+                mt.setPlanId(plan.getPlanId());
+                mt.setTicketId(ticket.getTicketId());
+                addAddtionalValue(mt, plan.getCompanyId());
+                eamMaintainTicketService.insert(mt);
+            }
+
+
         }
     }
 
     public void createAlert(String planId){
         EamMaintainPlan plan = getEamMaintainPlan(planId);
         if(plan != null) {
-            int orgId=plan.getOrgId();
-            UpmsUserOrganizationExample example=new UpmsUserOrganizationExample();
-            UpmsUserOrganizationExample.Criteria cr= example.createCriteria();
-            cr.andOrganizationIdEqualTo(orgId);
+            List<EamMaintainUser> maintainUsers = getEamMaintainUsers(planId);
 
-            String cat= eamEquipmentCategoryService.selectByPrimaryKey(plan.getEquipmentCategoryId()).getName();
             String equipmentName=eamEquipmentService.selectByPrimaryKey(plan.getEquipmentId()).getName();
 
-            String content="保养计划: "+ EamDateUtil.getDateStr(plan.getNextMaintainDate());
-            String title=equipmentName +"的保养计划: "+ EamDateUtil.getDateStr(plan.getNextMaintainDate());
+            String content= EamConstant.MAINTAIN_PLAN_LABEL + ": "+ EamDateUtil.getDateStr(plan.getNextMaintainDate());
+            String title=equipmentName + "的"+ EamConstant.MAINTAIN_PLAN_LABEL + ": "+ EamDateUtil.getDateStr(plan.getNextMaintainDate());
 
-            List<UpmsUserOrganization> uos=upmsUserOrganizationService.selectByExample(example);
             List<EamAlertMessage> alerts=new ArrayList<EamAlertMessage>();
-            EamAlertMessage alert = null;
-            for(UpmsUserOrganization uo: uos) {
+            EamAlertMessage alert;
+            for(EamMaintainUser uo: maintainUsers) {
                 alert = new EamAlertMessage();
                 alert.setUserId(uo.getUserId());
                 alert.setAlertStartDate(EamDateUtil.getDateBefore(plan.getNextMaintainDate(),plan.getRemindTime()));

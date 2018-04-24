@@ -34,7 +34,12 @@ public class EamApiServiceMock implements EamApiService {
     }
 
     @Override
-    public List<EamPartVO> selectPart(EamPartVO partVO) {
+    public List<EamPartVO> selectParts(EamPartVO partVO) {
+        return null;
+    }
+
+    @Override
+    public Long countParts(EamPartVO partVO) {
         return null;
     }
 

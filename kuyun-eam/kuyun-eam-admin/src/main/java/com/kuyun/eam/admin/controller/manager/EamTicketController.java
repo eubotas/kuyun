@@ -4,18 +4,28 @@ import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.google.common.base.Splitter;
+import com.kuyun.common.util.NumberUtil;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.common.validator.NotNullValidator;
-import com.kuyun.eam.common.constant.*;
-import com.kuyun.eam.dao.model.EamTicket;
-import com.kuyun.eam.dao.model.EamTicketExample;
-import com.kuyun.eam.rpc.api.*;
+import com.kuyun.eam.admin.model.RepairKnowledge;
+import com.kuyun.eam.admin.repository.RepairKnowledgeRepository;
+import com.kuyun.eam.admin.util.ActionEnum;
+import com.kuyun.eam.admin.util.BaseModelUtil;
+import com.kuyun.eam.admin.util.TagUtil;
+import com.kuyun.eam.common.constant.EamResult;
+import com.kuyun.eam.common.constant.EamResultConstant;
+import com.kuyun.eam.common.constant.TicketSearchCategory;
+import com.kuyun.eam.common.constant.TicketStatus;
+import com.kuyun.eam.dao.model.*;
+import com.kuyun.eam.rpc.api.EamApiService;
+import com.kuyun.eam.rpc.api.EamEquipmentService;
+import com.kuyun.eam.rpc.api.EamTicketRecordService;
+import com.kuyun.eam.rpc.api.EamTicketService;
 import com.kuyun.eam.util.TicketUtil;
 import com.kuyun.eam.vo.EamTicketVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
 import com.kuyun.upms.dao.vo.UpmsOrgUserVo;
-import com.kuyun.upms.rpc.api.UpmsApiService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -27,12 +37,11 @@ import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.datetime.DateFormatter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import java.util.*;
 
 import static com.kuyun.eam.common.constant.EamConstant.TICKET_CREATE;
@@ -48,21 +57,10 @@ import static com.kuyun.eam.common.constant.EamResultConstant.SUCCESS;
 @RequestMapping("/manage/ticket")
 public class EamTicketController extends EamTicketBaseController {
 	
-	@InitBinder
-    protected void initBinder(WebDataBinder binder) {
-        binder.addCustomFormatter(new DateFormatter("yyyy-MM-dd"));
-    }
-
 	private static Logger _log = LoggerFactory.getLogger(EamTicketController.class);
 	
 	@Autowired
 	private EamTicketService eamTicketService;
-
-	@Autowired
-	private EamTicketTypeService eamTicketTypeService;
-
-	@Autowired
-	private EamEquipmentCategoryService eamEquipmentCategoryService;
 
 	@Autowired
 	private EamEquipmentService eamEquipmentService;
@@ -74,13 +72,20 @@ public class EamTicketController extends EamTicketBaseController {
 	private BaseEntityUtil baseEntityUtil;
 	
 	@Autowired
-	private UpmsApiService upmsApiService;
-	
-	@Autowired
 	private EamTicketRecordService eamTicketRecordService;
 
 	@Autowired
 	private com.kuyun.fileuploader.rpc.api.FileUploaderService fileUploaderService;
+
+	@Resource
+	private RepairKnowledgeRepository repairKnowledgeRepository;
+
+	@Autowired
+	private TagUtil tagUtil;
+
+	@Autowired
+	private BaseModelUtil baseModelUtil;
+
 
 	@ApiOperation(value = "工单管理首页")
 	@RequiresPermissions("eam:ticket:read")
@@ -88,10 +93,12 @@ public class EamTicketController extends EamTicketBaseController {
 	public String index(@RequestParam(required = false, defaultValue = "myAll", value = "category") String category , ModelMap modelMap) {
 		modelMap.put("category", category);
 		
-		if(category.startsWith("my"))
-            return "/manage/ticket/myTicket.jsp";
-		else
-		    return "/manage/ticket/index.jsp";
+		if(category.startsWith("my")){
+			return "/manage/ticket/myTicket.jsp";
+		}else{
+			return "/manage/ticket/index.jsp";
+		}
+
 	}
 
     @ApiOperation(value = "工单管理首页")
@@ -121,16 +128,19 @@ public class EamTicketController extends EamTicketBaseController {
 			@RequestParam(required = false, defaultValue = "0", value = "offset") int offset,
 			@RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
 			@RequestParam(required = false, defaultValue = "myAll", value = "category") String category,
-			@RequestParam(required = false, value = "ticketType") String ticketType,
+			@RequestParam(required = false, value = "ticketType") String ticketTypeId,
 			@RequestParam(required = false, value = "sort") String sort,
 			@RequestParam(required = false, value = "order") String order) {
 		EamTicketExample eamTicketExample = new EamTicketExample();
 		eamTicketExample.setOffset(offset);
 		eamTicketExample.setLimit(limit);
 		EamTicketExample.Criteria criteria = eamTicketExample.createCriteria();
-		EamTicketExample.Criteria criteria2 = eamTicketExample.createCriteria();
 		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
-		criteria2.andDeleteFlagEqualTo(Boolean.FALSE);
+
+		if (StringUtils.isNotEmpty(ticketTypeId)){
+			criteria.andTicketTypeIdEqualTo(NumberUtil.toInteger(ticketTypeId));
+		}
+
 
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			eamTicketExample.setOrderByClause(sort + " " + order);
@@ -160,19 +170,19 @@ public class EamTicketController extends EamTicketBaseController {
 		case MY_RESOLVED:
 			if(subject.hasRole(TICKET_CREATE)) {
 				//工单提报人 有权限
-				criteria.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId())
-						.andStatusEqualTo(TicketStatus.RESOLVED.getName());
-				criteria2.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId())
-						.andStatusEqualTo(TicketStatus.COMPLETE.getName());
-				eamTicketExample.or(criteria2);
+				criteria.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
+				List<String> list=new ArrayList();
+				list.add(TicketStatus.RESOLVED.getName());
+				list.add(TicketStatus.COMPLETE.getName());
+				criteria.andStatusIn(list);
 
 			}else if(subject.hasRole(TICKET_REPAIR)) {
 				//工单维修人 有权限
-				criteria.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId())
-						.andStatusEqualTo(TicketStatus.RESOLVED.getName());
-				criteria2.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId())
-						.andStatusEqualTo(TicketStatus.COMPLETE.getName());
-				eamTicketExample.or(criteria2);
+				criteria.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
+				List<String> list=new ArrayList();
+				list.add(TicketStatus.RESOLVED.getName());
+				list.add(TicketStatus.COMPLETE.getName());
+				criteria.andStatusIn(list);
 			}
 			break;
 		case MY_ALL:
@@ -221,7 +231,6 @@ public class EamTicketController extends EamTicketBaseController {
 		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
 		if (company != null){
 			criteria.andCompanyIdEqualTo(company.getCompanyId());
-			criteria2.andCompanyIdEqualTo(company.getCompanyId());
 		}
 
 		List<EamTicketVO> rows = eamApiService.selectTicket(eamTicketExample);
@@ -364,6 +373,57 @@ public class EamTicketController extends EamTicketBaseController {
 		HashMap<String, List<UpmsOrgUserVo>> map = new HashMap();
 		map.put("users", getOperatorUsers());
 		return map;
+	}
+
+	@ApiOperation(value = "生成维修知识")
+	@RequiresPermissions("eam:ticket:update")
+	@RequestMapping(value = "/create/knowledge/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public Object createKnowledge(@PathVariable("id") int id) {
+		int count = createKnowledgeImpl(id);
+		return new EamResult(EamResultConstant.SUCCESS, count);
+	}
+
+	private int createKnowledgeImpl(int id) {
+		int result =  0;
+		EamTicket ticket = eamTicketService.selectByPrimaryKey(id);
+		if (ticket != null){
+			RepairKnowledge repairKnowledge = new RepairKnowledge();
+			repairKnowledge.setDescription(ticket.getDescription());
+			repairKnowledge.setMethod(buildMethods(id));
+			repairKnowledge.setTag(getEquipmentName(ticket));
+
+			baseModelUtil.addAddtionalValue(repairKnowledge);
+
+			tagUtil.handleTag(ActionEnum.CREATE.getName(), null, repairKnowledge.getTag());
+
+			repairKnowledgeRepository.save(repairKnowledge);
+		}
+		return result;
+	}
+
+	private String getEquipmentName(EamTicket ticket) {
+		String result = null;
+		EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(ticket.getEquipmentId());
+		if (equipment != null){
+			result = equipment.getName();
+		}
+		return result;
+	}
+
+	private String buildMethods(int id){
+		StringBuilder method = new StringBuilder();
+		List<EamTicketRecord> records = getTicketRecords(id);
+		for(EamTicketRecord record : records){
+			method.append(record.getComments()).append("/r/n");
+		}
+		return method.toString();
+	}
+	private List<EamTicketRecord> getTicketRecords(int id){
+		EamTicketRecordExample example = new EamTicketRecordExample();
+		example.createCriteria().andTicketIdEqualTo(id).andDeleteFlagEqualTo(Boolean.FALSE);
+		example.setOrderByClause("eam_ticket_record.create_time asc");
+		return eamTicketRecordService.selectByExample(example);
 	}
 
 }

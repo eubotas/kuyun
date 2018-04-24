@@ -91,6 +91,8 @@
 
 	<resultMap id="EamPartVOResultMap" type="com.kuyun.eam.vo.EamPartVO" extends="com.kuyun.eam.dao.mapper.EamPartsMapper.BaseResultMap">
 		<result column="category_name" jdbcType="VARCHAR" property="categoryName" />
+		<result column="equipment_name" jdbcType="VARCHAR" property="equipmentName" />
+		<result column="product_line_name" jdbcType="VARCHAR" property="productLineName" />
 	</resultMap>
 
 
@@ -102,14 +104,17 @@
 
 
 
-	<select id="selectPart" parameterType="com.kuyun.eam.vo.EamPartVO" resultMap="EamPartVOResultMap">
+	<select id="selectParts" parameterType="com.kuyun.eam.vo.EamPartVO" resultMap="EamPartVOResultMap">
 		select
 		<include refid="Part_Column_List" />
-		c.name as category_name
+		c.name as category_name,
+		e.name as equipment_name,
+		p.name as product_line_name
 		from eam_parts t
 		LEFT JOIN eam_parts_category c ON t.category_id = c.category_id
 		LEFT JOIN eam_equipment e ON t.equipment_id = e.equipment_id
-		WHERE t.delete_flag = 0 and e.delete_flag = 0
+		LEFT JOIN eam_product_line p ON t.product_line_id = p.product_line_id
+		WHERE t.delete_flag = 0 and e.delete_flag = 0 and p.delete_flag = 0
 		<if test="equipmentId != null and equipmentId != ''">
 			AND e.equipment_id = #{equipmentId}
 		</if>
@@ -148,6 +153,46 @@
 			<if test="offset == null">
 				limit ${limit}
 			</if>
+		</if>
+	</select>
+
+	<select id="countParts" parameterType="com.kuyun.eam.vo.EamPartVO" resultType="java.lang.Long">
+		select count(t.part_id)
+		from eam_parts t
+		LEFT JOIN eam_parts_category c ON t.category_id = c.category_id
+		LEFT JOIN eam_equipment e ON t.equipment_id = e.equipment_id
+		LEFT JOIN eam_product_line p ON t.product_line_id = p.product_line_id
+		WHERE t.delete_flag = 0 and e.delete_flag = 0 and p.delete_flag = 0
+		<if test="equipmentId != null and equipmentId != ''">
+			AND e.equipment_id = #{equipmentId}
+		</if>
+		<if test="productLineId != null and productLineId != ''">
+			AND e.product_line_id = #{productLineId}
+		</if>
+		<if test="taskNumber != null and taskNumber != ''">
+			AND e.task_number = #{taskNumber}
+		</if>
+		<if test="serialNumber != null and serialNumber != ''">
+			AND e.serial_number = #{serialNumber}
+		</if>
+		<if test="symbol != null and symbol != ''">
+			AND t.symbol = #{symbol}
+		</if>
+		<if test="categoryId != null and categoryId != ''">
+			AND t.category_id = #{categoryId}
+		</if>
+		<if test="model != null and model != ''">
+			AND t.model = #{model}
+		</if>
+		<if test="companyId != null and companyId != ''">
+			AND t.company_id = #{companyId}
+		</if>
+		<if test="name != null and name != ''">
+			<bind name="pattern" value="'%' + name + '%'" />
+			AND t.name like #{pattern}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
 		</if>
 	</select>
 

@@ -21,13 +21,6 @@ public class EamMaintainPlan extends BaseEntity implements Serializable {
     private String workContent;
 
     /**
-     * 负责部门
-     *
-     * @mbg.generated
-     */
-    private Integer orgId;
-
-    /**
      * 由job产生ticket时修改
      *
      * @mbg.generated
@@ -104,14 +97,6 @@ public class EamMaintainPlan extends BaseEntity implements Serializable {
         this.workContent = workContent;
     }
 
-    public Integer getOrgId() {
-        return orgId;
-    }
-
-    public void setOrgId(Integer orgId) {
-        this.orgId = orgId;
-    }
-
     public Date getNextMaintainDate() {
         return nextMaintainDate;
     }
@@ -163,7 +148,6 @@ public class EamMaintainPlan extends BaseEntity implements Serializable {
         sb.append(", productLineId=").append(productLineId);
         sb.append(", equipmentId=").append(equipmentId);
         sb.append(", workContent=").append(workContent);
-        sb.append(", orgId=").append(orgId);
         sb.append(", nextMaintainDate=").append(nextMaintainDate);
         sb.append(", maintainFrequencyUnit=").append(maintainFrequencyUnit);
         sb.append(", maintainFrequencyQuantity=").append(maintainFrequencyQuantity);
@@ -190,7 +174,6 @@ public class EamMaintainPlan extends BaseEntity implements Serializable {
             && (this.getProductLineId() == null ? other.getProductLineId() == null : this.getProductLineId().equals(other.getProductLineId()))
             && (this.getEquipmentId() == null ? other.getEquipmentId() == null : this.getEquipmentId().equals(other.getEquipmentId()))
             && (this.getWorkContent() == null ? other.getWorkContent() == null : this.getWorkContent().equals(other.getWorkContent()))
-            && (this.getOrgId() == null ? other.getOrgId() == null : this.getOrgId().equals(other.getOrgId()))
             && (this.getNextMaintainDate() == null ? other.getNextMaintainDate() == null : this.getNextMaintainDate().equals(other.getNextMaintainDate()))
             && (this.getMaintainFrequencyUnit() == null ? other.getMaintainFrequencyUnit() == null : this.getMaintainFrequencyUnit().equals(other.getMaintainFrequencyUnit()))
             && (this.getMaintainFrequencyQuantity() == null ? other.getMaintainFrequencyQuantity() == null : this.getMaintainFrequencyQuantity().equals(other.getMaintainFrequencyQuantity()))
@@ -213,7 +196,6 @@ public class EamMaintainPlan extends BaseEntity implements Serializable {
         result = prime * result + ((getProductLineId() == null) ? 0 : getProductLineId().hashCode());
         result = prime * result + ((getEquipmentId() == null) ? 0 : getEquipmentId().hashCode());
         result = prime * result + ((getWorkContent() == null) ? 0 : getWorkContent().hashCode());
-        result = prime * result + ((getOrgId() == null) ? 0 : getOrgId().hashCode());
         result = prime * result + ((getNextMaintainDate() == null) ? 0 : getNextMaintainDate().hashCode());
         result = prime * result + ((getMaintainFrequencyUnit() == null) ? 0 : getMaintainFrequencyUnit().hashCode());
         result = prime * result + ((getMaintainFrequencyQuantity() == null) ? 0 : getMaintainFrequencyQuantity().hashCode());

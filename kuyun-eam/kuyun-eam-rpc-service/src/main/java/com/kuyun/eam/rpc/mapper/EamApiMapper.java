@@ -14,7 +14,8 @@ public interface EamApiMapper {
 
     List<EamLocationVO> selectLocation(EamLocationVO locationVO);
 
-    List<EamPartVO> selectPart(EamPartVO partVO);
+    List<EamPartVO> selectParts(EamPartVO partVO);
+    Long countParts(EamPartVO partVO);
 
     List<EamInventoryVO> selectInventory(EamInventoryVO inventoryVO);
 

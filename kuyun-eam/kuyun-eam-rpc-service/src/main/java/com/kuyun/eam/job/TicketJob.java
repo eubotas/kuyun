@@ -32,7 +32,6 @@ public class TicketJob extends BaseJob {
 
     private void setCronData(EamMaintainPlan plan){
         if(plan != null) {
-            int orgId = plan.getOrgId();
             Date startMainTainDate = plan.getNextMaintainDate();
             setStartDate(startMainTainDate);
             String unit = plan.getMaintainFrequencyUnit();

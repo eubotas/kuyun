@@ -12,7 +12,7 @@ import com.kuyun.eam.dao.model.EamMaintainPlanExample;
 public class EamMaintainPlanServiceMock extends BaseServiceMock<EamMaintainPlanMapper, EamMaintainPlan, EamMaintainPlanExample> implements EamMaintainPlanService {
 
     @Override
-    public int createMaintainPlan(EamMaintainPlan plan) {
+    public int createMaintainPlan(EamMaintainPlan plan, String[] maintainUserIds) {
         return 0;
     }
 
@@ -22,7 +22,7 @@ public class EamMaintainPlanServiceMock extends BaseServiceMock<EamMaintainPlanM
     }
 
     @Override
-    public int updateMaintainPlan(EamMaintainPlan plan) {
+    public int updateMaintainPlan(EamMaintainPlan plan, String[] maintainUserIds) {
         return 0;
     }
 }

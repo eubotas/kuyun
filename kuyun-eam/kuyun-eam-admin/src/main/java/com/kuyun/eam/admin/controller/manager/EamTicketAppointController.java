@@ -153,7 +153,7 @@ public class EamTicketAppointController extends EamTicketBaseController {
 	@ResponseBody
 	public Object reject(EamTicketAppointedRecord ticketAppointRecord) {
 		ComplexResult result = FluentValidator.checkAll()
-				.on(ticketAppointRecord.getRejectCommont(), new LengthValidator(1, 20, "工单委派拒绝原因不能为空"))
+				.on(ticketAppointRecord.getRejectCommont(), new LengthValidator(1, 100, "工单委派拒绝原因不能为空"))
 				.doValidate()
 				.result(ResultCollectors.toComplex());
 		if (!result.isSuccess()) {

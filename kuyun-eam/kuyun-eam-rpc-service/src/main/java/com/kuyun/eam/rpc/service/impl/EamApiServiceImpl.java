@@ -188,9 +188,15 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     @Override
-    public List<EamPartVO> selectPart(EamPartVO partVO) {
-        return eamApiMapper.selectPart(partVO);
+    public List<EamPartVO> selectParts(EamPartVO partVO) {
+        return eamApiMapper.selectParts(partVO);
     }
+
+    @Override
+    public Long countParts(EamPartVO partVO) {
+        return eamApiMapper.countParts(partVO);
+    }
+
 
     @Override
     public List<EamInventoryVO> selectInventory(EamInventoryVO inventoryVO) {
@@ -915,7 +921,7 @@ public class EamApiServiceImpl implements EamApiService {
         List<EamAlarmTargetUser> result = new ArrayList<>();
         for (String targetUserId : targetUserIds){
             EamAlarmTargetUser targetUser = new EamAlarmTargetUser();
-            targetUser.setUserId(Integer.valueOf(targetUserId));
+            targetUser.setUserId(NumberUtil.toInteger(targetUserId));
             targetUser.setAlarmId(alarm.getAlarmId());
             targetUser.setDeleteFlag(Boolean.FALSE);
             targetUser.setUpdateTime(new Date());
@@ -1214,11 +1220,21 @@ public class EamApiServiceImpl implements EamApiService {
 
     @Override
     public int rejectTicketAppoint(EamTicketAppointedRecord ticketAppointRecord){
-        ticketAppointRecord.setAction(EamConstant.TICKET_APPOINT_REJECT);
-        int count = eamTicketAppointRecordService.insertSelective(ticketAppointRecord);
-        rejectTicketStatus(ticketAppointRecord.getTicketId(), TicketStatus.INIT.getName());
+        EamTicketAppointedRecord lastOne = getLastEamTicketAppointedRecord(ticketAppointRecord.getTicketId());
+        lastOne.setAction(EamConstant.TICKET_APPOINT_REJECT);
+        lastOne.setRejectCommont(ticketAppointRecord.getRejectCommont());
+        int count = eamTicketAppointRecordService.updateByPrimaryKeySelective(lastOne);
+        rejectTicketStatus(lastOne.getTicketId(), TicketStatus.INIT.getName());
         return count;
     }
+
+    private EamTicketAppointedRecord getLastEamTicketAppointedRecord(int ticketId){
+        EamTicketAppointedRecordExample example = new EamTicketAppointedRecordExample();
+        example.createCriteria().andTicketIdEqualTo(ticketId).andDeleteFlagEqualTo(Boolean.FALSE);
+        example.setOrderByClause("id desc");
+        return eamTicketAppointRecordService.selectFirstByExample(example);
+    }
+
     @Override
     public int deleteTicketAppoint(EamTicketAppointedRecordExample eamTicketAppointRecordExample, int ticketId){
         int i= eamTicketAppointRecordService.deleteByExample(eamTicketAppointRecordExample);
@@ -2221,6 +2237,13 @@ public class EamApiServiceImpl implements EamApiService {
     @Override
     public long countGrmVariables(EamGrmVariableVO variableVO) {
         return eamApiMapper.countGrmVariables(variableVO);
+    }
+
+    private List<EamTicketRecord> getTicketRecords(int id){
+        EamTicketRecordExample example = new EamTicketRecordExample();
+        example.createCriteria().andTicketIdEqualTo(id).andDeleteFlagEqualTo(Boolean.FALSE);
+        example.setOrderByClause("eam_ticket_record.create_time asc");
+        return eamTicketRecordService.selectByExample(example);
     }
 
     private Integer getPeriod(String productLineId) {
