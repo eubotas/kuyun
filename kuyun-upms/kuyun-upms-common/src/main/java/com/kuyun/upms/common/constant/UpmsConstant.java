@@ -10,6 +10,4 @@ public class UpmsConstant extends BaseConstants {
 
     public static final String UPMS_TYPE = "kuyun.upms.type";
 
-    public static String UPMS_URL =null;
-
 }

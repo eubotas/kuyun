@@ -5,11 +5,11 @@ import com.google.gson.reflect.TypeToken;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.base.BaseResult;
 import com.kuyun.common.netease.SMSUtil;
+import com.kuyun.common.util.BasePath;
 import com.kuyun.common.util.MD5Util;
 import com.kuyun.common.util.RedisUtil;
 import com.kuyun.upms.client.shiro.session.UpmsSession;
 import com.kuyun.upms.client.shiro.session.UpmsSessionDao;
-import com.kuyun.upms.common.constant.UpmsConstant;
 import com.kuyun.upms.common.constant.UpmsResult;
 import com.kuyun.upms.common.constant.UpmsResultConstant;
 import com.kuyun.upms.dao.model.UpmsSystemExample;
@@ -157,14 +157,14 @@ public class SSOController extends BaseController {
         String password = request.getParameter("password");
         String rememberMe = request.getParameter("rememberMe");
 
-        if(UpmsConstant.UPMS_URL == null) {
+        if( !BasePath.isSetted) {
             int port = request.getServerPort();
             String basePath = "";
             if (port != 0)
                 basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
             else
                 basePath = request.getScheme() + "://" + request.getServerName();
-            UpmsConstant.UPMS_URL = basePath;
+            BasePath.kuyunUpmsServer = basePath;
         }
 
         if (StringUtils.isBlank(username)) {
@@ -248,8 +248,7 @@ public class SSOController extends BaseController {
             redirectUrl = "/";
         }
 
-        if(UpmsConstant.UPMS_URL != null)
-            redirectUrl = UpmsConstant.UPMS_URL +"/sso/login";
+        redirectUrl = BasePath.kuyunUpmsServer +"/sso/login";
         return "redirect:"+redirectUrl;
     }
 
