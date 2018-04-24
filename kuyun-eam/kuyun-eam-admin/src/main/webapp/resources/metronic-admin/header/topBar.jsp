@@ -1,7 +1,8 @@
 <%@ page import="com.kuyun.upms.common.constant.UpmsConstant" %>
+<%@ page import="com.kuyun.common.util.BasePath" %>
 <%@ page contentType="text/html; charset=utf-8"%>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
-<c:set var="upmsPath" value="<%=UpmsConstant.UPMS_URL%>"/>
+<c:set var="upmsPath" value="<%=BasePath.kuyunUpmsServer%>"/>
 
 <!-- BEGIN: Topbar -->
 <div id="m_header_topbar" class="m-topbar  m-stack m-stack--ver m-stack--general">

@@ -1,5 +1,4 @@
 <%@ page language="java" import="com.kuyun.common.util.BasePath"%>
-<%@ page import="com.kuyun.upms.common.constant.UpmsConstant" %>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -10,7 +9,7 @@
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 
 <c:set var="eamPath" value="<%=BasePath.kuyunEamAdmin%>"/>
-<c:set var="upmsPath" value="<%=UpmsConstant.UPMS_URL%>"/>
+<c:set var="upmsPath" value="<%=BasePath.kuyunUpmsServer%>"/>
 
 <script src="${basePath}/resources/kuyun-admin/plugins/jquery.1.12.4.min.js"></script>
 <script src="${basePath}/resources/metronic-admin/assets/js/header_common.js"></script>
