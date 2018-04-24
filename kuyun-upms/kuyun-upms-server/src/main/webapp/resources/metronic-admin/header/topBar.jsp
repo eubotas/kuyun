@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
-
+<c:set var="upmsPath" value="<%=UpmsConstant.UPMS_URL%>"/>
 <!-- BEGIN: Topbar -->
 <div id="m_header_topbar" class="m-topbar  m-stack m-stack--ver m-stack--general">
     <div class="m-stack__item m-topbar__nav-wrapper">
@@ -356,7 +356,7 @@
 
                                     <li class="m-nav__separator m-nav__separator--fit"></li>
                                     <li class="m-nav__item">
-                                        <a href="${basePath}/sso/logout" class="btn m-btn--pill    btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">
+                                        <a href="${upmsPath}/sso/logout" class="btn m-btn--pill    btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">
                                             退出
                                         </a>
                                     </li>
