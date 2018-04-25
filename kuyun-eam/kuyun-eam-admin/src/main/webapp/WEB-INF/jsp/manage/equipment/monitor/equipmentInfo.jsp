@@ -412,6 +412,7 @@
                             }
                         );
                         generateRunHtml();
+                        $('#groupname0List, #groupname1List').find(".btn").css("cursor","text");
                     }else if(dataArr!=null && dataArr.length==0){
                         groupname0=null;
                         varsArr0=[];
