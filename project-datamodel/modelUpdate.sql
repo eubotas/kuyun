@@ -415,3 +415,4 @@ create table eam_ticket_appointed_record
 INSERT INTO `upms_permission` VALUES ('345', '6', '300', '工单统计', '2', 'eam:ticket:summary', '/manage/ticket/summary', NULL, 1, 225, 460);
 
 
+ALTER table eam_alarm add column is_create_ticket     boolean;

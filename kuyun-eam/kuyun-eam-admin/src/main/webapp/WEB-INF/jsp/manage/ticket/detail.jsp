@@ -110,7 +110,10 @@
 												</span>
                                 <h3 class="m-portlet__head-text">
                                     工单详情
+
+                                    <button class="btn btn-metal" onclick="goBack()">返回</button>
                                 </h3>
+
                             </div>
                         </div>
                     </div>
@@ -575,6 +578,9 @@
         });
     }
 
+    function goBack() {
+        window.history.back();
+    }
 </script>
 </pageResources>
 </body>

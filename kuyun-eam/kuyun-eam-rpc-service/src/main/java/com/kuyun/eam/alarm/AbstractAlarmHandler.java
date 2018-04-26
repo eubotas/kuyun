@@ -3,10 +3,10 @@ package com.kuyun.eam.alarm;
 import com.kuyun.common.jpush.JpushUtil;
 import com.kuyun.common.mail.service.EmailService;
 import com.kuyun.common.netease.SMSUtil;
-import com.kuyun.eam.common.constant.AlarmStatus;
-import com.kuyun.eam.common.constant.AlarmTarget;
+import com.kuyun.eam.common.constant.*;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
+import com.kuyun.eam.util.TicketUtil;
 import com.kuyun.upms.dao.model.UpmsUser;
 import com.kuyun.upms.dao.model.UpmsUserExample;
 import com.kuyun.upms.rpc.api.UpmsUserService;
@@ -67,6 +67,9 @@ public abstract class AbstractAlarmHandler {
     @Autowired
     private JpushUtil jpushUtil;
 
+    @Autowired
+    private EamTicketService eamTicketService;
+
     public void process(EamSensorData sensorData, EamAlarm alarm) {
         EamAlarmRecord alarmRecord = getAlarmRecord(sensorData, alarm);
 
@@ -77,6 +80,8 @@ public abstract class AbstractAlarmHandler {
             createAlarmRecordHistory(sensorData, alarm, AlarmStatus.ANU);
             //3. send message
             sendAlarmMessage(sensorData, alarm, false);
+            //4. create ticket
+            createTicket(sensorData, alarm);
         }
 
         if (!metAlarmCondition(sensorData, alarm) && alarmRecord != null){
@@ -89,6 +94,32 @@ public abstract class AbstractAlarmHandler {
         }
     }
 
+    protected void createTicket(EamSensorData sensorData, EamAlarm alarm){
+        if (alarm.getIsCreateTicket() != null && alarm.getIsCreateTicket().booleanValue()){
+            EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(sensorData.getEquipmentId());
+            List<UpmsUser> users = getUpmsUsers(alarm);
+            List<EamTicket> tickets = new ArrayList<>(users != null ? users.size() : 0);
+            for (UpmsUser user : users){
+                EamTicket ticket = new EamTicket();
+                ticket.setEquipmentId(sensorData.getEquipmentId());
+                ticket.setEquipmentCategoryId(equipment.getEquipmentCategoryId());
+                String message = buildSmsMessage(sensorData, alarm, false);
+                ticket.setDescription(message);
+                ticket.setPriority(TicketPriority.URGENT.getCode());
+                ticket.setStatus(TicketStatus.TO_PROCESS.getCode());
+                ticket.setTicketTypeId(TicketType.ALARM.getCode());
+                ticket.setTicketNumber(TicketUtil.generatorTicketNumber());
+                ticket.setExecutorId(user.getUserId());
+
+                ticket.setCreateTime(new Date());
+                ticket.setUpdateTime(new Date());
+                ticket.setDeleteFlag(Boolean.FALSE);
+                tickets.add(ticket);
+            }
+            eamTicketService.batchInsert(tickets);
+        }
+
+    }
     private void updateAlarmRecordHistory(EamSensorData sensorData, EamAlarm alarm, AlarmStatus alarmStatus) {
         EamAlarmRecordHistory alarmRecordHistory = getAlarmRecordHistory(sensorData, alarm);
         if (alarmRecordHistory != null){

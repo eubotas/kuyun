@@ -9,6 +9,8 @@ public class EamMaintainPlan extends BaseEntity implements Serializable {
 
     private Integer equipmentCategoryId;
 
+    private String productLineId;
+
     private String equipmentId;
 
     /**
@@ -17,13 +19,6 @@ public class EamMaintainPlan extends BaseEntity implements Serializable {
      * @mbg.generated
      */
     private String workContent;
-
-    /**
-     * 负责部门
-     *
-     * @mbg.generated
-     */
-    private Integer orgId;
 
     /**
      * 由job产生ticket时修改
@@ -78,6 +73,14 @@ public class EamMaintainPlan extends BaseEntity implements Serializable {
         this.equipmentCategoryId = equipmentCategoryId;
     }
 
+    public String getProductLineId() {
+        return productLineId;
+    }
+
+    public void setProductLineId(String productLineId) {
+        this.productLineId = productLineId;
+    }
+
     public String getEquipmentId() {
         return equipmentId;
     }
@@ -92,14 +95,6 @@ public class EamMaintainPlan extends BaseEntity implements Serializable {
 
     public void setWorkContent(String workContent) {
         this.workContent = workContent;
-    }
-
-    public Integer getOrgId() {
-        return orgId;
-    }
-
-    public void setOrgId(Integer orgId) {
-        this.orgId = orgId;
     }
 
     public Date getNextMaintainDate() {
@@ -150,9 +145,9 @@ public class EamMaintainPlan extends BaseEntity implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", planId=").append(planId);
         sb.append(", equipmentCategoryId=").append(equipmentCategoryId);
+        sb.append(", productLineId=").append(productLineId);
         sb.append(", equipmentId=").append(equipmentId);
         sb.append(", workContent=").append(workContent);
-        sb.append(", orgId=").append(orgId);
         sb.append(", nextMaintainDate=").append(nextMaintainDate);
         sb.append(", maintainFrequencyUnit=").append(maintainFrequencyUnit);
         sb.append(", maintainFrequencyQuantity=").append(maintainFrequencyQuantity);
@@ -176,9 +171,9 @@ public class EamMaintainPlan extends BaseEntity implements Serializable {
         EamMaintainPlan other = (EamMaintainPlan) that;
         return (this.getPlanId() == null ? other.getPlanId() == null : this.getPlanId().equals(other.getPlanId()))
             && (this.getEquipmentCategoryId() == null ? other.getEquipmentCategoryId() == null : this.getEquipmentCategoryId().equals(other.getEquipmentCategoryId()))
+            && (this.getProductLineId() == null ? other.getProductLineId() == null : this.getProductLineId().equals(other.getProductLineId()))
             && (this.getEquipmentId() == null ? other.getEquipmentId() == null : this.getEquipmentId().equals(other.getEquipmentId()))
             && (this.getWorkContent() == null ? other.getWorkContent() == null : this.getWorkContent().equals(other.getWorkContent()))
-            && (this.getOrgId() == null ? other.getOrgId() == null : this.getOrgId().equals(other.getOrgId()))
             && (this.getNextMaintainDate() == null ? other.getNextMaintainDate() == null : this.getNextMaintainDate().equals(other.getNextMaintainDate()))
             && (this.getMaintainFrequencyUnit() == null ? other.getMaintainFrequencyUnit() == null : this.getMaintainFrequencyUnit().equals(other.getMaintainFrequencyUnit()))
             && (this.getMaintainFrequencyQuantity() == null ? other.getMaintainFrequencyQuantity() == null : this.getMaintainFrequencyQuantity().equals(other.getMaintainFrequencyQuantity()))
@@ -198,9 +193,9 @@ public class EamMaintainPlan extends BaseEntity implements Serializable {
         int result = 1;
         result = prime * result + ((getPlanId() == null) ? 0 : getPlanId().hashCode());
         result = prime * result + ((getEquipmentCategoryId() == null) ? 0 : getEquipmentCategoryId().hashCode());
+        result = prime * result + ((getProductLineId() == null) ? 0 : getProductLineId().hashCode());
         result = prime * result + ((getEquipmentId() == null) ? 0 : getEquipmentId().hashCode());
         result = prime * result + ((getWorkContent() == null) ? 0 : getWorkContent().hashCode());
-        result = prime * result + ((getOrgId() == null) ? 0 : getOrgId().hashCode());
         result = prime * result + ((getNextMaintainDate() == null) ? 0 : getNextMaintainDate().hashCode());
         result = prime * result + ((getMaintainFrequencyUnit() == null) ? 0 : getMaintainFrequencyUnit().hashCode());
         result = prime * result + ((getMaintainFrequencyQuantity() == null) ? 0 : getMaintainFrequencyQuantity().hashCode());

@@ -113,7 +113,7 @@ public class EamTicketController extends EamTicketBaseController {
 
 		modelMap.put("categoryType", categoryType);
 
-		selectTicketUpdate(modelMap);
+
 
 		return "/manage/ticket/index.jsp";
 	}
@@ -261,9 +261,10 @@ public class EamTicketController extends EamTicketBaseController {
 	@ApiOperation(value = "新增工单")
 	@RequiresPermissions("eam:ticket:create")
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public String create(ModelMap modelMap ) {
+	@ResponseBody
+	public Object create(ModelMap modelMap ) {
 		selectTicketUpdate(modelMap);
-		return "/manage/ticket/create.jsp";
+		return new EamResult(EamResultConstant.SUCCESS, modelMap);
 	}
 
 	@ApiOperation(value = "新增工单")
@@ -289,7 +290,8 @@ public class EamTicketController extends EamTicketBaseController {
 	@ApiOperation(value = "修改工单")
 	@RequiresPermissions("eam:ticket:update")
 	@RequestMapping(value = "/update/{id}", method = RequestMethod.GET)
-	public String update(@PathVariable("id") int id, ModelMap modelMap) {
+	@ResponseBody
+	public Object update(@PathVariable("id") int id, ModelMap modelMap) {
 		EamTicket eamTicket = eamTicketService.selectByPrimaryKey(id);
 		modelMap.put("ticket", eamTicket);
 
@@ -318,7 +320,7 @@ public class EamTicketController extends EamTicketBaseController {
 		modelMap.put("voiceList", voiceList);
 
 		selectTicketUpdate(modelMap);
-		return "/manage/ticket/update.jsp";
+		return new EamResult(EamResultConstant.SUCCESS, modelMap);
 	}
 
 	@ApiOperation(value = "修改工单")

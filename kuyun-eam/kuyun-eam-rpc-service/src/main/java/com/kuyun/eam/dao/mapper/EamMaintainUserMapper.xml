@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kuyun.eam.dao.mapper.EamAlarmMapper">
-  <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamAlarm">
-    <id column="alarm_id" jdbcType="INTEGER" property="alarmId" />
-    <result column="alarm_type" jdbcType="VARCHAR" property="alarmType" />
-    <result column="upper_Bound" jdbcType="DECIMAL" property="upperBound" />
-    <result column="lower_Bound" jdbcType="DECIMAL" property="lowerBound" />
-    <result column="duration" jdbcType="DECIMAL" property="duration" />
-    <result column="alarm_target" jdbcType="VARCHAR" property="alarmTarget" />
-    <result column="equipment_model_property_id" jdbcType="INTEGER" property="equipmentModelPropertyId" />
+<mapper namespace="com.kuyun.eam.dao.mapper.EamMaintainUserMapper">
+  <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamMaintainUser">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="plan_id" jdbcType="INTEGER" property="planId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
-    <result column="is_create_ticket" jdbcType="BIT" property="isCreateTicket" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -76,17 +71,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    alarm_id, alarm_type, upper_Bound, lower_Bound, duration, alarm_target, equipment_model_property_id, 
-    create_user_id, create_time, update_user_id, update_time, delete_flag, company_id, 
-    is_create_ticket
+    id, plan_id, user_id, create_user_id, create_time, update_user_id, update_time, delete_flag, 
+    company_id
   </sql>
-  <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamAlarmExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamMaintainUserExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from eam_alarm
+    from eam_maintain_user
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -105,57 +99,40 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from eam_alarm
-    where alarm_id = #{alarmId,jdbcType=INTEGER}
+    from eam_maintain_user
+    where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    update eam_alarm set delete_flag = 1 
-    where alarm_id = #{alarmId,jdbcType=INTEGER}
+    update eam_maintain_user set delete_flag = 1 
+    where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamAlarmExample">
-    update eam_alarm set delete_flag = 1 
+  <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamMaintainUserExample">
+    update eam_maintain_user set delete_flag = 1 
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamAlarm">
-    <selectKey keyProperty="alarmId" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into eam_alarm (alarm_type, upper_Bound, lower_Bound, 
-      duration, alarm_target, equipment_model_property_id, 
+  <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamMaintainUser">
+    insert into eam_maintain_user (id, plan_id, user_id, 
       create_user_id, create_time, update_user_id, 
-      update_time, delete_flag, company_id, 
-      is_create_ticket)
-    values (#{alarmType,jdbcType=VARCHAR}, #{upperBound,jdbcType=DECIMAL}, #{lowerBound,jdbcType=DECIMAL}, 
-      #{duration,jdbcType=DECIMAL}, #{alarmTarget,jdbcType=VARCHAR}, #{equipmentModelPropertyId,jdbcType=INTEGER}, 
+      update_time, delete_flag, company_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{planId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
       #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{companyId,jdbcType=INTEGER}, 
-      #{isCreateTicket,jdbcType=BIT})
+      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{companyId,jdbcType=INTEGER}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamAlarm">
-    <selectKey keyProperty="alarmId" order="AFTER" resultType="java.lang.Integer">
-      SELECT LAST_INSERT_ID()
-    </selectKey>
-    insert into eam_alarm
+  <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamMaintainUser">
+    insert into eam_maintain_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="alarmType != null">
-        alarm_type,
+      <if test="id != null">
+        id,
       </if>
-      <if test="upperBound != null">
-        upper_Bound,
+      <if test="planId != null">
+        plan_id,
       </if>
-      <if test="lowerBound != null">
-        lower_Bound,
-      </if>
-      <if test="duration != null">
-        duration,
-      </if>
-      <if test="alarmTarget != null">
-        alarm_target,
-      </if>
-      <if test="equipmentModelPropertyId != null">
-        equipment_model_property_id,
+      <if test="userId != null">
+        user_id,
       </if>
       <if test="createUserId != null">
         create_user_id,
@@ -175,28 +152,16 @@
       <if test="companyId != null">
         company_id,
       </if>
-      <if test="isCreateTicket != null">
-        is_create_ticket,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="alarmType != null">
-        #{alarmType,jdbcType=VARCHAR},
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
       </if>
-      <if test="upperBound != null">
-        #{upperBound,jdbcType=DECIMAL},
+      <if test="planId != null">
+        #{planId,jdbcType=INTEGER},
       </if>
-      <if test="lowerBound != null">
-        #{lowerBound,jdbcType=DECIMAL},
-      </if>
-      <if test="duration != null">
-        #{duration,jdbcType=DECIMAL},
-      </if>
-      <if test="alarmTarget != null">
-        #{alarmTarget,jdbcType=VARCHAR},
-      </if>
-      <if test="equipmentModelPropertyId != null">
-        #{equipmentModelPropertyId,jdbcType=INTEGER},
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
       </if>
       <if test="createUserId != null">
         #{createUserId,jdbcType=INTEGER},
@@ -216,40 +181,25 @@
       <if test="companyId != null">
         #{companyId,jdbcType=INTEGER},
       </if>
-      <if test="isCreateTicket != null">
-        #{isCreateTicket,jdbcType=BIT},
-      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamAlarmExample" resultType="java.lang.Long">
-    select count(*) from eam_alarm
+  <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamMaintainUserExample" resultType="java.lang.Long">
+    select count(*) from eam_maintain_user
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update eam_alarm
+    update eam_maintain_user
     <set>
-      <if test="record.alarmId != null">
-        alarm_id = #{record.alarmId,jdbcType=INTEGER},
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="record.alarmType != null">
-        alarm_type = #{record.alarmType,jdbcType=VARCHAR},
+      <if test="record.planId != null">
+        plan_id = #{record.planId,jdbcType=INTEGER},
       </if>
-      <if test="record.upperBound != null">
-        upper_Bound = #{record.upperBound,jdbcType=DECIMAL},
-      </if>
-      <if test="record.lowerBound != null">
-        lower_Bound = #{record.lowerBound,jdbcType=DECIMAL},
-      </if>
-      <if test="record.duration != null">
-        duration = #{record.duration,jdbcType=DECIMAL},
-      </if>
-      <if test="record.alarmTarget != null">
-        alarm_target = #{record.alarmTarget,jdbcType=VARCHAR},
-      </if>
-      <if test="record.equipmentModelPropertyId != null">
-        equipment_model_property_id = #{record.equipmentModelPropertyId,jdbcType=INTEGER},
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=INTEGER},
       </if>
       <if test="record.createUserId != null">
         create_user_id = #{record.createUserId,jdbcType=INTEGER},
@@ -269,54 +219,34 @@
       <if test="record.companyId != null">
         company_id = #{record.companyId,jdbcType=INTEGER},
       </if>
-      <if test="record.isCreateTicket != null">
-        is_create_ticket = #{record.isCreateTicket,jdbcType=BIT},
-      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update eam_alarm
-    set alarm_id = #{record.alarmId,jdbcType=INTEGER},
-      alarm_type = #{record.alarmType,jdbcType=VARCHAR},
-      upper_Bound = #{record.upperBound,jdbcType=DECIMAL},
-      lower_Bound = #{record.lowerBound,jdbcType=DECIMAL},
-      duration = #{record.duration,jdbcType=DECIMAL},
-      alarm_target = #{record.alarmTarget,jdbcType=VARCHAR},
-      equipment_model_property_id = #{record.equipmentModelPropertyId,jdbcType=INTEGER},
+    update eam_maintain_user
+    set id = #{record.id,jdbcType=INTEGER},
+      plan_id = #{record.planId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      company_id = #{record.companyId,jdbcType=INTEGER},
-      is_create_ticket = #{record.isCreateTicket,jdbcType=BIT}
+      company_id = #{record.companyId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.kuyun.eam.dao.model.EamAlarm">
-    update eam_alarm
+  <update id="updateByPrimaryKeySelective" parameterType="com.kuyun.eam.dao.model.EamMaintainUser">
+    update eam_maintain_user
     <set>
-      <if test="alarmType != null">
-        alarm_type = #{alarmType,jdbcType=VARCHAR},
+      <if test="planId != null">
+        plan_id = #{planId,jdbcType=INTEGER},
       </if>
-      <if test="upperBound != null">
-        upper_Bound = #{upperBound,jdbcType=DECIMAL},
-      </if>
-      <if test="lowerBound != null">
-        lower_Bound = #{lowerBound,jdbcType=DECIMAL},
-      </if>
-      <if test="duration != null">
-        duration = #{duration,jdbcType=DECIMAL},
-      </if>
-      <if test="alarmTarget != null">
-        alarm_target = #{alarmTarget,jdbcType=VARCHAR},
-      </if>
-      <if test="equipmentModelPropertyId != null">
-        equipment_model_property_id = #{equipmentModelPropertyId,jdbcType=INTEGER},
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
       </if>
       <if test="createUserId != null">
         create_user_id = #{createUserId,jdbcType=INTEGER},
@@ -336,43 +266,33 @@
       <if test="companyId != null">
         company_id = #{companyId,jdbcType=INTEGER},
       </if>
-      <if test="isCreateTicket != null">
-        is_create_ticket = #{isCreateTicket,jdbcType=BIT},
-      </if>
     </set>
-    where alarm_id = #{alarmId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamAlarm">
-    update eam_alarm
-    set alarm_type = #{alarmType,jdbcType=VARCHAR},
-      upper_Bound = #{upperBound,jdbcType=DECIMAL},
-      lower_Bound = #{lowerBound,jdbcType=DECIMAL},
-      duration = #{duration,jdbcType=DECIMAL},
-      alarm_target = #{alarmTarget,jdbcType=VARCHAR},
-      equipment_model_property_id = #{equipmentModelPropertyId,jdbcType=INTEGER},
+  <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamMaintainUser">
+    update eam_maintain_user
+    set plan_id = #{planId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
-      company_id = #{companyId,jdbcType=INTEGER},
-      is_create_ticket = #{isCreateTicket,jdbcType=BIT}
-    where alarm_id = #{alarmId,jdbcType=INTEGER}
+      company_id = #{companyId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into eam_alarm  (alarm_type, upper_Bound, lower_Bound, 
-        duration, alarm_target, equipment_model_property_id, 
+            insert into eam_maintain_user  (id, plan_id, user_id, 
         create_user_id, create_time, update_user_id, 
-        update_time, delete_flag, company_id, 
-        is_create_ticket)
+        update_time, delete_flag, company_id
+        )
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.alarmType,jdbcType=VARCHAR}, #{item.upperBound,jdbcType=DECIMAL}, #{item.lowerBound,jdbcType=DECIMAL}, 
-        #{item.duration,jdbcType=DECIMAL}, #{item.alarmTarget,jdbcType=VARCHAR}, #{item.equipmentModelPropertyId,jdbcType=INTEGER}, 
+      (#{item.id,jdbcType=INTEGER}, #{item.planId,jdbcType=INTEGER}, #{item.userId,jdbcType=INTEGER}, 
         #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, 
-        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, #{item.companyId,jdbcType=INTEGER}, 
-        #{item.isCreateTicket,jdbcType=BIT})
+        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, #{item.companyId,jdbcType=INTEGER}
+        )
       </foreach>
     </if>
   </insert>

@@ -1,12 +1,11 @@
 package com.kuyun.eam.dao.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class EamAlarmExample implements Serializable {
+public class EamMaintainUserExample implements Serializable {
     protected String orderByClause;
 
     protected boolean distinct;
@@ -19,7 +18,7 @@ public class EamAlarmExample implements Serializable {
 
     private Integer offset;
 
-    public EamAlarmExample() {
+    public EamMaintainUserExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -129,443 +128,183 @@ public class EamAlarmExample implements Serializable {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andAlarmIdIsNull() {
-            addCriterion("alarm_id is null");
+        public Criteria andIdIsNull() {
+            addCriterion("id is null");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmIdIsNotNull() {
-            addCriterion("alarm_id is not null");
+        public Criteria andIdIsNotNull() {
+            addCriterion("id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmIdEqualTo(Integer value) {
-            addCriterion("alarm_id =", value, "alarmId");
+        public Criteria andIdEqualTo(Integer value) {
+            addCriterion("id =", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmIdNotEqualTo(Integer value) {
-            addCriterion("alarm_id <>", value, "alarmId");
+        public Criteria andIdNotEqualTo(Integer value) {
+            addCriterion("id <>", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmIdGreaterThan(Integer value) {
-            addCriterion("alarm_id >", value, "alarmId");
+        public Criteria andIdGreaterThan(Integer value) {
+            addCriterion("id >", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("alarm_id >=", value, "alarmId");
+        public Criteria andIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("id >=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmIdLessThan(Integer value) {
-            addCriterion("alarm_id <", value, "alarmId");
+        public Criteria andIdLessThan(Integer value) {
+            addCriterion("id <", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmIdLessThanOrEqualTo(Integer value) {
-            addCriterion("alarm_id <=", value, "alarmId");
+        public Criteria andIdLessThanOrEqualTo(Integer value) {
+            addCriterion("id <=", value, "id");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmIdIn(List<Integer> values) {
-            addCriterion("alarm_id in", values, "alarmId");
+        public Criteria andIdIn(List<Integer> values) {
+            addCriterion("id in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmIdNotIn(List<Integer> values) {
-            addCriterion("alarm_id not in", values, "alarmId");
+        public Criteria andIdNotIn(List<Integer> values) {
+            addCriterion("id not in", values, "id");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmIdBetween(Integer value1, Integer value2) {
-            addCriterion("alarm_id between", value1, value2, "alarmId");
+        public Criteria andIdBetween(Integer value1, Integer value2) {
+            addCriterion("id between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("alarm_id not between", value1, value2, "alarmId");
+        public Criteria andIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("id not between", value1, value2, "id");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmTypeIsNull() {
-            addCriterion("alarm_type is null");
+        public Criteria andPlanIdIsNull() {
+            addCriterion("plan_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmTypeIsNotNull() {
-            addCriterion("alarm_type is not null");
+        public Criteria andPlanIdIsNotNull() {
+            addCriterion("plan_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmTypeEqualTo(String value) {
-            addCriterion("alarm_type =", value, "alarmType");
+        public Criteria andPlanIdEqualTo(Integer value) {
+            addCriterion("plan_id =", value, "planId");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmTypeNotEqualTo(String value) {
-            addCriterion("alarm_type <>", value, "alarmType");
+        public Criteria andPlanIdNotEqualTo(Integer value) {
+            addCriterion("plan_id <>", value, "planId");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmTypeGreaterThan(String value) {
-            addCriterion("alarm_type >", value, "alarmType");
+        public Criteria andPlanIdGreaterThan(Integer value) {
+            addCriterion("plan_id >", value, "planId");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmTypeGreaterThanOrEqualTo(String value) {
-            addCriterion("alarm_type >=", value, "alarmType");
+        public Criteria andPlanIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("plan_id >=", value, "planId");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmTypeLessThan(String value) {
-            addCriterion("alarm_type <", value, "alarmType");
+        public Criteria andPlanIdLessThan(Integer value) {
+            addCriterion("plan_id <", value, "planId");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmTypeLessThanOrEqualTo(String value) {
-            addCriterion("alarm_type <=", value, "alarmType");
+        public Criteria andPlanIdLessThanOrEqualTo(Integer value) {
+            addCriterion("plan_id <=", value, "planId");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmTypeLike(String value) {
-            addCriterion("alarm_type like", value, "alarmType");
+        public Criteria andPlanIdIn(List<Integer> values) {
+            addCriterion("plan_id in", values, "planId");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmTypeNotLike(String value) {
-            addCriterion("alarm_type not like", value, "alarmType");
+        public Criteria andPlanIdNotIn(List<Integer> values) {
+            addCriterion("plan_id not in", values, "planId");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmTypeIn(List<String> values) {
-            addCriterion("alarm_type in", values, "alarmType");
+        public Criteria andPlanIdBetween(Integer value1, Integer value2) {
+            addCriterion("plan_id between", value1, value2, "planId");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmTypeNotIn(List<String> values) {
-            addCriterion("alarm_type not in", values, "alarmType");
+        public Criteria andPlanIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("plan_id not between", value1, value2, "planId");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmTypeBetween(String value1, String value2) {
-            addCriterion("alarm_type between", value1, value2, "alarmType");
+        public Criteria andUserIdIsNull() {
+            addCriterion("user_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andAlarmTypeNotBetween(String value1, String value2) {
-            addCriterion("alarm_type not between", value1, value2, "alarmType");
+        public Criteria andUserIdIsNotNull() {
+            addCriterion("user_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andUpperBoundIsNull() {
-            addCriterion("upper_Bound is null");
+        public Criteria andUserIdEqualTo(Integer value) {
+            addCriterion("user_id =", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUpperBoundIsNotNull() {
-            addCriterion("upper_Bound is not null");
+        public Criteria andUserIdNotEqualTo(Integer value) {
+            addCriterion("user_id <>", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUpperBoundEqualTo(BigDecimal value) {
-            addCriterion("upper_Bound =", value, "upperBound");
+        public Criteria andUserIdGreaterThan(Integer value) {
+            addCriterion("user_id >", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUpperBoundNotEqualTo(BigDecimal value) {
-            addCriterion("upper_Bound <>", value, "upperBound");
+        public Criteria andUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("user_id >=", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUpperBoundGreaterThan(BigDecimal value) {
-            addCriterion("upper_Bound >", value, "upperBound");
+        public Criteria andUserIdLessThan(Integer value) {
+            addCriterion("user_id <", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUpperBoundGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("upper_Bound >=", value, "upperBound");
+        public Criteria andUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("user_id <=", value, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUpperBoundLessThan(BigDecimal value) {
-            addCriterion("upper_Bound <", value, "upperBound");
+        public Criteria andUserIdIn(List<Integer> values) {
+            addCriterion("user_id in", values, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUpperBoundLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("upper_Bound <=", value, "upperBound");
+        public Criteria andUserIdNotIn(List<Integer> values) {
+            addCriterion("user_id not in", values, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUpperBoundIn(List<BigDecimal> values) {
-            addCriterion("upper_Bound in", values, "upperBound");
+        public Criteria andUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("user_id between", value1, value2, "userId");
             return (Criteria) this;
         }
 
-        public Criteria andUpperBoundNotIn(List<BigDecimal> values) {
-            addCriterion("upper_Bound not in", values, "upperBound");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpperBoundBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("upper_Bound between", value1, value2, "upperBound");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpperBoundNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("upper_Bound not between", value1, value2, "upperBound");
-            return (Criteria) this;
-        }
-
-        public Criteria andLowerBoundIsNull() {
-            addCriterion("lower_Bound is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andLowerBoundIsNotNull() {
-            addCriterion("lower_Bound is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andLowerBoundEqualTo(BigDecimal value) {
-            addCriterion("lower_Bound =", value, "lowerBound");
-            return (Criteria) this;
-        }
-
-        public Criteria andLowerBoundNotEqualTo(BigDecimal value) {
-            addCriterion("lower_Bound <>", value, "lowerBound");
-            return (Criteria) this;
-        }
-
-        public Criteria andLowerBoundGreaterThan(BigDecimal value) {
-            addCriterion("lower_Bound >", value, "lowerBound");
-            return (Criteria) this;
-        }
-
-        public Criteria andLowerBoundGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("lower_Bound >=", value, "lowerBound");
-            return (Criteria) this;
-        }
-
-        public Criteria andLowerBoundLessThan(BigDecimal value) {
-            addCriterion("lower_Bound <", value, "lowerBound");
-            return (Criteria) this;
-        }
-
-        public Criteria andLowerBoundLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("lower_Bound <=", value, "lowerBound");
-            return (Criteria) this;
-        }
-
-        public Criteria andLowerBoundIn(List<BigDecimal> values) {
-            addCriterion("lower_Bound in", values, "lowerBound");
-            return (Criteria) this;
-        }
-
-        public Criteria andLowerBoundNotIn(List<BigDecimal> values) {
-            addCriterion("lower_Bound not in", values, "lowerBound");
-            return (Criteria) this;
-        }
-
-        public Criteria andLowerBoundBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("lower_Bound between", value1, value2, "lowerBound");
-            return (Criteria) this;
-        }
-
-        public Criteria andLowerBoundNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("lower_Bound not between", value1, value2, "lowerBound");
-            return (Criteria) this;
-        }
-
-        public Criteria andDurationIsNull() {
-            addCriterion("duration is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDurationIsNotNull() {
-            addCriterion("duration is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDurationEqualTo(BigDecimal value) {
-            addCriterion("duration =", value, "duration");
-            return (Criteria) this;
-        }
-
-        public Criteria andDurationNotEqualTo(BigDecimal value) {
-            addCriterion("duration <>", value, "duration");
-            return (Criteria) this;
-        }
-
-        public Criteria andDurationGreaterThan(BigDecimal value) {
-            addCriterion("duration >", value, "duration");
-            return (Criteria) this;
-        }
-
-        public Criteria andDurationGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("duration >=", value, "duration");
-            return (Criteria) this;
-        }
-
-        public Criteria andDurationLessThan(BigDecimal value) {
-            addCriterion("duration <", value, "duration");
-            return (Criteria) this;
-        }
-
-        public Criteria andDurationLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("duration <=", value, "duration");
-            return (Criteria) this;
-        }
-
-        public Criteria andDurationIn(List<BigDecimal> values) {
-            addCriterion("duration in", values, "duration");
-            return (Criteria) this;
-        }
-
-        public Criteria andDurationNotIn(List<BigDecimal> values) {
-            addCriterion("duration not in", values, "duration");
-            return (Criteria) this;
-        }
-
-        public Criteria andDurationBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("duration between", value1, value2, "duration");
-            return (Criteria) this;
-        }
-
-        public Criteria andDurationNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("duration not between", value1, value2, "duration");
-            return (Criteria) this;
-        }
-
-        public Criteria andAlarmTargetIsNull() {
-            addCriterion("alarm_target is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAlarmTargetIsNotNull() {
-            addCriterion("alarm_target is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAlarmTargetEqualTo(String value) {
-            addCriterion("alarm_target =", value, "alarmTarget");
-            return (Criteria) this;
-        }
-
-        public Criteria andAlarmTargetNotEqualTo(String value) {
-            addCriterion("alarm_target <>", value, "alarmTarget");
-            return (Criteria) this;
-        }
-
-        public Criteria andAlarmTargetGreaterThan(String value) {
-            addCriterion("alarm_target >", value, "alarmTarget");
-            return (Criteria) this;
-        }
-
-        public Criteria andAlarmTargetGreaterThanOrEqualTo(String value) {
-            addCriterion("alarm_target >=", value, "alarmTarget");
-            return (Criteria) this;
-        }
-
-        public Criteria andAlarmTargetLessThan(String value) {
-            addCriterion("alarm_target <", value, "alarmTarget");
-            return (Criteria) this;
-        }
-
-        public Criteria andAlarmTargetLessThanOrEqualTo(String value) {
-            addCriterion("alarm_target <=", value, "alarmTarget");
-            return (Criteria) this;
-        }
-
-        public Criteria andAlarmTargetLike(String value) {
-            addCriterion("alarm_target like", value, "alarmTarget");
-            return (Criteria) this;
-        }
-
-        public Criteria andAlarmTargetNotLike(String value) {
-            addCriterion("alarm_target not like", value, "alarmTarget");
-            return (Criteria) this;
-        }
-
-        public Criteria andAlarmTargetIn(List<String> values) {
-            addCriterion("alarm_target in", values, "alarmTarget");
-            return (Criteria) this;
-        }
-
-        public Criteria andAlarmTargetNotIn(List<String> values) {
-            addCriterion("alarm_target not in", values, "alarmTarget");
-            return (Criteria) this;
-        }
-
-        public Criteria andAlarmTargetBetween(String value1, String value2) {
-            addCriterion("alarm_target between", value1, value2, "alarmTarget");
-            return (Criteria) this;
-        }
-
-        public Criteria andAlarmTargetNotBetween(String value1, String value2) {
-            addCriterion("alarm_target not between", value1, value2, "alarmTarget");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentModelPropertyIdIsNull() {
-            addCriterion("equipment_model_property_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentModelPropertyIdIsNotNull() {
-            addCriterion("equipment_model_property_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentModelPropertyIdEqualTo(Integer value) {
-            addCriterion("equipment_model_property_id =", value, "equipmentModelPropertyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentModelPropertyIdNotEqualTo(Integer value) {
-            addCriterion("equipment_model_property_id <>", value, "equipmentModelPropertyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentModelPropertyIdGreaterThan(Integer value) {
-            addCriterion("equipment_model_property_id >", value, "equipmentModelPropertyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentModelPropertyIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("equipment_model_property_id >=", value, "equipmentModelPropertyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentModelPropertyIdLessThan(Integer value) {
-            addCriterion("equipment_model_property_id <", value, "equipmentModelPropertyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentModelPropertyIdLessThanOrEqualTo(Integer value) {
-            addCriterion("equipment_model_property_id <=", value, "equipmentModelPropertyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentModelPropertyIdIn(List<Integer> values) {
-            addCriterion("equipment_model_property_id in", values, "equipmentModelPropertyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentModelPropertyIdNotIn(List<Integer> values) {
-            addCriterion("equipment_model_property_id not in", values, "equipmentModelPropertyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentModelPropertyIdBetween(Integer value1, Integer value2) {
-            addCriterion("equipment_model_property_id between", value1, value2, "equipmentModelPropertyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentModelPropertyIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("equipment_model_property_id not between", value1, value2, "equipmentModelPropertyId");
+        public Criteria andUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("user_id not between", value1, value2, "userId");
             return (Criteria) this;
         }
 
@@ -926,66 +665,6 @@ public class EamAlarmExample implements Serializable {
 
         public Criteria andCompanyIdNotBetween(Integer value1, Integer value2) {
             addCriterion("company_id not between", value1, value2, "companyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCreateTicketIsNull() {
-            addCriterion("is_create_ticket is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCreateTicketIsNotNull() {
-            addCriterion("is_create_ticket is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCreateTicketEqualTo(Boolean value) {
-            addCriterion("is_create_ticket =", value, "isCreateTicket");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCreateTicketNotEqualTo(Boolean value) {
-            addCriterion("is_create_ticket <>", value, "isCreateTicket");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCreateTicketGreaterThan(Boolean value) {
-            addCriterion("is_create_ticket >", value, "isCreateTicket");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCreateTicketGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_create_ticket >=", value, "isCreateTicket");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCreateTicketLessThan(Boolean value) {
-            addCriterion("is_create_ticket <", value, "isCreateTicket");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCreateTicketLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_create_ticket <=", value, "isCreateTicket");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCreateTicketIn(List<Boolean> values) {
-            addCriterion("is_create_ticket in", values, "isCreateTicket");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCreateTicketNotIn(List<Boolean> values) {
-            addCriterion("is_create_ticket not in", values, "isCreateTicket");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCreateTicketBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_create_ticket between", value1, value2, "isCreateTicket");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCreateTicketNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_create_ticket not between", value1, value2, "isCreateTicket");
             return (Criteria) this;
         }
 

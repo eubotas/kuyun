@@ -19,6 +19,8 @@ public class EamAlarm extends BaseEntity implements Serializable {
 
     private Integer equipmentModelPropertyId;
 
+    private Boolean isCreateTicket;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getAlarmId() {
@@ -77,6 +79,14 @@ public class EamAlarm extends BaseEntity implements Serializable {
         this.equipmentModelPropertyId = equipmentModelPropertyId;
     }
 
+    public Boolean getIsCreateTicket() {
+        return isCreateTicket;
+    }
+
+    public void setIsCreateTicket(Boolean isCreateTicket) {
+        this.isCreateTicket = isCreateTicket;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -90,6 +100,7 @@ public class EamAlarm extends BaseEntity implements Serializable {
         sb.append(", duration=").append(duration);
         sb.append(", alarmTarget=").append(alarmTarget);
         sb.append(", equipmentModelPropertyId=").append(equipmentModelPropertyId);
+        sb.append(", isCreateTicket=").append(isCreateTicket);
         sb.append("]");
         return sb.toString();
     }
@@ -118,7 +129,8 @@ public class EamAlarm extends BaseEntity implements Serializable {
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()));
+            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()))
+            && (this.getIsCreateTicket() == null ? other.getIsCreateTicket() == null : this.getIsCreateTicket().equals(other.getIsCreateTicket()));
     }
 
     @Override
@@ -138,6 +150,7 @@ public class EamAlarm extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
+        result = prime * result + ((getIsCreateTicket() == null) ? 0 : getIsCreateTicket().hashCode());
         return result;
     }
 }

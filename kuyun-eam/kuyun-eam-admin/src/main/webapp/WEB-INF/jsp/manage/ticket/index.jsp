@@ -157,29 +157,21 @@
 
                         <div class="form-group m-form__group row">
                             <label class="col-2 col-form-label">
-                                工单类型:
+                                工单优先级:
                             </label>
-                            <div class="col-8">
-                                <div class="m-radio-inline">
-                                    <label class="m-radio">
-                                        <input type="radio" id="templateID_displayType_pie" name="displayType" value="pie">
-                                        饼图
-                                        <span></span>
-                                    </label>
-                                    <label class="m-radio">
-                                        <input type="radio" id="templateID_displayType_led" name="displayType" value="led">
-                                        LED
-                                        <span></span>
-                                    </label>
-                                    <label class="m-radio">
-                                        <input type="radio" id="templateID_displayType_guage" name="displayType" value="guage">
-                                        仪表盘
-                                        <span></span>
-                                    </label>
-                                </div>
-
+                            <div class="col-8" id="templateID_ticketPriorityDiv">
                             </div>
                         </div>
+                        <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space"></div>
+
+                        <div class="form-group m-form__group row">
+                            <label class="col-2 col-form-label">
+                                工单类型:
+                            </label>
+                            <div class="col-8" id="templateID_ticketTypeDiv">
+                            </div>
+                        </div>
+
                         <div class="form-group m-form__group row">
                             <label class="col-lg-2 col-form-label">设备名称:</label>
                             <div class="col-sm-4">
@@ -226,18 +218,82 @@
             FormWidgets.init('add');
             FormWidgets.init('edit');
 
+            $('#add_equipmentId, #edit_equipmentId').select2();
+
             addGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("add_fine-uploader-gallery")}));
             editGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("edit_fine-uploader-gallery")}));
 
 
             $('#createButton').click(function(){
                 $("#addTicketFormContainer").modal("show");
+                ajaxGet('${basePath}/manage/ticket/create', function (responseData) {
+                    if (responseData) {
+                        var data = responseData.data;
+                        addOptionToHtmlSelect(null, "add_equipmentId", data.equipments);
+                        buildTicketType('add', data.ticketTypes);
+                        buildTicketPriority('add', data.ticketPriorityList);
+                    }
+                });
             });
 
             $('#deleteButton').click(function(){
                 deleteAction();
             });
         });
+
+        function buildTicketType(templateId, ticketTypes, ticketTypeId) {
+            $("#"+templateId+"_ticketTypeDiv").empty();
+            var html = '<div class="m-radio-inline">';
+            $.each(ticketTypes,
+                function(i, ticketType) {
+                    html += '<label class="m-radio">';
+
+                    var checked = "";
+
+
+
+                    if ('edit' === templateId && ticketType.VALUEFIELD === ticketTypeId.toString()){
+                        checked  = "checked";
+                    }else if ('add' === templateId && i == 0){
+                        checked  = "checked";
+                    }
+
+                    html += '<input type="radio" id="'+templateId+'_ticketTypeId_'+ ticketType.VALUEFIELD +'" name="ticketTypeId" value='+ ticketType.VALUEFIELD + ' ' + checked+'>';
+                    html += ticketType.DESCFIELD;
+                    html += '<span></span></label>';
+                }
+            );
+
+            html += '</div>';
+            $("#"+templateId+"_ticketTypeDiv").append(html);
+
+        }
+
+        function buildTicketPriority(templateId, ticketPriorityList, priority) {
+            $("#"+templateId+"_ticketPriorityDiv").empty();
+            var html = '<div class="m-radio-inline">';
+            $.each(ticketPriorityList,
+                function(i, ticketPriority) {
+                    html += '<label class="m-radio">';
+
+                    var checked = "";
+
+                    if ('edit' === templateId && ticketPriority.DESCFIELD === priority){
+                        checked  = "checked";
+                    }else if ('add' === templateId && i == 0){
+                        checked  = "checked";
+                    }
+
+                    html += '<input type="radio" id="'+templateId+'_priority_'+ ticketPriority.DESCFIELD +'" name="priority" value='+ ticketPriority.DESCFIELD +' '+checked+'>';
+
+                    html += ticketPriority.DESCFIELD;
+                    html += '<span></span></label>';
+                }
+            );
+
+            html += '</div>';
+            $("#"+templateId+"_ticketPriorityDiv").append(html);
+        }
 
         function toAction(type){
             window.location = '${basePath}/manage/ticket/index?category='+ type;
@@ -267,14 +323,14 @@
                 columns: [
                     {field: 'ck', checkbox: true},
                     {field: 'ticketNumber', title: '工单编号',  align: 'center', searchable: true},
-                    {field: 'ticketType.name', title: '工单类型',  align: 'center', searchable: true},
-                    {field: 'priority', title: '优先级',  align: 'center', searchable: true},
-                    {field: 'serviceman', title: '维修人',  align: 'center', searchable: true},
-                    {field: 'servicePhone', title: '维修人电话',  align: 'center', searchable: true},
-                    {field: 'customerContacts', title: '提报人',  align: 'center', searchable: true},
-                    {field: 'customerPhone', title: '提报人电话',  align: 'center', searchable: true},
+//                    {field: 'ticketType.name', title: '工单类型',  align: 'center', searchable: true},
+//                    {field: 'priority', title: '优先级',  align: 'center', searchable: true},
+//                    {field: 'serviceman', title: '维修人',  align: 'center', searchable: true},
+//                    {field: 'servicePhone', title: '维修人电话',  align: 'center', searchable: true},
+//                    {field: 'customerContacts', title: '提报人',  align: 'center', searchable: true},
+//                    {field: 'customerPhone', title: '提报人电话',  align: 'center', searchable: true},
                     {field: 'status', title: '当前状态',  align: 'center', searchable: true, formatter: 'formatStatus'},
-                    {field: 'description', title: '工单描述' , searchable: true},
+                    {field: 'description', title: '工单描述' , width: 350, searchable: true},
                     {field: 'action', width: 120, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ]
             });
@@ -293,16 +349,11 @@
                 $("#"+formid+"_Form").validate({
                     // define validation rules
                     rules: {
-                        nextMaintainDate: {
-                            required: true
+                        description: {
+                            required: true,
+                            maxlength: 200
                         },
-                        maintainFrequencyQuantity: {
-                            required: true
-                        },
-                        maintainFrequencyUnit: {
-                            required: true
-                        },
-                        remindTime: {
+                        equipmentId: {
                             required: true
                         }
                     },
@@ -326,10 +377,10 @@
         }();
 
         function submitForm(id) {
-            var targetUrl='${basePath}/manage/maintainPlan/create';
+            var targetUrl='${basePath}/manage/ticket/create';
             var formId='add_Form';
             if(id){
-                targetUrl='${basePath}/manage/maintainPlan/update/'+id;
+                targetUrl='${basePath}/manage/ticket/update/'+id;
                 formId='edit_Form';
                 $('#edit_imagePath').val(getUploadFileName(editGalleryUploader));
             }else{
@@ -357,17 +408,14 @@
 
             ajaxGet('${basePath}/manage/ticket/update/' + row["ticketId"], function (responseData) {
                 if (responseData) {
-                    var data = responseData;
+                    var data = responseData.data;
                     // 赋值
-                    $("#edit_id").val(data.plan.planId);
-                    //addOptionToHtmlSelect(data.plan.equipmentCategoryId, "edit_equipmentCategoryId", data.equipmentCategorys );
-                    addOptionToHtmlSelect(data.plan.equipmentId, "edit_equipmentId", data.equipments );
-                    addOptionToHtmlSelect(data.plan.orgId, "edit_orgId", data.orgs );
-                    addOptionToHtmlSelect(data.plan.maintainFrequencyUnit, "edit_maintainFrequencyUnit", data.units );
-                    $("#edit_nextMaintainDate").val(data.MaintainDate);
-                    $("#edit_workContent").val(data.plan.workContent);
-                    $("#edit_maintainFrequencyQuantity").val(data.plan.maintainFrequencyQuantity);
-                    $("#edit_remindTime").val(data.plan.remindTime);
+                    $("#edit_id").val(data.ticket.ticketId);
+                    $("#edit_description").val(data.ticket.description);
+                    addOptionToHtmlSelect(data.ticket.equipmentId, "edit_equipmentId", data.equipments );
+                    buildTicketType('edit', data.ticketTypes, data.ticket.ticketTypeId);
+                    buildTicketPriority('edit', data.ticketPriorityList, data.ticket.priority);
+
                 }
             });
         }
@@ -383,22 +431,24 @@
                 deleteActionImpl(rows);
             },
             'click #detail': function (e, value, row, index) {
-                $("#detailDialog").modal("show");
-                var planId=row["ticketId"];
-                ajaxGet('${basePath}/manage/ticket/detail/' +ticketId , function (responseData) {
-                    if (responseData) {
-                        var data = responseData;
-                        //$("#equipmentCategoryId").text(data.plan.equipmentCategoryName);
-                        $("#equipmentId").text(data.plan.equipmentName);
-                        $("#orgId").text(data.plan.orgName);
-                        $("#maintainFrequencyQuantity").text(data.plan.maintainFrequencyQuantity +' '+ getUnitName(data.plan.maintainFrequencyUnit));
+                <%--$("#detailDialog").modal("show");--%>
+                var ticketId = row["ticketId"];
+                <%--ajaxGet('${basePath}/manage/ticket/detail/' +ticketId , function (responseData) {--%>
+                    <%--if (responseData) {--%>
+                        <%--var data = responseData;--%>
+                        <%--//$("#equipmentCategoryId").text(data.plan.equipmentCategoryName);--%>
+                        <%--$("#equipmentId").text(data.plan.equipmentName);--%>
+                        <%--$("#orgId").text(data.plan.orgName);--%>
+                        <%--$("#maintainFrequencyQuantity").text(data.plan.maintainFrequencyQuantity +' '+ getUnitName(data.plan.maintainFrequencyUnit));--%>
 
-                        $("#nextMaintainDate").text(data.plan.strNextMaintainDate);
-                        $("#workContent").text(data.plan.workContent);
-                        $("#remindTime").text(data.plan.remindTime);
-                        loadTicketTab(planId);
-                    }
-                });
+                        <%--$("#nextMaintainDate").text(data.plan.strNextMaintainDate);--%>
+                        <%--$("#workContent").text(data.plan.workContent);--%>
+                        <%--$("#remindTime").text(data.plan.remindTime);--%>
+                        <%--loadTicketTab(planId);--%>
+                    <%--}--%>
+                <%--});--%>
+
+                window.location = '${basePath}/manage/ticket/detail/' +ticketId;
             }
         };
 

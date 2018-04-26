@@ -7,6 +7,7 @@ import com.kuyun.eam.util.EamDateUtil;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+
 import java.util.Date;
 
 
@@ -30,7 +31,6 @@ public class AlertJob extends BaseJob {
 
     private void setCronData(EamMaintainPlan plan){
         if(plan != null) {
-            int orgId = plan.getOrgId();
             Date startMainTainDate = EamDateUtil.getDateBefore(plan.getNextMaintainDate(),plan.getRemindTime());
             setStartDate(startMainTainDate);
             String unit = plan.getMaintainFrequencyUnit();

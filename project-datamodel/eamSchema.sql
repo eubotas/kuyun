@@ -408,6 +408,7 @@ CREATE TABLE `eam_alarm` (
    update_user_id       int,
    update_time          datetime,
    delete_flag          boolean,
+   is_create_ticket     boolean,
    company_id      int,
   PRIMARY KEY (`alarm_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
