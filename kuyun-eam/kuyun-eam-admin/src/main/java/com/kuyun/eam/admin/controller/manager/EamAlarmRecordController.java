@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -48,6 +49,14 @@ public class EamAlarmRecordController extends BaseController {
 
 	@Autowired
 	private EamUtil eamUtil;
+
+    @ApiOperation(value = "报警中心")
+    //@RequiresPermissions("eam:alarm:read")
+    @RequestMapping(value = "/center", method = RequestMethod.GET)
+    public String index(ModelMap modelMap) {
+
+        return "/manage/alarm/alarmCenter.jsp";
+    }
 
 	@ApiOperation(value = "报警记录列表")
 	@RequiresPermissions("eam:equipment:read")
