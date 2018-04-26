@@ -1,6 +1,7 @@
 package com.kuyun.upms.server.controller;
 
 import com.kuyun.common.base.BaseController;
+import com.kuyun.common.util.BasePath;
 import com.kuyun.upms.dao.model.*;
 import com.kuyun.upms.rpc.api.UpmsApiService;
 import com.kuyun.upms.rpc.api.UpmsSystemService;
@@ -55,7 +56,8 @@ public class ManageController extends BaseController {
 			modelMap.put("upmsPermissions", upmsPermissions);
 		}
 
-		return "/manage/index.jsp";
+		return "redirect:"+BasePath.kuyunEamAdmin+"/manage/index";
+		//return "/manage/index.jsp";
 	}
 
 }

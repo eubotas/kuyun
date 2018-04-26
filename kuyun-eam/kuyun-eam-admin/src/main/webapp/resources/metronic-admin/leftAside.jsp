@@ -413,7 +413,7 @@
                             </a>
                         </li>
                         <li id="submenu_equiOp_Alerm" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
-                            <a  href="#" class="m-menu__link ">
+                            <a  href="${eamPath}/manage/alarm/record/center" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>
