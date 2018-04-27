@@ -179,14 +179,63 @@
                     {field: 'alarmTarget', title: '内容'}
                 ]
             });
+
+            $('.start_date').datetimepicker({
+                language: 'zh-CN',
+                weekStart: 1,
+                todayBtn: 1,
+                autoclose: 1,
+                startView: 2,
+                forceParse: 0,
+                // minView:'day',
+                format: 'yyyy/mm/dd hh:ii',
+                todayHighlight: true,
+            }).on('hide', function (e) {
+            });
+            $('.end_date').datetimepicker({
+                language: 'zh-CN',
+                weekStart: 1,
+                todayBtn: 1,
+                autoclose: 1,
+                startView: 2,
+                forceParse: 0,
+                // minView:'day',
+                format: 'yyyy/mm/dd hh:ii',
+                todayHighlight: true,
+            });
         });
 
         function searchHistory(){
-            histAlarmTable.fnSettings().ajax.data = {
-                startDate: $('#startDate').val(),
-                endDate: $('#endDate').val()};
-            histAlarmTable.api().ajax.url(url);
-            histAlarmTable.api().ajax.reload();
+            var startDate = $('#startDate').val();
+            var endDate = $('#endDate').val();
+            var checkValidate=true;
+            if(startDate != "" && endDate !="") {
+                var startDate1 = new Date(startDate);
+                var endDate1 = new Date(endDate);
+                if(Date.parse(endDate1)-Date.parse(startDate1)<=0){
+                    swWarn( '开始时间必须早于结束时间');
+                    checkValidate=false;
+                }
+            }
+
+            if(checkValidate) {
+                $.ajax({
+                    type: 'post',
+                    url : orgUrl,
+                    data : {
+                        startDate: $('#startDate').val(),
+                        endDate: $('#endDate').val()
+                    },
+                    dataType : 'json',
+                    success : function(data){
+                        $('#historyAlarmTable').dataTable().fnClearTable();    //清空表格
+                        $('#historyAlarmTable').dataTable().fnAddData(packagingdatatabledata(data),true);  //刷下表格
+                    },
+                    error:function(data){
+                        alert("查询失败");
+                    }
+                });
+            }
         }
 
 
