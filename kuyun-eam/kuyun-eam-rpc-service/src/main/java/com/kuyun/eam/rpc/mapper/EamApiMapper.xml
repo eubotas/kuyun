@@ -98,7 +98,7 @@
 
 	<!-- 配件字段 -->
 	<sql id="Part_Column_List">
-		t.part_id, t.equipment_id, t.category_id, t.seq_id, t.symbol, t.name, t.model, t.material, t.quantity,
+		t.part_id, t.equipment_id, t.product_line_id, t.category_id, t.seq_id, t.symbol, t.name, t.model, t.material, t.quantity,
     	t.create_user_id, t.create_time, t.update_user_id, t.update_time, t.delete_flag, t.company_id,
 	</sql>
 

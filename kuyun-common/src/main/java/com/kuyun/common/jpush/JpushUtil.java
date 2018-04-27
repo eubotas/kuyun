@@ -22,8 +22,8 @@ public class JpushUtil {
     private static Logger LOG = LoggerFactory.getLogger(JpushUtil.class);
     private static boolean isTest = false;
 
-    protected static final String APP_KEY ="2862c4d46161656aa7ef7cc0";
-    protected static final String MASTER_SECRET = "5c04a4b71214f7ad1af23b17";
+    protected static final String APP_KEY ="db1c4a19885c07e022791153";
+    protected static final String MASTER_SECRET = "b2e2f10627c2d38b59f420de";
 
     public void sendPush(List<String> mobiles, String alter){
         ClientConfig clientConfig = ClientConfig.getInstance();
