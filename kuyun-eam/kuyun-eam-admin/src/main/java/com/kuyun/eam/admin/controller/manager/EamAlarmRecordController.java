@@ -60,7 +60,7 @@ public class EamAlarmRecordController extends BaseController {
 
 	@ApiOperation(value = "报警记录列表")
 	@RequiresPermissions("eam:equipment:read")
-	@RequestMapping(value = "/list/")
+	@RequestMapping(value = "/list")
 	@ResponseBody
 	public Object list(
 			@RequestParam(required = false, defaultValue = "0", value = "offset") int offset,

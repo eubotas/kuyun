@@ -72,10 +72,16 @@
 
                                 <div class="row">
                                     <div class="col-md-2 col-md-offset-1 margin-top-10">
-                                        <select id="equipmentModelType" name="equipmentModelType" style="width: 100%"></select>
+                                        <select id="searchType" name="searchType" style="width: 100%">
+                                            <option value="">所有</option>
+                                            <option value="ANU">活跃</option>
+                                            <option value="CNU">已消除</option>
+                                        </select>
                                     </div>
                                     <div class="col-md-2 col-md-offset-1 margin-top-10">
-                                        <select id="equipmentModelType2" name="equipmentModelType" style="width: 100%"></select>
+                                        <select id="equipments" name="equipments" style="width: 100%">
+                                            <option value="">所有</option>
+                                        </select>
                                     </div>
                                     <div class="col-md-8 margin-top-10">
                                         <div class="input-group input-large input-daterange">
@@ -120,7 +126,7 @@
         var orgUrl ='${basePath}/manage/alarm/record/list', searchUrl;
         var alarmTable = $('#currAlarmTable');
         var histAlarmTable = $('#historyAlarmTable');
-
+        var selectSearchType=null, selectEquipment=null;
         $(function() {
             alarmTable.bootstrapTable({
                 url: orgUrl,
@@ -203,9 +209,25 @@
                 format: 'yyyy/mm/dd hh:ii',
                 todayHighlight: true,
             });
+
+            ajaxGet('${basePath}/manage/equipment/list', function (responseData) {
+                if (responseData) {
+                    var data = responseData.rows;
+                    var items=[];
+                    $.each(data,function(i, val) {
+                        items.push({'VALUEFIELD':val.equipmentId,'DESCFIELD': val.name});
+                    });
+
+                    addOptionToHtmlSelect(selectEquipment, "equipments", items, "","所有");
+                }
+            });
         });
 
+
+
         function searchHistory(){
+            selectSearchType = $('#searchType').val();
+            selectEquipment = $('#equipments').val();
             var startDate = $('#startDate').val();
             var endDate = $('#endDate').val();
             var checkValidate=true;
@@ -228,8 +250,8 @@
                     },
                     dataType : 'json',
                     success : function(data){
-                        $('#historyAlarmTable').dataTable().fnClearTable();    //清空表格
-                        $('#historyAlarmTable').dataTable().fnAddData(packagingdatatabledata(data),true);  //刷下表格
+                        // $('#historyAlarmTable').dataTable().fnClearTable();    //清空表格
+                        // $('#historyAlarmTable').dataTable().fnAddData(packagingdatatabledata(data),true);  //刷下表格
                     },
                     error:function(data){
                         alert("查询失败");
@@ -238,7 +260,8 @@
             }
         }
 
-
+//SELECT id, message_title, content FROM kuyun.eam_alert_message where user_id=1 and read_flag is null and alert_start_date >= CURDATE() and alert_end_date >= CURDATE();
+        //select a.* from eam_alarm_record a, eam_alarm_target_user u where a.alarm_id=u.alarm_id and u.user_id =1
     </script>
 
 
