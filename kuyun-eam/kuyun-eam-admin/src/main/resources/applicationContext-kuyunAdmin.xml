@@ -13,6 +13,6 @@
 	<bean id="eamDataElementController" class="com.kuyun.eam.admin.controller.manager.EamDataElementController"></bean>
 	<bean id="eamAlarmModelController" class="com.kuyun.eam.admin.controller.manager.EamAlarmModelController"></bean>
 	<bean id="eamProductLineController" class="com.kuyun.eam.admin.controller.manager.EamProductLineController"></bean>
-
+	<bean id="jpushUtil" class="com.kuyun.common.jpush.JpushUtil"></bean>
 
 </beans>
