@@ -45,7 +45,7 @@ public class EamAlarmRecordHistoryController extends BaseController {
 
 	@ApiOperation(value = "报警历史记录列表")
 	@RequiresPermissions("eam:equipment:read")
-	@RequestMapping(value = "/list/", method = RequestMethod.POST)
+	@RequestMapping(value = "/list")
 	@ResponseBody
 	public Object list(EamAlarmRecordVO recordVO) {
 		if (StringUtils.isEmpty(recordVO.getOrderByClause())){

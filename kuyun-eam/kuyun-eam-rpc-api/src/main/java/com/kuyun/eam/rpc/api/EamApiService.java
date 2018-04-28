@@ -90,4 +90,6 @@ public interface EamApiService {
 
     List<EamHomeStatusSummaryVO> getStatusSummaryRecord(Integer companyId);
     List<EamHomeSummaryVO> getSummaryRecord(Integer companyId);
+
+    List<EamAlarmRemindVO> getUserAlarms(Integer userId);
 }

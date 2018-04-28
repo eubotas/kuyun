@@ -718,6 +718,11 @@ public class EamApiServiceImpl implements EamApiService {
         return eamApiMapper.getSummaryRecord(companyId);
     }
 
+    @Override
+    public List<EamAlarmRemindVO> getUserAlarms(Integer userId){
+        return eamApiMapper.getUserAlarms(userId);
+    }
+
     private int rejectTicketStatus(int ticketId, String status){
         EamTicket ticket=new EamTicket();
         ticket.setTicketId(ticketId);
@@ -735,4 +740,5 @@ public class EamApiServiceImpl implements EamApiService {
     private int updateTicketStatus(EamTicket ticket){
         return eamTicketService.updateByPrimaryKeySelective(ticket);
     }
+
 }

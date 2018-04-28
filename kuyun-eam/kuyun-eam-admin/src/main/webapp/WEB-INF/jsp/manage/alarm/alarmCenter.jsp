@@ -59,6 +59,25 @@
                     <div class="m-portlet__body">
                         <div class="tab-content">
                             <div class="tab-pane active show" id="currAlarm" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-md-2 col-md-offset-1 margin-top-10">
+                                        <select id="equipments1" name="equipments" style="width: 100%">
+                                            <option value="">所有</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-8 margin-top-10">
+                                        <div class="input-group input-large input-daterange">
+                                            <input type="text" id="startDate1" class="start_date input-group date form-control m-input col-md-3" readonly style="width: 150px" placeholder="选择开始时间">
+                                            <span class="input-group-addon"> ~ </span>
+                                            <input type="text" id="endDate1" class="end_date input-group date form-control m-input col-md-3" readonly style="width: 150px" placeholder="选择结束时间">
+                                            <span class="input-group-btn">
+                                                        <button class="btn default" type="button" onclick="searchCurrAlarm()">
+                                                            查询
+                                                        </button>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div>
                                     <div id="toolbar">
                                         <div>
 
@@ -74,8 +93,8 @@
                                     <div class="col-md-2 col-md-offset-1 margin-top-10">
                                         <select id="searchType" name="searchType" style="width: 100%">
                                             <option value="">所有</option>
-                                            <option value="ANU">活跃</option>
-                                            <option value="CNU">已消除</option>
+                                            <option value="ANU|ANA">活跃</option>
+                                            <option value="CNU|CNA">已消除</option>
                                         </select>
                                     </div>
                                     <div class="col-md-2 col-md-offset-1 margin-top-10">
@@ -123,13 +142,14 @@
 
     <script>
 
-        var orgUrl ='${basePath}/manage/alarm/record/list', searchUrl;
+        var alarmUrl ='${basePath}/manage/alarm/record/list';
+        var historyUrl='${basePath}/manage/alarm/record/history/list';
         var alarmTable = $('#currAlarmTable');
         var histAlarmTable = $('#historyAlarmTable');
-        var selectSearchType=null, selectEquipment=null;
+        var selectSearchType=null, selectEquipment1=null ,selectEquipment=null;
         $(function() {
             alarmTable.bootstrapTable({
-                url: orgUrl,
+                url: alarmUrl,
                 striped: true,
                 search: true,
                 searchAlign: 'left',
@@ -158,7 +178,7 @@
             });
 
             histAlarmTable.bootstrapTable({
-                url: orgUrl,
+                url: historyUrl,
                 striped: true,
                 search: true,
                 searchAlign: 'left',
@@ -218,12 +238,39 @@
                         items.push({'VALUEFIELD':val.equipmentId,'DESCFIELD': val.name});
                     });
 
+                    addOptionToHtmlSelect(selectEquipment1, "equipments1", items, "","所有");
                     addOptionToHtmlSelect(selectEquipment, "equipments", items, "","所有");
                 }
             });
         });
 
+        function searchCurrAlarm(){
+            selectEquipment1 = $('#equipments1').val();
+            var startDate = $('#startDate1').val();
+            var endDate = $('#endDate1').val();
+            var checkValidate=true;
+            if(startDate != "" && endDate !="") {
+                var startDate1 = new Date(startDate);
+                var endDate1 = new Date(endDate);
+                if(Date.parse(endDate1)-Date.parse(startDate1)<=0){
+                    swWarn( '开始时间必须早于结束时间');
+                    checkValidate=false;
+                }
+            }
 
+            if(checkValidate) {
+                var opt = {
+                    url: alarmUrl,
+                    silent: true,
+                    query:{
+                        equipmentId:selectEquipment,
+                        startDate: startDate,
+                        endDate: endDate
+                    }
+                };
+                alarmTable.bootstrapTable('refresh', opt);
+            }
+        }
 
         function searchHistory(){
             selectSearchType = $('#searchType').val();
@@ -241,28 +288,21 @@
             }
 
             if(checkValidate) {
-                $.ajax({
-                    type: 'post',
-                    url : orgUrl,
-                    data : {
+                var opt = {
+                    url: historyUrl,
+                    silent: true,
+                    query:{
+                        alarmType : selectSearchType,
+                        equipmentId:selectEquipment,
                         startDate: $('#startDate').val(),
                         endDate: $('#endDate').val()
-                    },
-                    dataType : 'json',
-                    success : function(data){
-                        // $('#historyAlarmTable').dataTable().fnClearTable();    //清空表格
-                        // $('#historyAlarmTable').dataTable().fnAddData(packagingdatatabledata(data),true);  //刷下表格
-                    },
-                    error:function(data){
-                        alert("查询失败");
                     }
-                });
+                };
+                histAlarmTable.bootstrapTable('refresh', opt);
             }
         }
 
-//SELECT id, message_title, content FROM kuyun.eam_alert_message where user_id=1 and read_flag is null and alert_start_date >= CURDATE() and alert_end_date >= CURDATE();
-        //select a.* from eam_alarm_record a, eam_alarm_target_user u where a.alarm_id=u.alarm_id and u.user_id =1
-    </script>
+ </script>
 
 
 
