@@ -10,7 +10,10 @@ import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.EamAlarm;
 import com.kuyun.eam.rpc.api.EamAlarmService;
 import com.kuyun.eam.rpc.api.EamApiService;
+import com.kuyun.eam.vo.EamAlarmRecordVO;
+import com.kuyun.eam.vo.EamAlarmRemindVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
+import com.kuyun.upms.dao.model.UpmsUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -24,6 +27,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static com.kuyun.eam.common.constant.EamResultConstant.INVALID_LENGTH;
 import static com.kuyun.eam.common.constant.EamResultConstant.SUCCESS;
@@ -47,6 +54,18 @@ public class EamAlarmController extends BaseController {
 
 	@Autowired
 	private EamAlarmService eamAlarmService;
+
+    @ApiOperation(value = "报警提醒列表")
+    @RequestMapping(value = "/list")
+    @ResponseBody
+    public Object list(){
+        UpmsUser user = baseEntityUtil.getCurrentUser();
+        List<EamAlarmRemindVO> rows = eamApiService.getUserAlarms(user.getUserId());
+        Map<String, Object> result = new HashMap<>();
+        result.put("rows", rows);
+        result.put("total", rows.size());
+        return result;
+    }
 
 	@ApiOperation(value = "新增报警设置")
 	@RequiresPermissions("eam:alarm:create")

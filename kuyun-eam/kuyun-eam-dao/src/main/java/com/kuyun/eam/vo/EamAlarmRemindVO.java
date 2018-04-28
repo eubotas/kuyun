@@ -17,6 +17,24 @@ public class EamAlarmRemindVO implements Serializable {
     private String alarmType;
     private String messageTitle;
     private String messageContent;
+    private Date updateTime;
+    private String alarmStatus;
+
+    public String getAlarmStatus() {
+        return alarmStatus;
+    }
+
+    public void setAlarmStatus(String alarmStatus) {
+        this.alarmStatus = alarmStatus;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 
     public Integer getId() {
         return id;

@@ -68,7 +68,7 @@
                                     <div class="col-md-8 margin-top-10">
                                         <div class="input-group input-large input-daterange">
                                             <input type="text" id="startDate1" class="start_date input-group date form-control m-input col-md-3" readonly style="width: 150px" placeholder="选择开始时间">
-                                            <span class="input-group-addon"> ~ </span>
+                                            <span class="input-group-addon">  ~ </span>
                                             <input type="text" id="endDate1" class="end_date input-group date form-control m-input col-md-3" readonly style="width: 150px" placeholder="选择结束时间">
                                             <span class="input-group-btn">
                                                         <button class="btn default" type="button" onclick="searchCurrAlarm()">
@@ -105,7 +105,7 @@
                                     <div class="col-md-8 margin-top-10">
                                         <div class="input-group input-large input-daterange">
                                             <input type="text" id="startDate" class="start_date input-group date form-control m-input col-md-3" readonly style="width: 150px" placeholder="选择开始时间">
-                                            <span class="input-group-addon"> ~ </span>
+                                            <span class="input-group-addon">  ~ </span>
                                             <input type="text" id="endDate" class="end_date input-group date form-control m-input col-md-3" readonly style="width: 150px" placeholder="选择结束时间">
                                             <span class="input-group-btn">
                                                         <button class="btn default" type="button" onclick="searchHistory()">
@@ -148,6 +148,9 @@
         var histAlarmTable = $('#historyAlarmTable');
         var selectSearchType=null, selectEquipment1=null ,selectEquipment=null;
         $(function() {
+            $('#equipments1').select2();
+            $('#equipments').select2();
+            $('#searchType').select2();
             alarmTable.bootstrapTable({
                 url: alarmUrl,
                 striped: true,
@@ -206,7 +209,7 @@
                 ]
             });
 
-            $('.start_date').datetimepicker({
+            $('.start_date','.end_date').datetimepicker({
                 language: 'zh-CN',
                 weekStart: 1,
                 todayBtn: 1,
@@ -217,17 +220,6 @@
                 format: 'yyyy/mm/dd hh:ii',
                 todayHighlight: true,
             }).on('hide', function (e) {
-            });
-            $('.end_date').datetimepicker({
-                language: 'zh-CN',
-                weekStart: 1,
-                todayBtn: 1,
-                autoclose: 1,
-                startView: 2,
-                forceParse: 0,
-                // minView:'day',
-                format: 'yyyy/mm/dd hh:ii',
-                todayHighlight: true,
             });
 
             ajaxGet('${basePath}/manage/equipment/list', function (responseData) {
@@ -248,8 +240,10 @@
             selectEquipment1 = $('#equipments1').val();
             var startDate = $('#startDate1').val();
             var endDate = $('#endDate1').val();
+            startDate = (startDate == '')?null:startDate;
+            endDate = (endDate == '')?null:endDate;
             var checkValidate=true;
-            if(startDate != "" && endDate !="") {
+            if(startDate && endDate ) {
                 var startDate1 = new Date(startDate);
                 var endDate1 = new Date(endDate);
                 if(Date.parse(endDate1)-Date.parse(startDate1)<=0){
@@ -294,8 +288,8 @@
                     query:{
                         alarmType : selectSearchType,
                         equipmentId:selectEquipment,
-                        startDate: $('#startDate').val(),
-                        endDate: $('#endDate').val()
+                        startDate: startDate,
+                        endDate: endDate
                     }
                 };
                 histAlarmTable.bootstrapTable('refresh', opt);
