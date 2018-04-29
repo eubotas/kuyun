@@ -58,7 +58,7 @@ public class EamAlarmRecordController extends BaseController {
     @InitBinder
     protected void initBinder(HttpServletRequest request,
                               ServletRequestDataBinder binder) throws Exception {
-        DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        DateFormat dateFormat=new SimpleDateFormat("yyyy/MM/dd HH:mm");
         binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
     }
 

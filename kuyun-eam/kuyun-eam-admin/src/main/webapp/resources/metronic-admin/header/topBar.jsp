@@ -4,6 +4,16 @@
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 <c:set var="upmsPath" value="<%=BasePath.kuyunUpmsServer%>"/>
 
+<style>
+    .m-list-timeline__items .m-list-timeline__item .m-list-timeline__text{
+        display: table-cell;
+        text-align: left;
+        vertical-align: middle;
+        width: 20% ;
+        padding: 0 5px 0 0;
+        font-size: 1rem;
+    }
+</style>
 <!-- BEGIN: Topbar -->
 <div id="m_header_topbar" class="m-topbar  m-stack m-stack--ver m-stack--general">
     <div class="m-stack__item m-topbar__nav-wrapper">
@@ -226,14 +236,16 @@
         '</span>'+ alarmStatus(row.alarmStatus)+
         '<span class="m-list-timeline__time">'+
         alarmTime(row.updateTime)+
-    '</span></div>'
+    '</span></div>';
+
+        return rowHtml;
     }
 
     function alarmStatus(status){
         if('ANU'== status)
-            return '<span class="m-badge m-badge--danger m-badge--wide">'+  需要处理  +'</span>';
+            return '<span class="m-badge m-badge--danger m-badge--wide"> 需要处理</span>';
         else if('CNU'== status)
-            return '<span class="m-badge m-badge--success m-badge--wide">'+  处理结束  +'</span>';
+            return '<span class="m-badge m-badge--success m-badge--wide"> 处理结束</span>';
         else
             return "";
     }
@@ -248,13 +260,28 @@
     function alarmTime(time){
         if(!time)
             return "";
-        var diff = (new Date()).getTime() - time;
-        if( diff/3600 <5)
-            return '5分钟前';
-        else if(diff/3600 < 20)
+        var diff = ((new Date()).getTime() - time)/1000;
+
+        if(diff/60 > 30*24*60)
+            return '1月前';
+        else if(diff/60 > 10*24*60)
+            return '10天前';
+        else if(diff/60 > 5*24*60)
+            return '5天前';
+        else if(diff/60 > 48*60)
+            return '2天前';
+        else if(diff/60 > 24*60)
+            return '1天前';
+        else if(diff/60 > 120)
+            return '2小时前';
+        else if(diff/60 > 60)
+            return '1小时前';
+        else if(diff/60 > 20)
             return '20分钟前';
+        else if( diff/60 >5)
+            return '5分钟前';
         else
-            return '40分钟前';
+            return '1分钟前';
     }
 
 

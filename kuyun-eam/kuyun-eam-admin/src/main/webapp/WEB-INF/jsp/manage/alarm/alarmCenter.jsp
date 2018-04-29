@@ -154,7 +154,7 @@
             alarmTable.bootstrapTable({
                 url: alarmUrl,
                 striped: true,
-                search: true,
+                //search: true,
                 searchAlign: 'left',
                 toolbarAlign: 'right',
                 minimumCountColumns: 2,
@@ -172,18 +172,18 @@
                 idField: 'warehouseId',
                 columns: [
                     {field: 'ck', checkbox: true},
-                    {field: 'alarmType', title: '报警设备', sortable: true, align: 'center'},
-                    {field: 'duration', title: '报警时间'},
-                    {field: 'alarmClearValue', title: '报警参数'},
-                    {field: 'upperBound', title: '报警值'},
-                    {field: 'alarmTarget', title: '内容'}
+                    {field: 'alarmType', title: '报警类别', sortable: true, align: 'center'},
+                    {field: 'equipmentName', title: '报警设备', sortable: true, align: 'center'},
+                    {field: 'duration', title: '报警持续时间'},
+                    {field: 'alarmValue', title: '报警值'},
+                    {field: 'alarmTarget', title: '报警目标'}
                 ]
             });
 
             histAlarmTable.bootstrapTable({
                 url: historyUrl,
                 striped: true,
-                search: true,
+                //search: true,
                 searchAlign: 'left',
                 toolbarAlign: 'right',
                 minimumCountColumns: 2,
@@ -201,15 +201,16 @@
                 idField: 'warehouseId',
                 columns: [
                     {field: 'ck', checkbox: true},
-                    {field: 'alarmType', title: '报警设备', sortable: true, align: 'center'},
-                    {field: 'duration', title: '报警时间'},
-                    {field: 'alarmClearValue', title: '报警参数'},
-                    {field: 'upperBound', title: '报警值'},
-                    {field: 'alarmTarget', title: '内容'}
+                    {field: 'alarmType', title: '报警类别', sortable: true, align: 'center'},
+                    {field: 'equipmentName', title: '报警设备', sortable: true, align: 'center'},
+                    {field: 'duration', title: '报警持续时间'},
+                    {field: 'alarmClearValue', title: '报警状态'},
+                    {field: 'alarmValue', title: '报警值'},
+                    {field: 'alarmTarget', title: '报警目标'}
                 ]
             });
 
-            $('.start_date','.end_date').datetimepicker({
+            $('.start_date, .end_date').datetimepicker({
                 language: 'zh-CN',
                 weekStart: 1,
                 todayBtn: 1,
