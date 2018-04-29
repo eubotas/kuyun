@@ -262,26 +262,23 @@
             return "";
         var diff = ((new Date()).getTime() - time)/1000;
 
-        if(diff/60 > 30*24*60)
+        if(diff/60 > 30*24*60) {
             return '1月前';
-        else if(diff/60 > 10*24*60)
-            return '10天前';
-        else if(diff/60 > 5*24*60)
-            return '5天前';
-        else if(diff/60 > 48*60)
-            return '2天前';
-        else if(diff/60 > 24*60)
-            return '1天前';
-        else if(diff/60 > 120)
-            return '2小时前';
-        else if(diff/60 > 60)
-            return '1小时前';
-        else if(diff/60 > 20)
-            return '20分钟前';
-        else if( diff/60 >5)
-            return '5分钟前';
-        else
-            return '1分钟前';
+        }
+        else if(diff/60 > 24*60) {
+            var day= Math.floor(diff / (24*3600));
+            return day+'天前';
+        } else if(diff/60 > 60){
+            var hour= Math.floor(diff / 3600);
+            return hour+'小时';
+        }
+        else {
+            var min= Math.floor(diff / 60);
+            if(min == 0)
+                return "刚才";
+            else
+                return  min+ '分钟';
+        }
     }
 
 
