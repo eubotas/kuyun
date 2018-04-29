@@ -94,7 +94,7 @@ function createAction() {
 		content: 'url:${basePath}/manage/sms/template/create',
 		onContentReady: function () {
 			initMaterialInput();
-			$('select').select2();
+			$('select').select2({minimumResultsForSearch: -1});
 		}
 	});
 }
@@ -123,7 +123,7 @@ function updateAction() {
 			content: 'url:${basePath}/manage/sms/template/update/' + rows[0].id,
 			onContentReady: function () {
 				initMaterialInput();
-				$('select').select2();
+				$('select').select2({minimumResultsForSearch: -1});
 			}
 		});
 	}

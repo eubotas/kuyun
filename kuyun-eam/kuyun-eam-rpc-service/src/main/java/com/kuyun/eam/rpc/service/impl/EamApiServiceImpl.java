@@ -6,10 +6,7 @@ import com.kuyun.common.db.DynamicDataSource;
 import com.kuyun.eam.alarm.AbstractAlarmHandler;
 import com.kuyun.eam.alarm.AlarmTypeFactory;
 import com.kuyun.eam.alarm.OfflineHandler;
-import com.kuyun.eam.common.constant.AlarmType;
-import com.kuyun.eam.common.constant.CollectStatus;
-import com.kuyun.eam.common.constant.DataType;
-import com.kuyun.eam.common.constant.TicketStatus;
+import com.kuyun.eam.common.constant.*;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.pojo.IDS;
 import com.kuyun.eam.pojo.sensor.SensorData;
@@ -620,10 +617,21 @@ public class EamApiServiceImpl implements EamApiService {
 
     @Override
     public int rejectTicketAppoint(EamTicketAppointedRecord ticketAppointRecord){
-        int count = eamTicketAppointRecordService.insertSelective(ticketAppointRecord);
-        rejectTicketStatus(ticketAppointRecord.getTicketId(), TicketStatus.INIT.getName());
+        EamTicketAppointedRecord lastOne = getLastEamTicketAppointedRecord(ticketAppointRecord.getTicketId());
+        lastOne.setAction(EamConstant.TICKET_APPOINT_REJECT);
+        lastOne.setRejectCommont(ticketAppointRecord.getRejectCommont());
+        int count = eamTicketAppointRecordService.updateByPrimaryKeySelective(lastOne);
+        rejectTicketStatus(lastOne.getTicketId(), TicketStatus.INIT.getName());
         return count;
     }
+
+    private EamTicketAppointedRecord getLastEamTicketAppointedRecord(int ticketId){
+        EamTicketAppointedRecordExample example = new EamTicketAppointedRecordExample();
+        example.createCriteria().andTicketIdEqualTo(ticketId).andDeleteFlagEqualTo(Boolean.FALSE);
+        example.setOrderByClause("id desc");
+        return eamTicketAppointRecordService.selectFirstByExample(example);
+    }
+
     @Override
     public int deleteTicketAppoint(EamTicketAppointedRecordExample eamTicketAppointRecordExample, int ticketId){
         int i= eamTicketAppointRecordService.deleteByExample(eamTicketAppointRecordExample);

@@ -131,17 +131,30 @@
             idField: 'ticketId',
             columns: [
                 {field: 'ck', checkbox: true},
-                {field: 'priority', title: '优先级', sortable: true, align: 'center', searchable: true},
-                {field: 'ticketType.name', title: '工单类型', sortable: true, align: 'center', searchable: true},
-                {field: 'serviceman', title: '维修人', sortable: true, align: 'center', searchable: true},
-                {field: 'servicePhone', title: '维修人电话', sortable: true, align: 'center', searchable: true},
-                {field: 'customerContacts', title: '提报人', sortable: true, align: 'center', searchable: true},
-                {field: 'customerPhone', title: '提报人电话', sortable: true, align: 'center', searchable: true},
-                {field: 'status', title: '当前状态', sortable: true, align: 'center', searchable: true, formatter: 'formatStatus'},
-                {field: 'description', title: '工单描述' , searchable: true}
+                {field: 'ticketNumber', title: '工单编号', align: 'center'},
+                {field: 'serviceman', title: '维修人',  align: 'center'},
+                {field: 'servicePhone', title: '维修人电话',  align: 'center'},
+                {field: 'customerContacts', title: '提报人',  align: 'center'},
+                {field: 'customerPhone', title: '提报人电话',  align: 'center'},
+                {field: 'status', title: '当前状态',  align: 'center', formatter: 'formatStatus'},
+                {field: 'description', title: '工单描述' },
+                {field: 'action', width: 100, title: '详细', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
             ]
         });
     });
+
+    function actionFormatter(value, row, index) {
+        return [
+            '<a id="detail" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="详细">	<i class="la flaticon-file-1"></i>	</a>',
+        ].join('');
+    }
+
+    window.actionEvents = {
+        'click #detail': function (e, value, row, index) {
+            var ticketId = row["ticketId"];
+            window.location = '${basePath}/manage/ticket/detail/' +ticketId;
+        }
+    };
 </script>
 </pageResources>
 </body>

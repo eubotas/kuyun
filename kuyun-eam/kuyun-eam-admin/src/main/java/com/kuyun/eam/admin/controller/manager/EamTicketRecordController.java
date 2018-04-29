@@ -137,7 +137,7 @@ public class EamTicketRecordController extends EamTicketBaseController {
     public Object update(@PathVariable("id") int id, ModelMap modelMap) {
 		EamTicketRecord eamTicketRecord = eamTicketRecordService.selectByPrimaryKey(id);
         Map map=new HashMap();
-        setTicketInfo(  eamTicketRecord.getTicketId(),  map);
+        setTicketInfo(eamTicketRecord.getTicketId(),  modelMap);
         map.put("ticketRecord", eamTicketRecord);
         return map;
 	}

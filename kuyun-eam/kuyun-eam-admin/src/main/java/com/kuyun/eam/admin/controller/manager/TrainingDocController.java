@@ -196,9 +196,12 @@ public class TrainingDocController extends BaseController {
         baseModelUtil.updateAddtionalValue(doc);
 
 
+
         Optional<TrainingDoc> optional = trainingDocRepository.findById(id);
         TrainingDoc oldDoc = optional.orElse(null);
         String oldTag = oldDoc.getTag() == null ? null : oldDoc.getTag();
+
+        doc.setCreateTime(oldDoc.getCreateTime());
 
         tagUtil.handleTag(ActionEnum.UPDATE.getName(), oldTag, doc.getTag());
         trainingDocRepository.save(doc);

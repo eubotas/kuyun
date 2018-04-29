@@ -116,7 +116,7 @@ function readWriteAction() {
             content: 'url:'+readWriteUrl,
             onContentReady: function () {
                 initMaterialInput();
-                $('select').select2();
+                $('select').select2({minimumResultsForSearch: -1});
             }
         });
     }
@@ -148,7 +148,7 @@ function changeAction() {
             content: 'url:'+changeUrl,
             onContentReady: function () {
                 initMaterialInput();
-                $('select').select2();
+                $('select').select2({minimumResultsForSearch: -1});
             }
         });
     }
@@ -180,7 +180,7 @@ function alarmAction() {
             content: 'url:'+alarmUrl,
             onContentReady: function () {
                 initMaterialInput();
-                $('select').select2();
+                $('select').select2({minimumResultsForSearch: -1});
             }
         });
     }
@@ -209,7 +209,7 @@ function createAction() {
 		content: 'url:${basePath}/manage/equipment/model/property/create/${id}',
 		onContentReady: function () {
 			initMaterialInput();
-			$('select').select2();
+			$('select').select2({minimumResultsForSearch: -1});
 		}
 	});
 }
@@ -238,7 +238,7 @@ function updateAction() {
 			content: 'url:${basePath}/manage/equipment/model/property/update/' + rows[0].equipmentModelPropertyId,
 			onContentReady: function () {
 				initMaterialInput();
-				$('select').select2();
+				$('select').select2({minimumResultsForSearch: -1});
 			}
 		});
 	}

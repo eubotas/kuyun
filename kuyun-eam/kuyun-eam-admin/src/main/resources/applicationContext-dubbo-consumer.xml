@@ -68,7 +68,7 @@
     <dubbo:reference id="upmsApiService" interface="com.kuyun.upms.rpc.api.UpmsApiService" mock="true" registry="upmsRegistry"/>
     <dubbo:reference id="upmsUserCompanyService" interface="com.kuyun.upms.rpc.api.UpmsUserCompanyService" mock="true" registry="upmsRegistry"/>
     <dubbo:reference id="upmsCompanyService" interface="com.kuyun.upms.rpc.api.UpmsCompanyService" mock="true" registry="upmsRegistry"/>
-
+    <dubbo:reference id="upmsUserService" interface="com.kuyun.upms.rpc.api.UpmsUserService" mock="true" registry="upmsRegistry"/>
     <!-- 工单相关 -->
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamTicketService" id="eamTicketService" mock="true" />
 	<dubbo:reference interface="com.kuyun.eam.rpc.api.EamTicketRecordService" id="eamTicketRecordService" mock="true" />

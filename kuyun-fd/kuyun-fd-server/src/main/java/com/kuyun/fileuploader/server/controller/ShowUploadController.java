@@ -27,7 +27,7 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * 后台controller Created by kuyun on 2017/01/12.
- * 
+ *
  * {"success": false, "error": "error message to display", "preventRetry": true,
  * "reset": true}
  */
@@ -40,15 +40,11 @@ public class ShowUploadController extends BaseController {
 
 	@Autowired
 	private FileUploaderService fus;
-	
+
 	@Autowired
 	private BaseEntityUtil baseEntityUtil;
 
-	/**
-	 * 
-	 * @param uuids
-	 * @return
-	 */
+
 	@ApiOperation(value = "列表")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public void list(@PathVariable(required = false, value = "id") String id, HttpServletResponse response) {
@@ -62,10 +58,11 @@ public class ShowUploadController extends BaseController {
 				response.flushBuffer();
 			} catch (IOException e) {
 				_log.info("Error writing file to output stream. Filename was '{}'", path.toString(), e);
-			    throw new RuntimeException("IOError writing file to output stream");
+				throw new RuntimeException("IOError writing file to output stream");
 			}
 		}else {
 			_log.info("Cannot found file with id :"+ id);
 		}
 	}
+
 }

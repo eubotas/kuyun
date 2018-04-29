@@ -50,6 +50,8 @@ CREATE TABLE `eam_ticket_appointed_record` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `ticket_id` int(11) DEFAULT NULL,
   `order_taker_id` int(11) DEFAULT NULL COMMENT '接单人',
+  `appoint_commont` varchar(100) DEFAULT NULL COMMENT '委派备注，可为空',
+  `action`         varchar(10) DEFAULT NULL COMMENT '接单/拒单',
   `reject_commont` varchar(100) DEFAULT NULL COMMENT '拒单原因，可为空',
   `create_user_id` int(11) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,

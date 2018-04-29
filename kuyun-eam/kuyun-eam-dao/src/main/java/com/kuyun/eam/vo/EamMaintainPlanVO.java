@@ -9,12 +9,21 @@ public class EamMaintainPlanVO extends EamMaintainPlan {
     private String equipmentCategoryName;
     private String equipmentName;
     private String orgName;
+    private String maintainUsers;
     private String strNextMaintainDate;
     private Integer limit;
 
     private Integer offset;
 
     private String orderByClause;
+
+    public String getMaintainUsers() {
+        return maintainUsers;
+    }
+
+    public void setMaintainUsers(String maintainUsers) {
+        this.maintainUsers = maintainUsers;
+    }
 
     public String getStrNextMaintainDate() {
         return strNextMaintainDate;

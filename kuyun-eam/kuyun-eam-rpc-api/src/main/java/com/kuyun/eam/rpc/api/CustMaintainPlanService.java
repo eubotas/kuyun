@@ -10,10 +10,10 @@ import com.kuyun.eam.dao.model.EamMaintainPlanExample;
 */
 public interface CustMaintainPlanService extends BaseService<EamMaintainPlan, EamMaintainPlanExample> {
 
-    public int createMaintainPlan(EamMaintainPlan plan);
+    public int createMaintainPlan(EamMaintainPlan plan, String[] maintainUserIds);
 
     public int deleteMaintainPlan(String ids);
 
-    public int updateMaintainPlan(EamMaintainPlan plan);
+    public int updateMaintainPlan(EamMaintainPlan plan, String[] maintainUserIds);
 
 }

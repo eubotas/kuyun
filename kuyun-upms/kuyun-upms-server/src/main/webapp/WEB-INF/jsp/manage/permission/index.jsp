@@ -180,7 +180,7 @@
             FormWidgets.init('add');
             FormWidgets.init('edit');
 
-            $('#add_systemId, #edit_systemId').select2();
+            $('#add_systemId, #edit_systemId').select2({minimumResultsForSearch: -1});
 
             $('#createButton').click(function(){
                 $("#addPermissionFormContainer").modal("show");

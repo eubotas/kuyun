@@ -126,26 +126,10 @@ public class EamTicketAssessmentController extends EamTicketBaseController {
 	@ApiOperation(value = "新增工单评价")
 	@RequiresPermissions("eam:TicketAssessment:create")
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public String create(@PathVariable("ticketId") int ticketId, ModelMap modelMap) {
-        setTicketInfo(  ticketId,  modelMap);
-        EamTicketAssessment eamTicketAssessment =getTicketAssessment(ticketId);
-        if(eamTicketAssessment != null) {
-            modelMap.put("ticketAssessment", eamTicketAssessment);
-            modelMap.addAttribute("ticketTags", getTicketTag());
-
-            EamTicketAssessmentTagExample eamTicketAssessmentTagExample = new EamTicketAssessmentTagExample();
-            EamTicketAssessmentTagExample.Criteria criteria = eamTicketAssessmentTagExample.createCriteria();
-            criteria.andTicketIdEqualTo(ticketId);
-            criteria.andDeleteFlagEqualTo(Boolean.FALSE);
-            List<EamTicketAssessmentTag> list= eamTicketAssessmentTagService.selectByExample(eamTicketAssessmentTagExample);
-            modelMap.put("ticketAssessmentTags", list);
-
-            return "/manage/ticket/assessment/update.jsp";
-        }else {
-            modelMap.addAttribute("ticketId", ticketId);
-            modelMap.addAttribute("ticketTags", getTicketTag());
-            return "/manage/ticket/assessment/create.jsp";
-        }
+	@ResponseBody
+	public Object Object(@PathVariable("ticketId") int ticketId, ModelMap modelMap) {
+		modelMap.put("ticketTags", JspUtil.getMapList(getTicketTag(),"id", "name"));
+		return new EamResult(SUCCESS, modelMap);
 	}
 
 	@ApiOperation(value = "新增工单评价")

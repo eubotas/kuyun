@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ import io.swagger.annotations.ApiOperation;
 
 /**
  * 后台controller Created by kuyun on 2017/01/12.
- * 
+ *
  * {"success": false, "error": "error message to display", "preventRetry": true,
  * "reset": true}
  */
@@ -47,26 +48,27 @@ public class UploadController extends BaseController {
 
 	@Autowired
 	private FileUploaderService fus;
-	
+
 	@Autowired
 	private BaseEntityUtil baseEntityUtil;
-	
-	
+
+	private static String MODULE = "eam";
+
+
 	@CrossOrigin(origins = "*")
 	@ApiOperation(value = "上传")
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	public Object upload(@RequestParam("qqfile") MultipartFile file, @RequestParam("qquuid") String uuid,
-			@RequestParam("qqfilename") String qqfilename, @RequestParam("qqtotalfilesize") long qqtotalfilesize,
-			@RequestParam(required = false, value = "qqpartindex") int qqpartindex,
-			@RequestParam(required = false, value = "qqpartbyteoffset") long qqpartbyteoffset,
-			@RequestParam(required = false, value = "qqtotalparts") int qqtotalparts,
-			@RequestParam(required = false, value = "qqchunksize") long qqchunksize,
-			@RequestParam(required = false, defaultValue = "defaultMoudle", value = "kuyunModule") String module) {
+						 @RequestParam("qqfilename") String qqfilename, @RequestParam("qqtotalfilesize") long qqtotalfilesize,
+						 @RequestParam(required = false, value = "qqpartindex") int qqpartindex,
+						 @RequestParam(required = false, value = "qqpartbyteoffset") long qqpartbyteoffset,
+						 @RequestParam(required = false, value = "qqtotalparts") int qqtotalparts,
+						 @RequestParam(required = false, value = "qqchunksize") long qqchunksize,
+						 @RequestParam(required = false, defaultValue = "defaultMoudle", value = "kuyunModule") String module) {
 
 		// save file to local folder
-		String baseLocation = fus.generateLocalStorageBaseLocation(module, uuid);
+		String baseLocation = fus.generateLocalStorageBaseLocation(MODULE, uuid);
 		Path path = FileSystems.getDefault().getPath(baseLocation, qqfilename + "." + qqpartindex);
-//		System.out.println(path.toString());
 		File f = path.toFile();
 		Map<String, Object> result = new HashMap<>();
 		try {
@@ -84,22 +86,22 @@ public class UploadController extends BaseController {
 		result.put("success", true);
 		return result;
 	}
-/**
- * MIME cannot be get from fineuploader, leave it blank currently
- * @param uuid
- * @param qqfilename
- * @param qqtotalfilesize
- * @param qqtotalparts
- * @param module
- * @return
- */
+	/**
+	 * MIME cannot be get from fineuploader, leave it blank currently
+	 * @param uuid
+	 * @param qqfilename
+	 * @param qqtotalfilesize
+	 * @param qqtotalparts
+	 * @param module
+	 * @return
+	 */
 	@CrossOrigin(origins = "*")
 	@ApiOperation(value = "上传")
 	@RequestMapping(value = "/uploadDone", method = RequestMethod.POST)
 	public Object uploadDone(@RequestParam("qquuid") String uuid, @RequestParam("qqfilename") String qqfilename,
-			@RequestParam("qqtotalfilesize") long qqtotalfilesize,
-			@RequestParam(required = false, value = "qqtotalparts") int qqtotalparts,
-			@RequestParam(required = false, defaultValue = "defaultMoudle", value = "kuyunModule") String module) {
+							 @RequestParam("qqtotalfilesize") long qqtotalfilesize,
+							 @RequestParam(required = false, value = "qqtotalparts") int qqtotalparts,
+							 @RequestParam(required = false, defaultValue = "defaultMoudle", value = "kuyunModule") String module) {
 		Map<String, Object> result = new HashMap<>();
 
 		// combine file chunks
@@ -144,9 +146,9 @@ public class UploadController extends BaseController {
 		fdfile.setMoudleName(module);
 		fdfile.setDeleteFlag(false);
 		fdfile.setSavedFileName(path.toString());
-		
+
 		baseEntityUtil.addAddtionalValue(fdfile);
-		
+
 		fus.fileUploaded(fdfile);
 
 		result.put("success", true);
@@ -154,45 +156,52 @@ public class UploadController extends BaseController {
 		return result;
 	}
 
-	//@CrossOrigin(origins = "*")
+	@CrossOrigin(origins = "*")
 	@ApiOperation(value = "删除")
 	@RequestMapping(value = "/delete/{uuid}", method = RequestMethod.DELETE)
 	public Object delete(@PathVariable("uuid") String uuid) {
 		FdFiles file = fus.getFileInfo(uuid);
 		if ( file != null) {
+
 			fus.removeUploadedFile(file);
+			//delete file folder
+			String baseLocation = fus.generateLocalStorageBaseLocation(MODULE, uuid);
+			try {
+				FileUtils.deleteDirectory(FileUtils.getFile(baseLocation));
+			} catch (IOException e) {
+				_log.info("Delete File Error,{}", e.getMessage());
+			}
 		}
-		
+
 		Map<String, Object> result = new HashMap<>();
 		result.put("success", true);
-	
+
 		return result;
-		
+
 	}
 
 	/**
-	 * 
-	 * @param uuids
+	 *
 	 * @return
 	 */
-	//@CrossOrigin(origins = "*")
+	@CrossOrigin(origins = "*")
 	@ApiOperation(value = "列表")
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public Object list(@RequestParam(required = false, value = "ids") String ids) {
 		List<String> realIds = new ArrayList<String>();
-		
+
 		for ( String id : Splitter.on(',')
-			    .trimResults()
-			    .omitEmptyStrings()
-			    .split(ids) ) {
-			
+				.trimResults()
+				.omitEmptyStrings()
+				.split(ids) ) {
+
 			try {
 				realIds.add(id);
 			} catch (NumberFormatException e) {
 				//just ignore the invalid ids
 			}
 		}
-		
+
 		List<FdFiles> files = fus.getSavedFileInfo(realIds);
 		List<Map<String, Object>> result = new  ArrayList<Map<String, Object>>();
 		for (FdFiles file: files) {

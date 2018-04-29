@@ -30,7 +30,7 @@
                         -
                     </li>
                     <li class="m-nav__item">
-                        <a href="" class="m-nav__link">
+                        <a href="${basePath}/manage/knowledge/index" class="m-nav__link">
 											<span class="m-nav__link-text">
 												知识搜索
 											</span>

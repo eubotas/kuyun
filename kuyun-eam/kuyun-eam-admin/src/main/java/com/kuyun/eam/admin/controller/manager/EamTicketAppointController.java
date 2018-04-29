@@ -3,9 +3,9 @@ package com.kuyun.eam.admin.controller.manager;
 import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
+import com.kuyun.common.jpush.JpushUtil;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.common.constant.EamResult;
-import com.kuyun.eam.common.constant.OrgDepartment;
 import com.kuyun.eam.common.constant.TicketStatus;
 import com.kuyun.eam.dao.model.EamTicket;
 import com.kuyun.eam.dao.model.EamTicketAppointedRecord;
@@ -15,11 +15,10 @@ import com.kuyun.eam.rpc.api.EamTicketAppointedRecordService;
 import com.kuyun.eam.rpc.api.EamTicketService;
 import com.kuyun.eam.vo.EamTicketAppointVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
-import com.kuyun.upms.common.JspUtil;
 import com.kuyun.upms.dao.model.UpmsUser;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
-import com.kuyun.upms.dao.vo.UpmsOrgUserVo;
 import com.kuyun.upms.rpc.api.UpmsApiService;
+import com.kuyun.upms.rpc.api.UpmsUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -31,6 +30,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,6 +63,12 @@ public class EamTicketAppointController extends EamTicketBaseController {
 
 	@Autowired
 	private EamApiService eamApiService;
+
+	@Autowired
+	private UpmsUserService upmsUserService;
+
+	@Autowired
+	private JpushUtil jpushUtil;
 
 	@ApiOperation(value = "工单委派管理首页")
 	@RequiresPermissions("eam:ticketAppointedRecord:read")
@@ -112,18 +118,8 @@ public class EamTicketAppointController extends EamTicketBaseController {
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
     @ResponseBody
     public Object create(@PathVariable("ticketId") int ticketId, ModelMap modelMap) {
-        UpmsOrgUserVo orgUserVo = new UpmsOrgUserVo();
-        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
-        if (company != null){
-            orgUserVo.setCompanyId(company.getCompanyId());
-        }
-        orgUserVo.setOrgName(OrgDepartment.MAINTENANCE_DEPARTMENT.getName());
-
-		List<UpmsOrgUserVo> users = upmsApiService.selectOrgUsersByOrgNameCompanyId( orgUserVo);
-		Map map=new HashMap();
-        map.put("users", JspUtil.getMapList(users,"userId","realname"));
-        setTicketInfo(  ticketId,  map);
-		return map;
+        setTicketInfo(ticketId,  modelMap);
+		return new EamResult(SUCCESS, modelMap);
 	}
 
 	@ApiOperation(value = "新增工单委派")
@@ -139,7 +135,24 @@ public class EamTicketAppointController extends EamTicketBaseController {
         ticket.setExecutorId(ticketAppointRecord.getOrderTakerId());
         baseEntityUtil.updateAddtionalValue(ticket);
 		int count = eamApiService.createTicketAppoint(ticketAppointRecord, ticket);
+		handlerJpushMessage(ticketAppointRecord);
 		return new EamResult(SUCCESS, count);
+	}
+
+	private void handlerJpushMessage(EamTicketAppointedRecord ticketAppointedRecord){
+		Integer userId = ticketAppointedRecord.getOrderTakerId();
+		UpmsUser user = upmsUserService.selectByPrimaryKey(userId);
+		if (user != null){
+			String phone = user.getPhone();
+			List<String> phones = new ArrayList<>(1);
+			phones.add(phone);
+
+			EamTicket ticket = eamTicketService.selectByPrimaryKey(ticketAppointedRecord.getTicketId());
+			if (ticket != null){
+				String message = "你有一条新工单需要处理：" + ticket.getTicketNumber();
+				jpushUtil.sendPush(phones, message);
+			}
+		}
 	}
 
     @ApiOperation(value = "拒绝工单委派")
@@ -148,11 +161,10 @@ public class EamTicketAppointController extends EamTicketBaseController {
     @ResponseBody
     public Object toreject(@PathVariable("ticketId") int ticketId, ModelMap modelMap) {
         UpmsUser user = baseEntityUtil.getCurrentUser();
-        Map map=new HashMap();
-        map.put("orderTakerId", user.getUserId());
-        map.put("ticketId", ticketId);
-        setTicketInfo(ticketId, map);
-        return map;
+		modelMap.put("orderTakerId", user.getUserId());
+		modelMap.put("ticketId", ticketId);
+        setTicketInfo(ticketId, modelMap);
+		return new EamResult(SUCCESS, modelMap);
     }
 
 	@ApiOperation(value = "拒绝工单委派")

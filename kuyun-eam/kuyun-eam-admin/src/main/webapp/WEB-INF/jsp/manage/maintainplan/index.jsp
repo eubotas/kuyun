@@ -80,7 +80,7 @@
     <div class="modal fade" id="template-plan-addEditForm" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <form id="templateID_Form" class="m-form m-form--fit m-form--label-align-right">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">
@@ -93,91 +93,65 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <label for="templateID_equipmentId">设备名称 * </label>
-                                <div class="form-group">
-                                    <div class="fg-line">
-                                        <select id="templateID_equipmentId" name="equipmentId" style="width: 100%">
-                                        </select>
-                                    </div>
-                                </div>
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-3 col-form-label">设备名称:* </label>
+                            <div class="col-4" >
+                                <select id="templateID_equipmentId" name="equipmentId" style="width: 100%">
+                                </select>
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="row">
-                                <div class="col-sm-12" style="margin-left: 10px">
-                                    <label for="templateID_workContent">工作内容 *</label>
-                                    <div class="form-group">
-					<textarea id="templateID_workContent" class="form-control" name="workContent"
-                              maxlength="200" rows="5" cols="100">${plan.workContent }</textarea>
-
-                                    </div>
-                                </div>
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-3 col-form-label">工作内容:* </label>
+                            <div class="col-8">
+                                <textarea class="form-control m-input m-input--air" id="templateID_workContent" name="workContent" rows="4"></textarea>
                             </div>
                         </div>
-
                         <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space"></div>
 
-
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <label for="templateID_orgId">维修部门 *</label>
-                                <div class="form-group">
-                                    <div class="fg-line">
-                                        <select id="templateID_orgId" name="orgId" style="width: 100%">
-                                        </select>
-                                    </div>
-                                </div>
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-3 col-form-label">维修人员:* </label>
+                            <div class="col-8" id="templateID_maintainUsersDiv">
                             </div>
+                        </div>
 
-                            <div class="col-sm-6">
-                                <label for="templateID_nextMaintainDate">下个维修日期 *</label>
-                                <div class="form-group">
-                                    <div class="fg-line">
-                                        <div class="input-group date" >
-                                            <input id="templateID_nextMaintainDate" type="text" class="form-control" readonly  name="nextMaintainDate"/>
-                                            <div class="input-group-append">
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-3 col-form-label">下个维修日期:* </label>
+                            <div class="form-group">
+                                <div class="fg-line">
+                                    <div class="input-group date" >
+                                        <input id="templateID_nextMaintainDate" type="text" class="form-control" readonly  name="nextMaintainDate"/>
+                                        <div class="input-group-append">
                                         <span class="input-group-text">
                                             <i class="la la-calendar-check-o"></i>
                                         </span>
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
 
                         <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space"></div>
 
 
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <label for="templateID_maintainFrequencyQuantity">维修频率 *</label>
-                                <div class="form-group">
-                                    <div class="fg-line">
-                                        <input id="templateID_maintainFrequencyQuantity" type="text" class="form-control" name="maintainFrequencyQuantity" maxlength="4" value="${plan.maintainFrequencyQuantity}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <label for="templateID_maintainFrequencyUnit">维修频率单位 *</label>
-                                <div class="form-group">
-                                    <div class="fg-line">
-                                        <select id="templateID_maintainFrequencyUnit" name="maintainFrequencyUnit" style="width: 100%">
-                                        </select>
-                                    </div>
-                                </div>
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-3 col-form-label">维修频率:* </label>
+                            <div class="col-3" >
+                                <input id="templateID_maintainFrequencyQuantity" type="text" class="form-control" name="maintainFrequencyQuantity" maxlength="4" value="${plan.maintainFrequencyQuantity}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
                             </div>
 
-                            <div class="col-sm-5">
-                                <label for="templateID_remindTime">维修提前提醒天数 *</label>
-                                <div class="form-group">
-                                    <div class="fg-line">
-                                        <input id="templateID_remindTime" type="text" class="form-control" name="remindTime" maxlength="4" value="${plan.remindTime}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
-                                    </div>
-                                </div>
+                            <label class="col-lg-3 col-form-label">维修频率单位:* </label>
+                            <div class="col-3" >
+                                <select id="templateID_maintainFrequencyUnit" name="maintainFrequencyUnit" style="width: 100%">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group m-form__group row">
+                            <label class="col-lg-3 col-form-label">维修提前提醒天数:* </label>
+                            <div class="col-3" >
+                                <input id="templateID_remindTime" type="text" class="form-control" name="remindTime" maxlength="4" value="${plan.remindTime}" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
                             </div>
                         </div>
 
@@ -233,9 +207,9 @@
                         <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space"></div>
 
                         <div class="form-group m-form__group row">
-                            <label class="col-lg-2 col-form-label">维修部门: </label>
+                            <label class="col-lg-2 col-form-label">维修人员: </label>
                             <div class="col-sm-3" >
-                                <span class="form-control" id="orgId"></span>
+                                <span class="form-control" id="maintainUsers"></span>
                             </div>
 
                             <label class="col-lg-3 col-form-label">下个维修日期: </label>
@@ -308,10 +282,8 @@
                 }
             });
 
-            $('#add_equipmentCategoryId, #edit_equipmentCategoryId').select2();
-            $('#add_equipmentId, #edit_equipmentId').select2();
-            $('#add_orgId, #edit_orgId').select2();
-            $('#add_maintainFrequencyUnit, #edit_maintainFrequencyUnit').select2();
+            $('#add_equipmentId, #edit_equipmentId').select2({minimumResultsForSearch: -1});
+            $('#add_maintainFrequencyUnit, #edit_maintainFrequencyUnit').select2({minimumResultsForSearch: -1});
 
             $('#createButton').click(function(){
                 $("#addMaintainPlanFormContainer").modal("show");
@@ -319,10 +291,10 @@
                     if (responseData) {
                         var data = responseData;
                         // 赋值
-                        addOptionToHtmlSelect(null, "add_equipmentCategoryId", data.equipmentCategorys );
                         addOptionToHtmlSelect(null, "add_equipmentId", data.equipments );
-                        addOptionToHtmlSelect(null, "add_orgId", data.orgs );
                         addOptionToHtmlSelect(null, "add_maintainFrequencyUnit", data.units );
+
+                        buildMaintainUsers('add',data.users);
                     }
                 });
             });
@@ -361,7 +333,7 @@
                     {field: 'ck', checkbox: true},
                     {field: 'equipmentName', title: '设备名称'},
                     {field: 'workContent', title: '维修内容'},
-                    {field: 'orgName', title: '维修部门'},
+                    {field: 'maintainUsers', title: '维修人员'},
                     {field: 'action', width: 120, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ]
             });
@@ -444,14 +416,14 @@
                     var data = responseData;
                     // 赋值
                     $("#edit_id").val(data.plan.planId);
-                    //addOptionToHtmlSelect(data.plan.equipmentCategoryId, "edit_equipmentCategoryId", data.equipmentCategorys );
                     addOptionToHtmlSelect(data.plan.equipmentId, "edit_equipmentId", data.equipments );
-                    addOptionToHtmlSelect(data.plan.orgId, "edit_orgId", data.orgs );
                     addOptionToHtmlSelect(data.plan.maintainFrequencyUnit, "edit_maintainFrequencyUnit", data.units );
                     $("#edit_nextMaintainDate").val(data.MaintainDate);
                     $("#edit_workContent").val(data.plan.workContent);
                     $("#edit_maintainFrequencyQuantity").val(data.plan.maintainFrequencyQuantity);
                     $("#edit_remindTime").val(data.plan.remindTime);
+
+                    buildMaintainUsers('edit', data.users, data.userIds);
                 }
             });
         }
@@ -474,7 +446,7 @@
                         var data = responseData;
                         //$("#equipmentCategoryId").text(data.plan.equipmentCategoryName);
                         $("#equipmentId").text(data.plan.equipmentName);
-                        $("#orgId").text(data.plan.orgName);
+                        $("#maintainUsers").text(data.plan.maintainUsers);
                         $("#maintainFrequencyQuantity").text(data.plan.maintainFrequencyQuantity +' '+ getUnitName(data.plan.maintainFrequencyUnit));
 
                         $("#nextMaintainDate").text(data.plan.strNextMaintainDate);
@@ -485,6 +457,41 @@
                 });
             }
         };
+
+        function buildMaintainUsers(templateId, users, userIds) {
+            $("#"+templateId+"_maintainUsersDiv").empty();
+            html = '<div class="m-checkbox-inline">';
+            $.each(users,
+                function(i, user) {
+                    html += '<label class="m-checkbox">';
+
+                    if (isChecked(user, userIds)){
+                        html += '<input type="checkbox" name="maintainUserId" value='+user.VALUEFIELD +' checked>';
+
+                    }else {
+                        html += '<input type="checkbox" name="maintainUserId" value='+user.VALUEFIELD +'>';
+
+                    }
+                    html += user.DESCFIELD;
+                    html += '<span></span>';
+                    html += '</label>';
+                }
+            );
+            $("#"+templateId+"_maintainUsersDiv").append(html);
+
+        }
+
+        function isChecked(user, userIds) {
+            checked = false;
+            $.each(userIds,
+                function(i, id) {
+                    if (id == user.VALUEFIELD){
+                        checked = true;
+                    }
+                }
+            );
+            return checked;
+        }
 
         function deleteAction(){
             var rows = $table.bootstrapTable('getSelections');

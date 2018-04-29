@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html lang="zh-cn">
@@ -61,13 +62,17 @@
 
                     <div id="ticketList" class="m-portlet__body">
                         <ul class="m-nav m-nav--hover-bg m-portlet-fit--sides" id="models">
-                            <li id="myOpen" class="m-nav__item"><a href="javascript:;" onclick="toAction('myOpen');" class="m-nav__link"> <span class="m-nav__link-text">未处理</span></a></li>
-                            <li id="myResolved" class="m-nav__item"><a href="javascript:;" onclick="toAction('myResolved');" class="m-nav__link"> <span class="m-nav__link-text">已处理</span></a></li>
-                            <li id="myAll" class="m-nav__item"><a href="javascript:;" onclick="toAction('myAll');" class="m-nav__link"> <span class="m-nav__link-text">全部工单</span></a></li>
-                            <li id="init" class="m-nav__item"><a href="javascript:;" onclick="toAction('init');" class="m-nav__link"> <span class="m-nav__link-text">待派工</span></a></li>
-                            <li id="resolved" class="m-nav__item"><a href="javascript:;" onclick="toAction('resolved');" class="m-nav__link"> <span class="m-nav__link-text">已完成</span></a></li>
-                            <li id="all" class="m-nav__item"><a href="javascript:;" onclick="toAction('all');" class="m-nav__link"> <span class="m-nav__link-text">全部工单</span></a></li>
+                            <shiro:hasAnyRoles name="ticketCreate,ticketRepair">
+                                <li id="myOpen" class="m-nav__item"><a href="javascript:;" onclick="toAction('myOpen');" class="m-nav__link"> <span class="m-nav__link-text">未处理</span></a></li>
+                                <li id="myResolved" class="m-nav__item"><a href="javascript:;" onclick="toAction('myResolved');" class="m-nav__link"> <span class="m-nav__link-text">已处理</span></a></li>
+                                <li id="myAll" class="m-nav__item"><a href="javascript:;" onclick="toAction('myAll');" class="m-nav__link"> <span class="m-nav__link-text">全部工单</span></a></li>
+                            </shiro:hasAnyRoles>
 
+                            <shiro:hasRole name="ticketAppoint">
+                                <li id="init" class="m-nav__item"><a href="javascript:;" onclick="toAction('init');" class="m-nav__link"> <span class="m-nav__link-text">待派工</span></a></li>
+                                <li id="resolved" class="m-nav__item"><a href="javascript:;" onclick="toAction('resolved');" class="m-nav__link"> <span class="m-nav__link-text">已完成</span></a></li>
+                                <li id="all" class="m-nav__item"><a href="javascript:;" onclick="toAction('all');" class="m-nav__link"> <span class="m-nav__link-text">全部工单</span></a></li>
+                            </shiro:hasRole>
                         </ul>
                         <div class="m-portlet__body-separator"></div>
 
@@ -218,7 +223,7 @@
             FormWidgets.init('add');
             FormWidgets.init('edit');
 
-            $('#add_equipmentId, #edit_equipmentId').select2();
+            $('#add_equipmentId, #edit_equipmentId').select2({minimumResultsForSearch: -1});
 
             addGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("add_fine-uploader-gallery")}));
             editGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("edit_fine-uploader-gallery")}));
@@ -431,23 +436,7 @@
                 deleteActionImpl(rows);
             },
             'click #detail': function (e, value, row, index) {
-                <%--$("#detailDialog").modal("show");--%>
                 var ticketId = row["ticketId"];
-                <%--ajaxGet('${basePath}/manage/ticket/detail/' +ticketId , function (responseData) {--%>
-                    <%--if (responseData) {--%>
-                        <%--var data = responseData;--%>
-                        <%--//$("#equipmentCategoryId").text(data.plan.equipmentCategoryName);--%>
-                        <%--$("#equipmentId").text(data.plan.equipmentName);--%>
-                        <%--$("#orgId").text(data.plan.orgName);--%>
-                        <%--$("#maintainFrequencyQuantity").text(data.plan.maintainFrequencyQuantity +' '+ getUnitName(data.plan.maintainFrequencyUnit));--%>
-
-                        <%--$("#nextMaintainDate").text(data.plan.strNextMaintainDate);--%>
-                        <%--$("#workContent").text(data.plan.workContent);--%>
-                        <%--$("#remindTime").text(data.plan.remindTime);--%>
-                        <%--loadTicketTab(planId);--%>
-                    <%--}--%>
-                <%--});--%>
-
                 window.location = '${basePath}/manage/ticket/detail/' +ticketId;
             }
         };

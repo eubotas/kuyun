@@ -64,51 +64,11 @@ public abstract class EamTicketBaseController extends BaseController {
     @Autowired
     public com.kuyun.fileuploader.rpc.api.FileUploaderService fileUploaderService;
 
-	public void setTicketInfo( int id, Map map) {
-		EamTicketExample ete = new EamTicketExample();
-		ete.createCriteria().andTicketIdEqualTo(id);
-		EamTicketVO eamTicket = eamApiService.selectTicket(ete).get(0);
+    @Autowired
+    private EamTicketAppointedRecordService eamTicketAppointRecordService;
 
-        //assement
-        Integer assId= eamTicket.getAssessmentId();
-        if(assId != null){
-            eamTicket.setTagNames(getAssessmentTicketTag(assId));
-        }
-        map.put("ticket", eamTicket);
-		
-		//retrieve the image list
-		List<String> imageList =  new ArrayList<String>();
-		if(eamTicket.getImagePath() != null) {
-			for (String uuid : Splitter.on(',')
-					.trimResults()
-					.omitEmptyStrings()
-					.split(eamTicket.getImagePath())) {
-				imageList.add(fileUploaderService.getServerInfo().getEndpoint_show() + "/" + uuid);
-			}
-		}
-        map.put("imageList", imageList);
 
-		//retrieve the voice list
-		List<String> voiceList =  new ArrayList<String>();
-//		if(eamTicket.getVoicePath() != null) {
-//			for (String uuid : Splitter.on(',')
-//					.trimResults()
-//					.omitEmptyStrings()
-//					.split(eamTicket.getVoicePath())) {
-//				voiceList.add(fileUploaderService.getServerInfo().getEndpoint_show() + "/" + uuid);
-//			}
-//		}
-        map.put("voiceList", voiceList);
-
-        EamTicketRecordExample etre = new EamTicketRecordExample();
-		etre.createCriteria().andTicketIdEqualTo(id);
-		etre.setOrderByClause("eam_ticket_record_create_time desc");
-
-		List<EamTicketRecord> records = eamTicketRecordService.selectByExample(etre);
-        map.put("records", records);
-	}
-
-    public void setTicketInfo( int id, ModelMap modelMap) {
+    public void setTicketInfo(int id, ModelMap modelMap) {
         EamTicketExample ete = new EamTicketExample();
         ete.createCriteria().andTicketIdEqualTo(id);
         EamTicketVO eamTicket = eamApiService.selectTicket(ete).get(0);
@@ -134,14 +94,14 @@ public abstract class EamTicketBaseController extends BaseController {
 
         //retrieve the voice list
         List<String> voiceList =  new ArrayList<String>();
-//		if(eamTicket.getVoicePath() != null) {
-//			for (String uuid : Splitter.on(',')
-//					.trimResults()
-//					.omitEmptyStrings()
-//					.split(eamTicket.getVoicePath())) {
-//				voiceList.add(fileUploaderService.getServerInfo().getEndpoint_show() + "/" + uuid);
-//			}
-//		}
+		if(eamTicket.getVoicePath() != null) {
+			for (String uuid : Splitter.on(',')
+					.trimResults()
+					.omitEmptyStrings()
+					.split(eamTicket.getVoicePath())) {
+				voiceList.add(fileUploaderService.getServerInfo().getEndpoint_show() + "/" + uuid);
+			}
+		}
         modelMap.put("voiceList", voiceList);
 
         EamTicketRecordExample etre = new EamTicketRecordExample();
@@ -150,6 +110,15 @@ public abstract class EamTicketBaseController extends BaseController {
 
         List<EamTicketRecord> records = eamTicketRecordService.selectByExample(etre);
         modelMap.put("records", records);
+
+        EamTicketAppointedRecordExample example = new EamTicketAppointedRecordExample();
+        example.createCriteria().andTicketIdEqualTo(id).andDeleteFlagEqualTo(Boolean.FALSE);
+        example.setOrderByClause("id asc");
+
+        List<EamTicketAppointedRecord> appointedRecordes = eamTicketAppointRecordService.selectByExample(example);
+        modelMap.put("appointedRecordes", appointedRecordes);
+
+        setOperatorList(modelMap);
     }
 
     public void selectTicketUpdate(ModelMap map){
@@ -211,7 +180,7 @@ public abstract class EamTicketBaseController extends BaseController {
 
     public void setOperatorList(ModelMap modelMap) {
         List<UpmsOrgUserVo> users = getOperatorUsers();
-        modelMap.put("users", users);
+        modelMap.put("users",  JspUtil.getMapList(users,"userId","realname"));
     }
 
     public List<UpmsOrgUserVo> getOperatorUsers() {
@@ -221,7 +190,7 @@ public abstract class EamTicketBaseController extends BaseController {
         if (company != null){
             orgUserVo.setCompanyId(company.getCompanyId());
         }
-        orgUserVo.setOrgName(OrgDepartment.MAINTENANCE_DEPARTMENT.getName());
+        orgUserVo.setOrgName(OrgDepartment.REPAIR_DEPARTMENT.getName());
 
         return upmsApiService.selectOrgUsersByOrgNameCompanyId( orgUserVo);
     }
