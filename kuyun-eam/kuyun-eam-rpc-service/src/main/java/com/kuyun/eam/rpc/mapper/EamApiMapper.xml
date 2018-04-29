@@ -967,6 +967,22 @@
         and c.delete_flag=0 and c.company_id=#{ticketId, jdbcType=INTEGER} group by type
     </select>
 
+	<resultMap id="UserAlarmsResultMap" type="com.kuyun.eam.vo.EamAlarmRemindVO" >
+		<result column="equipmentId" jdbcType="VARCHAR" property="equipmentId" />
+		<result column="alarmType" jdbcType="VARCHAR" property="alarmType" />
+		<result column="message_title" jdbcType="VARCHAR" property="messageTitle" />
+		<result column="content" jdbcType="VARCHAR" property="messageContent" />
+        <result column="alarm_status" jdbcType="VARCHAR" property="alarmStatus" />
+		<result column="id" jdbcType="INTEGER" property="id" />
+        <result column="update_time" jdbcType="DATE" property="updateTime" />
+	</resultMap>
+
+	<select id="getUserAlarms" parameterType="Integer" resultMap="UserAlarmsResultMap">
+        select distinct e.name||','||a.alarm_type as message_title, r.alarm_value as content, r.alarm_id as id, 'E' as alarmType, r.alarm_status, r.update_time from eam_equipment e, eam_alarm a, eam_alarm_record r, eam_alarm_target_user u where e.equipment_id=r.equipment_id and r.alarm_id=a.alarm_id and r.alarm_id=u.alarm_id and u.user_id =#{userId, jdbcType=INTEGER}
+        UNION
+        SELECT message_title, content, id, 'M' as alarmType,'' as alarm_status,update_time FROM kuyun.eam_alert_message where user_id=#{userId, jdbcType=INTEGER} and read_flag is null and alert_start_date >= CURDATE() and alert_end_date >= CURDATE()
+	</select>
+
 	<!-- 缓存 -->
 	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 

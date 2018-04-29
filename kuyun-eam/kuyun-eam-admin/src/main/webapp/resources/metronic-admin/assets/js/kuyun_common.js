@@ -277,7 +277,7 @@ function radioBoxcheck(val, idtag){
 function addOptionToHtmlSelect(defaultValue, htmlSelectId, data, firstItemVal, firstItemText) {
     var htmlSelectObj = jQuery("#"+htmlSelectId);
     var options = [];
-    if(firstItemVal) {
+    if(firstItemVal || firstItemVal=='') {
         if(firstItemText)
             options.push(jQuery("<option>", {"value": firstItemVal, "text": firstItemText}));
         else

@@ -16,10 +16,15 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.ServletRequestDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -50,6 +55,13 @@ public class EamAlarmRecordController extends BaseController {
 	@Autowired
 	private EamUtil eamUtil;
 
+    @InitBinder
+    protected void initBinder(HttpServletRequest request,
+                              ServletRequestDataBinder binder) throws Exception {
+        DateFormat dateFormat=new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+    }
+
     @ApiOperation(value = "报警中心")
     //@RequiresPermissions("eam:alarm:read")
     @RequestMapping(value = "/center", method = RequestMethod.GET)
@@ -60,7 +72,7 @@ public class EamAlarmRecordController extends BaseController {
 
 	@ApiOperation(value = "报警记录列表")
 	@RequiresPermissions("eam:equipment:read")
-	@RequestMapping(value = "/list/")
+	@RequestMapping(value = "/list")
 	@ResponseBody
 	public Object list(
 			@RequestParam(required = false, defaultValue = "0", value = "offset") int offset,

@@ -236,4 +236,9 @@ public class EamApiServiceMock implements EamApiService {
         return null;
     }
 
+    @Override
+    public List<EamAlarmRemindVO> getUserAlarms(Integer userId) {
+        return null;
+    }
+
 }

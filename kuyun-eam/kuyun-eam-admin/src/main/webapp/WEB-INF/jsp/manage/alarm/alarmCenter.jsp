@@ -59,6 +59,25 @@
                     <div class="m-portlet__body">
                         <div class="tab-content">
                             <div class="tab-pane active show" id="currAlarm" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-md-2 col-md-offset-1 margin-top-10">
+                                        <select id="equipments1" name="equipments" style="width: 100%">
+                                            <option value="">所有</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-8 margin-top-10">
+                                        <div class="input-group input-large input-daterange">
+                                            <input type="text" id="startDate1" class="start_date input-group date form-control m-input col-md-3" readonly style="width: 150px" placeholder="选择开始时间">
+                                            <span class="input-group-addon">  ~ </span>
+                                            <input type="text" id="endDate1" class="end_date input-group date form-control m-input col-md-3" readonly style="width: 150px" placeholder="选择结束时间">
+                                            <span class="input-group-btn">
+                                                        <button class="btn default" type="button" onclick="searchCurrAlarm()">
+                                                            查询
+                                                        </button>
+                                                    </span>
+                                        </div>
+                                    </div>
+                                </div>
                                     <div id="toolbar">
                                         <div>
 
@@ -72,15 +91,21 @@
 
                                 <div class="row">
                                     <div class="col-md-2 col-md-offset-1 margin-top-10">
-                                        <select id="equipmentModelType" name="equipmentModelType" style="width: 100%"></select>
+                                        <select id="searchType" name="searchType" style="width: 100%">
+                                            <option value="">所有</option>
+                                            <option value="ANU|ANA">活跃</option>
+                                            <option value="CNU|CNA">已消除</option>
+                                        </select>
                                     </div>
                                     <div class="col-md-2 col-md-offset-1 margin-top-10">
-                                        <select id="equipmentModelType2" name="equipmentModelType" style="width: 100%"></select>
+                                        <select id="equipments" name="equipments" style="width: 100%">
+                                            <option value="">所有</option>
+                                        </select>
                                     </div>
                                     <div class="col-md-8 margin-top-10">
                                         <div class="input-group input-large input-daterange">
                                             <input type="text" id="startDate" class="start_date input-group date form-control m-input col-md-3" readonly style="width: 150px" placeholder="选择开始时间">
-                                            <span class="input-group-addon"> ~ </span>
+                                            <span class="input-group-addon">  ~ </span>
                                             <input type="text" id="endDate" class="end_date input-group date form-control m-input col-md-3" readonly style="width: 150px" placeholder="选择结束时间">
                                             <span class="input-group-btn">
                                                         <button class="btn default" type="button" onclick="searchHistory()">
@@ -117,21 +142,23 @@
 
     <script>
 
-        var orgUrl ='${basePath}/manage/alarm/record/list', searchUrl;
+        var alarmUrl ='${basePath}/manage/alarm/record/list';
+        var historyUrl='${basePath}/manage/alarm/record/history/list';
         var alarmTable = $('#currAlarmTable');
         var histAlarmTable = $('#historyAlarmTable');
-
+        var selectSearchType=null, selectEquipment1=null ,selectEquipment=null;
         $(function() {
+            $('#equipments1').select2();
+            $('#equipments').select2();
+            $('#searchType').select2();
             alarmTable.bootstrapTable({
-                url: orgUrl,
+                url: alarmUrl,
                 striped: true,
-                search: true,
+                //search: true,
                 searchAlign: 'left',
                 toolbarAlign: 'right',
                 minimumCountColumns: 2,
                 clickToSelect: true,
-                detailView: true,
-                detailFormatter: 'detailFormatter',
                 pagination: true,
                 paginationLoop: false,
                 sidePagination: 'server',
@@ -142,25 +169,22 @@
                 maintainSelected: true,
                 idField: 'warehouseId',
                 columns: [
-                    {field: 'ck', checkbox: true},
-                    {field: 'alarmType', title: '报警设备', sortable: true, align: 'center'},
-                    {field: 'duration', title: '报警时间'},
-                    {field: 'alarmClearValue', title: '报警参数'},
-                    {field: 'upperBound', title: '报警值'},
-                    {field: 'alarmTarget', title: '内容'}
+                    {field: 'alarmType', title: '报警类别', sortable: true, align: 'center'},
+                    {field: 'equipmentName', title: '报警设备', sortable: true, align: 'center'},
+                    {field: 'duration', title: '报警持续时间'},
+                    {field: 'alarmValue', title: '报警值'},
+                    {field: 'alarmTarget', title: '报警目标'}
                 ]
             });
 
             histAlarmTable.bootstrapTable({
-                url: orgUrl,
+                url: historyUrl,
                 striped: true,
-                search: true,
+                //search: true,
                 searchAlign: 'left',
                 toolbarAlign: 'right',
                 minimumCountColumns: 2,
                 clickToSelect: true,
-                detailView: true,
-                detailFormatter: 'detailFormatter',
                 pagination: true,
                 paginationLoop: false,
                 sidePagination: 'server',
@@ -171,16 +195,16 @@
                 maintainSelected: true,
                 idField: 'warehouseId',
                 columns: [
-                    {field: 'ck', checkbox: true},
-                    {field: 'alarmType', title: '报警设备', sortable: true, align: 'center'},
-                    {field: 'duration', title: '报警时间'},
-                    {field: 'alarmClearValue', title: '报警参数'},
-                    {field: 'upperBound', title: '报警值'},
-                    {field: 'alarmTarget', title: '内容'}
+                    {field: 'alarmType', title: '报警类别', sortable: true, align: 'center'},
+                    {field: 'equipmentName', title: '报警设备', sortable: true, align: 'center'},
+                    {field: 'duration', title: '报警持续时间'},
+                    {field: 'alarmClearValue', title: '报警状态'},
+                    {field: 'alarmValue', title: '报警值'},
+                    {field: 'alarmTarget', title: '报警目标'}
                 ]
             });
 
-            $('.start_date').datetimepicker({
+            $('.start_date, .end_date').datetimepicker({
                 language: 'zh-CN',
                 weekStart: 1,
                 todayBtn: 1,
@@ -192,20 +216,54 @@
                 todayHighlight: true,
             }).on('hide', function (e) {
             });
-            $('.end_date').datetimepicker({
-                language: 'zh-CN',
-                weekStart: 1,
-                todayBtn: 1,
-                autoclose: 1,
-                startView: 2,
-                forceParse: 0,
-                // minView:'day',
-                format: 'yyyy/mm/dd hh:ii',
-                todayHighlight: true,
+
+            ajaxGet('${basePath}/manage/equipment/list', function (responseData) {
+                if (responseData) {
+                    var data = responseData.rows;
+                    var items=[];
+                    $.each(data,function(i, val) {
+                        items.push({'VALUEFIELD':val.equipmentId,'DESCFIELD': val.name});
+                    });
+
+                    addOptionToHtmlSelect(selectEquipment1, "equipments1", items, "","所有");
+                    addOptionToHtmlSelect(selectEquipment, "equipments", items, "","所有");
+                }
             });
         });
 
+        function searchCurrAlarm(){
+            selectEquipment1 = $('#equipments1').val();
+            var startDate = $('#startDate1').val();
+            var endDate = $('#endDate1').val();
+            startDate = (startDate == '')?null:startDate;
+            endDate = (endDate == '')?null:endDate;
+            var checkValidate=true;
+            if(startDate && endDate ) {
+                var startDate1 = new Date(startDate);
+                var endDate1 = new Date(endDate);
+                if(Date.parse(endDate1)-Date.parse(startDate1)<=0){
+                    swWarn( '开始时间必须早于结束时间');
+                    checkValidate=false;
+                }
+            }
+
+            if(checkValidate) {
+                var opt = {
+                    url: alarmUrl,
+                    silent: true,
+                    query:{
+                        equipmentId:selectEquipment,
+                        startDate: startDate,
+                        endDate: endDate
+                    }
+                };
+                alarmTable.bootstrapTable('refresh', opt);
+            }
+        }
+
         function searchHistory(){
+            selectSearchType = $('#searchType').val();
+            selectEquipment = $('#equipments').val();
             var startDate = $('#startDate').val();
             var endDate = $('#endDate').val();
             var checkValidate=true;
@@ -219,27 +277,21 @@
             }
 
             if(checkValidate) {
-                $.ajax({
-                    type: 'post',
-                    url : orgUrl,
-                    data : {
-                        startDate: $('#startDate').val(),
-                        endDate: $('#endDate').val()
-                    },
-                    dataType : 'json',
-                    success : function(data){
-                        $('#historyAlarmTable').dataTable().fnClearTable();    //清空表格
-                        $('#historyAlarmTable').dataTable().fnAddData(packagingdatatabledata(data),true);  //刷下表格
-                    },
-                    error:function(data){
-                        alert("查询失败");
+                var opt = {
+                    url: historyUrl,
+                    silent: true,
+                    query:{
+                        alarmType : selectSearchType,
+                        equipmentId:selectEquipment,
+                        startDate: startDate,
+                        endDate: endDate
                     }
-                });
+                };
+                histAlarmTable.bootstrapTable('refresh', opt);
             }
         }
 
-
-    </script>
+ </script>
 
 
 

@@ -16,9 +16,16 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 
+import javax.servlet.http.HttpServletRequest;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -43,9 +50,16 @@ public class EamAlarmRecordHistoryController extends BaseController {
 	@Autowired
 	private EamUtil eamUtil;
 
+    @InitBinder
+    protected void initBinder(HttpServletRequest request,
+                              ServletRequestDataBinder binder) throws Exception {
+        DateFormat dateFormat=new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
+    }
+
 	@ApiOperation(value = "报警历史记录列表")
 	@RequiresPermissions("eam:equipment:read")
-	@RequestMapping(value = "/list/", method = RequestMethod.POST)
+	@RequestMapping(value = "/list")
 	@ResponseBody
 	public Object list(EamAlarmRecordVO recordVO) {
 		if (StringUtils.isEmpty(recordVO.getOrderByClause())){

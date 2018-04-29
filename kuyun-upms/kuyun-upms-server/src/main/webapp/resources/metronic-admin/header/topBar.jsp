@@ -1,6 +1,20 @@
+<%@ page import="com.kuyun.upms.common.constant.UpmsConstant" %>
+<%@ page import="com.kuyun.common.util.BasePath" %>
 <%@ page contentType="text/html; charset=utf-8"%>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
+<c:set var="upmsPath" value="<%=BasePath.kuyunUpmsServer%>"/>
+<c:set var="eamPath" value="<%=BasePath.kuyunEamAdmin%>"/>
 
+<style>
+    .m-list-timeline__items .m-list-timeline__item .m-list-timeline__text{
+        display: table-cell;
+        text-align: left;
+        vertical-align: middle;
+        width: 20% ;
+        padding: 0 5px 0 0;
+        font-size: 1rem;
+    }
+</style>
 <!-- BEGIN: Topbar -->
 <div id="m_header_topbar" class="m-topbar  m-stack m-stack--ver m-stack--general">
     <div class="m-stack__item m-topbar__nav-wrapper">
@@ -45,196 +59,18 @@
                 <div class="m-dropdown__wrapper">
                     <span class="m-dropdown__arrow m-dropdown__arrow--center"></span>
                     <div class="m-dropdown__inner">
-                        <div class="m-dropdown__header m--align-center" style="background: url(${basePath}/resources/metronic-admin/assets/app/media/img/misc/notification_bg.jpg); background-size: cover;">
-                                            <span class="m-dropdown__header-title">
-															9 New
-														</span>
-                            <span class="m-dropdown__header-subtitle">
-															User Notifications
-														</span>
+                        <div class="m-dropdown__header m--align-center" id="alarmTitle" style="background: url(${basePath}/resources/metronic-admin/assets/app/media/img/misc/notification_bg.jpg); background-size: cover;">
+
                         </div>
                         <div class="m-dropdown__body">
                             <div class="m-dropdown__content">
-                                <ul class="nav nav-tabs m-tabs m-tabs-line m-tabs-line--brand" role="tablist">
-                                    <li class="nav-item m-tabs__item">
-                                        <a class="nav-link m-tabs__link active" data-toggle="tab" href="#topbar_notifications_notifications" role="tab">
-                                            Alerts
-                                        </a>
-                                    </li>
-                                    <li class="nav-item m-tabs__item">
-                                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#topbar_notifications_events" role="tab">
-                                            Events
-                                        </a>
-                                    </li>
-                                    <li class="nav-item m-tabs__item">
-                                        <a class="nav-link m-tabs__link" data-toggle="tab" href="#topbar_notifications_logs" role="tab">
-                                            Logs
-                                        </a>
-                                    </li>
-                                </ul>
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="topbar_notifications_notifications" role="tabpanel">
                                         <div class="m-scrollable" data-scrollable="true" data-max-height="250" data-mobile-max-height="200">
                                             <div class="m-list-timeline m-list-timeline--skin-light">
-                                                <div class="m-list-timeline__items">
-                                                    <div class="m-list-timeline__item">
-                                                        <span class="m-list-timeline__badge -m-list-timeline__badge--state-success"></span>
-                                                        <span class="m-list-timeline__text">
-																						12 new users registered
-																					</span>
-                                                        <span class="m-list-timeline__time">
-																						Just now
-																					</span>
-                                                    </div>
-                                                    <div class="m-list-timeline__item">
-                                                        <span class="m-list-timeline__badge"></span>
-                                                        <span class="m-list-timeline__text">
-																						System shutdown
-																						<span class="m-badge m-badge--success m-badge--wide">
-																							pending
-																						</span>
-                                                                        </span>
-                                                        <span class="m-list-timeline__time">
-																						14 mins
-																					</span>
-                                                    </div>
-                                                    <div class="m-list-timeline__item">
-                                                        <span class="m-list-timeline__badge"></span>
-                                                        <span class="m-list-timeline__text">
-																						New invoice received
-																					</span>
-                                                        <span class="m-list-timeline__time">
-																						20 mins
-																					</span>
-                                                    </div>
-                                                    <div class="m-list-timeline__item">
-                                                        <span class="m-list-timeline__badge"></span>
-                                                        <span class="m-list-timeline__text">
-																						DB overloaded 80%
-																						<span class="m-badge m-badge--info m-badge--wide">
-																							settled
-																						</span>
-                                                                        </span>
-                                                        <span class="m-list-timeline__time">
-																						1 hr
-																					</span>
-                                                    </div>
-                                                    <div class="m-list-timeline__item">
-                                                        <span class="m-list-timeline__badge"></span>
-                                                        <span class="m-list-timeline__text">
-																						System error -
-																						<a href="#" class="m-link">
-																							Check
-																						</a>
-																					</span>
-                                                        <span class="m-list-timeline__time">
-																						2 hrs
-																					</span>
-                                                    </div>
-                                                    <div class="m-list-timeline__item m-list-timeline__item--read">
-                                                        <span class="m-list-timeline__badge"></span>
-                                                        <span href="" class="m-list-timeline__text">
-																						New order received
-																						<span class="m-badge m-badge--danger m-badge--wide">
-																							urgent
-																						</span>
-                                                                        </span>
-                                                        <span class="m-list-timeline__time">
-																						7 hrs
-																					</span>
-                                                    </div>
-                                                    <div class="m-list-timeline__item m-list-timeline__item--read">
-                                                        <span class="m-list-timeline__badge"></span>
-                                                        <span class="m-list-timeline__text">
-																						Production server down
-																					</span>
-                                                        <span class="m-list-timeline__time">
-																						3 hrs
-																					</span>
-                                                    </div>
-                                                    <div class="m-list-timeline__item">
-                                                        <span class="m-list-timeline__badge"></span>
-                                                        <span class="m-list-timeline__text">
-																						Production server up
-																					</span>
-                                                        <span class="m-list-timeline__time">
-																						5 hrs
-																					</span>
-                                                    </div>
+                                                <div class="m-list-timeline__items" id="alarmList">
+
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane" id="topbar_notifications_events" role="tabpanel">
-                                        <div class="m-scrollable" data-max-height="250" data-mobile-max-height="200">
-                                            <div class="m-list-timeline m-list-timeline--skin-light">
-                                                <div class="m-list-timeline__items">
-                                                    <div class="m-list-timeline__item">
-                                                        <span class="m-list-timeline__badge m-list-timeline__badge--state1-success"></span>
-                                                        <a href="" class="m-list-timeline__text">
-                                                            New order received
-                                                        </a>
-                                                        <span class="m-list-timeline__time">
-																						Just now
-																					</span>
-                                                    </div>
-                                                    <div class="m-list-timeline__item">
-                                                        <span class="m-list-timeline__badge m-list-timeline__badge--state1-danger"></span>
-                                                        <a href="" class="m-list-timeline__text">
-                                                            New invoice received
-                                                        </a>
-                                                        <span class="m-list-timeline__time">
-																						20 mins
-																					</span>
-                                                    </div>
-                                                    <div class="m-list-timeline__item">
-                                                        <span class="m-list-timeline__badge m-list-timeline__badge--state1-success"></span>
-                                                        <a href="" class="m-list-timeline__text">
-                                                            Production server up
-                                                        </a>
-                                                        <span class="m-list-timeline__time">
-																						5 hrs
-																					</span>
-                                                    </div>
-                                                    <div class="m-list-timeline__item">
-                                                        <span class="m-list-timeline__badge m-list-timeline__badge--state1-info"></span>
-                                                        <a href="" class="m-list-timeline__text">
-                                                            New order received
-                                                        </a>
-                                                        <span class="m-list-timeline__time">
-																						7 hrs
-																					</span>
-                                                    </div>
-                                                    <div class="m-list-timeline__item">
-                                                        <span class="m-list-timeline__badge m-list-timeline__badge--state1-info"></span>
-                                                        <a href="" class="m-list-timeline__text">
-                                                            System shutdown
-                                                        </a>
-                                                        <span class="m-list-timeline__time">
-																						11 mins
-																					</span>
-                                                    </div>
-                                                    <div class="m-list-timeline__item">
-                                                        <span class="m-list-timeline__badge m-list-timeline__badge--state1-info"></span>
-                                                        <a href="" class="m-list-timeline__text">
-                                                            Production server down
-                                                        </a>
-                                                        <span class="m-list-timeline__time">
-																						3 hrs
-																					</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane" id="topbar_notifications_logs" role="tabpanel">
-                                        <div class="m-stack m-stack--ver m-stack--general" style="min-height: 180px;">
-                                            <div class="m-stack__item m-stack__item--center m-stack__item--middle">
-                                                                <span class="">
-																				All caught up!
-																				<br>
-																				No new logs.
-																			</span>
                                             </div>
                                         </div>
                                     </div>
@@ -356,7 +192,7 @@
 
                                     <li class="m-nav__separator m-nav__separator--fit"></li>
                                     <li class="m-nav__item">
-                                        <a href="${basePath}/sso/logout" class="btn m-btn--pill    btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">
+                                        <a href="<%=com.kuyun.common.util.BasePath.kuyunUpmsServer%>/sso/logout" class="btn m-btn--pill    btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">
                                             退出
                                         </a>
                                     </li>
@@ -371,3 +207,96 @@
     </div>
 </div>
 <!-- END: Topbar -->
+<script src="${basePath}/resources/kuyun-admin/plugins/jquery.1.12.4.min.js"></script>
+<script>
+
+    ajaxGet('${eamPath}/manage/alarm/list', function (responseData) {
+        if (responseData) {
+            var total=responseData.total;
+            if(total > 0) {
+                $('#alarmTitle').html('<span id="topAlarmNum" class="m-dropdown__header-title">' + total +
+                    '条</span><span class="m-dropdown__header-subtitle">报警信息</span>');
+            }
+
+            var data = responseData.rows;
+            var html ="";
+            $.each(data,function(i, val) {
+                html = html+ generateAlarmHtml(val);
+            });
+            $('#alarmList').html(html);
+        }
+    });
+
+
+    function generateAlarmHtml(row) {
+        var rowHtml=
+            '<div class="m-list-timeline__item m-list-timeline__item--read">'+
+            '<span class="m-list-timeline__badge"></span>'+
+            '<span href="'+alarmAddr(row)+'" class="m-list-timeline__text">'+
+            row.messageTitle +
+            '</span>'+ alarmStatus(row.alarmStatus)+
+            '<span class="m-list-timeline__time">'+
+            alarmTime(row.updateTime)+
+            '</span></div>';
+
+        return rowHtml;
+    }
+
+    function alarmStatus(status){
+        if('ANU'== status)
+            return '<span class="m-badge m-badge--danger m-badge--wide"> 需要处理</span>';
+        else if('CNU'== status)
+            return '<span class="m-badge m-badge--success m-badge--wide"> 处理结束</span>';
+        else
+            return "";
+    }
+
+    function alarmAddr(row){
+        if(row.alarmType == 'E')
+            return "";
+        else
+            return "";
+    }
+
+    function alarmTime(time){
+        if(!time)
+            return "";
+        var diff = ((new Date()).getTime() - time)/1000;
+
+        if(diff/60 > 30*24*60) {
+            return '1月前';
+        }
+        else if(diff/60 > 24*60) {
+            var day= Math.floor(diff / (24*3600));
+            return day+'天前';
+        } else if(diff/60 > 60){
+            var hour= Math.floor(diff / 3600);
+            return hour+'小时';
+        }
+        else {
+            var min= Math.floor(diff / 60);
+            if(min == 0)
+                return "刚才";
+            else
+                return  min+ '分钟';
+        }
+    }
+
+
+    function ajaxGet(targetUrl, callSuccess, callError)
+    {
+        $.ajax({
+            type: 'get',
+            url: targetUrl,
+            success: function (result) {
+                callSuccess(result);
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                if(callError)
+                    callError(XMLHttpRequest, textStatus);
+                else
+                    alert(textStatus);
+            }
+        });
+    }
+</script>
