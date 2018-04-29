@@ -169,11 +169,11 @@
                 maintainSelected: true,
                 idField: 'warehouseId',
                 columns: [
-                    {field: 'alarmType', title: '报警类别', sortable: true, align: 'center'},
                     {field: 'equipmentName', title: '报警设备', sortable: true, align: 'center'},
-                    {field: 'duration', title: '报警持续时间'},
+                    {field: 'alarmTime', title: '报警时间',sortable: true, align: 'center', formatter: 'timeFormatterLocale'},
+                    {field: 'lowerBound', title: '报警参数',formatter: 'formatAlarmParameter'},
                     {field: 'alarmValue', title: '报警值'},
-                    {field: 'alarmTarget', title: '报警目标'}
+                    {field: 'alarmContent', title: '内容'}
                 ]
             });
 
@@ -195,12 +195,12 @@
                 maintainSelected: true,
                 idField: 'warehouseId',
                 columns: [
-                    {field: 'alarmType', title: '报警类别', sortable: true, align: 'center'},
                     {field: 'equipmentName', title: '报警设备', sortable: true, align: 'center'},
-                    {field: 'duration', title: '报警持续时间'},
-                    {field: 'alarmClearValue', title: '报警状态'},
+                    {field: 'alarmTime', title: '报警时间',sortable: true, align: 'center', formatter: 'timeFormatterLocale'},
+                    {field: 'lowerBound', title: '报警参数',formatter: 'formatAlarmParameter'},
                     {field: 'alarmValue', title: '报警值'},
-                    {field: 'alarmTarget', title: '报警目标'}
+                    {field: 'alarmContent', title: '内容'},
+                    {field: 'alarmStatus', title: '报警状态',formatter: 'formatAlarmStatus'}
                 ]
             });
 
@@ -289,6 +289,26 @@
                 };
                 histAlarmTable.bootstrapTable('refresh', opt);
             }
+        }
+
+        function formatAlarmParameter(value , row, index){
+            var up=Number(row.upperBound);
+            var lower=Number(row.lowerBound);
+            if(up==0)
+                return lower;
+            else if (lower == 0)
+                return up;
+            else
+                return lower+' ~ '+ up;
+        }
+
+        function formatAlarmStatus (value , row, index){
+            if(value == 'CNU' || value=='CNA')
+                return "已清除";
+            else if(value == 'ANA')
+                return "无需处理";
+            else
+                return "未处理";
         }
 
  </script>

@@ -377,6 +377,10 @@ function strReplaceAll(str, oldValue, newValue) {
 
 
 // 格式化时间
+function timeFormatterLocale(value , row, index) {
+    return new Date(value).toLocaleString();
+}
+
 function timeFormatter(value , row, index) {
     return timeSimpleFormatter(value);
     //return new Date(value).toLocaleString();

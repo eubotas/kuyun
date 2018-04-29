@@ -5,6 +5,8 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.NotNullValidator;
+import com.kuyun.eam.admin.util.EamUtil;
+import com.kuyun.eam.common.constant.AlarmStatus;
 import com.kuyun.eam.common.constant.AlarmType;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.EamAlarm;
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,12 +58,27 @@ public class EamAlarmController extends BaseController {
 	@Autowired
 	private EamAlarmService eamAlarmService;
 
+	@Autowired
+	private EamUtil eamUtil;
+
     @ApiOperation(value = "报警提醒列表")
     @RequestMapping(value = "/list")
     @ResponseBody
     public Object list(){
         UpmsUser user = baseEntityUtil.getCurrentUser();
+		EamAlarmRecordVO recordVO = new EamAlarmRecordVO();
+		recordVO.setAlarmStatus(AlarmStatus.ANU.getCode());
+
+		List<String> equipmentIds = eamUtil.getEquipmentIds();
+		if (!equipmentIds.isEmpty()){
+			recordVO.setEquipmentIds(equipmentIds);
+		}else{
+			//current company have not equipment
+			recordVO.setEquipmentId("-1");
+		}
+		List<EamAlarmRecordVO> vos = eamApiService.selectAlarmRecords(recordVO);
         List<EamAlarmRemindVO> rows = eamApiService.getUserAlarms(user.getUserId());
+        rows.addAll(0, convert(vos));
         Map<String, Object> result = new HashMap<>();
         result.put("rows", rows);
         result.put("total", rows.size());
@@ -178,4 +196,20 @@ public class EamAlarmController extends BaseController {
 		return new EamResult(SUCCESS, count);
 	}
 
+	private List<EamAlarmRemindVO> convert(List<EamAlarmRecordVO> list){
+		List<EamAlarmRemindVO> reminds=new ArrayList<EamAlarmRemindVO>();
+		EamAlarmRemindVO vo=null;
+		for(EamAlarmRecordVO v: list){
+			vo=new EamAlarmRemindVO();
+			vo.setAlarmStatus(v.getAlarmStatus());
+			vo.setAlarmType("E");
+			vo.setEquipmentId(v.getEquipmentId());
+			vo.setId(v.getAlarmId());
+			vo.setMessageTitle(v.getAlarmContent());
+			vo.setMessageContent(v.getAlarmContent());
+			vo.setUpdateTime(v.getUpdateTime());
+			reminds.add(vo);
+		}
+		return reminds;
+	}
 }
