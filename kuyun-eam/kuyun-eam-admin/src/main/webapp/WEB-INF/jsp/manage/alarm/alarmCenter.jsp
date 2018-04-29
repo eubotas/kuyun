@@ -159,8 +159,6 @@
                 toolbarAlign: 'right',
                 minimumCountColumns: 2,
                 clickToSelect: true,
-                detailView: true,
-                detailFormatter: 'detailFormatter',
                 pagination: true,
                 paginationLoop: false,
                 sidePagination: 'server',
@@ -171,7 +169,6 @@
                 maintainSelected: true,
                 idField: 'warehouseId',
                 columns: [
-                    {field: 'ck', checkbox: true},
                     {field: 'alarmType', title: '报警类别', sortable: true, align: 'center'},
                     {field: 'equipmentName', title: '报警设备', sortable: true, align: 'center'},
                     {field: 'duration', title: '报警持续时间'},
@@ -188,8 +185,6 @@
                 toolbarAlign: 'right',
                 minimumCountColumns: 2,
                 clickToSelect: true,
-                detailView: true,
-                detailFormatter: 'detailFormatter',
                 pagination: true,
                 paginationLoop: false,
                 sidePagination: 'server',
@@ -200,7 +195,6 @@
                 maintainSelected: true,
                 idField: 'warehouseId',
                 columns: [
-                    {field: 'ck', checkbox: true},
                     {field: 'alarmType', title: '报警类别', sortable: true, align: 'center'},
                     {field: 'equipmentName', title: '报警设备', sortable: true, align: 'center'},
                     {field: 'duration', title: '报警持续时间'},
