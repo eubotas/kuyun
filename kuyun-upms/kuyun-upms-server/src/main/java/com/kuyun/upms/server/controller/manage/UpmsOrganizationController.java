@@ -136,13 +136,14 @@ public class UpmsOrganizationController extends BaseController {
         vo.setOrgId(id);
         vo.setOffset(offset);
         vo.setLimit(limit);
-        vo.setDeleteFlag(false);
+        vo.setDeleteFlag(Boolean.FALSE);
+        vo.setCompanyId(getCompanyId());
         if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
             vo.setOrderByClause(sort + " " + order);
         }
 
         List<UpmsOrgRoleVo> rows = upmsApiService.selectRolesByOrg(vo);
-        long total = upmsApiService.getRoleCountByOrg(id);
+        long total = upmsApiService.getRoleCountByOrg(vo);
         Map<String, Object> result = new HashMap<>();
         result.put("rows", rows);
         result.put("total", total);
@@ -193,6 +194,7 @@ public class UpmsOrganizationController extends BaseController {
         vo.setOffset(offset);
         vo.setLimit(limit);
         vo.setDeleteFlag(false);
+        vo.setCompanyId(getCompanyId());
         if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
             vo.setOrderByClause(sort + " " + order);
         }
@@ -200,7 +202,7 @@ public class UpmsOrganizationController extends BaseController {
         List<UpmsOrgUserVo> rows = upmsApiService.selectUsersByOrg(vo);
         handleUserCheckedFlag(id, rows);
 
-        long total = upmsApiService.getUsersCountByOrg(id);
+        long total = upmsApiService.getUsersCountByOrg(vo);
         Map<String, Object> result = new HashMap<>();
         result.put("rows", rows);
         result.put("total", total);

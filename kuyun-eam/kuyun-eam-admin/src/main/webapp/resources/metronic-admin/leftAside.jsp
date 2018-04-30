@@ -193,54 +193,6 @@
                             <%--</shiro:hasPermission>--%>
                         </li>
 
-                        <%--<li id="submenu_assetsTicket2" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">--%>
-                            <%--<shiro:hasPermission name="eam:ticket:read">--%>
-                                <%--<a  href="${eamPath}/manage/ticket/index?category=notResolved" class="m-menu__link ">--%>
-                                    <%--<i class="m-menu__link-bullet m-menu__link-bullet--dot">--%>
-                                        <%--<span></span>--%>
-                                    <%--</i>--%>
-                                    <%--<span class="m-menu__link-text">--%>
-													<%--未处理工单--%>
-												<%--</span>--%>
-                                <%--</a></shiro:hasPermission>--%>
-                        <%--</li>--%>
-
-                        <%--<li id="submenu_assetsTicket3" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">--%>
-                            <%--<shiro:hasPermission name="eam:ticket:read">--%>
-                                <%--<a  href="${eamPath}/manage/ticket/index?category=init" class="m-menu__link ">--%>
-                                    <%--<i class="m-menu__link-bullet m-menu__link-bullet--dot">--%>
-                                        <%--<span></span>--%>
-                                    <%--</i>--%>
-                                    <%--<span class="m-menu__link-text">--%>
-													<%--未委派工单--%>
-												<%--</span>--%>
-                                <%--</a></shiro:hasPermission>--%>
-                        <%--</li>--%>
-
-                        <%--<li id="submenu_assetsTicket4" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">--%>
-                            <%--<shiro:hasPermission name="eam:ticket:read">--%>
-                                <%--<a  href="${eamPath}/manage/ticket/index?category=all" class="m-menu__link ">--%>
-                                    <%--<i class="m-menu__link-bullet m-menu__link-bullet--dot">--%>
-                                        <%--<span></span>--%>
-                                    <%--</i>--%>
-                                    <%--<span class="m-menu__link-text">--%>
-													<%--全部工单--%>
-												<%--</span>--%>
-                                <%--</a></shiro:hasPermission>--%>
-                        <%--</li>--%>
-
-                        <%--<li id="submenu_assetsTicket5" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">--%>
-                            <%--<shiro:hasPermission name="eam:ticket:read">--%>
-                                <%--<a  href="${eamPath}/manage/ticket/index?category=myAll" class="m-menu__link ">--%>
-                                    <%--<i class="m-menu__link-bullet m-menu__link-bullet--dot">--%>
-                                        <%--<span></span>--%>
-                                    <%--</i>--%>
-                                    <%--<span class="m-menu__link-text">--%>
-													<%--我的工单--%>
-												<%--</span>--%>
-                                <%--</a></shiro:hasPermission>--%>
-                        <%--</li>--%>
-
                         <li id="submenu_assetsTicket3" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
                             <shiro:hasPermission name="eam:ticketType:read">
                                 <a  href="${eamPath}/manage/ticket/type/index" class="m-menu__link ">
@@ -446,18 +398,18 @@
                 <div id="submenu_system" class="m-menu__submenu " style="display: block;">
                     <span class="m-menu__arrow"></span>
                     <ul class="m-menu__subnav">
-                        <li id="submenu_system1" class="m-menu__item " aria-haspopup="true"  onclick="setmenu(this);">
-                            <shiro:hasPermission name="upms:company:read">
-                                <a  href="${upmsPath}/manage/company/index" class="m-menu__link ">
-                                    <i class="m-menu__link-bullet m-menu__link-bullet--dot">
-                                        <span></span>
-                                    </i>
-                                    <span class="m-menu__link-text">
-													公司管理
-												</span>
-                                </a>
-                            </shiro:hasPermission>
-                        </li>
+                        <%--<li id="submenu_system1" class="m-menu__item " aria-haspopup="true"  onclick="setmenu(this);">--%>
+                            <%--<shiro:hasPermission name="upms:company:read">--%>
+                                <%--<a  href="${upmsPath}/manage/company/index" class="m-menu__link ">--%>
+                                    <%--<i class="m-menu__link-bullet m-menu__link-bullet--dot">--%>
+                                        <%--<span></span>--%>
+                                    <%--</i>--%>
+                                    <%--<span class="m-menu__link-text">--%>
+													<%--公司管理--%>
+												<%--</span>--%>
+                                <%--</a>--%>
+                            <%--</shiro:hasPermission>--%>
+                        <%--</li>--%>
                         <li id="submenu_system2" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
                             <shiro:hasPermission name="upms:organization:read">
                                 <a  href="${upmsPath}/manage/organization/index" class="m-menu__link ">
@@ -491,50 +443,50 @@
 												</span>
                                 </a></shiro:hasPermission>
                         </li>
-                        <li id="submenu_system5" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
-                            <shiro:hasPermission name="upms:permission:read">
-                                <a  href="${upmsPath}/manage/permission/index" class="m-menu__link ">
-                                    <i class="m-menu__link-bullet m-menu__link-bullet--dot">
-                                        <span></span>
-                                    </i>
-                                    <span class="m-menu__link-text">
-													权限管理
-												</span>
-                                </a></shiro:hasPermission>
-                        </li>
-                        <li id="submenu_system6" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
-                            <shiro:hasPermission name="upms:system:read">
-                                <a  href="${upmsPath}/manage/system/index" class="m-menu__link ">
-                                    <i class="m-menu__link-bullet m-menu__link-bullet--dot">
-                                        <span></span>
-                                    </i>
-                                    <span class="m-menu__link-text">
-													系统管理
-												</span>
-                                </a></shiro:hasPermission>
-                        </li>
-                        <li id="submenu_system7" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
-                            <shiro:hasPermission name="upms:session:read">
-                                <a  href="${upmsPath}/manage/session/index" class="m-menu__link ">
-                                    <i class="m-menu__link-bullet m-menu__link-bullet--dot">
-                                        <span></span>
-                                    </i>
-                                    <span class="m-menu__link-text">
-													会话管理
-												</span>
-                                </a></shiro:hasPermission>
-                        </li>
-                        <li id="submenu_system8" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
-                            <shiro:hasPermission name="upms:log:read">
-                                <a  href="${upmsPath}/manage/log/index" class="m-menu__link ">
-                                    <i class="m-menu__link-bullet m-menu__link-bullet--dot">
-                                        <span></span>
-                                    </i>
-                                    <span class="m-menu__link-text">
-													日志管理
-												</span>
-                                </a></shiro:hasPermission>
-                        </li>
+                        <%--<li id="submenu_system5" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">--%>
+                            <%--<shiro:hasPermission name="upms:permission:read">--%>
+                                <%--<a  href="${upmsPath}/manage/permission/index" class="m-menu__link ">--%>
+                                    <%--<i class="m-menu__link-bullet m-menu__link-bullet--dot">--%>
+                                        <%--<span></span>--%>
+                                    <%--</i>--%>
+                                    <%--<span class="m-menu__link-text">--%>
+													<%--权限管理--%>
+												<%--</span>--%>
+                                <%--</a></shiro:hasPermission>--%>
+                        <%--</li>--%>
+                        <%--<li id="submenu_system6" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">--%>
+                            <%--<shiro:hasPermission name="upms:system:read">--%>
+                                <%--<a  href="${upmsPath}/manage/system/index" class="m-menu__link ">--%>
+                                    <%--<i class="m-menu__link-bullet m-menu__link-bullet--dot">--%>
+                                        <%--<span></span>--%>
+                                    <%--</i>--%>
+                                    <%--<span class="m-menu__link-text">--%>
+													<%--系统管理--%>
+												<%--</span>--%>
+                                <%--</a></shiro:hasPermission>--%>
+                        <%--</li>--%>
+                        <%--<li id="submenu_system7" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">--%>
+                            <%--<shiro:hasPermission name="upms:session:read">--%>
+                                <%--<a  href="${upmsPath}/manage/session/index" class="m-menu__link ">--%>
+                                    <%--<i class="m-menu__link-bullet m-menu__link-bullet--dot">--%>
+                                        <%--<span></span>--%>
+                                    <%--</i>--%>
+                                    <%--<span class="m-menu__link-text">--%>
+													<%--会话管理--%>
+												<%--</span>--%>
+                                <%--</a></shiro:hasPermission>--%>
+                        <%--</li>--%>
+                        <%--<li id="submenu_system8" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">--%>
+                            <%--<shiro:hasPermission name="upms:log:read">--%>
+                                <%--<a  href="${upmsPath}/manage/log/index" class="m-menu__link ">--%>
+                                    <%--<i class="m-menu__link-bullet m-menu__link-bullet--dot">--%>
+                                        <%--<span></span>--%>
+                                    <%--</i>--%>
+                                    <%--<span class="m-menu__link-text">--%>
+													<%--日志管理--%>
+												<%--</span>--%>
+                                <%--</a></shiro:hasPermission>--%>
+                        <%--</li>--%>
                     </ul>
                 </div>
             </li>

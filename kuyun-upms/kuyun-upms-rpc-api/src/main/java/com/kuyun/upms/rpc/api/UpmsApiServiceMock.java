@@ -161,7 +161,7 @@ public class UpmsApiServiceMock implements UpmsApiService {
     }
 
     @Override
-    public Long getUsersCountByOrg(int orgId) {
+    public Long getUsersCountByOrg(UpmsOrgUserVo orgUserVo) {
         return null;
     }
 
@@ -171,7 +171,7 @@ public class UpmsApiServiceMock implements UpmsApiService {
     }
 
     @Override
-    public Long getRoleCountByOrg(int orgId) {
+    public Long getRoleCountByOrg(UpmsOrgRoleVo orgRoleVo) {
         return null;
     }
 

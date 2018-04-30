@@ -72,10 +72,9 @@ public class UpmsAuthenticationFilter extends AuthenticationFilter {
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws Exception {
         StringBuffer sso_server_url = new StringBuffer(PropertiesFileUtil.getInstance("kuyun-upms-client").get("kuyun.upms.sso.server.url"));
         // server需要登录
-        String upmsType = PropertiesFileUtil.getInstance("kuyun-upms-client").get("kuyun.upms.type");
+        String upmsType = PropertiesFileUtil.getInstance("kuyun-upms-client").get("zheng.upms.type");
         if ("server".equals(upmsType)) {
-//            WebUtils.toHttp(response).sendRedirect(sso_server_url.append("/sso/login").toString());
-            WebUtils.toHttp(response).sendRedirect(sso_server_url.append("/sso/session_time_out").toString());
+            WebUtils.toHttp(response).sendRedirect(sso_server_url.append("/sso/login").toString());
             return false;
         }
         sso_server_url.append("/sso/index").append("?").append("appid").append("=").append(PropertiesFileUtil.getInstance("kuyun-upms-client").get("kuyun.upms.appID"));

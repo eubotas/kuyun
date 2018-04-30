@@ -2,17 +2,8 @@ package com.kuyun.upms.dao.vo;
 
 public class UpmsOrgUserVo extends UpmsUserVo {
     private Integer orgId;
-    private Integer companyId;
     private String orgName;
     private boolean checked;
-
-    public Integer getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(Integer companyId) {
-        this.companyId = companyId;
-    }
 
     public boolean isChecked() {
         return checked;

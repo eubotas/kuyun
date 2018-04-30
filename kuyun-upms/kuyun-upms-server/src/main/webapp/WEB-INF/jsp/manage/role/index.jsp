@@ -93,21 +93,24 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group m-form__group">
-                            <label for="templateID_name" class="form-control-label">
-                                名称: *
-                            </label>
-                            <input type="text" class="form-control" id="templateID_name" name="name">
+                        <div class="form-group m-form__group row">
+                            <label class="col-3 col-form-label">名称:*</label>
+                            <div class="col-8">
+                                <input id="templateID_name" type="text" class="form-control" name="name" >
+                            </div>
+                        </div>
+                        <div class="form-group m-form__group row">
+                            <label class="col-3 col-form-label">标题</label>
+                            <div class="col-8">
+                                <input id="templateID_title" type="text" class="form-control" name="title" >
+                            </div>
                         </div>
 
-                        <div class="form-group m-form__group">
-                            <label for="templateID_title">标题</label>
-                            <input id="templateID_title" type="text" class="form-control" name="title" maxlength="20">
-                        </div>
-
-                        <div class="form-group m-form__group">
-                            <label for="templateID_description">描述</label>
-                            <input id="templateID_description" type="text" class="form-control" name="description" maxlength="300">
+                        <div class="form-group m-form__group row">
+                            <label class="col-3 col-form-label">描述:*</label>
+                            <div class="col-8">
+                                <textarea class="form-control m-input m-input--air" id="templateID_description" name="description" rows="3"></textarea>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -197,12 +200,13 @@
                 searchOnEnterKey: true,
                 maintainSelected: true,
                 idField: 'roleId',
+                sortOrder: 'desc',
+                sortName: 'role_id',
                 columns: [
                     {field: 'ck', checkbox: true},
-                    {field: 'roleId', title: '编号', sortable: true, align: 'center'},
-                    {field: 'name', title: '角色名称', searchable: true},
-                    {field: 'title', title: '角色标题', searchable: true},
-                    {field: 'description', title: '角色描述', searchable: true},
+                    {field: 'name', title: '角色名称'},
+                    {field: 'title', title: '角色标题'},
+                    {field: 'description', title: '角色描述'},
                     {field: 'action', width: 120, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ]
             });
@@ -362,44 +366,6 @@
                 }
             };
             $.fn.zTree.init($('#ztree'), setting);
-        }
-
-        //https://keenthemes.com/metronic/preview/inc/api/jstree/ajax_data.php
-        //[{"id":"node_152161101927727","icon":"fa fa-folder icon-lg m--font-success","text":"Node 1521611019","children":false},{"id":"node_152161101956477","icon":"fa fa-file icon-lg m--font-success","text":"Node 1521611019","children":true}]
-        function loadTree2() {
-            $("#permissionDialog").modal("show");
-            var changeDatas = [];
-            var pTree = function () {
-            var permissionTree = function () {
-                $('#ztree').jstree({
-                    'plugins': ["wholerow", "checkbox", "types"],
-                    'core': {
-                        "themes": {
-                            "responsive": false
-                        },
-                        "check_callback" : true,
-                        'data' : {
-                            'url' : function (node) {
-                                return '${basePath}/manage/permission/role/' + selectRoleId;
-                            },
-                            'data' : function (node) {
-                                return { 'parent' : node.id };
-                            }
-                        }
-                    },
-                    "types": {
-                        "default": {
-                            "icon": "fa fa-folder m--font-warning"
-                        }
-                    },
-                });
-            }
-
-            return {
-                init: function () {  permissionTree(); }
-            };
-        }();
-            pTree.init();
         }
 
         function permissionSubmit() {

@@ -125,11 +125,12 @@ public class UpmsUserController extends BaseController {
     public Object role(@PathVariable("id") int id, ModelMap modelMap) {
         // 所有角色
         UpmsRoleExample roleEx= new UpmsRoleExample();
-        roleEx.createCriteria().andDeleteFlagEqualTo(false);
+        roleEx.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE)
+        .andCompanyIdEqualTo(getCompanyId());
         List<UpmsRole> upmsRoles = upmsRoleService.selectByExample(roleEx);
         // 用户拥有角色
         UpmsUserRoleExample upmsUserRoleExample = new UpmsUserRoleExample();
-        upmsUserRoleExample.createCriteria().andDeleteFlagEqualTo(false)
+        upmsUserRoleExample.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE)
                 .andUserIdEqualTo(id);
         List<UpmsUserRole> upmsUserRoles = upmsUserRoleService.selectByExample(upmsUserRoleExample);
         Map map=new HashMap();

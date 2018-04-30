@@ -119,10 +119,10 @@ public interface UpmsApiService {
     Long countCompanyEquipments(UpmsCompanyVo upmsCompanyVo);
 
     List<UpmsOrgUserVo> selectUsersByOrg(UpmsOrgUserVo orgUserVo);
-    Long getUsersCountByOrg(int orgId);
+    Long getUsersCountByOrg(UpmsOrgUserVo orgUserVo);
     List<UpmsOrgUserVo> selectOrgUsersByOrgNameCompanyId(UpmsOrgUserVo orgUserVo);
 
-    public Long getRoleCountByOrg(int orgId);
+    public Long getRoleCountByOrg(UpmsOrgRoleVo orgRoleVo);
     public List<UpmsOrgRoleVo> selectRolesByOrg(UpmsOrgRoleVo orgRoleVo);
 
     public void createOrgUser(int orgId, List<UpmsUserOrganization> list);

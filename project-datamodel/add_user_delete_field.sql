@@ -12,3 +12,4 @@ ALTER TABLE `upms_user_permission` ADD COLUMN `delete_flag`  tinyint(1) NULL DEF
 ALTER TABLE `upms_user_role` ADD COLUMN `delete_flag`  tinyint(1) NULL DEFAULT 0;
 
 ALTER TABLE `upms_role` ADD COLUMN `company_id`  int(11) NULL DEFAULT NULL ;
+ALTER TABLE `upms_organization` ADD COLUMN `company_id`  int(11) NULL DEFAULT NULL ;

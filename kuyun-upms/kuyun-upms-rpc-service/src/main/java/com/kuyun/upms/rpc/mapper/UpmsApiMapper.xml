@@ -219,10 +219,15 @@
 
     <select id="selectUsersByOrg" parameterType="com.kuyun.upms.dao.vo.UpmsOrgUserVo" resultMap="UpmsOrgUserVoResultMap">
         select distinct uu.user_id, uu.realname, uu.phone, uu.email
-        from upms_user uu, upms_user_company uuc, upms_organization uo where uu.user_id = uuc.user_id and uuc.company_id=uo.company_id
+        from upms_user uu, upms_user_company uuc, upms_organization uo
+		where uu.user_id = uuc.user_id and uuc.company_id=uo.company_id
+		and uu.delete_flag = 0 and uo.delete_flag = 0
         <if test="orgId != null">
             and  uo.organization_id = ${orgId}
         </if>
+		<if test="companyId != null">
+			and  uuc.company_id = ${companyId}
+		</if>
         <if test="orderByClause != null">
             order by ${orderByClause}
         </if>
@@ -243,7 +248,7 @@
 		upms_organization uo,
 		upms_user_organization uuo
 		where uu.user_id = uuc.user_id
-		and uuc.company_id=uo.company_id
+		and uuc.company_id = uo.company_id
 		and uu.user_id = uuo.user_id
 		and uo.organization_id = uuo.organization_id
 		<if test="companyId != null">
@@ -255,12 +260,33 @@
 		<if test="orderByClause != null">
 			order by ${orderByClause}
 		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
 	</select>
 
-    <select id="getUsersCountByOrg" parameterType="java.lang.Integer" resultType="java.lang.Long">
+    <select id="getUsersCountByOrg" parameterType="com.kuyun.upms.dao.vo.UpmsOrgUserVo" resultType="java.lang.Long">
         select count(distinct uu.user_id)
-        from upms_user uu, upms_user_company uuc, upms_organization uo where uu.user_id = uuc.user_id and uuc.company_id=uo.company_id
-        and  uo.organization_id = #{orgId,jdbcType=INTEGER}
+		from upms_user uu,
+		upms_user_company uuc,
+		upms_organization uo,
+		upms_user_organization uuo
+		where uu.user_id = uuc.user_id
+		and uuc.company_id = uo.company_id
+		and uu.user_id = uuo.user_id
+		and uo.organization_id = uuo.organization_id
+		<if test="companyId != null">
+			and  uo.company_id = ${companyId}
+		</if>
+		<if test="orgName != null">
+			and  uo.name = '${orgName}'
+		</if>
+
     </select>
 
     <resultMap id="UpmsOrgRoleVoResultMap" type="com.kuyun.upms.dao.vo.UpmsOrgRoleVo">
@@ -275,12 +301,14 @@
         select distinct r.role_id, r.name, r.title, r.description, IFNULL(uor.role_id, FALSE) as checked
         from upms_role r
         left  join upms_organization_role uor on r.role_id = uor.role_id
-        left  join upms_organization o on uor.organization_id=o.organization_id
+        left  join upms_organization o on uor.organization_id = o.organization_id
+		and o.delete_flag = 0
+		<if test="orgId != null">
+			and  o.organization_id = ${orgId}
+		</if>
+		where r.delete_flag = 0
         <if test="companyId != null">
-            where  o.company_id = ${companyId}
-        </if>
-        <if test="orgId != null">
-            and  o.organization_id = ${orgId}
+            and r.company_id = ${companyId}
         </if>
         <if test="orderByClause != null">
             order by ${orderByClause}
@@ -295,9 +323,19 @@
         </if>
     </select>
 
-    <select id="getRoleCountByOrgId" parameterType="java.lang.Integer" resultType="java.lang.Long">
-        select count(distinct role_id)
-        from upms_organization_role where organization_id = #{orgId,jdbcType=INTEGER}
+    <select id="getRoleCountByOrgId" parameterType="com.kuyun.upms.dao.vo.UpmsOrgRoleVo" resultType="java.lang.Long">
+        select count(distinct r.role_id)
+		from upms_role r
+		left  join upms_organization_role uor on r.role_id = uor.role_id
+		left  join upms_organization o on uor.organization_id=o.organization_id and o.delete_flag = 0
+		<if test="orgId != null">
+			and  o.organization_id = ${orgId}
+		</if>
+		where r.delete_flag = 0
+		<if test="companyId != null">
+			and r.company_id = ${companyId}
+		</if>
+
     </select>
 	<!-- 缓存 -->
 	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
