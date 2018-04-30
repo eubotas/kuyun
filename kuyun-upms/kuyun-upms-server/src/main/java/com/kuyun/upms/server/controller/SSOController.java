@@ -216,6 +216,10 @@ public class SSOController extends BaseController {
             response.addHeader("token", clientToken);
         }
 
+        UpmsUserExample upmsUserExample = new UpmsUserExample();
+        upmsUserExample.createCriteria().andDeleteFlagEqualTo(false).andPhoneEqualTo(username);
+        UpmsUser upmsUser = upmsUserService.selectFirstByExample(upmsUserExample);
+        request.getSession().setAttribute("USER", upmsUser);
 
         // 回跳登录前地址
         String backurl = request.getParameter("backurl");

@@ -1,20 +1,12 @@
-<%@ page import="com.kuyun.upms.common.constant.UpmsConstant" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.kuyun.common.util.BasePath" %>
+<%@ page import="com.kuyun.upms.client.util.User" %>
 <%@ page contentType="text/html; charset=utf-8"%>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
-<c:set var="upmsPath" value="<%=BasePath.kuyunUpmsServer%>"/>
 <c:set var="eamPath" value="<%=BasePath.kuyunEamAdmin%>"/>
+<c:set var="upmsPath" value="<%=BasePath.kuyunUpmsServer%>"/>
+<c:set var="user" value="<%=(new User()).getUser(request)%>"/>
 
-<style>
-    .m-list-timeline__items .m-list-timeline__item .m-list-timeline__text{
-        display: table-cell;
-        text-align: left;
-        vertical-align: middle;
-        width: 20% ;
-        padding: 0 5px 0 0;
-        font-size: 1rem;
-    }
-</style>
 <!-- BEGIN: Topbar -->
 <div id="m_header_topbar" class="m-topbar  m-stack m-stack--ver m-stack--general">
     <div class="m-stack__item m-topbar__nav-wrapper">
@@ -64,12 +56,12 @@
                         </div>
                         <div class="m-dropdown__body">
                             <div class="m-dropdown__content">
+
                                 <div class="tab-content">
                                     <div class="tab-pane active" id="topbar_notifications_notifications" role="tabpanel">
                                         <div class="m-scrollable" data-scrollable="true" data-max-height="250" data-mobile-max-height="200">
                                             <div class="m-list-timeline m-list-timeline--skin-light">
                                                 <div class="m-list-timeline__items" id="alarmList">
-
                                                 </div>
                                             </div>
                                         </div>
@@ -140,11 +132,11 @@
             <li class="m-nav__item m-topbar__user-profile m-topbar__user-profile--img  m-dropdown m-dropdown--medium m-dropdown--arrow m-dropdown--header-bg-fill m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light" data-dropdown-toggle="click">
                 <a href="#" class="m-nav__link m-dropdown__toggle">
 												<span class="m-topbar__userpic">
-													<img src="${basePath}/resources/metronic-admin/assets/app/media/img/users/user4.jpg" class="m--img-rounded m--marginless m--img-centered" alt=""/>
+													<img src="${basePath}${empty user.avatar? '/resources/metronic-admin/assets/app/media/img/users/user4.jpg':user.avatar}" class="m--img-rounded m--marginless m--img-centered" alt="My profile"/>
 												</span>
                     <span class="m-topbar__username m--hide">
-													Nick
-												</span>
+                        ${user.realname}
+                    </span>
                 </a>
                 <div class="m-dropdown__wrapper">
                     <span class="m-dropdown__arrow m-dropdown__arrow--right m-dropdown__arrow--adjust"></span>
@@ -152,14 +144,15 @@
                         <div class="m-dropdown__header m--align-center" style="background: url(${basePath}/resources/metronic-admin/assets/app/media/img/misc/user_profile_bg.jpg); background-size: cover;">
                             <div class="m-card-user m-card-user--skin-dark">
                                 <div class="m-card-user__pic">
-                                    <img src="${basePath}/resources/metronic-admin/assets/app/media/img/users/user4.jpg" class="m--img-rounded m--marginless" alt="" />
+                                    <img src="${basePath}${user.avatar!='' ? user.avatar :'/resources/metronic-admin/assets/app/media/img/users/user4.jpg'}" class="m--img-rounded m--marginless" alt="" />
+
                                 </div>
                                 <div class="m-card-user__details">
                                                     <span class="m-card-user__name m--font-weight-500">
-																	Mark Andre
-																</span>
+                                                        ${user.realname}
+                                                    </span>
                                     <a href="" class="m-card-user__email m--font-weight-300 m-link">
-                                        mark.andre@gmail.com
+                                        ${user.email}
                                     </a>
                                 </div>
                             </div>
@@ -173,17 +166,12 @@
 																	</span>
                                     </li>
                                     <li class="m-nav__item">
-                                        <a href="#" class="m-nav__link">
+                                        <a href="${upmsPath}/manage/user/modify/${user.userId}" class="m-nav__link">
                                             <i class="m-nav__link-icon flaticon-profile-1"></i>
                                             <span class="m-nav__link-title">
 																			<span class="m-nav__link-wrap">
 																				<span class="m-nav__link-text">
-																					My Profile
-																				</span>
-																				<span class="m-nav__link-badge">
-																					<span class="m-badge m-badge--success">
-																						2
-																					</span>
+																					我的资料
 																				</span>
 																			</span>
 																		</span>
@@ -207,30 +195,33 @@
     </div>
 </div>
 <!-- END: Topbar -->
-<script src="${basePath}/resources/kuyun-admin/plugins/jquery.1.12.4.min.js"></script>
-<script>
 
-    ajaxGet('${eamPath}/manage/alarm/list', function (responseData) {
-        if (responseData) {
-            var total=responseData.total;
-            if(total > 0) {
+<script src="/resources/kuyun-admin/plugins/jquery.1.12.4.min.js"></script>
+<script>
+    var refreshTime =5000;
+   // refreshAlarm();
+    // setInterval(function(){ refreshAlarm(); }, refreshTime);
+
+    function refreshAlarm(){
+        ajaxGet('${eamPath}/manage/alarm/list', function (responseData) {
+            if (responseData) {
+                var total=responseData.total;
                 $('#alarmTitle').html('<span id="topAlarmNum" class="m-dropdown__header-title">' + total +
                     '条</span><span class="m-dropdown__header-subtitle">报警信息</span>');
+
+                var data = responseData.rows;
+                var html ="";
+                $.each(data,function(i, val) {
+                    html = html+ generateAlarmHtml(val);
+                });
+                $('#alarmList').html(html);
             }
-
-            var data = responseData.rows;
-            var html ="";
-            $.each(data,function(i, val) {
-                html = html+ generateAlarmHtml(val);
-            });
-            $('#alarmList').html(html);
-        }
-    });
-
+        });
+    }
 
     function generateAlarmHtml(row) {
         var rowHtml=
-            '<div class="m-list-timeline__item m-list-timeline__item--read">'+
+            '<div class="m-list-timeline__item">'+
             '<span class="m-list-timeline__badge"></span>'+
             '<span href="'+alarmAddr(row)+'" class="m-list-timeline__text">'+
             row.messageTitle +
@@ -244,9 +235,11 @@
 
     function alarmStatus(status){
         if('ANU'== status)
-            return '<span class="m-badge m-badge--danger m-badge--wide"> 需要处理</span>';
-        else if('CNU'== status)
-            return '<span class="m-badge m-badge--success m-badge--wide"> 处理结束</span>';
+            return '<span class="m-badge m-badge--danger m-badge--wide" title="需处理"> U</span>';
+        else if('ANA'== status)
+            return '<span class="m-badge m-badge--info m-badge--wide" title="不需处理"> P</span>';
+        else if('CNU'== status || 'CNA'== status)
+            return '<span class="m-badge m-badge--success m-badge--wide" title="处理结束">C</span>';
         else
             return "";
     }

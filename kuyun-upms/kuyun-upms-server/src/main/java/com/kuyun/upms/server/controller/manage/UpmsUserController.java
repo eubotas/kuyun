@@ -284,9 +284,17 @@ public class UpmsUserController extends BaseController {
 
     @ApiOperation(value = "修改用户")
     @RequiresPermissions("upms:user:update")
+    @RequestMapping(value = "/modify/{id}", method = RequestMethod.GET)
+    public String modify(ModelMap modelMap,HttpServletRequest req){
+        modelMap.put("user",req.getSession().getAttribute("USER"));
+        return "/manage/user/modifyUserInfo.jsp";
+    }
+
+    @ApiOperation(value = "修改用户")
+    @RequiresPermissions("upms:user:update")
     @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
     @ResponseBody
-    public Object update(@PathVariable("id") int id, UpmsUser upmsUser) {
+    public Object update(@PathVariable("id") int id, UpmsUser upmsUser, HttpServletRequest request) {
         ComplexResult result = FluentValidator.checkAll()
                 .on(upmsUser.getUsername(), new LengthValidator(1, 20, "帐号"))
                 .on(upmsUser.getRealname(), new NotNullValidator("姓名"))
@@ -299,6 +307,8 @@ public class UpmsUserController extends BaseController {
         upmsUser.setPassword(null);
         upmsUser.setUserId(id);
         int count = upmsUserService.updateByPrimaryKeySelective(upmsUser);
+        if(count >0)
+            request.getSession().setAttribute("USER",upmsUser);
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
     }
 
