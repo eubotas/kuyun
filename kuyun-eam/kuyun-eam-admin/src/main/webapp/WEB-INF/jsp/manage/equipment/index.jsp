@@ -43,8 +43,8 @@
             FormWidgets.init('add');
             FormWidgets.init('edit');
 
-            $('#add_equipmentModelId, #edit_equipmentModelId').select2();
-            $('#add_province, #edit_province, #add_city, #edit_city').select2();
+            $('#add_equipmentModelId, #edit_equipmentModelId').select2({minimumResultsForSearch: -1});
+            $('#add_province, #edit_province, #add_city, #edit_city').select2({minimumResultsForSearch: -1});
 
             $('#add_factoryDate, #add_commissioningDate, #add_warrantyStartDate, #add_warrantyEndDate, #edit_factoryDate, #edit_commissioningDate, #edit_warrantyStartDate, #edit_warrantyEndDate').datepicker({
                 format: "yyyy/mm/dd",

@@ -200,6 +200,7 @@ public class EquipmentManualController extends BaseController {
         String oldTag = oldManual.getTag() == null ? null : oldManual.getTag();
 
         tagUtil.handleTag(ActionEnum.UPDATE.getName(), oldTag, manual.getTag());
+        manual.setCreateTime(oldManual.getCreateTime());
 
         equipmentManualRepository.save(manual);
         return new EamResult(SUCCESS, 1);

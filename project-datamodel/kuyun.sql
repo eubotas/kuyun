@@ -507,11 +507,10 @@ CREATE TABLE `upms_organization` (
 -- ----------------------------
 -- Records of upms_organization   tyler remove
 -- ----------------------------
-INSERT INTO `upms_organization` VALUES ('1', null, null, '总部', '北京总部', '1');
-INSERT INTO `upms_organization` VALUES ('4', null, 1, '河北分部', '河北石家庄', '1488122466236');
-INSERT INTO `upms_organization` VALUES ('5', null, 1, '河南分部', '河南郑州', '1488122480265');
-INSERT INTO `upms_organization` VALUES ('6', null, 1, '湖北分部', '湖北武汉', '1488122493265');
-INSERT INTO `upms_organization` VALUES ('7', null, 1, '湖南分部', '湖南长沙', '1488122502752');
+INSERT INTO `upms_organization` VALUES ('1', 1, null, '维修部', '维修部门', now());
+INSERT INTO `upms_organization` VALUES ('2', 1, null, '维保部', '维保部门', now());
+INSERT INTO `upms_organization` VALUES ('3', 1, null, '报警部门', '报警部门', now());
+
 
 
 -- ----------------------------
@@ -618,19 +617,25 @@ INSERT INTO `upms_permission` VALUES ('93', '1', '90', '删除公司', '3', 'upm
 DROP TABLE IF EXISTS `upms_role`;
 CREATE TABLE `upms_role` (
   `role_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `company_id` int(11) DEFAULT NULL,
   `name` varchar(20) DEFAULT NULL COMMENT '角色名称',
   `title` varchar(20) DEFAULT NULL COMMENT '角色标题',
   `description` varchar(1000) DEFAULT NULL COMMENT '角色描述',
   `ctime` bigint(20) NOT NULL COMMENT '创建时间',
   `orders` bigint(20) NOT NULL COMMENT '排序',
+  delete_flag          boolean
   PRIMARY KEY (`role_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='角色';
 
 -- ----------------------------
 -- Records of upms_role
 -- ----------------------------
-INSERT INTO `upms_role` VALUES ('1', 'super', '超级管理员', '拥有所有权限', '1', '1');
-INSERT INTO `upms_role` VALUES ('2', 'admin', '管理员', '拥有除权限管理系统外的所有权限', '1487471013117', '1487471013117');
+INSERT INTO `upms_role` VALUES ('1', 1, 'super', '超级管理员', '拥有所有权限', '1', '1', 0);
+INSERT INTO `upms_role` VALUES ('2', 1, 'admin', '管理员', '拥有除权限管理系统外的所有权限', '1487471013117', '1487471013117', 0);
+INSERT INTO `upms_role` VALUES ('3', 1, 'ticketCreate', '工单提报', '拥有提报工单权限', '1', '1', 0);
+INSERT INTO `upms_role` VALUES ('4', 1, 'ticketRepair', '工单维修', '拥有维修工单权限', '1', '1', 0);
+INSERT INTO `upms_role` VALUES ('5', 1, 'ticketAppoint', '工单委派', '拥有委派工单权限', '1', '1', 0);
+
 
 -- ----------------------------
 -- Table structure for upms_role_permission

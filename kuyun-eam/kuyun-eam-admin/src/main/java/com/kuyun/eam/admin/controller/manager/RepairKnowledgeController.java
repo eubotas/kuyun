@@ -203,6 +203,8 @@ public class RepairKnowledgeController extends BaseController {
 
         tagUtil.handleTag(ActionEnum.UPDATE.getName(), oldTag, repair.getTag());
 
+        repair.setCreateTime(oldRepair.getCreateTime());
+
         repairKnowledgeRepository.save(repair);
         return new EamResult(SUCCESS, 1);
     }

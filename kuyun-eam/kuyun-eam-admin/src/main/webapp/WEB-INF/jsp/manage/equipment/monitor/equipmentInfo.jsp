@@ -326,7 +326,7 @@
 <script>
     $(document).ready(function()
     {
-        $('#equipmentModelType').select2();
+        $('#equipmentModelType').select2({minimumResultsForSearch: -1});
 
     });
 

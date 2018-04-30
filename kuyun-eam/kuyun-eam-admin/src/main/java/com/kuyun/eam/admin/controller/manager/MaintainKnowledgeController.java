@@ -202,6 +202,8 @@ public class MaintainKnowledgeController extends BaseController {
 
         tagUtil.handleTag(ActionEnum.UPDATE.getName(), oldTag, maintain.getTag());
 
+        maintain.setCreateTime(oldMaintain.getCreateTime());
+
         maintainKnowledgeRepository.save(maintain);
         return new EamResult(SUCCESS, 1);
     }

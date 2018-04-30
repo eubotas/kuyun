@@ -194,11 +194,13 @@ public class TrainingVideoController extends BaseController {
         if (!result.isSuccess()) {
             return new EamResult(INVALID_LENGTH, result.getErrors());
         }
-        baseModelUtil.updateAddtionalValue(video);
 
         Optional<TrainingVideo> optional = trainingVideoRepository.findById(id);
         TrainingVideo oldVideo = optional.orElse(null);
         String oldTag = oldVideo.getTag() == null ? null : oldVideo.getTag();
+
+        baseModelUtil.updateAddtionalValue(video);
+        video.setCreateTime(oldVideo.getCreateTime());
 
         tagUtil.handleTag(ActionEnum.UPDATE.getName(), oldTag, video.getTag());
 

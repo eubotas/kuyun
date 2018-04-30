@@ -391,6 +391,11 @@ function timeSimpleFormatter(value) {
     return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
 }
 
+function timeDetailFormatter(value) {
+    var date= new Date(value);
+    return date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate() + " "+date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+}
+
 Date.prototype.format = function(format) {
     var date = {
         "M+": this.getMonth() + 1,
@@ -513,3 +518,6 @@ function setText(id,val){
     $("#"+id).text(val);
 }
 
+function goBack() {
+    window.history.back();
+}

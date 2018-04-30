@@ -696,7 +696,7 @@
         ModelFormWidgets.init('editModel');
 
 
-        $('#addModel_protocolId, #editModel_protocolId').select2();
+        $('#addModel_protocolId, #editModel_protocolId').select2({minimumResultsForSearch: -1});
 
         generateAddEditForm('template-modelProperty-addEditForm', 'addModelProperty_,editModelProperty_', null, null, 'addModelPropertyFormContainer,editModelPropertyFormContainer');
         ModelPropertyFormWidgets.init('addModelProperty');
@@ -715,11 +715,11 @@
         AlarmFormWidgets.init('editAlarm');
 
 
-        $('#addModbus_functionCode, #addModbus_dataFormat, #addModbus_bitOrder').select2();
-        $('#editModbus_functionCode, #editModbus_dataFormat, #editModbus_bitOrder').select2();
+        $('#addModbus_functionCode, #addModbus_dataFormat, #addModbus_bitOrder').select2({minimumResultsForSearch: -1});
+        $('#editModbus_functionCode, #editModbus_dataFormat, #editModbus_bitOrder').select2({minimumResultsForSearch: -1});
 
-        $('#addAlarm_alarmType, #addAlarm_alarmTarget, #addAlarm_targetUser').select2();
-        $('#editAlarm_alarmType, #editAlarm_alarmTarget, #editAlarm_targetUser').select2();
+        $('#addAlarm_alarmType, #addAlarm_alarmTarget, #addAlarm_targetUser').select2({minimumResultsForSearch: -1});
+        $('#editAlarm_alarmType, #editAlarm_alarmTarget, #editAlarm_targetUser').select2({minimumResultsForSearch: -1});
 
 
         $('#addModbus_address, #addModbus_ish, #addModbus_osh, #addModbus_isl, #addModbus_osl, #editModbus_address, #editModbus_isl, #editModbus_osl, #editModbus_ish, #editModbus_osh').TouchSpin({

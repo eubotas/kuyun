@@ -29,7 +29,7 @@
                         -
                     </li>
                     <li class="m-nav__item">
-                        <a href="" class="m-nav__link">
+                        <a href="${basePath}/manage/knowledge/index" class="m-nav__link">
 											<span class="m-nav__link-text">
 												知识搜索
 											</span>
@@ -46,61 +46,70 @@
 
 <content>
 
-    <div class="m-portlet m-portlet--mobile">
-        <div class="m-portlet__body">
-            <div class="search">
-
-                <div class="search-body common-wrapper clearfix">
-                    <div class="search-body-main content">
-                        <div class="list">
-
-                            <ul>
-                                <li class="search-item">
-
-                                    <c:if test="${category == 'training-video'}">
-                                        <p class="desc">标题:${model.title}</p>
-                                        <div class="info">附件:${model.path}</div>
-                                    </c:if>
-
-                                    <c:if test="${category == 'training-doc'}">
-                                        <p class="desc">标题:${model.title}</p>
-                                        <div class="info">内容:${model.content}</div>
-                                        <div class="info">附件:${model.path}</div>
-                                    </c:if>
-
-                                    <c:if test="${category == 'maintain-knowledge'}">
-                                        <p class="desc">标题:${model.title}</p>
-                                        <div class="info">内容:${model.content}</div>
-                                    </c:if>
-
-                                    <c:if test="${category == 'repair-knowledge'}">
-                                        <p class="desc">故障代码:${model.codes}</p>
-                                        <div class="info">故障描述:${model.description}</div>
-                                        <div class="info">解决故障的方法:${model.method}</div>
-                                    </c:if>
-
-                                    <c:if test="${category == 'equipment-manual'}">
-                                        <p class="desc">标题:${model.title}</p>
-                                        <div class="info">内容:${model.content}</div>
-                                        <div class="info">附件:${model.path}</div>
-                                    </c:if>
-
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+    <div class="m-portlet">
+        <div class="m-portlet__head">
+            <div class="m-portlet__head-caption">
+                <div class="m-portlet__head-title">
+                    <span class="m-portlet__head-icon">
+                        <i class="flaticon-multimedia"></i>
+                    </span>
+                    <h3 class="m-portlet__head-text">
+                        详细
+                    </h3>
                 </div>
             </div>
         </div>
+        <div class="m-portlet__body">
+
+            <c:if test="${category == 'training-video'}">
+                <p class="desc">标题: ${model.title}</p>
+                <div class="info">描述: ${model.description}</div>
+                <div class="info">附件: ${model.path}</div>
+            </c:if>
+
+            <c:if test="${category == 'training-doc'}">
+                <p class="desc">标题: ${model.title}</p>
+                <div class="info">描述: ${model.description}</div>
+                <div class="info">内容: ${model.content}</div>
+                <div class="info">附件: ${model.path}</div>
+            </c:if>
+
+            <c:if test="${category == 'maintain-knowledge'}">
+                <p class="desc">标题: ${model.title}</p>
+                <div class="info">描述: ${model.description}</div>
+                <div class="info">内容: ${model.content}</div>
+            </c:if>
+
+            <c:if test="${category == 'repair-knowledge'}">
+                <p class="desc">故障代码: ${model.codes}</p>
+                <div class="info">故障描述: ${model.description}</div>
+                <div class="info">解决故障的方法: ${model.method}</div>
+            </c:if>
+
+            <c:if test="${category == 'equipment-manual'}">
+                <p class="desc">标题: ${model.title}</p>
+                <div class="info">描述: ${model.description}</div>
+                <div class="info">内容: ${model.content}</div>
+                <div class="info">附件: ${model.path}</div>
+            </c:if>
+        </div>
+        <div class="modal-footer">
+            <button id="backButton" type="button" class="btn btn-secondary" data-dismiss="modal">
+                返回
+            </button>
+        </div>
     </div>
+
+
 
 </content>
 
 
 <pageResources>
-    <link href=https://static001-test.geekbang.org/static/s/css/app.27020f4b625d704bb12c2e9fdab26045.css rel=stylesheet>
     <script>
-
+        $('#backButton').click(function(){
+            goBack();
+        });
 
     </script>
 </pageResources>

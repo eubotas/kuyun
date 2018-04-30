@@ -4,10 +4,11 @@ import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
-import com.kuyun.common.validator.NotNullValidator;
 import com.kuyun.common.validator.LengthValidator;
+import com.kuyun.common.validator.NotNullValidator;
 import com.kuyun.common.validator.SizeValidator;
 import com.kuyun.eam.common.constant.EamResult;
+import com.kuyun.eam.common.constant.OrgDepartment;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.util.EamDateUtil;
@@ -16,16 +17,14 @@ import com.kuyun.eam.vo.EamMaintainPlanVO;
 import com.kuyun.eam.vo.EamPlanTicketVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.common.JspUtil;
-import com.kuyun.upms.dao.model.UpmsOrganization;
-import com.kuyun.upms.dao.model.UpmsOrganizationExample;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
+import com.kuyun.upms.dao.vo.UpmsOrgUserVo;
 import com.kuyun.upms.rpc.api.UpmsApiService;
 import com.kuyun.upms.rpc.api.UpmsOrganizationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +32,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -77,6 +78,8 @@ public class EamMaintainPlanController extends BaseController {
 
 	@Autowired
 	public EamApiService eamApiService;
+	@Autowired
+	private EamMaintainUserService eamMaintainUserService;
 
 	@ApiOperation(value = "维修计划管理首页")
 	@RequiresPermissions("eam:maintainPlan:read")
@@ -165,9 +168,8 @@ public class EamMaintainPlanController extends BaseController {
 	@RequiresPermissions("eam:maintainPlan:create")
 	@RequestMapping(value = "/create", method = RequestMethod.POST)
 	@ResponseBody
-	public Object create(EamMaintainPlan plan) {
+	public Object create(HttpServletRequest request, EamMaintainPlan plan) {
 		ComplexResult result = FluentValidator.checkAll()
-//				.on(plan.getEquipmentCategoryId(), new NotNullValidator("设备类别"))
                 .on(plan.getEquipmentId(), new NotNullValidator("设备名称"))
                 .on(plan.getWorkContent(), new LengthValidator(1, 2000,"工单描述"))
                 .on(plan.getNextMaintainDate(), new NotNullValidator("下个维修日期"))
@@ -181,7 +183,9 @@ public class EamMaintainPlanController extends BaseController {
 		}
 		baseEntityUtil.addAddtionalValue(plan);
 
-        return new EamResult(SUCCESS, eamMaintainPlanService.createMaintainPlan(plan));
+		String[] maintainUserIds = request.getParameterValues("maintainUserId");
+
+        return new EamResult(SUCCESS, eamMaintainPlanService.createMaintainPlan(plan, maintainUserIds));
 	}
 
 	@ApiOperation(value = "删除维修计划")
@@ -212,16 +216,33 @@ public class EamMaintainPlanController extends BaseController {
 		EamMaintainPlan eamMaintainPlan = eamMaintainPlanService.selectByPrimaryKey(id);
 		Map map=new HashMap();
 		setWebSelect(map);
+		map.put("userIds", getMaintainUserIds(id));
 		map.put("plan", eamMaintainPlan);
 		map.put("MaintainDate",EamDateUtil.getDateStr(eamMaintainPlan.getNextMaintainDate()));
 		return map;
+	}
+
+	private List<EamMaintainUser> getMaintainUsers(int planId){
+		EamMaintainUserExample example = new EamMaintainUserExample();
+		example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE).andPlanIdEqualTo(planId);
+		return eamMaintainUserService.selectByExample(example);
+	}
+
+	private List<Integer> getMaintainUserIds(int planId){
+		List<EamMaintainUser> users = getMaintainUsers(planId);
+		List<Integer> result = new ArrayList<>(users != null ? users.size()  : 0);
+		for(EamMaintainUser user : users){
+			result.add(user.getUserId());
+		}
+		return result;
+
 	}
 
 	@ApiOperation(value = "修改维修计划")
 	@RequiresPermissions("eam:maintainPlan:update")
 	@RequestMapping(value = "/update/{planId}", method = RequestMethod.POST)
 	@ResponseBody
-	public Object update(EamMaintainPlan plan) {
+	public Object update(HttpServletRequest request, EamMaintainPlan plan) {
 		ComplexResult result = FluentValidator.checkAll()
 				.on(plan.getEquipmentCategoryId(), new NotNullValidator("设备类别"))
 				.on(plan.getEquipmentId(), new NotNullValidator("设备名称"))
@@ -236,10 +257,23 @@ public class EamMaintainPlanController extends BaseController {
 			return new EamResult(INVALID_LENGTH, result.getErrors());
 		}
 		baseEntityUtil.updateAddtionalValue(plan);
+		String[] maintainUserIds = request.getParameterValues("maintainUserId");
 
-		return new EamResult(SUCCESS, eamMaintainPlanService.updateMaintainPlan(plan));
+
+		return new EamResult(SUCCESS, eamMaintainPlanService.updateMaintainPlan(plan, maintainUserIds));
 	}
 
+	public List<UpmsOrgUserVo> getOperatorUsers() {
+		UpmsOrgUserVo orgUserVo = new UpmsOrgUserVo();
+
+		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+		if (company != null){
+			orgUserVo.setCompanyId(company.getCompanyId());
+		}
+		orgUserVo.setOrgName(OrgDepartment.MAINTENANCE_DEPARTMENT.getName());
+
+		return upmsApiService.selectOrgUsersByOrgNameCompanyId( orgUserVo);
+	}
 
 	private void setWebSelect(Map map){
 		EamEquipmentCategoryExample example = new EamEquipmentCategoryExample();
@@ -253,11 +287,8 @@ public class EamMaintainPlanController extends BaseController {
 		List<EamEquipmentVO> rows = eamApiService.selectEquipments(equipmentVO);
 		map.put("equipments", JspUtil.getMapList(rows,"equipmentId","name"));
 
-		UpmsOrganizationExample upmsOrganizationExample = new UpmsOrganizationExample();
-		UpmsOrganizationExample.Criteria criteria = upmsOrganizationExample.createCriteria();
-		criteria.andCompanyIdEqualTo(getCompanyId());
-		List<UpmsOrganization> orgs = upmsOrganizationService.selectByExample(upmsOrganizationExample);
-		map.put("orgs", JspUtil.getMapList(orgs,"organizationId","name"));
+		List<UpmsOrgUserVo> users = getOperatorUsers();
+		map.put("users", JspUtil.getMapList(users,"userId","realname"));
 
 		EamCodeValueExample eamCodeValueExample = new EamCodeValueExample();
 		EamCodeValueExample.Criteria codeCriteria = eamCodeValueExample.createCriteria();

@@ -190,7 +190,7 @@
             FormWidgets.init('add');
             FormWidgets.init('edit');
 
-            $('#add_orderTakerId, #edit_orderTakerId').select2();
+            $('#add_orderTakerId, #edit_orderTakerId').select2({minimumResultsForSearch: -1});
 
             $('#createButton').click(function(){
                 $("#addTicketAppointFormContainer").modal("show");

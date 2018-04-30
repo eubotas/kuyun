@@ -5,6 +5,8 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="ticket_id" jdbcType="INTEGER" property="ticketId" />
     <result column="order_taker_id" jdbcType="INTEGER" property="orderTakerId" />
+    <result column="appoint_commont" jdbcType="VARCHAR" property="appointCommont" />
+    <result column="action" jdbcType="VARCHAR" property="action" />
     <result column="reject_commont" jdbcType="VARCHAR" property="rejectCommont" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -70,8 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, ticket_id, order_taker_id, reject_commont, create_user_id, create_time, delete_flag, 
-    company_id
+    id, ticket_id, order_taker_id, appoint_commont, action, reject_commont, create_user_id, 
+    create_time, delete_flag, company_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamTicketAppointedRecordExample" resultMap="BaseResultMap">
     select
@@ -113,11 +115,13 @@
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamTicketAppointedRecord">
     insert into eam_ticket_appointed_record (id, ticket_id, order_taker_id, 
-      reject_commont, create_user_id, create_time, 
-      delete_flag, company_id)
+      appoint_commont, action, reject_commont, 
+      create_user_id, create_time, delete_flag, 
+      company_id)
     values (#{id,jdbcType=INTEGER}, #{ticketId,jdbcType=INTEGER}, #{orderTakerId,jdbcType=INTEGER}, 
-      #{rejectCommont,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlag,jdbcType=BIT}, #{companyId,jdbcType=INTEGER})
+      #{appointCommont,jdbcType=VARCHAR}, #{action,jdbcType=VARCHAR}, #{rejectCommont,jdbcType=VARCHAR}, 
+      #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
+      #{companyId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamTicketAppointedRecord">
     insert into eam_ticket_appointed_record
@@ -130,6 +134,12 @@
       </if>
       <if test="orderTakerId != null">
         order_taker_id,
+      </if>
+      <if test="appointCommont != null">
+        appoint_commont,
+      </if>
+      <if test="action != null">
+        action,
       </if>
       <if test="rejectCommont != null">
         reject_commont,
@@ -156,6 +166,12 @@
       </if>
       <if test="orderTakerId != null">
         #{orderTakerId,jdbcType=INTEGER},
+      </if>
+      <if test="appointCommont != null">
+        #{appointCommont,jdbcType=VARCHAR},
+      </if>
+      <if test="action != null">
+        #{action,jdbcType=VARCHAR},
       </if>
       <if test="rejectCommont != null">
         #{rejectCommont,jdbcType=VARCHAR},
@@ -192,6 +208,12 @@
       <if test="record.orderTakerId != null">
         order_taker_id = #{record.orderTakerId,jdbcType=INTEGER},
       </if>
+      <if test="record.appointCommont != null">
+        appoint_commont = #{record.appointCommont,jdbcType=VARCHAR},
+      </if>
+      <if test="record.action != null">
+        action = #{record.action,jdbcType=VARCHAR},
+      </if>
       <if test="record.rejectCommont != null">
         reject_commont = #{record.rejectCommont,jdbcType=VARCHAR},
       </if>
@@ -217,6 +239,8 @@
     set id = #{record.id,jdbcType=INTEGER},
       ticket_id = #{record.ticketId,jdbcType=INTEGER},
       order_taker_id = #{record.orderTakerId,jdbcType=INTEGER},
+      appoint_commont = #{record.appointCommont,jdbcType=VARCHAR},
+      action = #{record.action,jdbcType=VARCHAR},
       reject_commont = #{record.rejectCommont,jdbcType=VARCHAR},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -234,6 +258,12 @@
       </if>
       <if test="orderTakerId != null">
         order_taker_id = #{orderTakerId,jdbcType=INTEGER},
+      </if>
+      <if test="appointCommont != null">
+        appoint_commont = #{appointCommont,jdbcType=VARCHAR},
+      </if>
+      <if test="action != null">
+        action = #{action,jdbcType=VARCHAR},
       </if>
       <if test="rejectCommont != null">
         reject_commont = #{rejectCommont,jdbcType=VARCHAR},
@@ -257,6 +287,8 @@
     update eam_ticket_appointed_record
     set ticket_id = #{ticketId,jdbcType=INTEGER},
       order_taker_id = #{orderTakerId,jdbcType=INTEGER},
+      appoint_commont = #{appointCommont,jdbcType=VARCHAR},
+      action = #{action,jdbcType=VARCHAR},
       reject_commont = #{rejectCommont,jdbcType=VARCHAR},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -267,13 +299,15 @@
   <insert id="batchInsert">
     <if test="items.get(0) != null">
             insert into eam_ticket_appointed_record  (id, ticket_id, order_taker_id, 
-        reject_commont, create_user_id, create_time, 
-        delete_flag, company_id)
+        appoint_commont, action, reject_commont, 
+        create_user_id, create_time, delete_flag, 
+        company_id)
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.id,jdbcType=INTEGER}, #{item.ticketId,jdbcType=INTEGER}, #{item.orderTakerId,jdbcType=INTEGER}, 
-        #{item.rejectCommont,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, 
-        #{item.deleteFlag,jdbcType=BIT}, #{item.companyId,jdbcType=INTEGER})
+        #{item.appointCommont,jdbcType=VARCHAR}, #{item.action,jdbcType=VARCHAR}, #{item.rejectCommont,jdbcType=VARCHAR}, 
+        #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, 
+        #{item.companyId,jdbcType=INTEGER})
       </foreach>
     </if>
   </insert>

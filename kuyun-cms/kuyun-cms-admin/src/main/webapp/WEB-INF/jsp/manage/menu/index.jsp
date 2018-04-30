@@ -82,7 +82,7 @@ function createAction() {
 		content: 'url:${basePath}/manage/menu/create',
 		onContentReady: function () {
 			initMaterialInput();
-			$('select').select2();
+			$('select').select2({minimumResultsForSearch: -1});
 		}
 	});
 }
@@ -110,7 +110,7 @@ function updateAction() {
 			content: 'url:${basePath}/manage/menu/update/' + rows[0].menuId,
 			onContentReady: function () {
 				initMaterialInput();
-				$('select').select2();
+				$('select').select2({minimumResultsForSearch: -1});
 			}
 		});
 	}

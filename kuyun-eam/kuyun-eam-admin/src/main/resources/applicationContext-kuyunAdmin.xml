@@ -7,6 +7,7 @@
 	<bean id="kuyunAdminUtil" class="com.kuyun.common.util.KuyunAdminUtil"></bean>
 	<bean id="baseEntityUtil" class="com.kuyun.upms.client.util.BaseEntityUtil"></bean>
 	<bean id="eamUtil" class="com.kuyun.eam.admin.util.EamUtil"></bean>
+	<bean id="jpushUtil" class="com.kuyun.common.jpush.JpushUtil"></bean>
 	<bean id="baseModelUtil" class="com.kuyun.eam.admin.util.BaseModelUtil"></bean>
 	<bean id="tagUtil" class="com.kuyun.eam.admin.util.TagUtil"></bean>
 	<bean id="eamEquipmentController" class="com.kuyun.eam.admin.controller.manager.EamEquipmentController"></bean>

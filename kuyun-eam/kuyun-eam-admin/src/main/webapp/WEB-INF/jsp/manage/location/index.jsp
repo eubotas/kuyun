@@ -150,7 +150,7 @@
             FormWidgets.init('add');
             FormWidgets.init('edit');
 
-            $('#add_warehouseId, #edit_warehouseId').select2();
+            $('#add_warehouseId, #edit_warehouseId').select2({minimumResultsForSearch: -1});
 
             $('#createButton').click(function(){
                 $("#addLocationFormContainer").modal("show");

@@ -126,6 +126,8 @@
                     </div>
                     <div class="modal-footer">
                         <input type="hidden" id="templateID_id" name="id">
+                        <input type="hidden" id="templateID_companyId" name="companyId">
+
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">
                             取消
                         </button>
@@ -283,6 +285,7 @@
                     var data = responseData;
                     // 赋值
                     $("#edit_id").val(data.manual.id);
+                    $("#edit_companyId").val(data.manual.companyId);
                     $("#edit_title").val(data.manual.title);
                     $("#edit_description").val(data.manual.description);
                     $("#edit_content").val(data.manual.content);

@@ -161,9 +161,9 @@
             FormWidgets.init('add');
             FormWidgets.init('edit');
 
-            $('#add_warehouseId, #edit_warehouseId').select2();
-            $('#add_locationId, #edit_locationId').select2();
-            $('#add_partId, #edit_partId').select2();
+            $('#add_warehouseId, #edit_warehouseId').select2({minimumResultsForSearch: -1});
+            $('#add_locationId, #edit_locationId').select2({minimumResultsForSearch: -1});
+            $('#add_partId, #edit_partId').select2({minimumResultsForSearch: -1});
 
             $('#createButton').click(function(){
                 $("#addCodeValueFormContainer").modal("show");

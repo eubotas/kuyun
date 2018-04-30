@@ -90,7 +90,7 @@ Retry
         });
         var fileUuids = '';
         for (var i = 0; i < uploads.length; i++) {
-            fileUuids = fileUuids + uploads[i].uuid + ",";
+            fileUuids = fileUuids + uploads[i].uuid + "/" + uploads[i].name + "::";
         }
 
         return fileUuids;
@@ -133,7 +133,7 @@ Retry
             expected : true,
 
             //if you want cookies to be sent along with the request
-            // sendCredentials : true
+            sendCredentials : true
         }
         /* init file list
          session:{

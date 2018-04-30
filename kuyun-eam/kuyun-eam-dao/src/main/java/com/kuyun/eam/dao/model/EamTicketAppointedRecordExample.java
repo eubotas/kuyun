@@ -308,6 +308,146 @@ public class EamTicketAppointedRecordExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andAppointCommontIsNull() {
+            addCriterion("appoint_commont is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointCommontIsNotNull() {
+            addCriterion("appoint_commont is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointCommontEqualTo(String value) {
+            addCriterion("appoint_commont =", value, "appointCommont");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointCommontNotEqualTo(String value) {
+            addCriterion("appoint_commont <>", value, "appointCommont");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointCommontGreaterThan(String value) {
+            addCriterion("appoint_commont >", value, "appointCommont");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointCommontGreaterThanOrEqualTo(String value) {
+            addCriterion("appoint_commont >=", value, "appointCommont");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointCommontLessThan(String value) {
+            addCriterion("appoint_commont <", value, "appointCommont");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointCommontLessThanOrEqualTo(String value) {
+            addCriterion("appoint_commont <=", value, "appointCommont");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointCommontLike(String value) {
+            addCriterion("appoint_commont like", value, "appointCommont");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointCommontNotLike(String value) {
+            addCriterion("appoint_commont not like", value, "appointCommont");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointCommontIn(List<String> values) {
+            addCriterion("appoint_commont in", values, "appointCommont");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointCommontNotIn(List<String> values) {
+            addCriterion("appoint_commont not in", values, "appointCommont");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointCommontBetween(String value1, String value2) {
+            addCriterion("appoint_commont between", value1, value2, "appointCommont");
+            return (Criteria) this;
+        }
+
+        public Criteria andAppointCommontNotBetween(String value1, String value2) {
+            addCriterion("appoint_commont not between", value1, value2, "appointCommont");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionIsNull() {
+            addCriterion("action is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionIsNotNull() {
+            addCriterion("action is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionEqualTo(String value) {
+            addCriterion("action =", value, "action");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionNotEqualTo(String value) {
+            addCriterion("action <>", value, "action");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionGreaterThan(String value) {
+            addCriterion("action >", value, "action");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionGreaterThanOrEqualTo(String value) {
+            addCriterion("action >=", value, "action");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionLessThan(String value) {
+            addCriterion("action <", value, "action");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionLessThanOrEqualTo(String value) {
+            addCriterion("action <=", value, "action");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionLike(String value) {
+            addCriterion("action like", value, "action");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionNotLike(String value) {
+            addCriterion("action not like", value, "action");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionIn(List<String> values) {
+            addCriterion("action in", values, "action");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionNotIn(List<String> values) {
+            addCriterion("action not in", values, "action");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionBetween(String value1, String value2) {
+            addCriterion("action between", value1, value2, "action");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionNotBetween(String value1, String value2) {
+            addCriterion("action not between", value1, value2, "action");
+            return (Criteria) this;
+        }
+
         public Criteria andRejectCommontIsNull() {
             addCriterion("reject_commont is null");
             return (Criteria) this;
