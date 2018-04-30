@@ -20,11 +20,10 @@
     var echartValue = [];
     var empty = true;
     var isOnline = true;
-    var uploaderUrl = "";//sharedataApi.getUploaderUrl();
 
-    var checktab = function checktab(selecttab){
-      selectedlinetab = selecttab;
-      lineTab=selecttab.name;
+   function onChangeEquipmentModelType(selecttab){
+      selectedlinetab = selecttab.value;
+      lineTab=selecttab.value;
       getHistoryData();
     };
 
@@ -44,7 +43,7 @@
          if (state == 'ON' || state == '开启' || state == 'True')
            htmlStr='<a href="javascritp:;" class="btn green btn-info">'+state+'</a>';
          else
-           htmlStr='<a href="javascritp:;" class="btn green btn-info">'+state+unit+'</a>';
+           htmlStr='<a href="javascritp:;" class="btn green btn-info">'+fixTwo(state)+unit+'</a>';
          return htmlStr;
     };
     formatStateValue2 = function(name) {
@@ -173,7 +172,7 @@
 
       if(historyType =='line'){
         //App.startPageLoading({animate: true});
-       ajaxGet('/manage/sensor/data/list/?eId='+selectedequipid+'&sensorId='+tab.varid+'&startDate='+starttime+'&endDate='+endtime, function (result) {
+       ajaxGet('/manage/sensor/data/list/?eId='+selectedequipid+'&sensorId='+equipmentModelId+'&startDate='+starttime+'&endDate='+endtime, function (result) {
               if(result.length>0 && result.value) {
                 // console.log('gethistorydata',result.data);
                    var xdata=result.data.time;
@@ -226,7 +225,7 @@
           });
       }else if(historyType == 'table'){
           $('#historyTableParams').bootstrapTable({
-              url: '/manage/sensor/data/list/?eId='+selectedequipid+'&sensorId='+tab.varid+'&startDate='+starttime+'&endDate='+endtime,
+              url: '/manage/sensor/data/list/?eId='+selectedequipid+'&sensorId='+equipmentModelId+'&startDate='+starttime+'&endDate='+endtime,
               searchAlign: 'left',
               toolbarAlign: 'right',
               minimumCountColumns: 2,
@@ -248,7 +247,7 @@
           });
       }
         showId('echarts_line', historyType == 'line');
-        showId('historyTableParams', historyType == 'table');
+        showId('historyTableParamsDiv', historyType == 'table');
     }
 
     function formatEchartValue(origindata) {
@@ -301,12 +300,12 @@
                         color: ['#f36a5a','#2ab4c0'],
                         data: [{
                                 value: origindata[i].value,
-                                name: origindata[i].name + origindata[i].value +origindata[i].unit,
+                                name: '',
                                 selected: true
                             },
                             {
                                 value: 100-origindata[i].value,
-                                name: ''
+                                name: origindata[i].name + origindata[i].value +origindata[i].unit
                             }
                         ]
                     }
@@ -611,17 +610,18 @@
 
     function generateRunHtml() {
         var html="";
+        var total=echartValue.length;
         $.each(echartValue, function(i, val) {
-            html= html+generateRunTabHtml(val);
+            html= html+generateRunTabHtml(val, total, i);
         });
         $('#runDataList').html(html);
     }
 
-    function generateRunTabHtml(val){
+    function generateRunTabHtml(val, total, i){
         var widgetType = val.widgetType;
         var widgetName=val.widgetName;
         if("led"==widgetType){
-            return generateRunBtnHtml(widgetName, val.value, val.unit);
+            return generateRunBtnHtml(widgetName, val.value, val.unit, total, i);
         }else if("pie"==widgetType){
             return generateRunPieHtml(widgetName,'pie'+val.widgetId, val);
         }else if("guage"==widgetType){
@@ -630,8 +630,9 @@
         return "";
     }
 
-    function generateRunBtnHtml(widgetName, val, unit){
-        var html='<div class="col-md-4 m-portlet m-portlet--tab">  <div class="m-portlet__head" style="background-color:#b2b3c9;"> <div class="m-portlet__head-caption">' +
+    function generateRunBtnHtml(widgetName, val, unit, total, i){
+        var col = total<3? 6:4;
+        var html='<div class="col-md-'+col+' m-portlet m-portlet--tab">  <div class="m-portlet__head" style="background-color:#b2b3c9;"> <div class="m-portlet__head-caption">' +
                     '<div class="m-portlet__head-title">  <span class="m-portlet__head-icon m--hide"> <i class="la la-gear"></i> </span><h5 class="m-portlet__head-text">'+
                     widgetName+'</h5> </div> </div> </div>'+
                     '<div class="m-portlet__body"> <div class="led-text">'+
@@ -674,9 +675,9 @@
     }
 
     function generateBtnHtml(name, val){
-        var html= '<div class="col-md-2" style="margin-bottom:15px;"><button type="button" class="btn btn-outline-primary m-btn m-btn--outline-2x">'+
+        var html= '<div class="col-md-3" style="margin-bottom:15px;"><button type="button" class="btn btn-outline-primary m-btn m-btn--outline-2x">'+
             name+ '</button></div>'+
-            '<div class="col-md-4 value" style="margin-bottom:15px;" ><a class="btn green btn-info">'+
+            '<div class="col-md-3 value" style="margin-bottom:15px;" ><a class="btn green btn-info">'+
             val+'</a></div>';
         return html;
     }

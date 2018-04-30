@@ -10,7 +10,27 @@
 <link href="${basePath}/resources/kuyun-admin/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.css" rel="stylesheet"/>
 <script src="${basePath}/resources/kuyun-admin/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.js"></script>
 <script src="${basePath}/resources/kuyun-admin/plugins/ezuikit/ezuikit.js"></script>
+<style>
+    .btnRed {
+        border-color: #e7505a;
+        color: #e7505a !important;
+        background: none;}
 
+    .btnBlue {
+        border-color: #3598dc;
+        color: #3598dc !important;
+        background: none;}
+
+    .btnGreen {
+        border-color: #32c5d2;
+        color: #32c5d2 !important;
+        background: none;}
+
+    .btnPurple {
+        border-color: #8E44AD;
+        color: #8E44AD !important;
+        background: none;}
+</style>
 <div class="nav-tabs-horizontal" data-approve="nav-tabs">
     <div class="m-portlet m-portlet--tabs m-portlet--head-solid-bg m-portlet--head-sm">
         <div class="m-portlet__head">
@@ -69,7 +89,7 @@
                                     <div class="tab-content">
                                         <div class="tab-pane active" role="tabpanel">
                                             <div class="portlet yellow-crusta box">
-                                                <div class="portlet-body">
+                                                <div class="portlet-body" id="eqLeft">
                                                     <div class="row static-info">
                                                         <div class="col-md-5 name">设备序列号:</div>
                                                         <div class="col-md-7 value" id="serialNumber">
@@ -144,7 +164,7 @@
                                 <div class="m-portlet__body">
                                     <div class="tab-content">
                                         <div class="tab-pane active" role="tabpanel">
-                                            <div class="portlet-body" style="height:310px">
+                                            <div class="portlet-body" id="eqRight" style="min-height:100px;">
                                                 <img class="img-responsive" style="max-height:300px;" id="imagesrc" src="" alt="">
                                             </div>
 
@@ -264,19 +284,30 @@
 
                                 </div>
                             </div>
+                            <div class="m-portlet__head-tools">
+                                <ul class="nav nav-pills nav-pills--brand m-nav-pills--align-right m-nav-pills--btn-pill m-nav-pills--btn-sm" role="tablist">
+                                    <button class="btn btn-circle btn-icon-only btn-default"  onclick="changemode('line')" uib-tooltip="显示曲线">
+                                        <i class="fa fa-line-chart"></i>
+
+                                    </button>
+                                    <button class="btn btn-circle btn-icon-only btn-default"  onclick="changemode('table')" uib-tooltip="显示表格">
+                                        <i class="fa fa-table"></i>
+                                    </button>
+                                </ul>
+                            </div>
                         </div>
                         <div class="m-portlet__body">
-                            <div class="margin-top-10 margin-bottom-10 text-center row">
+                            <div class="text-center row">
                                 <div class="row">
                                 <div class="col-md-3 col-md-offset-1 margin-top-10">
-                                    <select id="equipmentModelType" name="equipmentModelType" style="width: 100%"></select>
+                                    <select id="equipmentModelType" name="equipmentModelType" onchange="onChangeEquipmentModelType(this)" style="width: 100%"></select>
                                 </div>
-                                <div class="col-md-8 margin-top-10">
+                                <div class="col-md-9 margin-top-10">
                                     <div class="input-group input-large input-daterange">
-                                        <input type="text" class="start_date input-group date form-control m-input col-md-3" readonly style="width: 150px" placeholder="选择开始时间">
+                                        <input type="text" class="start_date input-group date form-control m-input col-md-4" readonly style="width: 150px" placeholder="选择开始时间">
                                         <span class="input-group-addon"> ~ </span>
-                                        <input type="text" class="end_date input-group date form-control m-input col-md-3" readonly style="width: 150px" placeholder="选择结束时间">
-                                        <span class="input-group-btn">
+                                        <input type="text" class="end_date input-group date form-control m-input col-md-4" readonly style="width: 150px" placeholder="选择结束时间">
+                                        <span class="input-group-btn" style="padding-left: 15px">
                                                                     <button class="btn default" type="button" onclick="setCurvetime()">
                                                                         设置
                                                                     </button>
@@ -284,32 +315,25 @@
                                     </div>
                                 </div>
                                 </div>
+                                <div class="row"  style="margin-top:10px;">
                                 <div class="col-md-12 margin-top-10">
                                     <div class="margin-top-10 margin-bottom-20 text-center">
-
                                         <div class="clearfix">
-                                            <button class="btn btn-circle btn-icon-only btn-default"  onclick="changemode('line')" uib-tooltip="显示曲线">
-                                                <i class="fa fa-line-chart"></i>
-
-                                            </button>
-                                            <button class="btn btn-circle btn-icon-only btn-default"  onclick="changemode('table')" uib-tooltip="显示表格">
-                                                <i class="fa fa-table"></i>
-                                            </button>
-
-                                            <input type="button" class="btn blue btn-outline-primary m-btn m-btn--outline-2x" onclick="setHistoryTime(1)" value="最近10分钟">
-                                            <input type="button" class="btn red btn-outline-primary m-btn m-btn--outline-2x" onclick="setHistoryTime(2)" value="最近24小时">
-                                            <input type="button" class="btn green btn-outline-primary m-btn m-btn--outline-2x" onclick="setHistoryTime(3)" value="最近7天">
-                                            <input type="button" id="curveTimeBtn" class="btn purple btn-outline-primary m-btn m-btn--outline-2x" onclick="setFreeTime()"  value="自定义时间">
+                                            <input type="button" class="btn btnBlue btn-outline-primary m-btn m-btn--outline-2x" onclick="setHistoryTime(1)" value="最近10分钟">
+                                            <input type="button" class="btn btnRed btn-outline-primary m-btn m-btn--outline-2x" onclick="setHistoryTime(2)" value="最近24小时">
+                                            <input type="button" class="btn btnGreen btn-outline-primary m-btn m-btn--outline-2x" onclick="setHistoryTime(3)" value="最近7天">
+                                            <input type="button" id="curveTimeBtn" class="btn btnPurple btn-outline-primary m-btn m-btn--outline-2x" onclick="setFreeTime()"  value="自定义时间">
                                         </div>
                                     </div>
                                 </div>
-
+                                </div>
                             </div>
 
                             <div id="echarts_line" style="height: 500px" ></div>
-                            <table id="historyTableParams"  class="table table-striped table-bordered table-hover table-checkable order-column" style="margin-top: 5px" style="display:none">
+                            <div id="historyTableParamsDiv" style="margin-top: 5px;display:none;" >
+                            <table id="historyTableParams"  class="table table-striped table-bordered table-hover table-checkable order-column" >
                             </table>
-
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -344,6 +368,7 @@
                 $('#tab_equipment').addClass('active').siblings().removeClass('active');
                 $('.tab-content').find('#equipment').addClass('active').siblings().removeClass('active');
                 equipmentId = data.equipmentId;
+                equipmentModelId = data.equipmentModelId;
                 setText('serialNumber',data.serialNumber);
                 setText('equipmentId',data.equipmentId);
                 setText('equipname',data.name);
@@ -367,6 +392,7 @@
                 }
                 onlineHideShow(isOnline);
             }
+            $('#eqRight').height($('#eqLeft').height());
         });
 
     }
@@ -374,7 +400,6 @@
     function getDataModel(equipid){
         ajaxGet('${basePath}/manage/equipment/sensor/data/'+selectedequipid, function (responseData) {
                 if(responseData.code == 1) {
-                    runDataList
                     var analogflag=0,digitalflag=0;
                     var dataArr=responseData.data;
                     if(dataArr!=null && dataArr.length>0){

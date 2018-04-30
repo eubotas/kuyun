@@ -53,7 +53,7 @@
         }
     };
 
-    var selectedequipid, longitude, latitude, isOnline;
+    var selectedequipid, equipmentModelId, longitude, latitude, isOnline;
     var equipmentLocations =[];
     $(document).ready(function(){
         ajaxGet('${basePath}/manage/equipment/city/tree', function (responseData) {
