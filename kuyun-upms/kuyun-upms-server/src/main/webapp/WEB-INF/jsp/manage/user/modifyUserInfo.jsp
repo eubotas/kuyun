@@ -50,47 +50,37 @@
     <div class="m-portlet m-portlet--mobile">
         <div class="m-portlet__body" style="width:60%; padding-left:10%;">
             <form id="update_Form" class="m-form m-form--fit m-form--label-align-right">
-            <div class="form-group">
-                <label for="username">帐号 *</label>
-                <input id="username" type="text" class="form-control" name="username" maxlength="20" value="${user.username}">
+                <div class="form-group m-form__group row">
+                    <label class="col-3 col-form-label">姓名</label>
+                    <div class="col-sm-6">
+                        <input id="realname" type="text" class="form-control" name="realname">
+                    </div>
+                </div>
+            <div class="form-group m-form__group row">
+                <label class="col-3 col-form-label"for="edit_imagePath">头像</label>
+                <div class="col-sm-9">
+                    <image src='${user.avatar}' />
+                    <button type="button" class="btn btn-secondary" id="modifyImage">
+                        修改头像
+                    </button>
+                    <div id="edit_fine-uploader-gallery" class="col-sm-9" style="display: none"></div>
+                    <input id="edit_imagePath" type="hidden" class="form-control" name="avatar" value="${user.avatar}">
+                </div>
             </div>
-            <div class="form-group">
-                <label for="realname">姓名  *</label>
-                <input id="realname" type="text" class="form-control" name="realname" maxlength="20" value="${user.realname}">
+            <div class="form-group m-form__group row">
+                <label class="col-3 col-form-label">电话</label>
+                <div class="col-sm-6">
+                    <input id="phone" type="text" class="form-control" name="phone" maxlength="20" value="${user.phone}">
+                </div>
             </div>
-            <div class="form-group">
-                <label for="edit_imagePath">头像</label>
-                <image src='${user.avatar}' />
-                <button type="button" class="btn btn-secondary" id="modifyImage">
-                    修改头像
-                </button>
-                <div id="edit_fine-uploader-gallery" class="col-sm-9" style="display: none"></div>
-                <input id="edit_imagePath" type="hidden" class="form-control" name="avatar" value="${user.avatar}">
-            </div>
-            <div class="form-group">
-                <label for="phone">电话</label>
-                <input id="phone" type="text" class="form-control" name="phone" maxlength="20" value="${user.phone}">
-            </div>
-            <div class="form-group">
-                <label for="email">邮箱</label>
-                <input id="email" type="text" class="form-control" name="email" maxlength="50" value="${user.email}">
-            </div>
-            <div class="m-form__group form-group">
-                <div class="m-radio-inline">
-                    <label class="m-radio">
-                        <input id="sex_1" type="radio" name="sex" value="1" checked>男
-                        <span></span>
-                    </label>
-                    <label class="m-radio">
-                        <input id="sex_0" type="radio" name="sex" value="0">女<span></span>
-                    </label>
+            <div class="form-group m-form__group row">
+                <label class="col-3 col-form-label">邮箱</label>
+                <div class="col-sm-6">
+                    <input id="email" type="text" class="form-control" name="email" maxlength="50" value="${user.email}">
                 </div>
             </div>
             <div class="modal-footer">
                 <input type="hidden" id="edit_id" name="id" value="${user.userId}">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                    取消
-                </button>
                 <button type="submit" class="btn btn-primary" id="submit">
                     提交
                 </button>
@@ -110,8 +100,6 @@
     <script>
         $(document).ready(function()
         {
-            radioBoxcheck(${user.sex},'sex');
-            radioBoxcheck(${user.locked},'locked');
             FormWidgets.init('update');
 
             $('#modifyImage').click(function (){
@@ -128,11 +116,6 @@
             var createForm = function (formid) {
                 $("#"+formid+"_Form").validate({
                     rules: {
-                        username: {
-                            required: true,
-                            minlength: 2,
-                            maxlength: 20
-                        },
                         realname: {
                             required: true,
                             minlength: 2,
@@ -175,19 +158,7 @@
                 return "";
 
         }
-        // 格式化性别
-        function sexFormatter(value, row, index) {
-            if (value == 1) {
-                return '男';
-            }
-            if (value == 2) {
-                return '女';
-            }
-            return '-';
-        }
     </script>
-
-
 
 </pageResources>
 

@@ -338,66 +338,6 @@ public class EamDtuExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andModbusRtuPeriodIsNull() {
-            addCriterion("modbus_rtu_period is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andModbusRtuPeriodIsNotNull() {
-            addCriterion("modbus_rtu_period is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andModbusRtuPeriodEqualTo(Integer value) {
-            addCriterion("modbus_rtu_period =", value, "modbusRtuPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andModbusRtuPeriodNotEqualTo(Integer value) {
-            addCriterion("modbus_rtu_period <>", value, "modbusRtuPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andModbusRtuPeriodGreaterThan(Integer value) {
-            addCriterion("modbus_rtu_period >", value, "modbusRtuPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andModbusRtuPeriodGreaterThanOrEqualTo(Integer value) {
-            addCriterion("modbus_rtu_period >=", value, "modbusRtuPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andModbusRtuPeriodLessThan(Integer value) {
-            addCriterion("modbus_rtu_period <", value, "modbusRtuPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andModbusRtuPeriodLessThanOrEqualTo(Integer value) {
-            addCriterion("modbus_rtu_period <=", value, "modbusRtuPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andModbusRtuPeriodIn(List<Integer> values) {
-            addCriterion("modbus_rtu_period in", values, "modbusRtuPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andModbusRtuPeriodNotIn(List<Integer> values) {
-            addCriterion("modbus_rtu_period not in", values, "modbusRtuPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andModbusRtuPeriodBetween(Integer value1, Integer value2) {
-            addCriterion("modbus_rtu_period between", value1, value2, "modbusRtuPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andModbusRtuPeriodNotBetween(Integer value1, Integer value2) {
-            addCriterion("modbus_rtu_period not between", value1, value2, "modbusRtuPeriod");
-            return (Criteria) this;
-        }
-
         public Criteria andCreateUserIdIsNull() {
             addCriterion("create_user_id is null");
             return (Criteria) this;

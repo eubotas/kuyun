@@ -134,7 +134,7 @@ public class UpmsUserController extends BaseController {
                 .andUserIdEqualTo(id);
         List<UpmsUserRole> upmsUserRoles = upmsUserRoleService.selectByExample(upmsUserRoleExample);
         Map map=new HashMap();
-        map.put("upmsRoles", JspUtil.getMapList(upmsRoles,"roleId","name"));
+        map.put("upmsRoles", JspUtil.getMapList(upmsRoles,"roleId","title"));
         map.put("upmsUserRoles", JspUtil.getMapList(upmsUserRoles,"roleId","userId"));
         return map;
     }
@@ -245,7 +245,7 @@ public class UpmsUserController extends BaseController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public Object create(UpmsUser upmsUser) {
         ComplexResult result = FluentValidator.checkAll()
-                .on(upmsUser.getUsername(), new LengthValidator(1, 20, "帐号"))
+                .on(upmsUser.getPhone(), new LengthValidator(1, 20, "帐号"))
                 .on(upmsUser.getPassword(), new LengthValidator(5, 32, "密码"))
                 .on(upmsUser.getRealname(), new NotNullValidator("姓名"))
                 .doValidate()
@@ -258,6 +258,7 @@ public class UpmsUserController extends BaseController {
         upmsUser.setSalt(salt);
         upmsUser.setPassword(MD5Util.md5(upmsUser.getPassword() + upmsUser.getSalt()));
         upmsUser.setCtime(time);
+        upmsUser.setUsername(upmsUser.getPhone());
         int count = upmsUserService.insertSelective(upmsUser);
         _log.info("新增用户，主键：userId={}", upmsUser.getUserId());
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
@@ -297,7 +298,7 @@ public class UpmsUserController extends BaseController {
     @ResponseBody
     public Object update(@PathVariable("id") int id, UpmsUser upmsUser, HttpServletRequest request) {
         ComplexResult result = FluentValidator.checkAll()
-                .on(upmsUser.getUsername(), new LengthValidator(1, 20, "帐号"))
+                .on(upmsUser.getPhone(), new NotNullValidator("电话"))
                 .on(upmsUser.getRealname(), new NotNullValidator("姓名"))
                 .doValidate()
                 .result(ResultCollectors.toComplex());
@@ -307,6 +308,7 @@ public class UpmsUserController extends BaseController {
         // 不允许直接改密码
         upmsUser.setPassword(null);
         upmsUser.setUserId(id);
+        upmsUser.setUsername(upmsUser.getPhone());
         int count = upmsUserService.updateByPrimaryKeySelective(upmsUser);
         if(count >0)
             request.getSession().setAttribute("USER",upmsUser);

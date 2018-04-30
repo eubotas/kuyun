@@ -1,8 +1,6 @@
 package com.kuyun.eam.rpc.service.impl;
 
 import com.google.gson.Gson;
-import com.kuyun.common.db.DataSourceEnum;
-import com.kuyun.common.db.DynamicDataSource;
 import com.kuyun.eam.alarm.AbstractAlarmHandler;
 import com.kuyun.eam.alarm.AlarmTypeFactory;
 import com.kuyun.eam.alarm.OfflineHandler;
@@ -30,8 +28,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
-import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -105,12 +101,6 @@ public class EamApiServiceImpl implements EamApiService {
 
     @Autowired
     private EamTicketAssessmentService eamTicketAssessmentService;
-
-    @Override
-    public List<EamMaintenanceVO> selectMaintenance(EamMaintenanceVO maintenanceVO) {
-
-        return eamApiMapper.selectMaintenance(maintenanceVO);
-    }
 
     @Override
     public List<EamLocationVO> selectLocation(EamLocationVO locationVO) {

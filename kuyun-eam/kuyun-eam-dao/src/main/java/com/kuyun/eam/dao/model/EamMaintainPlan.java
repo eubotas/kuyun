@@ -9,8 +9,6 @@ public class EamMaintainPlan extends BaseEntity implements Serializable {
 
     private Integer equipmentCategoryId;
 
-    private String productLineId;
-
     private String equipmentId;
 
     /**
@@ -71,14 +69,6 @@ public class EamMaintainPlan extends BaseEntity implements Serializable {
 
     public void setEquipmentCategoryId(Integer equipmentCategoryId) {
         this.equipmentCategoryId = equipmentCategoryId;
-    }
-
-    public String getProductLineId() {
-        return productLineId;
-    }
-
-    public void setProductLineId(String productLineId) {
-        this.productLineId = productLineId;
     }
 
     public String getEquipmentId() {
@@ -145,7 +135,6 @@ public class EamMaintainPlan extends BaseEntity implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", planId=").append(planId);
         sb.append(", equipmentCategoryId=").append(equipmentCategoryId);
-        sb.append(", productLineId=").append(productLineId);
         sb.append(", equipmentId=").append(equipmentId);
         sb.append(", workContent=").append(workContent);
         sb.append(", nextMaintainDate=").append(nextMaintainDate);
@@ -171,7 +160,6 @@ public class EamMaintainPlan extends BaseEntity implements Serializable {
         EamMaintainPlan other = (EamMaintainPlan) that;
         return (this.getPlanId() == null ? other.getPlanId() == null : this.getPlanId().equals(other.getPlanId()))
             && (this.getEquipmentCategoryId() == null ? other.getEquipmentCategoryId() == null : this.getEquipmentCategoryId().equals(other.getEquipmentCategoryId()))
-            && (this.getProductLineId() == null ? other.getProductLineId() == null : this.getProductLineId().equals(other.getProductLineId()))
             && (this.getEquipmentId() == null ? other.getEquipmentId() == null : this.getEquipmentId().equals(other.getEquipmentId()))
             && (this.getWorkContent() == null ? other.getWorkContent() == null : this.getWorkContent().equals(other.getWorkContent()))
             && (this.getNextMaintainDate() == null ? other.getNextMaintainDate() == null : this.getNextMaintainDate().equals(other.getNextMaintainDate()))
@@ -193,7 +181,6 @@ public class EamMaintainPlan extends BaseEntity implements Serializable {
         int result = 1;
         result = prime * result + ((getPlanId() == null) ? 0 : getPlanId().hashCode());
         result = prime * result + ((getEquipmentCategoryId() == null) ? 0 : getEquipmentCategoryId().hashCode());
-        result = prime * result + ((getProductLineId() == null) ? 0 : getProductLineId().hashCode());
         result = prime * result + ((getEquipmentId() == null) ? 0 : getEquipmentId().hashCode());
         result = prime * result + ((getWorkContent() == null) ? 0 : getWorkContent().hashCode());
         result = prime * result + ((getNextMaintainDate() == null) ? 0 : getNextMaintainDate().hashCode());

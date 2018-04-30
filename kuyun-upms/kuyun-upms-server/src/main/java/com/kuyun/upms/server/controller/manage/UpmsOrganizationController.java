@@ -226,13 +226,6 @@ public class UpmsOrganizationController extends BaseController {
         }
     }
 
-    @ApiOperation(value = "新增组织")
-    @RequiresPermissions("upms:organization:create")
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String create(ModelMap modelMap) {
-
-        return "/manage/organization/create.jsp";
-    }
 
     @ApiOperation(value = "新增组织")
     @RequiresPermissions("upms:organization:create")
@@ -246,6 +239,8 @@ public class UpmsOrganizationController extends BaseController {
         if (!result.isSuccess()) {
             return new UpmsResult(UpmsResultConstant.INVALID_LENGTH, result.getErrors());
         }
+
+        upmsOrganization.setDeleteFlag(Boolean.FALSE);
 
         Integer id =upmsOrganization.getOrganizationId();
         int count = 0;

@@ -311,7 +311,7 @@ create table eam_parts_category
 (
    category_id          int not null auto_increment,
    name                 varchar(30),
-   organization_id      int,
+   company_id      int,
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,

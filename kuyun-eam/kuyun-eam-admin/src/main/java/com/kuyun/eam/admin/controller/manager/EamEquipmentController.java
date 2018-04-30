@@ -102,7 +102,7 @@ public class EamEquipmentController extends BaseController {
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			equipmentVO.setOrderByClause(sort + " " + order);
 		}else {
-			equipmentVO.setOrderByClause("t.equipment_model_id, t.create_time desc");
+			equipmentVO.setOrderByClause("eam_equipment.equipment_model_id, eam_equipment.create_time desc");
 		}
 
 		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();

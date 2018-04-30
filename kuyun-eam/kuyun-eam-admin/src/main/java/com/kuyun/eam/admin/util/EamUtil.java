@@ -24,7 +24,7 @@ public class EamUtil {
     public List<EamEquipmentVO> getCurrentCompanyEquipments(){
         EamEquipmentVO equipmentVO = new EamEquipmentVO();
         equipmentVO.setDeleteFlag(Boolean.FALSE);
-        equipmentVO.setOrderByClause("equipment_model_id desc");
+        equipmentVO.setOrderByClause("eam_equipment.equipment_model_id desc");
         UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
         if (company != null){
             equipmentVO.setCompanyId(company.getCompanyId());

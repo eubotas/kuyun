@@ -20,12 +20,6 @@ public class EamApiServiceMock implements EamApiService {
 
 
     @Override
-    public List<EamMaintenanceVO> selectMaintenance(EamMaintenanceVO maintenanceVO) {
-        _log.info("EamApiServiceMock => selectMaintenance");
-        return null;
-    }
-
-    @Override
     public List<EamLocationVO> selectLocation(EamLocationVO locationVO) {
         return null;
     }

@@ -32,9 +32,11 @@ public class Generator {
     }
     private static Map<String, String> ALIAS_NEEDED_TABLES = new HashMap<String,String>();
     static {
-    		ALIAS_NEEDED_TABLES.put("eam_ticket", "eam_ticket");
-    		ALIAS_NEEDED_TABLES.put("eam_ticket_type", "eam_ticket_type");
-    		ALIAS_NEEDED_TABLES.put("eam_ticket_record", "eam_ticket_record");
+            ALIAS_NEEDED_TABLES.put("eam_alarm", "eam_alarm");
+            ALIAS_NEEDED_TABLES.put("eam_equipment", "eam_equipment");
+            ALIAS_NEEDED_TABLES.put("eam_ticket", "eam_ticket");
+            ALIAS_NEEDED_TABLES.put("eam_ticket_type", "eam_ticket_type");
+            ALIAS_NEEDED_TABLES.put("eam_ticket_record", "eam_ticket_record");
     }
     /**
      * 自动代码生成

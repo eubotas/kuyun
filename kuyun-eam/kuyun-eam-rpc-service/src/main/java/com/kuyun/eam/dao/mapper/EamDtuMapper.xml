@@ -5,7 +5,6 @@
     <id column="dtu_id" jdbcType="VARCHAR" property="dtuId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="heart_data" jdbcType="VARCHAR" property="heartData" />
-    <result column="modbus_rtu_period" jdbcType="INTEGER" property="modbusRtuPeriod" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
@@ -72,8 +71,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    dtu_id, name, heart_data, modbus_rtu_period, create_user_id, create_time, update_user_id, 
-    update_time, delete_flag, company_id
+    dtu_id, name, heart_data, create_user_id, create_time, update_user_id, update_time, 
+    delete_flag, company_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamDtuExample" resultMap="BaseResultMap">
     select
@@ -115,13 +114,13 @@
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamDtu">
     insert into eam_dtu (dtu_id, name, heart_data, 
-      modbus_rtu_period, create_user_id, create_time, 
-      update_user_id, update_time, delete_flag, 
-      company_id)
+      create_user_id, create_time, update_user_id, 
+      update_time, delete_flag, company_id
+      )
     values (#{dtuId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{heartData,jdbcType=VARCHAR}, 
-      #{modbusRtuPeriod,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
-      #{companyId,jdbcType=INTEGER})
+      #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{companyId,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamDtu">
     insert into eam_dtu
@@ -134,9 +133,6 @@
       </if>
       <if test="heartData != null">
         heart_data,
-      </if>
-      <if test="modbusRtuPeriod != null">
-        modbus_rtu_period,
       </if>
       <if test="createUserId != null">
         create_user_id,
@@ -166,9 +162,6 @@
       </if>
       <if test="heartData != null">
         #{heartData,jdbcType=VARCHAR},
-      </if>
-      <if test="modbusRtuPeriod != null">
-        #{modbusRtuPeriod,jdbcType=INTEGER},
       </if>
       <if test="createUserId != null">
         #{createUserId,jdbcType=INTEGER},
@@ -208,9 +201,6 @@
       <if test="record.heartData != null">
         heart_data = #{record.heartData,jdbcType=VARCHAR},
       </if>
-      <if test="record.modbusRtuPeriod != null">
-        modbus_rtu_period = #{record.modbusRtuPeriod,jdbcType=INTEGER},
-      </if>
       <if test="record.createUserId != null">
         create_user_id = #{record.createUserId,jdbcType=INTEGER},
       </if>
@@ -239,7 +229,6 @@
     set dtu_id = #{record.dtuId,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
       heart_data = #{record.heartData,jdbcType=VARCHAR},
-      modbus_rtu_period = #{record.modbusRtuPeriod,jdbcType=INTEGER},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
@@ -258,9 +247,6 @@
       </if>
       <if test="heartData != null">
         heart_data = #{heartData,jdbcType=VARCHAR},
-      </if>
-      <if test="modbusRtuPeriod != null">
-        modbus_rtu_period = #{modbusRtuPeriod,jdbcType=INTEGER},
       </if>
       <if test="createUserId != null">
         create_user_id = #{createUserId,jdbcType=INTEGER},
@@ -287,7 +273,6 @@
     update eam_dtu
     set name = #{name,jdbcType=VARCHAR},
       heart_data = #{heartData,jdbcType=VARCHAR},
-      modbus_rtu_period = #{modbusRtuPeriod,jdbcType=INTEGER},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=INTEGER},
@@ -299,15 +284,15 @@
   <insert id="batchInsert">
     <if test="items.get(0) != null">
             insert into eam_dtu  (dtu_id, name, heart_data, 
-        modbus_rtu_period, create_user_id, create_time, 
-        update_user_id, update_time, delete_flag, 
-        company_id)
+        create_user_id, create_time, update_user_id, 
+        update_time, delete_flag, company_id
+        )
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.dtuId,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, #{item.heartData,jdbcType=VARCHAR}, 
-        #{item.modbusRtuPeriod,jdbcType=INTEGER}, #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, 
-        #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, 
-        #{item.companyId,jdbcType=INTEGER})
+        #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, 
+        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, #{item.companyId,jdbcType=INTEGER}
+        )
       </foreach>
     </if>
   </insert>

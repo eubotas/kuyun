@@ -34,9 +34,6 @@
     <!-- 配件类别 -->
     <dubbo:reference id="eamPartsCategoryService" interface="com.kuyun.eam.rpc.api.EamPartsCategoryService" mock="true"/>
 
-    <!-- 维保 -->
-    <dubbo:reference id="eamMaintenanceService" interface="com.kuyun.eam.rpc.api.EamMaintenanceService" mock="true"/>
-
     <!-- 仓库 -->
     <dubbo:reference id="eamWarehouseService" interface="com.kuyun.eam.rpc.api.EamWarehouseService" mock="true"/>
 
