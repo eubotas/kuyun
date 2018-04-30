@@ -534,8 +534,8 @@ pre {
   position: relative;
   width: 100%;
   min-height: 1px;
-  padding-right: 5px;
-  padding-left: 5px; }
+  padding-right: 15px;
+  padding-left: 15px; }
 
 .col {
   flex-basis: 0;
@@ -31137,7 +31137,7 @@ body.m-content--skin-light2 {
   -ms-transition: none;
   -o-transition: none;
   transition: none;
-  width: 185px; }
+  width: 255px; }
   .m-aside-left.m-aside-left--skin-dark {
     background-color: #2c2e3e; }
   .m-aside-left.m-aside-left--skin-light {

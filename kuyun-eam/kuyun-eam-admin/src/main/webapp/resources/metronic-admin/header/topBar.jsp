@@ -132,10 +132,15 @@
             <li class="m-nav__item m-topbar__user-profile m-topbar__user-profile--img  m-dropdown m-dropdown--medium m-dropdown--arrow m-dropdown--header-bg-fill m-dropdown--align-right m-dropdown--mobile-full-width m-dropdown--skin-light" data-dropdown-toggle="click">
                 <a href="#" class="m-nav__link m-dropdown__toggle">
 												<span class="m-topbar__userpic">
-													<img src="${basePath}${empty user.avatar? '/resources/metronic-admin/assets/app/media/img/users/user4.jpg':user.avatar}" class="m--img-rounded m--marginless m--img-centered" alt="My profile"/>
+                                                    <c:if test="${ not empty user.avatar }">
+                                                        <img src="${basePath}${user.avatar}" class="m--img-rounded m--marginless m--img-centered" alt="My profile"/>
+                                                    </c:if>
+                                                    <c:if test="${empty user.avatar }">
+													    <img src="${basePath}/resources/metronic-admin/assets/app/media/img/users/user4.jpg" class="m--img-rounded m--marginless m--img-centered" alt="My profile"/>
+                                                    </c:if>
 												</span>
-                    <span class="m-topbar__username m--hide">
-                                        ${user.realname}
+                                        <span class="m-topbar__username m--hide">
+                                                ${user.realname}
 												</span>
                 </a>
                 <div class="m-dropdown__wrapper">
@@ -143,9 +148,13 @@
                     <div class="m-dropdown__inner">
                         <div class="m-dropdown__header m--align-center" style="background: url(${basePath}/resources/metronic-admin/assets/app/media/img/misc/user_profile_bg.jpg); background-size: cover;">
                             <div class="m-card-user m-card-user--skin-dark">
-                                <div class="m-card-user__pic">${user.avatar}
-                                    <img src="${basePath}${user.avatar!='' ? user.avatar :'/resources/metronic-admin/assets/app/media/img/users/user4.jpg'}" class="m--img-rounded m--marginless" alt="" />
-
+                                <div class="m-card-user__pic">
+                                    <c:if test="${ not empty user.avatar }">
+                                        <img src="${basePath}${user.avatar}" class="m--img-rounded m--marginless" alt="My profile"/>
+                                    </c:if>
+                                    <c:if test="${empty user.avatar }">
+                                        <img src="${basePath}/resources/metronic-admin/assets/app/media/img/users/user4.jpg" class="m--img-rounded m--marginless" alt="My profile"/>
+                                    </c:if>
                                 </div>
                                 <div class="m-card-user__details">
                                                     <span class="m-card-user__name m--font-weight-500">
