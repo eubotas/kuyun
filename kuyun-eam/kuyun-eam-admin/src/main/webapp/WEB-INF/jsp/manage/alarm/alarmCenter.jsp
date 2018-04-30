@@ -20,10 +20,20 @@
         <div class="d-flex align-items-center">
             <div class="mr-auto">
                 <ul class="m-subheader__breadcrumbs m-nav m-nav--inline">
+                    <li class="m-nav__item m-nav__item--home">
+                        <a href="#" class="m-nav__link m-nav__link--icon">
+                            <i class="m-nav__link-icon la la-home"></i>
+                        </a>
+                    </li>
+                    <li class="m-nav__separator">
+                        -
+                    </li>
                     <li class="m-nav__item">
-                        <span class="m-nav__link-text">
+                        <a href="" class="m-nav__link">
+											<span class="m-nav__link-text">
 												报警中心
-						</span>
+											</span>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -60,17 +70,17 @@
                         <div class="tab-content">
                             <div class="tab-pane active show" id="currAlarm" role="tabpanel">
                                 <div class="row">
-                                    <div class="col-md-2 col-md-offset-1 margin-top-10">
+                                    <div class="col-md-3 col-md-offset-1 margin-top-10">
                                         <select id="equipments1" name="equipments" style="width: 100%">
                                             <option value="">所有</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-8 margin-top-10">
+                                    <div class="col-md-9 margin-top-10">
                                         <div class="input-group input-large input-daterange">
                                             <input type="text" id="startDate1" class="start_date input-group date form-control m-input col-md-3" readonly style="width: 150px" placeholder="选择开始时间">
                                             <span class="input-group-addon">  ~ </span>
                                             <input type="text" id="endDate1" class="end_date input-group date form-control m-input col-md-3" readonly style="width: 150px" placeholder="选择结束时间">
-                                            <span class="input-group-btn">
+                                            <span class="input-group-btn" style="padding-left:10px;">
                                                         <button class="btn default" type="button" onclick="searchCurrAlarm()">
                                                             查询
                                                         </button>
@@ -97,17 +107,17 @@
                                             <option value="CNU|CNA">已消除</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-2 col-md-offset-1 margin-top-10">
+                                    <div class="col-md-3 col-md-offset-1 margin-top-10">
                                         <select id="equipments" name="equipments" style="width: 100%">
                                             <option value="">所有</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-8 margin-top-10">
+                                    <div class="col-md-7 margin-top-10">
                                         <div class="input-group input-large input-daterange">
                                             <input type="text" id="startDate" class="start_date input-group date form-control m-input col-md-3" readonly style="width: 150px" placeholder="选择开始时间">
                                             <span class="input-group-addon">  ~ </span>
                                             <input type="text" id="endDate" class="end_date input-group date form-control m-input col-md-3" readonly style="width: 150px" placeholder="选择结束时间">
-                                            <span class="input-group-btn">
+                                            <span class="input-group-btn"  style="padding-left:10px;">
                                                         <button class="btn default" type="button" onclick="searchHistory()">
                                                             查询
                                                         </button>

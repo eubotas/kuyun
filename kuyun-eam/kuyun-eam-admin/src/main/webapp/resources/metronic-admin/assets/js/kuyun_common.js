@@ -375,6 +375,22 @@ function strReplaceAll(str, oldValue, newValue) {
     return str;
 }
 
+function fixTwo(val){
+    if(isNumber(val))
+        return (parseInt(val * Math.pow( 10, 2  ) + 0.5)/Math.pow(10,2)).toString();
+    else
+        return val;
+}
+
+function isNumber(val){
+    var regPos = /^\d+(\.\d+)?$/; //非负浮点数
+    var regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; //负浮点数
+    if(regPos.test(val) || regNeg.test(val)){
+        return true;
+    }else{
+        return false;
+    }
+}
 
 // 格式化时间
 function timeFormatterLocale(value , row, index) {
