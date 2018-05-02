@@ -131,7 +131,7 @@
         </form>
     </div>
 
-    <div class="modal fade" id="alermDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    <div class="modal fade" id="alarmDialog" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <form id="alermForm" class="m-form m-form--fit m-form--label-align-right">
             <div class="modal-dialog" role="document">
@@ -543,7 +543,7 @@
             },
             'click #alarm': function (e, value, row, index) {
                 selectEquipmentModelPropertyId = row['equipmentModelPropertyId'];
-                $("#alermDialog").modal("show");
+                $("#alarmDialog").modal("show");
                 ajaxGet('${basePath}/manage/equipment/model/property/alarm/${equipmentModel.equipmentModelId}/'+selectEquipmentModelPropertyId, function (responseData) {
                     if (responseData) {
                         var data = responseData;
@@ -588,7 +588,7 @@
                     sendErrorInfo(result);
                 } else {
                     toastr.success("报警设置成功");
-                    $('#alermDialog').modal('toggle');
+                    $('#alarmDialog').modal('toggle');
                     location.reload();
                 }
             });

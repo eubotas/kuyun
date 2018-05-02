@@ -313,6 +313,8 @@
                 searchOnEnterKey: true,
                 maintainSelected: true,
                 idField: 'userId',
+                sortOrder: 'desc',
+                sortName: 'user_id',
                 columns: [
                     {field: 'ck', checkbox: true},
                     {field: 'realname', title: '姓名'},

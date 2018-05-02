@@ -278,8 +278,7 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 	@RequestMapping(value = "/alarm/{mId}/{pId}", method = RequestMethod.GET)
 	@ResponseBody
 	public Object alarm(@PathVariable("mId") int mId, @PathVariable("pId") int pId) {
-		Map map = new HashMap();
-		buildModelMap(mId, pId, map);
+		Map map = buildHashMap(mId, pId);
 		map.put("alarmTypes", JspUtil.getMapList(Arrays.asList(AlarmType.values()),"code","name"));
 		map.put("alarmTargets", JspUtil.getMapList(Arrays.asList(AlarmTarget.values()),"code","name"));
 		map.put("users", JspUtil.getMapList(getUsers(),"userId","realname"));

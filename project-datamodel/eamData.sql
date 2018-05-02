@@ -151,11 +151,11 @@ INSERT INTO upms_permission VALUES ('431', '2', '430', '新增智库网关', '3'
 INSERT INTO upms_permission VALUES ('432', '2', '430', '编辑智库网关', '3', 'eam:grm:update', '/manage/grm/update', 'zmdi zmdi-edit', '1', '1489820178269', '1489820178269',0);
 INSERT INTO upms_permission VALUES ('433', '2', '430', '删除智库网关', '3', 'eam:grm:delete', '/manage/grm/delete', 'zmdi zmdi-close', '1', '1489820207607', '1489820207607',0);
 
-INSERT INTO upms_permission VALUES ('600', '2', '0', '维修计划', '1', null, null, 'zmdi zmdi-collection-text', 1, 1, 600,0);
-INSERT INTO upms_permission VALUES ('610', '2', '600', '维修计划', '2', 'eam:maintainPlan:read', '/manage/maintainPlan/index', NULL, 1, 1, 610,0);
-INSERT INTO upms_permission VALUES ('611', '2', '610', '维修计划', '3', 'eam:maintainPlan:create', '/manage/maintainPlan/create', NULL, 1, 1, 611,0);
-INSERT INTO upms_permission VALUES ('612', '2', '610', '维修计划', '3', 'eam:maintainPlan:update', '/manage/maintainPlan/update', NULL, 1, 1, 612,0);
-INSERT INTO upms_permission VALUES ('613', '2', '610', '维修计划', '3', 'eam:maintainPlan:delete', '/manage/maintainPlan/delete', NULL, 1, 1, 613,0);
+INSERT INTO upms_permission VALUES ('600', '2', '0', '维修计划管理', '1', null, null, 'zmdi zmdi-collection-text', 1, 1, 600,0);
+INSERT INTO upms_permission VALUES ('610', '2', '600', '维修计划管理', '2', 'eam:maintainPlan:read', '/manage/maintainPlan/index', NULL, 1, 1, 610,0);
+INSERT INTO upms_permission VALUES ('611', '2', '610', '新增维修计划', '3', 'eam:maintainPlan:create', '/manage/maintainPlan/create', NULL, 1, 1, 611,0);
+INSERT INTO upms_permission VALUES ('612', '2', '610', '编辑维修计划', '3', 'eam:maintainPlan:update', '/manage/maintainPlan/update', NULL, 1, 1, 612,0);
+INSERT INTO upms_permission VALUES ('613', '2', '610', '删除维修计划', '3', 'eam:maintainPlan:delete', '/manage/maintainPlan/delete', NULL, 1, 1, 613,0);
 
 INSERT INTO upms_permission VALUES (700,6,0,'基础数据设置',1,NULL,NULL,'zmdi zmdi-collection-text',1,100,700,0);
 INSERT INTO upms_permission VALUES ('710', '2', '700', '数据字典', '2', 'eam:codeValue:read', '/manage/codeValue/index', NULL, 1, 1, 710,0);
@@ -163,6 +163,7 @@ INSERT INTO upms_permission VALUES ('711', '2', '710', '新增数据字典', '3'
 INSERT INTO upms_permission VALUES ('712', '2', '710', '编辑数据字典', '3', 'eam:codeValue:update', '/manage/codeValue/update', 'zmdi zmdi-edit', 1, 1, 712,0);
 INSERT INTO upms_permission VALUES ('713', '2', '710', '删除数据字典', '3', 'eam:codeValue:delete', '/manage/codeValue/delete', 'zmdi zmdi-close', 1, 1, 713,0);
 
+TRUNCATE TABLE eam_code_value;
 INSERT INTO eam_code_value (id,category,code_value,code_name,description,create_user_id,create_time,update_user_id,update_time,delete_flag) VALUES (1,'MAINTAIN_PLAN_UNIT','YEAR','年','',1,'2018-01-30 09:53:16',1,'2018-01-30 09:53:16',0);
 INSERT INTO eam_code_value (id,category,code_value,code_name,description,create_user_id,create_time,update_user_id,update_time,delete_flag) VALUES (2,'MAINTAIN_PLAN_UNIT','MONTH','月','',1,'2018-01-30 09:53:39',1,'2018-01-30 09:53:39',0);
 INSERT INTO eam_code_value (id,category,code_value,code_name,description,create_user_id,create_time,update_user_id,update_time,delete_flag) VALUES (3,'MAINTAIN_PLAN_UNIT','WEEK','周','',1,'2018-01-30 09:54:03',1,'2018-01-30 09:54:03',0);

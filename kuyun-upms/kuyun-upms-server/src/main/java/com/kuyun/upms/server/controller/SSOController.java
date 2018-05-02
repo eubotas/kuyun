@@ -122,12 +122,7 @@ public class SSOController extends BaseController {
             _log.debug("认证中心帐号通过，带code回跳：{}", backurl);
             return "redirect:" + backurl;
         } else {
-            if (StringUtils.isBlank(backurl)) {
-                return "/sso/login.jsp";
-            } else {
-                handleSessionTimeOut(response);
-            }
-            return null;
+            return "/sso/login.jsp";
         }
 
     }

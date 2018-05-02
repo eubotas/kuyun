@@ -1511,6 +1511,7 @@
         var equipmentModelPropertyId = row["equipmentModelPropertyId"];
         ajaxGet('${basePath}/manage/equipment/model/property/alarm/' + equipmentModelId +'/' + equipmentModelPropertyId, function (responseData) {
             if (responseData) {
+                console.dir(responseData);
                 var equipmentModelPropertyId = responseData.equipmentModelProperties.equipmentModelPropertyId;
                 var alarmTypes = responseData.alarmTypes;
                 var alarmTargets = responseData.alarmTargets;
