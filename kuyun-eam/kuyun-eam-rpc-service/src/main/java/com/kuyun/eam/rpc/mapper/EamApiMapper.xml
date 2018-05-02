@@ -937,6 +937,7 @@
 		<result column="unit" jdbcType="VARCHAR" property="unit" />
 		<result column="data_type" jdbcType="VARCHAR" property="dataType" />
 		<result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+		<result column="grm_period" jdbcType="INTEGER" property="grmPeriod" />
 	</resultMap>
 
 	<select id="selectEamGrmVariableData" parameterType="com.kuyun.eam.vo.EamGrmVariableDataVO" resultMap="EamGrmVariableDataVOResultMap">
@@ -946,12 +947,17 @@
 		egvd.value,
 		egvd.update_time,
 		e.data_type,
-		e.id as data_element_id
+		e.id as data_element_id,
+		egv.grm_period
 		from eam_grm_variable_data egvd,
-		eam_data_element e
+		eam_data_element e,
+		eam_grm_variable egv
 		WHERE egvd.delete_flag = 0
 		AND e.delete_flag = 0
+		AND egv.delete_flag = 0
 		AND egvd.data_element_id = e.id
+		AND egvd.product_line_id = egv.product_line_id
+		AND egvd.data_element_id = egv.data_element_id
 		<if test="productLineId != null and productLineId != ''">
 			AND egvd.product_line_id = #{productLineId}
 		</if>

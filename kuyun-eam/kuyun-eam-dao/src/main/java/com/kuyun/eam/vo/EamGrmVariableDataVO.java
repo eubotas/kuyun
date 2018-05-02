@@ -16,10 +16,19 @@ public class EamGrmVariableDataVO extends EamGrmVariableData {
 
     private Integer limit;
 
+    private Integer grmPeriod;
+
     private Integer offset;
 
     private String orderByClause;
 
+    public Integer getGrmPeriod() {
+        return grmPeriod;
+    }
+
+    public void setGrmPeriod(Integer grmPeriod) {
+        this.grmPeriod = grmPeriod;
+    }
 
     public String getUnit() {
         return unit;
