@@ -537,7 +537,6 @@
 <!-- END: Left Aside -->
 <script>
     var menuSelectItem=getCookie("kuyunMenuSelectItem");
-    console.log("jsp menuSelectItem:"+menuSelectItem);
     $(document).ready(function() {
         if(!menuSelectItem || menuSelectItem==""){  //default
             $("#menu").append($("#menuDashboard").html()).append($("#menu_equiOpList").html());

@@ -14,9 +14,10 @@
 <body>
 
 <pageResources>
-    <link href="${basePath}/resources/metronic-admin/assets/js/bootstrap4-editable/css/bootstrap-editable.css" rel="stylesheet"/>
-    <script src="${basePath}/resources/metronic-admin/assets/js/bootstrap4-editable/js/bootstrap-editable.min.js"></script>
-    <script src="${basePath}/resources/metronic-admin/assets/js/bootstrap-table.1.11.1/extensions/editable/bootstrap-table-editable.min.js"></script>
+    <jsp:include page="./map.jsp" flush="true"/>
+      <script src="${basePath}/resources/metronic-admin/assets/js/bootstrap4-editable/js/bootstrap-editable.min.js"></script>
+      <script src="${basePath}/resources/metronic-admin/assets/js/bootstrap-table.1.11.1/extensions/editable/bootstrap-table-editable.min.js"></script>
+
 
     <jsp:include page="/resources/metronic-admin/file_upload.jsp" flush="true"/>
     <script>
@@ -47,6 +48,8 @@
             $('#add_province, #edit_province, #add_city, #edit_city').select2({minimumResultsForSearch: -1});
 
             $('#add_factoryDate, #add_commissioningDate, #add_warrantyStartDate, #add_warrantyEndDate, #edit_factoryDate, #edit_commissioningDate, #edit_warrantyStartDate, #edit_warrantyEndDate').datepicker({
+                todayHighlight: true,
+                autoclose:true,
                 format: "yyyy/mm/dd",
                 orientation: "top left",
                 templates: {
@@ -64,6 +67,7 @@
                         initProvinceOptions('add');
 
                     }
+                    mapInit('add');
                 });
             });
 
@@ -77,6 +81,19 @@
             addGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("add_fine-uploader-gallery")}));
             editGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("edit_fine-uploader-gallery")}));
 
+            $('#add_mapLocation').click(function(){
+                if(document.getElementById("add_mapContainer").style.display != 'none')
+                    $('#add_mapContainer').hide();
+                else
+                    $('#add_mapContainer').show();
+            });
+
+            $('#edit_mapLocation').click(function(){
+                if(document.getElementById("edit_mapContainer").style.display != 'none')
+                    $('#edit_mapContainer').hide();
+                else
+                    $('#edit_mapContainer').show();
+            });
         });
 
 
@@ -281,6 +298,7 @@
                     $("#edit_warrantyStartDate").val(changeTimeFormat(data.warrantyStartDate));
                     $("#edit_warrantyEndDate").val(changeTimeFormat(data.warrantyEndDate));
                 }
+                mapInit('edit');
             });
         }
 
@@ -510,11 +528,11 @@
                         <div class="form-group m-form__group row">
                             <label class="col-lg-2 col-form-label">地区:</label>
                             <div class="col-sm-4">
-                                <select id="templateID_province" name="province" style="width: 100%"></select>
+                                <select id="templateID_province" name="province" style="width: 100%" ></select>
                             </div>
 
                             <div class="col-sm-4">
-                                <select id="templateID_city" name="city" style="width: 100%"></select>
+                                <select id="templateID_city" name="city" style="width: 100%" ></select>
                             </div>
                         </div>
 
@@ -522,9 +540,9 @@
                             <label class="col-lg-2 col-form-label">
                                 设备位置
                             </label>
-                            <div id="templateID_addDataChangeButtonDiv">
+                            <div >
                                 <div class="col-4">
-                                    <button id="templateID_addDataChangeButton" class="btn btn-primary m-btn m-btn--icon">
+                                    <button type="button" id="templateID_mapLocation" class="btn btn-primary m-btn m-btn--icon">
 										<span>
 											<i class="flaticon-placeholder-1"></i>
 											<span>
@@ -536,6 +554,7 @@
                             </div>
                         </div>
 
+                        <div id='templateID_mapContainer' class="form-group m-form__group row" style="width:90%; height:300px; margin-left:30px; display:none;"></div>
                         <div class="form-group m-form__group row">
                             <label class="col-lg-2 col-form-label"> 经度:</label>
                             <div class="col-sm-4">
@@ -550,6 +569,8 @@
                         <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space"></div>
 
                         <div class="form-group m-form__group row">
+
+
                             <label class="col-lg-2 col-form-label">出厂日期:</label>
                             <div class="col-sm-4">
                                 <div class="input-group date" >

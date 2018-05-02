@@ -4,6 +4,13 @@ Login page
 ***/
 /* logo page */
 
+.m-footer-color{
+    background: #2c2c2c;
+    color: #959595;
+    font-size: 14px;
+}
+
+
 .user-login-6 {
   min-height: 100vh;
   background: url(../../images/bg-final.jpg) 50% 50% no-repeat;

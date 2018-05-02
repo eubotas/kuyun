@@ -14,7 +14,6 @@
     <meta name="keywords" content="设备云,电力云,光伏云,资产管理,设备管理,检修管理,运行管理,巡点检管理,物资管理,检修工程管理,监测与诊断,安监管理,工器具管理,EAM,TPM,RCM">
     <meta name="description" content="库云以“十三五规划”、“互联网+”、“中国制造2025（工业4.0）”等为政策导向，以推动“互联网+”模式下的资产管理更安全、更节约、更高效为使命，以打造互联共享的资产管理生态圈为目标，以10+年以上资产管理服务和解决方案为实践基础，以互联网、云计算、大数据、工业互联和信息安全等为技术基础，全新打造以SaaS公有云、私有云和混合云为主要商业模式的大型企业级互联网平台">
 
-    <link href="${basePath}/resources/metronic-admin/assets/vendors/base/vendors.bundle.css" rel="stylesheet" type="text/css" />
     <link href="${basePath}/resources/metronic-admin/assets/demo/default/base/style.bundle.css" rel="stylesheet" type="text/css" />
     <link rel="shortcut icon" href="${basePath}/resources/metronic-admin/assets/demo/default/media/img/logo/favicon.ico" />
 
@@ -22,11 +21,16 @@
     <link href="${basePath}/resources/metronic-admin/assets/css/login/components-rounded.css" rel="stylesheet"/>
     <link href="${basePath}/resources/metronic-admin/assets/css/login/darkblue.min.css" rel="stylesheet"/>
     <link href="${basePath}/resources/metronic-admin/assets/css/login/login-6.css" rel="stylesheet"/>
+
+    <style>
+        .form-control-feedback{min-width:150px;}
+        .form-control{with:80%;}
+    </style>
 </head>
 <body>
 <jsp:include page="/resources/metronic-admin/homeheader.jsp" flush="true"/>
 
-<div class="m-content" style="margin: 80px;">
+<div class="m-content" style="margin: 80px; min-height:695px;">
     <!--begin::Portlet-->
     <div class="m-portlet">
         <div class="m-portlet__head">
