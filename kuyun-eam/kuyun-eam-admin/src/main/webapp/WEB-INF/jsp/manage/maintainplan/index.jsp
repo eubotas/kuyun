@@ -274,6 +274,8 @@
             FormWidgets.init('edit');
 
             $('#add_nextMaintainDate, #edit_nextMaintainDate').datepicker({
+                todayHighlight: true,
+                autoclose:true,
                 format: "yyyy/mm/dd",
                 orientation: "top left",
                 templates: {

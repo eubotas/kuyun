@@ -14,21 +14,26 @@
     <meta name="keywords" content="设备云,电力云,光伏云,资产管理,设备管理,检修管理,运行管理,巡点检管理,物资管理,检修工程管理,监测与诊断,安监管理,工器具管理,EAM,TPM,RCM">
     <meta name="description" content="库云以“十三五规划”、“互联网+”、“中国制造2025（工业4.0）”等为政策导向，以推动“互联网+”模式下的资产管理更安全、更节约、更高效为使命，以打造互联共享的资产管理生态圈为目标，以10+年以上资产管理服务和解决方案为实践基础，以互联网、云计算、大数据、工业互联和信息安全等为技术基础，全新打造以SaaS公有云、私有云和混合云为主要商业模式的大型企业级互联网平台">
 
-    <link href="${basePath}/resources/metronic-admin/assets/vendors/base/vendors.bundle.css" rel="stylesheet" type="text/css" />
+
     <link href="${basePath}/resources/metronic-admin/assets/demo/default/base/style.bundle.css" rel="stylesheet" type="text/css" />
     <link rel="shortcut icon" href="${basePath}/resources/metronic-admin/assets/demo/default/media/img/logo/favicon.ico" />
-
     <link href="${basePath}/resources/kuyun-admin/plugins/bootstrap-3.3.0/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="${basePath}/resources/metronic-admin/assets/css/login/components-rounded.css" rel="stylesheet"/>
     <link href="${basePath}/resources/metronic-admin/assets/css/login/darkblue.min.css" rel="stylesheet"/>
+
     <link href="${basePath}/resources/metronic-admin/assets/css/login/login-6.css" rel="stylesheet"/>
+
+    <style>
+        .form-control-feedback{min-width:150px;}
+        .form-control{with:80%;}
+    </style>
 </head>
 <body>
+<div style="height: 100%;">
 <jsp:include page="/resources/metronic-admin/homeheader.jsp" flush="true"/>
 
-<div class="m-content" style="margin: 80px;">
+<div class="m-content" style="margin: 80px;min-height:695px;">
     <!--begin::Portlet-->
-    <div class="m-portlet">
+    <div class="m-portlet m-portlet--mobile">
         <div class="m-portlet__head">
             <div class="m-portlet__head-caption">
                 <div class="m-portlet__head-title">
@@ -41,17 +46,16 @@
         <!--begin::Form-->
         <form class="m-form m-form--fit m-form--label-align-right" name="regForm" id="regForm">
             <div class="m-portlet__body">
-                <div class="form-group m-form__group row has-danger">
+                <div class="form-group m-form__group row">
                     <label class="col-form-label col-lg-3 col-sm-12">
-                        用户名 *
+                        姓名 *
                     </label>
-                    <div class="col-lg-4 col-md-9 col-sm-12">
-                        <input type="text" class="form-control m-input" name="account" id="account" placeholder="用户名" maxlength="20"
-                               data-toggle="m-tooltip" title="" data-original-title="用户名" aria-describedby="account-error">
-                        <a class="waves-effect waves-button" href="javascript:;" onclick="checkAccount();">检查用户名可用</a>
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <input type="text" class="form-control" name="name" id="name" placeholder="姓名" maxlength="20"
+                               data-toggle="m-tooltip" title="" data-original-title="姓名" aria-describedby="name-error">
                     </div>
                 </div>
-                <div class="form-group m-form__group row has-danger">
+                <div class="form-group m-form__group row">
                     <label class="col-form-label col-lg-3 col-sm-12">
                         密码 *
                     </label>
@@ -65,34 +69,25 @@
                           </a>
                     </span>
                 </div>
-                <div class="form-group m-form__group row has-danger">
-                    <label class="col-form-label col-lg-3 col-sm-12">
-                        姓名 *
-                    </label>
-                    <div class="col-lg-4 col-md-9 col-sm-12">
-                        <input type="text" class="form-control m-input" name="name" id="name" placeholder="姓名" maxlength="20"
-                               data-toggle="m-tooltip" title="" data-original-title="姓名" aria-describedby="name-error">
-                    </div>
-                </div>
-                <div class="form-group m-form__group row has-danger">
+                <div class="form-group m-form__group row">
                     <label class="col-form-label col-lg-3 col-sm-12">
                         公司名称 *
                     </label>
-                    <div class="col-lg-4 col-md-9 col-sm-12">
-                        <input type="text" class="form-control m-input" name="company" id="company" placeholder="公司名称" maxlength="30"
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <input type="text" class="form-control m-input " name="company" id="company" placeholder="公司名称" maxlength="30"
                                data-toggle="m-tooltip" title="" data-original-title="公司名称" aria-describedby="company-error">
                     </div>
                 </div>
-                <div class="form-group m-form__group row has-danger">
+                <div class="form-group m-form__group row">
                     <label class="col-form-label col-lg-3 col-sm-12">
                         邮箱 *
                     </label>
-                    <div class="col-lg-4 col-md-9 col-sm-12">
-                        <input type="text" class="form-control m-input" name="email" placeholder="邮箱" maxlength="50"
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <input type="text" class="form-control m-input " name="email" placeholder="邮箱" maxlength="50"
                                data-toggle="m-tooltip" title="" data-original-title="邮箱" aria-describedby="email-error">
                     </div>
                 </div>
-                <div class="form-group m-form__group row has-danger">
+                <div class="form-group m-form__group row">
                     <label class="col-form-label col-lg-3 col-sm-12">
                         电话 *
                     </label>
@@ -102,16 +97,16 @@
                     </div>
                     <a href="javascript:;" class="btn blue ng-binding" id="smsSendBtn" onclick="smsToSend()">获取验证码</a>
                 </div>
-                <div class="form-group m-form__group row has-danger">
+                <div class="form-group m-form__group row">
                     <label class="col-form-label col-lg-3 col-sm-12">
                         验证码 *
                     </label>
-                    <div class="col-lg-4 col-md-9 col-sm-12">
-                        <input type="text" class="form-control m-input" name="code" id="code" placeholder="验证码" maxlength="10"
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <input type="text" class="form-control m-input " name="code" id="code" placeholder="验证码" maxlength="10"
                                data-toggle="m-tooltip" title="" data-original-title="验证码" aria-describedby="code-error">
                     </div>
                 </div>
-                <div class="form-group m-form__group row has-danger">
+                <div class="form-group m-form__group row">
                     <label class=" col-md-offset-3  mt-checkbox mt-checkbox-outline">
                         <input type="checkbox" name="agree" id="agree" ng-model="formData.agree" value="1" class="ng-pristine ng-untouched ng-valid">同意
                         <a href="/#myModal_autocomplete" data-toggle="modal">用户协议
@@ -133,9 +128,11 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </form>
         <!--end::Form-->
+
     </div>
 
 </div>
@@ -186,19 +183,21 @@
         });
     }
 
-    function checkAccount() {
+    function checkAccount(account) {
         $.ajax({
             type: 'post',
             url: '${basePath}/sso/check_user_name',
-            data: {account: $("#account").val()},
+            data: {account: account},
             beforeSend: function() {
                 if ($('#account').val() == '') {
                     $('#account').focus();
                     swWarn("请填入手机号码");
+                    $('#smsSendBtn').attr("disbled","false");
                     return false;
                 }
             },
             success: function(result) {
+                $('#smsSendBtn').attr("disbled","false");
                 if (result.code != 1) {
                     if (result.data instanceof Array) {
                         $.each(result.data, function(index, value) {
@@ -207,11 +206,10 @@
                     } else {
                         swWarn(result.data);
                     }
-                } else {
-                    swWarn(result.data);
                 }
             },
             error: function(XMLHttpRequest, textStatus, errorThrown) {
+                $('#smsSendBtn').attr("disbled","false");
                 swWarn(textStatus);
             }
         });
@@ -236,10 +234,6 @@
         var createForm = function (formid) {
             $("#"+formid).validate({
                 rules: {
-                    account: {
-                        required: true,
-                        maxlength: 20
-                    },
                     password: {
                         required: true,
                         maxlength: 20
@@ -285,6 +279,11 @@
     $(document).ready(function() {
         FormWidgets.init('regForm');
 
+        $('#phone').blur(function(){
+            $('#smsSendBtn').attr("disbled","true");
+            checkAccount($('#phone').val());
+        });
+
         $('#goLogin').click(function() {
             window.location.href = '${basePath}/sso/login';
         });
@@ -298,5 +297,6 @@
 <script src="${basePath}/resources/metronic-admin/assets/demo/default/base/scripts.bundle.js" type="text/javascript"></script>
 
 <jsp:include page="/resources/metronic-admin/homefooter.jsp" flush="true"/>
+</div>
 </body>
 </html>

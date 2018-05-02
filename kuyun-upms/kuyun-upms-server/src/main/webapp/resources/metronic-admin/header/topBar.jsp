@@ -210,6 +210,11 @@
     //refreshAlarm();
     //setInterval(function(){ refreshAlarm(); }, refreshTime);
 
+    <%--ajaxGet('${eamPath}/manage/ticket/update/11', function (responseData) {--%>
+        <%--if (responseData) {--%>
+        <%--}--%>
+    <%--});--%>
+
     function refreshAlarm(){
         ajaxGet('${eamPath}/manage/alarm/list', function (responseData) {
             if (responseData) {

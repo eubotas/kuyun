@@ -181,7 +181,7 @@
                    for(var i=0; i<xdata.length;i++){
                      xdata[i]=(new Date(xdata[i])).format('yyyy/MM/dd h:m:s');
                    }
-                   App.stopPageLoading();
+                   //App.stopPageLoading();
                    if(ydata.length>0){
                      linechartoption={
                          tooltip: {
