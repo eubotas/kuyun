@@ -82,17 +82,23 @@
             editGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("edit_fine-uploader-gallery")}));
 
             $('#add_mapLocation').click(function(){
-                if(document.getElementById("add_mapContainer").style.display != 'none')
+                if(document.getElementById("add_mapContainer").style.display != 'none') {
                     $('#add_mapContainer').hide();
-                else
+                    $('#add_detailAddr').hide();
+                }else {
                     $('#add_mapContainer').show();
+                    $('#add_detailAddr').show();
+                }
             });
 
             $('#edit_mapLocation').click(function(){
-                if(document.getElementById("edit_mapContainer").style.display != 'none')
+                if(document.getElementById("edit_mapContainer").style.display != 'none') {
                     $('#edit_mapContainer').hide();
-                else
+                    $('#edit_detailAddr').hide();
+                }else {
                     $('#edit_mapContainer').show();
+                    $('#edit_detailAddr').show();
+                }
             });
         });
 
@@ -528,11 +534,12 @@
                         <div class="form-group m-form__group row">
                             <label class="col-lg-2 col-form-label">地区:</label>
                             <div class="col-sm-4">
-                                <select id="templateID_province" name="province" style="width: 100%" ></select>
+                               <%-- <input id="templateID_province" type="hide" name="province" >--%>
+                                <select id="templateID_province" name="province" onchange="changeCity(this)" style="width: 100%" ></select>
                             </div>
 
                             <div class="col-sm-4">
-                                <select id="templateID_city" name="city" style="width: 100%" ></select>
+                                <select id="templateID_city" name="city" onchange="changeCity(this)" style="width: 100%" ></select>
                             </div>
                         </div>
 
@@ -555,6 +562,7 @@
                         </div>
 
                         <div id='templateID_mapContainer' class="form-group m-form__group row" style="width:90%; height:300px; margin-left:30px; display:none;"></div>
+                        <div id='templateID_detailAddr' style="width:90%; margin-left:30px; display:none;"></div>
                         <div class="form-group m-form__group row">
                             <label class="col-lg-2 col-form-label"> 经度:</label>
                             <div class="col-sm-4">
