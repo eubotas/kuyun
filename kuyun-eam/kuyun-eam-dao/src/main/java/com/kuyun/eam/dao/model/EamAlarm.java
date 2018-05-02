@@ -129,8 +129,8 @@ public class EamAlarm extends BaseEntity implements Serializable {
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()))
-            && (this.getIsCreateTicket() == null ? other.getIsCreateTicket() == null : this.getIsCreateTicket().equals(other.getIsCreateTicket()));
+            && (this.getIsCreateTicket() == null ? other.getIsCreateTicket() == null : this.getIsCreateTicket().equals(other.getIsCreateTicket()))
+            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()));
     }
 
     @Override
@@ -149,8 +149,8 @@ public class EamAlarm extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
-        result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
         result = prime * result + ((getIsCreateTicket() == null) ? 0 : getIsCreateTicket().hashCode());
+        result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
         return result;
     }
 }

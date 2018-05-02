@@ -34,7 +34,7 @@ LOOP
        LEAVE inner_loop;
     end IF;
      
-      insert upms_user_permission(user_id, permission_id, type) values(v_user_id, v_permission_id, 1);
+      insert upms_user_permission(user_id, permission_id, type, delete_flag) values(v_user_id, v_permission_id, 1, 0);
 
    
   

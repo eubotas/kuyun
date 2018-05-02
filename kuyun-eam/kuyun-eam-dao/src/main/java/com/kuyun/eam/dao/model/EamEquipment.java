@@ -12,6 +12,8 @@ public class EamEquipment extends EamEquipmentBase implements Serializable {
 
     private Integer equipmentModelId;
 
+    private Integer equipmentCategoryId;
+
     private String name;
 
     private String number;
@@ -38,6 +40,13 @@ public class EamEquipment extends EamEquipmentBase implements Serializable {
     private String collectStatus;
 
     /**
+     * Modbus RTU 从站地址
+     *
+     * @mbg.generated
+     */
+    private Integer salveId;
+
+    /**
      * Modbus RTU
      *
      * @mbg.generated
@@ -45,18 +54,11 @@ public class EamEquipment extends EamEquipmentBase implements Serializable {
     private String heartData;
 
     /**
-     * 巨控设备ID
+     * Modbus RTU
      *
      * @mbg.generated
      */
-    private String grm;
-
-    /**
-     * 巨控设备密码
-     *
-     * @mbg.generated
-     */
-    private String grmPassword;
+    private Integer modbusRtuPeriod;
 
     /**
      * 巨控采集频率单位秒
@@ -77,17 +79,6 @@ public class EamEquipment extends EamEquipmentBase implements Serializable {
 
     private Boolean isOnline;
 
-    private Integer modbusRtuPeriod;
-
-    /**
-     * Modbus RTU 从站地址
-     *
-     * @mbg.generated
-     */
-    private Integer salveId;
-
-    private Integer equipmentCategoryId;
-
     private static final long serialVersionUID = 1L;
 
     public String getEquipmentId() {
@@ -104,6 +95,14 @@ public class EamEquipment extends EamEquipmentBase implements Serializable {
 
     public void setEquipmentModelId(Integer equipmentModelId) {
         this.equipmentModelId = equipmentModelId;
+    }
+
+    public Integer getEquipmentCategoryId() {
+        return equipmentCategoryId;
+    }
+
+    public void setEquipmentCategoryId(Integer equipmentCategoryId) {
+        this.equipmentCategoryId = equipmentCategoryId;
     }
 
     public String getName() {
@@ -186,6 +185,14 @@ public class EamEquipment extends EamEquipmentBase implements Serializable {
         this.collectStatus = collectStatus;
     }
 
+    public Integer getSalveId() {
+        return salveId;
+    }
+
+    public void setSalveId(Integer salveId) {
+        this.salveId = salveId;
+    }
+
     public String getHeartData() {
         return heartData;
     }
@@ -194,20 +201,12 @@ public class EamEquipment extends EamEquipmentBase implements Serializable {
         this.heartData = heartData;
     }
 
-    public String getGrm() {
-        return grm;
+    public Integer getModbusRtuPeriod() {
+        return modbusRtuPeriod;
     }
 
-    public void setGrm(String grm) {
-        this.grm = grm;
-    }
-
-    public String getGrmPassword() {
-        return grmPassword;
-    }
-
-    public void setGrmPassword(String grmPassword) {
-        this.grmPassword = grmPassword;
+    public void setModbusRtuPeriod(Integer modbusRtuPeriod) {
+        this.modbusRtuPeriod = modbusRtuPeriod;
     }
 
     public Integer getGrmPeriod() {
@@ -266,30 +265,6 @@ public class EamEquipment extends EamEquipmentBase implements Serializable {
         this.isOnline = isOnline;
     }
 
-    public Integer getModbusRtuPeriod() {
-        return modbusRtuPeriod;
-    }
-
-    public void setModbusRtuPeriod(Integer modbusRtuPeriod) {
-        this.modbusRtuPeriod = modbusRtuPeriod;
-    }
-
-    public Integer getSalveId() {
-        return salveId;
-    }
-
-    public void setSalveId(Integer salveId) {
-        this.salveId = salveId;
-    }
-
-    public Integer getEquipmentCategoryId() {
-        return equipmentCategoryId;
-    }
-
-    public void setEquipmentCategoryId(Integer equipmentCategoryId) {
-        this.equipmentCategoryId = equipmentCategoryId;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -298,6 +273,7 @@ public class EamEquipment extends EamEquipmentBase implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", equipmentId=").append(equipmentId);
         sb.append(", equipmentModelId=").append(equipmentModelId);
+        sb.append(", equipmentCategoryId=").append(equipmentCategoryId);
         sb.append(", name=").append(name);
         sb.append(", number=").append(number);
         sb.append(", serialNumber=").append(serialNumber);
@@ -308,9 +284,9 @@ public class EamEquipment extends EamEquipmentBase implements Serializable {
         sb.append(", city=").append(city);
         sb.append(", user=").append(user);
         sb.append(", collectStatus=").append(collectStatus);
+        sb.append(", salveId=").append(salveId);
         sb.append(", heartData=").append(heartData);
-        sb.append(", grm=").append(grm);
-        sb.append(", grmPassword=").append(grmPassword);
+        sb.append(", modbusRtuPeriod=").append(modbusRtuPeriod);
         sb.append(", grmPeriod=").append(grmPeriod);
         sb.append(", factoryDate=").append(factoryDate);
         sb.append(", commissioningDate=").append(commissioningDate);
@@ -318,9 +294,6 @@ public class EamEquipment extends EamEquipmentBase implements Serializable {
         sb.append(", warrantyEndDate=").append(warrantyEndDate);
         sb.append(", maintenancePeriod=").append(maintenancePeriod);
         sb.append(", isOnline=").append(isOnline);
-        sb.append(", modbusRtuPeriod=").append(modbusRtuPeriod);
-        sb.append(", salveId=").append(salveId);
-        sb.append(", equipmentCategoryId=").append(equipmentCategoryId);
         sb.append("]");
         return sb.toString();
     }
@@ -339,6 +312,7 @@ public class EamEquipment extends EamEquipmentBase implements Serializable {
         EamEquipment other = (EamEquipment) that;
         return (this.getEquipmentId() == null ? other.getEquipmentId() == null : this.getEquipmentId().equals(other.getEquipmentId()))
             && (this.getEquipmentModelId() == null ? other.getEquipmentModelId() == null : this.getEquipmentModelId().equals(other.getEquipmentModelId()))
+            && (this.getEquipmentCategoryId() == null ? other.getEquipmentCategoryId() == null : this.getEquipmentCategoryId().equals(other.getEquipmentCategoryId()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
             && (this.getNumber() == null ? other.getNumber() == null : this.getNumber().equals(other.getNumber()))
             && (this.getSerialNumber() == null ? other.getSerialNumber() == null : this.getSerialNumber().equals(other.getSerialNumber()))
@@ -349,9 +323,9 @@ public class EamEquipment extends EamEquipmentBase implements Serializable {
             && (this.getCity() == null ? other.getCity() == null : this.getCity().equals(other.getCity()))
             && (this.getUser() == null ? other.getUser() == null : this.getUser().equals(other.getUser()))
             && (this.getCollectStatus() == null ? other.getCollectStatus() == null : this.getCollectStatus().equals(other.getCollectStatus()))
+            && (this.getSalveId() == null ? other.getSalveId() == null : this.getSalveId().equals(other.getSalveId()))
             && (this.getHeartData() == null ? other.getHeartData() == null : this.getHeartData().equals(other.getHeartData()))
-            && (this.getGrm() == null ? other.getGrm() == null : this.getGrm().equals(other.getGrm()))
-            && (this.getGrmPassword() == null ? other.getGrmPassword() == null : this.getGrmPassword().equals(other.getGrmPassword()))
+            && (this.getModbusRtuPeriod() == null ? other.getModbusRtuPeriod() == null : this.getModbusRtuPeriod().equals(other.getModbusRtuPeriod()))
             && (this.getGrmPeriod() == null ? other.getGrmPeriod() == null : this.getGrmPeriod().equals(other.getGrmPeriod()))
             && (this.getFactoryDate() == null ? other.getFactoryDate() == null : this.getFactoryDate().equals(other.getFactoryDate()))
             && (this.getCommissioningDate() == null ? other.getCommissioningDate() == null : this.getCommissioningDate().equals(other.getCommissioningDate()))
@@ -363,10 +337,7 @@ public class EamEquipment extends EamEquipmentBase implements Serializable {
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getIsOnline() == null ? other.getIsOnline() == null : this.getIsOnline().equals(other.getIsOnline()))
-            && (this.getModbusRtuPeriod() == null ? other.getModbusRtuPeriod() == null : this.getModbusRtuPeriod().equals(other.getModbusRtuPeriod()))
-            && (this.getSalveId() == null ? other.getSalveId() == null : this.getSalveId().equals(other.getSalveId()))
-            && (this.getEquipmentCategoryId() == null ? other.getEquipmentCategoryId() == null : this.getEquipmentCategoryId().equals(other.getEquipmentCategoryId()));
+            && (this.getIsOnline() == null ? other.getIsOnline() == null : this.getIsOnline().equals(other.getIsOnline()));
     }
 
     @Override
@@ -375,6 +346,7 @@ public class EamEquipment extends EamEquipmentBase implements Serializable {
         int result = 1;
         result = prime * result + ((getEquipmentId() == null) ? 0 : getEquipmentId().hashCode());
         result = prime * result + ((getEquipmentModelId() == null) ? 0 : getEquipmentModelId().hashCode());
+        result = prime * result + ((getEquipmentCategoryId() == null) ? 0 : getEquipmentCategoryId().hashCode());
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         result = prime * result + ((getNumber() == null) ? 0 : getNumber().hashCode());
         result = prime * result + ((getSerialNumber() == null) ? 0 : getSerialNumber().hashCode());
@@ -385,9 +357,9 @@ public class EamEquipment extends EamEquipmentBase implements Serializable {
         result = prime * result + ((getCity() == null) ? 0 : getCity().hashCode());
         result = prime * result + ((getUser() == null) ? 0 : getUser().hashCode());
         result = prime * result + ((getCollectStatus() == null) ? 0 : getCollectStatus().hashCode());
+        result = prime * result + ((getSalveId() == null) ? 0 : getSalveId().hashCode());
         result = prime * result + ((getHeartData() == null) ? 0 : getHeartData().hashCode());
-        result = prime * result + ((getGrm() == null) ? 0 : getGrm().hashCode());
-        result = prime * result + ((getGrmPassword() == null) ? 0 : getGrmPassword().hashCode());
+        result = prime * result + ((getModbusRtuPeriod() == null) ? 0 : getModbusRtuPeriod().hashCode());
         result = prime * result + ((getGrmPeriod() == null) ? 0 : getGrmPeriod().hashCode());
         result = prime * result + ((getFactoryDate() == null) ? 0 : getFactoryDate().hashCode());
         result = prime * result + ((getCommissioningDate() == null) ? 0 : getCommissioningDate().hashCode());
@@ -400,9 +372,6 @@ public class EamEquipment extends EamEquipmentBase implements Serializable {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getIsOnline() == null) ? 0 : getIsOnline().hashCode());
-        result = prime * result + ((getModbusRtuPeriod() == null) ? 0 : getModbusRtuPeriod().hashCode());
-        result = prime * result + ((getSalveId() == null) ? 0 : getSalveId().hashCode());
-        result = prime * result + ((getEquipmentCategoryId() == null) ? 0 : getEquipmentCategoryId().hashCode());
         return result;
     }
 }

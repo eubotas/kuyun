@@ -94,17 +94,17 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group m-form__group row">
-                            <label for="templateID_name" class="form-control-label">
-                                名称: *
-                            </label>
-                            <input type="text" class="form-control" id="templateID_name" name="name">
+                            <label class="col-2 col-form-label">名称:*</label>
+                            <div class="col-8">
+                                <input id="templateID_name" type="text" class="form-control" name="name">
+                            </div>
                         </div>
 
-                        <div class="form-group m-form__group">
-                            <label for="templateID_description" class="form-control-label">
-                                描述: *
-                            </label>
-                            <textarea class="form-control" id="templateID_description" name="description" rows="6"></textarea>
+                        <div class="form-group m-form__group row">
+                            <label class="col-2 col-form-label">描述:*</label>
+                            <div class="col-8">
+                                <textarea class="form-control m-input m-input--air" id="templateID_description"  name="description" rows="4"></textarea>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -124,29 +124,26 @@
 
     <div id="assignPersonDialog" class="crudDialog modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <form id="personForm" class="m-form m-form--fit m-form--label-align-right">
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content" style="padding:20px">
                 <div class="modal-header">
                     <h5 class="modal-title" >
                         员工列表
                     </h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">
-												&times;
-											</span>
+                        <span aria-hidden="true">
+                            &times;
+                        </span>
                     </button>
                 </div>
-                <div class="form-group text-right dialog-buttons">
-                    <button type="button" onclick="assignPersonSubmit();" class="btn btn-primary" >确认分配</button>
-                </div>
 
-                <div>
+                <div class="modal-body">
                     <table id="tableStaff"></table>
                 </div>
 
-                <div class="form-group text-right dialog-buttons">
-                    <button type="button" onclick="assignPersonSubmit();" class="btn btn-primary" >确认分配</button>
+                <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"> 取消 </button>
+                    <button type="button" onclick="assignPersonSubmit();" class="btn btn-primary" >确认分配</button>
                 </div>
             </div>
         </div>
@@ -155,29 +152,26 @@
 
     <div id="assignRoleDialog" class="crudDialog modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <form id="roleForm" class="m-form m-form--fit m-form--label-align-right">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content" style="padding:20px">
                     <div class="modal-header">
                         <h5 class="modal-title" >
                             角色列表
                         </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">
-												&times;
-											</span>
+                            <span aria-hidden="true">
+                                &times;
+                            </span>
                         </button>
                     </div>
-                    <div class="form-group text-right dialog-buttons">
-                        <button type="button" onclick="assignRoleSubmit();" class="btn btn-primary" >确认分配角色</button>
-                    </div>
 
-                    <div>
+                    <div class="modal-body">
                         <table id="tableRole"></table>
                     </div>
 
-                    <div class="form-group text-right dialog-buttons">
-                        <button type="button" onclick="assignRoleSubmit();" class="btn btn-primary" >确认分配角色</button>
+                    <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"> 取消 </button>
+                        <button type="button" onclick="assignRoleSubmit();" class="btn btn-primary" >确认分配角色</button>
                     </div>
                 </div>
             </div>
@@ -235,6 +229,8 @@
                 searchOnEnterKey: true,
                 maintainSelected: true,
                 idField: 'organizationId',
+                sortOrder: 'desc',
+                sortName: 'organization_id',
                 columns: [
                     {field: 'ck', checkbox: true},
                     {field: 'name', title: '部门名称'},
@@ -248,8 +244,8 @@
             return [
                 '<shiro:hasPermission name="upms:organization:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
                 '<shiro:hasPermission name="upms:organization:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="upms:organization:delete"><a id="assignPerson" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="分配人员">	<i class="la la-user-plus"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="upms:organization:delete"><a id="assignRole" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="分配角色">	<i class="la la-chevron-circle-right"></i>	</a></shiro:hasPermission>'
+                '<shiro:hasPermission name="upms:organization:update"><a id="assignPerson" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="分配人员">	<i class="la la-user-plus"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="upms:organization:update"><a id="assignRole" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="分配角色">	<i class="la la-chevron-circle-right"></i>	</a></shiro:hasPermission>'
             ].join('');
         }
 

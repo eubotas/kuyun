@@ -12,17 +12,11 @@
 
     <jsp:include page="/resources/metronic-admin/leftAside.jsp" flush="true"/>
 
-
     <div class="m-grid__item m-grid__item--fluid m-wrapper">
 
         <sitemesh:write property='subHeader' />
 
         <sitemesh:write property='content' />
-
-        <%--<jsp:include page="/resources/metronic-admin/subHeader.jsp" flush="true"/>--%>
-
-        <%--<jsp:include page="/resources/metronic-admin/content.jsp" flush="true"/>--%>
-
 
     </div>
 </div>

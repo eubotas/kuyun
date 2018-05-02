@@ -1,18 +1,17 @@
 package com.kuyun.eam.rpc.mapper;
 
-import java.util.HashMap;
-import java.util.List;
-
-import com.kuyun.eam.dao.model.*;
-import com.kuyun.eam.pojo.sensor.SensorGroup;
+import com.kuyun.eam.dao.model.EamAlarm;
+import com.kuyun.eam.dao.model.EamSensorData;
+import com.kuyun.eam.dao.model.EamTicketAppointedRecordExample;
+import com.kuyun.eam.dao.model.EamTicketExample;
 import com.kuyun.eam.vo.*;
+
+import java.util.List;
 
 /**
  * Created by user on 4/24/2017.
  */
 public interface EamApiMapper {
-
-    List<EamMaintenanceVO> selectMaintenance(EamMaintenanceVO maintenanceVO);
 
     List<EamLocationVO> selectLocation(EamLocationVO locationVO);
 

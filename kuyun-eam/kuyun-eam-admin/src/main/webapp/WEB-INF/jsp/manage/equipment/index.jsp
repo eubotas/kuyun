@@ -177,7 +177,7 @@
                 maintainSelected: true,
                 idField: 'equipmentId',
                 sortOrder: 'desc',
-                sortName: 't.create_time',
+                sortName: 'eam_equipment.create_time',
                 columns: [
                     {field: 'ck', checkbox: true},
                     {field: 'number', title: '设备编号'},

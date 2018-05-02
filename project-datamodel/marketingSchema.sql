@@ -2,10 +2,6 @@ use kuyun;
 SET FOREIGN_KEY_CHECKS=0;
 
 drop table if exists mkt_sms_setting;
-drop table if exists mkt_sms_template;
-drop table if exists mkt_sms;
-drop table if exists mkt_sms_user;
-
 create table mkt_sms_setting
 (
    id                   int not null auto_increment,
@@ -19,8 +15,9 @@ create table mkt_sms_setting
    update_time          datetime comment '更新时间',
    delete_flag          boolean,
    primary key (id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+drop table if exists mkt_sms_template;
 create table mkt_sms_template
 (
    id                   int not null auto_increment,
@@ -35,8 +32,9 @@ create table mkt_sms_template
    update_time          datetime comment '更新时间',
    delete_flag          boolean,
    primary key (id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+drop table if exists mkt_sms;
 create table mkt_sms
 (
    id                   int not null auto_increment,
@@ -49,8 +47,9 @@ create table mkt_sms
    update_time          datetime comment '更新时间',
    delete_flag          boolean,
    primary key (id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+drop table if exists mkt_sms_user;
 create table mkt_sms_user
 (
    id                   int not null auto_increment,
@@ -63,5 +62,5 @@ create table mkt_sms_user
    update_time          datetime comment '更新时间',
    delete_flag          boolean,
    primary key (id)
-);
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

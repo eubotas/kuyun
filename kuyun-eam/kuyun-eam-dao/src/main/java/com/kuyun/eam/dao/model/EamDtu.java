@@ -15,13 +15,6 @@ public class EamDtu extends BaseEntity implements Serializable {
      */
     private String heartData;
 
-    /**
-     * 采集频率
-     *
-     * @mbg.generated
-     */
-    private Integer modbusRtuPeriod;
-
     private static final long serialVersionUID = 1L;
 
     public String getDtuId() {
@@ -48,14 +41,6 @@ public class EamDtu extends BaseEntity implements Serializable {
         this.heartData = heartData;
     }
 
-    public Integer getModbusRtuPeriod() {
-        return modbusRtuPeriod;
-    }
-
-    public void setModbusRtuPeriod(Integer modbusRtuPeriod) {
-        this.modbusRtuPeriod = modbusRtuPeriod;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -65,7 +50,6 @@ public class EamDtu extends BaseEntity implements Serializable {
         sb.append(", dtuId=").append(dtuId);
         sb.append(", name=").append(name);
         sb.append(", heartData=").append(heartData);
-        sb.append(", modbusRtuPeriod=").append(modbusRtuPeriod);
         sb.append("]");
         return sb.toString();
     }
@@ -85,7 +69,6 @@ public class EamDtu extends BaseEntity implements Serializable {
         return (this.getDtuId() == null ? other.getDtuId() == null : this.getDtuId().equals(other.getDtuId()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
             && (this.getHeartData() == null ? other.getHeartData() == null : this.getHeartData().equals(other.getHeartData()))
-            && (this.getModbusRtuPeriod() == null ? other.getModbusRtuPeriod() == null : this.getModbusRtuPeriod().equals(other.getModbusRtuPeriod()))
             && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
@@ -101,7 +84,6 @@ public class EamDtu extends BaseEntity implements Serializable {
         result = prime * result + ((getDtuId() == null) ? 0 : getDtuId().hashCode());
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
         result = prime * result + ((getHeartData() == null) ? 0 : getHeartData().hashCode());
-        result = prime * result + ((getModbusRtuPeriod() == null) ? 0 : getModbusRtuPeriod().hashCode());
         result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());

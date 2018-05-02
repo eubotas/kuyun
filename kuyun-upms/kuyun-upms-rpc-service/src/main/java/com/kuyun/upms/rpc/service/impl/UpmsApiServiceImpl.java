@@ -481,8 +481,8 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     }
 
     @Override
-    public Long getUsersCountByOrg(int orgId) {
-        return upmsApiMapper.getUsersCountByOrg(orgId);
+    public Long getUsersCountByOrg(UpmsOrgUserVo orgUserVo) {
+        return upmsApiMapper.getUsersCountByOrg(orgUserVo);
     }
 
     @Override
@@ -491,8 +491,8 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     }
 
     @Override
-    public Long getRoleCountByOrg(int orgId) {
-        return upmsApiMapper.getRoleCountByOrgId(orgId);
+    public Long getRoleCountByOrg(UpmsOrgRoleVo orgRoleVo) {
+        return upmsApiMapper.getRoleCountByOrgId(orgRoleVo);
     }
 
     @Override

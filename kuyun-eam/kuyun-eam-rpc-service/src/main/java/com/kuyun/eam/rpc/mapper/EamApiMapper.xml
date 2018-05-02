@@ -2,51 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kuyun.eam.rpc.mapper.EamApiMapper">
 
-	<resultMap id="EamMaintenanceVOResultMap" type="com.kuyun.eam.vo.EamMaintenanceVO" extends="com.kuyun.eam.dao.mapper.EamMaintenanceMapper.BaseResultMap">
-		<result column="equipment_name" jdbcType="VARCHAR" property="equipmentName" />
-		<result column="equipment_number" jdbcType="VARCHAR" property="equipmentNumber" />
-		<result column="part_name" jdbcType="VARCHAR" property="partName" />
-		<result column="maintain_user_name" jdbcType="VARCHAR" property="maintainUserName" />
-	</resultMap>
-
-
-	<!-- 维保字段 -->
-	<sql id="Maintenance_Column_List">
-		t.maintenance_id, t.equipment_id, t.part_id, t.part_quantity, t.reason, t.content, t.maintain_user_id, t.maintain_time,
-		t.create_user_id, t.create_time, t.update_user_id, t.update_time, t.delete_flag,
-	</sql>
-
-
-
-	<select id="selectMaintenance" parameterType="com.kuyun.eam.vo.EamMaintenanceVO" resultMap="EamMaintenanceVOResultMap">
-		select
-		<include refid="Maintenance_Column_List" />
-		e.name as equipment_name,
-		e.number as equipment_number,
-		p.name as part_name,
-		u.realname as maintain_user_name
-		from eam_maintenance t
-		LEFT JOIN eam_equipment e ON t.equipment_id = e.equipment_id
-		LEFT JOIN eam_parts p on  t.part_id = p.part_id
-		LEFT JOIN upms_user u on t.maintain_user_id = u.user_id
-		WHERE t.delete_flag = 0
-		<if test="companyId != null and companyId != ''">
-			AND t.company_id = #{companyId}
-		</if>
-
-		<if test="orderByClause != null">
-			order by ${orderByClause}
-		</if>
-		<if test="limit != null">
-			<if test="offset != null">
-				limit ${offset}, ${limit}
-			</if>
-			<if test="offset == null">
-				limit ${limit}
-			</if>
-		</if>
-	</select>
-
 	<resultMap id="EamLocationVOResultMap" type="com.kuyun.eam.vo.EamLocationVO" extends="com.kuyun.eam.dao.mapper.EamLocationMapper.BaseResultMap">
 		<result column="warehouse_name" jdbcType="VARCHAR" property="warehouseName" />
 	</resultMap>
@@ -651,14 +606,6 @@
 
 	</select>
 
-	<sql id="Equipment_Column_List">
-		t.equipment_id, t.equipment_model_id, t.equipment_category_id, t.name, t.number, t.serial_number, t.image_path, t.longitude,
-		t.latitude, t.province, t.city, t.user, t.collect_status, t.heart_data, t.grm, t.grm_password, t.grm_period,
-		t.factory_date, t.commissioning_date, t.warranty_start_date, t.warranty_end_date, t.maintenance_period,
-		t.create_user_id, t.create_time, t.update_user_id, t.update_time, t.delete_flag, t.is_online,
-		t.modbus_rtu_period, t.salve_id
-	</sql>
-
 	<resultMap id="EamEquipmentVOResultMap" type="com.kuyun.eam.vo.EamEquipmentVO" extends="com.kuyun.eam.dao.mapper.EamEquipmentMapper.BaseResultMap">
 		<result column="dtu_id" jdbcType="VARCHAR" property="dtuId" />
 		<result column="equipment_model_name" jdbcType="VARCHAR" property="equipmentModelName" />
@@ -668,12 +615,12 @@
 		select
 		d.dtu_id,
 		m.name as equipment_model_name,
-		<include refid="Equipment_Column_List" />
-		from eam_equipment t
-		LEFT JOIN eam_equipment_model m ON t.equipment_model_id = m.equipment_model_id
-		LEFT JOIN eam_equipment_company e ON t.equipment_id = e.equipment_id
-		LEFT JOIN eam_dtu_equipment d ON t.equipment_id = d.equipment_id AND d.delete_flag = 0
-		WHERE t.delete_flag = 0 AND e.delete_flag = 0
+		<include refid="com.kuyun.eam.dao.mapper.EamEquipmentMapper.Base_Column_List" />
+		from eam_equipment
+		LEFT JOIN eam_equipment_model m ON eam_equipment.equipment_model_id = m.equipment_model_id
+		LEFT JOIN eam_equipment_company e ON eam_equipment.equipment_id = e.equipment_id
+		LEFT JOIN eam_dtu_equipment d ON eam_equipment.equipment_id = d.equipment_id AND d.delete_flag = 0
+		WHERE eam_equipment.delete_flag = 0 AND e.delete_flag = 0
 		<if test="equipmentCategoryId != null and equipmentCategoryId != ''">
 			AND e.equipment_category_id = #{equipmentCategoryId}
 		</if>
@@ -695,9 +642,9 @@
 
 	<select id="countEquipments" parameterType="com.kuyun.eam.vo.EamEquipmentVO" resultType="java.lang.Long">
 		select count(*)
-		from eam_equipment t
-		LEFT JOIN eam_equipment_company e ON t.equipment_id = e.equipment_id
-		LEFT JOIN eam_dtu_equipment d ON t.equipment_id = d.equipment_id AND d.delete_flag = 0
+		from eam_equipment
+		LEFT JOIN eam_equipment_company e ON eam_equipment.equipment_id = e.equipment_id
+		LEFT JOIN eam_dtu_equipment d ON eam_equipment.equipment_id = d.equipment_id AND d.delete_flag = 0
 		WHERE t.delete_flag = 0 AND e.delete_flag = 0
 		<if test="equipmentCategoryId != null and equipmentCategoryId != ''">
 			AND e.equipment_category_id = #{equipmentCategoryId}
@@ -712,17 +659,17 @@
 
 	<select id="selectUnConnectDtuEquipments" parameterType="com.kuyun.eam.vo.EamEquipmentVO" resultMap="EamEquipmentVOResultMap">
 		select
-		<include refid="Equipment_Column_List" />
-		from eam_equipment t
-		LEFT JOIN eam_equipment_company e ON t.equipment_id = e.equipment_id
-		LEFT JOIN eam_equipment_model m ON t.equipment_model_id = m.equipment_model_id
-		WHERE t.delete_flag = 0 AND e.delete_flag = 0
+		<include refid="com.kuyun.eam.dao.mapper.EamEquipmentMapper.Base_Column_List" />
+		from eam_equipment
+		LEFT JOIN eam_equipment_company e ON eam_equipment.equipment_id = e.equipment_id
+		LEFT JOIN eam_equipment_model m ON eam_equipment.equipment_model_id = m.equipment_model_id
+		WHERE eam_equipment.delete_flag = 0 AND e.delete_flag = 0
 		AND m.protocol_id = 1
 		<if test="companyId != null and companyId != ''">
 			AND e.company_id = #{companyId}
 		</if>
 		<if test="dtuId != null and dtuId != ''">
-			AND t.equipment_id not in (
+			AND eam_equipment.equipment_id not in (
 				select equipment_id from eam_dtu_equipment where dtu_id != #{dtuId} and delete_flag = 0
 			)
 		</if>
@@ -762,17 +709,17 @@
 
 	<select id="selectUnConnectGrmEquipments" parameterType="com.kuyun.eam.vo.EamEquipmentVO" resultMap="EamEquipmentVOResultMap">
 		select
-		<include refid="Equipment_Column_List" />
-		from eam_equipment t
-		LEFT JOIN eam_equipment_company e ON t.equipment_id = e.equipment_id
-		LEFT JOIN eam_equipment_model m ON t.equipment_model_id = m.equipment_model_id
-		WHERE t.delete_flag = 0 AND e.delete_flag = 0
+		<include refid="com.kuyun.eam.dao.mapper.EamEquipmentMapper.Base_Column_List" />
+		from eam_equipment
+		LEFT JOIN eam_equipment_company e ON eam_equipment.equipment_id = e.equipment_id
+		LEFT JOIN eam_equipment_model m ON eam_equipment.equipment_model_id = m.equipment_model_id
+		WHERE eam_equipment.delete_flag = 0 AND e.delete_flag = 0
 		AND m.protocol_id = 4
 		<if test="companyId != null and companyId != ''">
 			AND e.company_id = #{companyId}
 		</if>
 		<if test="grmId != null and grmId != ''">
-			AND t.equipment_id not in (
+			AND eam_equipment.equipment_id not in (
 			select equipment_id from eam_grm_equipment where grm_id != #{grmId} and delete_flag = 0
 			)
 		</if>

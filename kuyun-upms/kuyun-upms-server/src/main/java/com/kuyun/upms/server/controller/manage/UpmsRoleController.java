@@ -152,6 +152,7 @@ public class UpmsRoleController extends BaseController {
         long time = System.currentTimeMillis();
         upmsRole.setCtime(time);
         upmsRole.setOrders(time);
+        upmsRole.setDeleteFlag(Boolean.FALSE);
         upmsRole.setCompanyId(getCompanyId());
         int count = upmsRoleService.insertSelective(upmsRole);
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);

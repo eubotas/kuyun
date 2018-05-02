@@ -16,8 +16,6 @@ import com.kuyun.upms.dao.model.UpmsUserCompany;
  */
 public interface EamApiService {
 
-    List<EamMaintenanceVO> selectMaintenance(EamMaintenanceVO maintenanceVO);
-
     List<EamLocationVO> selectLocation(EamLocationVO locationVO);
 
     List<EamPartVO> selectPart(EamPartVO partVO);

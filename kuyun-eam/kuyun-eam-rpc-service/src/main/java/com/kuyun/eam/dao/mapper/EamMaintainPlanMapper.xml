@@ -4,7 +4,6 @@
   <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamMaintainPlan">
     <id column="plan_id" jdbcType="INTEGER" property="planId" />
     <result column="equipment_category_id" jdbcType="INTEGER" property="equipmentCategoryId" />
-    <result column="product_line_id" jdbcType="VARCHAR" property="productLineId" />
     <result column="equipment_id" jdbcType="VARCHAR" property="equipmentId" />
     <result column="work_content" jdbcType="VARCHAR" property="workContent" />
     <result column="next_maintain_date" jdbcType="TIMESTAMP" property="nextMaintainDate" />
@@ -78,9 +77,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    plan_id, equipment_category_id, product_line_id, equipment_id, work_content, next_maintain_date, 
-    maintain_frequency_unit, maintain_frequency_quantity, maintain_type, remind_time, 
-    create_user_id, create_time, update_user_id, update_time, delete_flag, company_id
+    plan_id, equipment_category_id, equipment_id, work_content, next_maintain_date, maintain_frequency_unit, 
+    maintain_frequency_quantity, maintain_type, remind_time, create_user_id, create_time, 
+    update_user_id, update_time, delete_flag, company_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamMaintainPlanExample" resultMap="BaseResultMap">
     select
@@ -124,18 +123,18 @@
     <selectKey keyProperty="planId" order="AFTER" resultType="java.lang.Integer">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into eam_maintain_plan (equipment_category_id, product_line_id, 
-      equipment_id, work_content, next_maintain_date, 
-      maintain_frequency_unit, maintain_frequency_quantity, 
-      maintain_type, remind_time, create_user_id, 
-      create_time, update_user_id, update_time, 
-      delete_flag, company_id)
-    values (#{equipmentCategoryId,jdbcType=INTEGER}, #{productLineId,jdbcType=VARCHAR}, 
-      #{equipmentId,jdbcType=VARCHAR}, #{workContent,jdbcType=VARCHAR}, #{nextMaintainDate,jdbcType=TIMESTAMP}, 
-      #{maintainFrequencyUnit,jdbcType=VARCHAR}, #{maintainFrequencyQuantity,jdbcType=INTEGER}, 
-      #{maintainType,jdbcType=VARCHAR}, #{remindTime,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlag,jdbcType=BIT}, #{companyId,jdbcType=INTEGER})
+    insert into eam_maintain_plan (equipment_category_id, equipment_id, 
+      work_content, next_maintain_date, maintain_frequency_unit, 
+      maintain_frequency_quantity, maintain_type, 
+      remind_time, create_user_id, create_time, 
+      update_user_id, update_time, delete_flag, 
+      company_id)
+    values (#{equipmentCategoryId,jdbcType=INTEGER}, #{equipmentId,jdbcType=VARCHAR}, 
+      #{workContent,jdbcType=VARCHAR}, #{nextMaintainDate,jdbcType=TIMESTAMP}, #{maintainFrequencyUnit,jdbcType=VARCHAR}, 
+      #{maintainFrequencyQuantity,jdbcType=INTEGER}, #{maintainType,jdbcType=VARCHAR}, 
+      #{remindTime,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
+      #{companyId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamMaintainPlan">
     <selectKey keyProperty="planId" order="AFTER" resultType="java.lang.Integer">
@@ -145,9 +144,6 @@
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="equipmentCategoryId != null">
         equipment_category_id,
-      </if>
-      <if test="productLineId != null">
-        product_line_id,
       </if>
       <if test="equipmentId != null">
         equipment_id,
@@ -192,9 +188,6 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="equipmentCategoryId != null">
         #{equipmentCategoryId,jdbcType=INTEGER},
-      </if>
-      <if test="productLineId != null">
-        #{productLineId,jdbcType=VARCHAR},
       </if>
       <if test="equipmentId != null">
         #{equipmentId,jdbcType=VARCHAR},
@@ -252,9 +245,6 @@
       <if test="record.equipmentCategoryId != null">
         equipment_category_id = #{record.equipmentCategoryId,jdbcType=INTEGER},
       </if>
-      <if test="record.productLineId != null">
-        product_line_id = #{record.productLineId,jdbcType=VARCHAR},
-      </if>
       <if test="record.equipmentId != null">
         equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
       </if>
@@ -303,7 +293,6 @@
     update eam_maintain_plan
     set plan_id = #{record.planId,jdbcType=INTEGER},
       equipment_category_id = #{record.equipmentCategoryId,jdbcType=INTEGER},
-      product_line_id = #{record.productLineId,jdbcType=VARCHAR},
       equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
       work_content = #{record.workContent,jdbcType=VARCHAR},
       next_maintain_date = #{record.nextMaintainDate,jdbcType=TIMESTAMP},
@@ -326,9 +315,6 @@
     <set>
       <if test="equipmentCategoryId != null">
         equipment_category_id = #{equipmentCategoryId,jdbcType=INTEGER},
-      </if>
-      <if test="productLineId != null">
-        product_line_id = #{productLineId,jdbcType=VARCHAR},
       </if>
       <if test="equipmentId != null">
         equipment_id = #{equipmentId,jdbcType=VARCHAR},
@@ -375,7 +361,6 @@
   <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamMaintainPlan">
     update eam_maintain_plan
     set equipment_category_id = #{equipmentCategoryId,jdbcType=INTEGER},
-      product_line_id = #{productLineId,jdbcType=VARCHAR},
       equipment_id = #{equipmentId,jdbcType=VARCHAR},
       work_content = #{workContent,jdbcType=VARCHAR},
       next_maintain_date = #{nextMaintainDate,jdbcType=TIMESTAMP},
@@ -393,20 +378,20 @@
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into eam_maintain_plan  (equipment_category_id, product_line_id, 
-        equipment_id, work_content, next_maintain_date, 
-        maintain_frequency_unit, maintain_frequency_quantity, 
-        maintain_type, remind_time, create_user_id, 
-        create_time, update_user_id, update_time, 
-        delete_flag, company_id)
+            insert into eam_maintain_plan  (equipment_category_id, equipment_id, 
+        work_content, next_maintain_date, maintain_frequency_unit, 
+        maintain_frequency_quantity, maintain_type, 
+        remind_time, create_user_id, create_time, 
+        update_user_id, update_time, delete_flag, 
+        company_id)
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.equipmentCategoryId,jdbcType=INTEGER}, #{item.productLineId,jdbcType=VARCHAR}, 
-        #{item.equipmentId,jdbcType=VARCHAR}, #{item.workContent,jdbcType=VARCHAR}, #{item.nextMaintainDate,jdbcType=TIMESTAMP}, 
-        #{item.maintainFrequencyUnit,jdbcType=VARCHAR}, #{item.maintainFrequencyQuantity,jdbcType=INTEGER}, 
-        #{item.maintainType,jdbcType=VARCHAR}, #{item.remindTime,jdbcType=INTEGER}, #{item.createUserId,jdbcType=INTEGER}, 
-        #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
-        #{item.deleteFlag,jdbcType=BIT}, #{item.companyId,jdbcType=INTEGER})
+      (#{item.equipmentCategoryId,jdbcType=INTEGER}, #{item.equipmentId,jdbcType=VARCHAR}, 
+        #{item.workContent,jdbcType=VARCHAR}, #{item.nextMaintainDate,jdbcType=TIMESTAMP}, #{item.maintainFrequencyUnit,jdbcType=VARCHAR}, 
+        #{item.maintainFrequencyQuantity,jdbcType=INTEGER}, #{item.maintainType,jdbcType=VARCHAR}, 
+        #{item.remindTime,jdbcType=INTEGER}, #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, 
+        #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, 
+        #{item.companyId,jdbcType=INTEGER})
       </foreach>
     </if>
   </insert>

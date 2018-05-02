@@ -88,51 +88,54 @@
                             templateTitleName_用户
                         </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">
-												&times;
-											</span>
+                            <span aria-hidden="true">
+                                &times;
+                            </span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label for="templateID_username">帐号 *</label>
-                            <input id="templateID_username" type="text" class="form-control" name="username" maxlength="20">
+                        <div class="form-group m-form__group row">
+                            <label class="col-3 col-form-label">姓名:*</label>
+                            <div class="col-8">
+                                <input id="templateID_realname" type="text" class="form-control" name="realname">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="templateID_password">密码  *</label>
-                            <input id="templateID_password" type="text" class="form-control" name="password" maxlength="32">
+                        <div class="form-group m-form__group row">
+                            <label class="col-3 col-form-label">密码:*</label>
+                            <div class="col-8">
+                                <input id="templateID_password" type="text" class="form-control" name="password">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="templateID_realname">姓名  *</label>
-                            <input id="templateID_realname" type="text" class="form-control" name="realname" maxlength="20">
+                        <div class="form-group m-form__group row">
+                            <label class="col-3 col-form-label">电话:*</label>
+                            <div class="col-8">
+                                <input id="templateID_phone" type="text" class="form-control" name="phone">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="templateID_avatar">头像</label>
-                            <input id="templateID_avatar" type="text" class="form-control" name="avatar" maxlength="50">
+                        <div class="form-group m-form__group row">
+                            <label class="col-3 col-form-label">邮箱:*</label>
+                            <div class="col-8">
+                                <input id="templateID_email" type="text" class="form-control" name="email">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="templateID_phone">电话</label>
-                            <input id="templateID_phone" type="text" class="form-control" name="phone" maxlength="20">
+                        <div class="form-group m-form__group row">
+                            <label class="col-3 col-form-label">头像:</label>
+                            <div id="templateID_fine-uploader-gallery" class="col-8"></div>
+                            <input id="templateID_avatar" type="hidden" class="form-control" name="avatar">
                         </div>
-                        <div class="form-group">
-                            <label for="templateID_email">邮箱</label>
-                            <input id="templateID_email" type="text" class="form-control" name="email" maxlength="50">
-                        </div>
-                        <div class="m-form__group form-group">
-                            <div class="m-radio-inline">
-                                <label class="m-radio">
-                                    <input id="templateID_sex_1" type="radio" name="sex" value="1" checked>男
-                                    <span></span>
-                                </label>
-                                <label class="m-radio">
-                                    <input id="templateID_sex_0" type="radio" name="sex" value="0">女<span></span>
-                                </label>
-                                <label class="m-radio">
-                                    <input id="templateID_locked_0" type="radio" name="locked" value="0" checked>正常<span></span>
-                                </label>
-                                <label class="m-radio">
-                                    <input id="templateID_locked_1" type="radio" name="locked" value="1">锁定<span></span>
-                                </label>
+
+                        <div class="form-group m-form__group row">
+                            <label class="col-3 col-form-label">是否启用:</label>
+                            <div class="col-8">
+                                <div class="m-radio-inline">
+                                    <label class="m-radio">
+                                        <input id="templateID_locked_0" type="radio" name="locked" value="0" checked>正常<span></span>
+                                    </label>
+                                    <label class="m-radio">
+                                        <input id="templateID_locked_1" type="radio" name="locked" value="1">锁定<span></span>
+                                    </label>
+                                </div>
+                            </div>
                         </div>
                       </div>
                     <div class="modal-footer">
@@ -146,7 +149,6 @@
                     </div>
                 </div>
               </div>
-            </div>
         </form>
     </div>
     <!--end::Modal-->
@@ -155,18 +157,30 @@
          aria-hidden="true">
         <form id="organizationForm" method="post">
             <div class="modal-dialog" role="document">
-                <div class="modal-content" style="padding:20px">
-                    <div class="form-group">
-                        <label class="col-form-label">
-                            部门
-                        </label>
-                        <select id="organizationId" name="organizationId" multiple="multiple" style="width: 100%">
-                        </select>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            部门列表
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">
+                                &times;
+                            </span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group m-form__group row">
+                            <label class="col-2 col-form-label">部门:</label>
+                            <div class="col-6">
+                                <select multiple="" class="form-control m-input m-input--air" id="organizationId" name="organizationId">
+                                </select>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" href="javascript:;" onclick="organizationSubmit();"> 保存 </button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"> 取消 </button>
+                        <button type="button" class="btn btn-primary" href="javascript:;" onclick="organizationSubmit();"> 保存 </button>
                     </div>
                 </div>
             </div>
@@ -178,20 +192,29 @@
          aria-hidden="true">
         <form id="roleForm" method="post">
             <div class="modal-dialog" role="document">
-                <div class="modal-content" style="padding:20px">
-                    <div class="form-group m-form__group row">
-                        <label class="col-form-label col-lg-3 col-sm-12">
-                            角色
-                        </label>
-                        <div class="col-lg-4 col-md-9 col-sm-12">
-                        <select id="roleId" name="roleId" multiple="multiple" style="width: 100%">
-                        </select>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            角色列表
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">
+                                &times;
+                            </span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group m-form__group row">
+                            <label class="col-2 col-form-label">角色:</label>
+                            <div class="col-6">
+                                <select multiple="" class="form-control m-input m-input--air" id="roleId" name="roleId">
+                                </select>
+                            </div>
                         </div>
                     </div>
-
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" href="javascript:;" onclick="roleSubmit();"> 保存 </button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal"> 取消 </button>
+                        <button type="button" class="btn btn-primary" href="javascript:;" onclick="roleSubmit();"> 保存 </button>
                     </div>
                 </div>
             </div>
@@ -235,9 +258,13 @@
 
 
 <pageResources>
+    <jsp:include page="/resources/metronic-admin/file_upload.jsp" flush="true"/>
 
 
     <script>
+        var addGalleryUploader;
+        var editGalleryUploader;
+
         $(document).ready(function()
         {
             //codes works on all bootstrap modal windows in application
@@ -249,6 +276,10 @@
             generateAddEditForm('template-user-addEditForm', 'add_,edit_', null, null, 'addUserFormContainer,editUserFormContainer');
              FormWidgets.init('add');
              FormWidgets.init('edit');
+
+            addGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("add_fine-uploader-gallery")}));
+            editGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("edit_fine-uploader-gallery")}));
+
 
             $('#createButton').click(function(){
                 $("#addUserFormContainer").modal("show");
@@ -284,13 +315,10 @@
                 idField: 'userId',
                 columns: [
                     {field: 'ck', checkbox: true},
-                    //{field: 'userId', title: '编号', sortable: true, align: 'center'},
-                    {field: 'username', title: '帐号'},
                     {field: 'realname', title: '姓名'},
                     {field: 'avatar', title: '头像', align: 'center', formatter: 'avatarFormatter'},
                     {field: 'phone', title: '电话'},
                     {field: 'email', title: '邮箱'},
-                    {field: 'sex', title: '性别', formatter: 'sexFormatter'},
                     {field: 'locked', title: '状态', sortable: true, align: 'center', formatter: 'lockedFormatter'},
                     {field: 'action', width: 190, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ]
@@ -301,7 +329,7 @@
             return [
                 '<shiro:hasPermission name="upms:user:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
                 '<shiro:hasPermission name="upms:user:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="upms:user:organization"><a id="userOrg" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="用户组织">	<i class="la flaticon-map"></i>	</a></shiro:hasPermission>',
+                '<shiro:hasPermission name="upms:user:organization"><a id="userOrg" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="用户部门">	<i class="la flaticon-map"></i>	</a></shiro:hasPermission>',
                 '<shiro:hasPermission name="upms:user:role"><a id="userRole" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="用户角色">	<i class="la flaticon-users"></i>	</a></shiro:hasPermission>',
                 '<shiro:hasPermission name="upms:user:permission"><a id="userPermission" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="用户权限">	<i class="la flaticon-user"></i>	</a></shiro:hasPermission>',
             ].join('');
@@ -348,6 +376,9 @@
             if(id){
                 targetUrl='${basePath}/manage/user/update/'+id;
                 formId='edit_Form';
+                $('#edit_avatar').val(getUploadFileName(editGalleryUploader));
+            }else {
+                $('#add_avatar').val(getUploadFileName(editGalleryUploader));
             }
             ajaxPost(targetUrl, formId, function(result) {
                 if (result.code != 1) {
@@ -374,13 +405,11 @@
                     var data = responseData;
                     // 赋值
                     $("#edit_id").val(data.user.userId);
-                    $("#edit_username").val(data.user.username);
-                    $("#edit_password").val(data.user.password);
                     $("#edit_realname").val(data.user.realname);
+                    $("#edit_password").val(data.user.password);
                     $("#edit_avatar").val(data.user.avatar);
                     $("#edit_phone").val(data.user.phone);
                     $("#edit_email").val(data.user.email);
-                    radioBoxcheck(data.user.sex,'sex');
                     radioBoxcheck(data.user.locked,'locked');
                 }
             });
@@ -430,20 +459,10 @@
         // 格式化图标
         function avatarFormatter(value, row, index) {
             if(value != null && value != '')
-                return '<img src="${basePath}' + value + '" style="width:20px;height:20px;"/>';
+                return '<img src="${basePath}/fileStorage/eam/' + value + '" style="width:20px;height:20px;"/>';
             else
                 return "";
 
-        }
-        // 格式化性别
-        function sexFormatter(value, row, index) {
-            if (value == 1) {
-                return '男';
-            }
-            if (value == 2) {
-                return '女';
-            }
-            return '-';
         }
         // 格式化状态
         function lockedFormatter(value, row, index) {

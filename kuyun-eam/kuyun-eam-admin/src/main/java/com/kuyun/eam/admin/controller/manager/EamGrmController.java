@@ -155,14 +155,6 @@ public class EamGrmController extends BaseController {
 		return new EamResult(SUCCESS, count);
 	}
 
-//	@ApiOperation(value = "接入设备")
-//	@RequiresPermissions("eam:grm:update")
-//	@RequestMapping(value = "/connect/{id}", method = RequestMethod.GET)
-//	public String auth(@PathVariable("id") String id, ModelMap modelMap) {
-//		modelMap.put("grmId", id);
-//		return "/manage/grm/equipment.jsp";
-//	}
-
 	@ApiOperation(value = "接入设备列表")
 	@RequiresPermissions("eam:grm:read")
 	@RequestMapping(value = "/equipment/list", method = RequestMethod.GET)
@@ -185,7 +177,7 @@ public class EamGrmController extends BaseController {
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			equipmentVO.setOrderByClause(sort + " " + order);
 		}else {
-			equipmentVO.setOrderByClause("t.equipment_id, t.create_time desc");
+			equipmentVO.setOrderByClause("eam_equipment.equipment_id, eam_equipment.create_time desc");
 		}
 
 		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
