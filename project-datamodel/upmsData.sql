@@ -62,10 +62,9 @@ INSERT INTO upms_permission VALUES ('35', '1', '11', '强制退出', '3', 'upms:
 -- Records of upms_role
 -- ----------------------------
 INSERT INTO upms_role VALUES ('1', 1, 'super', '超级管理员', '拥有所有权限', '1', '1', 0);
-INSERT INTO upms_role VALUES ('2', 1, 'admin', '管理员', '拥有除权限管理系统外的所有权限', '1', '1', 0);
-INSERT INTO upms_role VALUES ('3', 1, 'ticketCreate', '工单提报', '拥有提报工单权限', '1', '1', 0);
-INSERT INTO upms_role VALUES ('4', 1, 'ticketRepair', '工单维修', '拥有维修工单权限', '1', '1', 0);
-INSERT INTO upms_role VALUES ('5', 1, 'ticketAppoint', '工单委派', '拥有委派工单权限', '1', '1', 0);
+INSERT INTO upms_role VALUES ('2', 1, 'ticketCreate', '工单提报', '拥有提报工单权限', '1', '1', 0);
+INSERT INTO upms_role VALUES ('3', 1, 'ticketRepair', '工单维修', '拥有维修工单权限', '1', '1', 0);
+INSERT INTO upms_role VALUES ('4', 1, 'ticketAppoint', '工单委派', '拥有委派工单权限', '1', '1', 0);
 
 -- ----------------------------
 -- Records of upms_role_permission
@@ -105,7 +104,6 @@ INSERT INTO upms_role_permission VALUES ('32', '1', '32', 0);
 INSERT INTO upms_role_permission VALUES ('33', '1', '33', 0);
 INSERT INTO upms_role_permission VALUES ('34', '1', '34', 0);
 INSERT INTO upms_role_permission VALUES ('35', '1', '35', 0);
-INSERT INTO upms_role_permission VALUES ('36', '1', '36', 0);
 
 
 INSERT INTO upms_user_company (user_id, company_id, delete_flag) VALUES (1, 1, 0);

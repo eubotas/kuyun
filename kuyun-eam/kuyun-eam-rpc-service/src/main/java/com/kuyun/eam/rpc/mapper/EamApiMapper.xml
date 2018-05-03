@@ -645,7 +645,7 @@
 		from eam_equipment
 		LEFT JOIN eam_equipment_company e ON eam_equipment.equipment_id = e.equipment_id
 		LEFT JOIN eam_dtu_equipment d ON eam_equipment.equipment_id = d.equipment_id AND d.delete_flag = 0
-		WHERE t.delete_flag = 0 AND e.delete_flag = 0
+		WHERE eam_equipment.delete_flag = 0 AND e.delete_flag = 0
 		<if test="equipmentCategoryId != null and equipmentCategoryId != ''">
 			AND e.equipment_category_id = #{equipmentCategoryId}
 		</if>
@@ -688,16 +688,16 @@
 
 	<select id="countUnConnectDtuEquipments" parameterType="com.kuyun.eam.vo.EamEquipmentVO" resultType="java.lang.Long">
 		select count(*)
-		from eam_equipment t
-		LEFT JOIN eam_equipment_company e ON t.equipment_id = e.equipment_id
-		LEFT JOIN eam_equipment_model m ON t.equipment_model_id = m.equipment_model_id
-		WHERE t.delete_flag = 0 AND e.delete_flag = 0
+		from eam_equipment
+		LEFT JOIN eam_equipment_company e ON eam_equipment.equipment_id = e.equipment_id
+		LEFT JOIN eam_equipment_model m ON eam_equipment.equipment_model_id = m.equipment_model_id
+		WHERE eam_equipment.delete_flag = 0 AND e.delete_flag = 0
 		AND m.protocol_id = 1
 		<if test="companyId != null and companyId != ''">
 			AND e.company_id = #{companyId}
 		</if>
 		<if test="dtuId != null and dtuId != ''">
-			AND t.equipment_id not in (
+			AND eam_equipment.equipment_id not in (
 			select equipment_id from eam_dtu_equipment where dtu_id != #{dtuId} and delete_flag = 0
 			)
 		</if>
@@ -739,16 +739,16 @@
 
 	<select id="countUnConnectGrmEquipments" parameterType="com.kuyun.eam.vo.EamEquipmentVO" resultType="java.lang.Long">
 		select count(*)
-		from eam_equipment t
-		LEFT JOIN eam_equipment_company e ON t.equipment_id = e.equipment_id
-		LEFT JOIN eam_equipment_model m ON t.equipment_model_id = m.equipment_model_id
+		from eam_equipment
+		LEFT JOIN eam_equipment_company e ON eam_equipment.equipment_id = e.equipment_id
+		LEFT JOIN eam_equipment_model m ON eam_equipment.equipment_model_id = m.equipment_model_id
 		WHERE t.delete_flag = 0 AND e.delete_flag = 0
 		AND m.protocol_id = 4
 		<if test="companyId != null and companyId != ''">
 			AND e.company_id = #{companyId}
 		</if>
 		<if test="grmId != null and grmId != ''">
-			AND t.equipment_id not in (
+			AND eam_equipment.equipment_id not in (
 			select equipment_id from eam_grm_equipment where grm_id != #{grmId} and delete_flag = 0
 			)
 		</if>
