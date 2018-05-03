@@ -14,6 +14,7 @@ import com.kuyun.upms.common.JspUtil;
 import com.kuyun.upms.common.constant.UpmsResult;
 import com.kuyun.upms.common.constant.UpmsResultConstant;
 import com.kuyun.upms.dao.model.*;
+import com.kuyun.upms.dao.vo.UpmsUserVo;
 import com.kuyun.upms.rpc.api.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -214,22 +215,18 @@ public class UpmsUserController extends BaseController {
             @RequestParam(required = false, defaultValue = "", value = "search") String search,
             @RequestParam(required = false, value = "sort") String sort,
             @RequestParam(required = false, value = "order") String order) {
-        UpmsUserExample upmsUserExample = new UpmsUserExample();
-        upmsUserExample.setOffset(offset);
-        upmsUserExample.setLimit(limit);
-        upmsUserExample.createCriteria().andDeleteFlagEqualTo(false);
+        UpmsUserVo userVo = new UpmsUserVo();
+        userVo.setOffset(offset);
+        userVo.setLimit(limit);
+        userVo.setSearch(search);
         if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
-            upmsUserExample.setOrderByClause(sort + " " + order);
+            userVo.setOrderByClause(sort + " " + order);
         }
-        if (StringUtils.isNotBlank(search)) {
-            upmsUserExample.or()
-                    .andRealnameLike("%" + search + "%");
-            upmsUserExample.or()
-                    .andUsernameLike("%" + search + "%");
-        }
-        List<UpmsUser> rows = upmsUserService.selectByExample(upmsUserExample);
-        long total = upmsUserService.countByExample(upmsUserExample);
-        Map<String, Object> result = new HashMap<>();
+        userVo.setCompanyId(getCompanyId());
+
+        List<UpmsUser> rows = upmsApiService.selectUsers(userVo);
+        long total = upmsApiService.countUsers(userVo);
+        Map<String, Object> result = new HashMap<>(2);
         result.put("rows", rows);
         result.put("total", total);
         return result;

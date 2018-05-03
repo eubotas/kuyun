@@ -42,6 +42,9 @@ public interface UpmsApiMapper {
 
 	List<UpmsUserVo> selectLoginUsers(UpmsUserVo upmsUserVo);
 
+	List<UpmsUser> selectUsers(UpmsUserVo upmsUserVo);
+	Long countUsers(UpmsUserVo upmsUserVo);
+
     List<UpmsOrgUserVo> selectUsersByOrg(UpmsOrgUserVo orgUserVo);
     Long getUsersCountByOrg(UpmsOrgUserVo orgUserVo);
     List<UpmsOrgUserVo> selectOrgUsersByOrgNameCompanyId(UpmsOrgUserVo orgUserVo);

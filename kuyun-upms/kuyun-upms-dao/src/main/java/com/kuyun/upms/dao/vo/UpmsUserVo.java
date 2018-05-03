@@ -8,6 +8,7 @@ import com.kuyun.upms.dao.model.UpmsUser;
 public class UpmsUserVo extends UpmsUser {
 
     private String companyName;
+    private String search;
 
     private Long loginTime;
 
@@ -18,6 +19,14 @@ public class UpmsUserVo extends UpmsUser {
     private Integer offset;
 
     private String orderByClause;
+
+    public String getSearch() {
+        return search;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
+    }
 
     public Integer getLimit() {
         return limit;

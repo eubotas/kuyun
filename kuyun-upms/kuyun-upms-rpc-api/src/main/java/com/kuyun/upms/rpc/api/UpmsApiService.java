@@ -129,4 +129,7 @@ public interface UpmsApiService {
     public void createOrgRole(int orgId, List<UpmsOrganizationRole> list);
 
     public int handleSimpleUser(UpmsUser upmsUser, int companyId);
+
+    List<UpmsUser> selectUsers(UpmsUserVo upmsUserVo);
+    Long countUsers(UpmsUserVo upmsUserVo);
 }

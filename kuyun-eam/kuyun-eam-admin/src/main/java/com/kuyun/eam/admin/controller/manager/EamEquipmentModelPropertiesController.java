@@ -172,26 +172,11 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 		return new EamResult(SUCCESS, count);
 	}
 
-	private void buildModelMap(int mId, int pId, Map modelMap) {
-		EamEquipmentModel equipmentModel = eamEquipmentModelService.selectByPrimaryKey(mId);
-		EamEquipmentModelProperties eamEquipmentModelProperties = eamEquipmentModelPropertiesService.selectByPrimaryKey(pId);
-		EamSensor sensor = getSensor(eamEquipmentModelProperties);
-		EamAlarm alarm = getAlarm(eamEquipmentModelProperties);
-		List<EamAlarmTargetUser> targetUsers = getAlarmTargetUsers(alarm);
-
-		modelMap.put("equipmentModel", equipmentModel);
-		modelMap.put("equipmentModelProperties", eamEquipmentModelProperties);
-		modelMap.put("sensor", sensor);
-		modelMap.put("alarm", alarm);
-		modelMap.put("targetUsers", targetUsers);
-	}
-
 	@RequiresPermissions("eam:equipmentModelProperty:update")
 	@RequestMapping(value = "/grm/{mId}/{pId}", method = RequestMethod.GET)
 	@ResponseBody
-	public Object grm(@PathVariable("mId") int mId, @PathVariable("pId") int pId, ModelMap modelMap) {
-		Map map = new HashMap();
-		buildModelMap(mId, pId, map);
+	public Object grm(@PathVariable("mId") int mId, @PathVariable("pId") int pId) {
+		Map map = buildHashMap(mId, pId);
 		map.put("grmActions", Action.values());
 		return map;
 	}
@@ -200,8 +185,7 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 	@RequestMapping(value = "/modbus/{mId}/{pId}", method = RequestMethod.GET)
 	@ResponseBody
 	public Object modbus(@PathVariable("mId") int mId, @PathVariable("pId") int pId) {
-		Map map = new HashMap();
-		buildModelMap(mId, pId, map);
+		Map map = buildHashMap(mId, pId);
 
 		map.put("modbusFunctionCodes", JspUtil.getMapList(Arrays.asList(ModbusFunctionCode.values()),"code","name"));
 		map.put("dataFormats", JspUtil.getMapList(Arrays.asList(DataFormat.values()),"code","name"));
@@ -269,9 +253,7 @@ public class EamEquipmentModelPropertiesController extends BaseController {
 	@RequestMapping(value = "/data/change/{mId}/{pId}", method = RequestMethod.GET)
 	@ResponseBody
 	public Object dataChange(@PathVariable("mId") int mId, @PathVariable("pId") int pId) {
-		Map map = new HashMap();
-		buildModelMap(mId, pId, map);
-		return map;
+		return buildHashMap(mId, pId);
 	}
 
 	@RequiresPermissions("eam:equipmentModelProperty:update")

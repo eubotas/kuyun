@@ -820,6 +820,9 @@
 			<bind name="pattern" value="'%' + search + '%'" />
 			AND (p.name like #{pattern} or p.label like #{pattern} )
 		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
 	</select>
 
     <resultMap id="TicketRejectRecordVOResultMap" type="com.kuyun.eam.vo.EamTicketRejectRecordVO" >

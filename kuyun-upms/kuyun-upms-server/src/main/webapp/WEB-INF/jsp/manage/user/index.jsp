@@ -314,7 +314,7 @@
                 maintainSelected: true,
                 idField: 'userId',
                 sortOrder: 'desc',
-                sortName: 'user_id',
+                sortName: 'ur.user_id',
                 columns: [
                     {field: 'ck', checkbox: true},
                     {field: 'realname', title: '姓名'},

@@ -63,7 +63,7 @@
 
 	<!-- 用户字段 -->
 	<sql id="UpmsUser_Column_List">
-		 user_id, username, password, salt, realname, avatar, phone, email, sex, locked, ctime
+		 ur.user_id, ur.username, ur.password, ur.salt, ur.realname, ur.avatar, ur.phone, ur.email, ur.sex, ur.locked, ur.ctime
 	</sql>
 
 	<!-- 根据用户获取所拥有的权限 -->
@@ -205,6 +205,9 @@
 		select count(distinct name)
 		from upms_company
 		where delete_flag = 0
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
 	</select>
 
     <resultMap id="UpmsOrgUserVoResultMap" type="com.kuyun.upms.dao.vo.UpmsOrgUserVo">
@@ -337,6 +340,50 @@
 		</if>
 
     </select>
+
+	<select id="selectUsers" parameterType="com.kuyun.upms.dao.vo.UpmsUserVo" resultMap="UpmsUserResultMap">
+		select DISTINCT
+		<include refid="UpmsUser_Column_List" />
+		from upms_user ur,
+		upms_user_company uuc
+		where ur.user_id = uuc.user_id
+		and ur.delete_flag = 0 and uuc.delete_flag = 0
+		<if test="companyId != null">
+			and  uuc.company_id = ${companyId}
+		</if>
+		<if test="search != null and search != ''">
+			<bind name="pattern" value="'%' + search + '%'" />
+			AND (ur.realname like #{pattern} or ur.phone like #{pattern} )
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+	<select id="countUsers" parameterType="com.kuyun.upms.dao.vo.UpmsUserVo" resultType="java.lang.Long">
+		select count(DISTINCT ur.user_id)
+		from upms_user ur,
+		upms_user_company uuc
+		where ur.user_id = uuc.user_id
+		and ur.delete_flag = 0 and uuc.delete_flag = 0
+		<if test="companyId != null">
+			and  uuc.company_id = ${companyId}
+		</if>
+		<if test="search != null and search != ''">
+			<bind name="pattern" value="'%' + search + '%'" />
+			AND (ur.realname like #{pattern} or ur.phone like #{pattern} )
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
 	<!-- 缓存 -->
 	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
 

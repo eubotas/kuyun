@@ -12,6 +12,7 @@ ALTER TABLE upms_user_permission ADD COLUMN delete_flag  tinyint(1) NULL DEFAULT
 ALTER TABLE upms_user_role ADD COLUMN delete_flag  tinyint(1) NULL DEFAULT 0;
 
 ALTER TABLE upms_role ADD COLUMN company_id  int(11) NULL DEFAULT NULL ;
+ALTER TABLE eam_alarm ADD COLUMN is_create_ticket     boolean;
 
 -- ----------------------------
 -- Table structure for eam_ticket

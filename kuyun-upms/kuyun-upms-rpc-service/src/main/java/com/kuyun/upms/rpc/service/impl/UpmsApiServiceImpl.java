@@ -552,4 +552,14 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         upmsUserOrganizationService.insertSelective(upmsUserOrganization);
         return 1;
     }
+
+    @Override
+    public List<UpmsUser> selectUsers(UpmsUserVo upmsUserVo) {
+        return upmsApiMapper.selectUsers(upmsUserVo);
+    }
+
+    @Override
+    public Long countUsers(UpmsUserVo upmsUserVo) {
+        return upmsApiMapper.countUsers(upmsUserVo);
+    }
 }
