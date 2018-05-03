@@ -29,6 +29,7 @@ import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -72,7 +73,8 @@ public class EquipmentManualController extends BaseController {
     @ApiOperation(value = "设备手册首页")
     @RequiresPermissions("eam:equipmentManual:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String index() {
+    public String index(ModelMap modelMap){
+        modelMap.put("uploadServer", fileUploaderService.getServerInfo());
         return "/manage/knowledge/manual/index.jsp";
     }
 

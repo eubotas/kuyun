@@ -87,6 +87,7 @@ public class EamTicketController extends EamTicketBaseController {
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index(@RequestParam(required = false, defaultValue = "myAll", value = "category") String category , ModelMap modelMap) {
 		modelMap.put("category", category);
+		modelMap.put("uploadServer", fileUploaderService.getServerInfo());
 
 		Subject subject = SecurityUtils.getSubject();
 		String categoryType = TicketSearchCategory.MY_OPEN.getName();

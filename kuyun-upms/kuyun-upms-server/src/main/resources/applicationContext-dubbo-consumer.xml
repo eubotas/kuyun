@@ -41,4 +41,7 @@
     <!-- 接口服务 -->
     <dubbo:reference id="upmsApiService" interface="com.kuyun.upms.rpc.api.UpmsApiService" mock="true"/>
 
+    <!-- File upload -->
+    <dubbo:reference id="fileUploaderService" interface="com.kuyun.fileuploader.rpc.api.FileUploaderService" mock="false" />
+
 </beans>

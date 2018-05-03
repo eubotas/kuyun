@@ -69,6 +69,9 @@ public class UpmsUserController extends BaseController {
     @Autowired
     private BaseEntityUtil baseEntityUtil;
 
+    @Autowired
+    private com.kuyun.fileuploader.rpc.api.FileUploaderService fileUploaderService;
+
     @ApiOperation(value = "用户首页")
     @RequiresPermissions("upms:user:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
@@ -288,6 +291,8 @@ public class UpmsUserController extends BaseController {
     @RequiresPermissions("upms:user:update")
     @RequestMapping(value = "/modify/{id}", method = RequestMethod.GET)
     public String modify(ModelMap modelMap,HttpServletRequest req){
+
+        modelMap.put("uploadServer", fileUploaderService.getServerInfo());
         modelMap.put("user",req.getSession().getAttribute("USER"));
         return "/manage/user/modifyUserInfo.jsp";
     }

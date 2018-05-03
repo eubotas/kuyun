@@ -73,7 +73,8 @@ public class TrainingDocController extends BaseController {
     @ApiOperation(value = "培训文档首页")
     @RequiresPermissions("eam:trainingDoc:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String index() {
+    public String index(ModelMap modelMap){
+        modelMap.put("uploadServer", fileUploaderService.getServerInfo());
         return "/manage/knowledge/training/doc/index.jsp";
     }
 

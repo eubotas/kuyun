@@ -76,7 +76,8 @@ public class EamEquipmentController extends BaseController {
 	@ApiOperation(value = "设备首页")
 	@RequiresPermissions("eam:equipment:read")
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String index() {
+	public String index(ModelMap modelMap) {
+        modelMap.put("uploadServer", fileUploaderService.getServerInfo());
 		return "/manage/equipment/index.jsp";
 	}
 

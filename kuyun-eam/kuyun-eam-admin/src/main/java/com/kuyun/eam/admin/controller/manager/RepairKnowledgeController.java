@@ -73,7 +73,8 @@ public class RepairKnowledgeController extends BaseController {
     @ApiOperation(value = "维修知识首页")
     @RequiresPermissions("eam:repairKnowledge:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String index() {
+    public String index(ModelMap modelMap){
+        modelMap.put("uploadServer", fileUploaderService.getServerInfo());
         return "/manage/knowledge/repair/index.jsp";
     }
 
