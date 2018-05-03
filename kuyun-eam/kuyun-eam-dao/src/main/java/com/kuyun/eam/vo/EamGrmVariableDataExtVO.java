@@ -13,6 +13,15 @@ public class EamGrmVariableDataExtVO implements Serializable {
     private String value;
     private String dataType;
     private Date updateTime;
+    private Integer grmPeriod;
+
+    public Integer getGrmPeriod() {
+        return grmPeriod;
+    }
+
+    public void setGrmPeriod(Integer grmPeriod) {
+        this.grmPeriod = grmPeriod;
+    }
 
     public String getDataElementId() {
         return dataElementId;
