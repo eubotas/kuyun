@@ -31,7 +31,7 @@
 <div style="height: 100%;">
 <jsp:include page="/resources/metronic-admin/homeheader.jsp" flush="true"/>
 
-<div class="m-content" style="margin: 80px;min-height:695px;">
+<div class="m-content" id="heightDiv" style="margin: 80px;min-height:695px;">
     <!--begin::Portlet-->
     <div class="m-portlet m-portlet--mobile">
         <div class="m-portlet__head">
@@ -287,6 +287,8 @@
         $('#goLogin').click(function() {
             window.location.href = '${basePath}/sso/login';
         });
+
+        $('#heightDiv').css("min-height",window.innerHeight - 220);
     });
 </script>
 

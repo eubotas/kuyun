@@ -96,6 +96,7 @@
         document.getElementById(mode + "_longitude").value = longitude;
         document.getElementById(mode + "_latitude").value = latitude;
         setCity(mode);
+        regeocoder(longitude, latitude);
         getAddress(longitude, latitude, mode);
     }
 
@@ -119,6 +120,19 @@
             if (data['province'] && typeof data['province'] === 'string') {
                 $('#'+mode+'_city').val(getCityCode(data['city']));
                 $('#'+mode+"_province").val(getProvinceCode(data['province']));
+            }
+        });
+    }
+
+    function regeocoder(longitude, latitude) {
+        var lnglatXY=[longitude, latitude];
+        var geocoder = new AMap.Geocoder({
+            radius: 1000,
+            extensions: "all"
+        });
+        geocoder.getAddress(lnglatXY, function(status, result) {
+            if (status === 'complete' && result.info === 'OK') {
+                var code=result.regeocode.formattedAddress;
             }
         });
     }
