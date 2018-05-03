@@ -16,6 +16,7 @@
     var map, marker;
 
     function changeCity(obj){
+        marker = null;
         var sectionId=obj.id;
         if(sectionId && sectionId.startsWith("add_"))
             mapInit('add');
@@ -24,8 +25,10 @@
     }
 
     function mapInit(mode){
-         var city = $('#'+mode+'_city').text();//此处是城市名称
-         var province = $('#'+mode+"_province").text();
+         var citys = $('#'+mode+'_city').select2('data');
+         var city=(citys.length >0)?citys[0].text:"";
+         var provinces = $('#'+mode+"_province").select2('data');
+         var province=provinces.length >0? provinces[0].text:"";
          if(province && province.endsWith('市'))
              city =province;
 
@@ -78,7 +81,7 @@
             icon: "http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
             position: [longitude, latitude],
             draggable: true,
-            offset: new AMap.Pixel(-9, -50),
+            offset: new AMap.Pixel(-9, 0),
             cursor: 'move',
             raiseOnDrag: true
         });
@@ -117,8 +120,11 @@
     function setCity(mode) {
         map.getCity(function(data) {
             if (data['province'] && typeof data['province'] === 'string') {
-                $('#'+mode+'_city').val(getCityCode(data['city']));
-                $('#'+mode+"_province").val(getProvinceCode(data['province']));
+                var provinceCode=getProvinceCode(data['province']);
+                $('#'+mode+"_province").val(provinceCode).select2();
+                getProCity(provinceCode);
+                initCityOptions(mode);
+                $('#'+mode+'_city').val(getCityCode(data['city'])).select2();
             }
         });
     }
@@ -137,6 +143,7 @@
                 return cityList[pos].id;
             }
         }
+        return (cityList.length>0)?cityList[0].id : "";
     }
 </script>
 
