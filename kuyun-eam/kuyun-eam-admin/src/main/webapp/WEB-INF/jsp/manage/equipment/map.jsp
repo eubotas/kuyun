@@ -35,6 +35,21 @@
         locationCity(mode, city);
     }
 
+    function initEditPosition(longitude, latitude) {
+        var mode ='edit';
+        map = new AMap.Map(mode+'_mapContainer', {center: [longitude, latitude], resizeEnable: true,zoom:13});
+        map.plugin(["AMap.ToolBar"], function() {
+            map.addControl(new AMap.ToolBar());
+        });
+        if(location.href.indexOf('&guide=1')!==-1){
+            map.setStatus({scrollWheel:false})
+        }
+        map.on('complete', function() {
+            addMarker(mode, longitude, latitude);
+            setMapInfo(mode, longitude, latitude);
+        });
+    }
+
     function locationCity(mode, city) {
         map = new AMap.Map(mode+'_mapContainer', {resizeEnable: true,zoom:13});
         map.plugin(["AMap.ToolBar"], function() {

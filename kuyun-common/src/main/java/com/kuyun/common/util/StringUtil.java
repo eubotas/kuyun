@@ -154,4 +154,9 @@ public class StringUtil {
         }
     }
 
+    public static String removeSuffix(String val, String suffix){
+        if(val != null && val.endsWith(suffix))
+            val = val.substring(0, val.lastIndexOf(suffix));
+        return val;
+    }
 }

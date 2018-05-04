@@ -7,6 +7,7 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.util.MD5Util;
+import com.kuyun.common.util.StringUtil;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.common.validator.NotNullValidator;
 import com.kuyun.upms.client.util.BaseEntityUtil;
@@ -314,6 +315,7 @@ public class UpmsUserController extends BaseController {
         upmsUser.setPassword(null);
         upmsUser.setUserId(id);
         upmsUser.setUsername(upmsUser.getPhone());
+        upmsUser.setAvatar(StringUtil.removeSuffix(upmsUser.getAvatar(), "::"));
         int count = upmsUserService.updateByPrimaryKeySelective(upmsUser);
         if(count >0)
             request.getSession().setAttribute("USER",upmsUser);

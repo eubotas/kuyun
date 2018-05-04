@@ -148,7 +148,7 @@
             </div>
             <div class="form-group">
                 <label for="edit_imagePath">头像</label>
-                <image src='${user.avatar}' />
+                <image src='${basePath}${user.avatar}' />
                 <button type="button" class="btn btn-secondary" id="modifyImage" style="margin-left:70%;">
                     修改头像
                 </button>

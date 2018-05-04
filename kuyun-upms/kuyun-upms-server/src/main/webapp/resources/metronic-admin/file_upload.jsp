@@ -90,7 +90,7 @@
         });
         var fileUuids = '';
         for (var i = 0; i < uploads.length; i++) {
-            fileUuids = fileUuids + uploads[i].uuid + ",";
+            fileUuids = fileUuids + uploads[i].uuid + "/" + uploads[i].name + "::";
         }
 
         return fileUuids;

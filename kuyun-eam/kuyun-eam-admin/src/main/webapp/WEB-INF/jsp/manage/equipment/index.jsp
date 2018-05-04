@@ -286,6 +286,7 @@
         function updateAction(row) {
             jQuery("#editEquipmentFormContainer").modal("show");
             ajaxGet('${basePath}/manage/equipment/update/' + row["equipmentId"], function (responseData) {
+                var longitude, latitude;
                 if (responseData) {
                     var data = responseData.equipment;
                     addOptionToHtmlSelect(data.equipmentModelId, "edit_equipmentModelId", responseData.equipmentModels);
@@ -297,6 +298,8 @@
                     $("#edit_number").val(data.number);
                     $("#edit_serialNumber").val(data.serialNumber);
                     $("#edit_imagePath").val(data.imagePath);
+                    longitude =data.longitude;
+                    latitude = data.latitude;
                     $("#edit_longitude").val(data.longitude);
                     $("#edit_latitude").val(data.latitude);
                     $("#edit_factoryDate").val(changeTimeFormat(data.factoryDate));
@@ -304,7 +307,10 @@
                     $("#edit_warrantyStartDate").val(changeTimeFormat(data.warrantyStartDate));
                     $("#edit_warrantyEndDate").val(changeTimeFormat(data.warrantyEndDate));
                 }
-                mapInit('edit');
+                if(longitude && latitude)
+                    initEditPosition(longitude, latitude);
+                else
+                    mapInit('edit');
             });
         }
 
@@ -534,7 +540,6 @@
                         <div class="form-group m-form__group row">
                             <label class="col-lg-2 col-form-label">地区:</label>
                             <div class="col-sm-4">
-                               <%-- <input id="templateID_province" type="hide" name="province" >--%>
                                 <select id="templateID_province" name="province" onchange="changeCity(this)" style="width: 100%" ></select>
                             </div>
 
