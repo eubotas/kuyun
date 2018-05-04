@@ -71,8 +71,8 @@
                             <div class="tab-pane active show" id="currAlarm" role="tabpanel">
                                 <div class="row">
                                     <div class="col-md-3 col-md-offset-1 margin-top-10">
-                                        <select id="equipments1" name="equipments" style="width: 100%">
-                                            <option value="">所有</option>
+                                        <select id="equipments1" name="equipmentId" style="width: 100%">
+                                            <option value="">所有设备</option>
                                         </select>
                                     </div>
                                     <div class="col-md-9 margin-top-10">
@@ -102,14 +102,14 @@
                                 <div class="row">
                                     <div class="col-md-2 col-md-offset-1 margin-top-10">
                                         <select id="searchType" name="searchType" style="width: 100%">
-                                            <option value="">所有</option>
-                                            <option value="ANU|ANA">活跃</option>
-                                            <option value="CNU|CNA">已消除</option>
+                                            <option value="">所有类别</option>
+                                            <option value="ANU:ANA">活跃</option>
+                                            <option value="CNU:CNA">已消除</option>
                                         </select>
                                     </div>
                                     <div class="col-md-3 col-md-offset-1 margin-top-10">
-                                        <select id="equipments" name="equipments" style="width: 100%">
-                                            <option value="">所有</option>
+                                        <select id="equipments" name="equipmentId" style="width: 100%">
+                                            <option value="">所有设备</option>
                                         </select>
                                     </div>
                                     <div class="col-md-7 margin-top-10">
@@ -152,7 +152,7 @@
 
     <script>
 
-        var alarmUrl ='${basePath}/manage/alarm/record/list';
+        var alarmUrl ='${basePath}/manage/alarm/record/list?alarmType=ANU:ANA';
         var historyUrl='${basePath}/manage/alarm/record/history/list';
         var alarmTable = $('#currAlarmTable');
         var histAlarmTable = $('#historyAlarmTable');
@@ -235,8 +235,8 @@
                         items.push({'VALUEFIELD':val.equipmentId,'DESCFIELD': val.name});
                     });
 
-                    addOptionToHtmlSelect(selectEquipment1, "equipments1", items, "","所有");
-                    addOptionToHtmlSelect(selectEquipment, "equipments", items, "","所有");
+                    addOptionToHtmlSelect(selectEquipment1, "equipments1", items, "","所有设备");
+                    addOptionToHtmlSelect(selectEquipment, "equipments", items, "","所有设备");
                 }
             });
         });

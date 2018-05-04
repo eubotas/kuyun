@@ -1,6 +1,7 @@
 package com.kuyun.eam.admin.controller.manager;
 
 import com.kuyun.common.base.BaseController;
+import com.kuyun.common.util.StringUtil;
 import com.kuyun.eam.admin.util.EamUtil;
 import com.kuyun.eam.common.constant.AlarmStatus;
 import com.kuyun.eam.common.constant.EamResult;
@@ -77,6 +78,8 @@ public class EamAlarmRecordHistoryController extends BaseController {
 				}
 			}
 		}
+
+        recordVO.setAlarmStatuses(StringUtil.convertList(recordVO.getAlarmType(),":"));
 
 		List<EamAlarmRecordVO> rows = eamApiService.selectAlarmRecordHistoies(recordVO);
 		Long total = eamApiService.countAlarmRecordHistoies(recordVO);

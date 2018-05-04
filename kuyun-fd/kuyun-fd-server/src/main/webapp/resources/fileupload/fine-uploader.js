@@ -997,7 +997,7 @@
         UPLOAD_RETRYING: "retrying upload",
         UPLOAD_SUCCESSFUL: "upload successful",
         UPLOAD_FAILED: "upload failed",
-        DELETE_FAILED: "delete failed",
+        DELETE_FAILED: "删除失败",
         DELETING: "deleting",
         DELETED: "deleted"
     };
@@ -6461,9 +6461,9 @@
             },
             deleteFile: {
                 forceConfirm: false,
-                confirmMessage: "Are you sure you want to delete {filename}?",
-                deletingStatusText: "Deleting...",
-                deletingFailedText: "Delete failed"
+                confirmMessage: "您确认要删除 {filename}?",
+                deletingStatusText: "正在删除......",
+                deletingFailedText: "删除失败"
             },
             display: {
                 fileSizeOnSubmit: false,

@@ -35,6 +35,7 @@ public class EamAlarmRecordVO extends EamAlarmRecord {
     private String equipmentNumber;
     private String equipmentModelPropertyName;
     private List<String> equipmentIds;
+    private List<String> alarmStatuses;
 
     public String getAlarmClearValue() {
         return alarmClearValue;
@@ -182,6 +183,14 @@ public class EamAlarmRecordVO extends EamAlarmRecord {
 
     public void setEquipmentNumber(String equipmentNumber) {
         this.equipmentNumber = equipmentNumber;
+    }
+
+    public List<String> getAlarmStatuses() {
+        return alarmStatuses;
+    }
+
+    public void setAlarmStatuses(List<String> alarmStatuses) {
+        this.alarmStatuses = alarmStatuses;
     }
 
     public String getAlarmContent(){

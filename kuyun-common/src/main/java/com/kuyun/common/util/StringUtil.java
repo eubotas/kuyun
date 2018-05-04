@@ -3,6 +3,9 @@ package com.kuyun.common.util;
 
 import org.apache.commons.lang.StringUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -158,5 +161,14 @@ public class StringUtil {
         if(val != null && val.endsWith(suffix))
             val = val.substring(0, val.lastIndexOf(suffix));
         return val;
+    }
+
+    public static List<String> convertList(String val, String c){
+        List<String> list=new ArrayList<String>();
+        if(val != null) {
+            String[] vals = val.split(c);
+            return Arrays.asList(vals);
+        }
+        return list;
     }
 }

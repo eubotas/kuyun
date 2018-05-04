@@ -1,6 +1,7 @@
 package com.kuyun.eam.admin.controller.manager;
 
 import com.kuyun.common.base.BaseController;
+import com.kuyun.common.util.StringUtil;
 import com.kuyun.eam.admin.util.EamUtil;
 import com.kuyun.eam.common.constant.AlarmStatus;
 import com.kuyun.eam.common.constant.EamResult;
@@ -105,6 +106,8 @@ public class EamAlarmRecordController extends BaseController {
 			//current company have not equipment
 			recordVO.setEquipmentId("-1");
 		}
+        recordVO.setAlarmStatuses(StringUtil.convertList(recordVO.getAlarmType(),"|"));
+
 		List<EamAlarmRecordVO> rows = eamApiService.selectAlarmRecords(recordVO);
 		Long total = eamApiService.countAlarmRecords(recordVO);
 		Map<String, Object> result = new HashMap<>();

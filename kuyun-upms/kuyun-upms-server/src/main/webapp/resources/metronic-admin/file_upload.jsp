@@ -60,15 +60,15 @@
         <dialog class="qq-alert-dialog-selector">
             <div class="qq-dialog-message-selector"></div>
             <div class="qq-dialog-buttons">
-                <button type="button" class="qq-cancel-button-selector">Close</button>
+                <button type="button" class="qq-cancel-button-selector">关闭</button>
             </div>
         </dialog>
 
         <dialog class="qq-confirm-dialog-selector">
             <div class="qq-dialog-message-selector"></div>
             <div class="qq-dialog-buttons">
-                <button type="button" class="qq-cancel-button-selector">No</button>
-                <button type="button" class="qq-ok-button-selector">Yes</button>
+                <button type="button" class="qq-cancel-button-selector">否</button>
+                <button type="button" class="qq-ok-button-selector">是</button>
             </div>
         </dialog>
 
@@ -76,8 +76,8 @@
             <div class="qq-dialog-message-selector"></div>
             <input type="text">
             <div class="qq-dialog-buttons">
-                <button type="button" class="qq-cancel-button-selector">Cancel</button>
-                <button type="button" class="qq-ok-button-selector">Ok</button>
+                <button type="button" class="qq-cancel-button-selector">取消</button>
+                <button type="button" class="qq-ok-button-selector">确定</button>
             </div>
         </dialog>
     </div>

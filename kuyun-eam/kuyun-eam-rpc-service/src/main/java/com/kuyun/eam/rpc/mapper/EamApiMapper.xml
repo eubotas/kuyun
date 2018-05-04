@@ -450,6 +450,13 @@
 		<if test="alarmStatus != null and alarmStatus != ''">
 			AND t.alarm_status = #{alarmStatus}
 		</if>
+        <if test="alarmStatuses != null and alarmStatuses != ''">
+            AND t.alarm_status in
+            <foreach item="item" index="index" collection="alarmStatuses"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
 		<if test="orderByClause != null">
 			order by ${orderByClause}
 		</if>

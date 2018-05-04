@@ -300,7 +300,7 @@
                             <div class="text-center row">
                                 <div class="row">
                                 <div class="col-md-3 col-md-offset-1 margin-top-10">
-                                    <select id="equipmentModelType" name="equipmentModelType" onchange="onChangeEquipmentModelType(this)" style="width: 100%"></select>
+                                    <select id="equipmentModelType" name="equipmentModelType" onchange="onChangeEquipmentModelType(this)" style="width: 100%; min-width:80px;"></select>
                                 </div>
                                 <div class="col-md-9 margin-top-10">
                                     <div class="input-group input-large input-daterange">
@@ -316,7 +316,6 @@
                                 </div>
                                 </div>
                                 <div class="row"  style="margin-top:10px;">
-                                <div class="col-md-12 margin-top-10">
                                     <div class="margin-top-10 margin-bottom-20 text-center">
                                         <div class="clearfix">
                                             <input type="button" class="btn btnBlue btn-outline-primary m-btn m-btn--outline-2x" onclick="setHistoryTime(1)" value="最近10分钟">
@@ -325,7 +324,6 @@
                                             <input type="button" id="curveTimeBtn" class="btn btnPurple btn-outline-primary m-btn m-btn--outline-2x" onclick="setFreeTime()"  value="自定义时间">
                                         </div>
                                     </div>
-                                </div>
                                 </div>
                             </div>
 
