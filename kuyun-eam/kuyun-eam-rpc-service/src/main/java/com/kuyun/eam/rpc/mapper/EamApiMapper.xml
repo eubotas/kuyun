@@ -946,8 +946,8 @@
 		e.lable_name as data_element_name,
 		egvd.value,
 		egvd.update_time,
+		egvd.data_element_id,
 		e.data_type,
-		e.id as data_element_id,
 		egv.grm_period
 		from eam_grm_variable_data egvd,
 		eam_data_element e,
