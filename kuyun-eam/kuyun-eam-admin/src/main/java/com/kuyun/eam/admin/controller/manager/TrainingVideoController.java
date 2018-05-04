@@ -73,7 +73,8 @@ public class TrainingVideoController extends BaseController {
     @ApiOperation(value = "培训视频首页")
     @RequiresPermissions("eam:trainingVideo:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String index() {
+    public String index(ModelMap modelMap){
+        modelMap.put("uploadServer", fileUploaderService.getServerInfo());
         return "/manage/knowledge/training/video/index.jsp";
     }
 
