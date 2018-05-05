@@ -74,9 +74,46 @@
                             <ul>
                                 <li class="search-item">
                                     <c:forEach var="row" items="${rows}">
-                                        <a href="${basePath}/manage/knowledge/${row.type}/${row.id}"><h4>${row.title}</h4>  </a>
-                                        <p class="desc">${row.description}</p>
-                                        <div class="info"></div>
+
+                                        <div class="m-widget4__item col-md-offset-1">
+                                            <div class="m-widget4__info">
+                                                <i class="flaticon-interface m--font-accent"></i>
+                                                <span class="m-widget4__text">
+                                                    <c:if test="${row.type == 'training-video'}">
+                                                        培训视频
+                                                    </c:if> <c:if test="${row.type == 'training-doc'}">培训文档</c:if> <c:if test="${row.type == 'maintain-knowledge'}"> 保养知识</c:if>
+                                                        <c:if test="${row.type == 'repair-knowledge'}">维修知识</c:if> <c:if test="${row.type == 'equipment-manual'}">设备手册</c:if>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <hr />
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-1">
+                                            <span class="desc">标题: </span>
+                                            </div>
+                                            <div class="col-sm-7">
+                                            <span class="desc"><a href="${basePath}/manage/knowledge/${row.type}/${row.id}"><h4>${row.title}</h4>  </a></span>
+                                            </div>
+                                            <div class="col-sm-1">
+                                                <span class="desc">日期: </span>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <span class="desc">${row.createTime}</span>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-1">
+                                                <span class="desc">描述:</span>
+                                            </div>
+                                            <div class="col-sm-11">
+                                                <span class="desc"><a href="${basePath}/manage/knowledge/${row.type}/${row.id}"> ${row.description} </a></span>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="height:10px;">
+                                            <hr />
+                                        </div>
                                     </c:forEach>
                                 </li>
                             </ul>

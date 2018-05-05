@@ -43,7 +43,7 @@
             <%--</li>--%>
             <li class="m-nav__item m-topbar__notifications m-topbar__notifications--img m-dropdown m-dropdown--large m-dropdown--header-bg-fill m-dropdown--arrow m-dropdown--align-center 	m-dropdown--mobile-full-width" data-dropdown-toggle="click" data-dropdown-persistent="true">
                 <a href="#" class="m-nav__link m-dropdown__toggle" id="m_topbar_notification_icon">
-                    <span class="m-nav__link-badge m-badge m-badge--dot m-badge--dot-small m-badge--danger"></span>
+                    <span id="redDot" class="m-nav__link-badge"></span>
                     <span class="m-nav__link-icon">
 													<i class="flaticon-music-2"></i>
 												</span>
@@ -206,12 +206,16 @@
 <script>
     var refreshTime =5000;
     refreshAlarm();
-    setInterval(function(){ refreshAlarm(); }, refreshTime);
+   // setInterval(function(){ refreshAlarm(); }, refreshTime);
 
     function refreshAlarm(){
         ajaxGet('${eamPath}/manage/alarm/list', function (responseData) {
             if (responseData) {
                 var total=responseData.total;
+                if(total >0 && hasNotificationInfo == false) {
+                    $("#redDot").addClass("m-badge m-badge--dot m-badge--dot-small m-badge--danger");
+                    hasNotificationInfo = true;
+                }
                 $('#alarmTitle').html('<span id="topAlarmNum" class="m-dropdown__header-title">' + total +
                     '条</span><span class="m-dropdown__header-subtitle">报警信息</span>');
 
