@@ -5,8 +5,8 @@ package com.kuyun.eam.common.constant;
  */
 public enum OrgDepartment {
 
-    MAINTENANCE_DEPARTMENT("MaintenanceDepartment", "维保部"),
-    REPAIR_DEPARTMENT("RepairDepartment", "维修部"),
+    MAINTENANCE_DEPARTMENT("MaintenanceDepartment", "维保部门"),
+    REPAIR_DEPARTMENT("RepairDepartment", "维修部门"),
     ALARM_DEPARTMENT("AlarmDepartment", "报警部门");
 
     private String code;
