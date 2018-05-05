@@ -869,12 +869,13 @@
 		from eam_maintain_plan a
 		LEFT OUTER JOIN eam_equipment_category ec ON a.equipment_category_id = ec.equipment_category_id
 		LEFT OUTER JOIN eam_equipment e ON a.equipment_id = e.equipment_id
-		LEFT OUTER JOIN eam_maintain_user mu ON a.plan_id = mu.plan_id
+		LEFT OUTER JOIN eam_maintain_user mu ON (a.plan_id = mu.plan_id AND mu.delete_flag = 0)
 		LEFT OUTER JOIN upms_user uu ON mu.user_id = uu.user_id
 		WHERE a.delete_flag = 0 and mu.delete_flag = 0
 		<if test="companyId != null and companyId != ''">
 			AND a.company_id = #{companyId}
 		</if>
+		group by a.plan_id
 		<if test="orderByClause != null">
 			order by ${orderByClause}
 		</if>

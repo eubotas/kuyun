@@ -354,6 +354,9 @@
                 $("#"+formid+"_Form").validate({
                     // define validation rules
                     rules: {
+                        maintainUserId: {
+                            required: true
+                        },
                         nextMaintainDate: {
                             required: true
                         },
