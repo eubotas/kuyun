@@ -215,7 +215,7 @@
         ajaxGet('${eamPath}/manage/alarm/list', function (responseData) {
             if (responseData) {
                 var total=responseData.total;
-                if(total >0) {
+                if(total >0 && hasNotificationInfo == false) {
                     $("#redDot").addClass("m-badge m-badge--dot m-badge--dot-small m-badge--danger");
                     hasNotificationInfo = true;
                 }
