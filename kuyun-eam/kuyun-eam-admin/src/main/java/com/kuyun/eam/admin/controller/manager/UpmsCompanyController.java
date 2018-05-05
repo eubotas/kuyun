@@ -10,6 +10,7 @@ import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.common.validator.NotNullValidator;
 import com.kuyun.eam.dao.model.EamEquipmentCompany;
 import com.kuyun.eam.dao.model.EamEquipmentCompanyExample;
+import com.kuyun.eam.rpc.api.EamApiService;
 import com.kuyun.eam.rpc.api.EamEquipmentCompanyService;
 import com.kuyun.eam.vo.EamEquipmentVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
@@ -56,6 +57,9 @@ public class UpmsCompanyController extends BaseController {
 
     @Autowired
     private EamEquipmentCompanyService eamEquipmentCompanyService;
+
+    @Autowired
+    private EamApiService eamApiService;
 
     @ApiOperation(value = "公司首页")
     @RequiresPermissions("eam:company:read")
@@ -131,7 +135,7 @@ public class UpmsCompanyController extends BaseController {
             upmsCompany.setParentId(company.getCompanyId());
         }
 
-        int count = upmsCompanyService.insertSelective(upmsCompany);
+        int count = eamApiService.createCustomer(upmsCompany);
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
     }
 

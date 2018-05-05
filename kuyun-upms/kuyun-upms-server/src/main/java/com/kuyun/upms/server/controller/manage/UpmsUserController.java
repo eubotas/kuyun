@@ -76,7 +76,8 @@ public class UpmsUserController extends BaseController {
     @ApiOperation(value = "用户首页")
     @RequiresPermissions("upms:user:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String index() {
+    public String index(ModelMap modelMap) {
+        modelMap.put("uploadServer", fileUploaderService.getServerInfo());
         return "/manage/user/index.jsp";
     }
 
@@ -263,6 +264,7 @@ public class UpmsUserController extends BaseController {
         upmsUser.setPassword(MD5Util.md5(upmsUser.getPassword() + upmsUser.getSalt()));
         upmsUser.setCtime(time);
         upmsUser.setUsername(upmsUser.getPhone());
+        upmsUser.setCompanyId(getCompanyId());
         int count = upmsUserService.insertSelective(upmsUser);
         _log.info("新增用户，主键：userId={}", upmsUser.getUserId());
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);

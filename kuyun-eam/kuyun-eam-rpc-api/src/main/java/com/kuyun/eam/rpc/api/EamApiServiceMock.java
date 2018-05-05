@@ -5,6 +5,7 @@ import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.pojo.tree.Tree;
 import com.kuyun.eam.vo.*;
+import com.kuyun.upms.dao.model.UpmsCompany;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -233,6 +234,11 @@ public class EamApiServiceMock implements EamApiService {
     @Override
     public List<EamAlarmRemindVO> getUserAlarms(Integer userId) {
         return null;
+    }
+
+    @Override
+    public int createCustomer(UpmsCompany upmsCompany) {
+        return 0;
     }
 
 }

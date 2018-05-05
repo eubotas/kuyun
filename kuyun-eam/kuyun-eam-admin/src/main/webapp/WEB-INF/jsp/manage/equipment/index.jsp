@@ -27,6 +27,8 @@
 
         $(document).ready(function()
         {
+
+
             //codes works on all bootstrap modal windows in application
             $('.modal').on('hidden.bs.modal', function(e)
             {
@@ -69,6 +71,8 @@
                     }
                     mapInit('add');
                 });
+
+
             });
 
             $('#deleteButton').click(function(){
@@ -100,6 +104,8 @@
                     $('#edit_detailAddr').show();
                 }
             });
+
+
         });
 
 
@@ -190,10 +196,15 @@
                     {field: 'name', title: '设备名称'},
                     {field: 'equipmentModelName', title: '模型'},
                     {field: 'maintenancePeriod', title: '图片'},
-                    {field: 'maintenancePeriod', title: '启停'},
+                    {field: 'maintenancePeriod', width: 150, title: '启停', formatter: 'openCloseFormatter'},
                     {field: 'action', width: 120, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
-                ]
+                ],
+                onPostBody: function () {
+                    $('[data-switch=true]').bootstrapSwitch();
+                }
             });
+
+
         });
         // 格式化操作按钮
         function actionFormatter(value, row, index) {
@@ -204,6 +215,9 @@
             ].join('');
         }
 
+        function openCloseFormatter(value, row, index) {
+            return '<input data-switch="true" data-size="small" type="checkbox" checked="checked" data-on-color="success" data-off-color="warning">';
+        }
 
         var FormWidgets = function () {
             var createForm = function (formid) {

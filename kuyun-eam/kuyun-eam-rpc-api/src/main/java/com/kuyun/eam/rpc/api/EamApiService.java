@@ -1,15 +1,14 @@
 package com.kuyun.eam.rpc.api;
 
-import java.util.HashMap;
-import java.util.List;
-
 import com.kuyun.eam.common.constant.CollectStatus;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.pojo.tree.Tree;
 import com.kuyun.eam.vo.*;
-import com.kuyun.upms.dao.model.UpmsOrganization;
+import com.kuyun.upms.dao.model.UpmsCompany;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
+
+import java.util.List;
 
 /**
  * Created by user on 4/24/2017.
@@ -90,4 +89,6 @@ public interface EamApiService {
     List<EamHomeSummaryVO> getSummaryRecord(Integer companyId);
 
     List<EamAlarmRemindVO> getUserAlarms(Integer userId);
+
+    int createCustomer(UpmsCompany upmsCompany);
 }

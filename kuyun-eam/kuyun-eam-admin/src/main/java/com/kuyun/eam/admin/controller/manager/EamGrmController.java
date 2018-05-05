@@ -177,7 +177,7 @@ public class EamGrmController extends BaseController {
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			equipmentVO.setOrderByClause(sort + " " + order);
 		}else {
-			equipmentVO.setOrderByClause("eam_equipment.equipment_id, eam_equipment.create_time desc");
+			equipmentVO.setOrderByClause("eam_equipment.create_time desc");
 		}
 
 		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();

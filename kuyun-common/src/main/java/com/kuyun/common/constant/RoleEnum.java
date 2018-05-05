@@ -3,33 +3,29 @@ package com.kuyun.common.constant;
 /**
  * Created by user on 2018-01-05.
  */
-public enum OrgDepartment {
+public enum RoleEnum {
 
-    MAINTENANCE_DEPARTMENT("MaintenanceDepartment", "维保部门"),
-    REPAIR_DEPARTMENT("RepairDepartment", "维修部门"),
-    ALARM_DEPARTMENT("AlarmDepartment", "报警部门");
+    SUPER("super", "超级管理员", "拥有所有权限"),
+    TICKETCREATE("ticketCreate", "工单提报", "拥有提报工单权限"),
+    TICKETREPAIR("ticketRepair", "工单维修", "拥有维修工单权限"),
+    TICKETAPPOINT("ticketAppoint", "工单委派", "拥有委派工单权限");
 
-    private String code;
     private String name;
+    private String title;
+    private String description;
 
-    OrgDepartment(String code, String name){
-        this.code = code;
+    RoleEnum(String name, String title, String description){
         this.name = name;
+        this.title = title;
+        this.description = description;
     }
 
-
-
-    public static String getName(String code) {
-        for (OrgDepartment c : values()) {
-            if (c.getCode().equals(code) ) {
-                return c.name;
-            }
-        }
-        return null;
+    public String getTitle() {
+        return title;
     }
 
-    public String getCode() {
-        return code;
+    public String getDescription() {
+        return description;
     }
 
     public String getName() {

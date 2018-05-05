@@ -1,6 +1,3 @@
-delete from upms_user_permission;
-ALTER TABLE upms_user_permission AUTO_INCREMENT = 1;
-
 DELIMITER //  
 
 CREATE PROCEDURE update_user_permissions()

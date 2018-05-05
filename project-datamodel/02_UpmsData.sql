@@ -2,10 +2,10 @@ INSERT INTO upms_company (company_id, parent_id, name, address, phone, www, crea
 
 
 -- ----------------------------
--- Records of upms_organization   tyler remove
+-- Records of upms_organization   
 -- ----------------------------
-INSERT INTO upms_organization (organization_id, pid, name, description, ctime, company_id, delete_flag) VALUES ('1', null, '维修部', '维修部门', now(), 1, 0);
-INSERT INTO upms_organization (organization_id, pid, name, description, ctime, company_id, delete_flag) VALUES ('2', null, '维保部', '维保部门', now(), 1, 0);
+INSERT INTO upms_organization (organization_id, pid, name, description, ctime, company_id, delete_flag) VALUES ('1', null, '维修部门', '维修部门', now(), 1, 0);
+INSERT INTO upms_organization (organization_id, pid, name, description, ctime, company_id, delete_flag) VALUES ('2', null, '维保部门', '维保部门', now(), 1, 0);
 INSERT INTO upms_organization (organization_id, pid, name, description, ctime, company_id, delete_flag) VALUES ('3', null, '报警部门', '报警部门', now(), 1, 0);
 
 -- ----------------------------
@@ -141,4 +141,3 @@ INSERT INTO upms_user_role VALUES ('1', '1', '1', 0);
 INSERT INTO upms_user_role VALUES ('2', '1', '2', 0);
 INSERT INTO upms_user_role VALUES ('3', '1', '3', 0);
 INSERT INTO upms_user_role VALUES ('4', '1', '4', 0);
-INSERT INTO upms_user_role VALUES ('5', '1', '5', 0);

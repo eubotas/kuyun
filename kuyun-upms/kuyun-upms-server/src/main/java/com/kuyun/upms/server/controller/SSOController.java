@@ -322,7 +322,7 @@ public class SSOController extends BaseController {
             return new UpmsResult(UpmsResultConstant.FAILED, "验证码不正确");
         }
 
-        upmsApiService.handleReg(userName, name, password, email, phone, company);
+        upmsApiService.handleReg(userName, name, password, email, phone, company, true);
 
         return new UpmsResult(UpmsResultConstant.SUCCESS, null);
     }

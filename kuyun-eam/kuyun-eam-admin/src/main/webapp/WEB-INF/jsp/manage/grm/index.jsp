@@ -355,6 +355,8 @@
             searchOnEnterKey: true,
             idField: 'equipmentId',
             maintainSelected: true,
+            sortOrder: 'desc',
+            sortName: 'eam_equipment.create_time',
             columns: [
                 {field: 'ck', checkbox: true,  formatter : checkFormatter},
                 {field: 'name', title: '设备名称', sortable: true, align: 'center'},

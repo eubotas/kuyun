@@ -106,7 +106,6 @@ public interface UpmsApiService {
 
     boolean validateToken(String token);
 
-    void handleReg(String userName, String name, String password, String email, String phone, String company);
 
     UpmsCompany getUpmsCompany(Integer userId);
 
@@ -132,4 +131,8 @@ public interface UpmsApiService {
 
     List<UpmsUser> selectUsers(UpmsUserVo upmsUserVo);
     Long countUsers(UpmsUserVo upmsUserVo);
+
+    void handleReg(String userName, String name, String password, String email, String phone, String company, boolean sendToManager);
+
+
 }

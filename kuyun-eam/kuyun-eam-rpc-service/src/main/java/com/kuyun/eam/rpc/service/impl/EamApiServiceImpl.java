@@ -20,7 +20,11 @@ import com.kuyun.eam.util.ProtocolEnum;
 import com.kuyun.eam.vo.*;
 import com.kuyun.grm.rpc.api.GrmApiService;
 import com.kuyun.modbus.rpc.api.ModbusSlaveRtuApiService;
+import com.kuyun.upms.dao.model.UpmsCompany;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
+import com.kuyun.upms.rpc.api.UpmsApiService;
+import com.kuyun.upms.rpc.api.UpmsCompanyService;
+import org.apache.commons.lang.RandomStringUtils;
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -101,6 +105,10 @@ public class EamApiServiceImpl implements EamApiService {
 
     @Autowired
     private EamTicketAssessmentService eamTicketAssessmentService;
+    @Autowired
+    private UpmsCompanyService upmsCompanyService;
+    @Autowired
+    private UpmsApiService upmsApiService;
 
     @Override
     public List<EamLocationVO> selectLocation(EamLocationVO locationVO) {
@@ -719,6 +727,21 @@ public class EamApiServiceImpl implements EamApiService {
     @Override
     public List<EamAlarmRemindVO> getUserAlarms(Integer userId){
         return eamApiMapper.getUserAlarms(userId);
+    }
+
+    @Override
+    public int createCustomer(UpmsCompany upmsCompany) {
+        String adminName = RandomStringUtils.randomAlphabetic(5);
+        String adminPassword = RandomStringUtils.randomAlphabetic(6);
+
+        upmsCompany.setAdminName(adminName);
+        upmsCompany.setAdminPassword(adminPassword);
+
+        int count = upmsCompanyService.insertSelective(upmsCompany);
+
+        upmsApiService.handleReg(adminName, adminName, adminPassword, null, null, upmsCompany.getName(), false);
+
+        return count;
     }
 
     private int rejectTicketStatus(int ticketId, String status){

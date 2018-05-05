@@ -1,4 +1,4 @@
-package com.kuyun.eam.common.constant;
+package com.kuyun.common.constant;
 
 /**
  * Created by user on 2018-01-05.
@@ -20,7 +20,7 @@ public enum OrgDepartment {
 
 
     public static String getName(String code) {
-        for (OrgDepartment c : OrgDepartment.values()) {
+        for (OrgDepartment c : values()) {
             if (c.getCode().equals(code) ) {
                 return c.name;
             }
