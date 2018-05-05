@@ -62,32 +62,67 @@
         <div class="m-portlet__body">
 
             <c:if test="${category == 'training-video'}">
-                <p class="desc">标题: ${model.title}</p>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <span class="desc">标题: ${model.title}</span>
+                    </div>
+                    <div class="col-sm-3">
+                        <span class="desc">日期: ${model.createTime}</span>
+                    </div>
+                </div>
                 <div class="info">描述: ${model.description}</div>
                 <div class="info">附件: ${model.path}</div>
             </c:if>
 
             <c:if test="${category == 'training-doc'}">
-                <p class="desc">标题: ${model.title}</p>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <span class="desc">标题: ${model.title}</span>
+                    </div>
+                    <div class="col-sm-3">
+                        <span class="desc">日期: ${model.createTime}</span>
+                    </div>
+                </div>
                 <div class="info">描述: ${model.description}</div>
                 <div class="info">内容: ${model.content}</div>
                 <div class="info">附件: ${model.path}</div>
             </c:if>
 
             <c:if test="${category == 'maintain-knowledge'}">
-                <p class="desc">标题: ${model.title}</p>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <span class="desc">标题: ${model.title}</span>
+                    </div>
+                    <div class="col-sm-3">
+                        <span class="desc">日期: ${model.createTime}</span>
+                    </div>
+                </div>
                 <div class="info">描述: ${model.description}</div>
                 <div class="info">内容: ${model.content}</div>
             </c:if>
 
             <c:if test="${category == 'repair-knowledge'}">
-                <p class="desc">故障代码: ${model.codes}</p>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <span class="desc">故障代码: ${model.codes}</span>
+                    </div>
+                    <div class="col-sm-3">
+                        <span class="desc">日期: ${model.createTime}</span>
+                    </div>
+                </div>
                 <div class="info">故障描述: ${model.description}</div>
                 <div class="info">解决故障的方法: ${model.method}</div>
             </c:if>
 
             <c:if test="${category == 'equipment-manual'}">
-                <p class="desc">标题: ${model.title}</p>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <span class="desc">标题: ${model.title}</span>
+                    </div>
+                    <div class="col-sm-3">
+                        <span class="desc">日期: ${model.createTime}</span>
+                    </div>
+                </div>
                 <div class="info">描述: ${model.description}</div>
                 <div class="info">内容: ${model.content}</div>
                 <div class="info">附件: ${model.path}</div>
