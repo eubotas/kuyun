@@ -537,3 +537,50 @@ function setText(id,val){
 function goBack() {
     window.history.back();
 }
+
+function getImagePath(fileName) {
+    var protocol = window.location.protocol;
+    var hostname = window.location.hostname;
+    var port = window.location.port;
+    var url = protocol+ "//" + hostname + ":" + port;
+    var realPath = url + '/resources/metronic-admin/assets/app/media/img/works/img7.jpg';
+    if (fileName){
+        realPath = protocol+ "//" + hostname + "/fileStorage/eam/" + fileName;
+    }
+    return realPath;
+}
+
+function getFiles(fileNames) {
+    var realPaths = new Array();
+    var protocol = window.location.protocol;
+    var hostname = window.location.hostname;
+    if (fileNames){
+        var paths = fileNames.split("::");
+        $.each(paths,
+            function(i, ipath) {
+                var realPath = protocol+ "//" + hostname + "/fileStorage/eam/" + ipath;
+                realPaths.push(realPath);
+            }
+        );
+    }
+
+    return realPaths;
+}
+
+function fileFormatter(value, row, index) {
+    var files = getFiles(value);
+    var protocol = window.location.protocol;
+    var hostname = window.location.hostname;
+    var port = window.location.port;
+    var url = protocol+ "//" + hostname + ":" + port;
+    var html = '';
+
+    $.each(files,
+        function(i, file) {
+            html += '<a href='+file+' target="blank">';
+            html += '<img style="width:40px;height:40px;" src="'+url+'/resources/metronic-admin/assets/app/media/img/files/doc.svg">';
+            html += '</a>';
+        }
+    );
+    return html;
+}

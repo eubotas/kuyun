@@ -71,7 +71,7 @@
                     </div>
                 </div>
                 <div class="info">描述: ${model.description}</div>
-                <div class="info">附件: ${model.path}</div>
+                <div class="info" id="fileDiv">附件: </div>
             </c:if>
 
             <c:if test="${category == 'training-doc'}">
@@ -85,7 +85,7 @@
                 </div>
                 <div class="info">描述: ${model.description}</div>
                 <div class="info">内容: ${model.content}</div>
-                <div class="info">附件: ${model.path}</div>
+                <div class="info" id="fileDiv">附件: </div>
             </c:if>
 
             <c:if test="${category == 'maintain-knowledge'}">
@@ -99,6 +99,7 @@
                 </div>
                 <div class="info">描述: ${model.description}</div>
                 <div class="info">内容: ${model.content}</div>
+                <div class="info" id="fileDiv">附件: </div>
             </c:if>
 
             <c:if test="${category == 'repair-knowledge'}">
@@ -112,6 +113,7 @@
                 </div>
                 <div class="info">故障描述: ${model.description}</div>
                 <div class="info">解决故障的方法: ${model.method}</div>
+                <div class="info" id="fileDiv">附件: </div>
             </c:if>
 
             <c:if test="${category == 'equipment-manual'}">
@@ -125,7 +127,7 @@
                 </div>
                 <div class="info">描述: ${model.description}</div>
                 <div class="info">内容: ${model.content}</div>
-                <div class="info">附件: ${model.path}</div>
+                <div class="info" id="fileDiv">附件: </div>
             </c:if>
         </div>
         <div class="modal-footer">
@@ -145,6 +147,9 @@
         $('#backButton').click(function(){
             goBack();
         });
+
+        var html = fileFormatter('${model.path}');
+        $("#fileDiv").append(html);
 
     </script>
 </pageResources>

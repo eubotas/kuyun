@@ -73,7 +73,8 @@ public class MaintainKnowledgeController extends BaseController {
     @ApiOperation(value = "保养知识首页")
     @RequiresPermissions("eam:maintainKnowledge:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    public String index() {
+    public String index(ModelMap modelMap) {
+        modelMap.put("uploadServer", fileUploaderService.getServerInfo());
         return "/manage/knowledge/maintain/index.jsp";
     }
 

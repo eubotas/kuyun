@@ -27,8 +27,6 @@
 
         $(document).ready(function()
         {
-
-
             //codes works on all bootstrap modal windows in application
             $('.modal').on('hidden.bs.modal', function(e)
             {
@@ -195,7 +193,7 @@
                     {field: 'number', title: '设备编号'},
                     {field: 'name', title: '设备名称'},
                     {field: 'equipmentModelName', title: '模型'},
-                    {field: 'maintenancePeriod', title: '图片'},
+                    {field: 'imagePath', title: '图片', formatter: 'imageFormatter'},
                     {field: 'maintenancePeriod', width: 150, title: '启停', formatter: 'openCloseFormatter'},
                     {field: 'action', width: 120, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ],
@@ -217,6 +215,12 @@
 
         function openCloseFormatter(value, row, index) {
             return '<input data-switch="true" data-size="small" type="checkbox" checked="checked" data-on-color="success" data-off-color="warning">';
+        }
+
+        function imageFormatter(value, row, index) {
+            var imageSrc = getImagePath(value);
+            var html = '<img class="img-responsive" style="width:36px;height:36px" src="'+ imageSrc +'">';
+            return html;
         }
 
         var FormWidgets = function () {

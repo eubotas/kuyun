@@ -165,7 +165,7 @@
                                     <div class="tab-content">
                                         <div class="tab-pane active" role="tabpanel">
                                             <div class="portlet-body" id="eqRight" style="min-height:100px;">
-                                                <img class="img-responsive" style="max-height:300px;" id="imagesrc" src="" alt="">
+                                                <img class="img-responsive" style="max-height:300px;" id="imagesrc" src="">
                                             </div>
 
                                         </div>
@@ -383,11 +383,7 @@
                 longitude = data.longitude;
                 latitude =data.latitude;
 
-                if(data.imagePath ==''|| data.imagePath ==null){
-                    $("#imagesrc").attr("src","/resources/kuyun-admin/images/logo.png");
-                }else{
-                    $("#imagesrc").attr("src",uploadServerPath+'/files/'+data.imagePath);
-                }
+                $("#imagesrc").attr("src",getImagePath(data.imagePath));
                 onlineHideShow(isOnline);
             }
             $('#eqRight').height($('#eqLeft').height());

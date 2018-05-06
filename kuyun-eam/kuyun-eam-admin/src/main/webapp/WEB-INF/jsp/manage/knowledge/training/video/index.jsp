@@ -195,12 +195,15 @@
                     {field: 'ck', checkbox: true},
                     {field: 'title', title: '标题'},
                     {field: 'description', title: '描述'},
-                    {field: 'path', title: '附件'},
                     {field: 'tag', title: '标签'},
-                    {field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
+                    {field: 'path', title: '附件', formatter: 'fileFormatter', width:"250px", align: 'center'},
+                    {field: 'action', title: '操作', align: 'center', width:"100px", formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ]
             });
         });
+
+
+
         // 格式化操作按钮
         function actionFormatter(value, row, index) {
             return [

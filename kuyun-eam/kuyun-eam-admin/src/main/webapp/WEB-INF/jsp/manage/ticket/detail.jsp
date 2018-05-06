@@ -98,14 +98,10 @@
             <div class="m-portlet__body">
                 <div class="row">
                     <div class="col-sm-12">
-                        <label for="description">工单编号: </label> <span id="ticketNumber">${ticket.ticketNumber }</span>
+                        <label>工单编号: </label> <span id="ticketNumber">${ticket.ticketNumber }</span>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-12">
-                        <label for="description">故障描述: </label> <span id="description">${ticket.description }</span>
-                    </div>
-                </div>
+
                 <div class="row">
                     <div class="col-sm-6">
                         <label >工单类型: </label> <span>${ticket.ticketType.name }</span>
@@ -139,12 +135,17 @@
                         <label for="createTime">创建时间: </label> <span id="createTime">${ticket.createTime}</span>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <label for="description">故障描述: </label> <span id="description">${ticket.description }</span>
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="col-sm-12">
                         <!-- image list  -->
-                        <c:forEach var="image" items="${imageList}">
-                            <image src='${image}' />
+                        <c:forEach var="image" items="${imageList}" varStatus="status">
+                            <image  id='imagePath_${status.index}'  src='${image}' />
                         </c:forEach>
                     </div>
                     <div class="col-sm-12">
@@ -510,6 +511,14 @@
         $('span[id^="status"]').each(function() {
             $(this).html(formatStatus($(this).text(), null, null));
         });
+
+
+
+        $('[id^="imagePath_"]').each(function() {
+            $(this).attr("src", getImagePath($(this).attr('src')));
+        });
+
+
     });
 
     $('#orderTakerId').select2({minimumResultsForSearch: -1});

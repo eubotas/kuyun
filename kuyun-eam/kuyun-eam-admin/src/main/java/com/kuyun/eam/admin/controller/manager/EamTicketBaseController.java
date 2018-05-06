@@ -69,11 +69,11 @@ public abstract class EamTicketBaseController extends BaseController {
         //retrieve the image list
         List<String> imageList =  new ArrayList<String>();
         if(eamTicket.getImagePath() != null) {
-            for (String uuid : Splitter.on(',')
+            for (String path : Splitter.on("::")
                     .trimResults()
                     .omitEmptyStrings()
                     .split(eamTicket.getImagePath())) {
-                imageList.add(fileUploaderService.getServerInfo().getEndpoint_show() + "/" + uuid);
+                imageList.add(path);
             }
         }
         modelMap.put("imageList", imageList);
@@ -81,11 +81,11 @@ public abstract class EamTicketBaseController extends BaseController {
         //retrieve the voice list
         List<String> voiceList =  new ArrayList<String>();
 		if(eamTicket.getVoicePath() != null) {
-			for (String uuid : Splitter.on(',')
+			for (String path : Splitter.on("::")
 					.trimResults()
 					.omitEmptyStrings()
 					.split(eamTicket.getVoicePath())) {
-				voiceList.add(fileUploaderService.getServerInfo().getEndpoint_show() + "/" + uuid);
+				voiceList.add(path);
 			}
 		}
         modelMap.put("voiceList", voiceList);

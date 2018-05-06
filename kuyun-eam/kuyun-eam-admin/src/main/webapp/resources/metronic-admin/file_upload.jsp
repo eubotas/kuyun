@@ -93,6 +93,7 @@
             fileUuids = fileUuids + uploads[i].uuid + "/" + uploads[i].name + "::";
         }
 
+        fileUuids = fileUuids.substring(0, fileUuids.length - 2);
         return fileUuids;
     }
 
@@ -111,7 +112,7 @@
             }
         },
         validation : {
-            /*  allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'] */
+            //allowedExtensions: ['jpeg', 'jpg', 'gif', 'png']
         },
         chunking : {
             enabled : true,

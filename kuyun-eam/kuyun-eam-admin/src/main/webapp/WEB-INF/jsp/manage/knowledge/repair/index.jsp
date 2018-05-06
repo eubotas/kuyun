@@ -205,7 +205,8 @@
                     {field: 'codes', title: '故障代码'},
                     {field: 'description', title: '故障描述'},
                     {field: 'tag', title: '标签'},
-                    {field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
+                    {field: 'path', title: '附件', formatter: 'fileFormatter', width:"250px", align: 'center'},
+                    {field: 'action', title: '操作', align: 'center', width:"100px", formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ]
             });
         });
