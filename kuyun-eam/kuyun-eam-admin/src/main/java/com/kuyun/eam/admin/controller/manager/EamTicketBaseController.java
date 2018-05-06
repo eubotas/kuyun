@@ -1,11 +1,8 @@
 package com.kuyun.eam.admin.controller.manager;
 
-import com.baidu.unbiz.fluentvalidator.ComplexResult;
-import com.baidu.unbiz.fluentvalidator.FluentValidator;
-import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.google.common.base.Splitter;
 import com.kuyun.common.base.BaseController;
-import com.kuyun.common.validator.LengthValidator;
+import com.kuyun.common.constant.OrgDepartment;
 import com.kuyun.eam.common.constant.*;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
@@ -14,26 +11,15 @@ import com.kuyun.eam.vo.EamTicketAssessmentTagVO;
 import com.kuyun.eam.vo.EamTicketVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.common.JspUtil;
-import com.kuyun.upms.dao.model.UpmsUser;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
 import com.kuyun.upms.dao.vo.UpmsOrgUserVo;
 import com.kuyun.upms.rpc.api.UpmsApiService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.datetime.DateFormatter;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-
-import static com.kuyun.eam.common.constant.EamResultConstant.SUCCESS;
 
 
 public abstract class EamTicketBaseController extends BaseController {

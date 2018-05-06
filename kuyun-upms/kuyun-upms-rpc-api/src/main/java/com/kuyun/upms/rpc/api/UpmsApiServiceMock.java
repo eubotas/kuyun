@@ -126,7 +126,7 @@ public class UpmsApiServiceMock implements UpmsApiService {
     }
 
     @Override
-    public void handleReg(String userName, String name, String password, String email, String phone, String company) {
+    public void handleReg(String userName, String name, String password, String email, String phone, String company, boolean sendToManager) {
 
     }
 

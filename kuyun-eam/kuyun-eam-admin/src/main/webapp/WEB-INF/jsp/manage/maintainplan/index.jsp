@@ -336,10 +336,18 @@
                     {field: 'equipmentName', title: '设备名称'},
                     {field: 'workContent', title: '维修内容'},
                     {field: 'maintainUsers', title: '维修人员'},
+                    {field: 'nextMaintainDate', title: '下个维修日期', formatter: 'timeFormatter'},
+                    {field: 'maintainFrequencyQuantity', title: '维修频率', formatter: 'maintainFrequencyQuantityFormatter'},
                     {field: 'action', width: 120, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ]
             });
         });
+
+        function maintainFrequencyQuantityFormatter(value , row, index) {
+            return value + ' ' + getUnitName(row['maintainFrequencyUnit']);
+            //return new Date(value).toLocaleString();
+        }
+
         // 格式化操作按钮
         function actionFormatter(value, row, index) {
             return [

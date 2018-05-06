@@ -18,6 +18,10 @@ public class UpmsCompany extends BaseEntity implements Serializable {
 
     private String www;
 
+    private String adminName;
+
+    private String adminPassword;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getParentId() {
@@ -76,6 +80,22 @@ public class UpmsCompany extends BaseEntity implements Serializable {
         this.www = www;
     }
 
+    public String getAdminName() {
+        return adminName;
+    }
+
+    public void setAdminName(String adminName) {
+        this.adminName = adminName;
+    }
+
+    public String getAdminPassword() {
+        return adminPassword;
+    }
+
+    public void setAdminPassword(String adminPassword) {
+        this.adminPassword = adminPassword;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -89,6 +109,8 @@ public class UpmsCompany extends BaseEntity implements Serializable {
         sb.append(", fax=").append(fax);
         sb.append(", zip=").append(zip);
         sb.append(", www=").append(www);
+        sb.append(", adminName=").append(adminName);
+        sb.append(", adminPassword=").append(adminPassword);
         sb.append("]");
         return sb.toString();
     }
@@ -117,7 +139,9 @@ public class UpmsCompany extends BaseEntity implements Serializable {
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
-            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()));
+            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
+            && (this.getAdminName() == null ? other.getAdminName() == null : this.getAdminName().equals(other.getAdminName()))
+            && (this.getAdminPassword() == null ? other.getAdminPassword() == null : this.getAdminPassword().equals(other.getAdminPassword()));
     }
 
     @Override
@@ -137,6 +161,8 @@ public class UpmsCompany extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
+        result = prime * result + ((getAdminName() == null) ? 0 : getAdminName().hashCode());
+        result = prime * result + ((getAdminPassword() == null) ? 0 : getAdminPassword().hashCode());
         return result;
     }
 }

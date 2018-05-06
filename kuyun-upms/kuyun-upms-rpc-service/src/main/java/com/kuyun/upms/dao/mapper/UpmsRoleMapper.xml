@@ -111,19 +111,22 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.upms.dao.model.UpmsRole">
-    insert into upms_role (role_id, name, title, 
-      description, ctime, orders, 
-      delete_flag, company_id)
-    values (#{roleId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
-      #{description,jdbcType=VARCHAR}, #{ctime,jdbcType=BIGINT}, #{orders,jdbcType=BIGINT}, 
-      #{deleteFlag,jdbcType=BIT}, #{companyId,jdbcType=INTEGER})
+    <selectKey keyProperty="roleId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into upms_role (name, title, description, 
+      ctime, orders, delete_flag, 
+      company_id)
+    values (#{name,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{ctime,jdbcType=BIGINT}, #{orders,jdbcType=BIGINT}, #{deleteFlag,jdbcType=BIT}, 
+      #{companyId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.upms.dao.model.UpmsRole">
+    <selectKey keyProperty="roleId" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
     insert into upms_role
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="roleId != null">
-        role_id,
-      </if>
       <if test="name != null">
         name,
       </if>
@@ -147,9 +150,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="roleId != null">
-        #{roleId,jdbcType=INTEGER},
-      </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
@@ -265,14 +265,14 @@
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into upms_role  (role_id, name, title, 
-        description, ctime, orders, 
-        delete_flag, company_id)
+            insert into upms_role  (name, title, description, 
+        ctime, orders, delete_flag, 
+        company_id)
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.roleId,jdbcType=INTEGER}, #{item.name,jdbcType=VARCHAR}, #{item.title,jdbcType=VARCHAR}, 
-        #{item.description,jdbcType=VARCHAR}, #{item.ctime,jdbcType=BIGINT}, #{item.orders,jdbcType=BIGINT}, 
-        #{item.deleteFlag,jdbcType=BIT}, #{item.companyId,jdbcType=INTEGER})
+      (#{item.name,jdbcType=VARCHAR}, #{item.title,jdbcType=VARCHAR}, #{item.description,jdbcType=VARCHAR}, 
+        #{item.ctime,jdbcType=BIGINT}, #{item.orders,jdbcType=BIGINT}, #{item.deleteFlag,jdbcType=BIT}, 
+        #{item.companyId,jdbcType=INTEGER})
       </foreach>
     </if>
   </insert>

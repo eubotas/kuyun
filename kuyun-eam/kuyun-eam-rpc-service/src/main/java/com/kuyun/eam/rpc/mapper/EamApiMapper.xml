@@ -427,7 +427,7 @@
 		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
 		WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0 AND u.delete_flag = 0
 
-		<if test="equipmentIds != null">
+		<if test="equipmentIds != null and equipmentIds.size > 0">
 			AND t.equipment_id IN
 			<foreach item="item" index="index" collection="equipmentIds"
 					 open="(" separator="," close=")">
@@ -450,7 +450,7 @@
 		<if test="alarmStatus != null and alarmStatus != ''">
 			AND t.alarm_status = #{alarmStatus}
 		</if>
-        <if test="alarmStatuses != null and alarmStatuses != ''">
+        <if test="alarmStatuses != null and alarmStatuses.size > 0">
             AND t.alarm_status in
             <foreach item="item" index="index" collection="alarmStatuses"
                      open="(" separator="," close=")">
@@ -481,7 +481,7 @@
 		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
 		WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0 AND u.delete_flag = 0
 
-		<if test="equipmentIds != null">
+		<if test="equipmentIds != null and equipmentIds.size > 0">
 			AND t.equipment_id IN
 			<foreach item="item" index="index" collection="equipmentIds"
 					 open="(" separator="," close=")">
@@ -504,6 +504,7 @@
 		<if test="alarmStatus != null and alarmStatus != ''">
 			AND t.alarm_status = #{alarmStatus}
 		</if>
+
 		<if test="orderByClause != null">
 			order by ${orderByClause}
 		</if>
@@ -537,7 +538,7 @@
 		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
 		WHERE t.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0 AND u.delete_flag = 0
 
-		<if test="equipmentIds != null">
+		<if test="equipmentIds != null and equipmentIds.size > 0">
 			AND t.equipment_id IN
 			<foreach item="item" index="index" collection="equipmentIds"
 					 open="(" separator="," close=")">
@@ -584,7 +585,7 @@
 		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
 		WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0 AND u.delete_flag = 0
 
-		<if test="equipmentIds != null">
+		<if test="equipmentIds != null and equipmentIds.size > 0">
 			AND t.equipment_id IN
 			<foreach item="item" index="index" collection="equipmentIds"
 					 open="(" separator="," close=")">
@@ -749,7 +750,7 @@
 		from eam_equipment
 		LEFT JOIN eam_equipment_company e ON eam_equipment.equipment_id = e.equipment_id
 		LEFT JOIN eam_equipment_model m ON eam_equipment.equipment_model_id = m.equipment_model_id
-		WHERE t.delete_flag = 0 AND e.delete_flag = 0
+		WHERE eam_equipment.delete_flag = 0 AND e.delete_flag = 0
 		AND m.protocol_id = 4
 		<if test="companyId != null and companyId != ''">
 			AND e.company_id = #{companyId}

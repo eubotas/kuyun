@@ -370,7 +370,7 @@
                 setText('equipmentId',data.equipmentId);
                 setText('equipname',data.name);
                 setText('number',data.number);
-                setText('factoryDate',data.factoryDate);
+                setText('factoryDate',changeTimeFormat(data.factoryDate));
                 setText('commissioningDate',changeTimeFormat(data.commissioningDate));
                 setText('warrantyStartDate',changeTimeFormat(data.warrantyStartDate));
                 setText('warrantyEndDate',changeTimeFormat(data.warrantyEndDate));

@@ -26,6 +26,7 @@ public class Generator {
 	static {
 		LAST_INSERT_ID_TABLES.put("upms_organization", "organization_id");
 		LAST_INSERT_ID_TABLES.put("upms_company", "company_id");
+		LAST_INSERT_ID_TABLES.put("upms_role", "role_id");
 		LAST_INSERT_ID_TABLES.put("upms_user", "user_id");
 	}
 

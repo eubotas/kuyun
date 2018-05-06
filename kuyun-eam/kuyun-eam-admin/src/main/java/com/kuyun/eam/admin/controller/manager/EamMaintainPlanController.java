@@ -8,7 +8,7 @@ import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.common.validator.NotNullValidator;
 import com.kuyun.common.validator.SizeValidator;
 import com.kuyun.eam.common.constant.EamResult;
-import com.kuyun.eam.common.constant.OrgDepartment;
+import com.kuyun.common.constant.OrgDepartment;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.util.EamDateUtil;
