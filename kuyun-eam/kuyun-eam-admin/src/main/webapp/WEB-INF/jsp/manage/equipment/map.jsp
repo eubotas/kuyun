@@ -25,10 +25,8 @@
     }
 
     function mapInit(mode){
-         var citys = $('#'+mode+'_city').select2('data');
-         var city=(citys.length >0)?citys[0].text:"";
-         var provinces = $('#'+mode+"_province").select2('data');
-         var province=provinces.length >0? provinces[0].text:"";
+         var city=getSelect2Text(mode+'_city');
+         var province=getSelect2Text(mode+'_province');
          if(province && province.endsWith('市'))
              city =province;
 

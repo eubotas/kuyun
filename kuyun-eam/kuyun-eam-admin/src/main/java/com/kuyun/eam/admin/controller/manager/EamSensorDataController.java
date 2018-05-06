@@ -65,7 +65,11 @@ public class EamSensorDataController extends BaseController {
 			@RequestParam(required = true, value = "startDate") Date startDate,
 			@RequestParam(required = true, value = "endDate") Date endDate) {
 		List<EamSensorDataVO> rows = getEamSensorData(eId, sensorId, startDate, endDate, "t.create_time desc");
-		return rows;
+
+		Map<String, Object> result = new HashMap<>(1);
+		result.put("rows", rows);
+		result.put("total", rows.size());
+		return result;
 	}
 
 	private List<EamSensorDataVO> getEamSensorData(String eId, String sensorId,  Date startDate, Date endDate, String order) {

@@ -534,6 +534,12 @@ function setText(id,val){
     $("#"+id).text(val);
 }
 
+function getSelect2Text(id){
+    var texts = $('#'+id).select2('data');
+    var text=(texts && texts.length >0)?texts[0].text:"";
+    return text;
+}
+
 function goBack() {
     window.history.back();
 }
