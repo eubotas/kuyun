@@ -21,17 +21,33 @@
     var empty = true;
     var isOnline = true;
 
+    function initHistoryDataSearch(){
+        if($('#equipmentModelType').val()) {
+            var vals = $('#equipmentModelType').val().split(",");
+            selectedlinetab = {name: vals[0], value: vals[1], unit: vals[2]};
+            lineTab = getSelect2Text('equipmentModelType');
+            getHistoryData();
+        }
+    };
+
    function onChangeEquipmentModelType(selecttab){
-      selectedlinetab = selecttab.value;
-      lineTab=selecttab.value;
+       var vals=selecttab.val().split(",");
+      selectedlinetab = {name:vals[0],value:vals[1], unit:vals[2]};
+      lineTab=getSelect2Text('equipmentModelType');
       getHistoryData();
     };
 
     setHistoryTime = function setHistoryTime(index){
+        removeBtnBgcolor();
+      $('#timeBtn'+index).css('background-color','#b2b3c9de');
       selectedlindex = index;
       getHistoryData();
     };
 
+    function removeBtnBgcolor(){
+        for(var i=1;i<5;i++)
+            $('#timeBtn'+i).css('background-color','');
+    }
 
     formatStateValue = function(state,unit) {
         var htmlStr="";
@@ -67,7 +83,7 @@
           swWarn( '开始时间必须早于结束时间');
       }else{
         curve.setTime=curve.startTime+'-'+curve.endTime;
-          $('#curveTimeBtn').val(curve.setTime);
+          $('#timeBtn4').val(curve.setTime);
       }
     }
 
@@ -141,6 +157,8 @@
 
       var index = selectedlindex;
       var tab = selectedlinetab;
+      if(tab.value == '' || tab.value == null)
+          return ;
       switch(index){
         case 1:
           lineType ='最近10分钟';
@@ -172,14 +190,15 @@
 
       if(historyType =='line'){
         //App.startPageLoading({animate: true});
-       ajaxGet('/manage/sensor/data/list/?eId='+selectedequipid+'&sensorId='+equipmentModelId+'&startDate='+starttime+'&endDate='+endtime, function (result) {
-              if(result.length>0 && result.value) {
-                // console.log('gethistorydata',result.data);
-                   var xdata=result.data.time;
-                   var ydata=result.data.value;
+       ajaxGet('/manage/sensor/data/list/?eId='+selectedequipid+'&sensorId='+tab.value+'&startDate='+starttime+'&endDate='+endtime, function (result) {
+              if(result.rows && result.rows.length>0) {
+                  var data = result.rows;
+                  var xdata=[];
+                  var ydata=[];
 
-                   for(var i=0; i<xdata.length;i++){
-                     xdata[i]=(new Date(xdata[i])).format('yyyy/MM/dd h:m:s');
+                   for(var i=0; i<data.length;i++){
+                     xdata[i]=(new Date(data[i].updateTime)).format('yyyy/MM/dd h:m:s');
+                     ydata[i]=data[i].stringValue;
                    }
                    //App.stopPageLoading();
                    if(ydata.length>0){
@@ -220,19 +239,19 @@
                      resetlineoption();
                    }
               }else {
-                //App.stopPageLoading();
+                  resetlineoption();
               }
           });
       }else if(historyType == 'table'){
           $('#historyTableParams').bootstrapTable({
-              url: '/manage/sensor/data/list/?eId='+selectedequipid+'&sensorId='+equipmentModelId+'&startDate='+starttime+'&endDate='+endtime,
+              url: '/manage/sensor/data/list/?eId='+selectedequipid+'&sensorId='+tab.value+'&startDate='+starttime+'&endDate='+endtime,
               searchAlign: 'left',
               toolbarAlign: 'right',
               minimumCountColumns: 2,
               clickToSelect: true,
               detailView: true,
               detailFormatter: 'detailFormatter',
-              pagination: true,
+              pagination: false,
               paginationLoop: false,
               sidePagination: 'server',
               silentSort: false,
@@ -436,7 +455,6 @@
 
 
     $(document).ready(function(){
-
       $('.nav-tabs li a').click(function() {　
           var _id = $(this).attr('href');　　
           //$('.tab-content').find(_id).addClass('active').siblings().removeClass('active');
@@ -468,6 +486,7 @@
                   {
                     clearInterval(timer);
                     player.pause();
+                    initHistoryDataSearch();
                     $('.start_date').datetimepicker({
                         language: 'zh-CN',
                         weekStart: 1,
@@ -577,7 +596,7 @@
        var ops=[],op;
        if(list) {
            $.each(list, function(i, val) {
-               op={"DESCFIELD":val.name,"VALUEFIELD":val.name};
+               op={"DESCFIELD":val.name,"VALUEFIELD":val.name+','+val.varid+','+val.unit};
                ops.push(op);
            });
            addOptionToHtmlSelect(null, "equipmentModelType", ops);
@@ -663,7 +682,11 @@
     }
 
     function unitFormat(row){
-        return "个";
+        var unit = selectedlinetab.unit;
+        if(unit)
+            return unit;
+        else
+            return "个";
     }
 
     function showRunDataListHtml(list){
