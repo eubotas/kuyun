@@ -209,6 +209,9 @@
 
 <pageResources>
     <script src="${basePath}/resources/kuyun-admin/plugins/echarts/echarts.min.js"></script>
+    <script src="${basePath}/resources/kuyun-admin/plugins/jquery.1.12.4.min.js"></script>
+    <script src="${basePath}/resources/kuyun-admin/plugins/bootstrap-table-1.11.0/bootstrap-table.min.js"></script>
+    <script src="${basePath}/resources/kuyun-admin/plugins/bootstrap-table-1.11.0/locale/bootstrap-table-zh-CN.min.js"></script>
     <script src="${basePath}/resources/metronic-admin/assets/kuyun/home2.js"></script>
 
 </pageResources>

@@ -194,11 +194,18 @@
                     {field: 'name', title: '设备名称'},
                     {field: 'equipmentModelName', title: '模型'},
                     {field: 'imagePath', title: '图片', formatter: 'imageFormatter'},
-                    {field: 'maintenancePeriod', width: 150, title: '启停', formatter: 'openCloseFormatter'},
+                    {field: 'isOnline', title: '状态', formatter: 'onlineFormatter'},
+//                    {field: 'maintenancePeriod', width: 150, title: '启停', formatter: 'openCloseFormatter'},
                     {field: 'action', width: 120, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ],
                 onPostBody: function () {
-                    $('[data-switch=true]').bootstrapSwitch();
+                    $('[data-switch=true]').bootstrapSwitch({
+                        'onSwitchChange': function(event, state){
+                            console.log('state:'+state);
+                            console.dir(event);
+                            console.dir(this);
+                        }
+                    });
                 }
             });
 
@@ -214,7 +221,11 @@
         }
 
         function openCloseFormatter(value, row, index) {
-            return '<input data-switch="true" data-size="small" type="checkbox" checked="checked" data-on-color="success" data-off-color="warning">';
+            return '<input id="openClose" data-switch="true" data-size="small" type="checkbox" checked="checked" data-on-color="success" data-off-color="warning">';
+        }
+
+        function onlineFormatter(value, row, index) {
+            return value == 1 ? '在线':'离线'
         }
 
         function imageFormatter(value, row, index) {
@@ -489,6 +500,10 @@
                     <shiro:hasPermission name="eam:equipment:delete"><a href="#" id="deleteButton" class="btn btn-outline-danger m-btn m-btn--icon m-btn--icon-only" title="删除">
                         <i class="la la-remove"></i>
                     </a></shiro:hasPermission>
+
+                    <%--<shiro:hasPermission name="eam:equipment:create"><a href="#" id="openCloseButton" class="btn btn-outline-info m-btn m-btn--icon m-btn--icon-only" title="启停">--%>
+                        <%--<i class="la la-send"></i>--%>
+                    <%--</a></shiro:hasPermission>--%>
 
                     <div class="m-separator m-separator--dashed d-xl-none"></div>
                 </div>

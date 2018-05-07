@@ -51,16 +51,16 @@ LOOP
 	SELECT max(organization_id) INTO v_organization_id_3 FROM upms_organization;
 	
 	#2. insert upms_role
-	INSERT INTO upms_role (company_id, name, title, description, ctime, orders, delete_flag) VALUES (v_company_id, 'super', '超级管理员', '拥有所有权限', '1', '1', 0);
+	INSERT INTO upms_role (company_id, name, title, description, ctime, orders, delete_flag) VALUES (v_company_id, 'super', '超级管理员', '拥有所有权限', now(), 1, 0);
 	SELECT max(role_id) INTO v_role_id_1 FROM upms_role;
 	
-	INSERT INTO upms_role (company_id, name, title, description, ctime, orders, delete_flag) VALUES (v_company_id, 'ticketCreate', '工单提报', '拥有提报工单权限', '1', '1', 0);
+	INSERT INTO upms_role (company_id, name, title, description, ctime, orders, delete_flag) VALUES (v_company_id, 'ticketCreate', '工单提报', '拥有提报工单权限', now(), 1, 0);
 	SELECT max(role_id) INTO v_role_id_2 FROM upms_role;
 
-	INSERT INTO upms_role (company_id, name, title, description, ctime, orders, delete_flag) VALUES (v_company_id, 'ticketRepair', '工单维修', '拥有维修工单权限', '1', '1', 0);
+	INSERT INTO upms_role (company_id, name, title, description, ctime, orders, delete_flag) VALUES (v_company_id, 'ticketRepair', '工单维修', '拥有维修工单权限', now(), 1, 0);
 	SELECT max(role_id) INTO v_role_id_3 FROM upms_role;
 	
-	INSERT INTO upms_role (company_id, name, title, description, ctime, orders, delete_flag) VALUES (v_company_id, 'ticketAppoint', '工单委派', '拥有委派工单权限', '1', '1', 0);
+	INSERT INTO upms_role (company_id, name, title, description, ctime, orders, delete_flag) VALUES (v_company_id, 'ticketAppoint', '工单委派', '拥有委派工单权限', now(), 1, 0);
 	SELECT max(role_id) INTO v_role_id_4 FROM upms_role;
 
 	#3. insert upms_role_permission
@@ -84,9 +84,9 @@ LOOP
 	INSERT INTO upms_user_role (user_id, role_id, delete_flag) VALUES (v_user_id, v_role_id_4, 0);
 
 	#6. insert eam_ticket_type
-	INSERT INTO eam_ticket_type (name, create_time, update_time, delete_flag, company_id)VALUES ('故障报修', now(), now(),0,1, v_company_id);
-	INSERT INTO eam_ticket_type (name, create_time, update_time, delete_flag, company_id)VALUES ('维保计划', now(), now(),0,1, v_company_id);
-	INSERT INTO eam_ticket_type (name, create_time, update_time, delete_flag, company_id)VALUES ('报警工单', now(), now(),0,1, v_company_id);
+	INSERT INTO eam_ticket_type (name, create_time, update_time, delete_flag, company_id)VALUES ('故障报修', now(), now(),0, v_company_id);
+	INSERT INTO eam_ticket_type (name, create_time, update_time, delete_flag, company_id)VALUES ('维保计划', now(), now(),0, v_company_id);
+	INSERT INTO eam_ticket_type (name, create_time, update_time, delete_flag, company_id)VALUES ('报警工单', now(), now(),0, v_company_id);
    
 SET done=0;
 END LOOP out_loop;
