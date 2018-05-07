@@ -700,7 +700,7 @@
     function generateBtnHtml(name, val){
         var html= '<div class="col-md-3" style="margin-bottom:15px;"><button type="button" class="btn btn-outline-primary m-btn m-btn--outline-2x">'+
             name+ '</button></div>'+
-            '<div class="col-md-3 value" style="margin-bottom:15px;" ><a class="btn green btn-info">'+
-            val+'</a></div>';
+            '<div class="col-md-3 value" style="margin-bottom:15px;" >'+
+            val+'</div>';
         return html;
     }

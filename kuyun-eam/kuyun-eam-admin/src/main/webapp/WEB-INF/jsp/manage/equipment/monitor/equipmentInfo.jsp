@@ -165,7 +165,7 @@
                                     <div class="tab-content">
                                         <div class="tab-pane active" role="tabpanel">
                                             <div class="portlet-body" id="eqRight" style="min-height:100px;">
-                                                <img class="img-responsive" style="max-height:300px;" id="imagesrc" src="">
+                                                <img class="img-responsive" id="imagesrc" src="">
                                             </div>
 
                                         </div>
@@ -386,6 +386,7 @@
                 onlineHideShow(isOnline);
             }
             $('#eqRight').height($('#eqLeft').height());
+            $('#imagesrc').height($('#eqLeft').height()-20);
         });
 
     }
