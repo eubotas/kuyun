@@ -384,7 +384,8 @@
                 onlineHideShow(isOnline);
             }
             $('#eqRight').height($('#eqLeft').height());
-            $('#imagesrc').height($('#eqLeft').height()-20);
+            $('#imagesrc').height($('#eqLeft').height()-10);
+            $('#imagesrc').width($('#eqLeft').width()-10);
         });
 
     }

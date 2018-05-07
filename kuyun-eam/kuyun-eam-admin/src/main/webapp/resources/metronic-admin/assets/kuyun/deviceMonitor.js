@@ -38,8 +38,8 @@
     };
 
     setHistoryTime = function setHistoryTime(index){
-        removeBtnBgcolor();
-      $('#timeBtn'+index).css('background-color','#b2b3c9de');
+      removeBtnBgcolor();
+      $('#timeBtn'+index).css('background-color','#5867dd');
       selectedlindex = index;
       getHistoryData();
     };
