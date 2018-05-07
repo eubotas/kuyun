@@ -7,13 +7,6 @@
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 
-<<style>
-.bootstrap-table .table{
-    border-bottom: 0px solid #ddd !important;
-}
-
-</style>>
-
 <!-- begin::Body -->
 <div class="m-grid__item m-grid__item--fluid m-grid m-grid--ver-desktop m-grid--desktop m-body">
 

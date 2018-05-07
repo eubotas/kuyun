@@ -30,6 +30,7 @@
 	<!--begin::Base Styles -->
 	<link href="${basePath}/resources/metronic-admin/assets/vendors/base/vendors.bundle.css" rel="stylesheet" type="text/css" />
 	<link href="${basePath}/resources/metronic-admin/assets/demo/default/base/style.bundle.css" rel="stylesheet" type="text/css" />
+    <link href="${basePath}/resources/metronic-admin/assets/css/kuyun-common.css" rel="stylesheet" type="text/css" />
 	<!--end::Base Styles -->
 	<link rel="shortcut icon" href="${basePath}/resources/metronic-admin/assets/demo/default/media/img/logo/favicon.ico" />
 

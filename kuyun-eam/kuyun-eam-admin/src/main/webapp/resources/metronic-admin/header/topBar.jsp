@@ -206,7 +206,7 @@
 <script>
     var refreshTime =5000;
     refreshAlarm();
-   // setInterval(function(){ refreshAlarm(); }, refreshTime);
+    setInterval(function(){ refreshAlarm(); }, refreshTime);
 
     function refreshAlarm(){
         ajaxGet('${eamPath}/manage/alarm/list', function (responseData) {

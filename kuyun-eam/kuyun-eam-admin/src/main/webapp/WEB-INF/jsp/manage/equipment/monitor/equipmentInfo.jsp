@@ -298,7 +298,6 @@
                         </div>
                         <div class="m-portlet__body">
                             <div class="text-center row">
-                                <div class="row">
                                 <div class="col-md-3 col-md-offset-1 margin-top-10">
                                    <select id="equipmentModelType" name="equipmentModelType" onchange="onChangeEquipmentModelType(this)" style="width: 100%; min-width:80px;"></select>
                                 </div>
@@ -314,23 +313,22 @@
                                                                 </span>
                                     </div>
                                 </div>
-                                </div>
-                                <div class="row"  style="margin-top:10px;">
-                                    <div class="margin-top-10 margin-bottom-20 text-center">
-                                        <div class="clearfix">
-                                            <input type="button" id="timeBtn1" class="btn btnBlue btn-outline-primary m-btn m-btn--outline-2x" onclick="setHistoryTime(1)" value="最近10分钟">
-                                            <input type="button" id="timeBtn2" class="btn btnRed btn-outline-primary m-btn m-btn--outline-2x" onclick="setHistoryTime(2)" value="最近24小时">
-                                            <input type="button" id="timeBtn3" class="btn btnGreen btn-outline-primary m-btn m-btn--outline-2x" onclick="setHistoryTime(3)" value="最近7天">
-                                            <input type="button" id="timeBtn4" class="btn btnPurple btn-outline-primary m-btn m-btn--outline-2x" onclick="setFreeTime()"  value="自定义时间">
-                                        </div>
+                            </div>
+                            <div class="text-center row"  style="margin-top:10px;">
+                                <div class="margin-top-10 margin-bottom-20 text-center">
+                                    <div class="clearfix">
+                                        <input type="button" id="timeBtn1" class="btn btnBlue btn-outline-primary m-btn m-btn--outline-2x" onclick="setHistoryTime(1)" value="最近10分钟">
+                                        <input type="button" id="timeBtn2" class="btn btnRed btn-outline-primary m-btn m-btn--outline-2x" onclick="setHistoryTime(2)" value="最近24小时">
+                                        <input type="button" id="timeBtn3" class="btn btnGreen btn-outline-primary m-btn m-btn--outline-2x" onclick="setHistoryTime(3)" value="最近7天">
+                                        <input type="button" id="timeBtn4" class="btn btnPurple btn-outline-primary m-btn m-btn--outline-2x" onclick="setFreeTime()"  value="自定义时间">
                                     </div>
                                 </div>
                             </div>
 
                             <div id="echarts_line" style="height: 500px" ></div>
                             <div id="historyTableParamsDiv" style="margin-top: 5px;display:none;" >
-                            <table id="historyTableParams"  class="table table-striped table-bordered table-hover table-checkable order-column" >
-                            </table>
+                                <table id="historyTableParams"  class="table table-striped table-bordered table-hover table-checkable order-column" >
+                                </table>
                             </div>
                         </div>
                     </div>
