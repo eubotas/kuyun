@@ -91,7 +91,7 @@ function setCookie(cname,cvalue,exdays){
     var d = new Date();
     d.setTime(d.getTime()+(exdays*24*60*60*1000));
     var expires = "expires="+d.toGMTString();
-    document.domain = 'kuyun.cn';
+    document.domain = 'kuyun.coderise.cn';
     document.cookie = cname + "=" + escape(cvalue) + ";path=/;"
         + expires;
 }
@@ -116,7 +116,7 @@ function delCookie(name) {
     exp.setTime(exp.getTime() - 1);
     var cval = getCookie(name);
     if (cval != "") {
-        document.domain = 'kuyun.cn';
+        document.domain = 'kuyun.coderise.cn';
         document.cookie = name + "=" + cval + ";path=/;expires=" + exp.toGMTString();
     }
 }
