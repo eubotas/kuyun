@@ -196,7 +196,7 @@
 
 	</div>
 
-	<script src="${basePath}/resources/kuyun-admin/plugins/echarts/echarts.min.js"></script>
+	<script src="${basePath}/resources/metronic-admin/assets/js/echarts/echarts.min.js"></script>
 	<script src="http://gallery.echartsjs.com/dep/echarts/map/js/world.js"></script>
 	<script src="${basePath}/resources/metronic-admin/assets/kuyun/home.js"></script>
 </content>

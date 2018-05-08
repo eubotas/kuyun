@@ -7,9 +7,9 @@
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 
-<link href="${basePath}/resources/kuyun-admin/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.css" rel="stylesheet"/>
-<script src="${basePath}/resources/kuyun-admin/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.js"></script>
-<script src="${basePath}/resources/kuyun-admin/plugins/ezuikit/ezuikit.js"></script>
+<link href="${basePath}/resources/metronic-admin/assets/js/bootstrap-datetimepicker/bootstrap-datetimepicker.css" rel="stylesheet"/>
+<script src="${basePath}/resources/metronic-admin/assets/js/bootstrap-datetimepicker/bootstrap-datetimepicker.js"></script>
+<script src="${basePath}/resources/metronic-admin/assets/js/ezuikit/ezuikit.js"></script>
 <style>
     .btnRed {
         border-color: #e7505a;
@@ -340,7 +340,7 @@
         </div>
     </div>
 </div>  <!-- nav end -->
-<script src="${basePath}/resources/kuyun-admin/plugins/echarts/echarts.min.js"></script>
+<script src="${basePath}/resources/metronic-admin/assets/js/echarts/echarts.min.js"></script>
 <script src="${basePath}/resources/metronic-admin/assets/kuyun/deviceMonitor.js"></script>
 
 <script>

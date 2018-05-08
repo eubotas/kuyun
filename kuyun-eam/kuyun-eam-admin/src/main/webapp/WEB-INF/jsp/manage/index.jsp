@@ -208,7 +208,7 @@
 </content>
 
 <pageResources>
-    <script src="${basePath}/resources/kuyun-admin/plugins/echarts/echarts.min.js"></script>
+    <script src="${basePath}/resources/metronic-admin/assets/js/echarts/echarts.min.js"></script>
     <script src="${basePath}/resources/metronic-admin/assets/kuyun/home2.js"></script>
 
 </pageResources>

@@ -147,8 +147,8 @@
 
 
 <pageResources>
-    <link href="${basePath}/resources/kuyun-admin/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.css" rel="stylesheet"/>
-    <script src="${basePath}/resources/kuyun-admin/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.js"></script>
+    <link href="${basePath}/resources/metronic-admin/assets/js/bootstrap-datetimepicker/bootstrap-datetimepicker.css" rel="stylesheet"/>
+    <script src="${basePath}/resources/metronic-admin/assets/js/bootstrap-datetimepicker/bootstrap-datetimepicker.js"></script>
 
     <script>
 
