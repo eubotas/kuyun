@@ -260,7 +260,7 @@
               maintainSelected: true,
               columns: [
                   {field: 'updateTime', title: '时间', formatter: 'changeTimeFormat2'},
-                  {field: 'stringValue', title: '值'},
+                  {field: 'stringValue', title: '值', formatter:'fixTwo'},
                   {field: 'stringValue', title: '单位', formatter: 'unitFormat'}
               ]
           });
