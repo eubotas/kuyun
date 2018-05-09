@@ -152,7 +152,8 @@ public class UpmsAuthenticationFilter extends AuthenticationFilter {
                             String username = request.getParameter("upms_username");
                             subject.login(new UsernamePasswordToken(username, ""));
                             HttpServletResponse httpServletResponse = WebUtils.toHttp(response);
-                            httpServletResponse.sendRedirect(backUrl.toString());
+                            if(!backUrl.endsWith("/manage/index"))
+                                httpServletResponse.sendRedirect(backUrl.toString());
                             return true;
                         } catch (IOException e) {
                             _log.error("已拿到code，移除code参数跳转出错：", e);
