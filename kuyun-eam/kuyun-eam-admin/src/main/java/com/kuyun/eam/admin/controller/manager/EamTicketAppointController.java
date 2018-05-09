@@ -6,6 +6,7 @@ import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.jpush.JpushUtil;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.common.constant.EamResult;
+import com.kuyun.eam.common.constant.OrgDepartment;
 import com.kuyun.eam.common.constant.TicketStatus;
 import com.kuyun.eam.dao.model.EamTicket;
 import com.kuyun.eam.dao.model.EamTicketAppointedRecord;
@@ -155,7 +156,7 @@ public class EamTicketAppointController extends EamTicketBaseController {
 			EamTicket ticket = eamTicketService.selectByPrimaryKey(ticketAppointedRecord.getTicketId());
 			if (ticket != null){
 				String message = "你有一条新工单需要处理：" + ticket.getTicketNumber();
-				jpushUtil.sendPush(phones, message);
+				jpushUtil.sendPush(phones, message, OrgDepartment.REPAIR_DEPARTMENT.getCode());
 			}
 		}
 	}

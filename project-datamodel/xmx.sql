@@ -298,6 +298,7 @@ drop table if exists eam_grm_variable_data;
 create table eam_grm_variable_data
 (
    id                   int not null auto_increment,
+   eam_grm_variable_id  int,
    equipment_id         varchar(32),
    product_line_id      varchar(32),
    data_group_id        int,
@@ -316,6 +317,7 @@ drop table if exists eam_grm_variable_data_history;
 create table eam_grm_variable_data_history
 (
    id                   int not null auto_increment,
+   eam_grm_variable_id  int,
    equipment_id         varchar(32),
    product_line_id      varchar(32),
    data_group_id        int,
@@ -337,6 +339,7 @@ drop table if exists eam_grm_variable_data_by_day;
 create table eam_grm_variable_data_by_day
 (
    id                   int not null auto_increment,
+   eam_grm_variable_id  int,
    equipment_id         varchar(32),
    product_line_id      varchar(32),
    data_group_id        int,
@@ -358,6 +361,7 @@ drop table if exists eam_grm_variable_data_by_month;
 create table eam_grm_variable_data_by_month
 (
    id                   int not null auto_increment,
+   eam_grm_variable_id  int,
    equipment_id         varchar(32),
    product_line_id      varchar(32),
    data_group_id        int,
@@ -380,6 +384,7 @@ drop table if exists eam_grm_variable_data_by_year;
 create table eam_grm_variable_data_by_year
 (
    id                   int not null auto_increment,
+   eam_grm_variable_id  int,
    equipment_id         varchar(32),
    product_line_id      varchar(32),
    data_group_id        int,

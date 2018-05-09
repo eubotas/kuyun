@@ -10,4 +10,6 @@ public class UpmsConstant extends BaseConstants {
 
     public static final String UPMS_TYPE = "kuyun.upms.type";
 
+    public static String CUSTOMER_ROLE = "customer";
+
 }

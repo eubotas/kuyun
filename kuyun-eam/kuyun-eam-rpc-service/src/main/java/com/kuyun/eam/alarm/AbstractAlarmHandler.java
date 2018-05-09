@@ -279,7 +279,7 @@ public abstract class AbstractAlarmHandler {
         String message = buildJpushMessage(variableData, alarm, isClearMessage);
         _log.info("Send APP To : [ {} ], Message: [ {} ]", mobiles, message);
         if (!mobiles.isEmpty() && !StringUtils.isEmpty(message) ){
-            jpushUtil.sendPush(mobiles, message);
+            jpushUtil.sendPush(mobiles, message, OrgDepartment.ALARM_DEPARTMENT.getCode());
         }
     }
 

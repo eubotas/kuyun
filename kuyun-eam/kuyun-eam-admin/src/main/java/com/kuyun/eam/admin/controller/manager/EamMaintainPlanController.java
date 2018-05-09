@@ -7,6 +7,7 @@ import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.NotNullValidator;
 import com.kuyun.eam.common.constant.CodeValueType;
 import com.kuyun.eam.common.constant.EamResult;
+import com.kuyun.eam.common.constant.OrgDepartment;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.util.EamDateUtil;
@@ -18,12 +19,14 @@ import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsOrganization;
 import com.kuyun.upms.dao.model.UpmsOrganizationExample;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
+import com.kuyun.upms.dao.vo.UpmsOrgUserVo;
 import com.kuyun.upms.rpc.api.UpmsApiService;
 import com.kuyun.upms.rpc.api.UpmsOrganizationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -262,6 +265,23 @@ public class EamMaintainPlanController extends BaseController {
 		codeCriteria.andDeleteFlagEqualTo(Boolean.FALSE);
 		List<EamCodeValue> units = eamCodeValueService.selectByExample(eamCodeValueExample);
 		modelMap.addAttribute("units", units);
+	}
+
+
+	@ApiOperation(value = "维保人员列表")
+	@RequiresPermissions("eam:maintainPlan:create")
+	@RequestMapping(value = "/operator/list", method = RequestMethod.GET)
+	@ResponseBody
+	public List<UpmsOrgUserVo> getOperatorUsers() {
+		UpmsOrgUserVo orgUserVo = new UpmsOrgUserVo();
+
+		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+		if (company != null){
+			orgUserVo.setCompanyId(company.getCompanyId());
+		}
+		orgUserVo.setOrgName(OrgDepartment.MAINTENANCE_DEPARTMENT.getName());
+
+		return upmsApiService.selectOrgUsersByOrgNameCompanyId( orgUserVo);
 	}
 
 	public int getCurrUserId(){

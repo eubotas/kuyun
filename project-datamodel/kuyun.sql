@@ -143,6 +143,8 @@ INSERT INTO `upms_role` VALUES ('2', 1, 'admin', '管理员', '拥有除权限�
 INSERT INTO `upms_role` VALUES ('3', 1, 'ticketCreate', '工单提报', '拥有提报工单权限', '1', '1');
 INSERT INTO `upms_role` VALUES ('4', 1, 'ticketRepair', '工单维修', '拥有维修工单权限', '1', '1');
 INSERT INTO `upms_role` VALUES ('5', 1, 'ticketAppoint', '工单委派', '拥有委派工单权限', '1', '1');
+INSERT INTO `upms_role` VALUES ('7', 1, 'customer', '客户', '拥有客户权限', '1', '1');
+
 -- ----------------------------
 -- Table structure for upms_role_permission
 -- ----------------------------

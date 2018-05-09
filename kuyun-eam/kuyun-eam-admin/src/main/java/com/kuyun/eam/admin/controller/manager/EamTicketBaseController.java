@@ -150,7 +150,7 @@ public abstract class EamTicketBaseController extends BaseController {
         if (company != null){
             orgUserVo.setCompanyId(company.getCompanyId());
         }
-        orgUserVo.setOrgName(OrgDepartment.MAINTENANCE_DEPARTMENT.getName());
+        orgUserVo.setOrgName(OrgDepartment.REPAIR_DEPARTMENT.getName());
 
         return upmsApiService.selectOrgUsersByOrgNameCompanyId( orgUserVo);
     }

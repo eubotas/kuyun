@@ -22,7 +22,17 @@ public class RepairKnowledge extends BaseModel{
     @Field(type = FieldType.text, fielddata = true, analyzer = "ik_max_word", searchAnalyzer = "ik_max_word")
     private String method;
 
+    private String path;
+
     private Integer order;
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
 
     public String getTag() {
         return tag;

@@ -9,6 +9,7 @@ import com.kuyun.common.base.BaseConstants;
 public class EamConstant extends BaseConstants {
     public static String NULL = "NULL";
 
+
     public static String TICKET_CREATE = "ticketCreate";
     public static String TICKET_REPAIR = "ticketRepair";
     public static String TICKET_APPOINT = "ticketAppoint";

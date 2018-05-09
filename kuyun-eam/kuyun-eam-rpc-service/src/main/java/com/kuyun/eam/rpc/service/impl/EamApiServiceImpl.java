@@ -20,6 +20,7 @@ import com.kuyun.eam.vo.*;
 import com.kuyun.grm.rpc.api.GrmApiService;
 import com.kuyun.modbus.rpc.api.ModbusSlaveRtuApiService;
 import com.kuyun.upms.dao.model.UpmsCompany;
+import com.kuyun.upms.dao.model.UpmsCompanyExample;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
 import com.kuyun.upms.rpc.api.UpmsApiService;
 import com.kuyun.upms.rpc.api.UpmsCompanyService;
@@ -718,27 +719,8 @@ public class EamApiServiceImpl implements EamApiService {
 
         EamGrmVariableDataExample example = new EamGrmVariableDataExample();
         EamGrmVariableDataExample.Criteria criteria = example.createCriteria();
-        criteria.andProductLineIdEqualTo(variable.getProductLineId());
-        criteria.andDataElementIdEqualTo(variable.getDataElementId());
         criteria.andDeleteFlagEqualTo(Boolean.FALSE);
-
-        if (variable.getEquipmentId() == null){
-            criteria.andEquipmentIdIsNull();
-        }else {
-            criteria.andEquipmentIdEqualTo(variable.getEquipmentId());
-        }
-
-        if (variable.getDataGroupId() == null){
-            criteria.andDataGroupIdIsNull();
-        }else {
-            criteria.andDataGroupIdEqualTo(variable.getDataGroupId());
-        }
-
-        if (variable.getEquipmentDataGroupId() == null){
-            criteria.andEquipmentDataGroupIdIsNull();
-        }else {
-            criteria.andEquipmentDataGroupIdEqualTo(variable.getEquipmentDataGroupId());
-        }
+        criteria.andEamGrmVariableIdEqualTo(variable.getId());
 
         EamGrmVariableData variableData = eamGrmVariableDataService.selectFirstByExample(example);
         if (variableData == null){
@@ -757,6 +739,7 @@ public class EamApiServiceImpl implements EamApiService {
 
     private EamGrmVariableData createGrmVariableData(EamGrmVariable variable, String value) {
         EamGrmVariableData result = new EamGrmVariableData();
+        result.setEamGrmVariableId(variable.getId());
         result.setEquipmentId(variable.getEquipmentId());
         result.setProductLineId(variable.getProductLineId());
         result.setDataGroupId(variable.getDataGroupId());
@@ -772,6 +755,7 @@ public class EamApiServiceImpl implements EamApiService {
 
     private EamGrmVariableDataHistory createGrmVariableHistoryData(Pair<EamGrmVariable, String> pair) {
         EamGrmVariableDataHistory result = new EamGrmVariableDataHistory();
+        result.setEamGrmVariableId(pair.getKey().getId());
         result.setEquipmentId(pair.getKey().getEquipmentId());
         result.setProductLineId(pair.getKey().getProductLineId());
         result.setDataGroupId(pair.getKey().getDataGroupId());
@@ -943,21 +927,22 @@ public class EamApiServiceImpl implements EamApiService {
         alarm.setCreateTime(new Date());
         alarm.setUpdateTime(new Date());
         alarm.setDeleteFlag(Boolean.FALSE);
-        alarm.setEquipmentId(getEquipmentId(alarmModel));
+        alarm.setEquipmentId(getEquipmentId(productLineId, alarmModel));
 
         return alarm;
     }
 
-    private String getEquipmentId(EamAlarmModel alarmModel) {
+    private String getEquipmentId(String productLineId, EamAlarmModel alarmModel) {
         String result = null;
-        EamEquipmentDataGroupElemetsExample example = new EamEquipmentDataGroupElemetsExample();
-        example.createCriteria().andDataElementIdEqualTo(alarmModel.getEamDataElementId())
-        .andDeleteFlagEqualTo(Boolean.FALSE);
+        EamGrmVariableExample example = new EamGrmVariableExample();
+        example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE)
+                .andProductLineIdEqualTo(productLineId)
+                .andDataElementIdEqualTo(alarmModel.getEamDataElementId());
 
-        EamEquipmentDataGroupElemets element = eamEquipmentDataGroupElemetsService.selectFirstByExample(example);
+        EamGrmVariable variable = eamGrmVariableService.selectFirstByExample(example);
 
-        if (element != null){
-            result = element.getEquipmentId();
+        if (variable != null){
+            result = variable.getEquipmentId();
         }
 
         return result;
@@ -2032,17 +2017,26 @@ public class EamApiServiceImpl implements EamApiService {
                 upmsCompany.setAdminName(adminName);
                 upmsCompany.setAdminPassword(adminPassword);
 
-                upmsCompanyService.insertSelective(upmsCompany);
+                if (!hasCompany(upmsCompany.getName())){
+                    upmsCompanyService.insertSelective(upmsCompany);
+                    upmsApiService.handleCustomerReg(adminName, adminName, adminPassword, null, null, upmsCompany.getName());
+                    upmsCompanyList.add(upmsCompany);
+                }
 
-                upmsApiService.handleCustomerReg(adminName, adminName, adminPassword, null, null, upmsCompany.getName());
-
-
-                upmsCompanyList.add(upmsCompany);
             }
             _log.info("upload CompanyBean size:{}", upmsCompanyList.size());
         }
+    }
 
-
+    private boolean hasCompany(String companyName){
+        UpmsCompanyExample example = new UpmsCompanyExample();
+        example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE).andNameEqualTo(companyName);
+        UpmsCompany company = upmsCompanyService.selectFirstByExample(example);
+        boolean result = false;
+        if (company != null){
+            result = true;
+        }
+        return result;
     }
 
     @Override
@@ -2074,11 +2068,28 @@ public class EamApiServiceImpl implements EamApiService {
                 eamOrder.setUpdateTime(new Date());
                 eamOrder.setCreateTime(new Date());
 
-                eamOrders.add(eamOrder);
+                if (!hasOrder(eamOrder)){
+                    eamOrders.add(eamOrder);
+                }
+
             }
             _log.info("upload OrderBean size:{}", eamOrders.size());
             eamOrderService.batchInsert(eamOrders);
         }
+    }
+
+    private boolean hasOrder(EamOrder argEamOrder){
+        boolean result = false;
+        EamOrderExample example = new EamOrderExample();
+        example.createCriteria().andTaskNumberEqualTo(argEamOrder.getTaskNumber())
+                .andCompanyNameEqualTo(argEamOrder.getCompanyName())
+                .andYearEqualTo(argEamOrder.getYear())
+                .andDeleteFlagEqualTo(Boolean.FALSE);
+        EamOrder eamOrder = eamOrderService.selectFirstByExample(example);
+        if (eamOrder != null){
+            result = true;
+        }
+        return result;
     }
 
     private void addNewGantt(List<GanttData> result, Integer dataElementId, Date date) {
@@ -2193,11 +2204,30 @@ public class EamApiServiceImpl implements EamApiService {
                 part.setUpdateTime(new Date());
                 part.setDeleteFlag(Boolean.FALSE);
 
-                parts.add(part);
+                if (!hasPart(part)){
+                    parts.add(part);
+                }
+
             }
         }
 
         eamPartsService.batchInsert(parts);
+    }
+
+    private boolean hasPart(EamParts argPart){
+        boolean result = false;
+        EamPartsExample example = new EamPartsExample();
+        example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE)
+                .andProductLineIdEqualTo(argPart.getProductLineId())
+                .andEquipmentIdEqualTo(argPart.getEquipmentId())
+                .andNameEqualTo(argPart.getName())
+                .andDeleteFlagEqualTo(Boolean.FALSE);
+
+        EamParts eamPart = eamPartsService.selectFirstByExample(example);
+        if (eamPart != null){
+            result = true;
+        }
+        return result;
     }
 
     @Override
@@ -2317,6 +2347,7 @@ public class EamApiServiceImpl implements EamApiService {
 
     private EamGrmVariableDataByYear buildEamGrmVariableDataByYear(EamGrmVariable variable, BigDecimal value){
         EamGrmVariableDataByYear data = new EamGrmVariableDataByYear();
+        data.setEamGrmVariableId(variable.getId());
         data.setProductLineId(variable.getProductLineId());
         data.setEquipmentId(variable.getEquipmentId());
         data.setDataGroupId(variable.getDataGroupId());
@@ -2335,23 +2366,7 @@ public class EamApiServiceImpl implements EamApiService {
         EamGrmVariableDataByYearExample example = new EamGrmVariableDataByYearExample();
         EamGrmVariableDataByYearExample.Criteria criteria = example.createCriteria();
 
-        criteria.andProductLineIdEqualTo(variable.getProductLineId());
-        if (org.apache.commons.lang.StringUtils.isNotEmpty(variable.getEquipmentId())){
-            criteria.andEquipmentIdEqualTo(variable.getEquipmentId());
-        }
-
-        if (variable.getDataGroupId() != null){
-            criteria.andDataGroupIdEqualTo(variable.getDataGroupId());
-        }
-
-        if (variable.getEquipmentDataGroupId() != null){
-            criteria.andEquipmentDataGroupIdEqualTo(variable.getEquipmentDataGroupId());
-        }
-
-        if (variable.getDataElementId() != null){
-            criteria.andDataElementIdEqualTo(variable.getDataElementId());
-        }
-
+        criteria.andEamGrmVariableIdEqualTo(variable.getId());
         criteria.andYearEqualTo(year);
         criteria.andDeleteFlagEqualTo(Boolean.FALSE);
 
@@ -2377,24 +2392,7 @@ public class EamApiServiceImpl implements EamApiService {
         int month = LocalDateTime.now().getMonthValue();
         EamGrmVariableDataByMonthExample example = new EamGrmVariableDataByMonthExample();
         EamGrmVariableDataByMonthExample.Criteria criteria = example.createCriteria();
-
-        criteria.andProductLineIdEqualTo(variable.getProductLineId());
-        if (org.apache.commons.lang.StringUtils.isNotEmpty(variable.getEquipmentId())){
-            criteria.andEquipmentIdEqualTo(variable.getEquipmentId());
-        }
-
-        if (variable.getDataGroupId() != null){
-            criteria.andDataGroupIdEqualTo(variable.getDataGroupId());
-        }
-
-        if (variable.getEquipmentDataGroupId() != null){
-            criteria.andEquipmentDataGroupIdEqualTo(variable.getEquipmentDataGroupId());
-        }
-
-        if (variable.getDataElementId() != null){
-            criteria.andDataElementIdEqualTo(variable.getDataElementId());
-        }
-
+        criteria.andEamGrmVariableIdEqualTo(variable.getId());
         criteria.andYearEqualTo(year);
         criteria.andMonthEqualTo(month);
         criteria.andDeleteFlagEqualTo(Boolean.FALSE);
@@ -2404,6 +2402,7 @@ public class EamApiServiceImpl implements EamApiService {
 
     private EamGrmVariableDataByMonth buildEamGrmVariableDataByMoth(EamGrmVariable variable, BigDecimal value){
         EamGrmVariableDataByMonth data = new EamGrmVariableDataByMonth();
+        data.setEamGrmVariableId(variable.getId());
         data.setProductLineId(variable.getProductLineId());
         data.setEquipmentId(variable.getEquipmentId());
         data.setDataGroupId(variable.getDataGroupId());
@@ -2420,6 +2419,7 @@ public class EamApiServiceImpl implements EamApiService {
 
     private void handleGrmVariableDataByDay(EamGrmVariable variable, BigDecimal value, String argDate){
         EamGrmVariableDataByDay data = new EamGrmVariableDataByDay();
+        data.setEamGrmVariableId(variable.getId());
         data.setProductLineId(variable.getProductLineId());
         data.setEquipmentId(variable.getEquipmentId());
         data.setDataGroupId(variable.getDataGroupId());

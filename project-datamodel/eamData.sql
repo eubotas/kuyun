@@ -139,11 +139,11 @@ INSERT INTO `upms_permission` VALUES ('516', '6', '513', '删除设备类别', '
 INSERT INTO `upms_permission` VALUES ('517', '6', '201', '数据点分组', '3', 'eam:dataGroup:read', '/manage/{equipmentId}/dataGroup/index', 'zmdi zmdi-close', '1', '1489820207607', '208');
 
 
-INSERT INTO `upms_permission` VALUES ('600', '6', '0', '维修计划', '1', null, null, 'zmdi zmdi-collection-text', 1, 1, 600);
-INSERT INTO `upms_permission` VALUES ('610', '6', '600', '维修计划', '2', 'eam:maintainPlan:read', '/manage/maintainPlan/index', NULL, 1, 1, 610);
-INSERT INTO `upms_permission` VALUES ('611', '6', '610', '维修计划', '3', 'eam:maintainPlan:create', '/manage/maintainPlan/create', NULL, 1, 1, 611);
-INSERT INTO `upms_permission` VALUES ('612', '6', '610', '维修计划', '3', 'eam:maintainPlan:update', '/manage/maintainPlan/update', NULL, 1, 1, 612);
-INSERT INTO `upms_permission` VALUES ('613', '6', '610', '维修计划', '3', 'eam:maintainPlan:delete', '/manage/maintainPlan/delete', NULL, 1, 1, 613);
+INSERT INTO `upms_permission` VALUES ('600', '6', '0', '维修计划管理', '1', null, null, 'zmdi zmdi-collection-text', 1, 1, 600);
+INSERT INTO `upms_permission` VALUES ('610', '6', '600', '维修计划管理', '2', 'eam:maintainPlan:read', '/manage/maintainPlan/index', NULL, 1, 1, 610);
+INSERT INTO `upms_permission` VALUES ('611', '6', '610', '新增维修计划', '3', 'eam:maintainPlan:create', '/manage/maintainPlan/create', NULL, 1, 1, 611);
+INSERT INTO `upms_permission` VALUES ('612', '6', '610', '编辑维修计划', '3', 'eam:maintainPlan:update', '/manage/maintainPlan/update', NULL, 1, 1, 612);
+INSERT INTO `upms_permission` VALUES ('613', '6', '610', '删除维修计划', '3', 'eam:maintainPlan:delete', '/manage/maintainPlan/delete', NULL, 1, 1, 613);
 
 INSERT INTO `upms_permission` VALUES (700,6,0,'基础数据设置',1,NULL,NULL,'zmdi zmdi-collection-text',1,100,700);
 INSERT INTO `upms_permission` VALUES ('710', '6', '700', '数据字典', '2', 'eam:codeValue:read', '/manage/codeValue/index', NULL, 1, 1, 710);

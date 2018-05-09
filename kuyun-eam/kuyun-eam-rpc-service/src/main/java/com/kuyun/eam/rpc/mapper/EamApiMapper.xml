@@ -941,7 +941,7 @@
 	</resultMap>
 
 	<select id="selectEamGrmVariableData" parameterType="com.kuyun.eam.vo.EamGrmVariableDataVO" resultMap="EamGrmVariableDataVOResultMap">
-		select DISTINCT
+		select
 		e.unit,
 		e.lable_name as data_element_name,
 		egvd.value,
@@ -956,30 +956,17 @@
 		AND e.delete_flag = 0
 		AND egv.delete_flag = 0
 		AND egvd.data_element_id = e.id
-		AND egvd.product_line_id = egv.product_line_id
-		AND egvd.data_element_id = egv.data_element_id
+		AND egvd.eam_grm_variable_id = egv.id
 		<if test="productLineId != null and productLineId != ''">
 			AND egvd.product_line_id = #{productLineId}
 		</if>
 
 		<if test="equipmentIdIsNull != null">
 			AND egvd.equipment_id is null
-			AND egvd.data_element_id in (
-				select egv.data_element_id from eam_grm_variable egv
-				where egv.product_line_id = #{productLineId} and egv.equipment_id is null and egv.delete_flag = 0
-			)
 		</if>
 
 		<if test="equipmentId != null and equipmentId != ''">
 			AND egvd.equipment_id = #{equipmentId}
-			AND egvd.data_element_id in (
-				select egv.data_element_id from eam_grm_variable egv
-				where egvd.product_line_id = egv.product_line_id
-				and egvd.equipment_id = egv.equipment_id
-				and egvd.data_group_id = egv.data_group_id
-				and egvd.equipment_data_group_id = egv.equipment_data_group_id
-				and egv.delete_flag = 0
-			)
 		</if>
 
 		<if test="dataGroupId != null and dataGroupId != ''">
@@ -1024,17 +1011,19 @@
 
 	<select id="selectEamGrmVariableDataHistories" parameterType="com.kuyun.eam.vo.EamGrmVariableDataHistoryVO" resultMap="EamGrmVariableDataHistoryVOResultMap">
 		select
-		DISTINCT
 		e.unit,
 		e.lable_name,
 		egvdh.data_element_id,
 		egvdh.value,
 		egvdh.update_time
 		from eam_grm_variable_data_history egvdh,
-		eam_data_element e
+		eam_data_element e,
+		eam_grm_variable egv
 		WHERE egvdh.delete_flag = 0
 		AND e.delete_flag = 0
+		AND egv.delete_flag = 0
 		AND egvdh.data_element_id = e.id
+		AND egvd.eam_grm_variable_id = egv.id
 
 		<if test="productLineId != null and productLineId != ''">
 			AND egvdh.product_line_id = #{productLineId}
@@ -1042,22 +1031,10 @@
 
 		<if test="equipmentIdIsNull != null">
 			AND egvdh.equipment_id IS NULL
-			AND egvdh.data_element_id in (
-			select egv.data_element_id from eam_grm_variable egv
-			where egv.product_line_id = #{productLineId} and egv.equipment_id is null and egv.delete_flag = 0
-			)
 		</if>
 
 		<if test="equipmentId != null and equipmentId != ''">
 			AND egvdh.equipment_id = #{equipmentId}
-			AND egvdh.data_element_id in (
-			select egv.data_element_id from eam_grm_variable egv
-			where egvdh.product_line_id = egv.product_line_id
-			and egvdh.equipment_id = egv.equipment_id
-			and egvdh.data_group_id = egv.data_group_id
-			and egvdh.equipment_data_group_id = egv.equipment_data_group_id
-			and egv.delete_flag = 0
-			)
 		</if>
 
 		<if test="dataGroupId != null and dataGroupId != ''">
@@ -1391,7 +1368,7 @@
 		(select code_name from eam_code_value where packaging_material = code_value and category = 'PACKAGING_MATERIAL') as packagingMaterialName,
 		(select code_name from eam_code_value where product_spec = code_value and category = 'PRODUCT_SPEC') as productSpecName
 		from eam_order
-		WHERE 1 = 1
+		WHERE delete_flag = 0
 		<if test="search != null and search != ''">
 			<bind name="pattern" value="'%' + search + '%'" />
 			AND company_name like #{pattern}

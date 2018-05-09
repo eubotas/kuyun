@@ -26,6 +26,8 @@ public class EamGrmVariableDataByDay extends BaseEntity implements Serializable 
 
     private Date date;
 
+    private Integer eamGrmVariableId;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -92,6 +94,14 @@ public class EamGrmVariableDataByDay extends BaseEntity implements Serializable 
         this.date = date;
     }
 
+    public Integer getEamGrmVariableId() {
+        return eamGrmVariableId;
+    }
+
+    public void setEamGrmVariableId(Integer eamGrmVariableId) {
+        this.eamGrmVariableId = eamGrmVariableId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -106,6 +116,7 @@ public class EamGrmVariableDataByDay extends BaseEntity implements Serializable 
         sb.append(", dataElementId=").append(dataElementId);
         sb.append(", value=").append(value);
         sb.append(", date=").append(date);
+        sb.append(", eamGrmVariableId=").append(eamGrmVariableId);
         sb.append("]");
         return sb.toString();
     }
@@ -134,7 +145,8 @@ public class EamGrmVariableDataByDay extends BaseEntity implements Serializable 
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
-            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()));
+            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
+            && (this.getEamGrmVariableId() == null ? other.getEamGrmVariableId() == null : this.getEamGrmVariableId().equals(other.getEamGrmVariableId()));
     }
 
     @Override
@@ -154,6 +166,7 @@ public class EamGrmVariableDataByDay extends BaseEntity implements Serializable 
         result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
+        result = prime * result + ((getEamGrmVariableId() == null) ? 0 : getEamGrmVariableId().hashCode());
         return result;
     }
 }
