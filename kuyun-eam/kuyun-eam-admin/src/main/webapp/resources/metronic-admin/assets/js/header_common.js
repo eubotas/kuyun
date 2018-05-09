@@ -84,6 +84,9 @@ function isContainHml(html, subHtml){
         return false;
 }
 
+var domain = '122.112.237.243';
+// var domain = 'kuyun.cn';
+
 function setCookie(cname,cvalue,exdays){
     delCookie(cname);
     if(!exdays)
@@ -91,10 +94,12 @@ function setCookie(cname,cvalue,exdays){
     var d = new Date();
     d.setTime(d.getTime()+(exdays*24*60*60*1000));
     var expires = "expires="+d.toGMTString();
-    document.domain = 'kuyun.coderise.cn';
+    document.domain = domain;
     document.cookie = cname + "=" + escape(cvalue) + ";path=/;"
         + expires;
 }
+
+
 
 function getCookie(cname){
     var name = cname + "=";
@@ -116,7 +121,7 @@ function delCookie(name) {
     exp.setTime(exp.getTime() - 1);
     var cval = getCookie(name);
     if (cval != "") {
-        document.domain = 'kuyun.coderise.cn';
+        document.domain = domain;
         document.cookie = name + "=" + cval + ";path=/;expires=" + exp.toGMTString();
     }
 }
