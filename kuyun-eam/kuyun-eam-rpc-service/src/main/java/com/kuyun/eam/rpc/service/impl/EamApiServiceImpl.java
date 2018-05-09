@@ -927,6 +927,7 @@ public class EamApiServiceImpl implements EamApiService {
         alarm.setCreateTime(new Date());
         alarm.setUpdateTime(new Date());
         alarm.setDeleteFlag(Boolean.FALSE);
+        alarm.setIsCreateTicket(alarmModel.getIsCreateTicket());
         alarm.setEquipmentId(getEquipmentId(productLineId, alarmModel));
 
         return alarm;
