@@ -195,15 +195,13 @@
                     {field: 'equipmentModelName', title: '模型'},
                     {field: 'imagePath', title: '图片', formatter: 'imageFormatter'},
                     {field: 'isOnline', title: '状态', formatter: 'onlineFormatter'},
-//                    {field: 'maintenancePeriod', width: 150, title: '启停', formatter: 'openCloseFormatter'},
+                    {field: 'maintenancePeriod', width: 150, title: '启停', formatter: 'openCloseFormatter'},
                     {field: 'action', width: 120, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ],
                 onPostBody: function () {
                     $('[data-switch=true]').bootstrapSwitch({
                         'onSwitchChange': function(event, state){
-                            console.log('state:'+state);
-                            console.dir(event);
-                            console.dir(this);
+                            console.dir($(this).val());
                         }
                     });
                 }
@@ -221,7 +219,9 @@
         }
 
         function openCloseFormatter(value, row, index) {
-            return '<input id="openClose" data-switch="true" data-size="small" type="checkbox" checked="checked" data-on-color="success" data-off-color="warning">';
+            var strRow=JSON.stringify(row);
+            strRow = strRow.replace(/\"/g,"'");
+            return '<input id="openClose"'+index+'" data-switch="true" data-size="small" type="checkbox" checked="checked" data-on-color="success" data-off-color="warning" value="'+strRow+'">';
         }
 
         function onlineFormatter(value, row, index) {
