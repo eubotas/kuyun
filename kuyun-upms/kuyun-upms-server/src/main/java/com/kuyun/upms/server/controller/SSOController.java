@@ -7,6 +7,7 @@ import com.kuyun.common.base.BaseResult;
 import com.kuyun.common.netease.SMSUtil;
 import com.kuyun.common.util.BasePath;
 import com.kuyun.common.util.MD5Util;
+import com.kuyun.common.util.PropertiesFileUtil;
 import com.kuyun.common.util.RedisUtil;
 import com.kuyun.upms.client.shiro.session.UpmsSession;
 import com.kuyun.upms.client.shiro.session.UpmsSessionDao;
@@ -160,6 +161,10 @@ public class SSOController extends BaseController {
             else
                 basePath = request.getScheme() + "://" + request.getServerName();
             BasePath.kuyunUpmsServer = basePath;
+
+//            BasePath.kuyunUpmsServer = PropertiesFileUtil.getInstance("kuyun-upms-client").get("kuyun.upms.sso.server.url");
+//            BasePath.kuyunEamAdmin = PropertiesFileUtil.getInstance("kuyun-upms-client").get("kuyun.upms.sso.server.url");
+            BasePath.siteDomain = PropertiesFileUtil.getInstance("kuyun-upms-client").get("kuyun.site.domain");
         }
 
         if (StringUtils.isBlank(username)) {

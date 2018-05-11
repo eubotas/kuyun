@@ -11,6 +11,10 @@
 <c:set var="eamPath" value="<%=BasePath.kuyunEamAdmin%>"/>
 <c:set var="upmsPath" value="<%=com.kuyun.common.util.BasePath.kuyunUpmsServer%>"/>
 
+<script>
+    var siteDomain = '<%=BasePath.siteDomain%>';
+</script>
+
 <script src="${basePath}/resources/kuyun-admin/plugins/jquery.1.12.4.min.js"></script>
 <script src="${basePath}/resources/metronic-admin/assets/js/header_common.js"></script>
 <!-- BEGIN: Left Aside -->
