@@ -2,7 +2,8 @@ package com.kuyun.common.util;
 
 
 public class BasePath {
-    public static String kuyunUpmsServer="http://122.112.237.243:1111";
-    public static String kuyunEamAdmin="http://122.112.237.243:9999";
-    public static boolean isSetted=false;
+    public static String kuyunDomain=PropertiesFileUtil.getInstance("kuyun-upms-client").get("kuyun.site.domain");
+    public static String kuyunUpmsServer=PropertiesFileUtil.getInstance("kuyun-upms-client").get("kuyun.upms.sso.server.url");
+    public static String kuyunEamAdmin="http://eam.kuyun.cn:9999";
+
 }

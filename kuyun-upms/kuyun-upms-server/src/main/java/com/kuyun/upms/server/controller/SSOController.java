@@ -152,16 +152,6 @@ public class SSOController extends BaseController {
         String password = request.getParameter("password");
         String rememberMe = request.getParameter("rememberMe");
 
-        if( !BasePath.isSetted) {
-            int port = request.getServerPort();
-            String basePath = "";
-            if (port != 0)
-                basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
-            else
-                basePath = request.getScheme() + "://" + request.getServerName();
-            BasePath.kuyunUpmsServer = basePath;
-        }
-
         if (StringUtils.isBlank(username)) {
             return new UpmsResult(UpmsResultConstant.EMPTY_USERNAME, "帐号不能为空！");
         }
