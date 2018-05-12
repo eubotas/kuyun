@@ -2000,7 +2000,6 @@ public class EamApiServiceImpl implements EamApiService {
             for (CompanyBean companyBean : companyBeanList){
                 UpmsCompany upmsCompany = new UpmsCompany();
                 upmsCompany.setParentId(currentCompany.getCompanyId());
-                upmsCompany.setSeqId(NumberUtil.toInteger(companyBean.getSeqId()));
                 upmsCompany.setName(companyBean.getName());
                 upmsCompany.setPhone(companyBean.getPhone());
                 upmsCompany.setFax(companyBean.getFax());

@@ -37,6 +37,16 @@
             <artifactId>javax.json-api</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.kuyun</groupId>
+            <artifactId>kuyun-eam-dao</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.kuyun</groupId>
+            <artifactId>kuyun-eam-rpc-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
     <profiles>

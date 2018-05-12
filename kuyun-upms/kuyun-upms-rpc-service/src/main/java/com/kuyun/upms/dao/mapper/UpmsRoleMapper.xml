@@ -3,12 +3,13 @@
 <mapper namespace="com.kuyun.upms.dao.mapper.UpmsRoleMapper">
   <resultMap id="BaseResultMap" type="com.kuyun.upms.dao.model.UpmsRole">
     <id column="role_id" jdbcType="INTEGER" property="roleId" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="ctime" jdbcType="BIGINT" property="ctime" />
     <result column="orders" jdbcType="BIGINT" property="orders" />
-    <result column="company_id" jdbcType="INTEGER" property="companyId" />
+    <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    role_id, name, title, description, ctime, orders, company_id
+    role_id, company_id, name, title, description, ctime, orders, delete_flag
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.upms.dao.model.UpmsRoleExample" resultMap="BaseResultMap">
     select
@@ -110,18 +111,21 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.upms.dao.model.UpmsRole">
-    insert into upms_role (role_id, name, title, 
-      description, ctime, orders, 
-      company_id)
-    values (#{roleId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
-      #{description,jdbcType=VARCHAR}, #{ctime,jdbcType=BIGINT}, #{orders,jdbcType=BIGINT}, 
-      #{companyId,jdbcType=INTEGER})
+    insert into upms_role (role_id, company_id, name, 
+      title, description, ctime, 
+      orders, delete_flag)
+    values (#{roleId,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{ctime,jdbcType=BIGINT}, 
+      #{orders,jdbcType=BIGINT}, #{deleteFlag,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.upms.dao.model.UpmsRole">
     insert into upms_role
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="roleId != null">
         role_id,
+      </if>
+      <if test="companyId != null">
+        company_id,
       </if>
       <if test="name != null">
         name,
@@ -138,13 +142,16 @@
       <if test="orders != null">
         orders,
       </if>
-      <if test="companyId != null">
-        company_id,
+      <if test="deleteFlag != null">
+        delete_flag,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="roleId != null">
         #{roleId,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=INTEGER},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
@@ -161,8 +168,8 @@
       <if test="orders != null">
         #{orders,jdbcType=BIGINT},
       </if>
-      <if test="companyId != null">
-        #{companyId,jdbcType=INTEGER},
+      <if test="deleteFlag != null">
+        #{deleteFlag,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -177,6 +184,9 @@
     <set>
       <if test="record.roleId != null">
         role_id = #{record.roleId,jdbcType=INTEGER},
+      </if>
+      <if test="record.companyId != null">
+        company_id = #{record.companyId,jdbcType=INTEGER},
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
@@ -193,8 +203,8 @@
       <if test="record.orders != null">
         orders = #{record.orders,jdbcType=BIGINT},
       </if>
-      <if test="record.companyId != null">
-        company_id = #{record.companyId,jdbcType=INTEGER},
+      <if test="record.deleteFlag != null">
+        delete_flag = #{record.deleteFlag,jdbcType=BIT},
       </if>
     </set>
     <if test="_parameter != null">
@@ -204,12 +214,13 @@
   <update id="updateByExample" parameterType="map">
     update upms_role
     set role_id = #{record.roleId,jdbcType=INTEGER},
+      company_id = #{record.companyId,jdbcType=INTEGER},
       name = #{record.name,jdbcType=VARCHAR},
       title = #{record.title,jdbcType=VARCHAR},
       description = #{record.description,jdbcType=VARCHAR},
       ctime = #{record.ctime,jdbcType=BIGINT},
       orders = #{record.orders,jdbcType=BIGINT},
-      company_id = #{record.companyId,jdbcType=INTEGER}
+      delete_flag = #{record.deleteFlag,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -217,6 +228,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.kuyun.upms.dao.model.UpmsRole">
     update upms_role
     <set>
+      <if test="companyId != null">
+        company_id = #{companyId,jdbcType=INTEGER},
+      </if>
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
@@ -232,32 +246,33 @@
       <if test="orders != null">
         orders = #{orders,jdbcType=BIGINT},
       </if>
-      <if test="companyId != null">
-        company_id = #{companyId,jdbcType=INTEGER},
+      <if test="deleteFlag != null">
+        delete_flag = #{deleteFlag,jdbcType=BIT},
       </if>
     </set>
     where role_id = #{roleId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kuyun.upms.dao.model.UpmsRole">
     update upms_role
-    set name = #{name,jdbcType=VARCHAR},
+    set company_id = #{companyId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
       title = #{title,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
       ctime = #{ctime,jdbcType=BIGINT},
       orders = #{orders,jdbcType=BIGINT},
-      company_id = #{companyId,jdbcType=INTEGER}
+      delete_flag = #{deleteFlag,jdbcType=BIT}
     where role_id = #{roleId,jdbcType=INTEGER}
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into upms_role  (role_id, name, title, 
-        description, ctime, orders, 
-        company_id)
+            insert into upms_role  (role_id, company_id, name, 
+        title, description, ctime, 
+        orders, delete_flag)
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.roleId,jdbcType=INTEGER}, #{item.name,jdbcType=VARCHAR}, #{item.title,jdbcType=VARCHAR}, 
-        #{item.description,jdbcType=VARCHAR}, #{item.ctime,jdbcType=BIGINT}, #{item.orders,jdbcType=BIGINT}, 
-        #{item.companyId,jdbcType=INTEGER})
+      (#{item.roleId,jdbcType=INTEGER}, #{item.companyId,jdbcType=INTEGER}, #{item.name,jdbcType=VARCHAR}, 
+        #{item.title,jdbcType=VARCHAR}, #{item.description,jdbcType=VARCHAR}, #{item.ctime,jdbcType=BIGINT}, 
+        #{item.orders,jdbcType=BIGINT}, #{item.deleteFlag,jdbcType=BIT})
       </foreach>
     </if>
   </insert>

@@ -5,6 +5,7 @@
     <id column="user_organization_id" jdbcType="INTEGER" property="userOrganizationId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="organization_id" jdbcType="INTEGER" property="organizationId" />
+    <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -65,7 +66,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    user_organization_id, user_id, organization_id
+    user_organization_id, user_id, organization_id, delete_flag
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.upms.dao.model.UpmsUserOrganizationExample" resultMap="BaseResultMap">
     select
@@ -106,10 +107,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.upms.dao.model.UpmsUserOrganization">
-    insert into upms_user_organization (user_organization_id, user_id, organization_id
-      )
-    values (#{userOrganizationId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{organizationId,jdbcType=INTEGER}
-      )
+    insert into upms_user_organization (user_organization_id, user_id, organization_id, 
+      delete_flag)
+    values (#{userOrganizationId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{organizationId,jdbcType=INTEGER}, 
+      #{deleteFlag,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.upms.dao.model.UpmsUserOrganization">
     insert into upms_user_organization
@@ -123,6 +124,9 @@
       <if test="organizationId != null">
         organization_id,
       </if>
+      <if test="deleteFlag != null">
+        delete_flag,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userOrganizationId != null">
@@ -133,6 +137,9 @@
       </if>
       <if test="organizationId != null">
         #{organizationId,jdbcType=INTEGER},
+      </if>
+      <if test="deleteFlag != null">
+        #{deleteFlag,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -154,6 +161,9 @@
       <if test="record.organizationId != null">
         organization_id = #{record.organizationId,jdbcType=INTEGER},
       </if>
+      <if test="record.deleteFlag != null">
+        delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -163,7 +173,8 @@
     update upms_user_organization
     set user_organization_id = #{record.userOrganizationId,jdbcType=INTEGER},
       user_id = #{record.userId,jdbcType=INTEGER},
-      organization_id = #{record.organizationId,jdbcType=INTEGER}
+      organization_id = #{record.organizationId,jdbcType=INTEGER},
+      delete_flag = #{record.deleteFlag,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -177,23 +188,27 @@
       <if test="organizationId != null">
         organization_id = #{organizationId,jdbcType=INTEGER},
       </if>
+      <if test="deleteFlag != null">
+        delete_flag = #{deleteFlag,jdbcType=BIT},
+      </if>
     </set>
     where user_organization_id = #{userOrganizationId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kuyun.upms.dao.model.UpmsUserOrganization">
     update upms_user_organization
     set user_id = #{userId,jdbcType=INTEGER},
-      organization_id = #{organizationId,jdbcType=INTEGER}
+      organization_id = #{organizationId,jdbcType=INTEGER},
+      delete_flag = #{deleteFlag,jdbcType=BIT}
     where user_organization_id = #{userOrganizationId,jdbcType=INTEGER}
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into upms_user_organization  (user_organization_id, user_id, organization_id
-        )
+            insert into upms_user_organization  (user_organization_id, user_id, organization_id, 
+        delete_flag)
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.userOrganizationId,jdbcType=INTEGER}, #{item.userId,jdbcType=INTEGER}, #{item.organizationId,jdbcType=INTEGER}
-        )
+      (#{item.userOrganizationId,jdbcType=INTEGER}, #{item.userId,jdbcType=INTEGER}, #{item.organizationId,jdbcType=INTEGER}, 
+        #{item.deleteFlag,jdbcType=BIT})
       </foreach>
     </if>
   </insert>
