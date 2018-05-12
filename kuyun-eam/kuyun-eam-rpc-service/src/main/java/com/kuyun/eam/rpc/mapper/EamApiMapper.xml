@@ -1023,7 +1023,7 @@
 		AND e.delete_flag = 0
 		AND egv.delete_flag = 0
 		AND egvdh.data_element_id = e.id
-		AND egvd.eam_grm_variable_id = egv.id
+		AND egvdh.eam_grm_variable_id = egv.id
 
 		<if test="productLineId != null and productLineId != ''">
 			AND egvdh.product_line_id = #{productLineId}
@@ -1154,28 +1154,30 @@
 		<result column="equipmentCategoryName" jdbcType="VARCHAR" property="equipmentCategoryName" />
 		<result column="equipmentName" jdbcType="VARCHAR" property="equipmentName" />
 		<result column="productLineName" jdbcType="VARCHAR" property="productLineName" />
-		<result column="orgName" jdbcType="VARCHAR" property="orgName" />
+		<result column="maintainUsers" jdbcType="VARCHAR" property="maintainUsers" />
 	</resultMap>
 
 	<select id="listMaintainPlans" parameterType="com.kuyun.eam.vo.EamMaintainPlanVO" resultMap="EamMaintainPlanVOResultMap">
 		select
-		plan_id, work_content, next_maintain_date, maintain_frequency_unit,
+		a.plan_id, work_content, next_maintain_date, maintain_frequency_unit,
 		maintain_frequency_quantity, maintain_type, remind_time, a.create_time,
 		a.equipment_id,
 		a.product_line_id,
-		uo.name as orgName,
+		group_concat(uu.realname) AS maintainUsers,
 		ec.name as equipmentCategoryName,
 		e.name as equipmentName,
 		p.name as productLineName
 		from eam_maintain_plan a
-		LEFT OUTER JOIN upms_organization uo ON a.org_id = uo.organization_id
 		LEFT OUTER JOIN eam_equipment_category ec ON a.equipment_category_id = ec.equipment_category_id
 		LEFT OUTER JOIN eam_equipment e ON a.equipment_id = e.equipment_id
 		LEFT OUTER JOIN eam_product_line p ON a.product_line_id = p.product_line_id
+		LEFT OUTER JOIN eam_maintain_user mu ON (a.plan_id = mu.plan_id AND mu.delete_flag = 0)
+		LEFT OUTER JOIN upms_user uu ON mu.user_id = uu.user_id
 		WHERE a.delete_flag = 0
 		<if test="companyId != null and companyId != ''">
 			AND a.company_id = #{companyId}
 		</if>
+		group by a.plan_id
 		<if test="orderByClause != null">
 			order by ${orderByClause}
 		</if>
@@ -1191,9 +1193,8 @@
 
 	<select id="countMaintainPlans" parameterType="com.kuyun.eam.vo.EamMaintainPlanVO" resultType="java.lang.Long">
 		select
-		count(plan_id)
+		count(a.plan_id)
 		from eam_maintain_plan a
-		LEFT OUTER JOIN upms_organization uo ON a.org_id = uo.organization_id
 		LEFT OUTER JOIN eam_equipment_category ec ON a.equipment_category_id = ec.equipment_category_id
 		LEFT OUTER JOIN eam_equipment e ON a.equipment_id = e.equipment_id
 		LEFT OUTER JOIN eam_product_line p ON a.product_line_id = p.product_line_id
@@ -1201,20 +1202,24 @@
 		<if test="companyId != null and companyId != ''">
 			AND a.company_id = #{companyId}
 		</if>
+		group by a.plan_id
 	</select>
 
 	<select id="getMaintainPlan" parameterType="Integer" resultMap="EamMaintainPlanVOResultMap">
 		select
-		plan_id, work_content, next_maintain_date, maintain_frequency_unit, maintain_frequency_quantity, maintain_type, remind_time, a.create_time ,
-		uo.name as orgName,
-		ec.name as equipmentCategoryName,
-		e.name as equipmentName
-		from eam_maintain_plan a
-		LEFT OUTER JOIN upms_organization uo ON a.org_id = uo.organization_id
-		LEFT OUTER JOIN eam_equipment_category ec ON a.equipment_category_id = ec.equipment_category_id
-		LEFT OUTER JOIN eam_equipment e ON a.equipment_id = e.equipment_id
-		WHERE a.delete_flag = 0 and a.plan_id=#{planId, jdbcType=INTEGER}
-
+        a.plan_id, work_content, next_maintain_date, maintain_frequency_unit, maintain_frequency_quantity, maintain_type, remind_time, a.create_time ,
+        ec.name as equipmentCategoryName,
+        e.name as equipmentName,
+        p.name as productLineName,
+        group_concat(uu.realname) AS maintainUsers
+        from eam_maintain_plan a
+        LEFT OUTER JOIN eam_equipment_category ec ON a.equipment_category_id = ec.equipment_category_id
+        LEFT OUTER JOIN eam_equipment e ON a.equipment_id = e.equipment_id
+        LEFT OUTER JOIN eam_product_line p ON a.product_line_id = p.product_line_id
+        LEFT OUTER JOIN eam_maintain_user mu ON a.plan_id = mu.plan_id
+		LEFT OUTER JOIN upms_user uu ON mu.user_id = uu.user_id
+		WHERE a.delete_flag = 0 and mu.delete_flag = 0 and a.plan_id=#{planId, jdbcType=INTEGER}
+		group by a.plan_id
 	</select>
 
 	<resultMap id="EamPlanTicketVOResultMap" type="com.kuyun.eam.vo.EamPlanTicketVO" extends="com.kuyun.eam.dao.mapper.EamTicketMapper.BaseResultMap">
