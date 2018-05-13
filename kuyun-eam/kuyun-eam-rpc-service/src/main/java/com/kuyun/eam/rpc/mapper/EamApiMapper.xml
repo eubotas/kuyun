@@ -136,6 +136,13 @@
 		<if test="model != null and model != ''">
 			AND t.model = #{model}
 		</if>
+		<if test="companyIds != null">
+			AND t.company_id IN
+			<foreach item="item" index="index" collection="companyIds"
+					 open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
 		<if test="companyId != null and companyId != ''">
 			AND t.company_id = #{companyId}
 		</if>

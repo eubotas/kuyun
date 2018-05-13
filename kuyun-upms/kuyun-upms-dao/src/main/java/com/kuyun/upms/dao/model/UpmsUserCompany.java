@@ -2,6 +2,7 @@ package com.kuyun.upms.dao.model;
 
 import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
+import java.util.List;
 
 public class UpmsUserCompany extends BaseEntity implements Serializable {
     /**
@@ -10,7 +11,8 @@ public class UpmsUserCompany extends BaseEntity implements Serializable {
      * @mbg.generated
      */
     private Integer userCompanyId;
-
+    private Integer parentId;
+    private List<Integer> childCompanyIds;
     /**
      * 用户编号
      *
@@ -19,6 +21,14 @@ public class UpmsUserCompany extends BaseEntity implements Serializable {
     private Integer userId;
 
     private static final long serialVersionUID = 1L;
+
+    public Integer getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
+    }
 
     public Integer getUserCompanyId() {
         return userCompanyId;
@@ -34,6 +44,14 @@ public class UpmsUserCompany extends BaseEntity implements Serializable {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public List<Integer> getChildCompanyIds() {
+        return childCompanyIds;
+    }
+
+    public void setChildCompanyIds(List<Integer> childCompanyIds) {
+        this.childCompanyIds = childCompanyIds;
     }
 
     @Override

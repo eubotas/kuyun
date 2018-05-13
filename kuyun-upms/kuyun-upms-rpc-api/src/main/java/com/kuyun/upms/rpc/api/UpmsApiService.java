@@ -132,4 +132,6 @@ public interface UpmsApiService {
     Long countCompanies(UpmsCompanyVo companyVo);
 
     List<UpmsOrgUserVo> selectOrgUsersByOrgNameCompanyId(UpmsOrgUserVo orgUserVo);
+
+    UpmsUserCompany getUpmsUserCompany(Integer userId);
 }

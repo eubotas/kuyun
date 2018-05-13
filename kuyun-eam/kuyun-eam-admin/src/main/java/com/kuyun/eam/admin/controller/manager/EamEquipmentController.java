@@ -395,6 +395,20 @@ public class EamEquipmentController extends BaseController {
 
 	}
 
+	@ApiOperation(value = "获取设备属性")
+	@RequiresPermissions("eam:equipment:read")
+	@RequestMapping(value = "/{eid}/getProperty", method = RequestMethod.GET)
+	@ResponseBody
+	public Object getProperty(@PathVariable("eid") String equipmentId) {
+		EamEquipmentPropertyExample ex=new EamEquipmentPropertyExample();
+		ex.createCriteria().andEquipmentIdEqualTo(equipmentId).andDeleteFlagEqualTo(false);
+		List<EamEquipmentProperty> props = eamEquipmentPropertyService.selectByExample(ex);
+
+		Map<String, Object> result = new HashMap<>();
+		result.put("props", props);
+		return result;
+	}
+
 	@ApiOperation(value = "创建设备属性")
 	@RequiresPermissions("eam:equipment:update")
 	@RequestMapping(value = "/{eid}/property/create", method = RequestMethod.GET)

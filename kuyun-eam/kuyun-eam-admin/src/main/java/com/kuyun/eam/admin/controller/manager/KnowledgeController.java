@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
@@ -160,13 +161,21 @@ public class KnowledgeController extends BaseController {
 
         UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
 
+        BoolQueryBuilder boolQueryBuilder = boolQuery();
+        if (company.getParentId() != null) {
+            boolQueryBuilder.should(termQuery("companyId", company.getCompanyId()));
+            boolQueryBuilder.should(termQuery("companyId", company.getParentId()));
+        } else {
+            boolQueryBuilder.should(termQuery("companyId", company.getCompanyId()));
+        }
 
         if (!StringUtils.isEmpty(k)){
             searchQuery = new NativeSearchQueryBuilder()
                     .withIndices(INDEX_NAME)
                     .withTypes(types.toArray(new String[types.size()]))
                     .withQuery(multiMatchQuery(k, TITLE, DESCRIPTION, CODE))
-                    .withFilter(boolQuery().filter(termQuery("companyId", company.getCompanyId())))
+                    .withFilter(boolQueryBuilder)
+                   // .withFilter(boolQuery().should(termQuery("companyId", company.getParentId())))
 //                    .withQuery(termQuery("companyId", company.getCompanyId()))
                     .withHighlightFields(codeField, descriptionField, titleField)
 //                    .withHighlightFields(fields.toArray(new HighlightBuilder.Field[fields.size()]))
@@ -178,7 +187,7 @@ public class KnowledgeController extends BaseController {
                     .withIndices(INDEX_NAME)
                     .withTypes(types.toArray(new String[types.size()]))
                     .withQuery(termQuery(TAG, t))
-                    .withFilter(boolQuery().filter(termQuery("companyId", company.getCompanyId())))
+                    .withFilter(boolQueryBuilder)
                     .withSort(SortBuilders.fieldSort(CREATE_TIME).order(SortOrder.DESC))
                     .withPageable(new PageRequest(page, size))
                     .build();

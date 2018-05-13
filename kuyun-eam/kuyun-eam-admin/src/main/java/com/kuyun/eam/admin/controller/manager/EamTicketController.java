@@ -230,7 +230,14 @@ public class EamTicketController extends EamTicketBaseController {
 
 		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
 		if (company != null){
-			criteria.andCompanyIdEqualTo(company.getCompanyId());
+			List companys=new ArrayList();
+			companys.add(company.getCompanyId());
+			List<Integer> childCompanyIds =baseEntityUtil.getChildCompanys(company.getCompanyId());
+			if(childCompanyIds != null) {
+				companys.addAll(childCompanyIds);
+				criteria.andCompanyIdIn(companys);
+			}else
+				criteria.andCompanyIdEqualTo(company.getCompanyId());
 		}
 
 		List<EamTicketVO> rows = eamApiService.selectTicket(eamTicketExample);

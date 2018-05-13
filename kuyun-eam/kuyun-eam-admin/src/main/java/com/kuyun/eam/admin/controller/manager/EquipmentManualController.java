@@ -18,6 +18,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
@@ -94,13 +95,19 @@ public class EquipmentManualController extends BaseController {
         _log.info("companyId="+company.getCompanyId());
 
         SearchQuery searchQuery = null;
-
+        BoolQueryBuilder boolQueryBuilder = boolQuery();
+        if (company.getParentId() != null) {
+            boolQueryBuilder.should(termQuery("companyId", company.getCompanyId()));
+            boolQueryBuilder.should(termQuery("companyId", company.getParentId()));
+        } else {
+            boolQueryBuilder.should(termQuery("companyId", company.getCompanyId()));
+        }
         if (StringUtils.isNotEmpty(search)){
             searchQuery = new NativeSearchQueryBuilder()
                     .withIndices(INDEX_NAME)
                     .withTypes(KnowledgeCategory.EQUIPMENT_MANUAL.getName())
                     .withQuery(multiMatchQuery(search, TITLE, DESCRIPTION, TAG))
-                    .withFilter(boolQuery().filter(termQuery("companyId", company.getCompanyId())))
+                    .withFilter(boolQueryBuilder)
                     .withSort(SortBuilders.fieldSort(CREATE_TIME).order(SortOrder.DESC))
                     .withPageable(new PageRequest(page, size))
                     .build();
@@ -108,14 +115,13 @@ public class EquipmentManualController extends BaseController {
             searchQuery = new NativeSearchQueryBuilder()
                     .withIndices(INDEX_NAME)
                     .withTypes(KnowledgeCategory.EQUIPMENT_MANUAL.getName())
-                    .withFilter(boolQuery().filter(termQuery("companyId", company.getCompanyId())))
+                    .withFilter(boolQueryBuilder)
                     .withSort(SortBuilders.fieldSort(CREATE_TIME).order(SortOrder.DESC))
                     .withPageable(new PageRequest(page, size))
                     .build();
         }
 
         Page<EquipmentManual> pageObj = elasticsearchTemplate.queryForPage(searchQuery, EquipmentManual.class);
-
 
         Map<String, Object> result = new HashMap<>();
         result.put("rows", pageObj.getContent());

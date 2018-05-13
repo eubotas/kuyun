@@ -131,6 +131,23 @@
 		limit 1
 	</select>
 
+	<resultMap id="UpmsUserCompany" type="com.kuyun.upms.dao.model.UpmsUserCompany">
+		<id column="company_id" jdbcType="INTEGER" property="companyId" />
+        <id column="parent_id" jdbcType="INTEGER" property="parentId" />
+        <id column="user_company_id" jdbcType="INTEGER" property="userCompanyId" />
+        <id column="user_id" jdbcType="INTEGER" property="userId" />
+	</resultMap>
+
+	<select id="getUpmsUserCompany" parameterType="java.lang.Integer" resultMap="UpmsUserCompany">
+		select
+		c.company_id, c.parent_id, uc.user_company_id, uc.user_id
+		from upms_company c,
+		upms_user_company uc
+		where c.company_id = uc.company_id
+		and uc.user_id=#{userId,jdbcType=INTEGER}
+		limit 1
+	</select>
+
 	<resultMap id="UpmsUserVoResultMap" type="com.kuyun.upms.dao.vo.UpmsUserVo">
 		<id column="user_id" jdbcType="INTEGER" property="userId" />
 		<result column="realname" jdbcType="VARCHAR" property="realname" />

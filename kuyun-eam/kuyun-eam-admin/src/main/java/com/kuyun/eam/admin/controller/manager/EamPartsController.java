@@ -23,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -101,7 +102,13 @@ public class EamPartsController extends BaseController {
 		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
 
 		if (company != null){
-			partVO.setCompanyId(company.getCompanyId());
+			if(null != company.getParentId()) {
+				List companys = new ArrayList();
+				companys.add(company.getCompanyId());
+				companys.add(company.getParentId());
+				partVO.setCompanyIds(companys);
+			}else
+				partVO.setCompanyId(company.getCompanyId());
 		}
 
 		List<EamPartVO> rows = eamApiService.selectParts(partVO);

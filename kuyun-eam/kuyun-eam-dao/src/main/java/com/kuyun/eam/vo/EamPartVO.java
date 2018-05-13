@@ -1,6 +1,10 @@
 package com.kuyun.eam.vo;
 
 import com.kuyun.eam.dao.model.EamParts;
+import com.kuyun.eam.dao.model.EamPartsExample;
+import com.kuyun.eam.dao.model.EamTicketExample;
+
+import java.util.List;
 
 /**
  * Created by user on 5/1/2017.
@@ -11,6 +15,7 @@ public class EamPartVO extends EamParts {
     private String serialNumber;
     private String equipmentName;
     private String productLineName;
+    private List<Integer> companyIds;
 
     private Integer limit;
 
@@ -80,5 +85,12 @@ public class EamPartVO extends EamParts {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    public void setCompanyIds(List<Integer> companyIds) {
+        this.companyIds = companyIds;
+    }
+    public List<Integer> getCompanyIds() {
+        return companyIds;
     }
 }

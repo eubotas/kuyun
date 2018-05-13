@@ -39,6 +39,29 @@ public class MybatisGeneratorUtil {
 	 * @param table_prefix  表前缀
 	 * @param package_name  包名
 	 */
+    public static void generator(
+            String jdbc_driver,
+            String jdbc_url,
+            String jdbc_username,
+            String jdbc_password,
+            String module,
+            String database,
+            String table_prefix,
+            String package_name,
+            Map<String, String> last_insert_id_tables) throws Exception{
+
+        String tableNmae= null;
+        generator(jdbc_driver,
+                 jdbc_url,
+                 jdbc_username,
+                 jdbc_password,
+                 module,
+                 database,
+                 table_prefix,
+                 package_name,
+                last_insert_id_tables, tableNmae);
+    }
+
 	public static void generator(
 			String jdbc_driver,
 			String jdbc_url,
@@ -48,7 +71,8 @@ public class MybatisGeneratorUtil {
 			String database,
 			String table_prefix,
 			String package_name,
-			Map<String, String> last_insert_id_tables) throws Exception{
+			Map<String, String> last_insert_id_tables,
+            String tableName) throws Exception{
 
 		String targetProject = module + "/" + module + "-dao";
 		String module_path = module + "/" + module + "-dao/src/main/resources/generatorConfig.xml";
@@ -64,11 +88,14 @@ public class MybatisGeneratorUtil {
 			JdbcUtil jdbcUtil = new JdbcUtil(jdbc_driver, jdbc_url, jdbc_username, AESUtil.AESDecode(jdbc_password));
 			List<Map> result = jdbcUtil.selectByParams(sql, null);
 			for (Map map : result) {
-				System.out.println(map.get("TABLE_NAME"));
-				table = new HashMap<>();
-				table.put("table_name", map.get("TABLE_NAME"));
-				table.put("model_name", lineToHump(ObjectUtils.toString(map.get("TABLE_NAME"))));
-				tables.add(table);
+                String t_name = map.get("TABLE_NAME").toString();
+                if (tableName == null || (tableName != null && t_name.equals(tableName))) {
+                    System.out.println(t_name);
+                    table = new HashMap<>();
+                    table.put("table_name", t_name);
+                    table.put("model_name", lineToHump(ObjectUtils.toString(map.get("TABLE_NAME"))));
+                    tables.add(table);
+                }
 			}
 			jdbcUtil.release();
 

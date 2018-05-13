@@ -85,7 +85,10 @@ public class UpmsUserController extends BaseController {
     @RequestMapping(value = "/organization/{id}", method = RequestMethod.GET)
     public String organization(@PathVariable("id") int id, ModelMap modelMap) {
         // 所有组织
-        List<UpmsOrganization> upmsOrganizations = upmsOrganizationService.selectByExample(new UpmsOrganizationExample());
+        UpmsOrganizationExample ex=new UpmsOrganizationExample();
+        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+        ex.createCriteria().andCompanyIdEqualTo(company.getCompanyId());
+        List<UpmsOrganization> upmsOrganizations = upmsOrganizationService.selectByExample(ex);
         // 用户拥有组织
         UpmsUserOrganizationExample upmsUserOrganizationExample = new UpmsUserOrganizationExample();
         upmsUserOrganizationExample.createCriteria()
@@ -102,7 +105,10 @@ public class UpmsUserController extends BaseController {
     @ResponseBody
     public Object organizationIndex(@PathVariable("id") int id, ModelMap modelMap) {
         // 所有组织
-        List<UpmsOrganization> upmsOrganizations = upmsOrganizationService.selectByExample(new UpmsOrganizationExample());
+        UpmsOrganizationExample ex=new UpmsOrganizationExample();
+        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+        ex.createCriteria().andCompanyIdEqualTo(company.getCompanyId());
+        List<UpmsOrganization> upmsOrganizations = upmsOrganizationService.selectByExample(ex);
         // 用户拥有组织
         UpmsUserOrganizationExample upmsUserOrganizationExample = new UpmsUserOrganizationExample();
         upmsUserOrganizationExample.createCriteria()
@@ -145,7 +151,10 @@ public class UpmsUserController extends BaseController {
     @RequestMapping(value = "/role/{id}", method = RequestMethod.GET)
     public String role(@PathVariable("id") int id, ModelMap modelMap) {
         // 所有角色
-        List<UpmsRole> upmsRoles = upmsRoleService.selectByExample(new UpmsRoleExample());
+        UpmsRoleExample ex = new UpmsRoleExample();
+        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+        ex.createCriteria().andCompanyIdEqualTo(company.getCompanyId());
+        List<UpmsRole> upmsRoles = upmsRoleService.selectByExample(ex);
         // 用户拥有角色
         UpmsUserRoleExample upmsUserRoleExample = new UpmsUserRoleExample();
         upmsUserRoleExample.createCriteria()
