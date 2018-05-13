@@ -857,6 +857,66 @@ public class UpmsSystemExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andDeleteFlagIsNull() {
+            addCriterion("delete_flag is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagIsNotNull() {
+            addCriterion("delete_flag is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagEqualTo(Boolean value) {
+            addCriterion("delete_flag =", value, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagNotEqualTo(Boolean value) {
+            addCriterion("delete_flag <>", value, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagGreaterThan(Boolean value) {
+            addCriterion("delete_flag >", value, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("delete_flag >=", value, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagLessThan(Boolean value) {
+            addCriterion("delete_flag <", value, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagLessThanOrEqualTo(Boolean value) {
+            addCriterion("delete_flag <=", value, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagIn(List<Boolean> values) {
+            addCriterion("delete_flag in", values, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagNotIn(List<Boolean> values) {
+            addCriterion("delete_flag not in", values, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagBetween(Boolean value1, Boolean value2) {
+            addCriterion("delete_flag between", value1, value2, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("delete_flag not between", value1, value2, "deleteFlag");
+            return (Criteria) this;
+        }
+
         public Criteria addConditionSql(String conditionSql) {
             addCriterion(conditionSql);
             return (Criteria) this;

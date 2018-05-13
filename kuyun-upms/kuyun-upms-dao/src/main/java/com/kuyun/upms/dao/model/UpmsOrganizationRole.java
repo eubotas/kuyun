@@ -78,7 +78,8 @@ public class UpmsOrganizationRole extends BaseEntity implements Serializable {
         UpmsOrganizationRole other = (UpmsOrganizationRole) that;
         return (this.getOrganizationRoleId() == null ? other.getOrganizationRoleId() == null : this.getOrganizationRoleId().equals(other.getOrganizationRoleId()))
             && (this.getOrganizationId() == null ? other.getOrganizationId() == null : this.getOrganizationId().equals(other.getOrganizationId()))
-            && (this.getRoleId() == null ? other.getRoleId() == null : this.getRoleId().equals(other.getRoleId()));
+            && (this.getRoleId() == null ? other.getRoleId() == null : this.getRoleId().equals(other.getRoleId()))
+            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()));
     }
 
     @Override
@@ -88,6 +89,7 @@ public class UpmsOrganizationRole extends BaseEntity implements Serializable {
         result = prime * result + ((getOrganizationRoleId() == null) ? 0 : getOrganizationRoleId().hashCode());
         result = prime * result + ((getOrganizationId() == null) ? 0 : getOrganizationId().hashCode());
         result = prime * result + ((getRoleId() == null) ? 0 : getRoleId().hashCode());
+        result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         return result;
     }
 }

@@ -313,7 +313,7 @@
 
 	<select id="selectCompanies" parameterType="com.kuyun.upms.dao.vo.UpmsCompanyVo" resultMap="com.kuyun.upms.dao.mapper.UpmsCompanyMapper.BaseResultMap">
 		select
-		uuc.company_id, uuc.seq_id, uuc.parent_id, uuc.name, uuc.phone, uuc.fax, uuc.zip, uuc.www, uuc.address, uuc.admin_name, uuc.admin_password,
+		uuc.company_id, uuc.parent_id, uuc.name, uuc.phone, uuc.fax, uuc.zip, uuc.www, uuc.address, uuc.admin_name, uuc.admin_password,
 		uuc.create_user_id, uuc.create_time, uuc.update_user_id, uuc.update_time, uuc.delete_flag
 		from upms_company uuc
 		WHERE uuc.delete_flag = 0

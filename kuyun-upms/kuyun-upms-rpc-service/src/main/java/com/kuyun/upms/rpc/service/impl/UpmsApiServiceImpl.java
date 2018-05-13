@@ -1,7 +1,12 @@
 package com.kuyun.upms.rpc.service.impl;
 
+import com.kuyun.common.constant.OrgDepartment;
+import com.kuyun.common.constant.RoleEnum;
 import com.kuyun.common.netease.SMSUtil;
 import com.kuyun.common.util.MD5Util;
+import com.kuyun.eam.common.constant.TicketType;
+import com.kuyun.eam.dao.model.EamTicketType;
+import com.kuyun.eam.rpc.api.EamTicketTypeService;
 import com.kuyun.upms.common.constant.UpmsConstant;
 import com.kuyun.upms.dao.mapper.*;
 import com.kuyun.upms.dao.model.*;
@@ -86,6 +91,12 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     private UpmsRoleService upmsRoleService;
     @Autowired
     private UpmsUserRoleService upmsUserRoleService;
+
+    @Autowired
+    private EamTicketTypeService eamTicketTypeService;
+
+    @Autowired
+    UpmsOrganizationService upmsOrganizationService;
 
     /**
      * 根据用户id获取所拥有的权限
@@ -369,6 +380,9 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         userRole.setRoleId(role.getRoleId());
         userRole.setDeleteFlag(Boolean.FALSE);
         upmsUserRoleService.insertSelective(userRole);
+
+
+
     }
 
 
@@ -455,6 +469,94 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         }
 
         createUserCompany(upmsUser, upmsCompany.getCompanyId());
+
+
+        //#1. insert upms_organization
+        Integer organizationId_1 = createOrganization(upmsCompany.getCompanyId(), OrgDepartment.REPAIR_DEPARTMENT.getName());
+        Integer organizationId_2 = createOrganization(upmsCompany.getCompanyId(), OrgDepartment.MAINTENANCE_DEPARTMENT.getName());
+        Integer organizationId_3 = createOrganization(upmsCompany.getCompanyId(), OrgDepartment.ALARM_DEPARTMENT.getName());
+
+        //2. insert upms_role
+        Integer roleId_2 = createRole(upmsCompany.getCompanyId(), RoleEnum.TICKETCREATE);
+
+        //4. insert upms_user_organization
+        createUserOrganization(upmsUser.getUserId(), organizationId_1);
+        createUserOrganization(upmsUser.getUserId(), organizationId_2);
+        createUserOrganization(upmsUser.getUserId(), organizationId_3);
+
+        //5. insert upms_user_role
+        createUserRole(upmsUser.getUserId(), roleId_2);
+
+        createTicketType(upmsCompany.getCompanyId(), TicketType.REPAIR);
+        createTicketType(upmsCompany.getCompanyId(), TicketType.MIANTAIN);
+        createTicketType(upmsCompany.getCompanyId(), TicketType.ALARM);
+
+    }
+
+    private void createTicketType(Integer companyId, TicketType ticketTypeEnum){
+        EamTicketType ticketType = new EamTicketType();
+        ticketType.setCompanyId(companyId);
+        ticketType.setCreateTime(new Date());
+        ticketType.setDeleteFlag(Boolean.FALSE);
+        ticketType.setName(ticketTypeEnum.getName());
+        eamTicketTypeService.insertSelective(ticketType);
+
+    }
+    private void createUserRole(Integer userId, Integer roleId) {
+        UpmsUserRole userRole = new UpmsUserRole();
+        userRole.setRoleId(roleId);
+        userRole.setUserId(userId);
+        userRole.setDeleteFlag(Boolean.FALSE);
+
+        upmsUserRoleService.insertSelective(userRole);
+    }
+
+    private void createUserOrganization(Integer userId, Integer organizationId) {
+        UpmsUserOrganization userOrganization = new UpmsUserOrganization();
+        userOrganization.setUserId(userId);
+        userOrganization.setOrganizationId(organizationId);
+        userOrganization.setDeleteFlag(Boolean.FALSE);
+        upmsUserOrganizationService.insertSelective(userOrganization);
+    }
+
+    private void createRolePermissions(Integer roleId){
+        int permissionCount = 35;
+        List<UpmsRolePermission> rolePermissions = new ArrayList<>(permissionCount);
+        for (int i = 1; i <= permissionCount; i++){
+            UpmsRolePermission rolePermission = new UpmsRolePermission();
+            rolePermission.setRoleId(roleId);
+            rolePermission.setPermissionId(i);
+            rolePermission.setDeleteFlag(Boolean.FALSE);
+
+            rolePermissions.add(rolePermission);
+
+        }
+
+        upmsRolePermissionMapper.batchInsert(rolePermissions);
+    }
+
+    private Integer createRole(Integer companyId, RoleEnum roleEnum){
+        UpmsRole role = new UpmsRole();
+        role.setDeleteFlag(Boolean.FALSE);
+        role.setCompanyId(companyId);
+        role.setCtime(System.currentTimeMillis());
+        role.setOrders(Long.valueOf(1));
+        role.setName(roleEnum.getName());
+        role.setTitle(roleEnum.getTitle());
+        role.setDescription(roleEnum.getDescription());
+        upmsRoleService.insertSelective(role);
+        return role.getRoleId();
+    }
+
+    private Integer createOrganization(Integer companyId, String orgName){
+        UpmsOrganization organization = new UpmsOrganization();
+        organization.setDeleteFlag(Boolean.FALSE);
+        organization.setName(orgName);
+        organization.setDescription(orgName);
+        organization.setCompanyId(companyId);
+        organization.setCtime(System.currentTimeMillis());
+        upmsOrganizationService.insertSelective(organization);
+        return organization.getOrganizationId();
     }
 
     private void createUserCompany(UpmsUser upmsUser, Integer companyId) {

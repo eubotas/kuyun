@@ -1,4 +1,4 @@
-use grm;
+use xmx_job;
 
 truncate qrtz_triggers;
 truncate qrtz_job_details;

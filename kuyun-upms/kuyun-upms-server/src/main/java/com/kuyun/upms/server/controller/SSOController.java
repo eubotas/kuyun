@@ -213,11 +213,11 @@ public class SSOController extends BaseController {
         if (StringUtils.isBlank(backurl)) {
 
             UpmsUser user = getUpmsUser(username);
-            String phone = "";
+            int userId = -1;
             if (user != null){
-                phone = user.getPhone();
+                userId = user.getUserId();
             }
-            return new UpmsResult(UpmsResultConstant.SUCCESS, phone);
+            return new UpmsResult(UpmsResultConstant.SUCCESS, userId);
         } else {
             return new UpmsResult(UpmsResultConstant.SUCCESS, backurl);
         }

@@ -5,6 +5,7 @@
     <id column="role_permission_id" jdbcType="INTEGER" property="rolePermissionId" />
     <result column="role_id" jdbcType="INTEGER" property="roleId" />
     <result column="permission_id" jdbcType="INTEGER" property="permissionId" />
+    <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -65,7 +66,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    role_permission_id, role_id, permission_id
+    role_permission_id, role_id, permission_id, delete_flag
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.upms.dao.model.UpmsRolePermissionExample" resultMap="BaseResultMap">
     select
@@ -106,10 +107,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.upms.dao.model.UpmsRolePermission">
-    insert into upms_role_permission (role_permission_id, role_id, permission_id
-      )
-    values (#{rolePermissionId,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{permissionId,jdbcType=INTEGER}
-      )
+    insert into upms_role_permission (role_permission_id, role_id, permission_id, 
+      delete_flag)
+    values (#{rolePermissionId,jdbcType=INTEGER}, #{roleId,jdbcType=INTEGER}, #{permissionId,jdbcType=INTEGER}, 
+      #{deleteFlag,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.upms.dao.model.UpmsRolePermission">
     insert into upms_role_permission
@@ -123,6 +124,9 @@
       <if test="permissionId != null">
         permission_id,
       </if>
+      <if test="deleteFlag != null">
+        delete_flag,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="rolePermissionId != null">
@@ -133,6 +137,9 @@
       </if>
       <if test="permissionId != null">
         #{permissionId,jdbcType=INTEGER},
+      </if>
+      <if test="deleteFlag != null">
+        #{deleteFlag,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -154,6 +161,9 @@
       <if test="record.permissionId != null">
         permission_id = #{record.permissionId,jdbcType=INTEGER},
       </if>
+      <if test="record.deleteFlag != null">
+        delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -163,7 +173,8 @@
     update upms_role_permission
     set role_permission_id = #{record.rolePermissionId,jdbcType=INTEGER},
       role_id = #{record.roleId,jdbcType=INTEGER},
-      permission_id = #{record.permissionId,jdbcType=INTEGER}
+      permission_id = #{record.permissionId,jdbcType=INTEGER},
+      delete_flag = #{record.deleteFlag,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -177,23 +188,27 @@
       <if test="permissionId != null">
         permission_id = #{permissionId,jdbcType=INTEGER},
       </if>
+      <if test="deleteFlag != null">
+        delete_flag = #{deleteFlag,jdbcType=BIT},
+      </if>
     </set>
     where role_permission_id = #{rolePermissionId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kuyun.upms.dao.model.UpmsRolePermission">
     update upms_role_permission
     set role_id = #{roleId,jdbcType=INTEGER},
-      permission_id = #{permissionId,jdbcType=INTEGER}
+      permission_id = #{permissionId,jdbcType=INTEGER},
+      delete_flag = #{deleteFlag,jdbcType=BIT}
     where role_permission_id = #{rolePermissionId,jdbcType=INTEGER}
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into upms_role_permission  (role_permission_id, role_id, permission_id
-        )
+            insert into upms_role_permission  (role_permission_id, role_id, permission_id, 
+        delete_flag)
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.rolePermissionId,jdbcType=INTEGER}, #{item.roleId,jdbcType=INTEGER}, #{item.permissionId,jdbcType=INTEGER}
-        )
+      (#{item.rolePermissionId,jdbcType=INTEGER}, #{item.roleId,jdbcType=INTEGER}, #{item.permissionId,jdbcType=INTEGER}, 
+        #{item.deleteFlag,jdbcType=BIT})
       </foreach>
     </if>
   </insert>

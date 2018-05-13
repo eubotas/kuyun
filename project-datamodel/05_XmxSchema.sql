@@ -1,5 +1,3 @@
-use xmx;
-
 SET SQL_SAFE_UPDATES = 0;
 SET FOREIGN_KEY_CHECKS=0;
 
@@ -142,11 +140,6 @@ create table eam_equipment
    number               varchar(30) comment '设备型号',
    serial_number        varchar(50) comment '出厂编号',
    image_path           varchar(100),
-   output               varchar(20) comment '产量',
-   dimension            varchar(20) comment '外形尺寸',
-   weight               varchar(20) comment '设备重量',
-   power                varchar(20) comment '使用电源',
-   capacity             varchar(20) comment '装机容量',
    user                 varchar(30),
    collect_status       varchar(10) comment '采集状态',
    grm                  varchar(50) comment '巨控设备ID',
@@ -168,6 +161,7 @@ create table eam_equipment
    primary key (equipment_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+ -- ALTER TABLE `eam_equipment`DROP COLUMN `output`;
 
 drop table if exists eam_equipment_property;
 create table eam_equipment_property

@@ -305,12 +305,24 @@ public class UpmsUserController extends BaseController {
         upmsUser.setPassword(MD5Util.md5(upmsUser.getPassword() + upmsUser.getSalt()));
         upmsUser.setCtime(time);
 
+        UpmsUser exsitUser = getUpmsUser(upmsUser.getUsername());
+        if (exsitUser != null){
+            return new UpmsResult(UpmsResultConstant.FAILED, "用户名已存在");
+        }
+
         UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
 
         int count = upmsApiService.createUser(upmsUser, company);
 
         _log.info("新增用户，主键：userId={}", upmsUser.getUserId());
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
+    }
+
+    private UpmsUser getUpmsUser(String userName) {
+        UpmsUserExample userExample = new UpmsUserExample();
+        userExample.createCriteria().andUsernameEqualTo(userName);
+
+        return upmsUserService.selectFirstByExample(userExample);
     }
 
     @ApiOperation(value = "删除用户")

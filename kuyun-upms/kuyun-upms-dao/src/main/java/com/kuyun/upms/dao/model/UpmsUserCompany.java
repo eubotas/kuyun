@@ -80,7 +80,8 @@ public class UpmsUserCompany extends BaseEntity implements Serializable {
         UpmsUserCompany other = (UpmsUserCompany) that;
         return (this.getUserCompanyId() == null ? other.getUserCompanyId() == null : this.getUserCompanyId().equals(other.getUserCompanyId()))
             && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
-            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()));
+            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()))
+            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()));
     }
 
     @Override
@@ -90,6 +91,7 @@ public class UpmsUserCompany extends BaseEntity implements Serializable {
         result = prime * result + ((getUserCompanyId() == null) ? 0 : getUserCompanyId().hashCode());
         result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
         result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
+        result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         return result;
     }
 }

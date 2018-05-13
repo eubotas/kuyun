@@ -188,66 +188,6 @@ public class UpmsCompanyExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andSeqIdIsNull() {
-            addCriterion("seq_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSeqIdIsNotNull() {
-            addCriterion("seq_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andSeqIdEqualTo(Integer value) {
-            addCriterion("seq_id =", value, "seqId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSeqIdNotEqualTo(Integer value) {
-            addCriterion("seq_id <>", value, "seqId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSeqIdGreaterThan(Integer value) {
-            addCriterion("seq_id >", value, "seqId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSeqIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("seq_id >=", value, "seqId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSeqIdLessThan(Integer value) {
-            addCriterion("seq_id <", value, "seqId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSeqIdLessThanOrEqualTo(Integer value) {
-            addCriterion("seq_id <=", value, "seqId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSeqIdIn(List<Integer> values) {
-            addCriterion("seq_id in", values, "seqId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSeqIdNotIn(List<Integer> values) {
-            addCriterion("seq_id not in", values, "seqId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSeqIdBetween(Integer value1, Integer value2) {
-            addCriterion("seq_id between", value1, value2, "seqId");
-            return (Criteria) this;
-        }
-
-        public Criteria andSeqIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("seq_id not between", value1, value2, "seqId");
-            return (Criteria) this;
-        }
-
         public Criteria andParentIdIsNull() {
             addCriterion("parent_id is null");
             return (Criteria) this;
@@ -375,6 +315,76 @@ public class UpmsCompanyExample implements Serializable {
 
         public Criteria andNameNotBetween(String value1, String value2) {
             addCriterion("name not between", value1, value2, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressIsNull() {
+            addCriterion("address is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressIsNotNull() {
+            addCriterion("address is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressEqualTo(String value) {
+            addCriterion("address =", value, "address");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressNotEqualTo(String value) {
+            addCriterion("address <>", value, "address");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressGreaterThan(String value) {
+            addCriterion("address >", value, "address");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressGreaterThanOrEqualTo(String value) {
+            addCriterion("address >=", value, "address");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressLessThan(String value) {
+            addCriterion("address <", value, "address");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressLessThanOrEqualTo(String value) {
+            addCriterion("address <=", value, "address");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressLike(String value) {
+            addCriterion("address like", value, "address");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressNotLike(String value) {
+            addCriterion("address not like", value, "address");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressIn(List<String> values) {
+            addCriterion("address in", values, "address");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressNotIn(List<String> values) {
+            addCriterion("address not in", values, "address");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressBetween(String value1, String value2) {
+            addCriterion("address between", value1, value2, "address");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddressNotBetween(String value1, String value2) {
+            addCriterion("address not between", value1, value2, "address");
             return (Criteria) this;
         }
 
