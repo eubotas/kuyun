@@ -30,41 +30,6 @@ public class EamEquipment extends BaseEntity implements Serializable {
 
     private String imagePath;
 
-    /**
-     * 产量
-     *
-     * @mbg.generated
-     */
-    private String output;
-
-    /**
-     * 外形尺寸
-     *
-     * @mbg.generated
-     */
-    private String dimension;
-
-    /**
-     * 设备重量
-     *
-     * @mbg.generated
-     */
-    private String weight;
-
-    /**
-     * 使用电源
-     *
-     * @mbg.generated
-     */
-    private String power;
-
-    /**
-     * 装机容量
-     *
-     * @mbg.generated
-     */
-    private String capacity;
-
     private String user;
 
     /**
@@ -174,46 +139,6 @@ public class EamEquipment extends BaseEntity implements Serializable {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
-    }
-
-    public String getOutput() {
-        return output;
-    }
-
-    public void setOutput(String output) {
-        this.output = output;
-    }
-
-    public String getDimension() {
-        return dimension;
-    }
-
-    public void setDimension(String dimension) {
-        this.dimension = dimension;
-    }
-
-    public String getWeight() {
-        return weight;
-    }
-
-    public void setWeight(String weight) {
-        this.weight = weight;
-    }
-
-    public String getPower() {
-        return power;
-    }
-
-    public void setPower(String power) {
-        this.power = power;
-    }
-
-    public String getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(String capacity) {
-        this.capacity = capacity;
     }
 
     public String getUser() {
@@ -341,11 +266,6 @@ public class EamEquipment extends BaseEntity implements Serializable {
         sb.append(", number=").append(number);
         sb.append(", serialNumber=").append(serialNumber);
         sb.append(", imagePath=").append(imagePath);
-        sb.append(", output=").append(output);
-        sb.append(", dimension=").append(dimension);
-        sb.append(", weight=").append(weight);
-        sb.append(", power=").append(power);
-        sb.append(", capacity=").append(capacity);
         sb.append(", user=").append(user);
         sb.append(", collectStatus=").append(collectStatus);
         sb.append(", grm=").append(grm);
@@ -383,11 +303,6 @@ public class EamEquipment extends BaseEntity implements Serializable {
             && (this.getNumber() == null ? other.getNumber() == null : this.getNumber().equals(other.getNumber()))
             && (this.getSerialNumber() == null ? other.getSerialNumber() == null : this.getSerialNumber().equals(other.getSerialNumber()))
             && (this.getImagePath() == null ? other.getImagePath() == null : this.getImagePath().equals(other.getImagePath()))
-            && (this.getOutput() == null ? other.getOutput() == null : this.getOutput().equals(other.getOutput()))
-            && (this.getDimension() == null ? other.getDimension() == null : this.getDimension().equals(other.getDimension()))
-            && (this.getWeight() == null ? other.getWeight() == null : this.getWeight().equals(other.getWeight()))
-            && (this.getPower() == null ? other.getPower() == null : this.getPower().equals(other.getPower()))
-            && (this.getCapacity() == null ? other.getCapacity() == null : this.getCapacity().equals(other.getCapacity()))
             && (this.getUser() == null ? other.getUser() == null : this.getUser().equals(other.getUser()))
             && (this.getCollectStatus() == null ? other.getCollectStatus() == null : this.getCollectStatus().equals(other.getCollectStatus()))
             && (this.getGrm() == null ? other.getGrm() == null : this.getGrm().equals(other.getGrm()))
@@ -420,11 +335,6 @@ public class EamEquipment extends BaseEntity implements Serializable {
         result = prime * result + ((getNumber() == null) ? 0 : getNumber().hashCode());
         result = prime * result + ((getSerialNumber() == null) ? 0 : getSerialNumber().hashCode());
         result = prime * result + ((getImagePath() == null) ? 0 : getImagePath().hashCode());
-        result = prime * result + ((getOutput() == null) ? 0 : getOutput().hashCode());
-        result = prime * result + ((getDimension() == null) ? 0 : getDimension().hashCode());
-        result = prime * result + ((getWeight() == null) ? 0 : getWeight().hashCode());
-        result = prime * result + ((getPower() == null) ? 0 : getPower().hashCode());
-        result = prime * result + ((getCapacity() == null) ? 0 : getCapacity().hashCode());
         result = prime * result + ((getUser() == null) ? 0 : getUser().hashCode());
         result = prime * result + ((getCollectStatus() == null) ? 0 : getCollectStatus().hashCode());
         result = prime * result + ((getGrm() == null) ? 0 : getGrm().hashCode());
