@@ -17,6 +17,7 @@ create table eam_equipment_category
    primary key (equipment_category_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
 #数据点
 drop table if exists eam_data_element;
 create table eam_data_element
@@ -167,6 +168,22 @@ create table eam_equipment
    primary key (equipment_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+drop table if exists eam_equipment_property;
+create table eam_equipment_property
+(
+   equipment_property_id   int not null auto_increment,
+   equipment_id   varchar(32) not null,
+   property_label  varchar(50) not null,
+   property_value  varchar(50) not null,
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   company_id           int,
+   primary key (equipment_property_id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS eam_equipment_data_group;
 create table eam_equipment_data_group

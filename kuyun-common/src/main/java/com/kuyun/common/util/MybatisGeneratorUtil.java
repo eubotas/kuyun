@@ -162,6 +162,31 @@ public class MybatisGeneratorUtil {
 		dir.delete();
 	}
 
+	public static void generator(
+			String jdbc_driver,
+			String jdbc_url,
+			String jdbc_username,
+			String jdbc_password,
+			String module,
+			String database,
+			String table_prefix,
+			String package_name,
+			Map<String, String> last_insert_id_tables,
+			Map<String, String> alias_needed_tables) throws Exception{
+
+		generator(
+				 jdbc_driver,
+				 jdbc_url,
+				 jdbc_username,
+				 jdbc_password,
+				 module,
+				 database,
+				 table_prefix,
+				 package_name,
+				last_insert_id_tables,
+				alias_needed_tables,
+				null);
+	}
 	/**
 	 * 根据模板生成generatorConfig.xml文件
 	 * @param jdbc_driver   驱动路径
@@ -183,7 +208,8 @@ public class MybatisGeneratorUtil {
 			String table_prefix,
 			String package_name,
 			Map<String, String> last_insert_id_tables,
-			Map<String, String> alias_needed_tables) throws Exception{
+			Map<String, String> alias_needed_tables,
+			String tableName ) throws Exception{
 	
 		String targetProject = module + "/" + module + "-dao";
 		String module_path = module + "/" + module + "-dao/src/main/resources/generatorConfig.xml";
@@ -200,14 +226,16 @@ public class MybatisGeneratorUtil {
 			List<Map> result = jdbcUtil.selectByParams(sql, null);
 			for (Map map : result) {
 				String t_name = map.get("TABLE_NAME").toString();
-				System.out.println(t_name);
-				table = new HashMap<>();
-				table.put("table_name", map.get("TABLE_NAME"));
-				table.put("model_name", lineToHump(ObjectUtils.toString(map.get("TABLE_NAME"))));
-				if(alias_needed_tables.containsKey(t_name)) {
-					table.put("alias_name", map.get("TABLE_NAME"));
+				if (tableName == null || (tableName != null && t_name.equals(tableName))) {
+					System.out.println(t_name);
+					table = new HashMap<>();
+					table.put("table_name", map.get("TABLE_NAME"));
+					table.put("model_name", lineToHump(ObjectUtils.toString(map.get("TABLE_NAME"))));
+					if (alias_needed_tables.containsKey(t_name)) {
+						table.put("alias_name", map.get("TABLE_NAME"));
+					}
+					tables.add(table);
 				}
-				tables.add(table);
 			}
 			jdbcUtil.release();
 	

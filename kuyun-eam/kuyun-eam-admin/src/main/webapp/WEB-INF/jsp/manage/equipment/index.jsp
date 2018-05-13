@@ -108,6 +108,7 @@
 		<shiro:hasPermission name="eam:equipment:update"><a class="waves-effect waves-button" href="javascript:;" onclick="updateAction()"><i class="zmdi zmdi-edit"></i> 编辑设备</a></shiro:hasPermission>
 		<shiro:hasPermission name="eam:equipment:delete"><a class="waves-effect waves-button" href="javascript:;" onclick="deleteAction()"><i class="zmdi zmdi-close"></i> 删除设备</a></shiro:hasPermission>
 		<shiro:hasPermission name="eam:equipment:update"><a class="waves-effect waves-button" href="javascript:;" onclick="dataElementGroupAction()"><i class="zmdi zmdi-plus"></i> 数据点分组</a></shiro:hasPermission>
+		<shiro:hasPermission name="eam:equipment:update"><a class="waves-effect waves-button" href="javascript:;" onclick="equipPropertyAction()"><i class="zmdi zmdi-edit"></i> 设备属性</a></shiro:hasPermission>
 	</div>
 	<table id="table"></table>
 </div>
@@ -203,6 +204,36 @@ function updateAction() {
 			}
 		});
 	}
+}
+
+// 增加设备属性
+var equipPropertyDialog;
+function equipPropertyAction() {
+    var rows = $table.bootstrapTable('getSelections');
+    if (rows.length != 1) {
+        $.confirm({
+            title: false,
+            content: '请选择一条记录！',
+            autoClose: 'cancel|3000',
+            backgroundDismiss: true,
+            buttons: {
+                cancel: {
+                    text: '取消',
+                    btnClass: 'waves-effect waves-button'
+                }
+            }
+        });
+    } else {
+        equipPropertyDialog = $.dialog({
+            animationSpeed: 300,
+            title: '设备属性',
+            columnClass: 'xlarge',
+            content: 'url:${basePath}/manage/${productLineId}/equipment/' + rows[0].equipmentId+'/property/create',
+            onContentReady: function () {
+                initMaterialInput();
+            }
+        });
+    }
 }
 // 删除
 var deleteDialog;

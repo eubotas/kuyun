@@ -6,6 +6,7 @@ import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.google.gson.Gson;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.excel.ExcelUtils;
+import com.kuyun.common.util.StringUtil;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.*;
@@ -51,7 +52,7 @@ import static com.kuyun.eam.common.constant.EamResultConstant.*;
 public class EamEquipmentController extends BaseController {
 
 	private static Logger _log = LoggerFactory.getLogger(EamEquipmentController.class);
-	
+
 	@Autowired
 	private EamEquipmentService eamEquipmentService;
 
@@ -60,6 +61,9 @@ public class EamEquipmentController extends BaseController {
 
 	@Autowired
 	private EamEquipmentModelPropertiesService eamEquipmentModelPropertiesService;
+
+	@Autowired
+	private EamEquipmentPropertyService eamEquipmentPropertyService;
 
 	@Autowired
 	private BaseEntityUtil baseEntityUtil;
@@ -107,13 +111,13 @@ public class EamEquipmentController extends BaseController {
 		equipmentVO.setDeleteFlag(Boolean.FALSE);
 		equipmentVO.setProductLineId(productLineId);
 
-		if (StringUtils.isNotEmpty(categoryId)){
+		if (StringUtils.isNotEmpty(categoryId)) {
 			equipmentVO.setEquipmentCategoryId(Integer.valueOf(categoryId));
 		}
 
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			equipmentVO.setOrderByClause(sort + " " + order);
-		}else {
+		} else {
 			equipmentVO.setOrderByClause("eam_equipment.create_time desc");
 		}
 
@@ -146,7 +150,7 @@ public class EamEquipmentController extends BaseController {
 		EamEquipmentCategoryExample.Criteria categoryCriteria = categoryExample.createCriteria();
 		categoryCriteria.andDeleteFlagEqualTo(Boolean.FALSE);
 
-		if (company != null){
+		if (company != null) {
 			categoryCriteria.andCompanyIdEqualTo(company.getCompanyId());
 		}
 
@@ -175,7 +179,7 @@ public class EamEquipmentController extends BaseController {
 
 	@ApiOperation(value = "删除设备")
 	@RequiresPermissions("eam:equipment:delete")
-	@RequestMapping(value = "/delete/{ids}",method = RequestMethod.GET)
+	@RequestMapping(value = "/delete/{ids}", method = RequestMethod.GET)
 	@ResponseBody
 	public Object delete(@PathVariable("ids") String ids) {
 		String jsonString = covertToJson(ids);
@@ -235,8 +239,6 @@ public class EamEquipmentController extends BaseController {
 	}
 
 
-
-
 	@ApiOperation(value = "设备当前采集数据")
 	@RequiresPermissions("eam:equipment:read")
 	@RequestMapping(value = "/sensor/data/{eId}", method = RequestMethod.GET)
@@ -272,9 +274,9 @@ public class EamEquipmentController extends BaseController {
 	public Object sensorWrite(@RequestBody EamEquipmentModelPropertiesVO vo) {
 		_log.info("Equipment Model Id = " + vo.getEquipmentModelId());
 		boolean success = eamWriteDataService.sensorWrite(vo);
-		if (success){
+		if (success) {
 			return new EamResult(SUCCESS, "写入数据成功");
-		}else {
+		} else {
 			return new EamResult(FAILED, "写入数据失败");
 		}
 	}
@@ -311,10 +313,10 @@ public class EamEquipmentController extends BaseController {
 		EamGrmVariableExample example = new EamGrmVariableExample();
 		example.createCriteria().andEquipmentIdEqualTo(equipmentId).andDeleteFlagEqualTo(Boolean.FALSE);
 		List<EamGrmVariable> variables = eamGrmVariableService.selectByExample(example);
-		if (variables != null && !variables.isEmpty()){
-			for(EamGrmVariableVO row : rows){
-				for(EamGrmVariable variable : variables){
-					if (row.getName().equals(variable.getName())){
+		if (variables != null && !variables.isEmpty()) {
+			for (EamGrmVariableVO row : rows) {
+				for (EamGrmVariable variable : variables) {
+					if (row.getName().equals(variable.getName())) {
 						row.setChecked(Boolean.TRUE);
 						break;
 					}
@@ -333,7 +335,7 @@ public class EamEquipmentController extends BaseController {
 
 		List<EamGrmVariable> vos = buildVariables(productLineId, equipmentId, names);
 
-		if (!vos.isEmpty()){
+		if (!vos.isEmpty()) {
 			//remove already exist data
 			EamGrmVariableExample example = new EamGrmVariableExample();
 			example.createCriteria().andEquipmentIdEqualTo(equipmentId);
@@ -346,14 +348,14 @@ public class EamEquipmentController extends BaseController {
 		return new UpmsResult(UpmsResultConstant.SUCCESS, 1);
 	}
 
-	private List<EamGrmVariable> buildVariables(String productLineId, String equipmentId, String names){
+	private List<EamGrmVariable> buildVariables(String productLineId, String equipmentId, String names) {
 		List<EamGrmVariable> result = new ArrayList<>();
-		String [] nameArray = names.split("::");
+		String[] nameArray = names.split("::");
 
 		List<EamGrmVariableVO> rows = eamApiService.selectGrmVariables(productLineId);
-		for (String name : nameArray){
-			for (EamGrmVariableVO vo : rows){
-				if (name.equals(vo.getName())){
+		for (String name : nameArray) {
+			for (EamGrmVariableVO vo : rows) {
+				if (name.equals(vo.getName())) {
 					vo.setEquipmentId(equipmentId);
 					baseEntityUtil.addAddtionalValue(vo);
 					result.add(vo);
@@ -372,7 +374,7 @@ public class EamEquipmentController extends BaseController {
 	@ResponseBody
 	public Object uploadFile(@RequestParam("uploadFile") MultipartFile file, EamEquipment equipment) {
 		_log.info("upload file name:{} ", file.getOriginalFilename());
-		if(!file.isEmpty()) {
+		if (!file.isEmpty()) {
 			try {
 				Workbook workbook = ExcelUtils.getWorkbook(file);
 				List<PartBean> list = ExcelUtils.importExcel(workbook, PartBean.class);
@@ -393,4 +395,50 @@ public class EamEquipmentController extends BaseController {
 
 	}
 
+	@ApiOperation(value = "创建设备属性")
+	@RequiresPermissions("eam:equipment:update")
+	@RequestMapping(value = "/{eid}/property/create", method = RequestMethod.GET)
+	public String createProperty(@PathVariable("productLineId") String productLineId,
+								 @PathVariable("eid") String equipmentId, ModelMap modelMap) {
+		EamEquipmentPropertyExample ex=new EamEquipmentPropertyExample();
+		ex.createCriteria().andEquipmentIdEqualTo(equipmentId).andDeleteFlagEqualTo(false);
+		List<EamEquipmentProperty> props = eamEquipmentPropertyService.selectByExample(ex);
+		modelMap.put("props", props);
+		modelMap.put("productLineId", productLineId);
+		modelMap.put("equipmentId", equipmentId);
+		return "/manage/equipment/createProperty.jsp";
+	}
+
+	@ApiOperation(value = "创建设备属性")
+	@RequiresPermissions("eam:equipment:update")
+	@RequestMapping(value = "/{eid}/property/create", method = RequestMethod.POST)
+	@ResponseBody
+	public Object createProperty(@PathVariable("eid") String equipmentId, @RequestParam(value="propertyLabel", required = true) List<String> propertyLabels,
+								 @RequestParam(value="propertyValue", required = true) List<String> propertyValues) {
+		List<EamEquipmentProperty> props=new ArrayList<EamEquipmentProperty>();
+		EamEquipmentProperty prop=null;
+		String label, val;
+		for(int i=0; i < propertyLabels.size(); i++ ){
+			label=propertyLabels.get(i);
+			val=propertyValues.get(i);
+			if("".equals(label) || "".equals(val))
+				continue;
+			prop=new EamEquipmentProperty();
+			prop.setEquipmentId(equipmentId);
+			prop.setPropertyLabel(label);
+			prop.setPropertyValue(val);
+			baseEntityUtil.addAddtionalValue(prop);
+			props.add(prop);
+		}
+		if(props.size() < 1)
+			return new UpmsResult(UpmsResultConstant.SUCCESS, 0);
+
+		EamEquipmentPropertyExample ex=new EamEquipmentPropertyExample();
+		ex.createCriteria().andEquipmentIdEqualTo(equipmentId).andDeleteFlagEqualTo(false);
+		int result = eamEquipmentPropertyService.deleteByExample(ex);
+
+		eamEquipmentPropertyService.batchInsert(props);
+
+		return new UpmsResult(UpmsResultConstant.SUCCESS, result);
+	}
 }
