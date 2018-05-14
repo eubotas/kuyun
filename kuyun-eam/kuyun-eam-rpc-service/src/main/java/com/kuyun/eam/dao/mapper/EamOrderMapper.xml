@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamOrder">
     <id column="eam_order_id" jdbcType="INTEGER" property="id" />
     <result column="eam_order_company_name" jdbcType="VARCHAR" property="companyName" />
+    <result column="eam_order_short_name" jdbcType="VARCHAR" property="shortName" />
     <result column="eam_order_year" jdbcType="VARCHAR" property="year" />
     <result column="eam_order_task_number" jdbcType="VARCHAR" property="taskNumber" />
     <result column="eam_order_state" jdbcType="VARCHAR" property="state" />
@@ -23,7 +24,6 @@
     <result column="eam_order_update_user_id" jdbcType="INTEGER" property="updateUserId" />
     <result column="eam_order_update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="eam_order_delete_flag" jdbcType="BIT" property="deleteFlag" />
-    <result column="eam_order_short_name" jdbcType="VARCHAR" property="shortName" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.kuyun.eam.dao.model.EamOrder">
     <result column="eam_order_comment" jdbcType="LONGVARCHAR" property="comment" />
@@ -87,16 +87,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    eam_order.id as eam_order_id, eam_order.company_name as eam_order_company_name, eam_order.year as eam_order_year, 
-    eam_order.task_number as eam_order_task_number, eam_order.state as eam_order_state, 
-    eam_order.country as eam_order_country, eam_order.province as eam_order_province, 
+    eam_order.id as eam_order_id, eam_order.company_name as eam_order_company_name, eam_order.short_name as eam_order_short_name, 
+    eam_order.year as eam_order_year, eam_order.task_number as eam_order_task_number, 
+    eam_order.state as eam_order_state, eam_order.country as eam_order_country, eam_order.province as eam_order_province, 
     eam_order.city as eam_order_city, eam_order.industry as eam_order_industry, eam_order.product_line_type as eam_order_product_line_type, 
     eam_order.has_cxg as eam_order_has_cxg, eam_order.has_znlk as eam_order_has_znlk, 
     eam_order.product_line_capacity as eam_order_product_line_capacity, eam_order.packaging_material as eam_order_packaging_material, 
     eam_order.product_spec as eam_order_product_spec, eam_order.major_equipment as eam_order_major_equipment, 
     eam_order.create_user_id as eam_order_create_user_id, eam_order.create_time as eam_order_create_time, 
     eam_order.update_user_id as eam_order_update_user_id, eam_order.update_time as eam_order_update_time, 
-    eam_order.delete_flag as eam_order_delete_flag, eam_order.short_name as eam_order_short_name
+    eam_order.delete_flag as eam_order_delete_flag
   </sql>
   <sql id="Blob_Column_List">
     eam_order.comment as eam_order_comment
@@ -158,24 +158,22 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamOrder">
-    insert into eam_order (id, company_name, year, 
-      task_number, state, country, 
-      province, city, industry, 
-      product_line_type, has_cxg, has_znlk, 
-      product_line_capacity, packaging_material, 
+    insert into eam_order (id, company_name, short_name, 
+      year, task_number, state, 
+      country, province, city, 
+      industry, product_line_type, has_cxg, 
+      has_znlk, product_line_capacity, packaging_material, 
       product_spec, major_equipment, create_user_id, 
       create_time, update_user_id, update_time, 
-      delete_flag, short_name, comment
-      )
-    values (#{id,jdbcType=INTEGER}, #{companyName,jdbcType=VARCHAR}, #{year,jdbcType=VARCHAR}, 
-      #{taskNumber,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, 
-      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{industry,jdbcType=VARCHAR}, 
-      #{productLineType,jdbcType=VARCHAR}, #{hasCxg,jdbcType=BIT}, #{hasZnlk,jdbcType=BIT}, 
-      #{productLineCapacity,jdbcType=VARCHAR}, #{packagingMaterial,jdbcType=VARCHAR}, 
+      delete_flag, comment)
+    values (#{id,jdbcType=INTEGER}, #{companyName,jdbcType=VARCHAR}, #{shortName,jdbcType=VARCHAR}, 
+      #{year,jdbcType=VARCHAR}, #{taskNumber,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
+      #{country,jdbcType=VARCHAR}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
+      #{industry,jdbcType=VARCHAR}, #{productLineType,jdbcType=VARCHAR}, #{hasCxg,jdbcType=BIT}, 
+      #{hasZnlk,jdbcType=BIT}, #{productLineCapacity,jdbcType=VARCHAR}, #{packagingMaterial,jdbcType=VARCHAR}, 
       #{productSpec,jdbcType=VARCHAR}, #{majorEquipment,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlag,jdbcType=BIT}, #{shortName,jdbcType=VARCHAR}, #{comment,jdbcType=LONGVARCHAR}
-      )
+      #{deleteFlag,jdbcType=BIT}, #{comment,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamOrder">
     insert into eam_order
@@ -185,6 +183,9 @@
       </if>
       <if test="companyName != null">
         company_name,
+      </if>
+      <if test="shortName != null">
+        short_name,
       </if>
       <if test="year != null">
         year,
@@ -243,9 +244,6 @@
       <if test="deleteFlag != null">
         delete_flag,
       </if>
-      <if test="shortName != null">
-        short_name,
-      </if>
       <if test="comment != null">
         comment,
       </if>
@@ -256,6 +254,9 @@
       </if>
       <if test="companyName != null">
         #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="shortName != null">
+        #{shortName,jdbcType=VARCHAR},
       </if>
       <if test="year != null">
         #{year,jdbcType=VARCHAR},
@@ -314,9 +315,6 @@
       <if test="deleteFlag != null">
         #{deleteFlag,jdbcType=BIT},
       </if>
-      <if test="shortName != null">
-        #{shortName,jdbcType=VARCHAR},
-      </if>
       <if test="comment != null">
         #{comment,jdbcType=LONGVARCHAR},
       </if>
@@ -336,6 +334,9 @@
       </if>
       <if test="record.companyName != null">
         eam_order.company_name = #{record.companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shortName != null">
+        eam_order.short_name = #{record.shortName,jdbcType=VARCHAR},
       </if>
       <if test="record.year != null">
         eam_order.year = #{record.year,jdbcType=VARCHAR},
@@ -394,9 +395,6 @@
       <if test="record.deleteFlag != null">
         eam_order.delete_flag = #{record.deleteFlag,jdbcType=BIT},
       </if>
-      <if test="record.shortName != null">
-        eam_order.short_name = #{record.shortName,jdbcType=VARCHAR},
-      </if>
       <if test="record.comment != null">
         eam_order.comment = #{record.comment,jdbcType=LONGVARCHAR},
       </if>
@@ -409,6 +407,7 @@
     update eam_order eam_order
     set eam_order.id = #{record.id,jdbcType=INTEGER},
       eam_order.company_name = #{record.companyName,jdbcType=VARCHAR},
+      eam_order.short_name = #{record.shortName,jdbcType=VARCHAR},
       eam_order.year = #{record.year,jdbcType=VARCHAR},
       eam_order.task_number = #{record.taskNumber,jdbcType=VARCHAR},
       eam_order.state = #{record.state,jdbcType=VARCHAR},
@@ -428,7 +427,6 @@
       eam_order.update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       eam_order.update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       eam_order.delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      eam_order.short_name = #{record.shortName,jdbcType=VARCHAR},
       eam_order.comment = #{record.comment,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -438,6 +436,7 @@
     update eam_order eam_order
     set eam_order.id = #{record.id,jdbcType=INTEGER},
       eam_order.company_name = #{record.companyName,jdbcType=VARCHAR},
+      eam_order.short_name = #{record.shortName,jdbcType=VARCHAR},
       eam_order.year = #{record.year,jdbcType=VARCHAR},
       eam_order.task_number = #{record.taskNumber,jdbcType=VARCHAR},
       eam_order.state = #{record.state,jdbcType=VARCHAR},
@@ -456,8 +455,7 @@
       eam_order.create_time = #{record.createTime,jdbcType=TIMESTAMP},
       eam_order.update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       eam_order.update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      eam_order.delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      eam_order.short_name = #{record.shortName,jdbcType=VARCHAR}
+      eam_order.delete_flag = #{record.deleteFlag,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -467,6 +465,9 @@
     <set>
       <if test="companyName != null">
         company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="shortName != null">
+        short_name = #{shortName,jdbcType=VARCHAR},
       </if>
       <if test="year != null">
         year = #{year,jdbcType=VARCHAR},
@@ -525,9 +526,6 @@
       <if test="deleteFlag != null">
         delete_flag = #{deleteFlag,jdbcType=BIT},
       </if>
-      <if test="shortName != null">
-        short_name = #{shortName,jdbcType=VARCHAR},
-      </if>
       <if test="comment != null">
         comment = #{comment,jdbcType=LONGVARCHAR},
       </if>
@@ -537,6 +535,7 @@
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.kuyun.eam.dao.model.EamOrder">
     update eam_order
     set company_name = #{companyName,jdbcType=VARCHAR},
+      short_name = #{shortName,jdbcType=VARCHAR},
       year = #{year,jdbcType=VARCHAR},
       task_number = #{taskNumber,jdbcType=VARCHAR},
       state = #{state,jdbcType=VARCHAR},
@@ -556,13 +555,13 @@
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
-      short_name = #{shortName,jdbcType=VARCHAR},
       comment = #{comment,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamOrder">
     update eam_order
     set company_name = #{companyName,jdbcType=VARCHAR},
+      short_name = #{shortName,jdbcType=VARCHAR},
       year = #{year,jdbcType=VARCHAR},
       task_number = #{taskNumber,jdbcType=VARCHAR},
       state = #{state,jdbcType=VARCHAR},
@@ -581,32 +580,29 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      delete_flag = #{deleteFlag,jdbcType=BIT},
-      short_name = #{shortName,jdbcType=VARCHAR}
+      delete_flag = #{deleteFlag,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into eam_order  (id, company_name, year, 
-        task_number, state, country, 
-        province, city, industry, 
-        product_line_type, has_cxg, has_znlk, 
-        product_line_capacity, packaging_material, 
+            insert into eam_order  (id, company_name, short_name, 
+        year, task_number, state, 
+        country, province, city, 
+        industry, product_line_type, has_cxg, 
+        has_znlk, product_line_capacity, packaging_material, 
         product_spec, major_equipment, create_user_id, 
         create_time, update_user_id, update_time, 
-        delete_flag, short_name, comment
-        )
+        delete_flag, comment)
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.id,jdbcType=INTEGER}, #{item.companyName,jdbcType=VARCHAR}, #{item.year,jdbcType=VARCHAR}, 
-        #{item.taskNumber,jdbcType=VARCHAR}, #{item.state,jdbcType=VARCHAR}, #{item.country,jdbcType=VARCHAR}, 
-        #{item.province,jdbcType=VARCHAR}, #{item.city,jdbcType=VARCHAR}, #{item.industry,jdbcType=VARCHAR}, 
-        #{item.productLineType,jdbcType=VARCHAR}, #{item.hasCxg,jdbcType=BIT}, #{item.hasZnlk,jdbcType=BIT}, 
-        #{item.productLineCapacity,jdbcType=VARCHAR}, #{item.packagingMaterial,jdbcType=VARCHAR}, 
+      (#{item.id,jdbcType=INTEGER}, #{item.companyName,jdbcType=VARCHAR}, #{item.shortName,jdbcType=VARCHAR}, 
+        #{item.year,jdbcType=VARCHAR}, #{item.taskNumber,jdbcType=VARCHAR}, #{item.state,jdbcType=VARCHAR}, 
+        #{item.country,jdbcType=VARCHAR}, #{item.province,jdbcType=VARCHAR}, #{item.city,jdbcType=VARCHAR}, 
+        #{item.industry,jdbcType=VARCHAR}, #{item.productLineType,jdbcType=VARCHAR}, #{item.hasCxg,jdbcType=BIT}, 
+        #{item.hasZnlk,jdbcType=BIT}, #{item.productLineCapacity,jdbcType=VARCHAR}, #{item.packagingMaterial,jdbcType=VARCHAR}, 
         #{item.productSpec,jdbcType=VARCHAR}, #{item.majorEquipment,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER}, 
         #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
-        #{item.deleteFlag,jdbcType=BIT}, #{item.shortName,jdbcType=VARCHAR}, #{item.comment,jdbcType=LONGVARCHAR}
-        )
+        #{item.deleteFlag,jdbcType=BIT}, #{item.comment,jdbcType=LONGVARCHAR})
       </foreach>
     </if>
   </insert>

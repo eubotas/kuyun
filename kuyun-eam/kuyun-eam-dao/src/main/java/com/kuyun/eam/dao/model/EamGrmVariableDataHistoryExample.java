@@ -188,6 +188,66 @@ public class EamGrmVariableDataHistoryExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andEamGrmVariableIdIsNull() {
+            addCriterion("eam_grm_variable_data_history.eam_grm_variable_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEamGrmVariableIdIsNotNull() {
+            addCriterion("eam_grm_variable_data_history.eam_grm_variable_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEamGrmVariableIdEqualTo(Integer value) {
+            addCriterion("eam_grm_variable_data_history.eam_grm_variable_id =", value, "eamGrmVariableId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEamGrmVariableIdNotEqualTo(Integer value) {
+            addCriterion("eam_grm_variable_data_history.eam_grm_variable_id <>", value, "eamGrmVariableId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEamGrmVariableIdGreaterThan(Integer value) {
+            addCriterion("eam_grm_variable_data_history.eam_grm_variable_id >", value, "eamGrmVariableId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEamGrmVariableIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("eam_grm_variable_data_history.eam_grm_variable_id >=", value, "eamGrmVariableId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEamGrmVariableIdLessThan(Integer value) {
+            addCriterion("eam_grm_variable_data_history.eam_grm_variable_id <", value, "eamGrmVariableId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEamGrmVariableIdLessThanOrEqualTo(Integer value) {
+            addCriterion("eam_grm_variable_data_history.eam_grm_variable_id <=", value, "eamGrmVariableId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEamGrmVariableIdIn(List<Integer> values) {
+            addCriterion("eam_grm_variable_data_history.eam_grm_variable_id in", values, "eamGrmVariableId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEamGrmVariableIdNotIn(List<Integer> values) {
+            addCriterion("eam_grm_variable_data_history.eam_grm_variable_id not in", values, "eamGrmVariableId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEamGrmVariableIdBetween(Integer value1, Integer value2) {
+            addCriterion("eam_grm_variable_data_history.eam_grm_variable_id between", value1, value2, "eamGrmVariableId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEamGrmVariableIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("eam_grm_variable_data_history.eam_grm_variable_id not between", value1, value2, "eamGrmVariableId");
+            return (Criteria) this;
+        }
+
         public Criteria andEquipmentIdIsNull() {
             addCriterion("eam_grm_variable_data_history.equipment_id is null");
             return (Criteria) this;
@@ -875,66 +935,6 @@ public class EamGrmVariableDataHistoryExample implements Serializable {
 
         public Criteria andDeleteFlagNotBetween(Boolean value1, Boolean value2) {
             addCriterion("eam_grm_variable_data_history.delete_flag not between", value1, value2, "deleteFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andEamGrmVariableIdIsNull() {
-            addCriterion("eam_grm_variable_data_history.eam_grm_variable_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEamGrmVariableIdIsNotNull() {
-            addCriterion("eam_grm_variable_data_history.eam_grm_variable_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEamGrmVariableIdEqualTo(Integer value) {
-            addCriterion("eam_grm_variable_data_history.eam_grm_variable_id =", value, "eamGrmVariableId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEamGrmVariableIdNotEqualTo(Integer value) {
-            addCriterion("eam_grm_variable_data_history.eam_grm_variable_id <>", value, "eamGrmVariableId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEamGrmVariableIdGreaterThan(Integer value) {
-            addCriterion("eam_grm_variable_data_history.eam_grm_variable_id >", value, "eamGrmVariableId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEamGrmVariableIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("eam_grm_variable_data_history.eam_grm_variable_id >=", value, "eamGrmVariableId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEamGrmVariableIdLessThan(Integer value) {
-            addCriterion("eam_grm_variable_data_history.eam_grm_variable_id <", value, "eamGrmVariableId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEamGrmVariableIdLessThanOrEqualTo(Integer value) {
-            addCriterion("eam_grm_variable_data_history.eam_grm_variable_id <=", value, "eamGrmVariableId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEamGrmVariableIdIn(List<Integer> values) {
-            addCriterion("eam_grm_variable_data_history.eam_grm_variable_id in", values, "eamGrmVariableId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEamGrmVariableIdNotIn(List<Integer> values) {
-            addCriterion("eam_grm_variable_data_history.eam_grm_variable_id not in", values, "eamGrmVariableId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEamGrmVariableIdBetween(Integer value1, Integer value2) {
-            addCriterion("eam_grm_variable_data_history.eam_grm_variable_id between", value1, value2, "eamGrmVariableId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEamGrmVariableIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("eam_grm_variable_data_history.eam_grm_variable_id not between", value1, value2, "eamGrmVariableId");
             return (Criteria) this;
         }
 

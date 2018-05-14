@@ -9,6 +9,8 @@ public class EamTicket extends BaseEntity implements Serializable {
 
     private Integer ticketTypeId;
 
+    private String ticketNumber;
+
     private Integer equipmentCategoryId;
 
     private String productLineId;
@@ -59,8 +61,6 @@ public class EamTicket extends BaseEntity implements Serializable {
 
     private Date endDate;
 
-    private String ticketNumber;
-
     private static final long serialVersionUID = 1L;
 
     public Integer getTicketId() {
@@ -77,6 +77,14 @@ public class EamTicket extends BaseEntity implements Serializable {
 
     public void setTicketTypeId(Integer ticketTypeId) {
         this.ticketTypeId = ticketTypeId;
+    }
+
+    public String getTicketNumber() {
+        return ticketNumber;
+    }
+
+    public void setTicketNumber(String ticketNumber) {
+        this.ticketNumber = ticketNumber;
     }
 
     public Integer getEquipmentCategoryId() {
@@ -159,14 +167,6 @@ public class EamTicket extends BaseEntity implements Serializable {
         this.endDate = endDate;
     }
 
-    public String getTicketNumber() {
-        return ticketNumber;
-    }
-
-    public void setTicketNumber(String ticketNumber) {
-        this.ticketNumber = ticketNumber;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -175,6 +175,7 @@ public class EamTicket extends BaseEntity implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", ticketId=").append(ticketId);
         sb.append(", ticketTypeId=").append(ticketTypeId);
+        sb.append(", ticketNumber=").append(ticketNumber);
         sb.append(", equipmentCategoryId=").append(equipmentCategoryId);
         sb.append(", productLineId=").append(productLineId);
         sb.append(", equipmentId=").append(equipmentId);
@@ -185,7 +186,6 @@ public class EamTicket extends BaseEntity implements Serializable {
         sb.append(", executorId=").append(executorId);
         sb.append(", status=").append(status);
         sb.append(", endDate=").append(endDate);
-        sb.append(", ticketNumber=").append(ticketNumber);
         sb.append("]");
         return sb.toString();
     }
@@ -204,6 +204,7 @@ public class EamTicket extends BaseEntity implements Serializable {
         EamTicket other = (EamTicket) that;
         return (this.getTicketId() == null ? other.getTicketId() == null : this.getTicketId().equals(other.getTicketId()))
             && (this.getTicketTypeId() == null ? other.getTicketTypeId() == null : this.getTicketTypeId().equals(other.getTicketTypeId()))
+            && (this.getTicketNumber() == null ? other.getTicketNumber() == null : this.getTicketNumber().equals(other.getTicketNumber()))
             && (this.getEquipmentCategoryId() == null ? other.getEquipmentCategoryId() == null : this.getEquipmentCategoryId().equals(other.getEquipmentCategoryId()))
             && (this.getProductLineId() == null ? other.getProductLineId() == null : this.getProductLineId().equals(other.getProductLineId()))
             && (this.getEquipmentId() == null ? other.getEquipmentId() == null : this.getEquipmentId().equals(other.getEquipmentId()))
@@ -219,8 +220,7 @@ public class EamTicket extends BaseEntity implements Serializable {
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()))
-            && (this.getTicketNumber() == null ? other.getTicketNumber() == null : this.getTicketNumber().equals(other.getTicketNumber()));
+            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()));
     }
 
     @Override
@@ -229,6 +229,7 @@ public class EamTicket extends BaseEntity implements Serializable {
         int result = 1;
         result = prime * result + ((getTicketId() == null) ? 0 : getTicketId().hashCode());
         result = prime * result + ((getTicketTypeId() == null) ? 0 : getTicketTypeId().hashCode());
+        result = prime * result + ((getTicketNumber() == null) ? 0 : getTicketNumber().hashCode());
         result = prime * result + ((getEquipmentCategoryId() == null) ? 0 : getEquipmentCategoryId().hashCode());
         result = prime * result + ((getProductLineId() == null) ? 0 : getProductLineId().hashCode());
         result = prime * result + ((getEquipmentId() == null) ? 0 : getEquipmentId().hashCode());
@@ -245,7 +246,6 @@ public class EamTicket extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
-        result = prime * result + ((getTicketNumber() == null) ? 0 : getTicketNumber().hashCode());
         return result;
     }
 }

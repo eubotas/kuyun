@@ -6,6 +6,8 @@ import java.io.Serializable;
 public class EamGrmVariableDataByYear extends BaseEntity implements Serializable {
     private Integer id;
 
+    private Integer eamGrmVariableId;
+
     private String equipmentId;
 
     private String productLineId;
@@ -25,8 +27,6 @@ public class EamGrmVariableDataByYear extends BaseEntity implements Serializable
 
     private String value;
 
-    private Integer eamGrmVariableId;
-
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -35,6 +35,14 @@ public class EamGrmVariableDataByYear extends BaseEntity implements Serializable
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getEamGrmVariableId() {
+        return eamGrmVariableId;
+    }
+
+    public void setEamGrmVariableId(Integer eamGrmVariableId) {
+        this.eamGrmVariableId = eamGrmVariableId;
     }
 
     public String getEquipmentId() {
@@ -93,14 +101,6 @@ public class EamGrmVariableDataByYear extends BaseEntity implements Serializable
         this.value = value;
     }
 
-    public Integer getEamGrmVariableId() {
-        return eamGrmVariableId;
-    }
-
-    public void setEamGrmVariableId(Integer eamGrmVariableId) {
-        this.eamGrmVariableId = eamGrmVariableId;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -108,6 +108,7 @@ public class EamGrmVariableDataByYear extends BaseEntity implements Serializable
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
+        sb.append(", eamGrmVariableId=").append(eamGrmVariableId);
         sb.append(", equipmentId=").append(equipmentId);
         sb.append(", productLineId=").append(productLineId);
         sb.append(", dataGroupId=").append(dataGroupId);
@@ -115,7 +116,6 @@ public class EamGrmVariableDataByYear extends BaseEntity implements Serializable
         sb.append(", dataElementId=").append(dataElementId);
         sb.append(", year=").append(year);
         sb.append(", value=").append(value);
-        sb.append(", eamGrmVariableId=").append(eamGrmVariableId);
         sb.append("]");
         return sb.toString();
     }
@@ -133,6 +133,7 @@ public class EamGrmVariableDataByYear extends BaseEntity implements Serializable
         }
         EamGrmVariableDataByYear other = (EamGrmVariableDataByYear) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
+            && (this.getEamGrmVariableId() == null ? other.getEamGrmVariableId() == null : this.getEamGrmVariableId().equals(other.getEamGrmVariableId()))
             && (this.getEquipmentId() == null ? other.getEquipmentId() == null : this.getEquipmentId().equals(other.getEquipmentId()))
             && (this.getProductLineId() == null ? other.getProductLineId() == null : this.getProductLineId().equals(other.getProductLineId()))
             && (this.getDataGroupId() == null ? other.getDataGroupId() == null : this.getDataGroupId().equals(other.getDataGroupId()))
@@ -144,8 +145,7 @@ public class EamGrmVariableDataByYear extends BaseEntity implements Serializable
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
-            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getEamGrmVariableId() == null ? other.getEamGrmVariableId() == null : this.getEamGrmVariableId().equals(other.getEamGrmVariableId()));
+            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()));
     }
 
     @Override
@@ -153,6 +153,7 @@ public class EamGrmVariableDataByYear extends BaseEntity implements Serializable
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+        result = prime * result + ((getEamGrmVariableId() == null) ? 0 : getEamGrmVariableId().hashCode());
         result = prime * result + ((getEquipmentId() == null) ? 0 : getEquipmentId().hashCode());
         result = prime * result + ((getProductLineId() == null) ? 0 : getProductLineId().hashCode());
         result = prime * result + ((getDataGroupId() == null) ? 0 : getDataGroupId().hashCode());
@@ -165,7 +166,6 @@ public class EamGrmVariableDataByYear extends BaseEntity implements Serializable
         result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
-        result = prime * result + ((getEamGrmVariableId() == null) ? 0 : getEamGrmVariableId().hashCode());
         return result;
     }
 }

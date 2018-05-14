@@ -569,6 +569,66 @@ public class EamAlarmModelExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andIsCreateTicketIsNull() {
+            addCriterion("eam_alarm_model.is_create_ticket is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCreateTicketIsNotNull() {
+            addCriterion("eam_alarm_model.is_create_ticket is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCreateTicketEqualTo(Boolean value) {
+            addCriterion("eam_alarm_model.is_create_ticket =", value, "isCreateTicket");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCreateTicketNotEqualTo(Boolean value) {
+            addCriterion("eam_alarm_model.is_create_ticket <>", value, "isCreateTicket");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCreateTicketGreaterThan(Boolean value) {
+            addCriterion("eam_alarm_model.is_create_ticket >", value, "isCreateTicket");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCreateTicketGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("eam_alarm_model.is_create_ticket >=", value, "isCreateTicket");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCreateTicketLessThan(Boolean value) {
+            addCriterion("eam_alarm_model.is_create_ticket <", value, "isCreateTicket");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCreateTicketLessThanOrEqualTo(Boolean value) {
+            addCriterion("eam_alarm_model.is_create_ticket <=", value, "isCreateTicket");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCreateTicketIn(List<Boolean> values) {
+            addCriterion("eam_alarm_model.is_create_ticket in", values, "isCreateTicket");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCreateTicketNotIn(List<Boolean> values) {
+            addCriterion("eam_alarm_model.is_create_ticket not in", values, "isCreateTicket");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCreateTicketBetween(Boolean value1, Boolean value2) {
+            addCriterion("eam_alarm_model.is_create_ticket between", value1, value2, "isCreateTicket");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsCreateTicketNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("eam_alarm_model.is_create_ticket not between", value1, value2, "isCreateTicket");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateUserIdIsNull() {
             addCriterion("eam_alarm_model.create_user_id is null");
             return (Criteria) this;
@@ -926,66 +986,6 @@ public class EamAlarmModelExample implements Serializable {
 
         public Criteria andCompanyIdNotBetween(Integer value1, Integer value2) {
             addCriterion("eam_alarm_model.company_id not between", value1, value2, "companyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCreateTicketIsNull() {
-            addCriterion("eam_alarm_model.is_create_ticket is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCreateTicketIsNotNull() {
-            addCriterion("eam_alarm_model.is_create_ticket is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCreateTicketEqualTo(Boolean value) {
-            addCriterion("eam_alarm_model.is_create_ticket =", value, "isCreateTicket");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCreateTicketNotEqualTo(Boolean value) {
-            addCriterion("eam_alarm_model.is_create_ticket <>", value, "isCreateTicket");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCreateTicketGreaterThan(Boolean value) {
-            addCriterion("eam_alarm_model.is_create_ticket >", value, "isCreateTicket");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCreateTicketGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("eam_alarm_model.is_create_ticket >=", value, "isCreateTicket");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCreateTicketLessThan(Boolean value) {
-            addCriterion("eam_alarm_model.is_create_ticket <", value, "isCreateTicket");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCreateTicketLessThanOrEqualTo(Boolean value) {
-            addCriterion("eam_alarm_model.is_create_ticket <=", value, "isCreateTicket");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCreateTicketIn(List<Boolean> values) {
-            addCriterion("eam_alarm_model.is_create_ticket in", values, "isCreateTicket");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCreateTicketNotIn(List<Boolean> values) {
-            addCriterion("eam_alarm_model.is_create_ticket not in", values, "isCreateTicket");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCreateTicketBetween(Boolean value1, Boolean value2) {
-            addCriterion("eam_alarm_model.is_create_ticket between", value1, value2, "isCreateTicket");
-            return (Criteria) this;
-        }
-
-        public Criteria andIsCreateTicketNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("eam_alarm_model.is_create_ticket not between", value1, value2, "isCreateTicket");
             return (Criteria) this;
         }
 

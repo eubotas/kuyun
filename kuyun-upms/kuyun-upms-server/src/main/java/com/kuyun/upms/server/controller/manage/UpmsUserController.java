@@ -171,6 +171,10 @@ public class UpmsUserController extends BaseController {
     @ResponseBody
     public Object roleIndex(@PathVariable("id") int id, ModelMap modelMap) {
         // 所有角色
+        UpmsRoleExample example = new UpmsRoleExample();
+        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+        example.createCriteria().andCompanyIdEqualTo(company.getCompanyId());
+
         List<UpmsRole> upmsRoles = upmsRoleService.selectByExample(new UpmsRoleExample());
         // 用户拥有角色
         UpmsUserRoleExample upmsUserRoleExample = new UpmsUserRoleExample();
@@ -386,7 +390,19 @@ public class UpmsUserController extends BaseController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
     public Object getUser(@PathVariable("id") int id) {
-        return upmsUserService.selectByPrimaryKey(id);
+
+        UpmsUser upmsUser = upmsUserService.selectByPrimaryKey(id);
+
+        UpmsCompany company = new UpmsCompany();
+        if (upmsUser != null){
+            company = upmsApiService.getUpmsCompany(upmsUser.getUserId());
+        }
+
+        HashMap<String, Object> objectHashMap = new HashMap<>();
+        objectHashMap.put("user", upmsUser);
+        objectHashMap.put("company", company);
+
+        return new UpmsResult(UpmsResultConstant.SUCCESS, objectHashMap);
     }
 
 

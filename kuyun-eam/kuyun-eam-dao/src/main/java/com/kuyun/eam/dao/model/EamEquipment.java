@@ -15,6 +15,13 @@ public class EamEquipment extends BaseEntity implements Serializable {
     private String name;
 
     /**
+     * 任务单号
+     *
+     * @mbg.generated
+     */
+    private String taskNumber;
+
+    /**
      * 设备型号
      *
      * @mbg.generated
@@ -29,6 +36,41 @@ public class EamEquipment extends BaseEntity implements Serializable {
     private String serialNumber;
 
     private String imagePath;
+
+    /**
+     * 产量
+     *
+     * @mbg.generated
+     */
+    private String output;
+
+    /**
+     * 外形尺寸
+     *
+     * @mbg.generated
+     */
+    private String dimension;
+
+    /**
+     * 设备重量
+     *
+     * @mbg.generated
+     */
+    private String weight;
+
+    /**
+     * 使用电源
+     *
+     * @mbg.generated
+     */
+    private String power;
+
+    /**
+     * 装机容量
+     *
+     * @mbg.generated
+     */
+    private String capacity;
 
     private String user;
 
@@ -76,13 +118,6 @@ public class EamEquipment extends BaseEntity implements Serializable {
 
     private Boolean isOnline;
 
-    /**
-     * 任务单号
-     *
-     * @mbg.generated
-     */
-    private String taskNumber;
-
     private static final long serialVersionUID = 1L;
 
     public String getEquipmentId() {
@@ -117,6 +152,14 @@ public class EamEquipment extends BaseEntity implements Serializable {
         this.name = name;
     }
 
+    public String getTaskNumber() {
+        return taskNumber;
+    }
+
+    public void setTaskNumber(String taskNumber) {
+        this.taskNumber = taskNumber;
+    }
+
     public String getNumber() {
         return number;
     }
@@ -139,6 +182,46 @@ public class EamEquipment extends BaseEntity implements Serializable {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
+    }
+
+    public String getOutput() {
+        return output;
+    }
+
+    public void setOutput(String output) {
+        this.output = output;
+    }
+
+    public String getDimension() {
+        return dimension;
+    }
+
+    public void setDimension(String dimension) {
+        this.dimension = dimension;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
+    public String getPower() {
+        return power;
+    }
+
+    public void setPower(String power) {
+        this.power = power;
+    }
+
+    public String getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(String capacity) {
+        this.capacity = capacity;
     }
 
     public String getUser() {
@@ -245,14 +328,6 @@ public class EamEquipment extends BaseEntity implements Serializable {
         this.isOnline = isOnline;
     }
 
-    public String getTaskNumber() {
-        return taskNumber;
-    }
-
-    public void setTaskNumber(String taskNumber) {
-        this.taskNumber = taskNumber;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -263,9 +338,15 @@ public class EamEquipment extends BaseEntity implements Serializable {
         sb.append(", equipmentCategoryId=").append(equipmentCategoryId);
         sb.append(", productLineId=").append(productLineId);
         sb.append(", name=").append(name);
+        sb.append(", taskNumber=").append(taskNumber);
         sb.append(", number=").append(number);
         sb.append(", serialNumber=").append(serialNumber);
         sb.append(", imagePath=").append(imagePath);
+        sb.append(", output=").append(output);
+        sb.append(", dimension=").append(dimension);
+        sb.append(", weight=").append(weight);
+        sb.append(", power=").append(power);
+        sb.append(", capacity=").append(capacity);
         sb.append(", user=").append(user);
         sb.append(", collectStatus=").append(collectStatus);
         sb.append(", grm=").append(grm);
@@ -279,7 +360,6 @@ public class EamEquipment extends BaseEntity implements Serializable {
         sb.append(", leftPosition=").append(leftPosition);
         sb.append(", topPosition=").append(topPosition);
         sb.append(", isOnline=").append(isOnline);
-        sb.append(", taskNumber=").append(taskNumber);
         sb.append("]");
         return sb.toString();
     }
@@ -300,9 +380,15 @@ public class EamEquipment extends BaseEntity implements Serializable {
             && (this.getEquipmentCategoryId() == null ? other.getEquipmentCategoryId() == null : this.getEquipmentCategoryId().equals(other.getEquipmentCategoryId()))
             && (this.getProductLineId() == null ? other.getProductLineId() == null : this.getProductLineId().equals(other.getProductLineId()))
             && (this.getName() == null ? other.getName() == null : this.getName().equals(other.getName()))
+            && (this.getTaskNumber() == null ? other.getTaskNumber() == null : this.getTaskNumber().equals(other.getTaskNumber()))
             && (this.getNumber() == null ? other.getNumber() == null : this.getNumber().equals(other.getNumber()))
             && (this.getSerialNumber() == null ? other.getSerialNumber() == null : this.getSerialNumber().equals(other.getSerialNumber()))
             && (this.getImagePath() == null ? other.getImagePath() == null : this.getImagePath().equals(other.getImagePath()))
+            && (this.getOutput() == null ? other.getOutput() == null : this.getOutput().equals(other.getOutput()))
+            && (this.getDimension() == null ? other.getDimension() == null : this.getDimension().equals(other.getDimension()))
+            && (this.getWeight() == null ? other.getWeight() == null : this.getWeight().equals(other.getWeight()))
+            && (this.getPower() == null ? other.getPower() == null : this.getPower().equals(other.getPower()))
+            && (this.getCapacity() == null ? other.getCapacity() == null : this.getCapacity().equals(other.getCapacity()))
             && (this.getUser() == null ? other.getUser() == null : this.getUser().equals(other.getUser()))
             && (this.getCollectStatus() == null ? other.getCollectStatus() == null : this.getCollectStatus().equals(other.getCollectStatus()))
             && (this.getGrm() == null ? other.getGrm() == null : this.getGrm().equals(other.getGrm()))
@@ -320,8 +406,7 @@ public class EamEquipment extends BaseEntity implements Serializable {
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getIsOnline() == null ? other.getIsOnline() == null : this.getIsOnline().equals(other.getIsOnline()))
-            && (this.getTaskNumber() == null ? other.getTaskNumber() == null : this.getTaskNumber().equals(other.getTaskNumber()));
+            && (this.getIsOnline() == null ? other.getIsOnline() == null : this.getIsOnline().equals(other.getIsOnline()));
     }
 
     @Override
@@ -332,9 +417,15 @@ public class EamEquipment extends BaseEntity implements Serializable {
         result = prime * result + ((getEquipmentCategoryId() == null) ? 0 : getEquipmentCategoryId().hashCode());
         result = prime * result + ((getProductLineId() == null) ? 0 : getProductLineId().hashCode());
         result = prime * result + ((getName() == null) ? 0 : getName().hashCode());
+        result = prime * result + ((getTaskNumber() == null) ? 0 : getTaskNumber().hashCode());
         result = prime * result + ((getNumber() == null) ? 0 : getNumber().hashCode());
         result = prime * result + ((getSerialNumber() == null) ? 0 : getSerialNumber().hashCode());
         result = prime * result + ((getImagePath() == null) ? 0 : getImagePath().hashCode());
+        result = prime * result + ((getOutput() == null) ? 0 : getOutput().hashCode());
+        result = prime * result + ((getDimension() == null) ? 0 : getDimension().hashCode());
+        result = prime * result + ((getWeight() == null) ? 0 : getWeight().hashCode());
+        result = prime * result + ((getPower() == null) ? 0 : getPower().hashCode());
+        result = prime * result + ((getCapacity() == null) ? 0 : getCapacity().hashCode());
         result = prime * result + ((getUser() == null) ? 0 : getUser().hashCode());
         result = prime * result + ((getCollectStatus() == null) ? 0 : getCollectStatus().hashCode());
         result = prime * result + ((getGrm() == null) ? 0 : getGrm().hashCode());
@@ -353,7 +444,6 @@ public class EamEquipment extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getIsOnline() == null) ? 0 : getIsOnline().hashCode());
-        result = prime * result + ((getTaskNumber() == null) ? 0 : getTaskNumber().hashCode());
         return result;
     }
 }

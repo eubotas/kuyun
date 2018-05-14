@@ -9,13 +9,13 @@
     <result column="eam_alarm_model_upper_Bound" jdbcType="DECIMAL" property="upperBound" />
     <result column="eam_alarm_model_lower_Bound" jdbcType="DECIMAL" property="lowerBound" />
     <result column="eam_alarm_model_duration" jdbcType="DECIMAL" property="duration" />
+    <result column="eam_alarm_model_is_create_ticket" jdbcType="BIT" property="isCreateTicket" />
     <result column="eam_alarm_model_create_user_id" jdbcType="INTEGER" property="createUserId" />
     <result column="eam_alarm_model_create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="eam_alarm_model_update_user_id" jdbcType="INTEGER" property="updateUserId" />
     <result column="eam_alarm_model_update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="eam_alarm_model_delete_flag" jdbcType="BIT" property="deleteFlag" />
     <result column="eam_alarm_model_company_id" jdbcType="INTEGER" property="companyId" />
-    <result column="eam_alarm_model_is_create_ticket" jdbcType="BIT" property="isCreateTicket" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -79,10 +79,10 @@
     eam_alarm_model.alarm_model_id as eam_alarm_model_alarm_model_id, eam_alarm_model.name as eam_alarm_model_name, 
     eam_alarm_model.eam_data_element_id as eam_alarm_model_eam_data_element_id, eam_alarm_model.alarm_type as eam_alarm_model_alarm_type, 
     eam_alarm_model.upper_Bound as eam_alarm_model_upper_Bound, eam_alarm_model.lower_Bound as eam_alarm_model_lower_Bound, 
-    eam_alarm_model.duration as eam_alarm_model_duration, eam_alarm_model.create_user_id as eam_alarm_model_create_user_id, 
-    eam_alarm_model.create_time as eam_alarm_model_create_time, eam_alarm_model.update_user_id as eam_alarm_model_update_user_id, 
-    eam_alarm_model.update_time as eam_alarm_model_update_time, eam_alarm_model.delete_flag as eam_alarm_model_delete_flag, 
-    eam_alarm_model.company_id as eam_alarm_model_company_id, eam_alarm_model.is_create_ticket as eam_alarm_model_is_create_ticket
+    eam_alarm_model.duration as eam_alarm_model_duration, eam_alarm_model.is_create_ticket as eam_alarm_model_is_create_ticket, 
+    eam_alarm_model.create_user_id as eam_alarm_model_create_user_id, eam_alarm_model.create_time as eam_alarm_model_create_time, 
+    eam_alarm_model.update_user_id as eam_alarm_model_update_user_id, eam_alarm_model.update_time as eam_alarm_model_update_time, 
+    eam_alarm_model.delete_flag as eam_alarm_model_delete_flag, eam_alarm_model.company_id as eam_alarm_model_company_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamAlarmModelExample" resultMap="BaseResultMap">
     select
@@ -125,14 +125,14 @@
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamAlarmModel">
     insert into eam_alarm_model (alarm_model_id, name, eam_data_element_id, 
       alarm_type, upper_Bound, lower_Bound, 
-      duration, create_user_id, create_time, 
-      update_user_id, update_time, delete_flag, 
-      company_id, is_create_ticket)
+      duration, is_create_ticket, create_user_id, 
+      create_time, update_user_id, update_time, 
+      delete_flag, company_id)
     values (#{alarmModelId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{eamDataElementId,jdbcType=INTEGER}, 
       #{alarmType,jdbcType=VARCHAR}, #{upperBound,jdbcType=DECIMAL}, #{lowerBound,jdbcType=DECIMAL}, 
-      #{duration,jdbcType=DECIMAL}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
-      #{companyId,jdbcType=INTEGER}, #{isCreateTicket,jdbcType=BIT})
+      #{duration,jdbcType=DECIMAL}, #{isCreateTicket,jdbcType=BIT}, #{createUserId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{deleteFlag,jdbcType=BIT}, #{companyId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamAlarmModel">
     insert into eam_alarm_model
@@ -158,6 +158,9 @@
       <if test="duration != null">
         duration,
       </if>
+      <if test="isCreateTicket != null">
+        is_create_ticket,
+      </if>
       <if test="createUserId != null">
         create_user_id,
       </if>
@@ -175,9 +178,6 @@
       </if>
       <if test="companyId != null">
         company_id,
-      </if>
-      <if test="isCreateTicket != null">
-        is_create_ticket,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -202,6 +202,9 @@
       <if test="duration != null">
         #{duration,jdbcType=DECIMAL},
       </if>
+      <if test="isCreateTicket != null">
+        #{isCreateTicket,jdbcType=BIT},
+      </if>
       <if test="createUserId != null">
         #{createUserId,jdbcType=INTEGER},
       </if>
@@ -219,9 +222,6 @@
       </if>
       <if test="companyId != null">
         #{companyId,jdbcType=INTEGER},
-      </if>
-      <if test="isCreateTicket != null">
-        #{isCreateTicket,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -255,6 +255,9 @@
       <if test="record.duration != null">
         eam_alarm_model.duration = #{record.duration,jdbcType=DECIMAL},
       </if>
+      <if test="record.isCreateTicket != null">
+        eam_alarm_model.is_create_ticket = #{record.isCreateTicket,jdbcType=BIT},
+      </if>
       <if test="record.createUserId != null">
         eam_alarm_model.create_user_id = #{record.createUserId,jdbcType=INTEGER},
       </if>
@@ -273,9 +276,6 @@
       <if test="record.companyId != null">
         eam_alarm_model.company_id = #{record.companyId,jdbcType=INTEGER},
       </if>
-      <if test="record.isCreateTicket != null">
-        eam_alarm_model.is_create_ticket = #{record.isCreateTicket,jdbcType=BIT},
-      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -290,13 +290,13 @@
       eam_alarm_model.upper_Bound = #{record.upperBound,jdbcType=DECIMAL},
       eam_alarm_model.lower_Bound = #{record.lowerBound,jdbcType=DECIMAL},
       eam_alarm_model.duration = #{record.duration,jdbcType=DECIMAL},
+      eam_alarm_model.is_create_ticket = #{record.isCreateTicket,jdbcType=BIT},
       eam_alarm_model.create_user_id = #{record.createUserId,jdbcType=INTEGER},
       eam_alarm_model.create_time = #{record.createTime,jdbcType=TIMESTAMP},
       eam_alarm_model.update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       eam_alarm_model.update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       eam_alarm_model.delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      eam_alarm_model.company_id = #{record.companyId,jdbcType=INTEGER},
-      eam_alarm_model.is_create_ticket = #{record.isCreateTicket,jdbcType=BIT}
+      eam_alarm_model.company_id = #{record.companyId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -322,6 +322,9 @@
       <if test="duration != null">
         duration = #{duration,jdbcType=DECIMAL},
       </if>
+      <if test="isCreateTicket != null">
+        is_create_ticket = #{isCreateTicket,jdbcType=BIT},
+      </if>
       <if test="createUserId != null">
         create_user_id = #{createUserId,jdbcType=INTEGER},
       </if>
@@ -340,9 +343,6 @@
       <if test="companyId != null">
         company_id = #{companyId,jdbcType=INTEGER},
       </if>
-      <if test="isCreateTicket != null">
-        is_create_ticket = #{isCreateTicket,jdbcType=BIT},
-      </if>
     </set>
     where alarm_model_id = #{alarmModelId,jdbcType=INTEGER}
   </update>
@@ -354,29 +354,29 @@
       upper_Bound = #{upperBound,jdbcType=DECIMAL},
       lower_Bound = #{lowerBound,jdbcType=DECIMAL},
       duration = #{duration,jdbcType=DECIMAL},
+      is_create_ticket = #{isCreateTicket,jdbcType=BIT},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
-      company_id = #{companyId,jdbcType=INTEGER},
-      is_create_ticket = #{isCreateTicket,jdbcType=BIT}
+      company_id = #{companyId,jdbcType=INTEGER}
     where alarm_model_id = #{alarmModelId,jdbcType=INTEGER}
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
             insert into eam_alarm_model  (alarm_model_id, name, eam_data_element_id, 
         alarm_type, upper_Bound, lower_Bound, 
-        duration, create_user_id, create_time, 
-        update_user_id, update_time, delete_flag, 
-        company_id, is_create_ticket)
+        duration, is_create_ticket, create_user_id, 
+        create_time, update_user_id, update_time, 
+        delete_flag, company_id)
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.alarmModelId,jdbcType=INTEGER}, #{item.name,jdbcType=VARCHAR}, #{item.eamDataElementId,jdbcType=INTEGER}, 
         #{item.alarmType,jdbcType=VARCHAR}, #{item.upperBound,jdbcType=DECIMAL}, #{item.lowerBound,jdbcType=DECIMAL}, 
-        #{item.duration,jdbcType=DECIMAL}, #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, 
-        #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, 
-        #{item.companyId,jdbcType=INTEGER}, #{item.isCreateTicket,jdbcType=BIT})
+        #{item.duration,jdbcType=DECIMAL}, #{item.isCreateTicket,jdbcType=BIT}, #{item.createUserId,jdbcType=INTEGER}, 
+        #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
+        #{item.deleteFlag,jdbcType=BIT}, #{item.companyId,jdbcType=INTEGER})
       </foreach>
     </if>
   </insert>

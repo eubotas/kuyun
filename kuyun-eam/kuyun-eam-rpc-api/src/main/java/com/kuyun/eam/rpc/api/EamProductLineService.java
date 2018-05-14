@@ -1,7 +1,6 @@
 package com.kuyun.eam.rpc.api;
 
 import com.kuyun.common.base.BaseService;
-import com.kuyun.eam.dao.model.EamDtu;
 import com.kuyun.eam.dao.model.EamProductLine;
 import com.kuyun.eam.dao.model.EamProductLineExample;
 

@@ -6,9 +6,15 @@
     <result column="eam_equipment_equipment_category_id" jdbcType="INTEGER" property="equipmentCategoryId" />
     <result column="eam_equipment_product_line_id" jdbcType="VARCHAR" property="productLineId" />
     <result column="eam_equipment_name" jdbcType="VARCHAR" property="name" />
+    <result column="eam_equipment_task_number" jdbcType="VARCHAR" property="taskNumber" />
     <result column="eam_equipment_number" jdbcType="VARCHAR" property="number" />
     <result column="eam_equipment_serial_number" jdbcType="VARCHAR" property="serialNumber" />
     <result column="eam_equipment_image_path" jdbcType="VARCHAR" property="imagePath" />
+    <result column="eam_equipment_output" jdbcType="VARCHAR" property="output" />
+    <result column="eam_equipment_dimension" jdbcType="VARCHAR" property="dimension" />
+    <result column="eam_equipment_weight" jdbcType="VARCHAR" property="weight" />
+    <result column="eam_equipment_power" jdbcType="VARCHAR" property="power" />
+    <result column="eam_equipment_capacity" jdbcType="VARCHAR" property="capacity" />
     <result column="eam_equipment_user" jdbcType="VARCHAR" property="user" />
     <result column="eam_equipment_collect_status" jdbcType="VARCHAR" property="collectStatus" />
     <result column="eam_equipment_grm" jdbcType="VARCHAR" property="grm" />
@@ -27,7 +33,6 @@
     <result column="eam_equipment_update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="eam_equipment_delete_flag" jdbcType="BIT" property="deleteFlag" />
     <result column="eam_equipment_is_online" jdbcType="BIT" property="isOnline" />
-    <result column="eam_equipment_task_number" jdbcType="VARCHAR" property="taskNumber" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -90,8 +95,11 @@
   <sql id="Base_Column_List">
     eam_equipment.equipment_id as eam_equipment_equipment_id, eam_equipment.equipment_category_id as eam_equipment_equipment_category_id, 
     eam_equipment.product_line_id as eam_equipment_product_line_id, eam_equipment.name as eam_equipment_name, 
-    eam_equipment.number as eam_equipment_number, eam_equipment.serial_number as eam_equipment_serial_number, 
-    eam_equipment.image_path as eam_equipment_image_path, eam_equipment.user as eam_equipment_user, 
+    eam_equipment.task_number as eam_equipment_task_number, eam_equipment.number as eam_equipment_number, 
+    eam_equipment.serial_number as eam_equipment_serial_number, eam_equipment.image_path as eam_equipment_image_path, 
+    eam_equipment.output as eam_equipment_output, eam_equipment.dimension as eam_equipment_dimension, 
+    eam_equipment.weight as eam_equipment_weight, eam_equipment.power as eam_equipment_power, 
+    eam_equipment.capacity as eam_equipment_capacity, eam_equipment.user as eam_equipment_user, 
     eam_equipment.collect_status as eam_equipment_collect_status, eam_equipment.grm as eam_equipment_grm, 
     eam_equipment.grm_password as eam_equipment_grm_password, eam_equipment.grm_period as eam_equipment_grm_period, 
     eam_equipment.factory_date as eam_equipment_factory_date, eam_equipment.commissioning_date as eam_equipment_commissioning_date, 
@@ -100,7 +108,7 @@
     eam_equipment.top_position as eam_equipment_top_position, eam_equipment.create_user_id as eam_equipment_create_user_id, 
     eam_equipment.create_time as eam_equipment_create_time, eam_equipment.update_user_id as eam_equipment_update_user_id, 
     eam_equipment.update_time as eam_equipment_update_time, eam_equipment.delete_flag as eam_equipment_delete_flag, 
-    eam_equipment.is_online as eam_equipment_is_online, eam_equipment.task_number as eam_equipment_task_number
+    eam_equipment.is_online as eam_equipment_is_online
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentExample" resultMap="BaseResultMap">
     select
@@ -142,25 +150,29 @@
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamEquipment">
     insert into eam_equipment (equipment_id, equipment_category_id, 
-      product_line_id, name, number, 
-      serial_number, image_path, user, 
+      product_line_id, name, task_number, 
+      number, serial_number, image_path, 
+      output, dimension, weight, 
+      power, capacity, user, 
       collect_status, grm, grm_password, 
       grm_period, factory_date, commissioning_date, 
       warranty_start_date, warranty_end_date, 
       maintenance_period, left_position, top_position, 
       create_user_id, create_time, update_user_id, 
-      update_time, delete_flag, is_online, 
-      task_number)
+      update_time, delete_flag, is_online
+      )
     values (#{equipmentId,jdbcType=VARCHAR}, #{equipmentCategoryId,jdbcType=INTEGER}, 
-      #{productLineId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{number,jdbcType=VARCHAR}, 
-      #{serialNumber,jdbcType=VARCHAR}, #{imagePath,jdbcType=VARCHAR}, #{user,jdbcType=VARCHAR}, 
+      #{productLineId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{taskNumber,jdbcType=VARCHAR}, 
+      #{number,jdbcType=VARCHAR}, #{serialNumber,jdbcType=VARCHAR}, #{imagePath,jdbcType=VARCHAR}, 
+      #{output,jdbcType=VARCHAR}, #{dimension,jdbcType=VARCHAR}, #{weight,jdbcType=VARCHAR}, 
+      #{power,jdbcType=VARCHAR}, #{capacity,jdbcType=VARCHAR}, #{user,jdbcType=VARCHAR}, 
       #{collectStatus,jdbcType=VARCHAR}, #{grm,jdbcType=VARCHAR}, #{grmPassword,jdbcType=VARCHAR}, 
       #{grmPeriod,jdbcType=INTEGER}, #{factoryDate,jdbcType=TIMESTAMP}, #{commissioningDate,jdbcType=TIMESTAMP}, 
       #{warrantyStartDate,jdbcType=TIMESTAMP}, #{warrantyEndDate,jdbcType=TIMESTAMP}, 
       #{maintenancePeriod,jdbcType=VARCHAR}, #{leftPosition,jdbcType=DECIMAL}, #{topPosition,jdbcType=DECIMAL}, 
       #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{isOnline,jdbcType=BIT}, 
-      #{taskNumber,jdbcType=VARCHAR})
+      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{isOnline,jdbcType=BIT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamEquipment">
     insert into eam_equipment
@@ -177,6 +189,9 @@
       <if test="name != null">
         name,
       </if>
+      <if test="taskNumber != null">
+        task_number,
+      </if>
       <if test="number != null">
         number,
       </if>
@@ -185,6 +200,21 @@
       </if>
       <if test="imagePath != null">
         image_path,
+      </if>
+      <if test="output != null">
+        output,
+      </if>
+      <if test="dimension != null">
+        dimension,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="power != null">
+        power,
+      </if>
+      <if test="capacity != null">
+        capacity,
       </if>
       <if test="user != null">
         user,
@@ -240,9 +270,6 @@
       <if test="isOnline != null">
         is_online,
       </if>
-      <if test="taskNumber != null">
-        task_number,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="equipmentId != null">
@@ -257,6 +284,9 @@
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
+      <if test="taskNumber != null">
+        #{taskNumber,jdbcType=VARCHAR},
+      </if>
       <if test="number != null">
         #{number,jdbcType=VARCHAR},
       </if>
@@ -265,6 +295,21 @@
       </if>
       <if test="imagePath != null">
         #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="output != null">
+        #{output,jdbcType=VARCHAR},
+      </if>
+      <if test="dimension != null">
+        #{dimension,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=VARCHAR},
+      </if>
+      <if test="power != null">
+        #{power,jdbcType=VARCHAR},
+      </if>
+      <if test="capacity != null">
+        #{capacity,jdbcType=VARCHAR},
       </if>
       <if test="user != null">
         #{user,jdbcType=VARCHAR},
@@ -320,9 +365,6 @@
       <if test="isOnline != null">
         #{isOnline,jdbcType=BIT},
       </if>
-      <if test="taskNumber != null">
-        #{taskNumber,jdbcType=VARCHAR},
-      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentExample" resultType="java.lang.Long">
@@ -346,6 +388,9 @@
       <if test="record.name != null">
         eam_equipment.name = #{record.name,jdbcType=VARCHAR},
       </if>
+      <if test="record.taskNumber != null">
+        eam_equipment.task_number = #{record.taskNumber,jdbcType=VARCHAR},
+      </if>
       <if test="record.number != null">
         eam_equipment.number = #{record.number,jdbcType=VARCHAR},
       </if>
@@ -354,6 +399,21 @@
       </if>
       <if test="record.imagePath != null">
         eam_equipment.image_path = #{record.imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.output != null">
+        eam_equipment.output = #{record.output,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dimension != null">
+        eam_equipment.dimension = #{record.dimension,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weight != null">
+        eam_equipment.weight = #{record.weight,jdbcType=VARCHAR},
+      </if>
+      <if test="record.power != null">
+        eam_equipment.power = #{record.power,jdbcType=VARCHAR},
+      </if>
+      <if test="record.capacity != null">
+        eam_equipment.capacity = #{record.capacity,jdbcType=VARCHAR},
       </if>
       <if test="record.user != null">
         eam_equipment.user = #{record.user,jdbcType=VARCHAR},
@@ -409,9 +469,6 @@
       <if test="record.isOnline != null">
         eam_equipment.is_online = #{record.isOnline,jdbcType=BIT},
       </if>
-      <if test="record.taskNumber != null">
-        eam_equipment.task_number = #{record.taskNumber,jdbcType=VARCHAR},
-      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -423,9 +480,15 @@
       eam_equipment.equipment_category_id = #{record.equipmentCategoryId,jdbcType=INTEGER},
       eam_equipment.product_line_id = #{record.productLineId,jdbcType=VARCHAR},
       eam_equipment.name = #{record.name,jdbcType=VARCHAR},
+      eam_equipment.task_number = #{record.taskNumber,jdbcType=VARCHAR},
       eam_equipment.number = #{record.number,jdbcType=VARCHAR},
       eam_equipment.serial_number = #{record.serialNumber,jdbcType=VARCHAR},
       eam_equipment.image_path = #{record.imagePath,jdbcType=VARCHAR},
+      eam_equipment.output = #{record.output,jdbcType=VARCHAR},
+      eam_equipment.dimension = #{record.dimension,jdbcType=VARCHAR},
+      eam_equipment.weight = #{record.weight,jdbcType=VARCHAR},
+      eam_equipment.power = #{record.power,jdbcType=VARCHAR},
+      eam_equipment.capacity = #{record.capacity,jdbcType=VARCHAR},
       eam_equipment.user = #{record.user,jdbcType=VARCHAR},
       eam_equipment.collect_status = #{record.collectStatus,jdbcType=VARCHAR},
       eam_equipment.grm = #{record.grm,jdbcType=VARCHAR},
@@ -443,8 +506,7 @@
       eam_equipment.update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       eam_equipment.update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       eam_equipment.delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      eam_equipment.is_online = #{record.isOnline,jdbcType=BIT},
-      eam_equipment.task_number = #{record.taskNumber,jdbcType=VARCHAR}
+      eam_equipment.is_online = #{record.isOnline,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -461,6 +523,9 @@
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="taskNumber != null">
+        task_number = #{taskNumber,jdbcType=VARCHAR},
+      </if>
       <if test="number != null">
         number = #{number,jdbcType=VARCHAR},
       </if>
@@ -469,6 +534,21 @@
       </if>
       <if test="imagePath != null">
         image_path = #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="output != null">
+        output = #{output,jdbcType=VARCHAR},
+      </if>
+      <if test="dimension != null">
+        dimension = #{dimension,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null">
+        weight = #{weight,jdbcType=VARCHAR},
+      </if>
+      <if test="power != null">
+        power = #{power,jdbcType=VARCHAR},
+      </if>
+      <if test="capacity != null">
+        capacity = #{capacity,jdbcType=VARCHAR},
       </if>
       <if test="user != null">
         user = #{user,jdbcType=VARCHAR},
@@ -524,9 +604,6 @@
       <if test="isOnline != null">
         is_online = #{isOnline,jdbcType=BIT},
       </if>
-      <if test="taskNumber != null">
-        task_number = #{taskNumber,jdbcType=VARCHAR},
-      </if>
     </set>
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </update>
@@ -535,9 +612,15 @@
     set equipment_category_id = #{equipmentCategoryId,jdbcType=INTEGER},
       product_line_id = #{productLineId,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
+      task_number = #{taskNumber,jdbcType=VARCHAR},
       number = #{number,jdbcType=VARCHAR},
       serial_number = #{serialNumber,jdbcType=VARCHAR},
       image_path = #{imagePath,jdbcType=VARCHAR},
+      output = #{output,jdbcType=VARCHAR},
+      dimension = #{dimension,jdbcType=VARCHAR},
+      weight = #{weight,jdbcType=VARCHAR},
+      power = #{power,jdbcType=VARCHAR},
+      capacity = #{capacity,jdbcType=VARCHAR},
       user = #{user,jdbcType=VARCHAR},
       collect_status = #{collectStatus,jdbcType=VARCHAR},
       grm = #{grm,jdbcType=VARCHAR},
@@ -555,34 +638,37 @@
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
-      is_online = #{isOnline,jdbcType=BIT},
-      task_number = #{taskNumber,jdbcType=VARCHAR}
+      is_online = #{isOnline,jdbcType=BIT}
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
             insert into eam_equipment  (equipment_id, equipment_category_id, 
-        product_line_id, name, number, 
-        serial_number, image_path, user, 
+        product_line_id, name, task_number, 
+        number, serial_number, image_path, 
+        output, dimension, weight, 
+        power, capacity, user, 
         collect_status, grm, grm_password, 
         grm_period, factory_date, commissioning_date, 
         warranty_start_date, warranty_end_date, 
         maintenance_period, left_position, top_position, 
         create_user_id, create_time, update_user_id, 
-        update_time, delete_flag, is_online, 
-        task_number)
+        update_time, delete_flag, is_online
+        )
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.equipmentId,jdbcType=VARCHAR}, #{item.equipmentCategoryId,jdbcType=INTEGER}, 
-        #{item.productLineId,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, #{item.number,jdbcType=VARCHAR}, 
-        #{item.serialNumber,jdbcType=VARCHAR}, #{item.imagePath,jdbcType=VARCHAR}, #{item.user,jdbcType=VARCHAR}, 
+        #{item.productLineId,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, #{item.taskNumber,jdbcType=VARCHAR}, 
+        #{item.number,jdbcType=VARCHAR}, #{item.serialNumber,jdbcType=VARCHAR}, #{item.imagePath,jdbcType=VARCHAR}, 
+        #{item.output,jdbcType=VARCHAR}, #{item.dimension,jdbcType=VARCHAR}, #{item.weight,jdbcType=VARCHAR}, 
+        #{item.power,jdbcType=VARCHAR}, #{item.capacity,jdbcType=VARCHAR}, #{item.user,jdbcType=VARCHAR}, 
         #{item.collectStatus,jdbcType=VARCHAR}, #{item.grm,jdbcType=VARCHAR}, #{item.grmPassword,jdbcType=VARCHAR}, 
         #{item.grmPeriod,jdbcType=INTEGER}, #{item.factoryDate,jdbcType=TIMESTAMP}, #{item.commissioningDate,jdbcType=TIMESTAMP}, 
         #{item.warrantyStartDate,jdbcType=TIMESTAMP}, #{item.warrantyEndDate,jdbcType=TIMESTAMP}, 
         #{item.maintenancePeriod,jdbcType=VARCHAR}, #{item.leftPosition,jdbcType=DECIMAL}, #{item.topPosition,jdbcType=DECIMAL}, 
         #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, 
-        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, #{item.isOnline,jdbcType=BIT}, 
-        #{item.taskNumber,jdbcType=VARCHAR})
+        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, #{item.isOnline,jdbcType=BIT}
+        )
       </foreach>
     </if>
   </insert>

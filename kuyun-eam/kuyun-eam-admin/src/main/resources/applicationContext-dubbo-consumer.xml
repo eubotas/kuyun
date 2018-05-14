@@ -25,11 +25,6 @@
     <!-- 设备属性 -->
     <dubbo:reference id="eamEquipmentPropertyService" interface="com.kuyun.eam.rpc.api.EamEquipmentPropertyService" mock="true"/>
 
-    <!-- 设备模型 -->
-    <dubbo:reference id="eamEquipmentModelService" interface="com.kuyun.eam.rpc.api.EamEquipmentModelService" mock="true"/>
-
-    <!-- 设备模型参数 -->
-    <dubbo:reference id="eamEquipmentModelPropertiesService" interface="com.kuyun.eam.rpc.api.EamEquipmentModelPropertiesService" mock="true"/>
 
     <!-- 配件 -->
     <dubbo:reference id="eamPartsService" interface="com.kuyun.eam.rpc.api.EamPartsService" mock="true"/>
@@ -51,21 +46,10 @@
 
     <!-- 设备管理 -->
     <dubbo:reference id="eamApiService" interface="com.kuyun.eam.rpc.api.EamApiService" mock="true"/>
-    <dubbo:reference id="eamWriteDataService" interface="com.kuyun.eam.rpc.api.EamWriteDataService" mock="true"/>
 
 
     <!-- 接入协议 -->
     <dubbo:reference id="eamProtocolService" interface="com.kuyun.eam.rpc.api.EamProtocolService" mock="true"/>
-
-    <!-- 设备传感器 -->
-    <dubbo:reference id="eamSensorService" interface="com.kuyun.eam.rpc.api.EamSensorService" mock="true"/>
-
-    <!-- 传感器数据 -->
-    <dubbo:reference id="eamSensorDataService" interface="com.kuyun.eam.rpc.api.EamSensorDataService" mock="true"/>
-
-    <dubbo:reference id="eamEquipmentCompanyService" interface="com.kuyun.eam.rpc.api.EamEquipmentCompanyService" mock="true"/>
-
-
 
     <!-- 接口服务 -->
     <dubbo:reference id="upmsApiService" interface="com.kuyun.upms.rpc.api.UpmsApiService" mock="true" registry="upmsRegistry"/>
@@ -83,8 +67,6 @@
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamTicketAssessmentTagService" id="eamTicketAssessmentTagService" mock="true" />
 
 
-    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamDtuService" id="eamDtuService" mock="true" />
-    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamDtuEquipmentService" id="eamDtuEquipmentService" mock="true" />
 
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamGrmVariableService" id="eamGrmEquipmentVariableService" mock="true" />
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamGrmVariableDataService" id="eamGrmVariableDataService" mock="true" />

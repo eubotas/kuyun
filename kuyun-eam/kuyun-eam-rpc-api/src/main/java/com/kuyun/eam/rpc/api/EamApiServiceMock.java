@@ -63,20 +63,13 @@ public class EamApiServiceMock implements EamApiService {
         return null;
     }
 
-    @Override
-    public List<EamSensorDataVO> selectEamSensorData(EamSensorVO sensorVO) {
-        return null;
-    }
+
 
     @Override
     public Tree getCityTree(UpmsUserCompany company) {
         return null;
     }
 
-    @Override
-    public List<SensorGroup> getSensorData(String equipmentId) {
-        return null;
-    }
 
     @Override
     public int handleEquimpmentCollect(String jsonString, CollectStatus collectStatus) {
@@ -143,24 +136,12 @@ public class EamApiServiceMock implements EamApiService {
         return null;
     }
 
-    @Override
-    public int persistEquipment(UpmsUserCompany upmsUserCompany, EamEquipment equipment) {
-        return 0;
-    }
 
-    @Override
-    public void processData(String deviceId, Integer sensorId, String data) {
 
-    }
 
     @Override
     public void processData(List<Pair<EamGrmVariable, String>> pairs) {
 
-    }
-
-    @Override
-    public List<EamEquipmentModelPropertiesVO> selectEquipmentModelProperties(String equipmentId) {
-        return null;
     }
 
     @Override

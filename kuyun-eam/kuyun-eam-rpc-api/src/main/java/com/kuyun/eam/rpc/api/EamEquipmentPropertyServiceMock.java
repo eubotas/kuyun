@@ -7,7 +7,7 @@ import com.kuyun.eam.dao.model.EamEquipmentPropertyExample;
 
 /**
 * 降级实现EamEquipmentPropertyService接口
-* Created by kuyun on 2018/5/12.
+* Created by kuyun on 2018/5/14.
 */
 public class EamEquipmentPropertyServiceMock extends BaseServiceMock<EamEquipmentPropertyMapper, EamEquipmentProperty, EamEquipmentPropertyExample> implements EamEquipmentPropertyService {
 

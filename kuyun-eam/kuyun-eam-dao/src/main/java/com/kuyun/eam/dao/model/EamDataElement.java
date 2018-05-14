@@ -36,6 +36,11 @@ public class EamDataElement extends BaseEntity implements Serializable {
 
     private Integer equipmentCategoryId;
 
+    /**
+     * 是否统计累计量（用电量）
+     *
+     * @mbg.generated
+     */
     private Boolean isStatistic;
 
     private static final long serialVersionUID = 1L;
@@ -131,12 +136,12 @@ public class EamDataElement extends BaseEntity implements Serializable {
             && (this.getUnit() == null ? other.getUnit() == null : this.getUnit().equals(other.getUnit()))
             && (this.getDataType() == null ? other.getDataType() == null : this.getDataType().equals(other.getDataType()))
             && (this.getEquipmentCategoryId() == null ? other.getEquipmentCategoryId() == null : this.getEquipmentCategoryId().equals(other.getEquipmentCategoryId()))
+            && (this.getIsStatistic() == null ? other.getIsStatistic() == null : this.getIsStatistic().equals(other.getIsStatistic()))
             && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
-            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getIsStatistic() == null ? other.getIsStatistic() == null : this.getIsStatistic().equals(other.getIsStatistic()));
+            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()));
     }
 
     @Override
@@ -149,12 +154,12 @@ public class EamDataElement extends BaseEntity implements Serializable {
         result = prime * result + ((getUnit() == null) ? 0 : getUnit().hashCode());
         result = prime * result + ((getDataType() == null) ? 0 : getDataType().hashCode());
         result = prime * result + ((getEquipmentCategoryId() == null) ? 0 : getEquipmentCategoryId().hashCode());
+        result = prime * result + ((getIsStatistic() == null) ? 0 : getIsStatistic().hashCode());
         result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
-        result = prime * result + ((getIsStatistic() == null) ? 0 : getIsStatistic().hashCode());
         return result;
     }
 }

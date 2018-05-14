@@ -6,15 +6,12 @@ import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.google.gson.Gson;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.excel.ExcelUtils;
-import com.kuyun.common.util.StringUtil;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.pojo.IDS;
 import com.kuyun.eam.pojo.PartBean;
-import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.rpc.api.*;
-import com.kuyun.eam.vo.EamEquipmentModelPropertiesVO;
 import com.kuyun.eam.vo.EamEquipmentVO;
 import com.kuyun.eam.vo.EamGrmVariableVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
@@ -40,7 +37,8 @@ import java.util.List;
 import java.util.Map;
 
 import static com.kuyun.eam.common.constant.CollectStatus.NO_START;
-import static com.kuyun.eam.common.constant.EamResultConstant.*;
+import static com.kuyun.eam.common.constant.EamResultConstant.INVALID_LENGTH;
+import static com.kuyun.eam.common.constant.EamResultConstant.SUCCESS;
 
 /**
  * 设备控制器
@@ -57,12 +55,6 @@ public class EamEquipmentController extends BaseController {
 	private EamEquipmentService eamEquipmentService;
 
 	@Autowired
-	private EamEquipmentModelService eamEquipmentModelService;
-
-	@Autowired
-	private EamEquipmentModelPropertiesService eamEquipmentModelPropertiesService;
-
-	@Autowired
 	private EamEquipmentPropertyService eamEquipmentPropertyService;
 
 	@Autowired
@@ -73,9 +65,6 @@ public class EamEquipmentController extends BaseController {
 
 	@Autowired
 	private EamApiService eamApiService;
-
-	@Autowired
-	private EamWriteDataService eamWriteDataService;
 
 	@Autowired
 	private EamEquipmentCategoryService eamEquipmentCategoryService;
@@ -172,8 +161,7 @@ public class EamEquipmentController extends BaseController {
 		}
 		baseEntityUtil.addAddtionalValue(eamEquipment);
 		eamEquipment.setIsOnline(Boolean.FALSE);
-		UpmsUserCompany upmsUserCompany = baseEntityUtil.getCurrentUserCompany();
-		int count = eamApiService.persistEquipment(upmsUserCompany, eamEquipment);
+		int count = eamEquipmentService.insertSelective(eamEquipment);
 		return new EamResult(SUCCESS, count);
 	}
 
@@ -239,14 +227,6 @@ public class EamEquipmentController extends BaseController {
 	}
 
 
-	@ApiOperation(value = "设备当前采集数据")
-	@RequiresPermissions("eam:equipment:read")
-	@RequestMapping(value = "/sensor/data/{eId}", method = RequestMethod.GET)
-	@ResponseBody
-	public Object getSensorData(@PathVariable("eId") String eId) {
-		List<SensorGroup> sensorGroups = eamApiService.getSensorData(eId);
-		return new EamResult(SUCCESS, sensorGroups);
-	}
 
 	@RequiresPermissions("eam:equipmentSensor:write")
 	@RequestMapping(value = "/sensor/{eId}", method = RequestMethod.GET)
@@ -257,29 +237,6 @@ public class EamEquipmentController extends BaseController {
 		return "/manage/equipment/sensor/index.jsp";
 	}
 
-	@ApiOperation(value = "设备参数列表")
-	@RequiresPermissions("eam:equipmentSensor:write")
-	@RequestMapping(value = "/sensor/list/{eId}", method = RequestMethod.GET)
-	@ResponseBody
-	public Object sensorList(@PathVariable("eId") String eId) {
-		Map<String, Object> result = new HashMap<>();
-		result.put("rows", eamApiService.selectEquipmentModelProperties(eId));
-		return result;
-	}
-
-	@ApiOperation(value = "设备写入数据")
-	@RequiresPermissions("eam:equipmentSensor:write")
-	@RequestMapping(value = "/sensor/write", method = RequestMethod.POST)
-	@ResponseBody
-	public Object sensorWrite(@RequestBody EamEquipmentModelPropertiesVO vo) {
-		_log.info("Equipment Model Id = " + vo.getEquipmentModelId());
-		boolean success = eamWriteDataService.sensorWrite(vo);
-		if (success) {
-			return new EamResult(SUCCESS, "写入数据成功");
-		} else {
-			return new EamResult(FAILED, "写入数据失败");
-		}
-	}
 
 	@ApiOperation(value = "选择数据点")
 	@RequiresPermissions("eam:equipment:update")

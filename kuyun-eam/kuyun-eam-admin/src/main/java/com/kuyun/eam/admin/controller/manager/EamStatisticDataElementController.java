@@ -154,7 +154,7 @@ public class EamStatisticDataElementController extends BaseController {
 		criteria.andYearEqualTo(year);
 		example.setOrderByClause("update_time asc");
 
-		EamGrmVariableDataByYear data = eamGrmVariableDataByYearService.selectFirstByExample(example);
+		List<EamGrmVariableDataByYear> data = eamGrmVariableDataByYearService.selectByExample(example);
 		return data;
 	}
 

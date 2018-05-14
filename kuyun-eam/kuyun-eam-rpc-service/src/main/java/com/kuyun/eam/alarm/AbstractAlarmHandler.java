@@ -53,8 +53,6 @@ public abstract class AbstractAlarmHandler {
     @Autowired
     private EmailService emailService;
 
-    @Autowired
-    protected EamSensorDataService eamSensorDataService;
 
     @Autowired
     private  EamGrmVariableDataHistoryService grmVariableDataHistoryService;
@@ -65,8 +63,6 @@ public abstract class AbstractAlarmHandler {
     @Autowired
     private EamProductLineService eamProductLineService;
 
-    @Autowired
-    private EamEquipmentModelPropertiesService eamEquipmentModelPropertiesService;
 
     @Autowired
     private JpushUtil jpushUtil;

@@ -8,6 +8,8 @@ public class EamOrder extends BaseEntity implements Serializable {
 
     private String companyName;
 
+    private String shortName;
+
     /**
      * 年份
      *
@@ -106,8 +108,6 @@ public class EamOrder extends BaseEntity implements Serializable {
      */
     private String majorEquipment;
 
-    private String shortName;
-
     /**
      * 备注
      *
@@ -131,6 +131,14 @@ public class EamOrder extends BaseEntity implements Serializable {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
     }
 
     public String getYear() {
@@ -245,14 +253,6 @@ public class EamOrder extends BaseEntity implements Serializable {
         this.majorEquipment = majorEquipment;
     }
 
-    public String getShortName() {
-        return shortName;
-    }
-
-    public void setShortName(String shortName) {
-        this.shortName = shortName;
-    }
-
     public String getComment() {
         return comment;
     }
@@ -269,6 +269,7 @@ public class EamOrder extends BaseEntity implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
         sb.append(", companyName=").append(companyName);
+        sb.append(", shortName=").append(shortName);
         sb.append(", year=").append(year);
         sb.append(", taskNumber=").append(taskNumber);
         sb.append(", state=").append(state);
@@ -283,7 +284,6 @@ public class EamOrder extends BaseEntity implements Serializable {
         sb.append(", packagingMaterial=").append(packagingMaterial);
         sb.append(", productSpec=").append(productSpec);
         sb.append(", majorEquipment=").append(majorEquipment);
-        sb.append(", shortName=").append(shortName);
         sb.append(", comment=").append(comment);
         sb.append("]");
         return sb.toString();
@@ -303,6 +303,7 @@ public class EamOrder extends BaseEntity implements Serializable {
         EamOrder other = (EamOrder) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getCompanyName() == null ? other.getCompanyName() == null : this.getCompanyName().equals(other.getCompanyName()))
+            && (this.getShortName() == null ? other.getShortName() == null : this.getShortName().equals(other.getShortName()))
             && (this.getYear() == null ? other.getYear() == null : this.getYear().equals(other.getYear()))
             && (this.getTaskNumber() == null ? other.getTaskNumber() == null : this.getTaskNumber().equals(other.getTaskNumber()))
             && (this.getState() == null ? other.getState() == null : this.getState().equals(other.getState()))
@@ -322,7 +323,6 @@ public class EamOrder extends BaseEntity implements Serializable {
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getShortName() == null ? other.getShortName() == null : this.getShortName().equals(other.getShortName()))
             && (this.getComment() == null ? other.getComment() == null : this.getComment().equals(other.getComment()));
     }
 
@@ -332,6 +332,7 @@ public class EamOrder extends BaseEntity implements Serializable {
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getCompanyName() == null) ? 0 : getCompanyName().hashCode());
+        result = prime * result + ((getShortName() == null) ? 0 : getShortName().hashCode());
         result = prime * result + ((getYear() == null) ? 0 : getYear().hashCode());
         result = prime * result + ((getTaskNumber() == null) ? 0 : getTaskNumber().hashCode());
         result = prime * result + ((getState() == null) ? 0 : getState().hashCode());
@@ -351,7 +352,6 @@ public class EamOrder extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
-        result = prime * result + ((getShortName() == null) ? 0 : getShortName().hashCode());
         result = prime * result + ((getComment() == null) ? 0 : getComment().hashCode());
         return result;
     }

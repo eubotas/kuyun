@@ -16,7 +16,6 @@
 
     <!-- GRM服务 -->
     <dubbo:reference id="grmApiService" interface="com.kuyun.grm.rpc.api.GrmApiService" mock="false" />
-    <dubbo:reference id="modbusSlaveRtuApiService" interface="com.kuyun.modbus.rpc.api.ModbusSlaveRtuApiService" mock="false" />
     <dubbo:reference id="upmsUserService" interface="com.kuyun.upms.rpc.api.UpmsUserService" mock="true" registry="upmsRegistry"/>
     <dubbo:reference id="upmsApiService" interface="com.kuyun.upms.rpc.api.UpmsApiService" mock="true" registry="upmsRegistry"/>
     <dubbo:reference id="upmsCompanyService" interface="com.kuyun.upms.rpc.api.UpmsCompanyService" mock="true" registry="upmsRegistry"/>

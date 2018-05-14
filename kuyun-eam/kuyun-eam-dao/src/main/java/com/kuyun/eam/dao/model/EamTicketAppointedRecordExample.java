@@ -129,632 +129,632 @@ public class EamTicketAppointedRecordExample implements Serializable {
         }
 
         public Criteria andIdIsNull() {
-            addCriterion("id is null");
+            addCriterion("eam_ticket_appointed_record.id is null");
             return (Criteria) this;
         }
 
         public Criteria andIdIsNotNull() {
-            addCriterion("id is not null");
+            addCriterion("eam_ticket_appointed_record.id is not null");
             return (Criteria) this;
         }
 
         public Criteria andIdEqualTo(Integer value) {
-            addCriterion("id =", value, "id");
+            addCriterion("eam_ticket_appointed_record.id =", value, "id");
             return (Criteria) this;
         }
 
         public Criteria andIdNotEqualTo(Integer value) {
-            addCriterion("id <>", value, "id");
+            addCriterion("eam_ticket_appointed_record.id <>", value, "id");
             return (Criteria) this;
         }
 
         public Criteria andIdGreaterThan(Integer value) {
-            addCriterion("id >", value, "id");
+            addCriterion("eam_ticket_appointed_record.id >", value, "id");
             return (Criteria) this;
         }
 
         public Criteria andIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("id >=", value, "id");
+            addCriterion("eam_ticket_appointed_record.id >=", value, "id");
             return (Criteria) this;
         }
 
         public Criteria andIdLessThan(Integer value) {
-            addCriterion("id <", value, "id");
+            addCriterion("eam_ticket_appointed_record.id <", value, "id");
             return (Criteria) this;
         }
 
         public Criteria andIdLessThanOrEqualTo(Integer value) {
-            addCriterion("id <=", value, "id");
+            addCriterion("eam_ticket_appointed_record.id <=", value, "id");
             return (Criteria) this;
         }
 
         public Criteria andIdIn(List<Integer> values) {
-            addCriterion("id in", values, "id");
+            addCriterion("eam_ticket_appointed_record.id in", values, "id");
             return (Criteria) this;
         }
 
         public Criteria andIdNotIn(List<Integer> values) {
-            addCriterion("id not in", values, "id");
+            addCriterion("eam_ticket_appointed_record.id not in", values, "id");
             return (Criteria) this;
         }
 
         public Criteria andIdBetween(Integer value1, Integer value2) {
-            addCriterion("id between", value1, value2, "id");
+            addCriterion("eam_ticket_appointed_record.id between", value1, value2, "id");
             return (Criteria) this;
         }
 
         public Criteria andIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("id not between", value1, value2, "id");
+            addCriterion("eam_ticket_appointed_record.id not between", value1, value2, "id");
             return (Criteria) this;
         }
 
         public Criteria andTicketIdIsNull() {
-            addCriterion("ticket_id is null");
+            addCriterion("eam_ticket_appointed_record.ticket_id is null");
             return (Criteria) this;
         }
 
         public Criteria andTicketIdIsNotNull() {
-            addCriterion("ticket_id is not null");
+            addCriterion("eam_ticket_appointed_record.ticket_id is not null");
             return (Criteria) this;
         }
 
         public Criteria andTicketIdEqualTo(Integer value) {
-            addCriterion("ticket_id =", value, "ticketId");
+            addCriterion("eam_ticket_appointed_record.ticket_id =", value, "ticketId");
             return (Criteria) this;
         }
 
         public Criteria andTicketIdNotEqualTo(Integer value) {
-            addCriterion("ticket_id <>", value, "ticketId");
+            addCriterion("eam_ticket_appointed_record.ticket_id <>", value, "ticketId");
             return (Criteria) this;
         }
 
         public Criteria andTicketIdGreaterThan(Integer value) {
-            addCriterion("ticket_id >", value, "ticketId");
+            addCriterion("eam_ticket_appointed_record.ticket_id >", value, "ticketId");
             return (Criteria) this;
         }
 
         public Criteria andTicketIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("ticket_id >=", value, "ticketId");
+            addCriterion("eam_ticket_appointed_record.ticket_id >=", value, "ticketId");
             return (Criteria) this;
         }
 
         public Criteria andTicketIdLessThan(Integer value) {
-            addCriterion("ticket_id <", value, "ticketId");
+            addCriterion("eam_ticket_appointed_record.ticket_id <", value, "ticketId");
             return (Criteria) this;
         }
 
         public Criteria andTicketIdLessThanOrEqualTo(Integer value) {
-            addCriterion("ticket_id <=", value, "ticketId");
+            addCriterion("eam_ticket_appointed_record.ticket_id <=", value, "ticketId");
             return (Criteria) this;
         }
 
         public Criteria andTicketIdIn(List<Integer> values) {
-            addCriterion("ticket_id in", values, "ticketId");
+            addCriterion("eam_ticket_appointed_record.ticket_id in", values, "ticketId");
             return (Criteria) this;
         }
 
         public Criteria andTicketIdNotIn(List<Integer> values) {
-            addCriterion("ticket_id not in", values, "ticketId");
+            addCriterion("eam_ticket_appointed_record.ticket_id not in", values, "ticketId");
             return (Criteria) this;
         }
 
         public Criteria andTicketIdBetween(Integer value1, Integer value2) {
-            addCriterion("ticket_id between", value1, value2, "ticketId");
+            addCriterion("eam_ticket_appointed_record.ticket_id between", value1, value2, "ticketId");
             return (Criteria) this;
         }
 
         public Criteria andTicketIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("ticket_id not between", value1, value2, "ticketId");
+            addCriterion("eam_ticket_appointed_record.ticket_id not between", value1, value2, "ticketId");
             return (Criteria) this;
         }
 
         public Criteria andOrderTakerIdIsNull() {
-            addCriterion("order_taker_id is null");
+            addCriterion("eam_ticket_appointed_record.order_taker_id is null");
             return (Criteria) this;
         }
 
         public Criteria andOrderTakerIdIsNotNull() {
-            addCriterion("order_taker_id is not null");
+            addCriterion("eam_ticket_appointed_record.order_taker_id is not null");
             return (Criteria) this;
         }
 
         public Criteria andOrderTakerIdEqualTo(Integer value) {
-            addCriterion("order_taker_id =", value, "orderTakerId");
+            addCriterion("eam_ticket_appointed_record.order_taker_id =", value, "orderTakerId");
             return (Criteria) this;
         }
 
         public Criteria andOrderTakerIdNotEqualTo(Integer value) {
-            addCriterion("order_taker_id <>", value, "orderTakerId");
+            addCriterion("eam_ticket_appointed_record.order_taker_id <>", value, "orderTakerId");
             return (Criteria) this;
         }
 
         public Criteria andOrderTakerIdGreaterThan(Integer value) {
-            addCriterion("order_taker_id >", value, "orderTakerId");
+            addCriterion("eam_ticket_appointed_record.order_taker_id >", value, "orderTakerId");
             return (Criteria) this;
         }
 
         public Criteria andOrderTakerIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("order_taker_id >=", value, "orderTakerId");
+            addCriterion("eam_ticket_appointed_record.order_taker_id >=", value, "orderTakerId");
             return (Criteria) this;
         }
 
         public Criteria andOrderTakerIdLessThan(Integer value) {
-            addCriterion("order_taker_id <", value, "orderTakerId");
+            addCriterion("eam_ticket_appointed_record.order_taker_id <", value, "orderTakerId");
             return (Criteria) this;
         }
 
         public Criteria andOrderTakerIdLessThanOrEqualTo(Integer value) {
-            addCriterion("order_taker_id <=", value, "orderTakerId");
+            addCriterion("eam_ticket_appointed_record.order_taker_id <=", value, "orderTakerId");
             return (Criteria) this;
         }
 
         public Criteria andOrderTakerIdIn(List<Integer> values) {
-            addCriterion("order_taker_id in", values, "orderTakerId");
+            addCriterion("eam_ticket_appointed_record.order_taker_id in", values, "orderTakerId");
             return (Criteria) this;
         }
 
         public Criteria andOrderTakerIdNotIn(List<Integer> values) {
-            addCriterion("order_taker_id not in", values, "orderTakerId");
+            addCriterion("eam_ticket_appointed_record.order_taker_id not in", values, "orderTakerId");
             return (Criteria) this;
         }
 
         public Criteria andOrderTakerIdBetween(Integer value1, Integer value2) {
-            addCriterion("order_taker_id between", value1, value2, "orderTakerId");
+            addCriterion("eam_ticket_appointed_record.order_taker_id between", value1, value2, "orderTakerId");
             return (Criteria) this;
         }
 
         public Criteria andOrderTakerIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("order_taker_id not between", value1, value2, "orderTakerId");
-            return (Criteria) this;
-        }
-
-        public Criteria andRejectCommontIsNull() {
-            addCriterion("reject_commont is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRejectCommontIsNotNull() {
-            addCriterion("reject_commont is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andRejectCommontEqualTo(String value) {
-            addCriterion("reject_commont =", value, "rejectCommont");
-            return (Criteria) this;
-        }
-
-        public Criteria andRejectCommontNotEqualTo(String value) {
-            addCriterion("reject_commont <>", value, "rejectCommont");
-            return (Criteria) this;
-        }
-
-        public Criteria andRejectCommontGreaterThan(String value) {
-            addCriterion("reject_commont >", value, "rejectCommont");
-            return (Criteria) this;
-        }
-
-        public Criteria andRejectCommontGreaterThanOrEqualTo(String value) {
-            addCriterion("reject_commont >=", value, "rejectCommont");
-            return (Criteria) this;
-        }
-
-        public Criteria andRejectCommontLessThan(String value) {
-            addCriterion("reject_commont <", value, "rejectCommont");
-            return (Criteria) this;
-        }
-
-        public Criteria andRejectCommontLessThanOrEqualTo(String value) {
-            addCriterion("reject_commont <=", value, "rejectCommont");
-            return (Criteria) this;
-        }
-
-        public Criteria andRejectCommontLike(String value) {
-            addCriterion("reject_commont like", value, "rejectCommont");
-            return (Criteria) this;
-        }
-
-        public Criteria andRejectCommontNotLike(String value) {
-            addCriterion("reject_commont not like", value, "rejectCommont");
-            return (Criteria) this;
-        }
-
-        public Criteria andRejectCommontIn(List<String> values) {
-            addCriterion("reject_commont in", values, "rejectCommont");
-            return (Criteria) this;
-        }
-
-        public Criteria andRejectCommontNotIn(List<String> values) {
-            addCriterion("reject_commont not in", values, "rejectCommont");
-            return (Criteria) this;
-        }
-
-        public Criteria andRejectCommontBetween(String value1, String value2) {
-            addCriterion("reject_commont between", value1, value2, "rejectCommont");
-            return (Criteria) this;
-        }
-
-        public Criteria andRejectCommontNotBetween(String value1, String value2) {
-            addCriterion("reject_commont not between", value1, value2, "rejectCommont");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateUserIdIsNull() {
-            addCriterion("create_user_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateUserIdIsNotNull() {
-            addCriterion("create_user_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateUserIdEqualTo(Integer value) {
-            addCriterion("create_user_id =", value, "createUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateUserIdNotEqualTo(Integer value) {
-            addCriterion("create_user_id <>", value, "createUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateUserIdGreaterThan(Integer value) {
-            addCriterion("create_user_id >", value, "createUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateUserIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("create_user_id >=", value, "createUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateUserIdLessThan(Integer value) {
-            addCriterion("create_user_id <", value, "createUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateUserIdLessThanOrEqualTo(Integer value) {
-            addCriterion("create_user_id <=", value, "createUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateUserIdIn(List<Integer> values) {
-            addCriterion("create_user_id in", values, "createUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateUserIdNotIn(List<Integer> values) {
-            addCriterion("create_user_id not in", values, "createUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateUserIdBetween(Integer value1, Integer value2) {
-            addCriterion("create_user_id between", value1, value2, "createUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateUserIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("create_user_id not between", value1, value2, "createUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeIsNull() {
-            addCriterion("create_time is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeIsNotNull() {
-            addCriterion("create_time is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeEqualTo(Date value) {
-            addCriterion("create_time =", value, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeNotEqualTo(Date value) {
-            addCriterion("create_time <>", value, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeGreaterThan(Date value) {
-            addCriterion("create_time >", value, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("create_time >=", value, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeLessThan(Date value) {
-            addCriterion("create_time <", value, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeLessThanOrEqualTo(Date value) {
-            addCriterion("create_time <=", value, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeIn(List<Date> values) {
-            addCriterion("create_time in", values, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeNotIn(List<Date> values) {
-            addCriterion("create_time not in", values, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeBetween(Date value1, Date value2) {
-            addCriterion("create_time between", value1, value2, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
-            addCriterion("create_time not between", value1, value2, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeleteFlagIsNull() {
-            addCriterion("delete_flag is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeleteFlagIsNotNull() {
-            addCriterion("delete_flag is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeleteFlagEqualTo(Boolean value) {
-            addCriterion("delete_flag =", value, "deleteFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeleteFlagNotEqualTo(Boolean value) {
-            addCriterion("delete_flag <>", value, "deleteFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeleteFlagGreaterThan(Boolean value) {
-            addCriterion("delete_flag >", value, "deleteFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeleteFlagGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("delete_flag >=", value, "deleteFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeleteFlagLessThan(Boolean value) {
-            addCriterion("delete_flag <", value, "deleteFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeleteFlagLessThanOrEqualTo(Boolean value) {
-            addCriterion("delete_flag <=", value, "deleteFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeleteFlagIn(List<Boolean> values) {
-            addCriterion("delete_flag in", values, "deleteFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeleteFlagNotIn(List<Boolean> values) {
-            addCriterion("delete_flag not in", values, "deleteFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeleteFlagBetween(Boolean value1, Boolean value2) {
-            addCriterion("delete_flag between", value1, value2, "deleteFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeleteFlagNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("delete_flag not between", value1, value2, "deleteFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyIdIsNull() {
-            addCriterion("company_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyIdIsNotNull() {
-            addCriterion("company_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyIdEqualTo(Integer value) {
-            addCriterion("company_id =", value, "companyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyIdNotEqualTo(Integer value) {
-            addCriterion("company_id <>", value, "companyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyIdGreaterThan(Integer value) {
-            addCriterion("company_id >", value, "companyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("company_id >=", value, "companyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyIdLessThan(Integer value) {
-            addCriterion("company_id <", value, "companyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyIdLessThanOrEqualTo(Integer value) {
-            addCriterion("company_id <=", value, "companyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyIdIn(List<Integer> values) {
-            addCriterion("company_id in", values, "companyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyIdNotIn(List<Integer> values) {
-            addCriterion("company_id not in", values, "companyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyIdBetween(Integer value1, Integer value2) {
-            addCriterion("company_id between", value1, value2, "companyId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCompanyIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("company_id not between", value1, value2, "companyId");
+            addCriterion("eam_ticket_appointed_record.order_taker_id not between", value1, value2, "orderTakerId");
             return (Criteria) this;
         }
 
         public Criteria andAppointCommontIsNull() {
-            addCriterion("appoint_commont is null");
+            addCriterion("eam_ticket_appointed_record.appoint_commont is null");
             return (Criteria) this;
         }
 
         public Criteria andAppointCommontIsNotNull() {
-            addCriterion("appoint_commont is not null");
+            addCriterion("eam_ticket_appointed_record.appoint_commont is not null");
             return (Criteria) this;
         }
 
         public Criteria andAppointCommontEqualTo(String value) {
-            addCriterion("appoint_commont =", value, "appointCommont");
+            addCriterion("eam_ticket_appointed_record.appoint_commont =", value, "appointCommont");
             return (Criteria) this;
         }
 
         public Criteria andAppointCommontNotEqualTo(String value) {
-            addCriterion("appoint_commont <>", value, "appointCommont");
+            addCriterion("eam_ticket_appointed_record.appoint_commont <>", value, "appointCommont");
             return (Criteria) this;
         }
 
         public Criteria andAppointCommontGreaterThan(String value) {
-            addCriterion("appoint_commont >", value, "appointCommont");
+            addCriterion("eam_ticket_appointed_record.appoint_commont >", value, "appointCommont");
             return (Criteria) this;
         }
 
         public Criteria andAppointCommontGreaterThanOrEqualTo(String value) {
-            addCriterion("appoint_commont >=", value, "appointCommont");
+            addCriterion("eam_ticket_appointed_record.appoint_commont >=", value, "appointCommont");
             return (Criteria) this;
         }
 
         public Criteria andAppointCommontLessThan(String value) {
-            addCriterion("appoint_commont <", value, "appointCommont");
+            addCriterion("eam_ticket_appointed_record.appoint_commont <", value, "appointCommont");
             return (Criteria) this;
         }
 
         public Criteria andAppointCommontLessThanOrEqualTo(String value) {
-            addCriterion("appoint_commont <=", value, "appointCommont");
+            addCriterion("eam_ticket_appointed_record.appoint_commont <=", value, "appointCommont");
             return (Criteria) this;
         }
 
         public Criteria andAppointCommontLike(String value) {
-            addCriterion("appoint_commont like", value, "appointCommont");
+            addCriterion("eam_ticket_appointed_record.appoint_commont like", value, "appointCommont");
             return (Criteria) this;
         }
 
         public Criteria andAppointCommontNotLike(String value) {
-            addCriterion("appoint_commont not like", value, "appointCommont");
+            addCriterion("eam_ticket_appointed_record.appoint_commont not like", value, "appointCommont");
             return (Criteria) this;
         }
 
         public Criteria andAppointCommontIn(List<String> values) {
-            addCriterion("appoint_commont in", values, "appointCommont");
+            addCriterion("eam_ticket_appointed_record.appoint_commont in", values, "appointCommont");
             return (Criteria) this;
         }
 
         public Criteria andAppointCommontNotIn(List<String> values) {
-            addCriterion("appoint_commont not in", values, "appointCommont");
+            addCriterion("eam_ticket_appointed_record.appoint_commont not in", values, "appointCommont");
             return (Criteria) this;
         }
 
         public Criteria andAppointCommontBetween(String value1, String value2) {
-            addCriterion("appoint_commont between", value1, value2, "appointCommont");
+            addCriterion("eam_ticket_appointed_record.appoint_commont between", value1, value2, "appointCommont");
             return (Criteria) this;
         }
 
         public Criteria andAppointCommontNotBetween(String value1, String value2) {
-            addCriterion("appoint_commont not between", value1, value2, "appointCommont");
+            addCriterion("eam_ticket_appointed_record.appoint_commont not between", value1, value2, "appointCommont");
             return (Criteria) this;
         }
 
         public Criteria andActionIsNull() {
-            addCriterion("action is null");
+            addCriterion("eam_ticket_appointed_record.action is null");
             return (Criteria) this;
         }
 
         public Criteria andActionIsNotNull() {
-            addCriterion("action is not null");
+            addCriterion("eam_ticket_appointed_record.action is not null");
             return (Criteria) this;
         }
 
         public Criteria andActionEqualTo(String value) {
-            addCriterion("action =", value, "action");
+            addCriterion("eam_ticket_appointed_record.action =", value, "action");
             return (Criteria) this;
         }
 
         public Criteria andActionNotEqualTo(String value) {
-            addCriterion("action <>", value, "action");
+            addCriterion("eam_ticket_appointed_record.action <>", value, "action");
             return (Criteria) this;
         }
 
         public Criteria andActionGreaterThan(String value) {
-            addCriterion("action >", value, "action");
+            addCriterion("eam_ticket_appointed_record.action >", value, "action");
             return (Criteria) this;
         }
 
         public Criteria andActionGreaterThanOrEqualTo(String value) {
-            addCriterion("action >=", value, "action");
+            addCriterion("eam_ticket_appointed_record.action >=", value, "action");
             return (Criteria) this;
         }
 
         public Criteria andActionLessThan(String value) {
-            addCriterion("action <", value, "action");
+            addCriterion("eam_ticket_appointed_record.action <", value, "action");
             return (Criteria) this;
         }
 
         public Criteria andActionLessThanOrEqualTo(String value) {
-            addCriterion("action <=", value, "action");
+            addCriterion("eam_ticket_appointed_record.action <=", value, "action");
             return (Criteria) this;
         }
 
         public Criteria andActionLike(String value) {
-            addCriterion("action like", value, "action");
+            addCriterion("eam_ticket_appointed_record.action like", value, "action");
             return (Criteria) this;
         }
 
         public Criteria andActionNotLike(String value) {
-            addCriterion("action not like", value, "action");
+            addCriterion("eam_ticket_appointed_record.action not like", value, "action");
             return (Criteria) this;
         }
 
         public Criteria andActionIn(List<String> values) {
-            addCriterion("action in", values, "action");
+            addCriterion("eam_ticket_appointed_record.action in", values, "action");
             return (Criteria) this;
         }
 
         public Criteria andActionNotIn(List<String> values) {
-            addCriterion("action not in", values, "action");
+            addCriterion("eam_ticket_appointed_record.action not in", values, "action");
             return (Criteria) this;
         }
 
         public Criteria andActionBetween(String value1, String value2) {
-            addCriterion("action between", value1, value2, "action");
+            addCriterion("eam_ticket_appointed_record.action between", value1, value2, "action");
             return (Criteria) this;
         }
 
         public Criteria andActionNotBetween(String value1, String value2) {
-            addCriterion("action not between", value1, value2, "action");
+            addCriterion("eam_ticket_appointed_record.action not between", value1, value2, "action");
+            return (Criteria) this;
+        }
+
+        public Criteria andRejectCommontIsNull() {
+            addCriterion("eam_ticket_appointed_record.reject_commont is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRejectCommontIsNotNull() {
+            addCriterion("eam_ticket_appointed_record.reject_commont is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRejectCommontEqualTo(String value) {
+            addCriterion("eam_ticket_appointed_record.reject_commont =", value, "rejectCommont");
+            return (Criteria) this;
+        }
+
+        public Criteria andRejectCommontNotEqualTo(String value) {
+            addCriterion("eam_ticket_appointed_record.reject_commont <>", value, "rejectCommont");
+            return (Criteria) this;
+        }
+
+        public Criteria andRejectCommontGreaterThan(String value) {
+            addCriterion("eam_ticket_appointed_record.reject_commont >", value, "rejectCommont");
+            return (Criteria) this;
+        }
+
+        public Criteria andRejectCommontGreaterThanOrEqualTo(String value) {
+            addCriterion("eam_ticket_appointed_record.reject_commont >=", value, "rejectCommont");
+            return (Criteria) this;
+        }
+
+        public Criteria andRejectCommontLessThan(String value) {
+            addCriterion("eam_ticket_appointed_record.reject_commont <", value, "rejectCommont");
+            return (Criteria) this;
+        }
+
+        public Criteria andRejectCommontLessThanOrEqualTo(String value) {
+            addCriterion("eam_ticket_appointed_record.reject_commont <=", value, "rejectCommont");
+            return (Criteria) this;
+        }
+
+        public Criteria andRejectCommontLike(String value) {
+            addCriterion("eam_ticket_appointed_record.reject_commont like", value, "rejectCommont");
+            return (Criteria) this;
+        }
+
+        public Criteria andRejectCommontNotLike(String value) {
+            addCriterion("eam_ticket_appointed_record.reject_commont not like", value, "rejectCommont");
+            return (Criteria) this;
+        }
+
+        public Criteria andRejectCommontIn(List<String> values) {
+            addCriterion("eam_ticket_appointed_record.reject_commont in", values, "rejectCommont");
+            return (Criteria) this;
+        }
+
+        public Criteria andRejectCommontNotIn(List<String> values) {
+            addCriterion("eam_ticket_appointed_record.reject_commont not in", values, "rejectCommont");
+            return (Criteria) this;
+        }
+
+        public Criteria andRejectCommontBetween(String value1, String value2) {
+            addCriterion("eam_ticket_appointed_record.reject_commont between", value1, value2, "rejectCommont");
+            return (Criteria) this;
+        }
+
+        public Criteria andRejectCommontNotBetween(String value1, String value2) {
+            addCriterion("eam_ticket_appointed_record.reject_commont not between", value1, value2, "rejectCommont");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateUserIdIsNull() {
+            addCriterion("eam_ticket_appointed_record.create_user_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateUserIdIsNotNull() {
+            addCriterion("eam_ticket_appointed_record.create_user_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateUserIdEqualTo(Integer value) {
+            addCriterion("eam_ticket_appointed_record.create_user_id =", value, "createUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateUserIdNotEqualTo(Integer value) {
+            addCriterion("eam_ticket_appointed_record.create_user_id <>", value, "createUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateUserIdGreaterThan(Integer value) {
+            addCriterion("eam_ticket_appointed_record.create_user_id >", value, "createUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("eam_ticket_appointed_record.create_user_id >=", value, "createUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateUserIdLessThan(Integer value) {
+            addCriterion("eam_ticket_appointed_record.create_user_id <", value, "createUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("eam_ticket_appointed_record.create_user_id <=", value, "createUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateUserIdIn(List<Integer> values) {
+            addCriterion("eam_ticket_appointed_record.create_user_id in", values, "createUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateUserIdNotIn(List<Integer> values) {
+            addCriterion("eam_ticket_appointed_record.create_user_id not in", values, "createUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("eam_ticket_appointed_record.create_user_id between", value1, value2, "createUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("eam_ticket_appointed_record.create_user_id not between", value1, value2, "createUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeIsNull() {
+            addCriterion("eam_ticket_appointed_record.create_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeIsNotNull() {
+            addCriterion("eam_ticket_appointed_record.create_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeEqualTo(Date value) {
+            addCriterion("eam_ticket_appointed_record.create_time =", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeNotEqualTo(Date value) {
+            addCriterion("eam_ticket_appointed_record.create_time <>", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeGreaterThan(Date value) {
+            addCriterion("eam_ticket_appointed_record.create_time >", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("eam_ticket_appointed_record.create_time >=", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeLessThan(Date value) {
+            addCriterion("eam_ticket_appointed_record.create_time <", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeLessThanOrEqualTo(Date value) {
+            addCriterion("eam_ticket_appointed_record.create_time <=", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeIn(List<Date> values) {
+            addCriterion("eam_ticket_appointed_record.create_time in", values, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeNotIn(List<Date> values) {
+            addCriterion("eam_ticket_appointed_record.create_time not in", values, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeBetween(Date value1, Date value2) {
+            addCriterion("eam_ticket_appointed_record.create_time between", value1, value2, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
+            addCriterion("eam_ticket_appointed_record.create_time not between", value1, value2, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagIsNull() {
+            addCriterion("eam_ticket_appointed_record.delete_flag is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagIsNotNull() {
+            addCriterion("eam_ticket_appointed_record.delete_flag is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagEqualTo(Boolean value) {
+            addCriterion("eam_ticket_appointed_record.delete_flag =", value, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagNotEqualTo(Boolean value) {
+            addCriterion("eam_ticket_appointed_record.delete_flag <>", value, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagGreaterThan(Boolean value) {
+            addCriterion("eam_ticket_appointed_record.delete_flag >", value, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("eam_ticket_appointed_record.delete_flag >=", value, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagLessThan(Boolean value) {
+            addCriterion("eam_ticket_appointed_record.delete_flag <", value, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagLessThanOrEqualTo(Boolean value) {
+            addCriterion("eam_ticket_appointed_record.delete_flag <=", value, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagIn(List<Boolean> values) {
+            addCriterion("eam_ticket_appointed_record.delete_flag in", values, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagNotIn(List<Boolean> values) {
+            addCriterion("eam_ticket_appointed_record.delete_flag not in", values, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagBetween(Boolean value1, Boolean value2) {
+            addCriterion("eam_ticket_appointed_record.delete_flag between", value1, value2, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("eam_ticket_appointed_record.delete_flag not between", value1, value2, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyIdIsNull() {
+            addCriterion("eam_ticket_appointed_record.company_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyIdIsNotNull() {
+            addCriterion("eam_ticket_appointed_record.company_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyIdEqualTo(Integer value) {
+            addCriterion("eam_ticket_appointed_record.company_id =", value, "companyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyIdNotEqualTo(Integer value) {
+            addCriterion("eam_ticket_appointed_record.company_id <>", value, "companyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyIdGreaterThan(Integer value) {
+            addCriterion("eam_ticket_appointed_record.company_id >", value, "companyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("eam_ticket_appointed_record.company_id >=", value, "companyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyIdLessThan(Integer value) {
+            addCriterion("eam_ticket_appointed_record.company_id <", value, "companyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyIdLessThanOrEqualTo(Integer value) {
+            addCriterion("eam_ticket_appointed_record.company_id <=", value, "companyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyIdIn(List<Integer> values) {
+            addCriterion("eam_ticket_appointed_record.company_id in", values, "companyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyIdNotIn(List<Integer> values) {
+            addCriterion("eam_ticket_appointed_record.company_id not in", values, "companyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyIdBetween(Integer value1, Integer value2) {
+            addCriterion("eam_ticket_appointed_record.company_id between", value1, value2, "companyId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCompanyIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("eam_ticket_appointed_record.company_id not between", value1, value2, "companyId");
             return (Criteria) this;
         }
 

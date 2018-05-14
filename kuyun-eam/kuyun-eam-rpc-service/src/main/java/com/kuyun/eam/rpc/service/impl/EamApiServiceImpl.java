@@ -10,8 +10,6 @@ import com.kuyun.eam.alarm.OfflineHandler;
 import com.kuyun.eam.common.constant.*;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.pojo.*;
-import com.kuyun.eam.pojo.sensor.SensorData;
-import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.pojo.tree.*;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.rpc.mapper.EamApiMapper;
@@ -67,19 +65,10 @@ public class EamApiServiceImpl implements EamApiService {
     EamEquipmentService eamEquipmentService;
 
     @Autowired
-    EamEquipmentModelService equipmentModelService;
-
-    @Autowired
-    EamSensorService eamSensorService;
-
-    @Autowired
     AreaUtil areaUtil;
 
     @Autowired
     private GrmApiService grmApiService;
-
-    @Autowired
-    private ModbusSlaveRtuApiService modbusSlaveRtuApiService;
 
     @Autowired
     private EamAlarmService eamAlarmService;
@@ -92,15 +81,6 @@ public class EamApiServiceImpl implements EamApiService {
 
     @Autowired
     private OfflineHandler offlineHandler;
-
-    @Autowired
-    private EamSensorDataService eamSensorDataService;
-
-    @Autowired
-    private EamSensorDataHistoryServiceImpl eamSensorDataHistoryService;
-
-    @Autowired
-    private EamEquipmentCompanyService eamEquipmentCompanyService;
 
     @Autowired
     private EamProductLineService eamProductLineService;
@@ -243,11 +223,6 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     @Override
-    public List<EamSensorDataVO> selectEamSensorData(EamSensorVO sensorVO) {
-        return eamApiMapper.selectEamSensorData(sensorVO);
-    }
-
-    @Override
     public Tree getCityTree(UpmsUserCompany company) {
         Tree tree = new Tree();
         List<EamProductLineVO> productLines = getProductLines(company);
@@ -386,47 +361,6 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     @Override
-    public List<SensorGroup> getSensorData(String equipmentId) {
-        List<SensorGroup> result = new ArrayList<>();
-        List<EamSensorVO> sensors = eamApiMapper.selectSensorData(equipmentId);
-
-        Map<String, List<EamSensorVO>> groupByDataTypeMap =
-                sensors.stream().collect(Collectors.groupingBy(EamSensorVO::getDataType));
-
-        for (Map.Entry<String, List<EamSensorVO>> entry : groupByDataTypeMap.entrySet()) {
-            result.add(buildSensorGroup(entry));
-        }
-
-        return result;
-    }
-
-    private SensorGroup buildSensorGroup(Map.Entry<String, List<EamSensorVO>> entry) {
-        SensorGroup group = new SensorGroup();
-        String dataType = entry.getKey();
-        List<EamSensorVO> sensorData = entry.getValue();
-        group.setType(dataType);
-        group.setGroupName(DataType.getLabel(dataType));
-
-        for (EamSensorVO sensor : sensorData) {
-            SensorData data = buildSensorData(dataType, sensor);
-            group.addVars(data);
-        }
-        return group;
-    }
-
-    private SensorData buildSensorData(String dataType, EamSensorVO sensor) {
-        SensorData data = new SensorData();
-        data.setName(sensor.getName());
-        data.setUnit(sensor.getUnit());
-        data.setShowchart(DataType.hasHistoryData(dataType));
-        data.setVarid(String.valueOf(sensor.getSensorId()));
-        data.setValue(sensor.getStringValue());
-        data.setShowtype(sensor.getDisplayType());
-        data.setShoworder(sensor.getSensorId());
-        return data;
-    }
-
-    @Override
     public int handleEquimpmentCollect(String jsonString, CollectStatus collectStatus) {
 
         _log.info("json=" + jsonString);
@@ -487,20 +421,9 @@ public class EamApiServiceImpl implements EamApiService {
         // handle GRM
         handleGRMActionForEquipment(collectStatus, eamEquipments);
 
-        //handle Modbus RTU
-//        handleModbusRtuAction(collectStatus, eamEquipments);
-
     }
 
-//    private void handleModbusRtuAction(CollectStatus collectStatus, List<EamEquipment> eamEquipments) {
-//        List<EamEquipment> modbusEquipments = eamEquipments.stream().filter(equipment -> equipment.getEamEquipmentModel() != null)
-//                .filter(equipment -> ProtocolEnum.MODBUS_RTU.getId() == equipment.getEamEquipmentModel().getProtocolId().intValue()).collect(Collectors.toList());
-//
-//        modbusEquipments.forEach(equipment -> {
-//            handleModbusRtuAction(collectStatus, equipment);
-//
-//        });
-//    }
+
 
     private void handleGRMActionForEquipment(CollectStatus collectStatus, List<EamEquipment> eamEquipments) {
         eamEquipments.forEach(equipment -> {
@@ -537,14 +460,6 @@ public class EamApiServiceImpl implements EamApiService {
             grmApiService.pauseJob(equipment.getEquipmentId());
         } else if (WORKING.getCode().equalsIgnoreCase(collectStatus.getCode())) {
             grmApiService.startJob(equipment.getEquipmentId());
-        }
-    }
-
-    private void handleModbusRtuAction(CollectStatus collectStatus, EamEquipment equipment) {
-        if (NO_START.getCode().equalsIgnoreCase(collectStatus.getCode())) {
-            modbusSlaveRtuApiService.pauseJob(equipment.getEquipmentId());
-        } else if (WORKING.getCode().equalsIgnoreCase(collectStatus.getCode())) {
-            modbusSlaveRtuApiService.startJob(equipment.getEquipmentId());
         }
     }
 
@@ -672,28 +587,6 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     @Override
-    public int persistEquipment(UpmsUserCompany upmsUserCompany, EamEquipment equipment){
-        eamEquipmentService.insertSelective(equipment);
-
-        EamEquipmentCompany equipmentCompany = new EamEquipmentCompany();
-        equipmentCompany.setCreateTime(new Date());
-        equipmentCompany.setDeleteFlag(Boolean.FALSE);
-        equipmentCompany.setCompanyId(upmsUserCompany.getCompanyId());
-        equipmentCompany.setEquipmentId(equipment.getEquipmentId());
-
-        return eamEquipmentCompanyService.insertSelective(equipmentCompany);
-
-    }
-
-    @Override
-    public void processData(String deviceId, Integer sensorId, String data){
-        EamSensorData sensorData = handleSensorData(deviceId, sensorId, data);
-        handleSensorDataHistory(deviceId, sensorId, data);
-
-        //handleAlarm(sensorData);
-    }
-
-    @Override
     public void processData(List<Pair<EamGrmVariable, String>> pairs) {
         for (Pair<EamGrmVariable, String> pair : pairs){
             EamGrmVariableData variableData =  handleGrmVariableData(pair);
@@ -767,12 +660,6 @@ public class EamApiServiceImpl implements EamApiService {
         result.setUpdateTime(now);
         result.setDeleteFlag(Boolean.FALSE);
         return result;
-    }
-
-
-    @Override
-    public List<EamEquipmentModelPropertiesVO> selectEquipmentModelProperties(String equipmentId) {
-        return eamApiMapper.selectEquipmentModelProperties(equipmentId);
     }
 
     @Override
@@ -946,56 +833,6 @@ public class EamApiServiceImpl implements EamApiService {
             result = variable.getEquipmentId();
         }
 
-        return result;
-    }
-
-    private EamSensorData handleSensorData(String deviceId, Integer sensorId, String data){
-        EamSensorDataExample example = new EamSensorDataExample();
-        example.createCriteria().andEquipmentIdEqualTo(deviceId)
-                .andSensorIdEqualTo(sensorId)
-                .andDeleteFlagEqualTo(Boolean.FALSE);
-
-        EamSensorData sensorData = eamSensorDataService.selectFirstByExample(example);
-        if (sensorData == null){
-            sensorData = createSensorData(deviceId, sensorId, data);
-            eamSensorDataService.insertSelective(sensorData);
-        }else {
-            Date now = new Date();
-            sensorData.setCreateTime(now);
-            sensorData.setUpdateTime(now);
-            sensorData.setStringValue(data);
-            eamSensorDataService.updateByPrimaryKeySelective(sensorData);
-        }
-        return sensorData;
-    }
-
-    private void
-    handleSensorDataHistory(String deviceId, Integer sensorId, String data){
-        EamSensorDataHistory dataHistory = createSensorDataHistory(deviceId, sensorId, data);
-        eamSensorDataHistoryService.insertSelective(dataHistory);
-    }
-
-    private EamSensorDataHistory createSensorDataHistory(String deviceId, Integer sensorId, String data) {
-        EamSensorDataHistory result = new EamSensorDataHistory();
-        result.setEquipmentId(deviceId);
-        result.setSensorId(sensorId);
-        result.setStringValue(data);
-        Date now = new Date();
-        result.setCreateTime(now);
-        result.setUpdateTime(now);
-        result.setDeleteFlag(Boolean.FALSE);
-        return result;
-    }
-
-    private EamSensorData createSensorData(String deviceId, Integer sensorId, String data) {
-        EamSensorData result = new EamSensorData();
-        result.setEquipmentId(deviceId);
-        result.setSensorId(sensorId);
-        result.setStringValue(data);
-        Date now = new Date();
-        result.setCreateTime(now);
-        result.setUpdateTime(now);
-        result.setDeleteFlag(Boolean.FALSE);
         return result;
     }
 

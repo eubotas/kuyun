@@ -6,6 +6,8 @@ import java.io.Serializable;
 public class EamParts extends BaseEntity implements Serializable {
     private Integer partId;
 
+    private String productLineId;
+
     private String equipmentId;
 
     private Integer categoryId;
@@ -47,8 +49,6 @@ public class EamParts extends BaseEntity implements Serializable {
      */
     private Integer quantity;
 
-    private String productLineId;
-
     private static final long serialVersionUID = 1L;
 
     public Integer getPartId() {
@@ -57,6 +57,14 @@ public class EamParts extends BaseEntity implements Serializable {
 
     public void setPartId(Integer partId) {
         this.partId = partId;
+    }
+
+    public String getProductLineId() {
+        return productLineId;
+    }
+
+    public void setProductLineId(String productLineId) {
+        this.productLineId = productLineId;
     }
 
     public String getEquipmentId() {
@@ -123,14 +131,6 @@ public class EamParts extends BaseEntity implements Serializable {
         this.quantity = quantity;
     }
 
-    public String getProductLineId() {
-        return productLineId;
-    }
-
-    public void setProductLineId(String productLineId) {
-        this.productLineId = productLineId;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -138,6 +138,7 @@ public class EamParts extends BaseEntity implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", partId=").append(partId);
+        sb.append(", productLineId=").append(productLineId);
         sb.append(", equipmentId=").append(equipmentId);
         sb.append(", categoryId=").append(categoryId);
         sb.append(", seqId=").append(seqId);
@@ -146,7 +147,6 @@ public class EamParts extends BaseEntity implements Serializable {
         sb.append(", model=").append(model);
         sb.append(", material=").append(material);
         sb.append(", quantity=").append(quantity);
-        sb.append(", productLineId=").append(productLineId);
         sb.append("]");
         return sb.toString();
     }
@@ -164,6 +164,7 @@ public class EamParts extends BaseEntity implements Serializable {
         }
         EamParts other = (EamParts) that;
         return (this.getPartId() == null ? other.getPartId() == null : this.getPartId().equals(other.getPartId()))
+            && (this.getProductLineId() == null ? other.getProductLineId() == null : this.getProductLineId().equals(other.getProductLineId()))
             && (this.getEquipmentId() == null ? other.getEquipmentId() == null : this.getEquipmentId().equals(other.getEquipmentId()))
             && (this.getCategoryId() == null ? other.getCategoryId() == null : this.getCategoryId().equals(other.getCategoryId()))
             && (this.getSeqId() == null ? other.getSeqId() == null : this.getSeqId().equals(other.getSeqId()))
@@ -177,8 +178,7 @@ public class EamParts extends BaseEntity implements Serializable {
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()))
-            && (this.getProductLineId() == null ? other.getProductLineId() == null : this.getProductLineId().equals(other.getProductLineId()));
+            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()));
     }
 
     @Override
@@ -186,6 +186,7 @@ public class EamParts extends BaseEntity implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getPartId() == null) ? 0 : getPartId().hashCode());
+        result = prime * result + ((getProductLineId() == null) ? 0 : getProductLineId().hashCode());
         result = prime * result + ((getEquipmentId() == null) ? 0 : getEquipmentId().hashCode());
         result = prime * result + ((getCategoryId() == null) ? 0 : getCategoryId().hashCode());
         result = prime * result + ((getSeqId() == null) ? 0 : getSeqId().hashCode());
@@ -200,7 +201,6 @@ public class EamParts extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
-        result = prime * result + ((getProductLineId() == null) ? 0 : getProductLineId().hashCode());
         return result;
     }
 }

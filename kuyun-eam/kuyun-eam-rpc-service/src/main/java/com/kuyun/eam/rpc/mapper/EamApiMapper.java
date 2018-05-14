@@ -19,11 +19,9 @@ public interface EamApiMapper {
 
     List<EamInventoryVO> selectInventory(EamInventoryVO inventoryVO);
 
-    List<EamSensorDataVO> selectEamSensorData(EamSensorVO sensorVO);
-    
+
     List<EamTicketVO> selectTicket(EamTicketExample example);
 
-    List<EamSensorVO> selectSensorData(String equipmentId);
 
     List<EamAlarm> selectAlarmsByGrmVariable(EamGrmVariableData variableData);
 
@@ -39,7 +37,6 @@ public interface EamApiMapper {
 
     Long countEquipments(EamEquipmentVO eamEquipmentVO);
 
-    List<EamEquipmentModelPropertiesVO> selectEquipmentModelProperties(String equipmentId);
 
     Long countUnConnectDtuEquipments(EamEquipmentVO eamEquipmentVO);
 

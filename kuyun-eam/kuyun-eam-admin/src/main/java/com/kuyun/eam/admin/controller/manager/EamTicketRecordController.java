@@ -84,13 +84,6 @@ public class EamTicketRecordController extends EamTicketBaseController {
 			eamTicketRecordExample.setOrderByClause(sort + " " + order);
 		}
 
-		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
-
-		if (company != null){
-			criteria.andCompanyIdEqualTo(company.getCompanyId());
-		}
-
-
 		List<EamTicketRecord> rows = eamTicketRecordService.selectByExample(eamTicketRecordExample);
 		long total = eamTicketRecordService.countByExample(eamTicketRecordExample);
 		Map<String, Object> result = new HashMap<>();

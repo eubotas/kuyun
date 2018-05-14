@@ -114,6 +114,7 @@
 		LEFT JOIN eam_parts_category c ON t.category_id = c.category_id
 		LEFT JOIN eam_equipment e ON t.equipment_id = e.equipment_id
 		LEFT JOIN eam_product_line p ON t.product_line_id = p.product_line_id
+		LEFT JOIN eam_product_line_company  ec ON t.product_line_id = ec.product_line_id
 		WHERE t.delete_flag = 0 and e.delete_flag = 0 and p.delete_flag = 0
 		<if test="equipmentId != null and equipmentId != ''">
 			AND e.equipment_id = #{equipmentId}
@@ -136,15 +137,8 @@
 		<if test="model != null and model != ''">
 			AND t.model = #{model}
 		</if>
-		<if test="companyIds != null">
-			AND t.company_id IN
-			<foreach item="item" index="index" collection="companyIds"
-					 open="(" separator="," close=")">
-				#{item}
-			</foreach>
-		</if>
 		<if test="companyId != null and companyId != ''">
-			AND t.company_id = #{companyId}
+			AND ec.company_id = #{companyId}
 		</if>
 		<if test="name != null and name != ''">
 			<bind name="pattern" value="'%' + name + '%'" />
@@ -169,6 +163,7 @@
 		LEFT JOIN eam_parts_category c ON t.category_id = c.category_id
 		LEFT JOIN eam_equipment e ON t.equipment_id = e.equipment_id
 		LEFT JOIN eam_product_line p ON t.product_line_id = p.product_line_id
+		LEFT JOIN eam_product_line_company  ec ON t.product_line_id = ec.product_line_id
 		WHERE t.delete_flag = 0 and e.delete_flag = 0 and p.delete_flag = 0
 		<if test="equipmentId != null and equipmentId != ''">
 			AND e.equipment_id = #{equipmentId}
@@ -192,7 +187,7 @@
 			AND t.model = #{model}
 		</if>
 		<if test="companyId != null and companyId != ''">
-			AND t.company_id = #{companyId}
+			AND ec.company_id = #{companyId}
 		</if>
 		<if test="name != null and name != ''">
 			<bind name="pattern" value="'%' + name + '%'" />
@@ -249,98 +244,7 @@
 	</select>
 
 
-	<resultMap id="EamSensorDataVOResultMap" type="com.kuyun.eam.vo.EamSensorDataVO" extends="com.kuyun.eam.dao.mapper.EamSensorDataMapper.BaseResultMap">
-		<result column="equipment_name" jdbcType="VARCHAR" property="equipmentName" />
-		<result column="equipment_model_property_id" jdbcType="VARCHAR" property="equipmentModelPropertyId" />
-		<result column="equipment_model_property_name" jdbcType="VARCHAR" property="equipmentModelPropertyName" />
-	</resultMap>
 
-	<sql id="Sensor_Data_Column_List">
-		t.sensor_data_id, t.equipment_id, t.sensor_id, t.string_value, t.number_value, t.boolean_value, t.longitude_value,
-		t.latitude_value, t.create_user_id, t.create_time, t.update_user_id, t.update_time, t.delete_flag,
-		t.company_id,
-	</sql>
-
-	<select id="selectEamSensorData" parameterType="com.kuyun.eam.vo.EamSensorVO" resultMap="EamSensorDataVOResultMap">
-		select
-		<include refid="Sensor_Data_Column_List" />
-		e.name as equipment_name,
-		p.equipment_model_property_id,
-		p.name as equipment_model_property_name
-		from eam_sensor_data_history t
-		LEFT JOIN eam_sensor s ON t.sensor_id = s.sensor_id
-		LEFT JOIN eam_equipment_model_properties p ON p.equipment_model_property_id = s.equipment_model_property_id
-		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
-		WHERE t.delete_flag = 0
-		AND s.delete_flag = 0
-		AND p.delete_flag = 0
-		AND e.delete_flag = 0
-		<if test="equipmentId != null and equipmentId != ''">
-			AND t.equipment_id = #{equipmentId}
-		</if>
-		<if test="sensorId != null and sensorId != ''">
-			AND t.sensor_id = #{sensorId}
-		</if>
-		<if test="equipmentModelPropertyId != null and equipmentModelPropertyId != ''">
-			AND s.equipment_model_property_id = #{equipmentModelPropertyId}
-		</if>
-		<if test="startDate != null">
-			AND t.create_time <![CDATA[>=]]> #{startDate}
-		</if>
-		<if test="endDate != null">
-			AND t.create_time <![CDATA[<=]]>#{endDate}
-		</if>
-		<if test="orderByClause != null">
-			order by ${orderByClause}
-		</if>
-		<if test="limit != null">
-			<if test="offset != null">
-				limit ${offset}, ${limit}
-			</if>
-			<if test="offset == null">
-				limit ${limit}
-			</if>
-		</if>
-	</select>
-
-	<sql id="Sensor_Column_List">
-		s.sensor_id, s.equipment_model_property_id, s.salve_id, s.function_code, s.address, s.data_format,
-		s.bit_order, s.period, s.quantity, s.write_number, s.grm_action, s.grm_variable, s.grm_variable_value,
-		s.osh, s.osl, s.ish, s.isl, s.create_user_id, s.create_time, s.update_user_id,
-		s.update_time, s.delete_flag, s.company_id,
-	</sql>
-
-	<resultMap id="EamSensorVOResultMap" type="com.kuyun.eam.vo.EamSensorVO" extends="com.kuyun.eam.dao.mapper.EamSensorMapper.BaseResultMap">
-		<result column="name" jdbcType="VARCHAR" property="name" />
-		<result column="unit" jdbcType="VARCHAR" property="unit" />
-		<result column="data_type" jdbcType="VARCHAR" property="dataType" />
-		<result column="string_value" jdbcType="VARCHAR" property="stringValue" />
-		<result column="display_type" jdbcType="VARCHAR" property="displayType" />
-	</resultMap>
-
-	<select id="selectSensorData" parameterType="String" resultMap="EamSensorVOResultMap">
-		SELECT DISTINCT
-		<include refid="Sensor_Column_List" />
-		p.name,
-		p.unit,
-		p.data_type,
-		p.display_type,
-		case when e.is_online = 1 then d.string_value else null END string_value
-		FROM eam_sensor s
-		LEFT JOIN eam_equipment_model_properties p ON s.equipment_model_property_id = p.equipment_model_property_id
-		LEFT JOIN eam_equipment_model m ON m.equipment_model_id = p.equipment_model_id
-		LEFT JOIN eam_equipment e ON e.equipment_model_id = m.equipment_model_id
-		LEFT JOIN eam_sensor_data d On s.sensor_id = d.sensor_id
-		WHERE s.delete_flag = 0
-		AND p.delete_flag = 0
-		AND m.delete_flag = 0
-		AND e.delete_flag = 0
-		AND e.equipment_id = d.equipment_id
-		AND e.equipment_id = #{equipmentId}
-
-		ORDER BY s.sensor_id ASC
-
-	</select>
 
 
 	<resultMap id="EamTicketVOResultMap" type="com.kuyun.eam.vo.EamTicketVO" extends="com.kuyun.eam.dao.mapper.EamTicketMapper.BaseResultMap">
@@ -713,38 +617,6 @@
 		</if>
 	</select>
 
-
-	<resultMap id="EquipmentModelPropertiesVOResultMap" type="com.kuyun.eam.vo.EamEquipmentModelPropertiesVO" extends="com.kuyun.eam.dao.mapper.EamEquipmentModelPropertiesMapper.BaseResultMap">
-		<result column="write_value" jdbcType="VARCHAR" property="writeValue" />
-		<result column="equipment_id" jdbcType="VARCHAR" property="equipmentId" />
-		<result column="sensor_id" jdbcType="INTEGER" property="sensorId" />
-	</resultMap>
-
-	<sql id="EquipmentModelProperties_Column_List">
-		p.equipment_model_property_id, p.equipment_model_id, p.name, p.label, p.unit, p.address, p.data_type,
-    	p.display_type, p.refresh_period, p.create_user_id, p.create_time, p.update_user_id, p.update_time,
-    	p.delete_flag, p.company_id,
-	</sql>
-
-	<select id="selectEquipmentModelProperties" parameterType="String" resultMap="EquipmentModelPropertiesVOResultMap">
-		select DISTINCT
-		<include refid="EquipmentModelProperties_Column_List" />
-		s.sensor_id,
-		e.equipment_id,
-		d.write_value
-		from eam_equipment_model_properties p
-		left join eam_sensor s on s.equipment_model_property_id = p.equipment_model_property_id
-		left join eam_equipment e on e.equipment_model_id = p.equipment_model_id
-		left join eam_sensor_write_data d on
-		d.equipment_model_property_id = p.equipment_model_property_id
-		AND d.equipment_id = e.equipment_id
-		AND d.delete_flag = 0
-		WHERE s.delete_flag = 0
-		AND p.delete_flag = 0
-		AND e.delete_flag = 0
-		and e.equipment_id = #{equipmentId}
-		ORDER BY p.equipment_model_property_id ASC
-	</select>
 
 	<resultMap id="EamProductLineVOResultMap" type="com.kuyun.eam.vo.EamProductLineVO" extends="com.kuyun.eam.dao.mapper.EamProductLineMapper.BaseResultMap">
 	</resultMap>

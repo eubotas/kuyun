@@ -112,11 +112,6 @@ public class EamTicketAssessmentController extends EamTicketBaseController {
 			eamTicketAssessmentExample.setOrderByClause(sort + " " + order);
 		}
 
-		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
-
-		if (company != null){
-			criteria.andCompanyIdEqualTo(company.getCompanyId());
-		}
 
 		List<EamTicketAssessment> rows = eamTicketAssessmentService.selectByExample(eamTicketAssessmentExample);
 		long total = eamTicketAssessmentService.countByExample(eamTicketAssessmentExample);

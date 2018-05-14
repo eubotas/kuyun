@@ -16,13 +16,6 @@ public class EamTicketAppointedRecord extends BaseEntity implements Serializable
     private Integer orderTakerId;
 
     /**
-     * 拒单原因，可为空
-     *
-     * @mbg.generated
-     */
-    private String rejectCommont;
-
-    /**
      * 委派备注，可为空
      *
      * @mbg.generated
@@ -35,6 +28,13 @@ public class EamTicketAppointedRecord extends BaseEntity implements Serializable
      * @mbg.generated
      */
     private String action;
+
+    /**
+     * 拒单原因，可为空
+     *
+     * @mbg.generated
+     */
+    private String rejectCommont;
 
     private static final long serialVersionUID = 1L;
 
@@ -62,14 +62,6 @@ public class EamTicketAppointedRecord extends BaseEntity implements Serializable
         this.orderTakerId = orderTakerId;
     }
 
-    public String getRejectCommont() {
-        return rejectCommont;
-    }
-
-    public void setRejectCommont(String rejectCommont) {
-        this.rejectCommont = rejectCommont;
-    }
-
     public String getAppointCommont() {
         return appointCommont;
     }
@@ -86,6 +78,14 @@ public class EamTicketAppointedRecord extends BaseEntity implements Serializable
         this.action = action;
     }
 
+    public String getRejectCommont() {
+        return rejectCommont;
+    }
+
+    public void setRejectCommont(String rejectCommont) {
+        this.rejectCommont = rejectCommont;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -95,9 +95,9 @@ public class EamTicketAppointedRecord extends BaseEntity implements Serializable
         sb.append(", id=").append(id);
         sb.append(", ticketId=").append(ticketId);
         sb.append(", orderTakerId=").append(orderTakerId);
-        sb.append(", rejectCommont=").append(rejectCommont);
         sb.append(", appointCommont=").append(appointCommont);
         sb.append(", action=").append(action);
+        sb.append(", rejectCommont=").append(rejectCommont);
         sb.append("]");
         return sb.toString();
     }
@@ -117,13 +117,13 @@ public class EamTicketAppointedRecord extends BaseEntity implements Serializable
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
             && (this.getTicketId() == null ? other.getTicketId() == null : this.getTicketId().equals(other.getTicketId()))
             && (this.getOrderTakerId() == null ? other.getOrderTakerId() == null : this.getOrderTakerId().equals(other.getOrderTakerId()))
+            && (this.getAppointCommont() == null ? other.getAppointCommont() == null : this.getAppointCommont().equals(other.getAppointCommont()))
+            && (this.getAction() == null ? other.getAction() == null : this.getAction().equals(other.getAction()))
             && (this.getRejectCommont() == null ? other.getRejectCommont() == null : this.getRejectCommont().equals(other.getRejectCommont()))
             && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()))
-            && (this.getAppointCommont() == null ? other.getAppointCommont() == null : this.getAppointCommont().equals(other.getAppointCommont()))
-            && (this.getAction() == null ? other.getAction() == null : this.getAction().equals(other.getAction()));
+            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()));
     }
 
     @Override
@@ -133,13 +133,13 @@ public class EamTicketAppointedRecord extends BaseEntity implements Serializable
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
         result = prime * result + ((getTicketId() == null) ? 0 : getTicketId().hashCode());
         result = prime * result + ((getOrderTakerId() == null) ? 0 : getOrderTakerId().hashCode());
+        result = prime * result + ((getAppointCommont() == null) ? 0 : getAppointCommont().hashCode());
+        result = prime * result + ((getAction() == null) ? 0 : getAction().hashCode());
         result = prime * result + ((getRejectCommont() == null) ? 0 : getRejectCommont().hashCode());
         result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
-        result = prime * result + ((getAppointCommont() == null) ? 0 : getAppointCommont().hashCode());
-        result = prime * result + ((getAction() == null) ? 0 : getAction().hashCode());
         return result;
     }
 }
