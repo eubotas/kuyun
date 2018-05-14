@@ -41,51 +41,6 @@
 				</div>
 			</div>
 
-			<div class="col-sm-12">
-				<div class="form-group">
-					<div class="fg-line">
-						<label for="output">产量</label>
-						<input id="output" type="text" class="form-control" name="output" maxlength="20" value="${equipment.output}">
-					</div>
-				</div>
-			</div>
-
-			<div class="col-sm-12">
-				<div class="form-group">
-					<div class="fg-line">
-						<label for="dimension">外形尺寸</label>
-						<input id="dimension" type="text" class="form-control" name="dimension" maxlength="20" value="${equipment.dimension}">
-					</div>
-				</div>
-			</div>
-
-			<div class="col-sm-12">
-				<div class="form-group">
-					<div class="fg-line">
-						<label for="weight">设备重量</label>
-						<input id="weight" type="text" class="form-control" name="weight" maxlength="20" value="${equipment.weight}">
-					</div>
-				</div>
-			</div>
-
-			<div class="col-sm-12">
-				<div class="form-group">
-					<div class="fg-line">
-						<label for="power">使用电源</label>
-						<input id="power" type="text" class="form-control" name="power" maxlength="20" value="${equipment.power}">
-					</div>
-				</div>
-			</div>
-
-			<div class="col-sm-12">
-				<div class="form-group">
-					<div class="fg-line">
-						<label for="capacity">装机容量</label>
-						<input id="capacity" type="text" class="form-control" name="capacity" maxlength="20" value="${equipment.capacity}">
-					</div>
-				</div>
-			</div>
-
 
 			<div class="col-sm-12">
 				<div class="form-group">

@@ -43,51 +43,6 @@
 			<div class="col-sm-12">
 				<div class="form-group">
 					<div class="fg-line">
-						<label for="output">产量</label>
-						<input id="output" type="text" class="form-control" name="output" maxlength="20">
-					</div>
-				</div>
-			</div>
-
-			<div class="col-sm-12">
-				<div class="form-group">
-					<div class="fg-line">
-						<label for="dimension">外形尺寸</label>
-						<input id="dimension" type="text" class="form-control" name="dimension" maxlength="20">
-					</div>
-				</div>
-			</div>
-
-			<div class="col-sm-12">
-				<div class="form-group">
-					<div class="fg-line">
-						<label for="weight">设备重量</label>
-						<input id="weight" type="text" class="form-control" name="weight" maxlength="20">
-					</div>
-				</div>
-			</div>
-
-			<div class="col-sm-12">
-				<div class="form-group">
-					<div class="fg-line">
-						<label for="power">使用电源</label>
-						<input id="power" type="text" class="form-control" name="power" maxlength="20">
-					</div>
-				</div>
-			</div>
-
-			<div class="col-sm-12">
-				<div class="form-group">
-					<div class="fg-line">
-						<label for="capacity">装机容量</label>
-						<input id="capacity" type="text" class="form-control" name="capacity" maxlength="20">
-					</div>
-				</div>
-			</div>
-
-			<div class="col-sm-12">
-				<div class="form-group">
-					<div class="fg-line">
 						<label for="serialNumber">出厂编号</label>
 						<input id="serialNumber" type="text" class="form-control" name="serialNumber" maxlength="20">
 					</div>
