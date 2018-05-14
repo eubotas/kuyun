@@ -166,7 +166,7 @@ public class KnowledgeController extends BaseController {
             boolQueryBuilder.should(termQuery("companyId", company.getCompanyId()));
             boolQueryBuilder.should(termQuery("companyId", company.getParentId()));
         } else {
-            boolQueryBuilder.should(termQuery("companyId", company.getCompanyId()));
+            boolQueryBuilder.filter(termQuery("companyId", company.getCompanyId()));
         }
 
         if (!StringUtils.isEmpty(k)){
