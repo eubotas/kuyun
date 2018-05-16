@@ -113,6 +113,10 @@
 
                         <div class="form-group m-form__group row">
                             <label class="col-3 col-form-label">附件:</label>
+
+                            <div id="templateID_fileExistingSection" style="padding: 10px; display:none;">
+                            </div>
+
                             <div id="templateID_fine-uploader-gallery" class="col-8"></div>
                             <input id="templateID_path" type="hidden" class="form-control" name="path">
                         </div>
@@ -140,6 +144,7 @@
     <jsp:include page="/resources/metronic-admin/file_upload.jsp" flush="true"/>
 
     <script>
+
         var addGalleryUploader;
         var editGalleryUploader;
 
@@ -285,6 +290,8 @@
                     $("#edit_title").val(data.video.title);
                     $("#edit_description").val(data.video.description);
                     $("#edit_tag").val(data.video.tag);
+                    $("#edit_path").val(data.video.path);
+                    showFiles(data.video.path, 'edit_path');
                 }
             });
         }
