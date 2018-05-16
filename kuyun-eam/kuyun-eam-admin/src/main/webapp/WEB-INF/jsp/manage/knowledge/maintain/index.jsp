@@ -168,6 +168,7 @@
 
 
             $('#createButton').click(function(){
+                resetFileUpload('addMaintainKnowledgeFormContainer');
                 $("#addMaintainKnowledgeFormContainer").modal("show");
             });
 
@@ -276,6 +277,7 @@
 
 
         function updateAction(row) {
+            resetFileUpload('editMaintainKnowledgeFormContainer');
             jQuery("#editMaintainKnowledgeFormContainer").modal("show");
             ajaxGet('${basePath}/manage/knowledge/maintain/update/' + row["id"], function (responseData) {
                 if (responseData) {

@@ -277,11 +277,12 @@
              FormWidgets.init('add');
              FormWidgets.init('edit');
 
-            addGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("add_fine-uploader-gallery")}));
-            editGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("edit_fine-uploader-gallery")}));
+            addGalleryUploader = new qq.FineUploader($.extend(uploadImageOpt, {element : document.getElementById("add_fine-uploader-gallery")}));
+            editGalleryUploader = new qq.FineUploader($.extend(uploadImageOpt, {element : document.getElementById("edit_fine-uploader-gallery")}));
 
 
             $('#createButton').click(function(){
+                resetFileUpload('addUserFormContainer');
                 $("#addUserFormContainer").modal("show");
             });
 
@@ -400,6 +401,7 @@
 
 
         function updateAction(row) {
+            resetFileUpload('editUserFormContainer');
             $("#editUserFormContainer").modal("show");
 
             ajaxGet('${basePath}/manage/user/update/' + row["userId"], function (responseData) {

@@ -2,3 +2,8 @@
 .bootstrap-table .table{
     border-bottom: 0px solid #ddd !important;
 }
+
+.kuyun-bg {
+    background: url(../images/bg-final.jpg) 50% 50% no-repeat;
+    background-size: cover;
+}

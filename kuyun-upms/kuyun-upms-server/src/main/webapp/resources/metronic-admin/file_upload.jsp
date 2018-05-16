@@ -110,9 +110,6 @@
                 notAvailablePath : '${basePath}/resources/kuyun-admin/plugins/fileupload/placeholders/not_available-generic.png'
             }
         },
-        validation : {
-            /*  allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'] */
-        },
         chunking : {
             enabled : true,
             concurrent : {
@@ -140,4 +137,6 @@
          endpoint: '${uploadServer.endpoint_list}?ids=${uuids}'
          }, */
     };
+
+    var uploadImageOpt=$.extend({validation : { allowedExtensions: ['jpeg', 'jpg', 'gif', 'png']}},uploadOpt);
 </script>

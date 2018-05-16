@@ -19,7 +19,7 @@ function selectedInit(menuSelectItem){
         selectedColor(selectedMenu);
         $("#" + selectedMenu).addClass('m-menu__item--active');
     }
-    selectedColor(headerMenu);
+    selectedColor(headerMenu, 'border-bottom');
     $("#menu").append($("#menuDashboard").html()).append($("#"+leftMenu+"List").html());
     $("#" + leftMenu).show();
     $("#" + leftMenu).addClass('m-menu__item--open');
@@ -30,12 +30,14 @@ function selectedInit(menuSelectItem){
 }
 
 
-function selectedColor(id){
+function selectedColor(id, borderAlign){
+    if(!borderAlign)
+        borderAlign ='border-left';
     if(id.startsWith("submenu") || id.startsWith("menu"))
-        $("#menu").find("li>a").css("border-left",'solid 8px transparent');
+        $("#menu").find("li>a").css('border-left','solid 5px transparent');
     else if(id.startsWith("header"))
-        $("#m_header_menu").find("li>a").css("border-left",'solid 8px transparent');
-    $("#"+id).find("[href]").css("border-left",'solid 8px #ED5565');
+        $("#m_header_menu").find("li>a").css('border-bottom','solid 5px transparent');
+    $("#"+id).find("[href]").css(borderAlign,'solid 5px rgba(85, 111, 237, 0.47)');
 }
 
 function setmenu(e){
@@ -65,8 +67,13 @@ function setmenu(e){
         }
         $("#submenu_system").show();
     }
-    //left menu
-    selectedColor(selItemId)
+
+    if(selItemId.startsWith("header")) {
+        selectedColor(selItemId, 'border-bottom');
+        $('#mainBody').addClass("kuyun-bg").html('');
+    }else
+        selectedColor(selItemId);
+
     if (selItemId != "") {
         menuSelectItem = selItemId;
         setCookie("kuyunMenuSelectItem", menuSelectItem);
@@ -84,9 +91,6 @@ function isContainHml(html, subHtml){
         return false;
 }
 
-var domain = '122.112.237.243';
-// var domain = 'kuyun.cn';
-
 function setCookie(cname,cvalue,exdays){
     delCookie(cname);
     if(!exdays)
@@ -94,7 +98,7 @@ function setCookie(cname,cvalue,exdays){
     var d = new Date();
     d.setTime(d.getTime()+(exdays*24*60*60*1000));
     var expires = "expires="+d.toGMTString();
-    document.domain = domain;
+    document.domain = siteDomain;
     document.cookie = cname + "=" + escape(cvalue) + ";path=/;"
         + expires;
 }
@@ -121,7 +125,7 @@ function delCookie(name) {
     exp.setTime(exp.getTime() - 1);
     var cval = getCookie(name);
     if (cval != "") {
-        document.domain = domain;
+        document.domain = siteDomain;
         document.cookie = name + "=" + cval + ";path=/;expires=" + exp.toGMTString();
     }
 }

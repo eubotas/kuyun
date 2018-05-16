@@ -18,9 +18,9 @@
             <div>上传文件</div>
         </div>
         <span class="qq-drop-processing-selector qq-drop-processing">
-    <span>Processing dropped files...</span>
-<span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
-    </span>
+        <span>Processing dropped files...</span>
+            <span class="qq-drop-processing-spinner-selector qq-drop-processing-spinner"></span>
+        </span>
         <ul class="qq-upload-list-selector qq-upload-list" role="region" aria-live="polite" aria-relevant="additions removals">
             <li>
                 <span role="status" class="qq-upload-status-text-selector qq-upload-status-text"></span>
@@ -97,6 +97,10 @@
         return fileUuids;
     }
 
+    function resetFileUpload(id){
+        $('#'+id).find('.qq-upload-list-selector').html('');
+    }
+
     var uploadOpt={
         template : 'qq-template-gallery',
         request : {
@@ -141,4 +145,7 @@
          endpoint: '${uploadServer.endpoint_list}?ids=${uuids}'
          }, */
     };
+
+    var uploadImageOpt=$.extend({validation : { allowedExtensions: ['jpeg', 'jpg', 'gif', 'png']}},uploadOpt);
+
 </script>

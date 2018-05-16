@@ -8,8 +8,12 @@
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 
-<c:set var="eamPath" value="<%=BasePath.kuyunEamAdmin%>"/>
-<c:set var="upmsPath" value="<%=com.kuyun.common.util.BasePath.kuyunUpmsServer%>"/>
+<c:set var="eamPath" value="<%=BasePath.getInstance().getKuyunEamAdmin(request)%>"/>
+<c:set var="upmsPath" value="<%=BasePath.getInstance().getKuyunUpmsServer()%>"/>
+
+<script>
+    var siteDomain = '<%=BasePath.getInstance().getSiteDomain()%>';
+</script>
 
 <script src="${basePath}/resources/kuyun-admin/plugins/jquery.1.12.4.min.js"></script>
 <script src="${basePath}/resources/metronic-admin/assets/js/header_common.js"></script>

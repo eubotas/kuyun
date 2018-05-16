@@ -1,4 +1,4 @@
-﻿﻿﻿<%@ page contentType="text/html; charset=utf-8" %>
+﻿﻿﻿﻿<%@ page contentType="text/html; charset=utf-8" %>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -59,6 +59,7 @@
             });
 
             $('#createButton').click(function(){
+                resetFileUpload('addEquipmentFormContainer');
                 $("#addEquipmentFormContainer").modal("show");
                 ajaxGet('${basePath}/manage/equipment/create', function (responseData) {
                     if (responseData) {
@@ -80,8 +81,8 @@
             provinceChange('add');
             provinceChange('edit');
 
-            addGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("add_fine-uploader-gallery")}));
-            editGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("edit_fine-uploader-gallery")}));
+            addGalleryUploader = new qq.FineUploader($.extend(uploadImageOpt, {element : document.getElementById("add_fine-uploader-gallery")}));
+            editGalleryUploader = new qq.FineUploader($.extend(uploadImageOpt, {element : document.getElementById("edit_fine-uploader-gallery")}));
 
             $('#add_mapLocation').click(function(){
                 if(document.getElementById("add_mapContainer").style.display != 'none') {
@@ -195,13 +196,13 @@
                     {field: 'equipmentModelName', title: '模型'},
                     {field: 'imagePath', title: '图片', formatter: 'imageFormatter'},
                     {field: 'isOnline', title: '状态', formatter: 'onlineFormatter'},
-                    {field: 'maintenancePeriod', width: 150, title: '启停', formatter: 'openCloseFormatter'},
+                    {field: 'collectStatus', width: 150, title: '启停', formatter: 'openCloseFormatter'},
                     {field: 'action', width: 120, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ],
                 onPostBody: function () {
                     $('[data-switch=true]').bootstrapSwitch({
                         'onSwitchChange': function(event, state){
-                            console.dir($(this).val());
+                            doOpenClose(state, $(this).val());
                         }
                     });
                 }
@@ -209,6 +210,38 @@
 
 
         });
+
+        function doOpenClose(state, row) {
+            var jsonRow = eval('(' + row + ')');;
+            var equipmentId = jsonRow['equipmentId'];
+            var collectStatus = jsonRow['collectStatus'];
+
+            var isOpen = state;
+            var message = '设备数据采集关闭';
+            var url = '${basePath}/manage/equipment/collect/stop/';
+            if (isOpen){
+                message = '设备数据采集开启';
+                url = '${basePath}/manage/equipment/collect/start/';
+            }
+
+
+            ajaxPostJsonData(url, JSON.stringify({ids: equipmentId}), function(result) {
+                if (result.code != 1) {
+                    if (result.data instanceof Array) {
+                        $.each(result.data, function(index, value) {
+                            swError(value.errorMsg);
+                        });
+                    } else {
+                        swError(result.data.errorMsg);
+                    }
+                } else {
+                    toastr.success(message);
+                    $table.bootstrapTable('refresh');
+                }
+            });
+
+
+        }
         // 格式化操作按钮
         function actionFormatter(value, row, index) {
             return [
@@ -219,9 +252,19 @@
         }
 
         function openCloseFormatter(value, row, index) {
+            return '<input id="openClose" data-switch="true" data-size="small" type="checkbox" checked="checked" data-on-color="success" data-off-color="warning">';
+        }
+
+        function openCloseFormatter(value, row, index) {
             var strRow=JSON.stringify(row);
             strRow = strRow.replace(/\"/g,"'");
-            return '<input id="openClose"'+index+'" data-switch="true" data-size="small" type="checkbox" checked="checked" data-on-color="success" data-off-color="warning" value="'+strRow+'">';
+            var checked = '';
+            var isOnline = row['isOnline'];
+
+            if ('Working' === value){
+                checked = 'checked="checked"';
+            }
+            return '<input id="openClose"+index data-switch="true" data-size="small" type="checkbox" ' + checked + ' data-on-color="success" data-off-color="warning" value="'+strRow+'">';
         }
 
         function onlineFormatter(value, row, index) {
@@ -313,6 +356,7 @@
 
 
         function updateAction(row) {
+            resetFileUpload('editEquipmentFormContainer');
             jQuery("#editEquipmentFormContainer").modal("show");
             ajaxGet('${basePath}/manage/equipment/update/' + row["equipmentId"], function (responseData) {
                 var longitude, latitude;
@@ -327,6 +371,10 @@
                     $("#edit_number").val(data.number);
                     $("#edit_serialNumber").val(data.serialNumber);
                     $("#edit_imagePath").val(data.imagePath);
+                    if(data.imagePath != null && data.imagePath !='') {
+                        $("#edit_showImage").attr('src', data.imagePath);
+                        $("#edit_showImage").addClass("col-sm-3").css("display", "block").css("max-width", "50px");
+                    }
                     longitude =data.longitude;
                     latitude = data.latitude;
                     $("#edit_longitude").val(data.longitude);
@@ -564,7 +612,8 @@
                         <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space"></div>
                         <div class="form-group m-form__group row">
                             <label class="col-lg-2 col-form-label">设备图片:</label>
-                            <div id="templateID_fine-uploader-gallery" class="col-sm-9"></div>
+                            <img id="templateID_showImage" src="" style="display:none;">
+                            <div id="templateID_fine-uploader-gallery" class="col-sm-5"></div>
                             <input id="templateID_imagePath" type="hidden" class="form-control" name="imagePath">
                         </div>
 

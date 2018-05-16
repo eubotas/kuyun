@@ -7,6 +7,7 @@ import com.kuyun.common.base.BaseResult;
 import com.kuyun.common.netease.SMSUtil;
 import com.kuyun.common.util.BasePath;
 import com.kuyun.common.util.MD5Util;
+import com.kuyun.common.util.PropertiesFileUtil;
 import com.kuyun.common.util.RedisUtil;
 import com.kuyun.upms.client.shiro.session.UpmsSession;
 import com.kuyun.upms.client.shiro.session.UpmsSessionDao;
@@ -237,7 +238,7 @@ public class SSOController extends BaseController {
             redirectUrl = "/";
         }
 
-        redirectUrl = BasePath.kuyunUpmsServer +"/sso/login";
+        redirectUrl = BasePath.getInstance().getKuyunUpmsServer() +"/sso/login";
         return "redirect:"+redirectUrl;
     }
 

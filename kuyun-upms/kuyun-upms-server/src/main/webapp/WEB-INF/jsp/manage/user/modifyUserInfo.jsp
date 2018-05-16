@@ -6,7 +6,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
-<c:set var="upmsPath" value="<%=com.kuyun.common.util.BasePath.kuyunUpmsServer%>"/>
+<c:set var="upmsPath" value="<%=com.kuyun.common.util.BasePath.getInstance().getKuyunUpmsServer()%>"/>
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -61,7 +61,7 @@
                     obj.display = 'block';
                 else obj.display ='none';
             });
-            editGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("edit_fine-uploader-gallery")}));
+            editGalleryUploader = new qq.FineUploader($.extend(uploadImageOpt, {element : document.getElementById("edit_fine-uploader-gallery")}));
 
         });
 

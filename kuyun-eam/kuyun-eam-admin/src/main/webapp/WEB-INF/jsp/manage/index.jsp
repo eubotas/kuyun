@@ -139,7 +139,7 @@
                         </div>
                     </div>
                     <div class="m-portlet__body">
-                        <div class="tab-content">
+                        <div class="tab-content" style="height: 420px">
                             <table id="maintainplanTable" data-toolbar="#toolbar"></table>
 
 

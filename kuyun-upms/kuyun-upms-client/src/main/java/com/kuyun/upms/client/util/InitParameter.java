@@ -31,9 +31,9 @@ public class InitParameter implements
         for(UpmsSystem sys : rows){
             name=sys.getName();
             if("kuyun-upms-server".equals(name))
-                BasePath.kuyunUpmsServer = sys.getBasepath();
+                BasePath.getInstance().setKuyunUpmsServer(sys.getBasepath());
             else if("kuyun-eam-admin".equals(name))
-                BasePath.kuyunEamAdmin = sys.getBasepath();
+                BasePath.kuyunEamAdmin=sys.getBasepath();
         }
     }
 }

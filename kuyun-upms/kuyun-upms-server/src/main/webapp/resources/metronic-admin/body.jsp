@@ -13,7 +13,7 @@
     <jsp:include page="/resources/metronic-admin/leftAside.jsp" flush="true"/>
 
 
-    <div class="m-grid__item m-grid__item--fluid m-wrapper">
+    <div class="m-grid__item m-grid__item--fluid m-wrapper" id="mainBody">
 
         <sitemesh:write property='subHeader' />
 
