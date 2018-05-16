@@ -196,15 +196,13 @@
                     {field: 'equipmentModelName', title: '模型'},
                     {field: 'imagePath', title: '图片', formatter: 'imageFormatter'},
                     {field: 'isOnline', title: '状态', formatter: 'onlineFormatter'},
-//                    {field: 'maintenancePeriod', width: 150, title: '启停', formatter: 'openCloseFormatter'},
+                    {field: 'collectStatus', width: 150, title: '启停', formatter: 'openCloseFormatter'},
                     {field: 'action', width: 120, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ],
                 onPostBody: function () {
                     $('[data-switch=true]').bootstrapSwitch({
                         'onSwitchChange': function(event, state){
-                            console.log('state:'+state);
-                            console.dir(event);
-                            console.dir(this);
+                            doOpenClose(state, $(this).val());
                         }
                     });
                 }
@@ -212,6 +210,38 @@
 
 
         });
+
+        function doOpenClose(state, row) {
+            var jsonRow = eval('(' + row + ')');;
+            var equipmentId = jsonRow['equipmentId'];
+            var collectStatus = jsonRow['collectStatus'];
+
+            var isOpen = state;
+            var message = '设备数据采集关闭';
+            var url = '${basePath}/manage/equipment/collect/stop/';
+            if (isOpen){
+                message = '设备数据采集开启';
+                url = '${basePath}/manage/equipment/collect/start/';
+            }
+
+
+            ajaxPostJsonData(url, JSON.stringify({ids: equipmentId}), function(result) {
+                if (result.code != 1) {
+                    if (result.data instanceof Array) {
+                        $.each(result.data, function(index, value) {
+                            swError(value.errorMsg);
+                        });
+                    } else {
+                        swError(result.data.errorMsg);
+                    }
+                } else {
+                    toastr.success(message);
+                    $table.bootstrapTable('refresh');
+                }
+            });
+
+
+        }
         // 格式化操作按钮
         function actionFormatter(value, row, index) {
             return [
@@ -223,6 +253,18 @@
 
         function openCloseFormatter(value, row, index) {
             return '<input id="openClose" data-switch="true" data-size="small" type="checkbox" checked="checked" data-on-color="success" data-off-color="warning">';
+        }
+
+        function openCloseFormatter(value, row, index) {
+            var strRow=JSON.stringify(row);
+            strRow = strRow.replace(/\"/g,"'");
+            var checked = '';
+            var isOnline = row['isOnline'];
+
+            if ('Working' === value){
+                checked = 'checked="checked"';
+            }
+            return '<input id="openClose"+index data-switch="true" data-size="small" type="checkbox" ' + checked + ' data-on-color="success" data-off-color="warning" value="'+strRow+'">';
         }
 
         function onlineFormatter(value, row, index) {
