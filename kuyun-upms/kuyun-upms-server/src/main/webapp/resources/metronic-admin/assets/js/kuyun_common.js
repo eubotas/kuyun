@@ -381,8 +381,8 @@ function getUnitName(unit) {
 function selectedItemColor(parentId, id){
     if(!parentId || !id)
         return;
-    $("#"+parentId).find("li>a").css("border-left",'solid 8px transparent');
-    $("#"+id).find("[href]").css("border-left",'solid 8px #ED5565');
+    $("#"+parentId).find("li>a").css("border-left",'solid 5px transparent');
+    $("#"+id).find("[href]").css("border-left",'solid 5px rgba(85, 111, 237, 0.47)');
 }
 
 $(document).ready(function() {

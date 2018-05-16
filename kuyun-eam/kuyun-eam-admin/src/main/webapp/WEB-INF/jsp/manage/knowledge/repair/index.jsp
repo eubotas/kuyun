@@ -169,6 +169,7 @@
 
 
             $('#createButton').click(function(){
+                resetFileUpload('addRepairKnowledgeFormContainer');
                 $("#addRepairKnowledgeFormContainer").modal("show");
             });
 
@@ -281,6 +282,7 @@
 
 
         function updateAction(row) {
+            resetFileUpload('editRepairKnowledgeFormContainer');
             jQuery("#editRepairKnowledgeFormContainer").modal("show");
             ajaxGet('${basePath}/manage/knowledge/repair/update/' + row["id"], function (responseData) {
                 if (responseData) {

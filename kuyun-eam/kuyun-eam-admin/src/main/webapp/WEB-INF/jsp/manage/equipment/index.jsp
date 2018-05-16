@@ -59,6 +59,7 @@
             });
 
             $('#createButton').click(function(){
+                resetFileUpload('addEquipmentFormContainer');
                 $("#addEquipmentFormContainer").modal("show");
                 ajaxGet('${basePath}/manage/equipment/create', function (responseData) {
                     if (responseData) {
@@ -80,8 +81,8 @@
             provinceChange('add');
             provinceChange('edit');
 
-            addGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("add_fine-uploader-gallery")}));
-            editGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("edit_fine-uploader-gallery")}));
+            addGalleryUploader = new qq.FineUploader($.extend(uploadImageOpt, {element : document.getElementById("add_fine-uploader-gallery")}));
+            editGalleryUploader = new qq.FineUploader($.extend(uploadImageOpt, {element : document.getElementById("edit_fine-uploader-gallery")}));
 
             $('#add_mapLocation').click(function(){
                 if(document.getElementById("add_mapContainer").style.display != 'none') {
@@ -313,6 +314,7 @@
 
 
         function updateAction(row) {
+            resetFileUpload('editEquipmentFormContainer');
             jQuery("#editEquipmentFormContainer").modal("show");
             ajaxGet('${basePath}/manage/equipment/update/' + row["equipmentId"], function (responseData) {
                 var longitude, latitude;
@@ -327,6 +329,10 @@
                     $("#edit_number").val(data.number);
                     $("#edit_serialNumber").val(data.serialNumber);
                     $("#edit_imagePath").val(data.imagePath);
+                    if(data.imagePath != null && data.imagePath !='') {
+                        $("#edit_showImage").attr('src', data.imagePath);
+                        $("#edit_showImage").addClass("col-sm-3").css("display", "block").css("max-width", "50px");
+                    }
                     longitude =data.longitude;
                     latitude = data.latitude;
                     $("#edit_longitude").val(data.longitude);
@@ -564,7 +570,8 @@
                         <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space"></div>
                         <div class="form-group m-form__group row">
                             <label class="col-lg-2 col-form-label">设备图片:</label>
-                            <div id="templateID_fine-uploader-gallery" class="col-sm-9"></div>
+                            <img id="templateID_showImage" src="" style="display:none;">
+                            <div id="templateID_fine-uploader-gallery" class="col-sm-5"></div>
                             <input id="templateID_imagePath" type="hidden" class="form-control" name="imagePath">
                         </div>
 

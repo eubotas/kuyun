@@ -153,20 +153,6 @@ public class SSOController extends BaseController {
         String password = request.getParameter("password");
         String rememberMe = request.getParameter("rememberMe");
 
-        if( !BasePath.isSetted) {
-            int port = request.getServerPort();
-            String basePath = "";
-            if (port != 0)
-                basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
-            else
-                basePath = request.getScheme() + "://" + request.getServerName();
-            BasePath.kuyunUpmsServer = basePath;
-
-//            BasePath.kuyunUpmsServer = PropertiesFileUtil.getInstance("kuyun-upms-client").get("kuyun.upms.sso.server.url");
-//            BasePath.kuyunEamAdmin = PropertiesFileUtil.getInstance("kuyun-upms-client").get("kuyun.upms.sso.server.url");
-            BasePath.siteDomain = PropertiesFileUtil.getInstance("kuyun-upms-client").get("kuyun.site.domain");
-        }
-
         if (StringUtils.isBlank(username)) {
             return new UpmsResult(UpmsResultConstant.EMPTY_USERNAME, "帐号不能为空！");
         }
@@ -252,7 +238,7 @@ public class SSOController extends BaseController {
             redirectUrl = "/";
         }
 
-        redirectUrl = BasePath.kuyunUpmsServer +"/sso/login";
+        redirectUrl = BasePath.getInstance().getKuyunUpmsServer() +"/sso/login";
         return "redirect:"+redirectUrl;
     }
 

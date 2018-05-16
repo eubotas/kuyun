@@ -160,6 +160,7 @@
 
 
             $('#createButton').click(function(){
+                resetFileUpload('addTrainingVideoFormContainer');
                 $("#addTrainingVideoFormContainer").modal("show");
             });
 
@@ -272,6 +273,7 @@
 
 
         function updateAction(row) {
+            resetFileUpload('editTrainingVideoFormContainer');
             $("#editTrainingVideoFormContainer").modal("show");
             ajaxGet('${basePath}/manage/knowledge/training/video/update/' + row["id"], function (responseData) {
                 if (responseData) {

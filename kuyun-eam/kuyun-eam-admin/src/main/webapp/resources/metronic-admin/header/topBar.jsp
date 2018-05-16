@@ -3,8 +3,8 @@
 <%@ page import="com.kuyun.eam.admin.util.User" %>
 <%@ page contentType="text/html; charset=utf-8"%>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
-<c:set var="eamPath" value="<%=BasePath.kuyunEamAdmin%>"/>
-<c:set var="upmsPath" value="<%=BasePath.kuyunUpmsServer%>"/>
+<c:set var="eamPath" value="<%=BasePath.getInstance().getKuyunEamAdmin(request)%>"/>
+<c:set var="upmsPath" value="<%=BasePath.getInstance().getKuyunUpmsServer()%>"/>
 <c:set var="user" value="<%=(new User()).getUser(request)%>"/>
 
 <!-- BEGIN: Topbar -->
@@ -186,7 +186,7 @@
 
                                     <li class="m-nav__separator m-nav__separator--fit"></li>
                                     <li class="m-nav__item">
-                                        <a href="<%=com.kuyun.common.util.BasePath.kuyunUpmsServer%>/sso/logout" class="btn m-btn--pill    btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">
+                                        <a href="${upmsPath}/sso/logout" class="btn m-btn--pill    btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">
                                             退出
                                         </a>
                                     </li>

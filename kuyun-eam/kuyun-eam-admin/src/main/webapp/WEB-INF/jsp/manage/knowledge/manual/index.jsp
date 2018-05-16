@@ -170,6 +170,7 @@
 
 
             $('#createButton').click(function(){
+                resetFileUpload('addEquipmentManualFormContainer');
                 $("#addEquipmentManualFormContainer").modal("show");
             });
 
@@ -279,6 +280,7 @@
 
 
         function updateAction(row) {
+            resetFileUpload('editEquipmentManualFormContainer');
             jQuery("#editEquipmentManualFormContainer").modal("show");
             ajaxGet('${basePath}/manage/knowledge/manual/update/' + row["id"], function (responseData) {
                 if (responseData) {

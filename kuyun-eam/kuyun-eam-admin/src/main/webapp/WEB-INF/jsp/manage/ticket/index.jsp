@@ -225,11 +225,12 @@
 
             $('#add_equipmentId, #edit_equipmentId').select2({minimumResultsForSearch: -1});
 
-            addGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("add_fine-uploader-gallery")}));
-            editGalleryUploader = new qq.FineUploader($.extend(uploadOpt, {element : document.getElementById("edit_fine-uploader-gallery")}));
+            addGalleryUploader = new qq.FineUploader($.extend(uploadImageOpt, {element : document.getElementById("add_fine-uploader-gallery")}));
+            editGalleryUploader = new qq.FineUploader($.extend(uploadImageOpt, {element : document.getElementById("edit_fine-uploader-gallery")}));
 
 
             $('#createButton').click(function(){
+                resetFileUpload('addTicketFormContainer');
                 $("#addTicketFormContainer").modal("show");
                 ajaxGet('${basePath}/manage/ticket/create', function (responseData) {
                     if (responseData) {
@@ -409,7 +410,8 @@
 
 
         function updateAction(row) {
-            $("#editTicketFormContainer").modal("show");
+            $("#editEquipmentFormContainer").modal("show");
+            resetFileUpload('editEquipmentFormContainer');
 
             ajaxGet('${basePath}/manage/ticket/update/' + row["ticketId"], function (responseData) {
                 if (responseData) {

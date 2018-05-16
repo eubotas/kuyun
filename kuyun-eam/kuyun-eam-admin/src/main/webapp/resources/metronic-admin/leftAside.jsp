@@ -8,11 +8,11 @@
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 
-<c:set var="eamPath" value="<%=BasePath.kuyunEamAdmin%>"/>
-<c:set var="upmsPath" value="<%=com.kuyun.common.util.BasePath.kuyunUpmsServer%>"/>
+<c:set var="eamPath" value="<%=BasePath.getInstance().getKuyunEamAdmin(request)%>"/>
+<c:set var="upmsPath" value="<%=BasePath.getInstance().getKuyunUpmsServer()%>"/>
 
 <script>
-    var siteDomain = '<%=BasePath.siteDomain%>';
+    var siteDomain = '<%=BasePath.getInstance().getSiteDomain()%>';
 </script>
 
 <script src="${basePath}/resources/kuyun-admin/plugins/jquery.1.12.4.min.js"></script>
@@ -100,13 +100,13 @@
             </li>
             <li id="menu_assetsGateway" class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"  data-menu-submenu-toggle="hover">
                 <a  href="#" class="m-menu__link m-menu__toggle">
-                    <i class="m-menu__link-icon flaticon-cogwheel-2"></i>
+                    <i class="m-menu__link-icon flaticon-interface-1"></i>
                     <span class="m-menu__link-text">
 										网关管理
 									</span>
                     <i class="m-menu__ver-arrow la la-angle-right"></i>
                 </a>
-                <div class="m-menu__submenu ">
+                <div id="submenu_assetsGateway" class="m-menu__submenu ">
                     <span class="m-menu__arrow"></span>
                     <ul class="m-menu__subnav">
 
@@ -143,7 +143,7 @@
 									</span>
                     <i class="m-menu__ver-arrow la la-angle-right"></i>
                 </a>
-                <div class="m-menu__submenu ">
+                <div class="m-menu__submenu " id="submenu_assetsCustomer">
                     <span class="m-menu__arrow"></span>
                     <ul class="m-menu__subnav">
 
