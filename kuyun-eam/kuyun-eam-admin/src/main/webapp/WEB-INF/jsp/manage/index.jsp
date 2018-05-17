@@ -43,6 +43,11 @@
 
 
 <content>
+    <style>
+        .m-content {
+            background-color: #fff !important;
+        }
+    </style>
     <script>
         var statusPie = ${statusSummary};
     </script>
