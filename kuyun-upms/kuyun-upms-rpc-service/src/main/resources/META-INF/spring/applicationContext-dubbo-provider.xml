@@ -58,6 +58,9 @@
     <bean id="upmsCompanyService" class="com.kuyun.upms.rpc.service.impl.UpmsCompanyServiceImpl"/>
     <dubbo:service interface="com.kuyun.upms.rpc.api.UpmsCompanyService" ref="upmsCompanyService" timeout="10000"/>
 
+    <bean id="upmsCompanyOptionService" class="com.kuyun.upms.rpc.service.impl.UpmsCompanyOptionServiceImpl"/>
+    <dubbo:service interface="com.kuyun.upms.rpc.api.UpmsCompanyOptionService" ref="upmsCompanyOptionService" timeout="10000"/>
+
     <!-- 用户公司 -->
     <bean id="upmsUserCompanyService" class="com.kuyun.upms.rpc.service.impl.UpmsUserCompanyServiceImpl"/>
     <dubbo:service interface="com.kuyun.upms.rpc.api.UpmsUserCompanyService" ref="upmsUserCompanyService" timeout="10000"/>

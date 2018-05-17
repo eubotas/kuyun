@@ -4,6 +4,7 @@ import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
+import com.kuyun.common.util.StringUtil;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.common.JspUtil;
@@ -11,7 +12,9 @@ import com.kuyun.upms.common.constant.UpmsResult;
 import com.kuyun.upms.common.constant.UpmsResultConstant;
 import com.kuyun.upms.dao.model.UpmsCompany;
 import com.kuyun.upms.dao.model.UpmsCompanyExample;
+import com.kuyun.upms.dao.model.UpmsCompanyOption;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
+import com.kuyun.upms.rpc.api.UpmsCompanyOptionService;
 import com.kuyun.upms.rpc.api.UpmsCompanyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -42,6 +45,12 @@ public class UpmsCompanyController extends BaseController {
 
     @Autowired
     private UpmsCompanyService upmsCompanyService;
+
+    @Autowired
+    private UpmsCompanyOptionService upmsCompanyOptionService;
+
+    @Autowired
+    private com.kuyun.fileuploader.rpc.api.FileUploaderService fileUploaderService;
 
     @Autowired
     private BaseEntityUtil baseEntityUtil;
@@ -157,6 +166,41 @@ public class UpmsCompanyController extends BaseController {
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
     }
 
+    @ApiOperation(value = "添加/修改公司logo")
+    @RequiresPermissions("upms:company:update")
+    @RequestMapping(value = "/updateOption", method = RequestMethod.GET)
+    public String updateOption(ModelMap modelMap) {
+        UpmsCompanyOption opt = upmsCompanyOptionService.selectByPrimaryKey(getCompanyId());
+        modelMap.put("companyOpt", opt);
+        modelMap.put("uploadServer", fileUploaderService.getServerInfo());
+        return "/manage/company/companyOption.jsp";
+    }
+
+    @ApiOperation(value = "修改公司")
+    @RequiresPermissions("upms:company:update")
+    @RequestMapping(value = "/updateOption", method = RequestMethod.POST)
+    @ResponseBody
+    public Object updateOption(UpmsCompanyOption upmsCompanyOption) {
+        ComplexResult result = FluentValidator.checkAll()
+                .on(upmsCompanyOption.getSystemName(), new LengthValidator(1, 60, "系统名称"))
+                .doValidate()
+                .result(ResultCollectors.toComplex());
+        if (!result.isSuccess()) {
+            return new UpmsResult(UpmsResultConstant.INVALID_LENGTH, result.getErrors());
+        }
+        upmsCompanyOption.setUpdateTime(new Date());
+        upmsCompanyOption.setDeleteFlag(Boolean.FALSE);
+        upmsCompanyOption.setLogoPath(StringUtil.removeSuffix(upmsCompanyOption.getLogoPath(), "::"));
+        int count =0;
+
+        if(null == upmsCompanyOption.getCompanyId()){ //insert
+            upmsCompanyOption.setCompanyId(getCompanyId());
+            count = upmsCompanyOptionService.insert(upmsCompanyOption);
+        }else {
+            count = upmsCompanyOptionService.updateByPrimaryKeySelective(upmsCompanyOption);
+        }
+        return new UpmsResult(UpmsResultConstant.SUCCESS, count);
+    }
 
     public int getCompanyId(){
         int cId=-1;
