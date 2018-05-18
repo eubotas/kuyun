@@ -20,6 +20,7 @@ function selectedInit(menuSelectItem){
         $("#" + selectedMenu).addClass('m-menu__item--active');
     }
     selectedColor(headerMenu, 'border-bottom');
+    $("#" + headerMenu).addClass('m-menu__item--active');
     $("#menu").append($("#menuDashboard").html()).append($("#"+leftMenu+"List").html());
     $("#" + leftMenu).show();
     $("#" + leftMenu).addClass('m-menu__item--open');
@@ -37,6 +38,7 @@ function selectedColor(id, borderAlign){
     else if(id.startsWith("header"))
         $("#m_header_menu").find("li>a").css('border-bottom','solid 5px transparent');
     $("#"+id).find("[href]").css(borderAlign,'solid 5px rgba(85, 111, 237, 0.47)');
+    $("#" + id).addClass('m-menu__item--active');
 }
 
 function setmenu(e){
@@ -68,6 +70,9 @@ function setmenu(e){
     }
 
     if(selItemId.startsWith("header")) {
+        $("li[id^='header_menu_']").each(function(){
+            $(this).removeClass("m-menu__item--active");
+        });
         selectedColor(selItemId, 'border-bottom');
         $('#mainBody').addClass("kuyun-bg").html('');
     }else

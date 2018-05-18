@@ -186,7 +186,7 @@
                                     <li class="m-nav__item">
                                         <shiro:hasPermission name="upms:company:update">
                                         <a href="${upmsPath}/manage/company/updateOption" class="m-nav__link">
-                                            <i class="m-nav__link-icon flaticon-profile-1" ></i>
+                                            <i class="m-nav__link-icon flaticon-share" ></i>
                                             <span class="m-nav__link-title" style="padding-left:10px;">
 																			<span class="m-nav__link-wrap">
 																				<span class="m-nav__link-text">

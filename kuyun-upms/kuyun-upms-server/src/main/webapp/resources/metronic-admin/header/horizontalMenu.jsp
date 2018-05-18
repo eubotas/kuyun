@@ -7,7 +7,7 @@
     <ul class="m-menu__nav  m-menu__nav--submenu-arrow ">
         <li id="header_menu_equiOp" onclick="setmenu(this);" class="m-menu__item  m-menu__item--submenu m-menu__item--rel" data-menu-submenu-toggle="click" data-redirect="true" aria-haspopup="true">
             <a href="#" class="m-menu__link m-menu__toggle">
-                <i class="m-menu__link-icon flaticon-add"></i>
+                <i class="m-menu__link-icon flaticon-graphic-2"></i>
                 <span class="m-menu__link-text">
 												设备运营
 											</span>
@@ -25,7 +25,7 @@
         </li>
         <li id="header_menu_system" onclick="setmenu(this);" class="m-menu__item  m-menu__item--submenu m-menu__item--rel" data-menu-submenu-toggle="click" data-redirect="true" aria-haspopup="true">
             <a href="#" class="m-menu__link m-menu__toggle">
-                <i class="m-menu__link-icon flaticon-line-graph"></i>
+                <i class="m-menu__link-icon flaticon-cogwheel-2"></i>
                 <span class="m-menu__link-title">
 												<span class="m-menu__link-wrap">
 													<span class="m-menu__link-text">

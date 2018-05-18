@@ -100,7 +100,7 @@
             </li>
             <li id="menu_assetsGateway" class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"  data-menu-submenu-toggle="hover">
                 <a  href="#" class="m-menu__link m-menu__toggle">
-                    <i class="m-menu__link-icon flaticon-interface-1"></i>
+                    <i class="m-menu__link-icon flaticon-share"></i>
                     <span class="m-menu__link-text">
 										网关管理
 									</span>
@@ -163,7 +163,7 @@
             </li>
             <li id="menu_assetsTicket" class="m-menu__item  m-menu__item--submenu" aria-haspopup="true"  data-menu-submenu-toggle="hover">
                 <a  href="#" class="m-menu__link m-menu__toggle">
-                    <i class="m-menu__link-icon flaticon-share"></i>
+                    <i class="m-menu__link-icon flaticon-interface-7"></i>
                     <span class="m-menu__link-text">
 										工单管理
 									</span>
