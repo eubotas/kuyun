@@ -29,6 +29,15 @@ public enum DataType {
         return null;
     }
 
+    public static String getCode(String name) {
+        for (DataType c : DataType.values()) {
+            if (c.getName().equals(name) ) {
+                return c.code;
+            }
+        }
+        return null;
+    }
+
     public static String getLabel(String code) {
         for (DataType c : DataType.values()) {
             if (c.getCode().equals(code) ) {

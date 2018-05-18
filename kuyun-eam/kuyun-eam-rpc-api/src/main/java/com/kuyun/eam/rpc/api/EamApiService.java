@@ -35,8 +35,6 @@ public interface EamApiService {
 
     Tree getCityTree(UpmsUserCompany company);
 
-//    List<SensorGroup> getSensorData(String equipmentId);
-
     int handleEquimpmentCollect(String jsonString, CollectStatus collectStatus);
 
     int handleProductLineCollect(String jsonString, CollectStatus collectStatus);
@@ -63,9 +61,7 @@ public interface EamApiService {
 
     Long countUnConnectDtuEquipments(EamEquipmentVO eamEquipmentVO);
 
-//    int persistEquipment(UpmsUserCompany upmsUserCompany, EamEquipment equipment);
 
-//    void processData(String deviceId, Integer sensorId, String data);
 
     void processData(List<Pair<EamGrmVariable, String>> pairs);
 
@@ -169,4 +165,5 @@ public interface EamApiService {
 
     long countGrmVariables(EamGrmVariableVO variableVO);
 
+    void importDataElement(List<DataElementBean> list, UpmsUserCompany company);
 }

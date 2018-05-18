@@ -128,7 +128,7 @@ public class EamTicketController extends EamTicketBaseController {
 			@RequestParam(required = false, defaultValue = "0", value = "offset") int offset,
 			@RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
 			@RequestParam(required = false, defaultValue = "myAll", value = "category") String category,
-			@RequestParam(required = false, value = "ticketType") String ticketTypeId,
+			@RequestParam(required = false) String ticketTypeId,
 			@RequestParam(required = false, value = "sort") String sort,
 			@RequestParam(required = false, value = "order") String order) {
 		EamTicketExample eamTicketExample = new EamTicketExample();
@@ -236,8 +236,10 @@ public class EamTicketController extends EamTicketBaseController {
 			if(childCompanyIds != null) {
 				companys.addAll(childCompanyIds);
 				criteria.andCompanyIdIn(companys);
-			}else
+			}else{
 				criteria.andCompanyIdEqualTo(company.getCompanyId());
+			}
+
 		}
 
 		List<EamTicketVO> rows = eamApiService.selectTicket(eamTicketExample);

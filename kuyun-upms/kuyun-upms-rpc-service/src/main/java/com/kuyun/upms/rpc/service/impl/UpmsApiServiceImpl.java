@@ -477,7 +477,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         Integer organizationId_3 = createOrganization(upmsCompany.getCompanyId(), OrgDepartment.ALARM_DEPARTMENT.getName());
 
         //2. insert upms_role
-        Integer roleId_2 = createRole(upmsCompany.getCompanyId(), RoleEnum.TICKETCREATE);
+        Integer roleId_2 = createRole(upmsCompany.getCompanyId(), RoleEnum.CUSTOMER_TICKETCREATE);
 
         //4. insert upms_user_organization
         createUserOrganization(upmsUser.getUserId(), organizationId_1);

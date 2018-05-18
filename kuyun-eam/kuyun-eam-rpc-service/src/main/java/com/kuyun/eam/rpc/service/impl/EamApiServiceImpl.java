@@ -156,6 +156,11 @@ public class EamApiServiceImpl implements EamApiService {
 
     private HashMap<String, Integer> categoryMap = new HashMap<>();
 
+    private HashMap<String, Integer> equipmentCategoryMap = new HashMap<>();
+
+    @Autowired
+    private EamEquipmentCategoryService eamEquipmentCategoryService;
+
 
     @Override
     public List<EamMaintenanceVO> selectMaintenance(EamMaintenanceVO maintenanceVO) {
@@ -755,7 +760,7 @@ public class EamApiServiceImpl implements EamApiService {
 
     @Override
     public int updateAlarm(String ids, String alarmTarget, String[] targetUserIds) {
-        if (StringUtils.isNotEmpty(ids) && StringUtils.isNotEmpty(alarmTarget) && targetUserIds != null && targetUserIds.length > 0){
+        if (StringUtils.isNotEmpty(ids)){
             String[] idArray = ids.split("::");
             List<Integer> idList = new ArrayList<>();
             for(String id : idArray){
@@ -778,9 +783,12 @@ public class EamApiServiceImpl implements EamApiService {
 
                 eamAlarmTargetUserService.deleteByExample(targetUserExample);
 
-                //create new data
-                List<EamAlarmTargetUser> targetUsers = createEamAlarmTargetUsers(targetUserIds, alarm);
-                eamAlarmTargetUserService.batchInsert(targetUsers);
+                if (targetUserIds != null && targetUserIds.length > 0){
+                    //create new data
+                    List<EamAlarmTargetUser> targetUsers = createEamAlarmTargetUsers(targetUserIds, alarm);
+                    eamAlarmTargetUserService.batchInsert(targetUsers);
+                }
+
             }
 
             return 1;
@@ -2104,6 +2112,62 @@ public class EamApiServiceImpl implements EamApiService {
     @Override
     public long countGrmVariables(EamGrmVariableVO variableVO) {
         return eamApiMapper.countGrmVariables(variableVO);
+    }
+
+    @Override
+    public void importDataElement(List<DataElementBean> list, UpmsUserCompany company) {
+        List<EamDataElement> dataElements = new ArrayList<>();
+        if (list != null && !list.isEmpty()){
+            for (DataElementBean elementBean : list){
+                EamDataElement dataElement = new EamDataElement();
+
+                dataElement.setName(elementBean.getName());
+                dataElement.setLableName(elementBean.getLabelName());
+                dataElement.setUnit(elementBean.getUnit());
+                dataElement.setEquipmentCategoryId(getEquipmentCategoryId(elementBean.getEquipmentCategory()));
+                dataElement.setDataType(DataType.getCode(elementBean.getName()));
+                dataElement.setIsStatistic("是".equals(elementBean.getStatistic()) ? true : false);
+
+                if (!hasDataElement(elementBean.getName())){
+                    dataElements.add(dataElement);
+                }
+
+            }
+            eamDataElementService.batchInsert(dataElements);
+            _log.info("upload DataElementBean size:{}", dataElements.size());
+        }
+    }
+
+    private Integer getEquipmentCategoryId(String equipmentCategory) {
+
+        int categoryId = -1;
+
+        if (equipmentCategoryMap.containsKey(equipmentCategory)){
+            categoryId = categoryMap.get(equipmentCategory);
+        }else {
+            EamEquipmentCategoryExample example = new EamEquipmentCategoryExample();
+            example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE).andNameEqualTo(equipmentCategory);
+            EamEquipmentCategory category = eamEquipmentCategoryService.selectFirstByExample(example);
+            if (category != null){
+                categoryId = category.getEquipmentCategoryId();
+            }
+
+            categoryMap.put(equipmentCategory, categoryId);
+        }
+
+        return categoryId;
+    }
+
+    private boolean hasDataElement(String name) {
+        boolean result = false;
+        EamDataElementExample example = new EamDataElementExample();
+        example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE).andNameEqualTo(name);
+
+        EamDataElement element = eamDataElementService.selectFirstByExample(example);
+        if (element != null){
+            result = true;
+        }
+        return result;
     }
 
     private List<EamTicketRecord> getTicketRecords(int id){

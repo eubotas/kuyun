@@ -75,13 +75,6 @@ public class EamEquipmentCategoryController extends BaseController {
 			eamEquipmentCategoryExample.setOrderByClause(sort + " " + order);
 		}
 
-		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
-
-		if (company != null){
-			criteria.andCompanyIdEqualTo(company.getCompanyId());
-		}
-
-
 		List<EamEquipmentCategory> rows = eamEquipmentCategoryService.selectByExample(eamEquipmentCategoryExample);
 		long total = eamEquipmentCategoryService.countByExample(eamEquipmentCategoryExample);
 		Map<String, Object> result = new HashMap<>();

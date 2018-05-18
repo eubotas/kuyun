@@ -89,10 +89,8 @@ public class KnowledgeController extends BaseController {
     }
 
     private void handleIndexModel(ModelMap modelMap, HashMap<String, Object> map) {
-        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
-        _log.info("companyId="+company.getCompanyId());
-        modelMap.put("tags", tagRepository.findByCompanyId(company.getCompanyId()));
-        map.put("tags", tagRepository.findByCompanyId(company.getCompanyId()));
+        modelMap.put("tags", tagRepository.findAll());
+        map.put("tags", tagRepository.findAll());
     }
 
     @ApiOperation(value = "Tag列表")

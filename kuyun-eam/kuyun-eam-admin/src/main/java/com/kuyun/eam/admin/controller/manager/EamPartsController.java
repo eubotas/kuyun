@@ -102,13 +102,7 @@ public class EamPartsController extends BaseController {
 		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
 
 		if (company != null){
-			if(null != company.getParentId()) {
-				List companys = new ArrayList();
-				companys.add(company.getCompanyId());
-				companys.add(company.getParentId());
-				partVO.setCompanyIds(companys);
-			}else
-				partVO.setCompanyId(company.getCompanyId());
+			partVO.setCompanyId(company.getCompanyId());
 		}
 
 		List<EamPartVO> rows = eamApiService.selectParts(partVO);

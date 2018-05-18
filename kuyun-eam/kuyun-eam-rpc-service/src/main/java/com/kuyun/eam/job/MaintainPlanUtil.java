@@ -112,6 +112,7 @@ public class MaintainPlanUtil {
                 alert.setAlertEndDate(plan.getNextMaintainDate());
                 alert.setMessageTitle(title);
                 alert.setContent(content);
+                alert.setReadFlag(Boolean.FALSE);
                 addAddtionalValue(alert, plan.getCompanyId());
                 alerts.add(alert);
             }

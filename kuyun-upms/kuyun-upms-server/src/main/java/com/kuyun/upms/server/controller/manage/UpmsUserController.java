@@ -175,7 +175,7 @@ public class UpmsUserController extends BaseController {
         UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
         example.createCriteria().andCompanyIdEqualTo(company.getCompanyId());
 
-        List<UpmsRole> upmsRoles = upmsRoleService.selectByExample(new UpmsRoleExample());
+        List<UpmsRole> upmsRoles = upmsRoleService.selectByExample(example);
         // 用户拥有角色
         UpmsUserRoleExample upmsUserRoleExample = new UpmsUserRoleExample();
         upmsUserRoleExample.createCriteria()

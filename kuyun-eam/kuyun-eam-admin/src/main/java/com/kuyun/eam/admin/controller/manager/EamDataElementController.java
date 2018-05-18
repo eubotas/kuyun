@@ -4,6 +4,7 @@ import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
+import com.kuyun.common.excel.ExcelUtils;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.common.constant.DataType;
 import com.kuyun.eam.common.constant.EamResult;
@@ -11,14 +12,19 @@ import com.kuyun.eam.dao.model.EamDataElement;
 import com.kuyun.eam.dao.model.EamDataElementExample;
 import com.kuyun.eam.dao.model.EamEquipmentCategory;
 import com.kuyun.eam.dao.model.EamEquipmentCategoryExample;
+import com.kuyun.eam.pojo.DataElementBean;
 import com.kuyun.eam.rpc.api.EamApiService;
 import com.kuyun.eam.rpc.api.EamDataElementService;
 import com.kuyun.eam.rpc.api.EamEquipmentCategoryService;
 import com.kuyun.eam.vo.EamDataElementVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
+import com.kuyun.upms.common.constant.UpmsResult;
+import com.kuyun.upms.common.constant.UpmsResultConstant;
+import com.kuyun.upms.dao.model.UpmsUserCompany;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
@@ -173,6 +180,32 @@ public class EamDataElementController extends BaseController {
 		return new EamResult(SUCCESS, count);
 	}
 
+	@ApiOperation(value = "数据点表上传")
+	@RequiresPermissions("eam:company:update")
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	@ResponseBody
+	public Object uploadFile(@RequestParam("uploadFile") MultipartFile file) {
 
+		_log.info("upload file name:{} ", file.getOriginalFilename());
+		if(!file.isEmpty()) {
+			try {
+				Workbook workbook = ExcelUtils.getWorkbook(file);
+				List<DataElementBean> list = ExcelUtils.importExcel(workbook, DataElementBean.class);
+				_log.info("upload file record size:{}", list.size());
+
+				UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+
+				eamApiService.importDataElement(list, company);
+
+			} catch (Exception e) {
+				_log.error("导入Excel失败:", e.getMessage());
+				return new UpmsResult(UpmsResultConstant.FAILED, e.getMessage());
+			}
+			return new UpmsResult(UpmsResultConstant.SUCCESS, 1);
+		} else {
+			return new UpmsResult(UpmsResultConstant.FAILED, "导入失败");
+		}
+
+	}
 
 }

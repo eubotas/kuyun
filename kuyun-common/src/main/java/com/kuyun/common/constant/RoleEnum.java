@@ -7,6 +7,7 @@ public enum RoleEnum {
 
     SUPER("super", "超级管理员", "拥有所有权限"),
     TICKETCREATE("ticketCreate", "工单提报", "拥有提报工单权限"),
+    CUSTOMER_TICKETCREATE("customerTicketCreate", "工单提报", "拥有提报工单权限"),
     TICKETREPAIR("ticketRepair", "工单维修", "拥有维修工单权限"),
     TICKETAPPOINT("ticketAppoint", "工单委派", "拥有委派工单权限");
 

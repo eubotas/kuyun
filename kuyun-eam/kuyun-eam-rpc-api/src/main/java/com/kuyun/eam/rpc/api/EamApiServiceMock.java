@@ -409,5 +409,10 @@ public class EamApiServiceMock implements EamApiService {
         return 0;
     }
 
+    @Override
+    public void importDataElement(List<DataElementBean> list, UpmsUserCompany company) {
+
+    }
+
 
 }

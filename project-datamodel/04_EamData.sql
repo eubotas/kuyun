@@ -154,6 +154,7 @@ INSERT INTO `upms_permission` VALUES ('714', '6', '700', '文件模板管理', '
 INSERT INTO `upms_permission` VALUES ('715', '6', '714', '新增文件模板', '3', 'eam:fileTemplate:create', '/manage/fileTemplate/create', 'zmdi zmdi-plus', 1, 1, 715,0);
 INSERT INTO `upms_permission` VALUES ('716', '6', '714', '编辑文件模板', '3', 'eam:fileTemplate:update', '/manage/fileTemplate/update', 'zmdi zmdi-edit', 1, 1, 716,0);
 INSERT INTO `upms_permission` VALUES ('717', '6', '714', '删除文件模板', '3', 'eam:fileTemplate:delete', '/manage/fileTemplate/delete', 'zmdi zmdi-close', 1, 1, 717,0);
+INSERT INTO `upms_permission` VALUES ('718', '6', '700', '首页', '3', 'eam:dashboard:read', '/manage/dashboard/index', 'zmdi zmdi-close', 1, 1, 718,0);
 
 
 
