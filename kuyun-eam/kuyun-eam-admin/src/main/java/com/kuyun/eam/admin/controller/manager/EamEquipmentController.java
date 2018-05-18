@@ -410,6 +410,6 @@ public class EamEquipmentController extends BaseController {
 
 		eamEquipmentPropertyService.batchInsert(props);
 
-		return new UpmsResult(UpmsResultConstant.SUCCESS, result);
+		return new UpmsResult(UpmsResultConstant.SUCCESS, 1);
 	}
 }

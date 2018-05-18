@@ -18,6 +18,9 @@
     <bean id="eamEquipmentServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamEquipmentServiceImpl"/>
     <dubbo:service interface="com.kuyun.eam.rpc.api.EamEquipmentService" ref="eamEquipmentServiceImpl" timeout="10000"/>
 
+    <bean id="eamEquipmentPropertyServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamEquipmentPropertyServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamEquipmentPropertyService" ref="eamEquipmentPropertyServiceImpl" timeout="10000"/>
+
     <!-- 设备 -->
     <bean id="eamEquipmentCategoryServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamEquipmentCategoryServiceImpl"/>
     <dubbo:service interface="com.kuyun.eam.rpc.api.EamEquipmentCategoryService" ref="eamEquipmentCategoryServiceImpl" timeout="10000"/>
