@@ -401,3 +401,15 @@ $(document).ready(function() {
         }
     }
 });
+
+function setImagePathEdit(id, newVal){
+    var obj= $('#'+id);
+    var orgPath = obj.val();
+    if(newVal && newVal != '') {
+        if(orgPath !='')
+            orgPath = orgPath +"::" + newVal;
+        else
+            orgPath = newVal;
+        obj.val(orgPath);
+    }
+}

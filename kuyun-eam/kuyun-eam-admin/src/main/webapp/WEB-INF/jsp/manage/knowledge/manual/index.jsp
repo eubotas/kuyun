@@ -120,6 +120,7 @@
                         </div>
                         <div class="form-group m-form__group row">
                             <label class="col-3 col-form-label">附件:</label>
+                            <div id="templateID_fileExistingSection" style="display:none;"> </div>
                             <div id="templateID_fine-uploader-gallery" class="col-8"></div>
                             <input id="templateID_path" type="hidden" class="form-control" name="path">
                         </div>
@@ -257,7 +258,7 @@
             if(id){
                 targetUrl='${basePath}/manage/knowledge/manual/update/'+id;
                 formId='edit_Form';
-                $('#edit_path').val(getUploadFileName(editGalleryUploader));
+                setImagePathEdit('edit_path', getUploadFileName(editGalleryUploader));
             }else {
                 $('#add_path').val(getUploadFileName(addGalleryUploader));
             }
@@ -292,6 +293,7 @@
                     $("#edit_description").val(data.manual.description);
                     $("#edit_content").val(data.manual.content);
                     $("#edit_tag").val(data.manual.tag);
+                    showFiles(data.manual.path, 'edit_path');
                 }
             });
         }

@@ -372,7 +372,7 @@
                     $("#edit_serialNumber").val(data.serialNumber);
                     $("#edit_imagePath").val(data.imagePath);
                     if(data.imagePath != null && data.imagePath !='') {
-                        $("#edit_showImage").attr('src', data.imagePath);
+                        $("#edit_showImage").attr('src', '${uploadServer.serverBaseUri}/fileStorage/eam/'+data.imagePath);
                         $("#edit_showImage").addClass("col-sm-3").css("display", "block").css("max-width", "50px");
                     }
                     longitude =data.longitude;

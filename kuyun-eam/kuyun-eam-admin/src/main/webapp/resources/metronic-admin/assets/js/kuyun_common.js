@@ -590,3 +590,15 @@ function fileFormatter(value, row, index) {
     );
     return html;
 }
+
+function setImagePathEdit(id, newVal){
+    var obj= $('#'+id);
+    var orgPath = obj.val();
+    if(newVal && newVal != '') {
+        if(orgPath !='' && orgPath !=newVal)
+            orgPath = orgPath +"::" + newVal;
+        else
+            orgPath = newVal;
+        obj.val(orgPath);
+    }
+}

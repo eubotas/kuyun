@@ -152,7 +152,7 @@
         return '<div id="edit_browseFile'+i+'" style="border:1px solid #777; display:inline; padding:8px 10px 5px 10px;">'+
             '<span id="edit_browseDeleteName'+i+'">'+fileName+'</span>'+
             '<img id="edit_browseDeleteLink'+i+'" onclick="deleteUploadFile('+i+', \''+filePathId+'\')" src="/resources/metronic-admin/assets/images/delete-simple-14x14.png" style="padding-left:15px; cursor:pointer;">'+
-            '</div>'
+            '</div>&nbsp;&nbsp;'
     }
 
     function showFiles(paths, filePathId){

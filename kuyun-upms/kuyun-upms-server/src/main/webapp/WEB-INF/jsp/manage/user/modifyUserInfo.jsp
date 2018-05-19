@@ -145,7 +145,7 @@
                 <div class="form-group m-form__group row">
                     <label class="col-3 col-form-label"for="edit_imagePath">头像</label>
                     <div class="col-sm-9">
-                        <image src='${user.avatar}' />
+                        <image src='${uploadServer.serverBaseUri}/fileStorage/eam/${user.avatar}' />
                         <button type="button" class="btn btn-secondary" id="modifyImage">
                             修改头像
                         </button>
