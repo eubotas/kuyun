@@ -4,7 +4,7 @@
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 <c:set var="eamPath" value="<%=BasePath.getInstance().getKuyunEamAdmin(request)%>"/>
 <c:set var="upmsPath" value="<%=BasePath.getInstance().getKuyunUpmsServer()%>"/>
-<c:set var="user" value="<%=(new com.kuyun.upms.client.util.User()).getUser(request)%>"/>
+<c:set var="user" value="<%=(new com.kuyun.upms.client.util.SessionUser()).getUser(request)%>"/>
 
 <!-- BEGIN: Topbar -->
 <div id="m_header_topbar" class="m-topbar  m-stack m-stack--ver m-stack--general">

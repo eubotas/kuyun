@@ -1,20 +1,14 @@
-package com.kuyun.common.util;
+package com.kuyun.upms.dao.vo;
 
 
-public class CompanyInfo {
+import java.io.Serializable;
+
+public class CompanyInfo implements Serializable {
     private String companyName;
     private String companyLogo;
     private String companySystemName;
     private String companyTel;
     private String companyAddr;
-
-    private static CompanyInfo instance=null;
-    public static CompanyInfo getInstance(){
-        if(instance == null) {
-            instance = new CompanyInfo();
-        }
-        return instance;
-    }
 
     public String getCompanyName() {
         return companyName;

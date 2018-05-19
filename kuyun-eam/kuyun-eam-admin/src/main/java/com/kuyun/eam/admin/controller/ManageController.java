@@ -1,7 +1,7 @@
 package com.kuyun.eam.admin.controller;
 
 import com.kuyun.common.base.BaseController;
-import com.kuyun.common.util.CompanyInfo;
+import com.kuyun.upms.dao.vo.CompanyInfo;
 import com.kuyun.common.util.StringUtil;
 import com.kuyun.eam.rpc.api.EamApiService;
 import com.kuyun.eam.vo.EamHomeStatusSummaryVO;
@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -56,7 +57,7 @@ public class ManageController extends BaseController {
 	 */
 	@ApiOperation(value = "后台首页")
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
-	public String index(ModelMap modelMap) {
+	public String index(HttpServletRequest request, ModelMap modelMap) {
         List<EamHomeSummaryVO> vos=eamApiService.getSummaryRecord(getCompanyId());
         modelMap.put("summary",vos.size()>0? vos.get(0): new EamHomeSummaryVO());
 
@@ -74,7 +75,7 @@ public class ManageController extends BaseController {
         }
         modelMap.put("statusSummary", arr);
 
-        setCompanyInfo(getCompanyId());
+        setCompanyInfo(getCompanyId(), request);
 
 	    return "/manage/index.jsp";
 	}
@@ -95,15 +96,17 @@ public class ManageController extends BaseController {
         return null;
     }
 
-    private void setCompanyInfo(int companyId){
+    private void setCompanyInfo(int companyId,HttpServletRequest request){
         UpmsCompany company = upmsCompanyService.selectByPrimaryKey(companyId);
         UpmsCompanyOption opt = upmsCompanyOptionService.selectByPrimaryKey(companyId);
-        CompanyInfo comp = CompanyInfo.getInstance();
+        CompanyInfo comp = new CompanyInfo();
         if(!StringUtil.isEmpty(opt.getLogoPath()))
         comp.setCompanyLogo( fileUploaderService.getServerInfo().getServerBaseUri()+"/fileStorage/eam/"+opt.getLogoPath());
         comp.setCompanySystemName(opt.getSystemName());
         comp.setCompanyName(company.getName());
         comp.setCompanyAddr(company.getAddress());
         comp.setCompanyTel(company.getPhone());
+
+        request.getSession(true).setAttribute("COMPANY", comp);
     }
 }

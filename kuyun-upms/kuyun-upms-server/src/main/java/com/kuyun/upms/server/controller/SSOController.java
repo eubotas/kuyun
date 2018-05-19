@@ -12,6 +12,7 @@ import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.common.constant.UpmsResult;
 import com.kuyun.upms.common.constant.UpmsResultConstant;
 import com.kuyun.upms.dao.model.*;
+import com.kuyun.upms.dao.vo.CompanyInfo;
 import com.kuyun.upms.rpc.api.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -210,7 +211,7 @@ public class SSOController extends BaseController {
         UpmsUser upmsUser = upmsUserService.selectFirstByExample(upmsUserExample);
         request.getSession().setAttribute("USER", upmsUser);
 
-        setCompanyInfo(baseEntityUtil.getUserCompany(upmsUser).getCompanyId());
+        setCompanyInfo(baseEntityUtil.getUserCompany(upmsUser).getCompanyId(), request);
 
         // 回跳登录前地址
         String backurl = request.getParameter("backurl");
@@ -433,15 +434,17 @@ public class SSOController extends BaseController {
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
     }
 
-    private void setCompanyInfo(int companyId){
+    private void setCompanyInfo(int companyId, HttpServletRequest request){
         UpmsCompany company = upmsCompanyService.selectByPrimaryKey(companyId);
         UpmsCompanyOption opt = upmsCompanyOptionService.selectByPrimaryKey(companyId);
-        CompanyInfo  comp = CompanyInfo.getInstance();
+        CompanyInfo comp = new CompanyInfo();
         if(!StringUtil.isEmpty(opt.getLogoPath()))
             comp.setCompanyLogo( fileUploaderService.getServerInfo().getServerBaseUri()+"/fileStorage/eam/"+opt.getLogoPath());
         comp.setCompanySystemName(opt.getSystemName());
         comp.setCompanyName(company.getName());
         comp.setCompanyAddr(company.getAddress());
         comp.setCompanyTel(company.getPhone());
+
+        request.getSession(true).setAttribute("COMPANY", comp);
     }
 }

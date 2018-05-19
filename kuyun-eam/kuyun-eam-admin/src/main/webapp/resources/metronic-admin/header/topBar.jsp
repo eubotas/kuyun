@@ -1,11 +1,11 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="com.kuyun.common.util.BasePath" %>
-<%@ page import="com.kuyun.eam.admin.util.User" %>
+<%@ page import="com.kuyun.eam.admin.util.SessionUser" %>
 <%@ page contentType="text/html; charset=utf-8"%>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 <c:set var="eamPath" value="<%=BasePath.getInstance().getKuyunEamAdmin(request)%>"/>
 <c:set var="upmsPath" value="<%=BasePath.getInstance().getKuyunUpmsServer()%>"/>
-<c:set var="user" value="<%=(new User()).getUser(request)%>"/>
+<c:set var="user" value="<%=(new SessionUser()).getUser(request)%>"/>
 
 <!-- BEGIN: Topbar -->
 <div id="m_header_topbar" class="m-topbar  m-stack m-stack--ver m-stack--general">

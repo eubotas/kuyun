@@ -1,27 +1,30 @@
 package com.kuyun.upms.client.util;
 
+import com.kuyun.upms.dao.vo.CompanyInfo;
 import com.kuyun.common.util.SpringContextUtil;
 import com.kuyun.upms.dao.model.UpmsUser;
-import org.apache.shiro.SecurityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class User {
-
+public class SessionUser {
+    public static String USER="USER";
+    public static String COMPANY="COMPANY";
     private UpmsUser upmsUser;
 
     public UpmsUser getUser(HttpServletRequest request){
-        Object obj = request.getSession(true).getAttribute("USER");
+        Object obj = request.getSession(true).getAttribute(USER);
         UpmsUser user = null;
         if(obj == null) {
             BaseEntityUtil baseEntityUtil = SpringContextUtil.getBean(BaseEntityUtil.class);
             user = baseEntityUtil.getCurrentUser();
-            request.getSession().setAttribute("USER", user);
+            request.getSession().setAttribute(USER, user);
         }else
             user = (UpmsUser)obj;
         return user;
     }
 
+    public CompanyInfo getCompany(HttpServletRequest request){
+        return (CompanyInfo)request.getSession(true).getAttribute(COMPANY);
+    }
 
 }
