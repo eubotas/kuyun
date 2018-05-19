@@ -94,7 +94,7 @@
             icon: "http://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
             position: [longitude, latitude],
             draggable: true,
-            offset: new AMap.Pixel(-9, 0),
+            offset: new AMap.Pixel(-9, -9),
             cursor: 'move',
             raiseOnDrag: true
         });

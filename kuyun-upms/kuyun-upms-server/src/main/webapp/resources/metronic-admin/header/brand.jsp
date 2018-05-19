@@ -1,9 +1,11 @@
+<%@ page import="com.kuyun.common.util.CompanyInfo" %>
+<%@ page contentType="text/html; charset=utf-8"%>
 <!-- BEGIN: Brand -->
 <div class="m-stack__item m-brand  m-brand--skin-dark ">
     <div class="m-stack m-stack--ver m-stack--general">
         <div class="m-stack__item m-stack__item--middle m-brand__logo">
             <a href="#" class="m-brand__logo-wrapper">
-                <img alt="" src="${basePath}/resources/metronic-admin/assets/demo/default/media/img/logo/logo_default_dark.png"/>
+                <img alt="" src='<%=CompanyInfo.getInstance().getCompanyLogo() !=null? CompanyInfo.getInstance().getCompanyLogo() : "${basePath}/resources/metronic-admin/assets/demo/default/media/img/logo/logo_default_dark.png"%>'/>
             </a>
         </div>
         <div class="m-stack__item m-stack__item--middle m-brand__tools">

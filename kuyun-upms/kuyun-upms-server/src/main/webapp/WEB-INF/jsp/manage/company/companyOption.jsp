@@ -49,6 +49,7 @@
     <jsp:include page="/resources/metronic-admin/file_upload.jsp" flush="true"/>
 
     <script>
+        var uploadLogoOpt=$.extend({validation : { allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'], sizeLimit: 20480}},uploadOpt);
         var editGalleryUploader;
         $(document).ready(function()
         {
@@ -60,7 +61,7 @@
                     obj.display = 'block';
                 else obj.display ='none';
             });
-            editGalleryUploader = new qq.FineUploader($.extend(uploadImageOpt, {element : document.getElementById("edit_fine-uploader-gallery")}));
+            editGalleryUploader = new qq.FineUploader($.extend(uploadLogoOpt, {element : document.getElementById("edit_fine-uploader-gallery")}));
 
         });
 
@@ -141,6 +142,9 @@
 
                         <input id="logoPath" type="hidden" class="form-control" name="logoPath" value="${companyOpt.logoPath}">
                     </div>
+                </div>
+                <div class="form-group m-form__group row">
+                    <label class="col-7 col-form-label">建议尺寸85 x 20</label>
                 </div>
                 <div class="form-group m-form__group row">
                     <label class="col-3 col-form-label">域名</label>

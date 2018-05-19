@@ -1,11 +1,17 @@
 package com.kuyun.eam.admin.controller;
 
 import com.kuyun.common.base.BaseController;
+import com.kuyun.common.util.CompanyInfo;
+import com.kuyun.common.util.StringUtil;
 import com.kuyun.eam.rpc.api.EamApiService;
 import com.kuyun.eam.vo.EamHomeStatusSummaryVO;
 import com.kuyun.eam.vo.EamHomeSummaryVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
+import com.kuyun.upms.dao.model.UpmsCompany;
+import com.kuyun.upms.dao.model.UpmsCompanyOption;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
+import com.kuyun.upms.rpc.api.UpmsCompanyOptionService;
+import com.kuyun.upms.rpc.api.UpmsCompanyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import net.sf.json.JSONArray;
@@ -38,6 +44,12 @@ public class ManageController extends BaseController {
     @Autowired
     private BaseEntityUtil baseEntityUtil;
 
+    @Autowired
+    private UpmsCompanyService upmsCompanyService;
+    @Autowired
+    private UpmsCompanyOptionService upmsCompanyOptionService;
+    @Autowired
+    private com.kuyun.fileuploader.rpc.api.FileUploaderService fileUploaderService;
 	/**
 	 * 后台首页
 	 * @return
@@ -61,6 +73,9 @@ public class ManageController extends BaseController {
             arr.add(json);
         }
         modelMap.put("statusSummary", arr);
+
+        setCompanyInfo(getCompanyId());
+
 	    return "/manage/index.jsp";
 	}
 
@@ -78,5 +93,17 @@ public class ManageController extends BaseController {
             return company.getCompanyId();
         }
         return null;
+    }
+
+    private void setCompanyInfo(int companyId){
+        UpmsCompany company = upmsCompanyService.selectByPrimaryKey(companyId);
+        UpmsCompanyOption opt = upmsCompanyOptionService.selectByPrimaryKey(companyId);
+        CompanyInfo comp = CompanyInfo.getInstance();
+        if(!StringUtil.isEmpty(opt.getLogoPath()))
+        comp.setCompanyLogo( fileUploaderService.getServerInfo().getServerBaseUri()+"/fileStorage/eam/"+opt.getLogoPath());
+        comp.setCompanySystemName(opt.getSystemName());
+        comp.setCompanyName(company.getName());
+        comp.setCompanyAddr(company.getAddress());
+        comp.setCompanyTel(company.getPhone());
     }
 }

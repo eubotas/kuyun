@@ -4,6 +4,7 @@ import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
+import com.kuyun.common.util.CompanyInfo;
 import com.kuyun.common.util.StringUtil;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.upms.client.util.BaseEntityUtil;

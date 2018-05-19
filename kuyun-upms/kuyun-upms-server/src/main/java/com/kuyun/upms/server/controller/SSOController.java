@@ -5,20 +5,14 @@ import com.google.gson.reflect.TypeToken;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.base.BaseResult;
 import com.kuyun.common.netease.SMSUtil;
-import com.kuyun.common.util.BasePath;
-import com.kuyun.common.util.MD5Util;
-import com.kuyun.common.util.PropertiesFileUtil;
-import com.kuyun.common.util.RedisUtil;
+import com.kuyun.common.util.*;
 import com.kuyun.upms.client.shiro.session.UpmsSession;
 import com.kuyun.upms.client.shiro.session.UpmsSessionDao;
+import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.common.constant.UpmsResult;
 import com.kuyun.upms.common.constant.UpmsResultConstant;
-import com.kuyun.upms.dao.model.UpmsSystemExample;
-import com.kuyun.upms.dao.model.UpmsUser;
-import com.kuyun.upms.dao.model.UpmsUserExample;
-import com.kuyun.upms.rpc.api.UpmsApiService;
-import com.kuyun.upms.rpc.api.UpmsSystemService;
-import com.kuyun.upms.rpc.api.UpmsUserService;
+import com.kuyun.upms.dao.model.*;
+import com.kuyun.upms.rpc.api.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.BooleanUtils;
@@ -75,8 +69,17 @@ public class SSOController extends BaseController {
     UpmsSessionDao upmsSessionDao;
 
     @Autowired
+    private BaseEntityUtil baseEntityUtil;
+
+    @Autowired
     private UpmsApiService upmsApiService;
 
+    @Autowired
+    private UpmsCompanyService upmsCompanyService;
+    @Autowired
+    private UpmsCompanyOptionService upmsCompanyOptionService;
+    @Autowired
+    private com.kuyun.fileuploader.rpc.api.FileUploaderService fileUploaderService;
 
     @ApiOperation(value = "认证中心首页")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
@@ -206,6 +209,8 @@ public class SSOController extends BaseController {
         upmsUserExample.createCriteria().andDeleteFlagEqualTo(false).andPhoneEqualTo(username);
         UpmsUser upmsUser = upmsUserService.selectFirstByExample(upmsUserExample);
         request.getSession().setAttribute("USER", upmsUser);
+
+        setCompanyInfo(baseEntityUtil.getUserCompany(upmsUser).getCompanyId());
 
         // 回跳登录前地址
         String backurl = request.getParameter("backurl");
@@ -426,5 +431,17 @@ public class SSOController extends BaseController {
         int count = upmsUserService.updateByPrimaryKeySelective(user);
 
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
+    }
+
+    private void setCompanyInfo(int companyId){
+        UpmsCompany company = upmsCompanyService.selectByPrimaryKey(companyId);
+        UpmsCompanyOption opt = upmsCompanyOptionService.selectByPrimaryKey(companyId);
+        CompanyInfo  comp = CompanyInfo.getInstance();
+        if(!StringUtil.isEmpty(opt.getLogoPath()))
+            comp.setCompanyLogo( fileUploaderService.getServerInfo().getServerBaseUri()+"/fileStorage/eam/"+opt.getLogoPath());
+        comp.setCompanySystemName(opt.getSystemName());
+        comp.setCompanyName(company.getName());
+        comp.setCompanyAddr(company.getAddress());
+        comp.setCompanyTel(company.getPhone());
     }
 }

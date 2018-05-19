@@ -171,4 +171,10 @@ public class StringUtil {
         }
         return list;
     }
+
+    public static boolean isEmpty(String val){
+        if(val == null || "".equals(val.trim()))
+            return true;
+        return false;
+    }
 }
