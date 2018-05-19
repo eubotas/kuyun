@@ -595,10 +595,22 @@ function setImagePathEdit(id, newVal){
     var obj= $('#'+id);
     var orgPath = obj.val();
     if(newVal && newVal != '') {
-        if(orgPath !='' && orgPath !=newVal)
-            orgPath = orgPath +"::" + newVal;
-        else
+        if(orgPath !='' && orgPath !=newVal) {
+            orgPath = orgPath + "::" + newVal;
+            var strArray=orgPath.split("::");
+            orgPath = removeDuplicatedItem(strArray).join("::");
+        }else
             orgPath = newVal;
         obj.val(orgPath);
     }
+}
+
+function removeDuplicatedItem(ar) {
+    var ret = [];
+    for (var i = 0, j = ar.length; i < j; i++) {
+        if (ret.indexOf(ar[i]) === -1) {
+            ret.push(ar[i]);
+        }
+    }
+    return ret;
 }

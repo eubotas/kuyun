@@ -290,7 +290,8 @@
                     $("#edit_description").val(data.maintain.description);
                     $("#edit_content").val(data.maintain.content);
                     $("#edit_tag").val(data.maintain.tag);
-                    showFiles(data.maintain.path, 'edit_path');
+                    $("#edit_path").val(data.maintain.path);
+                    showDocFiles(data.maintain.path, 'edit_path');
                 }
             });
         }

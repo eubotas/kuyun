@@ -295,7 +295,8 @@
                     $("#edit_description").val(data.repair.description);
                     $("#edit_method").val(data.repair.method);
                     $("#edit_tag").val(data.repair.tag);
-                    showFiles(data.repair.path, 'edit_path');
+                    $("#edit_path").val(data.repair.path);
+                    showDocFiles(data.repair.path, 'edit_path');
                 }
             });
         }

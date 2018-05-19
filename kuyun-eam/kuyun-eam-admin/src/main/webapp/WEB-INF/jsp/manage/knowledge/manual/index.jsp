@@ -293,7 +293,8 @@
                     $("#edit_description").val(data.manual.description);
                     $("#edit_content").val(data.manual.content);
                     $("#edit_tag").val(data.manual.tag);
-                    showFiles(data.manual.path, 'edit_path');
+                    $("#edit_path").val(data.manual.path);
+                    showDocFiles(data.manual.path, 'edit_path');
                 }
             });
         }

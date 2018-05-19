@@ -157,6 +157,9 @@
                             <div id="templateID_fine-uploader-gallery" class="col-sm-9"></div>
                             <input id="templateID_imagePath" type="hidden" class="form-control" name="imagePath">
                         </div>
+                        <div class="form-group m-form__group row">
+                            <div id="templateID_fileExistingSection" style="display:none;"> </div>
+                        </div>
 
                         <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space"></div>
 
@@ -388,7 +391,7 @@
             if(id){
                 targetUrl='${basePath}/manage/ticket/update/'+id;
                 formId='edit_Form';
-                $('#edit_imagePath').val(getUploadFileName(editGalleryUploader));
+                setImagePathEdit('edit_imagePath', getUploadFileName(editGalleryUploader));
             }else{
                 $('#add_impagePath').val(getUploadFileName(addGalleryUploader));
             }
@@ -422,7 +425,8 @@
                     addOptionToHtmlSelect(data.ticket.equipmentId, "edit_equipmentId", data.equipments );
                     buildTicketType('edit', data.ticketTypes, data.ticket.ticketTypeId);
                     buildTicketPriority('edit', data.ticketPriorityList, data.ticket.priority);
-
+                    $("#edit_imagePath").val(data.ticket.imagePath);
+                    showImageFiles(data.ticket.imagePath, 'edit_imagePath');
                 }
             });
         }

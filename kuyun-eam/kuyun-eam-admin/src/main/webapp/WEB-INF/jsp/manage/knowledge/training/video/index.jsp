@@ -290,7 +290,7 @@
                     $("#edit_description").val(data.video.description);
                     $("#edit_tag").val(data.video.tag);
                     $("#edit_path").val(data.video.path);
-                    showFiles(data.video.path, 'edit_path');
+                    showDocFiles(data.video.path, 'edit_path');
                 }
             });
         }
