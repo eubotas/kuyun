@@ -49,6 +49,14 @@
     <jsp:include page="/resources/metronic-admin/file_upload.jsp" flush="true"/>
 
     <script>
+        var uploadImageOpt=$.extend({validation : { allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'], sizeLimit: 20480,
+                image: {
+                    maxHeight: 70,
+                    maxWidth: 70,
+                    minHeight: 50,
+                    minWidth: 50
+                }}, multiple: false},uploadOpt);
+
         var editGalleryUploader;
         $(document).ready(function()
         {
@@ -152,6 +160,9 @@
                         <div id="edit_fine-uploader-gallery" class="col-sm-9" style="display: none"></div>
                         <input id="edit_imagePath" type="hidden" class="form-control" name="avatar" value="${user.avatar}">
                     </div>
+                </div>
+                <div class="form-group m-form__group row">
+                    <label class="col-7 col-form-label" style="color:#d8cdcd;">建议尺寸60 x 60</label>
                 </div>
                 <div class="form-group m-form__group row">
                     <label class="col-3 col-form-label">电话</label>

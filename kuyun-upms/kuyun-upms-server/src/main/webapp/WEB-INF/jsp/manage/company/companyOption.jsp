@@ -49,7 +49,13 @@
     <jsp:include page="/resources/metronic-admin/file_upload.jsp" flush="true"/>
 
     <script>
-        var uploadLogoOpt=$.extend({validation : { allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'], sizeLimit: 20480}},uploadOpt);
+        var uploadLogoOpt=$.extend({validation : { allowedExtensions: ['jpeg', 'jpg', 'gif', 'png'], sizeLimit: 20480,
+                image: {
+                    maxHeight: 20,
+                    maxWidth: 90,
+                    minHeight: 20,
+                    minWidth: 80
+                }}, multiple: false},uploadOpt);
         var editGalleryUploader;
         $(document).ready(function()
         {
@@ -144,7 +150,7 @@
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
-                    <label class="col-7 col-form-label">建议尺寸85 x 20</label>
+                    <label class="col-7 col-form-label" style="color:#d8cdcd;">建议尺寸85 x 20</label>
                 </div>
                 <div class="form-group m-form__group row">
                     <label class="col-3 col-form-label">域名</label>
