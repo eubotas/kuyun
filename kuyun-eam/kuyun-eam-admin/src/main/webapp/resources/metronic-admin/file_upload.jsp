@@ -175,11 +175,12 @@
     }
 
     function showOneImageFile(file, i, filePathId){
+        var br= (i%3==2)? '<br/>' : '';
         var fileName=file.substring(file.lastIndexOf("/")+1,file.length);
-        return '<div id="edit_browseFile'+i+'" style="border:1px solid #777; display:inline; padding:8px 10px 50px 100px;">'+
+        return '<div id="edit_browseFile'+i+'" style="border:1px solid #777; display:inline; padding:2px 5px 50px 100px;">'+
             '<img id="edit_browseDeleteName"'+i+' alt="'+fileName+'" src="${uploadServer.serverBaseUri}/fileStorage/eam/'+file+'"></img>'+
             '<img id="edit_browseDeleteLink'+i+'" onclick="deleteUploadFile('+i+', \''+filePathId+'\')" src="/resources/metronic-admin/assets/images/delete-simple-14x14.png" style="padding-left:15px; cursor:pointer;">'+
-            '</div>&nbsp;&nbsp;'
+            '</div>&nbsp;&nbsp;' +br;
     }
 
     function showImageFiles(paths, filePathId){
@@ -188,7 +189,7 @@
         var fileList="";
         var ids=paths.split("::");
         for(var i=0;i<ids.length;i++){
-            fileList=fileList + showOneDocFile(ids[i], i, filePathId);
+            fileList=fileList + showOneImageFile(ids[i], i, filePathId);
         }
         $('#edit_fileExistingSection').html(fileList).css("display","block");
     }

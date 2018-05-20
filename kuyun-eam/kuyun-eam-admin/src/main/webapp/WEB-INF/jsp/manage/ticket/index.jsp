@@ -158,7 +158,7 @@
                             <input id="templateID_imagePath" type="hidden" class="form-control" name="imagePath">
                         </div>
                         <div class="form-group m-form__group row">
-                            <div id="templateID_fileExistingSection" style="display:none;"> </div>
+                            <div id="templateID_fileExistingSection" style="height: 70px; padding-left:120px;display:none;"> </div>
                         </div>
 
                         <div class="m-form__seperator m-form__seperator--dashed m-form__seperator--space"></div>
@@ -413,8 +413,8 @@
 
 
         function updateAction(row) {
-            $("#editEquipmentFormContainer").modal("show");
-            resetFileUpload('editEquipmentFormContainer');
+            $("#editTicketFormContainer").modal("show");
+            resetFileUpload('editTicketFormContainer');
 
             ajaxGet('${basePath}/manage/ticket/update/' + row["ticketId"], function (responseData) {
                 if (responseData) {
