@@ -132,7 +132,6 @@ drop table if exists eam_equipment;
 create table eam_equipment
 (
    equipment_id         varchar(32),
-   #equipment_model_id   int,
    equipment_category_id  int,
    product_line_id      varchar(32),
    name                 varchar(30),
@@ -353,8 +352,6 @@ create table eam_grm_variable_data_by_day
    eam_grm_variable_id  int,
    equipment_id         varchar(32),
    product_line_id      varchar(32),
-   data_group_id        int,
-   equipment_data_group_id int comment '设备数据分组ID',
    data_element_id      int,
    value                varchar(30),
    date                 date,
@@ -375,8 +372,6 @@ create table eam_grm_variable_data_by_month
    eam_grm_variable_id  int,
    equipment_id         varchar(32),
    product_line_id      varchar(32),
-   data_group_id        int,
-   equipment_data_group_id int comment '设备数据分组ID',
    data_element_id      int,
    year                 int,
    month                int,
@@ -398,8 +393,6 @@ create table eam_grm_variable_data_by_year
    eam_grm_variable_id  int,
    equipment_id         varchar(32),
    product_line_id      varchar(32),
-   data_group_id        int,
-   equipment_data_group_id int comment '设备数据分组ID',
    data_element_id      int,
    year                 int,
    value                varchar(30),
@@ -590,3 +583,49 @@ CREATE TABLE eam_order (
   delete_flag                  boolean,
   primary key (id)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+drop table if exists eam_shift_data_element;
+create table eam_shift_data_element
+(  
+   id                   int not null auto_increment,
+   data_element_id      int,
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   primary key (id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+drop table if exists eam_shift_data_element;
+create table eam_shift_data_element
+(  
+   id                   int not null auto_increment,
+   equipment_id         varchar(32),
+   product_line_id      varchar(32),
+   data_element_id      int,
+   summation            boolean,
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   primary key (id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+drop table if exists eam_shift_data_element_value;
+create table eam_shift_data_element_value
+(  
+   id                   int not null auto_increment,
+   equipment_id         varchar(32),
+   product_line_id      varchar(32),
+   data_element_id      int,
+   shift                varchar(10),
+   value                varchar(30),
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   primary key (id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;

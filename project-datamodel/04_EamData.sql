@@ -146,6 +146,8 @@ INSERT INTO `upms_permission` VALUES ('613', '6', '610', '删除维修计划', '
 
 INSERT INTO `upms_permission` VALUES (700,6,0,'基础数据设置',1,NULL,NULL,'zmdi zmdi-collection-text',1,100,700,0);
 INSERT INTO `upms_permission` VALUES ('710', '6', '700', '数据字典', '2', 'eam:codeValue:read', '/manage/codeValue/index', NULL, 1, 1, 710,0);
+
+
 INSERT INTO `upms_permission` VALUES ('711', '6', '710', '新增数据字典', '3', 'eam:codeValue:create', '/manage/codeValue/create', 'zmdi zmdi-plus', 1, 1, 711,0);
 INSERT INTO `upms_permission` VALUES ('712', '6', '710', '编辑数据字典', '3', 'eam:codeValue:update', '/manage/codeValue/update', 'zmdi zmdi-edit', 1, 1, 712,0);
 INSERT INTO `upms_permission` VALUES ('713', '6', '710', '删除数据字典', '3', 'eam:codeValue:delete', '/manage/codeValue/delete', 'zmdi zmdi-close', 1, 1, 713,0);
@@ -154,8 +156,8 @@ INSERT INTO `upms_permission` VALUES ('714', '6', '700', '文件模板管理', '
 INSERT INTO `upms_permission` VALUES ('715', '6', '714', '新增文件模板', '3', 'eam:fileTemplate:create', '/manage/fileTemplate/create', 'zmdi zmdi-plus', 1, 1, 715,0);
 INSERT INTO `upms_permission` VALUES ('716', '6', '714', '编辑文件模板', '3', 'eam:fileTemplate:update', '/manage/fileTemplate/update', 'zmdi zmdi-edit', 1, 1, 716,0);
 INSERT INTO `upms_permission` VALUES ('717', '6', '714', '删除文件模板', '3', 'eam:fileTemplate:delete', '/manage/fileTemplate/delete', 'zmdi zmdi-close', 1, 1, 717,0);
-INSERT INTO `upms_permission` VALUES ('718', '6', '700', '首页', '3', 'eam:dashboard:read', '/manage/dashboard/index', 'zmdi zmdi-close', 1, 1, 718,0);
 
+INSERT INTO `upms_permission` VALUES ('718', '6', '700', '首页', '2', 'eam:dashboard:read', '/manage/dashboard/index', 'zmdi zmdi-close', 1, 1, 718,0);
 
 
 TRUNCATE TABLE eam_ticket_type;

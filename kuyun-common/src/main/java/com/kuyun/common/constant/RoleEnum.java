@@ -9,7 +9,8 @@ public enum RoleEnum {
     TICKETCREATE("ticketCreate", "工单提报", "拥有提报工单权限"),
     CUSTOMER_TICKETCREATE("customerTicketCreate", "工单提报", "拥有提报工单权限"),
     TICKETREPAIR("ticketRepair", "工单维修", "拥有维修工单权限"),
-    TICKETAPPOINT("ticketAppoint", "工单委派", "拥有委派工单权限");
+    TICKETAPPOINT("ticketAppoint", "工单委派", "拥有委派工单权限"),
+    CUSTOMER("customer", "客户", "拥有客户所有权限");
 
     private String name;
     private String title;

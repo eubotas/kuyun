@@ -72,6 +72,8 @@ public abstract class AbstractAlarmHandler {
 
     @Autowired
     private EamTicketService eamTicketService;
+    @Autowired
+    private EamProductLineCompanyService eamProductLineCompanyService;
 
     public void process(EamGrmVariableData variableData, EamAlarm alarm) {
         EamAlarmRecord alarmRecord = getAlarmRecord(variableData, alarm);
@@ -109,12 +111,12 @@ public abstract class AbstractAlarmHandler {
                 ticket.setEquipmentCategoryId(equipment.getEquipmentCategoryId());
                 String message = buildSmsMessage(variableData, alarm, false);
                 ticket.setDescription(message);
-                ticket.setPriority(TicketPriority.URGENT.getCode());
-                ticket.setStatus(TicketStatus.TO_PROCESS.getCode());
+                ticket.setPriority(TicketPriority.URGENT.getName());
+                ticket.setStatus(TicketStatus.TO_PROCESS.getName());
                 ticket.setTicketTypeId(TicketType.ALARM.getCode());
                 ticket.setTicketNumber(TicketUtil.generatorTicketNumber());
                 ticket.setExecutorId(user.getUserId());
-
+                ticket.setCompanyId(getCompanyId(variableData.getProductLineId()));
                 ticket.setCreateTime(new Date());
                 ticket.setUpdateTime(new Date());
                 ticket.setDeleteFlag(Boolean.FALSE);
@@ -125,6 +127,18 @@ public abstract class AbstractAlarmHandler {
 
     }
 
+    private Integer getCompanyId(String productLineId) {
+        Integer result = null;
+        EamProductLineCompanyExample example = new EamProductLineCompanyExample();
+        example.createCriteria().andProductLineIdEqualTo(productLineId);
+
+        EamProductLineCompany productLineCompany = eamProductLineCompanyService.selectFirstByExample(example);
+
+        if (productLineCompany != null){
+            result = productLineCompany.getCompanyId();
+        }
+        return result;
+    }
 
 
     private void updateAlarmRecordHistory(EamGrmVariableData variableData, EamAlarm alarm, AlarmStatus alarmStatus) {

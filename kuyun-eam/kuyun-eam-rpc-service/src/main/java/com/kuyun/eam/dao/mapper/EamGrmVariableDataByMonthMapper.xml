@@ -6,8 +6,6 @@
     <result column="eam_grm_variable_id" jdbcType="INTEGER" property="eamGrmVariableId" />
     <result column="equipment_id" jdbcType="VARCHAR" property="equipmentId" />
     <result column="product_line_id" jdbcType="VARCHAR" property="productLineId" />
-    <result column="data_group_id" jdbcType="INTEGER" property="dataGroupId" />
-    <result column="equipment_data_group_id" jdbcType="INTEGER" property="equipmentDataGroupId" />
     <result column="data_element_id" jdbcType="INTEGER" property="dataElementId" />
     <result column="year" jdbcType="INTEGER" property="year" />
     <result column="month" jdbcType="INTEGER" property="month" />
@@ -77,9 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, eam_grm_variable_id, equipment_id, product_line_id, data_group_id, equipment_data_group_id, 
-    data_element_id, year, month, value, create_user_id, create_time, update_user_id, 
-    update_time, delete_flag
+    id, eam_grm_variable_id, equipment_id, product_line_id, data_element_id, year, month, 
+    value, create_user_id, create_time, update_user_id, update_time, delete_flag
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataByMonthExample" resultMap="BaseResultMap">
     select
@@ -121,17 +118,15 @@
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataByMonth">
     insert into eam_grm_variable_data_by_month (id, eam_grm_variable_id, equipment_id, 
-      product_line_id, data_group_id, equipment_data_group_id, 
-      data_element_id, year, month, 
-      value, create_user_id, create_time, 
-      update_user_id, update_time, delete_flag
-      )
+      product_line_id, data_element_id, year, 
+      month, value, create_user_id, 
+      create_time, update_user_id, update_time, 
+      delete_flag)
     values (#{id,jdbcType=INTEGER}, #{eamGrmVariableId,jdbcType=INTEGER}, #{equipmentId,jdbcType=VARCHAR}, 
-      #{productLineId,jdbcType=VARCHAR}, #{dataGroupId,jdbcType=INTEGER}, #{equipmentDataGroupId,jdbcType=INTEGER}, 
-      #{dataElementId,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, #{month,jdbcType=INTEGER}, 
-      #{value,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}
-      )
+      #{productLineId,jdbcType=VARCHAR}, #{dataElementId,jdbcType=INTEGER}, #{year,jdbcType=INTEGER}, 
+      #{month,jdbcType=INTEGER}, #{value,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{deleteFlag,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataByMonth">
     insert into eam_grm_variable_data_by_month
@@ -147,12 +142,6 @@
       </if>
       <if test="productLineId != null">
         product_line_id,
-      </if>
-      <if test="dataGroupId != null">
-        data_group_id,
-      </if>
-      <if test="equipmentDataGroupId != null">
-        equipment_data_group_id,
       </if>
       <if test="dataElementId != null">
         data_element_id,
@@ -194,12 +183,6 @@
       </if>
       <if test="productLineId != null">
         #{productLineId,jdbcType=VARCHAR},
-      </if>
-      <if test="dataGroupId != null">
-        #{dataGroupId,jdbcType=INTEGER},
-      </if>
-      <if test="equipmentDataGroupId != null">
-        #{equipmentDataGroupId,jdbcType=INTEGER},
       </if>
       <if test="dataElementId != null">
         #{dataElementId,jdbcType=INTEGER},
@@ -251,12 +234,6 @@
       <if test="record.productLineId != null">
         product_line_id = #{record.productLineId,jdbcType=VARCHAR},
       </if>
-      <if test="record.dataGroupId != null">
-        data_group_id = #{record.dataGroupId,jdbcType=INTEGER},
-      </if>
-      <if test="record.equipmentDataGroupId != null">
-        equipment_data_group_id = #{record.equipmentDataGroupId,jdbcType=INTEGER},
-      </if>
       <if test="record.dataElementId != null">
         data_element_id = #{record.dataElementId,jdbcType=INTEGER},
       </if>
@@ -295,8 +272,6 @@
       eam_grm_variable_id = #{record.eamGrmVariableId,jdbcType=INTEGER},
       equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
       product_line_id = #{record.productLineId,jdbcType=VARCHAR},
-      data_group_id = #{record.dataGroupId,jdbcType=INTEGER},
-      equipment_data_group_id = #{record.equipmentDataGroupId,jdbcType=INTEGER},
       data_element_id = #{record.dataElementId,jdbcType=INTEGER},
       year = #{record.year,jdbcType=INTEGER},
       month = #{record.month,jdbcType=INTEGER},
@@ -321,12 +296,6 @@
       </if>
       <if test="productLineId != null">
         product_line_id = #{productLineId,jdbcType=VARCHAR},
-      </if>
-      <if test="dataGroupId != null">
-        data_group_id = #{dataGroupId,jdbcType=INTEGER},
-      </if>
-      <if test="equipmentDataGroupId != null">
-        equipment_data_group_id = #{equipmentDataGroupId,jdbcType=INTEGER},
       </if>
       <if test="dataElementId != null">
         data_element_id = #{dataElementId,jdbcType=INTEGER},
@@ -363,8 +332,6 @@
     set eam_grm_variable_id = #{eamGrmVariableId,jdbcType=INTEGER},
       equipment_id = #{equipmentId,jdbcType=VARCHAR},
       product_line_id = #{productLineId,jdbcType=VARCHAR},
-      data_group_id = #{dataGroupId,jdbcType=INTEGER},
-      equipment_data_group_id = #{equipmentDataGroupId,jdbcType=INTEGER},
       data_element_id = #{dataElementId,jdbcType=INTEGER},
       year = #{year,jdbcType=INTEGER},
       month = #{month,jdbcType=INTEGER},
@@ -379,19 +346,17 @@
   <insert id="batchInsert">
     <if test="items.get(0) != null">
             insert into eam_grm_variable_data_by_month  (id, eam_grm_variable_id, equipment_id, 
-        product_line_id, data_group_id, equipment_data_group_id, 
-        data_element_id, year, month, 
-        value, create_user_id, create_time, 
-        update_user_id, update_time, delete_flag
-        )
+        product_line_id, data_element_id, year, 
+        month, value, create_user_id, 
+        create_time, update_user_id, update_time, 
+        delete_flag)
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.id,jdbcType=INTEGER}, #{item.eamGrmVariableId,jdbcType=INTEGER}, #{item.equipmentId,jdbcType=VARCHAR}, 
-        #{item.productLineId,jdbcType=VARCHAR}, #{item.dataGroupId,jdbcType=INTEGER}, #{item.equipmentDataGroupId,jdbcType=INTEGER}, 
-        #{item.dataElementId,jdbcType=INTEGER}, #{item.year,jdbcType=INTEGER}, #{item.month,jdbcType=INTEGER}, 
-        #{item.value,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, 
-        #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}
-        )
+        #{item.productLineId,jdbcType=VARCHAR}, #{item.dataElementId,jdbcType=INTEGER}, #{item.year,jdbcType=INTEGER}, 
+        #{item.month,jdbcType=INTEGER}, #{item.value,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER}, 
+        #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
+        #{item.deleteFlag,jdbcType=BIT})
       </foreach>
     </if>
   </insert>

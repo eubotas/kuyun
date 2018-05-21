@@ -22,7 +22,6 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import net.sf.json.JSONArray;
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -367,22 +366,16 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     public void handleCustomerReg(String userName, String name, String password, String email, String phone, String company) {
         UpmsUser upmsUser = createUser(userName, name, password, email, phone, company);
 
-        assignCusterRole(upmsUser);
+        UpmsRole role = getRole(null, RoleEnum.CUSTOMER);
+        assignCustomerRole(upmsUser, role);
     }
 
-    private void assignCusterRole(UpmsUser upmsUser) {
-        UpmsRoleExample example = new UpmsRoleExample();
-        example.createCriteria().andNameEqualTo(UpmsConstant.CUSTOMER_ROLE);
-        UpmsRole role = upmsRoleService.selectFirstByExample(example);
-
+    private void assignCustomerRole(UpmsUser upmsUser, UpmsRole role) {
         UpmsUserRole userRole = new UpmsUserRole();
         userRole.setUserId(upmsUser.getUserId());
         userRole.setRoleId(role.getRoleId());
         userRole.setDeleteFlag(Boolean.FALSE);
         upmsUserRoleService.insertSelective(userRole);
-
-
-
     }
 
 
@@ -548,6 +541,19 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         return role.getRoleId();
     }
 
+    private UpmsRole getRole(Integer companyId, RoleEnum roleEnum){
+        UpmsRoleExample example = new UpmsRoleExample();
+        UpmsRoleExample.Criteria criteria = example.createCriteria();
+        criteria.andDeleteFlagEqualTo(Boolean.FALSE)
+                .andNameEqualTo(roleEnum.getName());
+        if (companyId != null){
+            criteria.andCompanyIdEqualTo(companyId);
+        }
+
+
+        return upmsRoleService.selectFirstByExample(example);
+    }
+
     private Integer createOrganization(Integer companyId, String orgName){
         UpmsOrganization organization = new UpmsOrganization();
         organization.setDeleteFlag(Boolean.FALSE);
@@ -564,6 +570,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         upmsUserCompany.setCompanyId(companyId);
         upmsUserCompany.setUserId(upmsUser.getUserId());
         upmsUserCompanyService.insert(upmsUserCompany);
+        upmsUser.setCompanyId(companyId);
     }
 
     private UpmsCompany createCompany(String company) {
@@ -632,7 +639,22 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     public int createUser(UpmsUser upmsUser, UpmsUserCompany upmsUserCompany) {
         int count = upmsUserService.insertSelective(upmsUser);
         createUserCompany(upmsUser, upmsUserCompany.getCompanyId());
+
+        UpmsRole role = getRole(upmsUserCompany.getCompanyId(), RoleEnum.CUSTOMER_TICKETCREATE);
+        assignCustomerRole(upmsUser, role);
+        assignPermission(upmsUser, UpmsConstant.UPDATE_USER_PERMISSION_ID);
+
         return count;
+    }
+
+    private void assignPermission(UpmsUser upmsUser, int updateUserPermissionId) {
+        UpmsUserPermission userPermission = new UpmsUserPermission();
+        userPermission.setUserId(upmsUser.getUserId());
+        userPermission.setPermissionId(updateUserPermissionId);
+        userPermission.setType(Byte.decode("1"));
+        userPermission.setDeleteFlag(Boolean.FALSE);
+
+        upmsUserPermissionService.insertSelective(userPermission);
     }
 
     @Override

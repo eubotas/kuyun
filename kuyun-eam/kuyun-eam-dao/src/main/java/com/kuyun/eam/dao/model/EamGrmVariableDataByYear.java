@@ -12,15 +12,6 @@ public class EamGrmVariableDataByYear extends BaseEntity implements Serializable
 
     private String productLineId;
 
-    private Integer dataGroupId;
-
-    /**
-     * 设备数据分组ID
-     *
-     * @mbg.generated
-     */
-    private Integer equipmentDataGroupId;
-
     private Integer dataElementId;
 
     private Integer year;
@@ -61,22 +52,6 @@ public class EamGrmVariableDataByYear extends BaseEntity implements Serializable
         this.productLineId = productLineId;
     }
 
-    public Integer getDataGroupId() {
-        return dataGroupId;
-    }
-
-    public void setDataGroupId(Integer dataGroupId) {
-        this.dataGroupId = dataGroupId;
-    }
-
-    public Integer getEquipmentDataGroupId() {
-        return equipmentDataGroupId;
-    }
-
-    public void setEquipmentDataGroupId(Integer equipmentDataGroupId) {
-        this.equipmentDataGroupId = equipmentDataGroupId;
-    }
-
     public Integer getDataElementId() {
         return dataElementId;
     }
@@ -111,8 +86,6 @@ public class EamGrmVariableDataByYear extends BaseEntity implements Serializable
         sb.append(", eamGrmVariableId=").append(eamGrmVariableId);
         sb.append(", equipmentId=").append(equipmentId);
         sb.append(", productLineId=").append(productLineId);
-        sb.append(", dataGroupId=").append(dataGroupId);
-        sb.append(", equipmentDataGroupId=").append(equipmentDataGroupId);
         sb.append(", dataElementId=").append(dataElementId);
         sb.append(", year=").append(year);
         sb.append(", value=").append(value);
@@ -136,8 +109,6 @@ public class EamGrmVariableDataByYear extends BaseEntity implements Serializable
             && (this.getEamGrmVariableId() == null ? other.getEamGrmVariableId() == null : this.getEamGrmVariableId().equals(other.getEamGrmVariableId()))
             && (this.getEquipmentId() == null ? other.getEquipmentId() == null : this.getEquipmentId().equals(other.getEquipmentId()))
             && (this.getProductLineId() == null ? other.getProductLineId() == null : this.getProductLineId().equals(other.getProductLineId()))
-            && (this.getDataGroupId() == null ? other.getDataGroupId() == null : this.getDataGroupId().equals(other.getDataGroupId()))
-            && (this.getEquipmentDataGroupId() == null ? other.getEquipmentDataGroupId() == null : this.getEquipmentDataGroupId().equals(other.getEquipmentDataGroupId()))
             && (this.getDataElementId() == null ? other.getDataElementId() == null : this.getDataElementId().equals(other.getDataElementId()))
             && (this.getYear() == null ? other.getYear() == null : this.getYear().equals(other.getYear()))
             && (this.getValue() == null ? other.getValue() == null : this.getValue().equals(other.getValue()))
@@ -156,8 +127,6 @@ public class EamGrmVariableDataByYear extends BaseEntity implements Serializable
         result = prime * result + ((getEamGrmVariableId() == null) ? 0 : getEamGrmVariableId().hashCode());
         result = prime * result + ((getEquipmentId() == null) ? 0 : getEquipmentId().hashCode());
         result = prime * result + ((getProductLineId() == null) ? 0 : getProductLineId().hashCode());
-        result = prime * result + ((getDataGroupId() == null) ? 0 : getDataGroupId().hashCode());
-        result = prime * result + ((getEquipmentDataGroupId() == null) ? 0 : getEquipmentDataGroupId().hashCode());
         result = prime * result + ((getDataElementId() == null) ? 0 : getDataElementId().hashCode());
         result = prime * result + ((getYear() == null) ? 0 : getYear().hashCode());
         result = prime * result + ((getValue() == null) ? 0 : getValue().hashCode());

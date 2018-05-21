@@ -215,11 +215,9 @@ public class EamAlarmRecordVO extends EamAlarmRecord {
 
     public String getAlarmContent(){
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(getEquipmentName());
-        stringBuilder.append("(");
-        stringBuilder.append(getEquipmentNumber());
-        stringBuilder.append(")  ");
-        stringBuilder.append(getEquipmentModelPropertyName() + "  ");
+        stringBuilder.append(getProductLineName()+ "  ");
+        stringBuilder.append(getEquipmentName()+ "  ");
+        stringBuilder.append(getAlarmName() + "  ");
         stringBuilder.append(buildAlarmMessage(getAlarmType()));
         return stringBuilder.toString();
     }

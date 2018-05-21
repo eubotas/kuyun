@@ -774,7 +774,7 @@ public class EamApiServiceImpl implements EamApiService {
 
             for(EamAlarm alarm : alarms){
                 alarm.setAlarmTarget(alarmTarget);
-                eamAlarmService.updateByPrimaryKeySelective(alarm);
+                eamAlarmService.updateByPrimaryKey(alarm);
 
                 //delete existing data
                 EamAlarmTargetUserExample targetUserExample = new EamAlarmTargetUserExample();
@@ -2251,8 +2251,6 @@ public class EamApiServiceImpl implements EamApiService {
         data.setEamGrmVariableId(variable.getId());
         data.setProductLineId(variable.getProductLineId());
         data.setEquipmentId(variable.getEquipmentId());
-        data.setDataGroupId(variable.getDataGroupId());
-        data.setEquipmentDataGroupId(variable.getEquipmentDataGroupId());
         data.setDataElementId(variable.getDataElementId());
         data.setValue(value.toString());
         data.setYear(LocalDateTime.now().getYear());
@@ -2306,8 +2304,6 @@ public class EamApiServiceImpl implements EamApiService {
         data.setEamGrmVariableId(variable.getId());
         data.setProductLineId(variable.getProductLineId());
         data.setEquipmentId(variable.getEquipmentId());
-        data.setDataGroupId(variable.getDataGroupId());
-        data.setEquipmentDataGroupId(variable.getEquipmentDataGroupId());
         data.setDataElementId(variable.getDataElementId());
         data.setValue(value.toString());
         data.setYear(LocalDateTime.now().getYear());
@@ -2323,8 +2319,6 @@ public class EamApiServiceImpl implements EamApiService {
         data.setEamGrmVariableId(variable.getId());
         data.setProductLineId(variable.getProductLineId());
         data.setEquipmentId(variable.getEquipmentId());
-        data.setDataGroupId(variable.getDataGroupId());
-        data.setEquipmentDataGroupId(variable.getEquipmentDataGroupId());
         data.setDataElementId(variable.getDataElementId());
         data.setValue(value.toString());
         Date date = null;

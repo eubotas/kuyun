@@ -350,7 +350,7 @@
 		f.name as product_line_name
 		from eam_alarm_record t
 		LEFT JOIN eam_alarm a ON t.alarm_id = a.alarm_id
-		LEFT JOIN eam_alarm_target_user u ON t.alarm_id = u.alarm_id
+		LEFT JOIN eam_alarm_target_user u ON t.alarm_id = u.alarm_id AND u.delete_flag = 0
 		LEFT JOIN upms_user uu ON uu.user_id = u.user_id
 		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
 		LEFT JOIN eam_product_line f ON f.product_line_id = t.product_line_id
@@ -1006,8 +1006,8 @@
 		<include refid="com.kuyun.eam.dao.mapper.EamTicketAppointedRecordMapper.Base_Column_List" /> ,
 		uu.realname as username,
 		uu.phone
-		from eam_ticket_appointed_record a
-		LEFT OUTER JOIN upms_user uu ON a.order_taker_id = uu.user_id
+		from eam_ticket_appointed_record
+		LEFT OUTER JOIN upms_user uu ON order_taker_id = uu.user_id
 		<if test="_parameter != null">
 			<include refid="com.kuyun.eam.dao.mapper.EamTicketAppointedRecordMapper.Example_Where_Clause" />
 		</if>
@@ -1228,12 +1228,17 @@
 
 	<select id="selectStatisticGrmVariable" resultMap="com.kuyun.eam.dao.mapper.EamGrmVariableMapper.BaseResultMap">
 		select
-		<include refid="com.kuyun.eam.dao.mapper.EamGrmVariableMapper.Base_Column_List" />
+		max(eam_grm_variable.id) as eam_grm_variable_id,
+		eam_grm_variable.equipment_id as eam_grm_variable_equipment_id,
+		eam_grm_variable.product_line_id as eam_grm_variable_product_line_id,
+		eam_grm_variable.data_element_id as eam_grm_variable_data_element_id
 		from eam_grm_variable, eam_data_element e
 		where eam_grm_variable.delete_flag = 0 and e.delete_flag = 0
 		and eam_grm_variable.data_element_id = e.id
 		and e.is_statistic = 1
-		ORDER by product_line_id, equipment_id, data_group_id, equipment_data_group_id, data_element_id
+		GROUP BY product_line_id, equipment_id, data_element_id
+		ORDER by product_line_id, equipment_id, data_element_id
+
 	</select>
 
 	<resultMap id="EamOrderVOResultMap" type="com.kuyun.eam.vo.EamOrderVO" extends="com.kuyun.eam.dao.mapper.EamOrderMapper.BaseResultMap">
@@ -1322,11 +1327,13 @@
 		</if>
 	</select>
 
-	<select id="selectGrmVariableGroupByPeriod"  resultMap="com.kuyun.eam.dao.mapper.EamGrmVariableMapper.BaseResultMap">
+	<select id="selectGrmVariableGroupByPeriod" parameterType="java.lang.String" resultMap="com.kuyun.eam.dao.mapper.EamGrmVariableMapper.BaseResultMap">
 		select
 		max(eam_grm_variable.id) as eam_grm_variable_id,
 		eam_grm_variable.grm_period as eam_grm_variable_grm_period
-		from eam_grm_variable where delete_flag = 0 group by grm_period
+		from eam_grm_variable where delete_flag = 0
+		and product_line_id = #{productLineId, jdbcType=VARCHAR}
+		group by grm_period
 
 	</select>
 

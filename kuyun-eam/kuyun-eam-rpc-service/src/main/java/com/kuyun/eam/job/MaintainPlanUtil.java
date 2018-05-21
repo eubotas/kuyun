@@ -1,6 +1,8 @@
 package com.kuyun.eam.job;
 
+import com.kuyun.common.constant.OrgDepartment;
 import com.kuyun.common.dao.model.BaseEntity;
+import com.kuyun.common.jpush.JpushUtil;
 import com.kuyun.common.util.NumberUtil;
 import com.kuyun.eam.common.constant.EamConstant;
 import com.kuyun.eam.common.constant.TicketPriority;
@@ -11,9 +13,11 @@ import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.util.EamDateUtil;
 import com.kuyun.eam.util.TicketUtil;
+import com.kuyun.upms.dao.model.UpmsUser;
 import com.kuyun.upms.dao.model.UpmsUserOrganization;
 import com.kuyun.upms.dao.model.UpmsUserOrganizationExample;
 import com.kuyun.upms.rpc.api.UpmsUserOrganizationService;
+import com.kuyun.upms.rpc.api.UpmsUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +53,12 @@ public class MaintainPlanUtil {
     @Autowired
     public EamMaintainUserService maintainUserService;
 
+    @Autowired
+    public UpmsUserService upmsUserService;
+
+    @Autowired
+    private JpushUtil jpushUtil;
+
 
     public EamMaintainPlan getEamMaintainPlan(String planId){
         return eamMainTainPlanService.selectByPrimaryKey(Integer.parseInt(planId));
@@ -74,7 +84,7 @@ public class MaintainPlanUtil {
                 ticket.setProductLineId(plan.getProductLineId());
                 ticket.setTicketNumber(TicketUtil.generatorTicketNumber());
                 ticket.setPriority(TicketPriority.URGENT.getName());
-                ticket.setExecutorId(maintainUser.getId());
+                ticket.setExecutorId(maintainUser.getUserId());
 
                 ticket.setEquipmentId(plan.getEquipmentId());
                 ticket.setCompanyId(plan.getCompanyId());
@@ -115,11 +125,30 @@ public class MaintainPlanUtil {
                 alert.setReadFlag(Boolean.FALSE);
                 addAddtionalValue(alert, plan.getCompanyId());
                 alerts.add(alert);
+
+                List<String> phones = getPhones(uo.getUserId());
+                if (!phones.isEmpty()){
+                    String message = "你有一条维护计划需要处理：" + title;
+                    jpushUtil.sendPush(phones, message, OrgDepartment.MAINTENANCE_DEPARTMENT.getCode());
+                }
+
             }
             eamAlertMessageService.batchInsert(alerts);
         }
     }
 
+    private List<String> getPhones(Integer userId){
+        List<String> result = new ArrayList<>(1);
+        UpmsUser user = getUser(userId);
+        if (user != null && user.getPhone() != null){
+            result.add(user.getPhone());
+        }
+
+        return result;
+    }
+    private UpmsUser getUser(Integer userId){
+        return upmsUserService.selectByPrimaryKey(userId);
+    }
 
     private void addAddtionalValue(BaseEntity record, int companyId){
         Date currentDate = new Date();

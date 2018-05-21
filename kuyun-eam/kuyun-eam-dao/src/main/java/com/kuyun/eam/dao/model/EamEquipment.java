@@ -37,8 +37,6 @@ public class EamEquipment extends BaseEntity implements Serializable {
 
     private String imagePath;
 
-    private String user;
-
     /**
      * 采集状态
      *
@@ -147,14 +145,6 @@ public class EamEquipment extends BaseEntity implements Serializable {
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
-    }
-
-    public String getUser() {
-        return user;
-    }
-
-    public void setUser(String user) {
-        this.user = user;
     }
 
     public String getCollectStatus() {
@@ -267,7 +257,6 @@ public class EamEquipment extends BaseEntity implements Serializable {
         sb.append(", number=").append(number);
         sb.append(", serialNumber=").append(serialNumber);
         sb.append(", imagePath=").append(imagePath);
-        sb.append(", user=").append(user);
         sb.append(", collectStatus=").append(collectStatus);
         sb.append(", grm=").append(grm);
         sb.append(", grmPassword=").append(grmPassword);
@@ -304,7 +293,6 @@ public class EamEquipment extends BaseEntity implements Serializable {
             && (this.getNumber() == null ? other.getNumber() == null : this.getNumber().equals(other.getNumber()))
             && (this.getSerialNumber() == null ? other.getSerialNumber() == null : this.getSerialNumber().equals(other.getSerialNumber()))
             && (this.getImagePath() == null ? other.getImagePath() == null : this.getImagePath().equals(other.getImagePath()))
-            && (this.getUser() == null ? other.getUser() == null : this.getUser().equals(other.getUser()))
             && (this.getCollectStatus() == null ? other.getCollectStatus() == null : this.getCollectStatus().equals(other.getCollectStatus()))
             && (this.getGrm() == null ? other.getGrm() == null : this.getGrm().equals(other.getGrm()))
             && (this.getGrmPassword() == null ? other.getGrmPassword() == null : this.getGrmPassword().equals(other.getGrmPassword()))
@@ -336,7 +324,6 @@ public class EamEquipment extends BaseEntity implements Serializable {
         result = prime * result + ((getNumber() == null) ? 0 : getNumber().hashCode());
         result = prime * result + ((getSerialNumber() == null) ? 0 : getSerialNumber().hashCode());
         result = prime * result + ((getImagePath() == null) ? 0 : getImagePath().hashCode());
-        result = prime * result + ((getUser() == null) ? 0 : getUser().hashCode());
         result = prime * result + ((getCollectStatus() == null) ? 0 : getCollectStatus().hashCode());
         result = prime * result + ((getGrm() == null) ? 0 : getGrm().hashCode());
         result = prime * result + ((getGrmPassword() == null) ? 0 : getGrmPassword().hashCode());
