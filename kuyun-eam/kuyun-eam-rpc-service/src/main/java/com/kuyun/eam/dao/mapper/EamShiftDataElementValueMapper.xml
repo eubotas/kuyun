@@ -3,6 +3,7 @@
 <mapper namespace="com.kuyun.eam.dao.mapper.EamShiftDataElementValueMapper">
   <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamShiftDataElementValue">
     <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="eam_grm_variable_id" jdbcType="INTEGER" property="eamGrmVariableId" />
     <result column="equipment_id" jdbcType="VARCHAR" property="equipmentId" />
     <result column="product_line_id" jdbcType="VARCHAR" property="productLineId" />
     <result column="data_element_id" jdbcType="INTEGER" property="dataElementId" />
@@ -73,8 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, equipment_id, product_line_id, data_element_id, shift, value, create_user_id, 
-    create_time, update_user_id, update_time, delete_flag
+    id, eam_grm_variable_id, equipment_id, product_line_id, data_element_id, shift, value, 
+    create_user_id, create_time, update_user_id, update_time, delete_flag
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamShiftDataElementValueExample" resultMap="BaseResultMap">
     select
@@ -115,20 +116,25 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamShiftDataElementValue">
-    insert into eam_shift_data_element_value (id, equipment_id, product_line_id, 
-      data_element_id, shift, value, 
-      create_user_id, create_time, update_user_id, 
-      update_time, delete_flag)
-    values (#{id,jdbcType=INTEGER}, #{equipmentId,jdbcType=VARCHAR}, #{productLineId,jdbcType=VARCHAR}, 
-      #{dataElementId,jdbcType=INTEGER}, #{shift,jdbcType=VARCHAR}, #{value,jdbcType=VARCHAR}, 
-      #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT})
+    insert into eam_shift_data_element_value (id, eam_grm_variable_id, equipment_id, 
+      product_line_id, data_element_id, shift, 
+      value, create_user_id, create_time, 
+      update_user_id, update_time, delete_flag
+      )
+    values (#{id,jdbcType=INTEGER}, #{eamGrmVariableId,jdbcType=INTEGER}, #{equipmentId,jdbcType=VARCHAR}, 
+      #{productLineId,jdbcType=VARCHAR}, #{dataElementId,jdbcType=INTEGER}, #{shift,jdbcType=VARCHAR}, 
+      #{value,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamShiftDataElementValue">
     insert into eam_shift_data_element_value
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
+      </if>
+      <if test="eamGrmVariableId != null">
+        eam_grm_variable_id,
       </if>
       <if test="equipmentId != null">
         equipment_id,
@@ -164,6 +170,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=INTEGER},
+      </if>
+      <if test="eamGrmVariableId != null">
+        #{eamGrmVariableId,jdbcType=INTEGER},
       </if>
       <if test="equipmentId != null">
         #{equipmentId,jdbcType=VARCHAR},
@@ -209,6 +218,9 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
       </if>
+      <if test="record.eamGrmVariableId != null">
+        eam_grm_variable_id = #{record.eamGrmVariableId,jdbcType=INTEGER},
+      </if>
       <if test="record.equipmentId != null">
         equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
       </if>
@@ -247,6 +259,7 @@
   <update id="updateByExample" parameterType="map">
     update eam_shift_data_element_value
     set id = #{record.id,jdbcType=INTEGER},
+      eam_grm_variable_id = #{record.eamGrmVariableId,jdbcType=INTEGER},
       equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
       product_line_id = #{record.productLineId,jdbcType=VARCHAR},
       data_element_id = #{record.dataElementId,jdbcType=INTEGER},
@@ -264,6 +277,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.kuyun.eam.dao.model.EamShiftDataElementValue">
     update eam_shift_data_element_value
     <set>
+      <if test="eamGrmVariableId != null">
+        eam_grm_variable_id = #{eamGrmVariableId,jdbcType=INTEGER},
+      </if>
       <if test="equipmentId != null">
         equipment_id = #{equipmentId,jdbcType=VARCHAR},
       </if>
@@ -299,7 +315,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamShiftDataElementValue">
     update eam_shift_data_element_value
-    set equipment_id = #{equipmentId,jdbcType=VARCHAR},
+    set eam_grm_variable_id = #{eamGrmVariableId,jdbcType=INTEGER},
+      equipment_id = #{equipmentId,jdbcType=VARCHAR},
       product_line_id = #{productLineId,jdbcType=VARCHAR},
       data_element_id = #{dataElementId,jdbcType=INTEGER},
       shift = #{shift,jdbcType=VARCHAR},
@@ -313,16 +330,18 @@
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into eam_shift_data_element_value  (id, equipment_id, product_line_id, 
-        data_element_id, shift, value, 
-        create_user_id, create_time, update_user_id, 
-        update_time, delete_flag)
+            insert into eam_shift_data_element_value  (id, eam_grm_variable_id, equipment_id, 
+        product_line_id, data_element_id, shift, 
+        value, create_user_id, create_time, 
+        update_user_id, update_time, delete_flag
+        )
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.id,jdbcType=INTEGER}, #{item.equipmentId,jdbcType=VARCHAR}, #{item.productLineId,jdbcType=VARCHAR}, 
-        #{item.dataElementId,jdbcType=INTEGER}, #{item.shift,jdbcType=VARCHAR}, #{item.value,jdbcType=VARCHAR}, 
-        #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, 
-        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT})
+      (#{item.id,jdbcType=INTEGER}, #{item.eamGrmVariableId,jdbcType=INTEGER}, #{item.equipmentId,jdbcType=VARCHAR}, 
+        #{item.productLineId,jdbcType=VARCHAR}, #{item.dataElementId,jdbcType=INTEGER}, #{item.shift,jdbcType=VARCHAR}, 
+        #{item.value,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, 
+        #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}
+        )
       </foreach>
     </if>
   </insert>

@@ -528,63 +528,63 @@ public class EamDataElementExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andIsStatisticIsNull() {
-            addCriterion("is_statistic is null");
+        public Criteria andIsStatisticByDateIsNull() {
+            addCriterion("is_statistic_by_date is null");
             return (Criteria) this;
         }
 
-        public Criteria andIsStatisticIsNotNull() {
-            addCriterion("is_statistic is not null");
+        public Criteria andIsStatisticByDateIsNotNull() {
+            addCriterion("is_statistic_by_date is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIsStatisticEqualTo(Boolean value) {
-            addCriterion("is_statistic =", value, "isStatistic");
+        public Criteria andIsStatisticByDateEqualTo(Boolean value) {
+            addCriterion("is_statistic_by_date =", value, "isStatisticByDate");
             return (Criteria) this;
         }
 
-        public Criteria andIsStatisticNotEqualTo(Boolean value) {
-            addCriterion("is_statistic <>", value, "isStatistic");
+        public Criteria andIsStatisticByDateNotEqualTo(Boolean value) {
+            addCriterion("is_statistic_by_date <>", value, "isStatisticByDate");
             return (Criteria) this;
         }
 
-        public Criteria andIsStatisticGreaterThan(Boolean value) {
-            addCriterion("is_statistic >", value, "isStatistic");
+        public Criteria andIsStatisticByDateGreaterThan(Boolean value) {
+            addCriterion("is_statistic_by_date >", value, "isStatisticByDate");
             return (Criteria) this;
         }
 
-        public Criteria andIsStatisticGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("is_statistic >=", value, "isStatistic");
+        public Criteria andIsStatisticByDateGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_statistic_by_date >=", value, "isStatisticByDate");
             return (Criteria) this;
         }
 
-        public Criteria andIsStatisticLessThan(Boolean value) {
-            addCriterion("is_statistic <", value, "isStatistic");
+        public Criteria andIsStatisticByDateLessThan(Boolean value) {
+            addCriterion("is_statistic_by_date <", value, "isStatisticByDate");
             return (Criteria) this;
         }
 
-        public Criteria andIsStatisticLessThanOrEqualTo(Boolean value) {
-            addCriterion("is_statistic <=", value, "isStatistic");
+        public Criteria andIsStatisticByDateLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_statistic_by_date <=", value, "isStatisticByDate");
             return (Criteria) this;
         }
 
-        public Criteria andIsStatisticIn(List<Boolean> values) {
-            addCriterion("is_statistic in", values, "isStatistic");
+        public Criteria andIsStatisticByDateIn(List<Boolean> values) {
+            addCriterion("is_statistic_by_date in", values, "isStatisticByDate");
             return (Criteria) this;
         }
 
-        public Criteria andIsStatisticNotIn(List<Boolean> values) {
-            addCriterion("is_statistic not in", values, "isStatistic");
+        public Criteria andIsStatisticByDateNotIn(List<Boolean> values) {
+            addCriterion("is_statistic_by_date not in", values, "isStatisticByDate");
             return (Criteria) this;
         }
 
-        public Criteria andIsStatisticBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_statistic between", value1, value2, "isStatistic");
+        public Criteria andIsStatisticByDateBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_statistic_by_date between", value1, value2, "isStatisticByDate");
             return (Criteria) this;
         }
 
-        public Criteria andIsStatisticNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("is_statistic not between", value1, value2, "isStatistic");
+        public Criteria andIsStatisticByDateNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_statistic_by_date not between", value1, value2, "isStatisticByDate");
             return (Criteria) this;
         }
 
@@ -885,6 +885,126 @@ public class EamDataElementExample implements Serializable {
 
         public Criteria andDeleteFlagNotBetween(Boolean value1, Boolean value2) {
             addCriterion("delete_flag not between", value1, value2, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStatisticByShiftIsNull() {
+            addCriterion("is_statistic_by_shift is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStatisticByShiftIsNotNull() {
+            addCriterion("is_statistic_by_shift is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStatisticByShiftEqualTo(Boolean value) {
+            addCriterion("is_statistic_by_shift =", value, "isStatisticByShift");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStatisticByShiftNotEqualTo(Boolean value) {
+            addCriterion("is_statistic_by_shift <>", value, "isStatisticByShift");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStatisticByShiftGreaterThan(Boolean value) {
+            addCriterion("is_statistic_by_shift >", value, "isStatisticByShift");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStatisticByShiftGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_statistic_by_shift >=", value, "isStatisticByShift");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStatisticByShiftLessThan(Boolean value) {
+            addCriterion("is_statistic_by_shift <", value, "isStatisticByShift");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStatisticByShiftLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_statistic_by_shift <=", value, "isStatisticByShift");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStatisticByShiftIn(List<Boolean> values) {
+            addCriterion("is_statistic_by_shift in", values, "isStatisticByShift");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStatisticByShiftNotIn(List<Boolean> values) {
+            addCriterion("is_statistic_by_shift not in", values, "isStatisticByShift");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStatisticByShiftBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_statistic_by_shift between", value1, value2, "isStatisticByShift");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsStatisticByShiftNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_statistic_by_shift not between", value1, value2, "isStatisticByShift");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSummationIsNull() {
+            addCriterion("is_summation is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSummationIsNotNull() {
+            addCriterion("is_summation is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSummationEqualTo(Boolean value) {
+            addCriterion("is_summation =", value, "isSummation");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSummationNotEqualTo(Boolean value) {
+            addCriterion("is_summation <>", value, "isSummation");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSummationGreaterThan(Boolean value) {
+            addCriterion("is_summation >", value, "isSummation");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSummationGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("is_summation >=", value, "isSummation");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSummationLessThan(Boolean value) {
+            addCriterion("is_summation <", value, "isSummation");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSummationLessThanOrEqualTo(Boolean value) {
+            addCriterion("is_summation <=", value, "isSummation");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSummationIn(List<Boolean> values) {
+            addCriterion("is_summation in", values, "isSummation");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSummationNotIn(List<Boolean> values) {
+            addCriterion("is_summation not in", values, "isSummation");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSummationBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_summation between", value1, value2, "isSummation");
+            return (Criteria) this;
+        }
+
+        public Criteria andIsSummationNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("is_summation not between", value1, value2, "isSummation");
             return (Criteria) this;
         }
 

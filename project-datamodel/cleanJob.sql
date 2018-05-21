@@ -1,11 +1,12 @@
 use xmx_job;
+SET FOREIGN_KEY_CHECKS=0;
 
-truncate qrtz_triggers;
-truncate qrtz_job_details;
-truncate qrtz_fired_triggers;
-truncate qrtz_simple_triggers;
+truncate QRTZ_TRIGGERS;
+truncate QRTZ_JOB_DETAILS;
+truncate QRTZ_FIRED_TRIGGERS;
+truncate QRTZ_SIMPLE_TRIGGERS;
 
-
+use xmx;
 truncate eam_alarm_record;
 truncate eam_alarm_record_history;
 truncate eam_ticket;

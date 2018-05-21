@@ -2126,7 +2126,9 @@ public class EamApiServiceImpl implements EamApiService {
                 dataElement.setUnit(elementBean.getUnit());
                 dataElement.setEquipmentCategoryId(getEquipmentCategoryId(elementBean.getEquipmentCategory()));
                 dataElement.setDataType(DataType.getCode(elementBean.getName()));
-                dataElement.setIsStatistic("是".equals(elementBean.getStatistic()) ? true : false);
+                dataElement.setIsStatisticByDate("是".equals(elementBean.getStatisticByDate()) ? true : false);
+                dataElement.setIsStatisticByShift("是".equals(elementBean.getStatisticByShift()) ? true : false);
+                dataElement.setIsSummation("是".equals(elementBean.getSummation()) ? true : false);
 
                 if (!hasDataElement(elementBean.getName())){
                     dataElements.add(dataElement);

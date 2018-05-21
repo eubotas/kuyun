@@ -38,12 +38,25 @@ public class DataElementBean extends BaseImportBean {
     private String equipmentCategory;
 
     /**
-     * 是否统计累计量（用电量）
+     * 是否按年、月、日统计
      *
      * @mbg.generated
      */
-    private String statistic;
+    private Boolean isStatisticByDate;
 
+    /**
+     * 是否按班次统计
+     *
+     * @mbg.generated
+     */
+    private Boolean isStatisticByShift;
+
+    /**
+     * 是否累加统计
+     *
+     * @mbg.generated
+     */
+    private Boolean isSummation;
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -94,12 +107,28 @@ public class DataElementBean extends BaseImportBean {
         this.equipmentCategory = equipmentCategory;
     }
 
-    public String getStatistic() {
-        return statistic;
+    public Boolean getStatisticByDate() {
+        return isStatisticByDate;
     }
 
-    public void setStatistic(String statistic) {
-        this.statistic = statistic;
+    public void setStatisticByDate(Boolean statisticByDate) {
+        isStatisticByDate = statisticByDate;
+    }
+
+    public Boolean getStatisticByShift() {
+        return isStatisticByShift;
+    }
+
+    public void setStatisticByShift(Boolean statisticByShift) {
+        isStatisticByShift = statisticByShift;
+    }
+
+    public Boolean getSummation() {
+        return isSummation;
+    }
+
+    public void setSummation(Boolean summation) {
+        isSummation = summation;
     }
 
     /**
@@ -107,7 +136,7 @@ public class DataElementBean extends BaseImportBean {
      */
     @Override
     public String[] getHeaderName() {
-        return new String[]{"序号", "变量名", "显示名称","单位", "设备类别", "数据类型", "是否按年、月、日统计"};
+        return new String[]{"序号", "变量名", "显示名称","单位", "设备类别", "数据类型", "是否按年、月、日统计", "是否按班次统计", "是否累加统计"};
     }
 
     /**
@@ -116,6 +145,6 @@ public class DataElementBean extends BaseImportBean {
      */
     @Override
     public String[] getSortedProperty() {
-        return new String[]{"id", "name", "labelName", "unit", "equipmentCategory", "dataType", "statistic"};
+        return new String[]{"id", "name", "labelName", "unit", "equipmentCategory", "dataType", "statisticByDate", "statisticByShift", "summation"};
     }
 }

@@ -1235,7 +1235,7 @@
 		from eam_grm_variable, eam_data_element e
 		where eam_grm_variable.delete_flag = 0 and e.delete_flag = 0
 		and eam_grm_variable.data_element_id = e.id
-		and e.is_statistic = 1
+		and e.is_statistic_by_date = 1
 		GROUP BY product_line_id, equipment_id, data_element_id
 		ORDER by product_line_id, equipment_id, data_element_id
 

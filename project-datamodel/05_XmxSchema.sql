@@ -26,7 +26,9 @@ create table eam_data_element
    unit                 varchar(20) comment '单位',
    data_type            varchar(20) comment '数据类型(analog, digital)',
    equipment_category_id int ,
-   is_statistic         boolean comment '是否统计累计量（用电量）',
+   is_statistic_by_date  boolean comment '是否按年、月、日统计',
+   is_statistic_by_shift boolean comment '是否按班次统计',
+   is_summation         boolean comment '是否累加统计'
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,
@@ -584,26 +586,11 @@ CREATE TABLE eam_order (
   primary key (id)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-drop table if exists eam_shift_data_element;
-create table eam_shift_data_element
-(  
-   id                   int not null auto_increment,
-   equipment_id         varchar(32),
-   product_line_id      varchar(32),
-   data_element_id      int,
-   summation            boolean COMMENT '是否累加',
-   create_user_id       int,
-   create_time          datetime,
-   update_user_id       int,
-   update_time          datetime,
-   delete_flag          boolean,
-   primary key (id)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 drop table if exists eam_shift_data_element_value;
 create table eam_shift_data_element_value
 (  
    id                   int not null auto_increment,
+   eam_grm_variable_id  int,
    equipment_id         varchar(32),
    product_line_id      varchar(32),
    data_element_id      int,
