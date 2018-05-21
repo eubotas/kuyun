@@ -23,10 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -64,7 +61,10 @@ public class EamAlarmController extends BaseController {
     @ApiOperation(value = "报警提醒列表")
     @RequestMapping(value = "/list")
     @ResponseBody
-    public Object list(){
+    public Object list(@RequestParam(required = false, defaultValue = "0", value = "offset") int offset,
+                       @RequestParam(required = false, defaultValue = "100", value = "limit") int limit,
+                       @RequestParam(required = false, value = "sort") String sort,
+                       @RequestParam(required = false, value = "order") String order){
         UpmsUser user = baseEntityUtil.getCurrentUser();
 		EamAlarmRecordVO recordVO = new EamAlarmRecordVO();
 		recordVO.setAlarmStatus(AlarmStatus.ANU.getCode());
@@ -76,12 +76,12 @@ public class EamAlarmController extends BaseController {
 			//current company have not equipment
 			recordVO.setEquipmentId("-1");
 		}
-		List<EamAlarmRecordVO> vos = eamApiService.selectAlarmRecords(recordVO);
-        List<EamAlarmRemindVO> rows = eamApiService.getUserAlarms(user.getUserId());
-        rows.addAll(0, convert(vos));
+        recordVO.setUpdateUserId(user.getUserId());  //userId
+        List<EamAlarmRemindVO> rows = eamApiService.getUserAlarms(recordVO);
+        long total = eamApiService.getUserAlarmsCount(recordVO);
         Map<String, Object> result = new HashMap<>();
         result.put("rows", rows);
-        result.put("total", rows.size());
+        result.put("total", total);
         return result;
     }
 

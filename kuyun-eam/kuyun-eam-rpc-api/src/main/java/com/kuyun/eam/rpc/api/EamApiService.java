@@ -88,7 +88,8 @@ public interface EamApiService {
     List<EamHomeStatusSummaryVO> getStatusSummaryRecord(Integer companyId);
     List<EamHomeSummaryVO> getSummaryRecord(Integer companyId);
 
-    List<EamAlarmRemindVO> getUserAlarms(Integer userId);
+    List<EamAlarmRemindVO> getUserAlarms(EamAlarmRecordVO eamAlarmRecordVO);
+    Long getUserAlarmsCount(EamAlarmRecordVO eamAlarmRecordVO);
 
     int createCustomer(UpmsCompany upmsCompany);
 }

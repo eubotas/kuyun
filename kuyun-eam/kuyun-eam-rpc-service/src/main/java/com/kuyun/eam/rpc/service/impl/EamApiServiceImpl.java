@@ -725,8 +725,13 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     @Override
-    public List<EamAlarmRemindVO> getUserAlarms(Integer userId){
-        return eamApiMapper.getUserAlarms(userId);
+    public List<EamAlarmRemindVO> getUserAlarms(EamAlarmRecordVO eamAlarmRecordVO){
+        return eamApiMapper.getUserAlarms(eamAlarmRecordVO);
+    }
+
+    @Override
+    public Long getUserAlarmsCount(EamAlarmRecordVO eamAlarmRecordVO){
+        return eamApiMapper.getUserAlarmsCount(eamAlarmRecordVO);
     }
 
     @Override

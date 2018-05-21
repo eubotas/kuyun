@@ -232,9 +232,15 @@ public class EamApiServiceMock implements EamApiService {
     }
 
     @Override
-    public List<EamAlarmRemindVO> getUserAlarms(Integer userId) {
+    public List<EamAlarmRemindVO> getUserAlarms(EamAlarmRecordVO eamAlarmRecordVO) {
         return null;
     }
+
+    @Override
+    public Long getUserAlarmsCount(EamAlarmRecordVO eamAlarmRecordVO) {
+        return null;
+    }
+
 
     @Override
     public int createCustomer(UpmsCompany upmsCompany) {
