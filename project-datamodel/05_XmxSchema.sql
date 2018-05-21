@@ -588,23 +588,10 @@ drop table if exists eam_shift_data_element;
 create table eam_shift_data_element
 (  
    id                   int not null auto_increment,
-   data_element_id      int,
-   create_user_id       int,
-   create_time          datetime,
-   update_user_id       int,
-   update_time          datetime,
-   delete_flag          boolean,
-   primary key (id)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-drop table if exists eam_shift_data_element;
-create table eam_shift_data_element
-(  
-   id                   int not null auto_increment,
    equipment_id         varchar(32),
    product_line_id      varchar(32),
    data_element_id      int,
-   summation            boolean,
+   summation            boolean COMMENT '是否累加',
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,
@@ -620,7 +607,7 @@ create table eam_shift_data_element_value
    equipment_id         varchar(32),
    product_line_id      varchar(32),
    data_element_id      int,
-   shift                varchar(10),
+   shift                varchar(10) COMMENT '班次',
    value                varchar(30),
    create_user_id       int,
    create_time          datetime,
