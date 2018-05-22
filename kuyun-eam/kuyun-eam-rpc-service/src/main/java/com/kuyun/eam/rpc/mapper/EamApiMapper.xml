@@ -1006,30 +1006,32 @@
     </select>
 
     <select id="getUserAlarmsCount" parameterType="com.kuyun.eam.vo.EamAlarmRecordVO" resultType="java.lang.Long">
-        SELECT message_title, content, 'P' alarmType, id, 0 AS equipmentId, 'P' alarmStatus, update_time FROM kuyun.eam_alert_message where user_id=#{updateUserId, jdbcType=INTEGER} and read_flag is null and alert_start_date >= CURDATE() and alert_end_date >= CURDATE()
-        union
-        select '' message_title, e.name ||'('|| e.number||')  '||p.name||'  '|| case a.alarm_type
-        when 'val_above' then '数值高于'||a.upper_Bound
-        when 'val_below' then '数值低于'||a.lower_Bound
-        when 'val_between' then '数值在'||a.lower_Bound || '和'||a.upper_Bound ||'之间'
-        when 'val_above_below_ofm' then '数值在'||a.lower_Bound || '和'||a.upper_Bound ||'之间超过'||a.duration||'分钟'
-        when 'val_above_bound' then '数值超过超过'||a.duration||'分钟高于'||a.upper_Bound
-        when 'val_below_bound' then '数值超过超过'||a.duration||'分钟低于'||a.lower_Bound
-        when 'offline' then '传感器断开'
-        when 'switch_on' then '开关开启'
-        when 'switch_off' then '开关关闭' end as content,
-        'E' alarmType, t.alarm_id id, t.equipment_id equipmentId, t.alarm_status alarmStatus,t.update_time
-        from eam_alarm_record t
-        LEFT JOIN eam_alarm a ON t.alarm_id = a.alarm_id
-        LEFT JOIN eam_alarm_target_user u ON t.alarm_id = u.alarm_id
-        LEFT JOIN upms_user uu ON uu.user_id = u.user_id
-        LEFT JOIN eam_equipment_model_properties p ON p.equipment_model_property_id = t.equipment_model_property_id
-        LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
-        WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0 AND u.delete_flag = 0
-
-        <if test="equipmentIds != null and equipmentIds.size > 0">
-            AND t.equipment_id IN
-            <foreach item="item" index="index" collection="equipmentIds"
+		select count(id) from (
+		SELECT message_title, content, 'P' alarmType, id, 0 AS equipmentId, 'P' alarmStatus, update_time FROM
+		kuyun.eam_alert_message where user_id=#{updateUserId, jdbcType=INTEGER} and read_flag is null and
+		alert_start_date >= CURDATE() and alert_end_date >= CURDATE()
+		union
+		select '' message_title, e.name ||'('|| e.number||') '||p.name||' '|| case a.alarm_type
+		when 'val_above' then '数值高于'||a.upper_Bound
+		when 'val_below' then '数值低于'||a.lower_Bound
+		when 'val_between' then '数值在'||a.lower_Bound || '和'||a.upper_Bound ||'之间'
+		when 'val_above_below_ofm' then '数值在'||a.lower_Bound || '和'||a.upper_Bound ||'之间超过'||a.duration||'分钟'
+		when 'val_above_bound' then '数值超过超过'||a.duration||'分钟高于'||a.upper_Bound
+		when 'val_below_bound' then '数值超过超过'||a.duration||'分钟低于'||a.lower_Bound
+		when 'offline' then '传感器断开'
+		when 'switch_on' then '开关开启'
+		when 'switch_off' then '开关关闭' end as content,
+		'E' alarmType, t.alarm_id id, t.equipment_id equipmentId, t.alarm_status alarmStatus,t.update_time
+		from eam_alarm_record t
+		LEFT JOIN eam_alarm a ON t.alarm_id = a.alarm_id
+		LEFT JOIN eam_alarm_target_user u ON t.alarm_id = u.alarm_id
+		LEFT JOIN upms_user uu ON uu.user_id = u.user_id
+		LEFT JOIN eam_equipment_model_properties p ON p.equipment_model_property_id = t.equipment_model_property_id
+		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
+		WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0 AND u.delete_flag = 0
+		<if test="equipmentIds != null and equipmentIds.size > 0">AND t.equipment_id IN
+			<foreach
+					item="item" index="index" collection="equipmentIds"
                      open="(" separator="," close=")">
                 #{item}
             </foreach>
@@ -1037,9 +1039,6 @@
 
         <if test="equipmentId != null and equipmentId != ''">
             AND t.equipment_id = #{equipmentId}
-        </if>
-        <if test="equipmentModelPropertyId != null and equipmentModelPropertyId != ''">
-            AND t.equipment_model_property_id = #{equipmentModelPropertyId}
         </if>
         <if test="startDate != null">
             AND t.create_time <![CDATA[>=]]> #{startDate}
@@ -1050,13 +1049,7 @@
         <if test="alarmStatus != null and alarmStatus != ''">
             AND t.alarm_status = #{alarmStatus}
         </if>
-        <if test="alarmStatuses != null and alarmStatuses.size > 0">
-            AND t.alarm_status in
-            <foreach item="item" index="index" collection="alarmStatuses"
-                     open="(" separator="," close=")">
-                #{item}
-            </foreach>
-        </if>
+		) a
     </select>
 
 	<!-- 缓存 -->
