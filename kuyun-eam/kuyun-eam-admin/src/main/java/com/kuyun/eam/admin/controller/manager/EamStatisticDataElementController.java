@@ -62,14 +62,6 @@ public class EamStatisticDataElementController extends BaseController {
 			criteria.andEquipmentIdEqualTo(variable.getEquipmentId());
 		}
 
-		if (variable.getDataGroupId() != null){
-			criteria.andDataGroupIdEqualTo(variable.getDataGroupId());
-		}
-
-		if (variable.getEquipmentDataGroupId() != null){
-			criteria.andEquipmentDataGroupIdEqualTo(variable.getEquipmentDataGroupId());
-		}
-
 		if (variable.getDataElementId() != null){
 			criteria.andDataElementIdEqualTo(variable.getDataElementId());
 		}
@@ -101,13 +93,6 @@ public class EamStatisticDataElementController extends BaseController {
 			criteria.andEquipmentIdEqualTo(variable.getEquipmentId());
 		}
 
-		if (variable.getDataGroupId() != null){
-			criteria.andDataGroupIdEqualTo(variable.getDataGroupId());
-		}
-
-		if (variable.getEquipmentDataGroupId() != null){
-			criteria.andEquipmentDataGroupIdEqualTo(variable.getEquipmentDataGroupId());
-		}
 
 		if (variable.getDataElementId() != null){
 			criteria.andDataElementIdEqualTo(variable.getDataElementId());
@@ -138,13 +123,6 @@ public class EamStatisticDataElementController extends BaseController {
 			criteria.andEquipmentIdEqualTo(variable.getEquipmentId());
 		}
 
-		if (variable.getDataGroupId() != null){
-			criteria.andDataGroupIdEqualTo(variable.getDataGroupId());
-		}
-
-		if (variable.getEquipmentDataGroupId() != null){
-			criteria.andEquipmentDataGroupIdEqualTo(variable.getEquipmentDataGroupId());
-		}
 
 		if (variable.getDataElementId() != null){
 			criteria.andDataElementIdEqualTo(variable.getDataElementId());

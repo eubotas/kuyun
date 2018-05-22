@@ -664,7 +664,7 @@
 
 	<sql id="DataElement_Column_List">
 		t.id, t.name, t.lable_name, t.unit, t.data_type, t.equipment_category_id, t.create_user_id, t.create_time,
-    	t.update_user_id, t.update_time, t.delete_flag, t.is_statistic,
+    	t.update_user_id, t.update_time, t.delete_flag, t.is_statistic_by_date,t.is_statistic_by_shift, t.is_summation,
 	</sql>
 
 	<select id="selectDataElements" parameterType="com.kuyun.eam.vo.EamDataElementVO" resultMap="EamDataElementVOResultMap">
