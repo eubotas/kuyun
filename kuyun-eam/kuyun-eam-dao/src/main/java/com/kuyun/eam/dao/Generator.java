@@ -34,7 +34,8 @@ public class Generator {
     }
     private static Map<String, String> ALIAS_NEEDED_TABLES = new HashMap<String,String>();
     static {
-    		ALIAS_NEEDED_TABLES.put("eam_order", "eam_");
+    		ALIAS_NEEDED_TABLES.put("eam_alert_message", "eam_alert_message");
+    		ALIAS_NEEDED_TABLES.put("eam_order", "eam_order");
     		ALIAS_NEEDED_TABLES.put("eam_alarm", "eam_alarm");
     		ALIAS_NEEDED_TABLES.put("eam_alarm_model", "eam_alarm_model");
     		ALIAS_NEEDED_TABLES.put("eam_product_line", "eam_product_line");

@@ -12,10 +12,7 @@ import com.kuyun.eam.admin.repository.RepairKnowledgeRepository;
 import com.kuyun.eam.admin.util.ActionEnum;
 import com.kuyun.eam.admin.util.BaseModelUtil;
 import com.kuyun.eam.admin.util.TagUtil;
-import com.kuyun.eam.common.constant.EamResult;
-import com.kuyun.eam.common.constant.EamResultConstant;
-import com.kuyun.eam.common.constant.TicketSearchCategory;
-import com.kuyun.eam.common.constant.TicketStatus;
+import com.kuyun.eam.common.constant.*;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.EamApiService;
 import com.kuyun.eam.rpc.api.EamEquipmentService;
@@ -108,14 +105,19 @@ public class EamTicketController extends EamTicketBaseController {
         modelMap.put("category", category);
         modelMap.put("ticketSummaryVo" ,eamApiService.summaryTicket(getCompanyId()));
         String categoryType="累计报修";
-        if("init".equals(category))
-            categoryType="未派工";
-        else if("processing".equals(category))
-            categoryType="维修中";
-        else if("notResolved".equals(category))
-            categoryType="未完成";
-        else if("resolved".equals(category))
-            categoryType="已完成";
+        if("init".equals(category)){
+			categoryType="未派工";
+		}
+        else if("processing".equals(category)){
+			categoryType="维修中";
+		}
+        else if("notResolved".equals(category)){
+			categoryType="未完成";
+		}
+        else if("resolved".equals(category)){
+			categoryType="已完成";
+		}
+
         modelMap.put("categoryType", categoryType);
         return "/manage/ticket/summary.jsp";
     }
@@ -357,13 +359,20 @@ public class EamTicketController extends EamTicketBaseController {
 	@RequestMapping(value = "/complete/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public Object complete(@PathVariable("id") int id) {
-		EamTicket ticket=new EamTicket();
-		ticket.setTicketId(id);
-		ticket.setStatus(TicketStatus.RESOLVED.getName());
+		EamTicket ticket = eamTicketService.selectByPrimaryKey(id);
+		//维修工单
+		if (TicketType.REPAIR.match(ticket.getTicketId())){
+			ticket.setStatus(TicketStatus.RESOLVED.getName());
+		}else {
+			ticket.setStatus(TicketStatus.CLOSED.getName());
+		}
 		ticket.setUpdateTime(new Date());
+		ticket.setUpdateUserId(getCurrUserId());
 		int count= eamTicketService.updateByPrimaryKeySelective(ticket);
 		return new EamResult(EamResultConstant.SUCCESS, count);
 	}
+
+
 
 	@ApiOperation(value = "工单拒绝记录")
 	@RequiresPermissions("eam:ticket:update")
@@ -424,7 +433,7 @@ public class EamTicketController extends EamTicketBaseController {
 		StringBuilder method = new StringBuilder();
 		List<EamTicketRecord> records = getTicketRecords(id);
 		for(EamTicketRecord record : records){
-			method.append(record.getComments()).append("/r/n");
+			method.append(record.getComments()).append("\r\n");
 		}
 		return method.toString();
 	}

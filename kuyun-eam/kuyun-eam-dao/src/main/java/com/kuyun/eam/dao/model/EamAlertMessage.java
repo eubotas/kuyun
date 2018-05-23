@@ -7,6 +7,8 @@ import java.util.Date;
 public class EamAlertMessage extends BaseEntity implements Serializable {
     private Integer id;
 
+    private Integer planId;
+
     private Integer userId;
 
     private String messageTitle;
@@ -44,6 +46,14 @@ public class EamAlertMessage extends BaseEntity implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getPlanId() {
+        return planId;
+    }
+
+    public void setPlanId(Integer planId) {
+        this.planId = planId;
     }
 
     public Integer getUserId() {
@@ -109,6 +119,7 @@ public class EamAlertMessage extends BaseEntity implements Serializable {
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
+        sb.append(", planId=").append(planId);
         sb.append(", userId=").append(userId);
         sb.append(", messageTitle=").append(messageTitle);
         sb.append(", content=").append(content);
@@ -133,6 +144,7 @@ public class EamAlertMessage extends BaseEntity implements Serializable {
         }
         EamAlertMessage other = (EamAlertMessage) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
+            && (this.getPlanId() == null ? other.getPlanId() == null : this.getPlanId().equals(other.getPlanId()))
             && (this.getUserId() == null ? other.getUserId() == null : this.getUserId().equals(other.getUserId()))
             && (this.getMessageTitle() == null ? other.getMessageTitle() == null : this.getMessageTitle().equals(other.getMessageTitle()))
             && (this.getContent() == null ? other.getContent() == null : this.getContent().equals(other.getContent()))
@@ -153,6 +165,7 @@ public class EamAlertMessage extends BaseEntity implements Serializable {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+        result = prime * result + ((getPlanId() == null) ? 0 : getPlanId().hashCode());
         result = prime * result + ((getUserId() == null) ? 0 : getUserId().hashCode());
         result = prime * result + ((getMessageTitle() == null) ? 0 : getMessageTitle().hashCode());
         result = prime * result + ((getContent() == null) ? 0 : getContent().hashCode());

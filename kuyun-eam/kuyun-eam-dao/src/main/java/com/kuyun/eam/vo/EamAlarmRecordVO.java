@@ -282,14 +282,19 @@ public class EamAlarmRecordVO extends EamAlarmRecord {
         StringBuilder result = new StringBuilder();
         if (AlarmTarget.EMAIL.match(getAlarmTarget())){
             result.append(getUserName());
-            result.append("(");
-            result.append(getEmail());
-            result.append(")");
+            if (StringUtils.isNotEmpty(getEmail())){
+                result.append("(");
+                result.append(getEmail());
+                result.append(")");
+            }
         }else if (AlarmTarget.SMS.match(getAlarmTarget())){
             result.append(getUserName());
-            result.append("(");
-            result.append(getPhone());
-            result.append(")");
+            if (StringUtils.isNotEmpty(getPhone())){
+                result.append("(");
+                result.append(getPhone());
+                result.append(")");
+            }
+
         }
 
         return result.toString();

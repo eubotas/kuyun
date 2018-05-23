@@ -2086,6 +2086,16 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     @Override
+    public List<EamAlertMessageVO> selectEamAlertMessages(EamAlertMessageVO alertMessageVO) {
+        return eamApiMapper.selectEamAlertMessages(alertMessageVO);
+    }
+
+    @Override
+    public long countEamAlertMessages(EamAlertMessageVO alertMessageVO) {
+        return eamApiMapper.countEamAlertMessages(alertMessageVO);
+    }
+
+    @Override
     public List<Pair<Integer, List<EamGrmVariable>>> selectGrmVariableGroupByPeriod(String productLineId) {
         List<Pair<Integer, List<EamGrmVariable>>> result = new ArrayList<>();
         List<EamGrmVariable> variables = eamApiMapper.selectGrmVariableGroupByPeriod(productLineId);

@@ -2,20 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kuyun.eam.dao.mapper.EamAlertMessageMapper">
   <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamAlertMessage">
-    <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="user_id" jdbcType="INTEGER" property="userId" />
-    <result column="message_title" jdbcType="VARCHAR" property="messageTitle" />
-    <result column="content" jdbcType="VARCHAR" property="content" />
-    <result column="read_flag" jdbcType="BIT" property="readFlag" />
-    <result column="read_time" jdbcType="TIMESTAMP" property="readTime" />
-    <result column="alert_start_date" jdbcType="TIMESTAMP" property="alertStartDate" />
-    <result column="alert_end_date" jdbcType="TIMESTAMP" property="alertEndDate" />
-    <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
-    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
-    <result column="company_id" jdbcType="INTEGER" property="companyId" />
+    <id column="eam_alert_message_id" jdbcType="INTEGER" property="id" />
+    <result column="eam_alert_message_plan_id" jdbcType="INTEGER" property="planId" />
+    <result column="eam_alert_message_user_id" jdbcType="INTEGER" property="userId" />
+    <result column="eam_alert_message_message_title" jdbcType="VARCHAR" property="messageTitle" />
+    <result column="eam_alert_message_content" jdbcType="VARCHAR" property="content" />
+    <result column="eam_alert_message_read_flag" jdbcType="BIT" property="readFlag" />
+    <result column="eam_alert_message_read_time" jdbcType="TIMESTAMP" property="readTime" />
+    <result column="eam_alert_message_alert_start_date" jdbcType="TIMESTAMP" property="alertStartDate" />
+    <result column="eam_alert_message_alert_end_date" jdbcType="TIMESTAMP" property="alertEndDate" />
+    <result column="eam_alert_message_create_user_id" jdbcType="INTEGER" property="createUserId" />
+    <result column="eam_alert_message_create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="eam_alert_message_update_user_id" jdbcType="INTEGER" property="updateUserId" />
+    <result column="eam_alert_message_update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="eam_alert_message_delete_flag" jdbcType="BIT" property="deleteFlag" />
+    <result column="eam_alert_message_company_id" jdbcType="INTEGER" property="companyId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -76,8 +77,14 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, user_id, message_title, content, read_flag, read_time, alert_start_date, alert_end_date, 
-    create_user_id, create_time, update_user_id, update_time, delete_flag, company_id
+    eam_alert_message.id as eam_alert_message_id, eam_alert_message.plan_id as eam_alert_message_plan_id, 
+    eam_alert_message.user_id as eam_alert_message_user_id, eam_alert_message.message_title as eam_alert_message_message_title, 
+    eam_alert_message.content as eam_alert_message_content, eam_alert_message.read_flag as eam_alert_message_read_flag, 
+    eam_alert_message.read_time as eam_alert_message_read_time, eam_alert_message.alert_start_date as eam_alert_message_alert_start_date, 
+    eam_alert_message.alert_end_date as eam_alert_message_alert_end_date, eam_alert_message.create_user_id as eam_alert_message_create_user_id, 
+    eam_alert_message.create_time as eam_alert_message_create_time, eam_alert_message.update_user_id as eam_alert_message_update_user_id, 
+    eam_alert_message.update_time as eam_alert_message_update_time, eam_alert_message.delete_flag as eam_alert_message_delete_flag, 
+    eam_alert_message.company_id as eam_alert_message_company_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamAlertMessageExample" resultMap="BaseResultMap">
     select
@@ -85,7 +92,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from eam_alert_message
+    from eam_alert_message eam_alert_message
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -104,36 +111,41 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from eam_alert_message
-    where id = #{id,jdbcType=INTEGER}
+    from eam_alert_message eam_alert_message
+    where eam_alert_message.id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    update eam_alert_message set delete_flag = 1 
+    update eam_alert_message eam_alert_message set delete_flag = 1 
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamAlertMessageExample">
-    update eam_alert_message set delete_flag = 1 
+    update eam_alert_message eam_alert_message set delete_flag = 1 
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamAlertMessage">
-    insert into eam_alert_message (id, user_id, message_title, 
-      content, read_flag, read_time, 
-      alert_start_date, alert_end_date, create_user_id, 
-      create_time, update_user_id, update_time, 
-      delete_flag, company_id)
-    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{messageTitle,jdbcType=VARCHAR}, 
-      #{content,jdbcType=VARCHAR}, #{readFlag,jdbcType=BIT}, #{readTime,jdbcType=TIMESTAMP}, 
-      #{alertStartDate,jdbcType=TIMESTAMP}, #{alertEndDate,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlag,jdbcType=BIT}, #{companyId,jdbcType=INTEGER})
+    insert into eam_alert_message (id, plan_id, user_id, 
+      message_title, content, read_flag, 
+      read_time, alert_start_date, alert_end_date, 
+      create_user_id, create_time, update_user_id, 
+      update_time, delete_flag, company_id
+      )
+    values (#{id,jdbcType=INTEGER}, #{planId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{messageTitle,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{readFlag,jdbcType=BIT}, 
+      #{readTime,jdbcType=TIMESTAMP}, #{alertStartDate,jdbcType=TIMESTAMP}, #{alertEndDate,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{companyId,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamAlertMessage">
     insert into eam_alert_message
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
+      </if>
+      <if test="planId != null">
+        plan_id,
       </if>
       <if test="userId != null">
         user_id,
@@ -179,6 +191,9 @@
       <if test="id != null">
         #{id,jdbcType=INTEGER},
       </if>
+      <if test="planId != null">
+        #{planId,jdbcType=INTEGER},
+      </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
@@ -221,55 +236,58 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamAlertMessageExample" resultType="java.lang.Long">
-    select count(*) from eam_alert_message
+    select count(*) from eam_alert_message eam_alert_message
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update eam_alert_message
+    update eam_alert_message eam_alert_message
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        eam_alert_message.id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.planId != null">
+        eam_alert_message.plan_id = #{record.planId,jdbcType=INTEGER},
       </if>
       <if test="record.userId != null">
-        user_id = #{record.userId,jdbcType=INTEGER},
+        eam_alert_message.user_id = #{record.userId,jdbcType=INTEGER},
       </if>
       <if test="record.messageTitle != null">
-        message_title = #{record.messageTitle,jdbcType=VARCHAR},
+        eam_alert_message.message_title = #{record.messageTitle,jdbcType=VARCHAR},
       </if>
       <if test="record.content != null">
-        content = #{record.content,jdbcType=VARCHAR},
+        eam_alert_message.content = #{record.content,jdbcType=VARCHAR},
       </if>
       <if test="record.readFlag != null">
-        read_flag = #{record.readFlag,jdbcType=BIT},
+        eam_alert_message.read_flag = #{record.readFlag,jdbcType=BIT},
       </if>
       <if test="record.readTime != null">
-        read_time = #{record.readTime,jdbcType=TIMESTAMP},
+        eam_alert_message.read_time = #{record.readTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.alertStartDate != null">
-        alert_start_date = #{record.alertStartDate,jdbcType=TIMESTAMP},
+        eam_alert_message.alert_start_date = #{record.alertStartDate,jdbcType=TIMESTAMP},
       </if>
       <if test="record.alertEndDate != null">
-        alert_end_date = #{record.alertEndDate,jdbcType=TIMESTAMP},
+        eam_alert_message.alert_end_date = #{record.alertEndDate,jdbcType=TIMESTAMP},
       </if>
       <if test="record.createUserId != null">
-        create_user_id = #{record.createUserId,jdbcType=INTEGER},
+        eam_alert_message.create_user_id = #{record.createUserId,jdbcType=INTEGER},
       </if>
       <if test="record.createTime != null">
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+        eam_alert_message.create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.updateUserId != null">
-        update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+        eam_alert_message.update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       </if>
       <if test="record.updateTime != null">
-        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+        eam_alert_message.update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.deleteFlag != null">
-        delete_flag = #{record.deleteFlag,jdbcType=BIT},
+        eam_alert_message.delete_flag = #{record.deleteFlag,jdbcType=BIT},
       </if>
       <if test="record.companyId != null">
-        company_id = #{record.companyId,jdbcType=INTEGER},
+        eam_alert_message.company_id = #{record.companyId,jdbcType=INTEGER},
       </if>
     </set>
     <if test="_parameter != null">
@@ -277,21 +295,22 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update eam_alert_message
-    set id = #{record.id,jdbcType=INTEGER},
-      user_id = #{record.userId,jdbcType=INTEGER},
-      message_title = #{record.messageTitle,jdbcType=VARCHAR},
-      content = #{record.content,jdbcType=VARCHAR},
-      read_flag = #{record.readFlag,jdbcType=BIT},
-      read_time = #{record.readTime,jdbcType=TIMESTAMP},
-      alert_start_date = #{record.alertStartDate,jdbcType=TIMESTAMP},
-      alert_end_date = #{record.alertEndDate,jdbcType=TIMESTAMP},
-      create_user_id = #{record.createUserId,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      update_user_id = #{record.updateUserId,jdbcType=INTEGER},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      company_id = #{record.companyId,jdbcType=INTEGER}
+    update eam_alert_message eam_alert_message
+    set eam_alert_message.id = #{record.id,jdbcType=INTEGER},
+      eam_alert_message.plan_id = #{record.planId,jdbcType=INTEGER},
+      eam_alert_message.user_id = #{record.userId,jdbcType=INTEGER},
+      eam_alert_message.message_title = #{record.messageTitle,jdbcType=VARCHAR},
+      eam_alert_message.content = #{record.content,jdbcType=VARCHAR},
+      eam_alert_message.read_flag = #{record.readFlag,jdbcType=BIT},
+      eam_alert_message.read_time = #{record.readTime,jdbcType=TIMESTAMP},
+      eam_alert_message.alert_start_date = #{record.alertStartDate,jdbcType=TIMESTAMP},
+      eam_alert_message.alert_end_date = #{record.alertEndDate,jdbcType=TIMESTAMP},
+      eam_alert_message.create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      eam_alert_message.create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      eam_alert_message.update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+      eam_alert_message.update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      eam_alert_message.delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      eam_alert_message.company_id = #{record.companyId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -299,6 +318,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.kuyun.eam.dao.model.EamAlertMessage">
     update eam_alert_message
     <set>
+      <if test="planId != null">
+        plan_id = #{planId,jdbcType=INTEGER},
+      </if>
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
@@ -343,7 +365,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamAlertMessage">
     update eam_alert_message
-    set user_id = #{userId,jdbcType=INTEGER},
+    set plan_id = #{planId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
       message_title = #{messageTitle,jdbcType=VARCHAR},
       content = #{content,jdbcType=VARCHAR},
       read_flag = #{readFlag,jdbcType=BIT},
@@ -360,18 +383,20 @@
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into eam_alert_message  (id, user_id, message_title, 
-        content, read_flag, read_time, 
-        alert_start_date, alert_end_date, create_user_id, 
-        create_time, update_user_id, update_time, 
-        delete_flag, company_id)
+            insert into eam_alert_message  (id, plan_id, user_id, 
+        message_title, content, read_flag, 
+        read_time, alert_start_date, alert_end_date, 
+        create_user_id, create_time, update_user_id, 
+        update_time, delete_flag, company_id
+        )
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.id,jdbcType=INTEGER}, #{item.userId,jdbcType=INTEGER}, #{item.messageTitle,jdbcType=VARCHAR}, 
-        #{item.content,jdbcType=VARCHAR}, #{item.readFlag,jdbcType=BIT}, #{item.readTime,jdbcType=TIMESTAMP}, 
-        #{item.alertStartDate,jdbcType=TIMESTAMP}, #{item.alertEndDate,jdbcType=TIMESTAMP}, #{item.createUserId,jdbcType=INTEGER}, 
-        #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
-        #{item.deleteFlag,jdbcType=BIT}, #{item.companyId,jdbcType=INTEGER})
+      (#{item.id,jdbcType=INTEGER}, #{item.planId,jdbcType=INTEGER}, #{item.userId,jdbcType=INTEGER}, 
+        #{item.messageTitle,jdbcType=VARCHAR}, #{item.content,jdbcType=VARCHAR}, #{item.readFlag,jdbcType=BIT}, 
+        #{item.readTime,jdbcType=TIMESTAMP}, #{item.alertStartDate,jdbcType=TIMESTAMP}, #{item.alertEndDate,jdbcType=TIMESTAMP}, 
+        #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, 
+        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, #{item.companyId,jdbcType=INTEGER}
+        )
       </foreach>
     </if>
   </insert>

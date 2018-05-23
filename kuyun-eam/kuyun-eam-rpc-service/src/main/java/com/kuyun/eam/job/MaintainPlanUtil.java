@@ -60,18 +60,18 @@ public class MaintainPlanUtil {
     private JpushUtil jpushUtil;
 
 
-    public EamMaintainPlan getEamMaintainPlan(String planId){
-        return eamMainTainPlanService.selectByPrimaryKey(Integer.parseInt(planId));
+    public EamMaintainPlan getEamMaintainPlan(Integer planId){
+        return eamMainTainPlanService.selectByPrimaryKey(planId);
     }
 
-    private List<EamMaintainUser> getEamMaintainUsers(String planId){
+    private List<EamMaintainUser> getEamMaintainUsers(Integer planId){
         EamMaintainUserExample example = new EamMaintainUserExample();
-        example.createCriteria().andPlanIdEqualTo(NumberUtil.toInteger(planId)).andDeleteFlagEqualTo(Boolean.FALSE);
+        example.createCriteria().andPlanIdEqualTo(planId).andDeleteFlagEqualTo(Boolean.FALSE);
 
         return maintainUserService.selectByExample(example);
     }
 
-    public void createTicket(String planId){
+    public void createTicket(Integer planId){
         EamMaintainPlan plan = getEamMaintainPlan(planId);
         if(plan != null) {
 
@@ -103,7 +103,7 @@ public class MaintainPlanUtil {
         }
     }
 
-    public void createAlert(String planId){
+    public void createAlert(Integer planId){
         EamMaintainPlan plan = getEamMaintainPlan(planId);
         if(plan != null) {
             List<EamMaintainUser> maintainUsers = getEamMaintainUsers(planId);
@@ -117,6 +117,7 @@ public class MaintainPlanUtil {
             EamAlertMessage alert;
             for(EamMaintainUser uo: maintainUsers) {
                 alert = new EamAlertMessage();
+                alert.setPlanId(planId);
                 alert.setUserId(uo.getUserId());
                 alert.setAlertStartDate(EamDateUtil.getDateBefore(plan.getNextMaintainDate(),plan.getRemindTime()));
                 alert.setAlertEndDate(plan.getNextMaintainDate());

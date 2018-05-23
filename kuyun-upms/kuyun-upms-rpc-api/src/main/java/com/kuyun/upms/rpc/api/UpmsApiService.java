@@ -127,6 +127,8 @@ public interface UpmsApiService {
 
     int createUser(UpmsUser upmsUser, UpmsUserCompany upmsUserCompany);
 
+    int deleteCompanies(String ids);
+
     List<UpmsCompany> selectCompanies(UpmsCompanyVo companyVo);
 
     Long countCompanies(UpmsCompanyVo companyVo);

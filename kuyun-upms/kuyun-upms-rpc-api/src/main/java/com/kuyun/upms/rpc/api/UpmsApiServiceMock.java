@@ -181,6 +181,11 @@ public class UpmsApiServiceMock implements UpmsApiService {
     }
 
     @Override
+    public int deleteCompanies(String ids) {
+        return 0;
+    }
+
+    @Override
     public List<UpmsCompany> selectCompanies(UpmsCompanyVo companyVo) {
         return null;
     }

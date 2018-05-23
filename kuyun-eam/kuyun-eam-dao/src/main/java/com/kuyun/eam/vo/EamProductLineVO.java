@@ -7,6 +7,8 @@ import com.kuyun.eam.dao.model.EamProductLine;
  */
 public class EamProductLineVO extends EamProductLine {
     private String categoryName;
+    private String companyName;
+    private String companyAddress;
 
     private Integer limit;
 
@@ -15,6 +17,22 @@ public class EamProductLineVO extends EamProductLine {
     private String orderByClause;
 
     private Boolean checked;
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getCompanyAddress() {
+        return companyAddress;
+    }
+
+    public void setCompanyAddress(String companyAddress) {
+        this.companyAddress = companyAddress;
+    }
 
     public Integer getLimit() {
         return limit;

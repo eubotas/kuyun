@@ -395,6 +395,16 @@ public class EamApiServiceMock implements EamApiService {
     }
 
     @Override
+    public List<EamAlertMessageVO> selectEamAlertMessages(EamAlertMessageVO alertMessageVO) {
+        return null;
+    }
+
+    @Override
+    public long countEamAlertMessages(EamAlertMessageVO alertMessageVO) {
+        return 0;
+    }
+
+    @Override
     public List<Pair<Integer, List<EamGrmVariable>>> selectGrmVariableGroupByPeriod(String productLineId) {
         return null;
     }

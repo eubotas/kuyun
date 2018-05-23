@@ -92,6 +92,10 @@ public interface EamApiMapper {
 
     long countOrders(EamOrderVO orderVO);
 
+    List<EamAlertMessageVO> selectEamAlertMessages(EamAlertMessageVO alertMessageVO);
+
+    long countEamAlertMessages(EamAlertMessageVO alertMessageVO);
+
     List<EamGrmVariable> selectGrmVariableGroupByPeriod(String productLineId);
 
     List<EamGrmVariableVO> selectGrmVariables(EamGrmVariableVO variableVO);

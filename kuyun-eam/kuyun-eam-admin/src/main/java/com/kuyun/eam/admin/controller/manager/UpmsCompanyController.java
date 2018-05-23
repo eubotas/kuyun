@@ -131,7 +131,7 @@ public class UpmsCompanyController extends BaseController {
     @RequestMapping(value = "/delete/{ids}",method = RequestMethod.GET)
     @ResponseBody
     public Object delete(@PathVariable("ids") String ids) {
-        int count = upmsCompanyService.deleteByPrimaryKeys(ids);
+        int count = upmsApiService.deleteCompanies(ids);
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
     }
 

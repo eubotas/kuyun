@@ -1,14 +1,16 @@
 package com.kuyun.eam.admin.controller.manager;
 
 import com.kuyun.common.base.BaseController;
+import com.kuyun.common.util.NumberUtil;
+import com.kuyun.eam.admin.util.EamUtil;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.EamAlertMessage;
 import com.kuyun.eam.dao.model.EamAlertMessageExample;
 import com.kuyun.eam.rpc.api.EamAlertMessageService;
 import com.kuyun.eam.rpc.api.EamApiService;
+import com.kuyun.eam.vo.EamAlertMessageVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
-import com.kuyun.upms.rpc.api.UpmsApiService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -18,10 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.kuyun.eam.common.constant.EamResultConstant.SUCCESS;
 
@@ -43,10 +42,10 @@ public class EamAlertMessageController extends BaseController {
     private BaseEntityUtil baseEntityUtil;
 
     @Autowired
-    public UpmsApiService upmsApiService;
+    public EamApiService eamApiService;
 
     @Autowired
-    public EamApiService eamApiService;
+    private EamUtil eamUtil;
 
     @ApiOperation(value = "消息管理首页")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
@@ -68,7 +67,6 @@ public class EamAlertMessageController extends BaseController {
         EamAlertMessageExample.Criteria criteria = eamAlertMessageExample.createCriteria();
         criteria.andReadFlagEqualTo(Boolean.FALSE);
         criteria.andUserIdEqualTo(getCurrUserId());
-        criteria.andCompanyIdEqualTo(getCompanyId());
 
         if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
             eamAlertMessageExample.setOrderByClause(sort + " " + order);
@@ -92,22 +90,28 @@ public class EamAlertMessageController extends BaseController {
             @RequestParam(required = false, value = "order") String order,
             @RequestParam(required = false, value = "startDate") Date startDate,
             @RequestParam(required = false, value = "endDate") Date endDate) {
-        EamAlertMessageExample eamAlertMessageExample = new EamAlertMessageExample();
-        eamAlertMessageExample.setOffset(offset);
-        eamAlertMessageExample.setLimit(limit);
-        EamAlertMessageExample.Criteria criteria = eamAlertMessageExample.createCriteria();
-        criteria.andUserIdEqualTo(getCurrUserId());
-        criteria.andCompanyIdEqualTo(getCompanyId());
+        EamAlertMessageVO eamAlertMessageVO = new EamAlertMessageVO();
+        eamAlertMessageVO.setOffset(offset);
+        eamAlertMessageVO.setLimit(limit);
+
+        List<String> productLineIds = eamUtil.getProductLineIds();
+        if (!productLineIds.isEmpty()){
+            eamAlertMessageVO.setProductLineIds(productLineIds);
+        }
+
         if (startDate != null && endDate != null){
-            criteria.andCreateTimeBetween(startDate, endDate);
+            eamAlertMessageVO.setStartDate(startDate);
+            eamAlertMessageVO.setEndDate(endDate);
         }
 
         if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
-            eamAlertMessageExample.setOrderByClause(sort + " " + order);
+            eamAlertMessageVO.setOrderByClause(sort + " " + order);
+        }else{
+            eamAlertMessageVO.setOrderByClause("eam_alert_message.create_time desc");
         }
 
-        List<EamAlertMessage> rows = eamAlertMessageService.selectByExample(eamAlertMessageExample);
-        long total = eamAlertMessageService.countByExample(eamAlertMessageExample);
+        List<EamAlertMessageVO> rows = eamApiService.selectEamAlertMessages(eamAlertMessageVO);
+        long total = eamApiService.countEamAlertMessages(eamAlertMessageVO);
         Map<String, Object> result = new HashMap<>();
         result.put("rows", rows);
         result.put("total", total);
@@ -116,15 +120,29 @@ public class EamAlertMessageController extends BaseController {
 
 
     @ApiOperation(value = "修改消息")
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "/update/{ids}", method = RequestMethod.POST)
     @ResponseBody
-    public Object update(@PathVariable("id") String id) {
-        EamAlertMessage msg=new EamAlertMessage();
-        msg.setId(Integer.parseInt(id));
-        msg.setReadFlag(true);
-        baseEntityUtil.updateAddtionalValue(msg);
+    public Object update(@PathVariable("ids") String ids) {
+        List<Integer> idList = convert(ids);
+        int count = 0;
+        for(Integer id : idList){
+            EamAlertMessage msg=new EamAlertMessage();
+            msg.setId(id);
+            msg.setReadFlag(true);
+            baseEntityUtil.updateAddtionalValue(msg);
+            count = eamAlertMessageService.updateByPrimaryKeySelective(msg);
+        }
+        return new EamResult(SUCCESS, count);
+    }
 
-        return new EamResult(SUCCESS, eamAlertMessageService.updateByPrimaryKeySelective(msg));
+    private List<Integer> convert(String ids){
+        List<Integer> result = new ArrayList<>();
+        String[] idArray = ids.split("::");
+        for(String idStr : idArray){
+            Integer id = NumberUtil.toInteger(ids);
+            result.add(id);
+        }
+        return result;
     }
 
 

@@ -28,6 +28,10 @@ public enum TicketType {
         return null;
     }
 
+    public boolean match(int code){
+        return this.getCode() == code;
+    }
+
     public int getCode() {
         return code;
     }

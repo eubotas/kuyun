@@ -1,5 +1,6 @@
 package com.kuyun.eam.job;
 
+import com.kuyun.common.util.NumberUtil;
 import com.kuyun.common.util.SpringContextUtil;
 import com.kuyun.eam.dao.model.EamMaintainPlan;
 import com.kuyun.eam.util.BaseJob;
@@ -26,7 +27,7 @@ public class AlertJob extends BaseJob {
         JobDataMap data = context.getJobDetail().getJobDataMap();
         String idKey = data.getString(IDKEY); //传值
         MaintainPlanUtil planUtil = SpringContextUtil.getBean(MaintainPlanUtil.class);
-        planUtil.createAlert(idKey);
+        planUtil.createAlert(NumberUtil.toInteger(idKey));
     }
 
     private void setCronData(EamMaintainPlan plan){

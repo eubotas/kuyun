@@ -159,6 +159,10 @@ public interface EamApiService {
 
     long countOrders(EamOrderVO orderVO);
 
+    List<EamAlertMessageVO> selectEamAlertMessages(EamAlertMessageVO alertMessageVO);
+
+    long countEamAlertMessages(EamAlertMessageVO alertMessageVO);
+
     List<Pair<Integer, List<EamGrmVariable>>> selectGrmVariableGroupByPeriod(String productLineId);
 
     List<EamGrmVariableVO> selectGrmVariables(EamGrmVariableVO variableVO);

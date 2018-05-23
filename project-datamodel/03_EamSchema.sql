@@ -193,6 +193,7 @@ CREATE TABLE eam_maintain_ticket (
 DROP TABLE IF EXISTS eam_alert_message;
 CREATE TABLE eam_alert_message (
   id int(11) NOT NULL AUTO_INCREMENT,
+  plan_id            int(11),
   user_id             int(11),
   message_title       varchar(200) NOT NULL,
   content             varchar(2000) not NULL COMMENT '消息内容',

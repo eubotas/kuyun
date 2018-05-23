@@ -32,10 +32,8 @@ import java.security.SecureRandom;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 用户service实现
@@ -645,6 +643,51 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         assignPermission(upmsUser, UpmsConstant.UPDATE_USER_PERMISSION_ID);
 
         return count;
+    }
+
+    @Override
+    public int deleteCompanies(String ids) {
+        lockCompanyUsers(ids);
+        int count = upmsCompanyService.deleteByPrimaryKeys(ids);
+        return count;
+    }
+
+    private List<Integer> covert(String ids){
+        List<Integer> result = new ArrayList<>();
+        String[] idArray = ids.split("-");
+        for(String idStr : idArray){
+            if (StringUtils.isBlank(idStr)) {
+                continue;
+            }
+            Integer id = Integer.parseInt(idStr);
+            result.add(id);
+        }
+        return result;
+    }
+
+    private void lockCompanyUsers(String ids) {
+        UpmsUserCompanyExample example = new UpmsUserCompanyExample();
+        example.createCriteria().andCompanyIdIn(covert(ids)).andDeleteFlagEqualTo(Boolean.FALSE);
+        List<UpmsUserCompany> userCompanies = upmsUserCompanyService.selectByExample(example);
+        List<Integer> userIds = new ArrayList<>();
+
+        if (userCompanies != null){
+            for (UpmsUserCompany userCompany : userCompanies){
+                userIds.add(userCompany.getUserId());
+            }
+
+            UpmsUserExample userExample = new UpmsUserExample();
+            userExample.createCriteria().andUserIdIn(userIds).andDeleteFlagEqualTo(Boolean.FALSE);
+
+            List<UpmsUser> users = upmsUserService.selectByExample(userExample);
+
+            if (users != null){
+                for (UpmsUser user : users){
+                    user.setLocked(Byte.valueOf("1"));
+                    upmsUserService.updateByPrimaryKeySelective(user);
+                }
+            }
+        }
     }
 
     private void assignPermission(UpmsUser upmsUser, int updateUserPermissionId) {
