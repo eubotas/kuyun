@@ -691,7 +691,7 @@
 	</select>
 
 	<select id="countProductLines" parameterType="com.kuyun.eam.vo.EamProductLineVO" resultType="java.lang.Long">
-		select count(eam_product_line.product_line_id)
+		select count(DISTINCT eam_product_line.product_line_id)
 		from eam_product_line eam_product_line
 		LEFT JOIN eam_product_line_company e ON eam_product_line.product_line_id = e.product_line_id
 		WHERE eam_product_line.delete_flag = 0 AND e.delete_flag = 0
@@ -1218,7 +1218,7 @@
 		and v.category = 'INDUSTRY'
 		and c.delete_flag = 0 and v.delete_flag = 0
 		group by v.code_name
-		ORDER by value desc
+		ORDER by value
 	</select>
 
 	<select id="summaryProductLineType" resultMap="CodeValueVOResultMap">
@@ -1228,7 +1228,7 @@
 		and v.category = 'PRODUCT_LINE_TYPE'
 		and c.delete_flag = 0 and v.delete_flag = 0
 		group by v.code_name
-		ORDER by value desc
+		ORDER by value
 	</select>
 
 	<select id="summaryState" resultMap="CodeValueVOResultMap">
@@ -1238,7 +1238,7 @@
 		and v.category = 'STATE'
 		and c.delete_flag = 0 and v.delete_flag = 0
 		group by v.code_name
-		ORDER by value desc
+		ORDER by value
 	</select>
 
 	<resultMap id="CountryValueVOResultMap" type="com.kuyun.eam.vo.EamCountryValueVo" >
@@ -1269,7 +1269,7 @@
 		count(id) as count from eam_order
 		where delete_flag = 0
 		group by industry, companyName
-		order by count desc, industry, companyName asc
+		order by count, industry, companyName asc
 	</select>
 
 

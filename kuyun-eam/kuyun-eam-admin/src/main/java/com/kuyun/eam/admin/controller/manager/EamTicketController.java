@@ -4,6 +4,7 @@ import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.google.common.base.Splitter;
+import com.kuyun.common.constant.RoleEnum;
 import com.kuyun.common.util.NumberUtil;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.common.validator.NotNullValidator;
@@ -172,7 +173,7 @@ public class EamTicketController extends EamTicketBaseController {
 			}
 			break;
 		case MY_RESOLVED:
-			if(subject.hasRole(TICKET_CREATE)) {
+			if(subject.hasRole(TICKET_CREATE) || subject.hasRole(RoleEnum.CUSTOMER_TICKETCREATE.getName())) {
 				//工单提报人 有权限
 				criteria.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
 				List<String> list=new ArrayList();

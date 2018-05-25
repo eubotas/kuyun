@@ -5,6 +5,7 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.validator.LengthValidator;
+import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.common.constant.UpmsResult;
 import com.kuyun.upms.common.constant.UpmsResultConstant;
 import com.kuyun.upms.dao.model.*;
@@ -47,6 +48,9 @@ public class UpmsPermissionController extends BaseController {
 
     @Autowired
     private UpmsApiService upmsApiService;
+
+    @Autowired
+    private BaseEntityUtil baseEntityUtil;
 
     @ApiOperation(value = "权限首页")
     @RequiresPermissions("upms:permission:read")
@@ -97,7 +101,7 @@ public class UpmsPermissionController extends BaseController {
     @RequestMapping(value = "/role/{id}", method = RequestMethod.POST)
     @ResponseBody
     public Object role(@PathVariable("id") int id) {
-        return upmsPermissionService.getTreeByRoleId(id);
+        return upmsPermissionService.getTreeByRoleId(id, baseEntityUtil.getCurrentUser().getUserId());
     }
 
     @ApiOperation(value = "用户权限列表")
