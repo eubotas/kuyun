@@ -1476,7 +1476,7 @@
 		<result column="is_summation" jdbcType="INTEGER" property="isSummation" />
 	</resultMap>
 
-	<select id="getProductShiftGrmVariable" parameterType="com.kuyun.eam.dao.model.EamGrmVariable" resultMap="eamProductLineGrmDataElementVO">
+	<select id="getProductShiftGrmVariable" parameterType="com.kuyun.eam.vo.EamGrmVariableVO" resultMap="eamProductLineGrmDataElementVO">
 		select
 		l.morning_shift_start_time, l.morning_shift_end_time, l.middle_shift_start_time,l.middle_shift_end_time,
 		l.night_shift_start_time, l.night_shift_end_time,e.data_type, e.is_statistic_by_date,e.is_statistic_by_shift,e.is_summation,
@@ -1485,8 +1485,7 @@
 		where eam_grm_variable.delete_flag = 0 and e.delete_flag = 0
 		and eam_grm_variable.data_element_id = e.id
 		and eam_grm_variable.product_line_id = l.product_line_id
-		and le.eam_data_element_id = e.id
-		and e.is_statistic = 1
+        and e.is_statistic_by_shift = 1
 
 		<if test="productLineId != null and productLineId != ''">
 			AND eam_grm_variable.product_line_id = #{productLineId}
@@ -1506,6 +1505,13 @@
 		<if test="id != null and id != ''">
 			AND eam_grm_variable.id = #{id}
 		</if>
+        <if test="grmVariableIds != null ">
+            AND eam_grm_variable.id IN
+            <foreach item="item" index="index" collection="grmVariableIds"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
 	</select>
 
 	<!-- 缓存 -->

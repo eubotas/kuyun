@@ -2421,8 +2421,12 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     private void processShiftData(List<EamGrmVariableDataHistory> dataHistoryList){
-        for(EamGrmVariableDataHistory h :dataHistoryList){
-            EamGrmVariable para = new EamGrmVariable();
+        EamGrmVariableVO para = new EamGrmVariableVO();
+        para.setGrmVariableIds(getGrmVariableIds(dataHistoryList));
+        List<EamProductLineGrmDataElementVO> vos= eamApiMapper.getProductShiftGrmVariable(para); //shift list
+
+        for(EamProductLineGrmDataElementVO vo : vos){
+            EamGrmVariableDataHistory h = getEamGrmVariableDataHistory(dataHistoryList, vo.getId());
             para.setProductLineId(h.getProductLineId());
             para.setEquipmentId(h.getEquipmentId());
             para.setDataElementId(h.getDataElementId());
@@ -2430,7 +2434,6 @@ public class EamApiServiceImpl implements EamApiService {
             para.setEquipmentDataGroupId(h.getEquipmentDataGroupId());
             para.setId(h.getEamGrmVariableId());
 
-            EamProductLineGrmDataElementVO vo= eamApiMapper.getProductShiftGrmVariable(para);
             String shiftNum = null, startDate, endDate;
             if(EamDateUtil.inThisTimes(vo.getMorningShiftStartTime(), vo.getMorningShiftEndTime())) {
                 shiftNum = ProductShift.MORNING.getCode();
@@ -2534,4 +2537,19 @@ public class EamApiServiceImpl implements EamApiService {
         return data;
     }
 
+    private List<Integer> getGrmVariableIds(List<EamGrmVariableDataHistory> dataHistoryList){
+        List<Integer> list=new ArrayList<Integer>();
+        for(EamGrmVariableDataHistory h: dataHistoryList){
+            list.add(h.getEamGrmVariableId());
+        }
+        return list.isEmpty()? null:list;
+    }
+
+    private EamGrmVariableDataHistory getEamGrmVariableDataHistory(List<EamGrmVariableDataHistory> dataHistoryList, Integer grmVariableId){
+        for(EamGrmVariableDataHistory h: dataHistoryList){
+            if(h.getEamGrmVariableId()==grmVariableId)
+                return h;
+        }
+        return null;
+    }
 }

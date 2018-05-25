@@ -5,6 +5,8 @@ import com.kuyun.eam.common.constant.GrmVariableNtworkPermisstion;
 import com.kuyun.eam.common.constant.GrmVariableType;
 import com.kuyun.eam.dao.model.EamGrmVariable;
 
+import java.util.List;
+
 /**
  * Created by user on 2018-01-02.
  */
@@ -13,11 +15,21 @@ public class EamGrmVariableVO extends EamGrmVariable {
     private String productLineName;
     private String equipmentName;
 
+    private List<Integer> grmVariableIds;
+
     private Integer limit;
 
     private Integer offset;
 
     private String orderByClause;
+
+    public List<Integer> getGrmVariableIds() {
+        return grmVariableIds;
+    }
+
+    public void setGrmVariableIds(List<Integer> grmVariableIds) {
+        this.grmVariableIds = grmVariableIds;
+    }
 
     public Integer getLimit() {
         return limit;
