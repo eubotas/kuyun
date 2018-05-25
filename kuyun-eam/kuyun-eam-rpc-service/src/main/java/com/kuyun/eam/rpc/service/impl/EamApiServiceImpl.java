@@ -14,6 +14,7 @@ import com.kuyun.eam.pojo.tree.*;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.rpc.mapper.EamApiMapper;
 import com.kuyun.eam.util.AreaUtil;
+import com.kuyun.eam.util.EamDateUtil;
 import com.kuyun.eam.vo.*;
 import com.kuyun.grm.rpc.api.GrmApiService;
 import com.kuyun.modbus.rpc.api.ModbusSlaveRtuApiService;
@@ -44,6 +45,8 @@ import java.util.stream.Collectors;
 
 import static com.kuyun.eam.common.constant.CollectStatus.NO_START;
 import static com.kuyun.eam.common.constant.CollectStatus.WORKING;
+import static com.kuyun.eam.util.EamDateUtil.getDateStr;
+import static com.kuyun.eam.util.EamDateUtil.getShiftStartEndTime;
 
 
 /**
@@ -161,6 +164,8 @@ public class EamApiServiceImpl implements EamApiService {
     @Autowired
     private EamEquipmentCategoryService eamEquipmentCategoryService;
 
+    @Autowired
+    private  EamShiftDataElementValueService eamShiftDataElementValueService;
 
     @Override
     public List<EamMaintenanceVO> selectMaintenance(EamMaintenanceVO maintenanceVO) {
@@ -608,6 +613,8 @@ public class EamApiServiceImpl implements EamApiService {
         }
         if(!dataHistoryList.isEmpty()){
             eamGrmVariableDataHistoryService.batchInsert(dataHistoryList);
+            //shift data
+            // processShiftData(dataHistoryList);
         }
     }
 
@@ -2423,4 +2430,136 @@ public class EamApiServiceImpl implements EamApiService {
 
     }
 
+    private void processShiftData(List<EamGrmVariableDataHistory> dataHistoryList){
+        EamGrmVariableVO para = new EamGrmVariableVO();
+        para.setGrmVariableIds(getGrmVariableIds(dataHistoryList));
+        List<EamProductLineGrmDataElementVO> vos= eamApiMapper.getProductShiftGrmVariable(para); //shift list
+
+        for(EamProductLineGrmDataElementVO vo : vos){
+            EamGrmVariableDataHistory h = getEamGrmVariableDataHistory(dataHistoryList, vo.getId());
+            para.setProductLineId(h.getProductLineId());
+            para.setEquipmentId(h.getEquipmentId());
+            para.setDataElementId(h.getDataElementId());
+            para.setDataGroupId(h.getDataGroupId());
+            para.setEquipmentDataGroupId(h.getEquipmentDataGroupId());
+            para.setId(h.getEamGrmVariableId());
+
+            String shiftNum = null, startDate, endDate;
+            if(EamDateUtil.inThisTimes(vo.getMorningShiftStartTime(), vo.getMorningShiftEndTime())) {
+                shiftNum = ProductShift.MORNING.getCode();
+                startDate=vo.getMorningShiftStartTime();
+                endDate =vo.getMorningShiftEndTime();
+            }else if(EamDateUtil.inThisTimes(vo.getMiddleShiftStartTime(), vo.getMorningShiftEndTime())) {
+                shiftNum = ProductShift.MIDDLE.getCode();
+                startDate=vo.getMiddleShiftStartTime();
+                endDate =vo.getMorningShiftEndTime();
+            }else if(EamDateUtil.inThisTimes(vo.getNightShiftStartTime(), vo.getNightShiftEndTime())) {
+                shiftNum = ProductShift.NIGHT.getCode();
+                startDate=vo.getNightShiftStartTime();
+                endDate =vo.getNightShiftEndTime();
+            }else
+                return;  //execption setting
+            String dataType= vo.getDataType(); //analog  digital 开关量
+            boolean isShift = vo.getStatisticByShift();
+            boolean isSummary = vo.getSummation();
+            if(isShift) {
+                if("digital".equals(dataType)) {  //开关量
+                    String key = "SWITCH-" + h.getProductLineId() + "-" + h.getEquipmentId() + "-" + h.getEquipmentDataGroupId() + "-" + h.getDataGroupId() + "-" + h.getDataElementId() + "-" + h.getEamGrmVariableId();
+                    String preVal = RedisUtil.get(key);
+                    int changeCount = 0;
+                    String offOpen=h.getValue();
+                    if (preVal == null && h.getValue() != null)
+                        changeCount++;
+                    else if (!preVal.equals(h.getValue()))
+                        changeCount++;
+                    if(changeCount > 0) {
+                        RedisUtil.set(key, h.getValue());
+                        handleGrmVariableDataByShift(para,String.valueOf(changeCount), offOpen, shiftNum,startDate, endDate);
+                    }
+                }else{ //模拟量
+                    handleGrmVariableDataByShift(para,h.getValue(), isSummary, shiftNum,startDate, endDate);
+                }
+            }
+        }
+    }
+
+    private void handleGrmVariableDataByShift(EamGrmVariable variable, String value,boolean isSummary, String shiftNum,String startDate,String endDate) {
+        EamShiftDataElementValue data = getEamGrmVariableDataByShift(variable, shiftNum,startDate, endDate);
+        if (data != null){
+            if(isSummary) {
+                BigDecimal newValue = BigDecimal.valueOf(Double.valueOf(value));
+                newValue = NumberUtil.toBigDecimal(data.getValue()).add(newValue);
+                data.setValue(newValue.toString());
+            }else
+                data.setValue(value);
+            data.setUpdateTime(new Date());
+            data.setShift(shiftNum);
+            eamShiftDataElementValueService.updateByPrimaryKeySelective(data);
+        }else{
+            data = buildEamGrmVariableDataByShift(variable, value, "",  shiftNum);
+            eamShiftDataElementValueService.insertSelective(data);
+        }
+
+    }
+
+    private void handleGrmVariableDataByShift(EamGrmVariable variable, String value,String offOpen, String shiftNum,String startDate,String endDate) {
+        EamShiftDataElementValue data = getEamGrmVariableDataByShift(variable, shiftNum,startDate, endDate);
+        if (data != null){
+            BigDecimal newValue = BigDecimal.valueOf(Double.valueOf(value));
+            newValue = NumberUtil.toBigDecimal(data.getValue()).add(newValue);
+            data.setValue(newValue.toString());
+            data.setUpdateTime(new Date());
+            data.setShift(shiftNum);
+            eamShiftDataElementValueService.updateByPrimaryKeySelective(data);
+        }else{
+            data = buildEamGrmVariableDataByShift(variable, value, offOpen,  shiftNum);
+            eamShiftDataElementValueService.insertSelective(data);
+        }
+
+    }
+
+    private EamShiftDataElementValue getEamGrmVariableDataByShift(EamGrmVariable variable, String shiftNum, String startDate,String endDate){
+        Pair<Date,Date> stEnd=getShiftStartEndTime(getDateStr(new Date(), "yyyy-MM-dd"),startDate, endDate);
+        EamShiftDataElementValueExample example = new EamShiftDataElementValueExample();
+        EamShiftDataElementValueExample.Criteria criteria = example.createCriteria();
+        criteria.andEamGrmVariableIdEqualTo(variable.getId())
+                .andProductLineIdEqualTo(variable.getProductLineId())
+                .andEquipmentIdEqualTo(variable.getEquipmentId())
+                .andDataElementIdEqualTo(variable.getDataElementId())
+                .andShiftEqualTo(shiftNum)
+                .andCreateTimeBetween(stEnd.getKey(),stEnd.getValue())
+                .andDeleteFlagEqualTo(Boolean.FALSE);
+
+        return eamShiftDataElementValueService.selectFirstByExample(example);
+    }
+
+    private EamShiftDataElementValue buildEamGrmVariableDataByShift(EamGrmVariable variable, String value,String offOpen, String shiftNum){
+        EamShiftDataElementValue data = new EamShiftDataElementValue();
+        data.setEamGrmVariableId(variable.getId());
+        data.setProductLineId(variable.getProductLineId());
+        data.setEquipmentId(variable.getEquipmentId());
+        data.setDataElementId(variable.getDataElementId());
+        data.setValue(value);
+        data.setShift(shiftNum);
+        data.setCreateTime(new Date());
+        data.setUpdateTime(new Date());
+        data.setDeleteFlag(Boolean.FALSE);
+        return data;
+    }
+
+    private List<Integer> getGrmVariableIds(List<EamGrmVariableDataHistory> dataHistoryList){
+        List<Integer> list=new ArrayList<Integer>();
+        for(EamGrmVariableDataHistory h: dataHistoryList){
+            list.add(h.getEamGrmVariableId());
+        }
+        return list.isEmpty()? null:list;
+    }
+
+    private EamGrmVariableDataHistory getEamGrmVariableDataHistory(List<EamGrmVariableDataHistory> dataHistoryList, Integer grmVariableId){
+        for(EamGrmVariableDataHistory h: dataHistoryList){
+            if(h.getEamGrmVariableId()==grmVariableId)
+                return h;
+        }
+        return null;
+    }
 }

@@ -1,5 +1,7 @@
 package com.kuyun.eam.util;
 
+import javafx.util.Pair;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -73,6 +75,34 @@ public class EamDateUtil {
         int day = c.get(Calendar.DAY_OF_MONTH);
         int last = c.getActualMaximum(Calendar.DAY_OF_MONTH);
         return last - day;
+    }
+
+    public static Pair<Date,Date> getShiftStartEndTime(String date, String startHourMinute, String endHourMinute){
+        Pair<Date, Date> pair = null;
+        try {
+            Date startDate = org.apache.commons.lang.time.DateUtils.parseDate(date + " " + startHourMinute + ":00", new String[]{"yyyy-MM-dd HH:mm:ss"});
+            Date endDate = org.apache.commons.lang.time.DateUtils.parseDate(date + " " + endHourMinute + ":59", new String[]{"yyyy-MM-dd HH:mm:ss"});
+            if (endDate.before(startDate))
+                endDate = getDateAfter(endDate, 1);
+            pair = new Pair<>(startDate, endDate);
+        }catch(Exception ex){ex.getStackTrace();}
+        return pair;
+    }
+
+    public static boolean inThisTimes(String startHourMinute, String endHourMinute){
+        if(startHourMinute == null || endHourMinute==null)
+            return false;
+        Date now =new Date();
+        String strDate = getDateStr(now, "yyyy-MM-dd");
+        try {
+            Date startDate = org.apache.commons.lang.time.DateUtils.parseDate(strDate + " " + startHourMinute, new String[]{"yyyy-MM-dd HH:mm"});
+            Date endDate = org.apache.commons.lang.time.DateUtils.parseDate(strDate + " " + endHourMinute, new String[]{"yyyy-MM-dd HH:mm"});
+            if (endDate.before(startDate))
+                endDate = getDateAfter(endDate, 1);
+            if(now.after(startDate) && now.before(endDate))
+                return true;
+        }catch(Exception ex){ex.getStackTrace();}
+        return false;
     }
 
 }

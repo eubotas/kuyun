@@ -106,5 +106,5 @@ public interface EamApiMapper {
 
     long countGrmVariables(EamGrmVariableVO variableVO);
 
-
+    List<EamProductLineGrmDataElementVO> getProductShiftGrmVariable(EamGrmVariableVO eamGrmVariableVO);
 }

@@ -1459,7 +1459,6 @@
 
 	</select>
 
-
 	<resultMap id="EamGrmVariableVOResultMap" type="com.kuyun.eam.vo.EamGrmVariableVO" extends="com.kuyun.eam.dao.mapper.EamGrmVariableMapper.BaseResultMap">
 		<result column="product_line_name" jdbcType="VARCHAR" property="productLineName" />
 		<result column="equipment_name" jdbcType="VARCHAR" property="equipmentName" />
@@ -1504,6 +1503,57 @@
 		</if>
 	</select>
 
+
+	<resultMap id="eamProductLineGrmDataElementVO" type="com.kuyun.eam.vo.EamProductLineGrmDataElementVO" extends="com.kuyun.eam.dao.mapper.EamGrmVariableMapper.BaseResultMap">
+		<result column="morning_shift_start_time" jdbcType="VARCHAR" property="morningShiftStartTime" />
+		<result column="morning_shift_end_time" jdbcType="VARCHAR" property="morningShiftEndTime" />
+		<result column="middle_shift_start_time" jdbcType="VARCHAR" property="middleShiftStartTime" />
+		<result column="middle_shift_end_time" jdbcType="VARCHAR" property="middleShiftEndTime" />
+		<result column="night_shift_start_time" jdbcType="VARCHAR" property="nightShiftStartTime" />
+		<result column="night_shift_end_time" jdbcType="VARCHAR" property="nightShiftEndTime" />
+		<result column="data_type" jdbcType="VARCHAR" property="dataType" />
+		<result column="is_statistic_by_date" jdbcType="INTEGER" property="isStatisticByDate" />
+		<result column="is_statistic_by_shift" jdbcType="INTEGER" property="isStatisticByShift" />
+		<result column="is_summation" jdbcType="INTEGER" property="isSummation" />
+	</resultMap>
+
+	<select id="getProductShiftGrmVariable" parameterType="com.kuyun.eam.vo.EamGrmVariableVO" resultMap="eamProductLineGrmDataElementVO">
+		select
+		l.morning_shift_start_time, l.morning_shift_end_time, l.middle_shift_start_time,l.middle_shift_end_time,
+		l.night_shift_start_time, l.night_shift_end_time,e.data_type, e.is_statistic_by_date,e.is_statistic_by_shift,e.is_summation,
+		<include refid="com.kuyun.eam.dao.mapper.EamGrmVariableMapper.Base_Column_List" />
+		from eam_grm_variable, eam_data_element e, eam_product_line l
+		where eam_grm_variable.delete_flag = 0 and e.delete_flag = 0
+		and eam_grm_variable.data_element_id = e.id
+		and eam_grm_variable.product_line_id = l.product_line_id
+        and e.is_statistic_by_shift = 1
+
+		<if test="productLineId != null and productLineId != ''">
+			AND eam_grm_variable.product_line_id = #{productLineId}
+		</if>
+		<if test="equipmentId != null and equipmentId != ''">
+			AND eam_grm_variable.equipment_id = #{equipmentId}
+		</if>
+		<if test="dataElementId != null and dataElementId != ''">
+			AND eam_grm_variable.data_element_id = #{dataElementId}
+		</if>
+		<if test="dataGroupId != null and dataGroupId != ''">
+			AND eam_grm_variable.data_group_id = #{dataGroupId}
+		</if>
+		<if test="equipmentDataGroupId != null and equipmentDataGroupId != ''">
+			AND eam_grm_variable.equipment_data_group_id = #{equipmentDataGroupId}
+		</if>
+		<if test="id != null and id != ''">
+			AND eam_grm_variable.id = #{id}
+		</if>
+        <if test="grmVariableIds != null ">
+            AND eam_grm_variable.id IN
+            <foreach item="item" index="index" collection="grmVariableIds"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+	</select>
 
 	<!-- 缓存 -->
 	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
