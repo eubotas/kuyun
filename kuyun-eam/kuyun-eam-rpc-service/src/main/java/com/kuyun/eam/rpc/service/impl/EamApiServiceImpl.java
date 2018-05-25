@@ -689,6 +689,16 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     @Override
+    public List<EamProductLineVO> selectUnAuthProductLines(EamProductLineVO eamProductLine) {
+        return eamApiMapper.selectUnAuthProductLines(eamProductLine);
+    }
+
+    @Override
+    public Long countUnAuthProductLines(EamProductLineVO eamProductLine) {
+        return eamApiMapper.countUnAuthProductLines(eamProductLine);
+    }
+
+    @Override
     public List<EamGrmVariable> getGrmVariables(String productLineId) {
         List<EamGrmVariable> result = new ArrayList<>();
         //1. get Product Line variables

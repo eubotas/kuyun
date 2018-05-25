@@ -40,9 +40,13 @@ public interface EamApiMapper {
 
     Long countUnConnectDtuEquipments(EamEquipmentVO eamEquipmentVO);
 
-    List<EamProductLineVO> selectProductLines(EamProductLine eamProductLine);
+    List<EamProductLineVO> selectProductLines(EamProductLineVO eamProductLine);
 
-    Long countProductLines(EamProductLine eamProductLine);
+    Long countProductLines(EamProductLineVO eamProductLine);
+
+    List<EamProductLineVO> selectUnAuthProductLines(EamProductLineVO eamProductLine);
+
+    Long countUnAuthProductLines(EamProductLineVO eamProductLine);
 
     List<EamDataElementVO> selectDataElements(EamDataElementVO dataElementVO);
 

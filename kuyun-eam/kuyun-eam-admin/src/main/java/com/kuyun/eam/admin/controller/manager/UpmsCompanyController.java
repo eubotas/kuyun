@@ -5,7 +5,6 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.excel.ExcelUtils;
-import com.kuyun.common.util.SpringContextUtil;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.admin.initialize.EamCodeValueInitialize;
 import com.kuyun.eam.dao.model.EamProductLineCompany;
@@ -25,6 +24,7 @@ import com.kuyun.upms.rpc.api.UpmsApiService;
 import com.kuyun.upms.rpc.api.UpmsCompanyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang.StringUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
@@ -180,20 +180,23 @@ public class UpmsCompanyController extends BaseController {
             @RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
             @RequestParam(required = false, value = "sort") String sort,
             @RequestParam(required = false, value = "order") String order,
-            @RequestParam(required = false, value = "companyId") String companyId) {
+            @RequestParam(required = false, value = "companyId") Integer companyId) {
 
         _log.info("companyId="+companyId);
 
-        EamProductLineController productLineController = SpringContextUtil.getBean(EamProductLineController.class);
+        EamProductLineVO productLineVO = new EamProductLineVO();
+        productLineVO.setOffset(offset);
+        productLineVO.setLimit(limit);
+        productLineVO.setDeleteFlag(Boolean.FALSE);
+        productLineVO.setCompanyId(companyId);
 
-
-        Map<String, Object> objectMap = (Map<String, Object> )productLineController.list(offset, limit, sort, order);
-        List<EamProductLineVO> rows = (List<EamProductLineVO>)objectMap.get("rows");
-        long total = (long)objectMap.get("total");
-
+        if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
+            productLineVO.setOrderByClause(sort + " " + order);
+        }
+        List<EamProductLineVO> rows = eamApiService.selectUnAuthProductLines(productLineVO);
+        long total = eamApiService.countUnAuthProductLines(productLineVO);
 
         handleCheckedFlag(companyId, rows);
-
 
         Map<String, Object> result = new HashMap<>();
         result.put("rows", rows);
@@ -201,9 +204,9 @@ public class UpmsCompanyController extends BaseController {
         return result;
     }
 
-    private void handleCheckedFlag(String companyId, List<EamProductLineVO> rows) {
+    private void handleCheckedFlag(Integer companyId, List<EamProductLineVO> rows) {
         EamProductLineCompanyExample example = new EamProductLineCompanyExample();
-        example.createCriteria().andCompanyIdEqualTo(Integer.valueOf(companyId)).andDeleteFlagEqualTo(Boolean.FALSE);
+        example.createCriteria().andCompanyIdEqualTo(companyId).andDeleteFlagEqualTo(Boolean.FALSE);
         List<EamProductLineCompany> productLineCompanies = eamProductLineCompanyService.selectByExample(example);
 
         if (productLineCompanies != null && rows != null){

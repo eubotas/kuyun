@@ -158,12 +158,14 @@ public class EamTicketController extends EamTicketBaseController {
 			if(subject.hasRole(TICKET_CREATE)) {
 				//工单提报人 有权限
 				criteria.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId())
+						.andStatusNotEqualTo(TicketStatus.CLOSED.getName())
 						.andStatusNotEqualTo(TicketStatus.RESOLVED.getName())
 						.andStatusNotEqualTo(TicketStatus.COMPLETE.getName());
 
 			}else if(subject.hasRole(TICKET_REPAIR)) {
 				//工单维修人 有权限
 				criteria.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId())
+						.andStatusNotEqualTo(TicketStatus.CLOSED.getName())
 						.andStatusNotEqualTo(TicketStatus.RESOLVED.getName())
 						.andStatusNotEqualTo(TicketStatus.COMPLETE.getName());
 
@@ -174,6 +176,7 @@ public class EamTicketController extends EamTicketBaseController {
 				//工单提报人 有权限
 				criteria.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
 				List<String> list=new ArrayList();
+				list.add(TicketStatus.CLOSED.getName());
 				list.add(TicketStatus.RESOLVED.getName());
 				list.add(TicketStatus.COMPLETE.getName());
 				criteria.andStatusIn(list);
@@ -182,6 +185,7 @@ public class EamTicketController extends EamTicketBaseController {
 				//工单维修人 有权限
 				criteria.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
 				List<String> list=new ArrayList();
+				list.add(TicketStatus.CLOSED.getName());
 				list.add(TicketStatus.RESOLVED.getName());
 				list.add(TicketStatus.COMPLETE.getName());
 				criteria.andStatusIn(list);
@@ -200,6 +204,7 @@ public class EamTicketController extends EamTicketBaseController {
 		case OPEN:
 			List<String> list=new ArrayList();
 			list.add(TicketStatus.INIT.getName());
+			list.add(TicketStatus.CLOSED.getName());
 			list.add(TicketStatus.RESOLVED.getName());
 			list.add(TicketStatus.COMPLETE.getName());
 			criteria.andStatusNotIn(list);
@@ -215,12 +220,14 @@ public class EamTicketController extends EamTicketBaseController {
              break;
         case NOTRESOLVED:
 			list=new ArrayList();
+			list.add(TicketStatus.CLOSED.getName());
 			list.add(TicketStatus.RESOLVED.getName());
 			list.add(TicketStatus.COMPLETE.getName());
 			criteria.andStatusNotIn(list);
              break;
         case RESOLVED:
             list=new ArrayList();
+            list.add(TicketStatus.CLOSED.getName());
             list.add(TicketStatus.RESOLVED.getName());
             list.add(TicketStatus.COMPLETE.getName());
             criteria.andStatusIn(list);

@@ -97,7 +97,7 @@ public class EamProductLineController extends BaseController {
 
 		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
 
-		if (company != null){
+		if (company != null && company.getCompanyId() != 1){
 			productLineVO.setCompanyId(company.getCompanyId());
 		}
 

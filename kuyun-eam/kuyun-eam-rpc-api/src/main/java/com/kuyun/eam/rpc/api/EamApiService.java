@@ -75,6 +75,10 @@ public interface EamApiService {
 
     Long countProductLines(EamProductLineVO eamProductLine);
 
+    List<EamProductLineVO> selectUnAuthProductLines(EamProductLineVO eamProductLine);
+
+    Long countUnAuthProductLines(EamProductLineVO eamProductLine);
+
     List<EamGrmVariable> getGrmVariables(String productLineId);
 
     List<EamDataElementVO> selectDataElements(EamDataElementVO dataElementVO);

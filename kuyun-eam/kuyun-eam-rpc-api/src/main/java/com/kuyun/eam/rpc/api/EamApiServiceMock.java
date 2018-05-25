@@ -165,6 +165,16 @@ public class EamApiServiceMock implements EamApiService {
     }
 
     @Override
+    public List<EamProductLineVO> selectUnAuthProductLines(EamProductLineVO eamProductLine) {
+        return null;
+    }
+
+    @Override
+    public Long countUnAuthProductLines(EamProductLineVO eamProductLine) {
+        return null;
+    }
+
+    @Override
     public List<EamGrmVariable> getGrmVariables(String productLineId) {
         return null;
     }
