@@ -617,23 +617,17 @@
 		</if>
 	</select>
 
-
-	<resultMap id="EamProductLineVOResultMap" type="com.kuyun.eam.vo.EamProductLineVO" extends="com.kuyun.eam.dao.mapper.EamProductLineMapper.BaseResultMap">
-		<result column="company_name" jdbcType="VARCHAR" property="companyName" />
-		<result column="company_address" jdbcType="VARCHAR" property="companyAddress" />
-	</resultMap>
-
-	<select id="selectProductLines" parameterType="com.kuyun.eam.vo.EamProductLineVO" resultMap="EamProductLineVOResultMap">
+	<select id="selectUnAuthProductLines" parameterType="com.kuyun.eam.vo.EamProductLineVO" resultMap="EamProductLineVOResultMap">
 		select
-		c.name as company_name,
-		c.address as company_address,
 		<include refid="com.kuyun.eam.dao.mapper.EamProductLineMapper.Base_Column_List" />
 		from eam_product_line eam_product_line
-		LEFT JOIN eam_product_line_company e ON eam_product_line.product_line_id = e.product_line_id
-		LEFT JOIN upms_company c ON e.company_id = c.company_id
-		WHERE eam_product_line.delete_flag = 0 AND e.delete_flag = 0 AND c.delete_flag = 0
+		LEFT JOIN eam_product_line_company e ON eam_product_line.product_line_id = e.product_line_id AND e.delete_flag = 0
+		WHERE eam_product_line.delete_flag = 0
 		<if test="companyId != null and companyId != ''">
-			AND e.company_id = #{companyId}
+			AND (e.company_id = #{companyId}
+			     OR eam_product_line.product_line_id not in (
+					select product_line_id from eam_product_line_company where company_id != 1
+			))
 		</if>
 		<if test="orderByClause != null">
 			order by ${orderByClause}
@@ -648,12 +642,59 @@
 		</if>
 	</select>
 
-	<select id="countProductLines" parameterType="com.kuyun.eam.vo.EamProductLineVO" resultType="java.lang.Long">
-		select count(eam_product_line.product_line_id)
+	<select id="countUnAuthProductLines" parameterType="com.kuyun.eam.vo.EamProductLineVO" resultType="java.lang.Long">
+		select
+		count(eam_product_line.product_line_id)
+		from eam_product_line eam_product_line
+		LEFT JOIN eam_product_line_company e ON eam_product_line.product_line_id = e.product_line_id AND e.delete_flag = 0
+		WHERE eam_product_line.delete_flag = 0
+		<if test="companyId != null and companyId != ''">
+			AND (e.company_id = #{companyId}
+			OR eam_product_line.product_line_id not in (
+			select product_line_id from eam_product_line_company where company_id != 1
+			))
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+
+
+	<resultMap id="EamProductLineVOResultMap" type="com.kuyun.eam.vo.EamProductLineVO" extends="com.kuyun.eam.dao.mapper.EamProductLineMapper.BaseResultMap">
+		<result column="company_name" jdbcType="VARCHAR" property="companyName" />
+		<result column="company_address" jdbcType="VARCHAR" property="companyAddress" />
+	</resultMap>
+
+	<select id="selectProductLines" parameterType="com.kuyun.eam.vo.EamProductLineVO" resultMap="EamProductLineVOResultMap">
+		select
+		(select c.name  from upms_company c where c.company_id = max(e.company_id)) as company_name,
+		(select c.address  from upms_company c where c.company_id = max(e.company_id)) as company_address,
+		<include refid="com.kuyun.eam.dao.mapper.EamProductLineMapper.Base_Column_List" />
 		from eam_product_line eam_product_line
 		LEFT JOIN eam_product_line_company e ON eam_product_line.product_line_id = e.product_line_id
-		LEFT JOIN upms_company c ON e.company_id = c.company_id
-		WHERE eam_product_line.delete_flag = 0 AND e.delete_flag = 0 AND c.delete_flag = 0
+		WHERE eam_product_line.delete_flag = 0 AND e.delete_flag = 0
+		<if test="companyId != null and companyId != ''">
+			AND e.company_id = #{companyId}
+		</if>
+		group by eam_product_line.product_line_id
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+	<select id="countProductLines" parameterType="com.kuyun.eam.vo.EamProductLineVO" resultType="java.lang.Long">
+		select count(DISTINCT eam_product_line.product_line_id)
+		from eam_product_line eam_product_line
+		LEFT JOIN eam_product_line_company e ON eam_product_line.product_line_id = e.product_line_id
+		WHERE eam_product_line.delete_flag = 0 AND e.delete_flag = 0
 		<if test="companyId != null and companyId != ''">
 			AND e.company_id = #{companyId}
 		</if>
@@ -1177,7 +1218,7 @@
 		and v.category = 'INDUSTRY'
 		and c.delete_flag = 0 and v.delete_flag = 0
 		group by v.code_name
-		ORDER by value desc
+		ORDER by value
 	</select>
 
 	<select id="summaryProductLineType" resultMap="CodeValueVOResultMap">
@@ -1187,7 +1228,7 @@
 		and v.category = 'PRODUCT_LINE_TYPE'
 		and c.delete_flag = 0 and v.delete_flag = 0
 		group by v.code_name
-		ORDER by value desc
+		ORDER by value
 	</select>
 
 	<select id="summaryState" resultMap="CodeValueVOResultMap">
@@ -1197,7 +1238,7 @@
 		and v.category = 'STATE'
 		and c.delete_flag = 0 and v.delete_flag = 0
 		group by v.code_name
-		ORDER by value desc
+		ORDER by value
 	</select>
 
 	<resultMap id="CountryValueVOResultMap" type="com.kuyun.eam.vo.EamCountryValueVo" >
@@ -1228,7 +1269,7 @@
 		count(id) as count from eam_order
 		where delete_flag = 0
 		group by industry, companyName
-		order by count desc, industry, companyName asc
+		order by count, industry, companyName asc
 	</select>
 
 

@@ -13,7 +13,7 @@ import java.util.List;
 */
 public interface UpmsPermissionService extends BaseService<UpmsPermission, UpmsPermissionExample> {
 
-    JSONArray getTreeByRoleId(Integer roleId);
+    JSONArray getTreeByRoleId(Integer roleId, Integer usereId);
 
     JSONArray getTreeByUserId(Integer usereId, Byte type);
 

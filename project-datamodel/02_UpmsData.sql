@@ -69,6 +69,8 @@ INSERT INTO upms_role VALUES ('5', 1, 'customer', '客户', '拥有客户权限'
 -- ----------------------------
 -- Records of upms_role_permission
 -- ----------------------------
+
+-- For super Role
 INSERT INTO upms_role_permission VALUES ('1', '1', '1', 0);
 INSERT INTO upms_role_permission VALUES ('2', '1', '2', 0);
 INSERT INTO upms_role_permission VALUES ('3', '1', '3', 0);
@@ -104,6 +106,93 @@ INSERT INTO upms_role_permission VALUES ('32', '1', '32', 0);
 INSERT INTO upms_role_permission VALUES ('33', '1', '33', 0);
 INSERT INTO upms_role_permission VALUES ('34', '1', '34', 0);
 INSERT INTO upms_role_permission VALUES ('35', '1', '35', 0);
+
+-- For Customer Role
+INSERT INTO upms_role_permission VALUES ('36', '7', '1', 0);
+INSERT INTO upms_role_permission VALUES ('37', '7', '3', 0);
+INSERT INTO upms_role_permission VALUES ('38', '7', '4', 0);
+INSERT INTO upms_role_permission VALUES ('39', '7', '5', 0);
+INSERT INTO upms_role_permission VALUES ('40', '7', '6', 0);
+INSERT INTO upms_role_permission VALUES ('41', '7', '7', 0);
+INSERT INTO upms_role_permission VALUES ('42', '7', '27', 0);
+INSERT INTO upms_role_permission VALUES ('43', '7', '28', 0);
+INSERT INTO upms_role_permission VALUES ('44', '7', '29', 0);
+INSERT INTO upms_role_permission VALUES ('45', '7', '30', 0);
+INSERT INTO upms_role_permission VALUES ('46', '7', '31', 0);
+INSERT INTO upms_role_permission VALUES ('47', '7', '32', 0);
+INSERT INTO upms_role_permission VALUES ('48', '7', '33', 0);
+INSERT INTO upms_role_permission VALUES ('49', '7', '34', 0);
+INSERT INTO upms_role_permission VALUES ('50', '7', '35', 0);
+INSERT INTO upms_role_permission VALUES ('51', '7', '39', 0);
+INSERT INTO upms_role_permission VALUES ('52', '7', '46', 0);
+INSERT INTO upms_role_permission VALUES ('53', '7', '48', 0);
+INSERT INTO upms_role_permission VALUES ('54', '7', '50', 0);
+INSERT INTO upms_role_permission VALUES ('55', '7', '51', 0);
+INSERT INTO upms_role_permission VALUES ('56', '7', '201', 0);
+INSERT INTO upms_role_permission VALUES ('57', '7', '203', 0);
+INSERT INTO upms_role_permission VALUES ('58', '7', '205', 0);
+INSERT INTO upms_role_permission VALUES ('59', '7', '206', 0);
+INSERT INTO upms_role_permission VALUES ('60', '7', '207', 0);
+INSERT INTO upms_role_permission VALUES ('61', '7', '210', 0);
+INSERT INTO upms_role_permission VALUES ('62', '7', '211', 0);
+INSERT INTO upms_role_permission VALUES ('63', '7', '212', 0);
+INSERT INTO upms_role_permission VALUES ('64', '7', '213', 0);
+INSERT INTO upms_role_permission VALUES ('65', '7', '214', 0);
+INSERT INTO upms_role_permission VALUES ('66', '7', '217', 0);
+INSERT INTO upms_role_permission VALUES ('67', '7', '218', 0);
+INSERT INTO upms_role_permission VALUES ('68', '7', '240', 0);
+INSERT INTO upms_role_permission VALUES ('69', '7', '241', 0);
+INSERT INTO upms_role_permission VALUES ('70', '7', '245', 0);
+INSERT INTO upms_role_permission VALUES ('71', '7', '270', 0);
+INSERT INTO upms_role_permission VALUES ('72', '7', '271', 0);
+INSERT INTO upms_role_permission VALUES ('73', '7', '272', 0);
+INSERT INTO upms_role_permission VALUES ('74', '7', '273', 0);
+INSERT INTO upms_role_permission VALUES ('75', '7', '310', 0);
+INSERT INTO upms_role_permission VALUES ('76', '7', '311', 0);
+INSERT INTO upms_role_permission VALUES ('77', '7', '312', 0);
+INSERT INTO upms_role_permission VALUES ('78', '7', '313', 0);
+INSERT INTO upms_role_permission VALUES ('79', '7', '320', 0);
+INSERT INTO upms_role_permission VALUES ('80', '7', '330', 0);
+INSERT INTO upms_role_permission VALUES ('81', '7', '340', 0);
+INSERT INTO upms_role_permission VALUES ('82', '7', '345', 0);
+INSERT INTO upms_role_permission VALUES ('83', '7', '350', 0);
+INSERT INTO upms_role_permission VALUES ('84', '7', '351', 0);
+INSERT INTO upms_role_permission VALUES ('85', '7', '352', 0);
+INSERT INTO upms_role_permission VALUES ('86', '7', '353', 0);
+INSERT INTO upms_role_permission VALUES ('87', '7', '400', 0);
+INSERT INTO upms_role_permission VALUES ('88', '7', '401', 0);
+INSERT INTO upms_role_permission VALUES ('89', '7', '402', 0);
+INSERT INTO upms_role_permission VALUES ('90', '7', '406', 0);
+INSERT INTO upms_role_permission VALUES ('91', '7', '410', 0);
+INSERT INTO upms_role_permission VALUES ('92', '7', '414', 0);
+INSERT INTO upms_role_permission VALUES ('93', '7', '418', 0);
+INSERT INTO upms_role_permission VALUES ('94', '7', '440', 0);
+INSERT INTO upms_role_permission VALUES ('95', '7', '441', 0);
+INSERT INTO upms_role_permission VALUES ('96', '7', '442', 0);
+INSERT INTO upms_role_permission VALUES ('97', '7', '443', 0);
+INSERT INTO upms_role_permission VALUES ('98', '7', '447', 0);
+INSERT INTO upms_role_permission VALUES ('99', '7', '461', 0);
+INSERT INTO upms_role_permission VALUES ('100', '7', '462', 0);
+INSERT INTO upms_role_permission VALUES ('101', '7', '463', 0);
+INSERT INTO upms_role_permission VALUES ('102', '7', '464', 0);
+INSERT INTO upms_role_permission VALUES ('103', '7', '501', 0);
+INSERT INTO upms_role_permission VALUES ('104', '7', '505', 0);
+INSERT INTO upms_role_permission VALUES ('105', '7', '509', 0);
+INSERT INTO upms_role_permission VALUES ('106', '7', '510', 0);
+INSERT INTO upms_role_permission VALUES ('107', '7', '511', 0);
+INSERT INTO upms_role_permission VALUES ('108', '7', '512', 0);
+INSERT INTO upms_role_permission VALUES ('109', '7', '513', 0);
+INSERT INTO upms_role_permission VALUES ('110', '7', '517', 0);
+INSERT INTO upms_role_permission VALUES ('111', '7', '600', 0);
+INSERT INTO upms_role_permission VALUES ('112', '7', '610', 0);
+INSERT INTO upms_role_permission VALUES ('113', '7', '611', 0);
+INSERT INTO upms_role_permission VALUES ('114', '7', '612', 0);
+INSERT INTO upms_role_permission VALUES ('115', '7', '613', 0);
+INSERT INTO upms_role_permission VALUES ('116', '7', '700', 0);
+INSERT INTO upms_role_permission VALUES ('117', '7', '710', 0);
+INSERT INTO upms_role_permission VALUES ('118', '7', '711', 0);
+INSERT INTO upms_role_permission VALUES ('119', '7', '712', 0);
+INSERT INTO upms_role_permission VALUES ('120', '7', '713', 0);
 
 
 INSERT INTO upms_user_company (user_id, company_id, delete_flag) VALUES (1, 1, 0);

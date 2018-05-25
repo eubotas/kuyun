@@ -42,21 +42,21 @@ public class DataElementBean extends BaseImportBean {
      *
      * @mbg.generated
      */
-    private Boolean isStatisticByDate;
+    private String statisticByDate;
 
     /**
      * 是否按班次统计
      *
      * @mbg.generated
      */
-    private Boolean isStatisticByShift;
+    private String statisticByShift;
 
     /**
      * 是否累加统计
      *
      * @mbg.generated
      */
-    private Boolean isSummation;
+    private String summation;
     private static final long serialVersionUID = 1L;
 
     public String getId() {
@@ -107,28 +107,28 @@ public class DataElementBean extends BaseImportBean {
         this.equipmentCategory = equipmentCategory;
     }
 
-    public Boolean getStatisticByDate() {
-        return isStatisticByDate;
+    public String getStatisticByDate() {
+        return statisticByDate;
     }
 
-    public void setStatisticByDate(Boolean statisticByDate) {
-        isStatisticByDate = statisticByDate;
+    public void setStatisticByDate(String statisticByDate) {
+        this.statisticByDate = statisticByDate;
     }
 
-    public Boolean getStatisticByShift() {
-        return isStatisticByShift;
+    public String getStatisticByShift() {
+        return statisticByShift;
     }
 
-    public void setStatisticByShift(Boolean statisticByShift) {
-        isStatisticByShift = statisticByShift;
+    public void setStatisticByShift(String statisticByShift) {
+        this.statisticByShift = statisticByShift;
     }
 
-    public Boolean getSummation() {
-        return isSummation;
+    public String getSummation() {
+        return summation;
     }
 
-    public void setSummation(Boolean summation) {
-        isSummation = summation;
+    public void setSummation(String summation) {
+        this.summation = summation;
     }
 
     /**

@@ -19,7 +19,7 @@ public class UpmsPermissionServiceMock extends BaseServiceMock<UpmsPermissionMap
     private static Logger _log = LoggerFactory.getLogger(UpmsPermissionServiceMock.class);
 
     @Override
-    public JSONArray getTreeByRoleId(Integer roleId) {
+    public JSONArray getTreeByRoleId(Integer roleId, Integer usereId) {
         _log.info("UpmsPermissionServiceMock => getTreeByRoleId");
         return null;
     }
