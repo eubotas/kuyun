@@ -2437,6 +2437,9 @@ public class EamApiServiceImpl implements EamApiService {
 
         for(EamProductLineGrmDataElementVO vo : vos){
             EamGrmVariableDataHistory h = getEamGrmVariableDataHistory(dataHistoryList, vo.getId());
+            if(h == null) {
+                continue;
+            }
             para.setProductLineId(h.getProductLineId());
             para.setEquipmentId(h.getEquipmentId());
             para.setDataElementId(h.getDataElementId());
@@ -2457,24 +2460,26 @@ public class EamApiServiceImpl implements EamApiService {
                 shiftNum = ProductShift.NIGHT.getCode();
                 startDate=vo.getNightShiftStartTime();
                 endDate =vo.getNightShiftEndTime();
-            }else
+            }else {
                 return;  //execption setting
+            }
             String dataType= vo.getDataType(); //analog  digital 开关量
             boolean isShift = vo.getStatisticByShift();
             boolean isSummary = vo.getSummation();
             if(isShift) {
                 if("digital".equals(dataType)) {  //开关量
-                    String key = "SWITCH-" + h.getProductLineId() + "-" + h.getEquipmentId() + "-" + h.getEquipmentDataGroupId() + "-" + h.getDataGroupId() + "-" + h.getDataElementId() + "-" + h.getEamGrmVariableId();
+                    String key = "SHIFT-SWITCH-" + h.getProductLineId() + "-" + h.getEquipmentId() + "-" + h.getDataElementId() + "-" + h.getEamGrmVariableId();
                     String preVal = RedisUtil.get(key);
                     int changeCount = 0;
                     String offOpen=h.getValue();
-                    if (preVal == null && h.getValue() != null)
+                    if (preVal == null && h.getValue() != null) {
                         changeCount++;
-                    else if (!preVal.equals(h.getValue()))
+                    }else if (!preVal.equals(h.getValue())) {
                         changeCount++;
+                    }
                     if(changeCount > 0) {
                         RedisUtil.set(key, h.getValue());
-                        handleGrmVariableDataByShift(para,String.valueOf(changeCount), offOpen, shiftNum,startDate, endDate);
+                        handleGrmVariableDataByShiftSwitch(para,String.valueOf(changeCount), isSummary, offOpen, shiftNum,startDate, endDate);
                     }
                 }else{ //模拟量
                     handleGrmVariableDataByShift(para,h.getValue(), isSummary, shiftNum,startDate, endDate);
@@ -2484,35 +2489,42 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     private void handleGrmVariableDataByShift(EamGrmVariable variable, String value,boolean isSummary, String shiftNum,String startDate,String endDate) {
+        String key = "SHIFT-AMOUNT-" + variable.getProductLineId() + "-" + variable.getEquipmentId() + "-" + variable.getDataElementId() + "-" + variable.getId();
+        EamShiftDataElementValue data = getEamGrmVariableDataByShift(variable, shiftNum,startDate, endDate);
+        if (data != null){
+            if(isSummary) {
+                BigDecimal newValue = NumberUtil.toBigDecimal(value);
+                BigDecimal orgValue =NumberUtil.toBigDecimal(RedisUtil.get(key));
+                data.setValue(newValue.subtract(orgValue).toString());
+            }else {
+                data.setValue(value);
+            }
+            data.setUpdateTime(new Date());
+            data.setShift(shiftNum);
+            eamShiftDataElementValueService.updateByPrimaryKeySelective(data);
+        }else{
+            RedisUtil.set(key, value);
+
+            data = buildEamGrmVariableDataByShift(variable, "0", "",  shiftNum);
+            eamShiftDataElementValueService.insertSelective(data);
+        }
+    }
+
+    private void handleGrmVariableDataByShiftSwitch(EamGrmVariable variable, String value,boolean isSummary, String offOpen, String shiftNum,String startDate,String endDate) {
         EamShiftDataElementValue data = getEamGrmVariableDataByShift(variable, shiftNum,startDate, endDate);
         if (data != null){
             if(isSummary) {
                 BigDecimal newValue = BigDecimal.valueOf(Double.valueOf(value));
                 newValue = NumberUtil.toBigDecimal(data.getValue()).add(newValue);
                 data.setValue(newValue.toString());
-            }else
+            }else {
                 data.setValue(value);
+            }
             data.setUpdateTime(new Date());
             data.setShift(shiftNum);
             eamShiftDataElementValueService.updateByPrimaryKeySelective(data);
         }else{
-            data = buildEamGrmVariableDataByShift(variable, value, "",  shiftNum);
-            eamShiftDataElementValueService.insertSelective(data);
-        }
-
-    }
-
-    private void handleGrmVariableDataByShift(EamGrmVariable variable, String value,String offOpen, String shiftNum,String startDate,String endDate) {
-        EamShiftDataElementValue data = getEamGrmVariableDataByShift(variable, shiftNum,startDate, endDate);
-        if (data != null){
-            BigDecimal newValue = BigDecimal.valueOf(Double.valueOf(value));
-            newValue = NumberUtil.toBigDecimal(data.getValue()).add(newValue);
-            data.setValue(newValue.toString());
-            data.setUpdateTime(new Date());
-            data.setShift(shiftNum);
-            eamShiftDataElementValueService.updateByPrimaryKeySelective(data);
-        }else{
-            data = buildEamGrmVariableDataByShift(variable, value, offOpen,  shiftNum);
+            data = buildEamGrmVariableDataByShift(variable, "0", offOpen,  shiftNum);
             eamShiftDataElementValueService.insertSelective(data);
         }
 
@@ -2557,8 +2569,9 @@ public class EamApiServiceImpl implements EamApiService {
 
     private EamGrmVariableDataHistory getEamGrmVariableDataHistory(List<EamGrmVariableDataHistory> dataHistoryList, Integer grmVariableId){
         for(EamGrmVariableDataHistory h: dataHistoryList){
-            if(h.getEamGrmVariableId()==grmVariableId)
+            if(h.getEamGrmVariableId().intValue()==grmVariableId.intValue()) {
                 return h;
+            }
         }
         return null;
     }
