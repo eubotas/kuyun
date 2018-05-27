@@ -93,6 +93,8 @@ public class EamProductLineController extends BaseController {
 
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			productLineVO.setOrderByClause(sort + " " + order);
+		}else {
+			productLineVO.setOrderByClause("eam_product_line.create_time desc ");
 		}
 
 		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();

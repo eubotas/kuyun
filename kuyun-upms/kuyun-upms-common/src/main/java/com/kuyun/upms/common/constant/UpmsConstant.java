@@ -12,6 +12,7 @@ public class UpmsConstant extends BaseConstants {
 
     public static String CUSTOMER_ROLE = "customer";
     public static int UPDATE_USER_PERMISSION_ID = 23;
+    public static int READ_MESSAGE_PERMISSION_ID = 719;
     public static int ADMIN_COMPANY = 1;
 
 }

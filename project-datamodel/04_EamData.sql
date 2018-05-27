@@ -158,6 +158,7 @@ INSERT INTO `upms_permission` VALUES ('716', '6', '714', '编辑文件模板', '
 INSERT INTO `upms_permission` VALUES ('717', '6', '714', '删除文件模板', '3', 'eam:fileTemplate:delete', '/manage/fileTemplate/delete', 'zmdi zmdi-close', 1, 1, 717,0);
 
 INSERT INTO `upms_permission` VALUES ('718', '6', '700', '首页', '2', 'eam:dashboard:read', '/manage/dashboard/index', 'zmdi zmdi-close', 1, 1, 718,0);
+INSERT INTO `upms_permission` VALUES ('719', '6', '700', '查看消息', '2', 'eam:alertMessage:read', '/manage/alertMsg/list', 'zmdi zmdi-close', 1, 1, 719,0);
 
 
 TRUNCATE TABLE eam_ticket_type;
