@@ -38,7 +38,7 @@ public class StatisticJob extends QuartzJobBean {
 
         if (eamApiService != null){
             _log.info("******Start Statistic Job********");
-            eamApiService.statisticJob();
+             eamApiService.statisticJob();
             _log.info("******End Statistic Job**********");
         }
     }

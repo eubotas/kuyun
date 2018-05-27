@@ -578,6 +578,76 @@ public class EamGrmVariableDataByYearExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andSwitchValueIsNull() {
+            addCriterion("switch_value is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSwitchValueIsNotNull() {
+            addCriterion("switch_value is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSwitchValueEqualTo(String value) {
+            addCriterion("switch_value =", value, "switchValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSwitchValueNotEqualTo(String value) {
+            addCriterion("switch_value <>", value, "switchValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSwitchValueGreaterThan(String value) {
+            addCriterion("switch_value >", value, "switchValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSwitchValueGreaterThanOrEqualTo(String value) {
+            addCriterion("switch_value >=", value, "switchValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSwitchValueLessThan(String value) {
+            addCriterion("switch_value <", value, "switchValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSwitchValueLessThanOrEqualTo(String value) {
+            addCriterion("switch_value <=", value, "switchValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSwitchValueLike(String value) {
+            addCriterion("switch_value like", value, "switchValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSwitchValueNotLike(String value) {
+            addCriterion("switch_value not like", value, "switchValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSwitchValueIn(List<String> values) {
+            addCriterion("switch_value in", values, "switchValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSwitchValueNotIn(List<String> values) {
+            addCriterion("switch_value not in", values, "switchValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSwitchValueBetween(String value1, String value2) {
+            addCriterion("switch_value between", value1, value2, "switchValue");
+            return (Criteria) this;
+        }
+
+        public Criteria andSwitchValueNotBetween(String value1, String value2) {
+            addCriterion("switch_value not between", value1, value2, "switchValue");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateUserIdIsNull() {
             addCriterion("create_user_id is null");
             return (Criteria) this;

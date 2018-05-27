@@ -89,7 +89,7 @@ public class MybatisGeneratorUtil {
 			List<Map> result = jdbcUtil.selectByParams(sql, null);
 			for (Map map : result) {
                 String t_name = map.get("TABLE_NAME").toString();
-                if (tableName == null || (tableName != null && t_name.equals(tableName))) {
+				if (tableName == null || (tableName != null && tableName.indexOf(t_name) >-1)) {
                     System.out.println(t_name);
                     table = new HashMap<>();
                     table.put("table_name", t_name);
@@ -253,7 +253,7 @@ public class MybatisGeneratorUtil {
 			List<Map> result = jdbcUtil.selectByParams(sql, null);
 			for (Map map : result) {
 				String t_name = map.get("TABLE_NAME").toString();
-				if (tableName == null || (tableName != null && t_name.equals(tableName))) {
+				if (tableName == null || (tableName != null && tableName.indexOf(t_name) >-1)) {
 					System.out.println(t_name);
 					table = new HashMap<>();
 					table.put("table_name", map.get("TABLE_NAME"));

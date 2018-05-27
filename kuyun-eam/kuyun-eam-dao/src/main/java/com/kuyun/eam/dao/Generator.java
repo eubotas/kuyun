@@ -56,6 +56,6 @@ public class Generator {
     public static void main(String[] args) throws Exception {
         MybatisGeneratorUtil.generator(JDBC_DRIVER, JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD, MODULE, DATABASE, TABLE_PREFIX, PACKAGE_NAME, LAST_INSERT_ID_TABLES,ALIAS_NEEDED_TABLES);
         //one table
-        //MybatisGeneratorUtil.generator(JDBC_DRIVER, JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD, MODULE, DATABASE, TABLE_PREFIX, PACKAGE_NAME, LAST_INSERT_ID_TABLES,ALIAS_NEEDED_TABLES, "eam_equipment");
+        //MybatisGeneratorUtil.generator(JDBC_DRIVER, JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD, MODULE, DATABASE, TABLE_PREFIX, PACKAGE_NAME, LAST_INSERT_ID_TABLES,ALIAS_NEEDED_TABLES, "eam_grm_variable_data_by_day,eam_grm_variable_data_by_month,eam_grm_variable_data_by_year,eam_shift_data_element_value");
     }
 }

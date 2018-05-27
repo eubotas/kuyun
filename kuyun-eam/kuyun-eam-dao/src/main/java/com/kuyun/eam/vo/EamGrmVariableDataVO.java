@@ -13,6 +13,9 @@ public class EamGrmVariableDataVO extends EamGrmVariableData {
     private String dataElementName;
     private String equipmentIdIsNull;
     private String unit;
+    //used in static
+    private String dataType;
+    private Boolean isSummation;
 
     private Integer limit;
 
@@ -94,5 +97,21 @@ public class EamGrmVariableDataVO extends EamGrmVariableData {
 
     public void setDataElementName(String dataElementName) {
         this.dataElementName = dataElementName;
+    }
+
+    public String getDataType() {
+        return dataType;
+    }
+
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
+    }
+
+    public Boolean getSummation() {
+        return isSummation;
+    }
+
+    public void setSummation(Boolean summation) {
+        isSummation = summation;
     }
 }

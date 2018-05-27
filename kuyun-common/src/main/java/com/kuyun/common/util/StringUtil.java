@@ -154,4 +154,23 @@ public class StringUtil {
         }
     }
 
+    public static boolean isEmpty(String str){
+        if(str == null || "".equals(str.trim()))
+            return true;
+        return false;
+    }
+
+    public static String getOppositeSwitchName(String on){
+        return getSwitchName("XXXXXXXXX"+on);
+    }
+
+    public static String getSwitchName(String on){
+        if(StringUtil.isEmpty(on )) {
+            return "0";
+        }else if("0".equals(on) || "FALSE".equalsIgnoreCase(on) || "OFF".equalsIgnoreCase(on) || "CLOSE".equalsIgnoreCase(on)){
+            return "0";
+        }
+        return "1";
+    }
+
 }

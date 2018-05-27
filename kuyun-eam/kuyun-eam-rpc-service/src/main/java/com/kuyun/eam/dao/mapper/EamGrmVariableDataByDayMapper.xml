@@ -8,6 +8,7 @@
     <result column="product_line_id" jdbcType="VARCHAR" property="productLineId" />
     <result column="data_element_id" jdbcType="INTEGER" property="dataElementId" />
     <result column="value" jdbcType="VARCHAR" property="value" />
+    <result column="switch_value" jdbcType="VARCHAR" property="switchValue" />
     <result column="date" jdbcType="DATE" property="date" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
@@ -74,8 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, eam_grm_variable_id, equipment_id, product_line_id, data_element_id, value, date, 
-    create_user_id, create_time, update_user_id, update_time, delete_flag
+    id, eam_grm_variable_id, equipment_id, product_line_id, data_element_id, value, switch_value, 
+    date, create_user_id, create_time, update_user_id, update_time, delete_flag
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataByDayExample" resultMap="BaseResultMap">
     select
@@ -118,14 +119,14 @@
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataByDay">
     insert into eam_grm_variable_data_by_day (id, eam_grm_variable_id, equipment_id, 
       product_line_id, data_element_id, value, 
-      date, create_user_id, create_time, 
-      update_user_id, update_time, delete_flag
-      )
+      switch_value, date, create_user_id, 
+      create_time, update_user_id, update_time, 
+      delete_flag)
     values (#{id,jdbcType=INTEGER}, #{eamGrmVariableId,jdbcType=INTEGER}, #{equipmentId,jdbcType=VARCHAR}, 
       #{productLineId,jdbcType=VARCHAR}, #{dataElementId,jdbcType=INTEGER}, #{value,jdbcType=VARCHAR}, 
-      #{date,jdbcType=DATE}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}
-      )
+      #{switchValue,jdbcType=VARCHAR}, #{date,jdbcType=DATE}, #{createUserId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{deleteFlag,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataByDay">
     insert into eam_grm_variable_data_by_day
@@ -147,6 +148,9 @@
       </if>
       <if test="value != null">
         value,
+      </if>
+      <if test="switchValue != null">
+        switch_value,
       </if>
       <if test="date != null">
         date,
@@ -185,6 +189,9 @@
       </if>
       <if test="value != null">
         #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="switchValue != null">
+        #{switchValue,jdbcType=VARCHAR},
       </if>
       <if test="date != null">
         #{date,jdbcType=DATE},
@@ -233,6 +240,9 @@
       <if test="record.value != null">
         value = #{record.value,jdbcType=VARCHAR},
       </if>
+      <if test="record.switchValue != null">
+        switch_value = #{record.switchValue,jdbcType=VARCHAR},
+      </if>
       <if test="record.date != null">
         date = #{record.date,jdbcType=DATE},
       </if>
@@ -264,6 +274,7 @@
       product_line_id = #{record.productLineId,jdbcType=VARCHAR},
       data_element_id = #{record.dataElementId,jdbcType=INTEGER},
       value = #{record.value,jdbcType=VARCHAR},
+      switch_value = #{record.switchValue,jdbcType=VARCHAR},
       date = #{record.date,jdbcType=DATE},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -291,6 +302,9 @@
       </if>
       <if test="value != null">
         value = #{value,jdbcType=VARCHAR},
+      </if>
+      <if test="switchValue != null">
+        switch_value = #{switchValue,jdbcType=VARCHAR},
       </if>
       <if test="date != null">
         date = #{date,jdbcType=DATE},
@@ -320,6 +334,7 @@
       product_line_id = #{productLineId,jdbcType=VARCHAR},
       data_element_id = #{dataElementId,jdbcType=INTEGER},
       value = #{value,jdbcType=VARCHAR},
+      switch_value = #{switchValue,jdbcType=VARCHAR},
       date = #{date,jdbcType=DATE},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -332,16 +347,16 @@
     <if test="items.get(0) != null">
             insert into eam_grm_variable_data_by_day  (id, eam_grm_variable_id, equipment_id, 
         product_line_id, data_element_id, value, 
-        date, create_user_id, create_time, 
-        update_user_id, update_time, delete_flag
-        )
+        switch_value, date, create_user_id, 
+        create_time, update_user_id, update_time, 
+        delete_flag)
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.id,jdbcType=INTEGER}, #{item.eamGrmVariableId,jdbcType=INTEGER}, #{item.equipmentId,jdbcType=VARCHAR}, 
         #{item.productLineId,jdbcType=VARCHAR}, #{item.dataElementId,jdbcType=INTEGER}, #{item.value,jdbcType=VARCHAR}, 
-        #{item.date,jdbcType=DATE}, #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, 
-        #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}
-        )
+        #{item.switchValue,jdbcType=VARCHAR}, #{item.date,jdbcType=DATE}, #{item.createUserId,jdbcType=INTEGER}, 
+        #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
+        #{item.deleteFlag,jdbcType=BIT})
       </foreach>
     </if>
   </insert>

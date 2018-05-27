@@ -90,7 +90,7 @@ public interface EamApiMapper {
 
     List<EamIndustryValueVo> summaryIndustryAndCompanyName();
 
-    List<EamGrmVariable> selectStatisticGrmVariable();
+    List<EamGrmVariableDataVO> selectStatisticGrmVariable();
 
     List<EamOrderVO> selectOrders(EamOrderVO orderVO);
 

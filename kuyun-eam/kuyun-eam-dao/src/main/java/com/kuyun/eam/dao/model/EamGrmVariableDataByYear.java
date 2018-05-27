@@ -18,6 +18,13 @@ public class EamGrmVariableDataByYear extends BaseEntity implements Serializable
 
     private String value;
 
+    /**
+     * 开关量 --有值,模拟量--空
+     *
+     * @mbg.generated
+     */
+    private String switchValue;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -76,6 +83,14 @@ public class EamGrmVariableDataByYear extends BaseEntity implements Serializable
         this.value = value;
     }
 
+    public String getSwitchValue() {
+        return switchValue;
+    }
+
+    public void setSwitchValue(String switchValue) {
+        this.switchValue = switchValue;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -89,6 +104,7 @@ public class EamGrmVariableDataByYear extends BaseEntity implements Serializable
         sb.append(", dataElementId=").append(dataElementId);
         sb.append(", year=").append(year);
         sb.append(", value=").append(value);
+        sb.append(", switchValue=").append(switchValue);
         sb.append("]");
         return sb.toString();
     }
@@ -112,6 +128,7 @@ public class EamGrmVariableDataByYear extends BaseEntity implements Serializable
             && (this.getDataElementId() == null ? other.getDataElementId() == null : this.getDataElementId().equals(other.getDataElementId()))
             && (this.getYear() == null ? other.getYear() == null : this.getYear().equals(other.getYear()))
             && (this.getValue() == null ? other.getValue() == null : this.getValue().equals(other.getValue()))
+            && (this.getSwitchValue() == null ? other.getSwitchValue() == null : this.getSwitchValue().equals(other.getSwitchValue()))
             && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
@@ -130,6 +147,7 @@ public class EamGrmVariableDataByYear extends BaseEntity implements Serializable
         result = prime * result + ((getDataElementId() == null) ? 0 : getDataElementId().hashCode());
         result = prime * result + ((getYear() == null) ? 0 : getYear().hashCode());
         result = prime * result + ((getValue() == null) ? 0 : getValue().hashCode());
+        result = prime * result + ((getSwitchValue() == null) ? 0 : getSwitchValue().hashCode());
         result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());

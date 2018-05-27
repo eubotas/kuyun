@@ -1272,19 +1272,23 @@
 		order by count, industry, companyName asc
 	</select>
 
-
-	<select id="selectStatisticGrmVariable" resultMap="com.kuyun.eam.dao.mapper.EamGrmVariableMapper.BaseResultMap">
+	<resultMap id="eamGrmVariableDataVO" type="com.kuyun.eam.vo.EamGrmVariableDataVO" extends="com.kuyun.eam.dao.mapper.EamGrmVariableMapper.BaseResultMap">
+		<result column="data_type" jdbcType="VARCHAR" property="dataType" />
+		<result column="is_summation" jdbcType="INTEGER" property="isSummation" />
+	</resultMap>
+	<select id="selectStatisticGrmVariable" resultMap="eamGrmVariableDataVO">
 		select
 		max(eam_grm_variable.id) as eam_grm_variable_id,
 		eam_grm_variable.equipment_id as eam_grm_variable_equipment_id,
 		eam_grm_variable.product_line_id as eam_grm_variable_product_line_id,
-		eam_grm_variable.data_element_id as eam_grm_variable_data_element_id
+		eam_grm_variable.data_element_id as eam_grm_variable_data_element_id,
+		e.data_type, e.is_summation
 		from eam_grm_variable, eam_data_element e
 		where eam_grm_variable.delete_flag = 0 and e.delete_flag = 0
 		and eam_grm_variable.data_element_id = e.id
 		and e.is_statistic_by_date = 1
-		GROUP BY product_line_id, equipment_id, data_element_id
-		ORDER by product_line_id, equipment_id, data_element_id
+		GROUP BY product_line_id, equipment_id, data_element_id,e.data_type, e.is_summation
+		ORDER by product_line_id, equipment_id, data_element_id,e.data_type, e.is_summation
 
 	</select>
 

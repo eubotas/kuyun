@@ -1,9 +1,10 @@
 package com.kuyun.eam.admin.controller.manager;
 
 import com.kuyun.common.base.BaseController;
-import com.kuyun.common.util.DateUtil;
+//import com.kuyun.common.util.DateUtil;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
+import com.kuyun.eam.util.EamDateUtil;
 import com.kuyun.eam.vo.EamCodeValueVo;
 import com.kuyun.eam.vo.EamCountryValueVo;
 import com.kuyun.upms.client.util.BaseEntityUtil;
@@ -11,6 +12,7 @@ import com.kuyun.upms.dao.model.UpmsCompanyExample;
 import com.kuyun.upms.rpc.api.UpmsCompanyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import javafx.util.Pair;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +47,43 @@ public class EamStatisticDataElementController extends BaseController {
 	@Autowired
 	private EamGrmVariableDataByDayService eamGrmVariableDataByDayService;
 
+	@Autowired
+	private  EamShiftDataElementValueService eamShiftDataElementValueService;
+
+	@ApiOperation(value = "按班次统计数据点")
+	@RequiresPermissions("eam:productLine:read")
+	@ResponseBody
+	@RequestMapping(value = "/shift", method = RequestMethod.POST)
+	public Object shift(EamShiftDataElementValue variable) {
+		EamShiftDataElementValueExample example = new EamShiftDataElementValueExample();
+		EamShiftDataElementValueExample.Criteria criteria = example.createCriteria();
+
+		if (variable.getProductLineId() != null){
+			criteria.andProductLineIdEqualTo(variable.getProductLineId());
+		}
+
+		if (variable.getEquipmentId() != null){
+			criteria.andEquipmentIdEqualTo(variable.getEquipmentId());
+		}
+		if (variable.getSwitchValue() != null){
+			criteria.andSwitchValueEqualTo(variable.getSwitchValue());
+		}
+		if (variable.getShift() != null){
+			criteria.andShiftEqualTo(variable.getShift());
+		}
+		if (variable.getDataElementId() != null){
+			criteria.andDataElementIdEqualTo(variable.getDataElementId());
+		}
+
+//		Date now = new Date();
+//		Pair<Date,Date> startEnd = EamDateUtil.getShiftStartEndTime(EamDateUtil.getDateStr(now,"yyyy-MM-dd"), );
+//		criteria.andUpdateTimeBetween(startDate, endDate);
+
+		example.setOrderByClause("date asc");
+
+		List<EamShiftDataElementValue> data = eamShiftDataElementValueService.selectByExample(example);
+		return data;
+	}
 
 	@ApiOperation(value = "按日统计数据点")
 	@RequiresPermissions("eam:productLine:read")
@@ -61,15 +100,17 @@ public class EamStatisticDataElementController extends BaseController {
 		if (variable.getEquipmentId() != null){
 			criteria.andEquipmentIdEqualTo(variable.getEquipmentId());
 		}
-
+		if (variable.getSwitchValue() != null){
+			criteria.andSwitchValueEqualTo(variable.getSwitchValue());
+		}
 		if (variable.getDataElementId() != null){
 			criteria.andDataElementIdEqualTo(variable.getDataElementId());
 		}
 		LocalDate now = LocalDate.now();
-		Date startDate = DateUtil.asDate(now.withDayOfMonth(1));
-		Date endDate = DateUtil.asDate(now.withDayOfMonth(now.lengthOfMonth()));
-
-		criteria.andDateBetween(startDate, endDate);
+//		Date startDate = DateUtil.asDate(now.withDayOfMonth(1));
+//		Date endDate = DateUtil.asDate(now.withDayOfMonth(now.lengthOfMonth()));
+//
+//		criteria.andDateBetween(startDate, endDate);
 		example.setOrderByClause("date asc");
 
 		List<EamGrmVariableDataByDay> data = eamGrmVariableDataByDayService.selectByExample(example);
@@ -92,7 +133,9 @@ public class EamStatisticDataElementController extends BaseController {
 		if (variable.getEquipmentId() != null){
 			criteria.andEquipmentIdEqualTo(variable.getEquipmentId());
 		}
-
+		if (variable.getSwitchValue() != null){
+			criteria.andSwitchValueEqualTo(variable.getSwitchValue());
+		}
 
 		if (variable.getDataElementId() != null){
 			criteria.andDataElementIdEqualTo(variable.getDataElementId());
@@ -126,6 +169,9 @@ public class EamStatisticDataElementController extends BaseController {
 
 		if (variable.getDataElementId() != null){
 			criteria.andDataElementIdEqualTo(variable.getDataElementId());
+		}
+		if (variable.getSwitchValue() != null){
+			criteria.andSwitchValueEqualTo(variable.getSwitchValue());
 		}
 		int year = LocalDate.now().getYear();
 

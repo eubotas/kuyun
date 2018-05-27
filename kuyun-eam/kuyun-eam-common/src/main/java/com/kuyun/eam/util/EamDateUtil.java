@@ -2,6 +2,7 @@ package com.kuyun.eam.util;
 
 import javafx.util.Pair;
 
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -69,6 +70,13 @@ public class EamDateUtil {
         return sdf.format(d);
     }
 
+    public static Date convertDate(String date, String format) throws java.text.ParseException {
+        if(format == null ) {
+            format=defaultFormat;
+        }
+        return org.apache.commons.lang.time.DateUtils.parseDate(date,  new String[]{format});
+    }
+
     public static int getDayToLast(Date dt){
         Calendar c = Calendar.getInstance();
         c.setTime(dt);
@@ -77,19 +85,17 @@ public class EamDateUtil {
         return last - day;
     }
 
-    public static Pair<Date,Date> getShiftStartEndTime(String date, String startHourMinute, String endHourMinute){
+    public static Pair<Date,Date> getShiftStartEndTime(String date, String startHourMinute, String endHourMinute) throws java.text.ParseException{
         Pair<Date, Date> pair = null;
-        try {
-            Date startDate = org.apache.commons.lang.time.DateUtils.parseDate(date + " " + startHourMinute + ":00", new String[]{"yyyy-MM-dd HH:mm:ss"});
-            Date endDate = org.apache.commons.lang.time.DateUtils.parseDate(date + " " + endHourMinute + ":59", new String[]{"yyyy-MM-dd HH:mm:ss"});
-            if (endDate.before(startDate))
-                endDate = getDateAfter(endDate, 1);
-            pair = new Pair<>(startDate, endDate);
-        }catch(Exception ex){ex.getStackTrace();}
+        Date startDate = org.apache.commons.lang.time.DateUtils.parseDate(date + " " + startHourMinute + ":00", new String[]{"yyyy-MM-dd HH:mm:ss"});
+        Date endDate = org.apache.commons.lang.time.DateUtils.parseDate(date + " " + endHourMinute + ":59", new String[]{"yyyy-MM-dd HH:mm:ss"});
+        if (endDate.before(startDate))
+            endDate = getDateAfter(endDate, 1);
+        pair = new Pair<>(startDate, endDate);
         return pair;
     }
 
-    public static boolean inThisTimes(String startHourMinute, String endHourMinute){
+    public static boolean inThisTimes(String startHourMinute, String endHourMinute) throws java.text.ParseException{
         if(startHourMinute == null || endHourMinute==null)
             return false;
         Date now =new Date();

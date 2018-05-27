@@ -63,11 +63,6 @@ public class EamGrmVariable extends BaseEntity implements Serializable {
      */
     private String description;
 
-    /**
-     * 巨控采集频率单位秒
-     *
-     * @mbg.generated
-     */
     private Integer grmPeriod;
 
     private static final long serialVersionUID = 1L;
@@ -223,12 +218,12 @@ public class EamGrmVariable extends BaseEntity implements Serializable {
             && (this.getNetworkPermisstion() == null ? other.getNetworkPermisstion() == null : this.getNetworkPermisstion().equals(other.getNetworkPermisstion()))
             && (this.getGroupName() == null ? other.getGroupName() == null : this.getGroupName().equals(other.getGroupName()))
             && (this.getDescription() == null ? other.getDescription() == null : this.getDescription().equals(other.getDescription()))
-            && (this.getGrmPeriod() == null ? other.getGrmPeriod() == null : this.getGrmPeriod().equals(other.getGrmPeriod()))
             && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
-            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()));
+            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
+            && (this.getGrmPeriod() == null ? other.getGrmPeriod() == null : this.getGrmPeriod().equals(other.getGrmPeriod()));
     }
 
     @Override
@@ -247,12 +242,12 @@ public class EamGrmVariable extends BaseEntity implements Serializable {
         result = prime * result + ((getNetworkPermisstion() == null) ? 0 : getNetworkPermisstion().hashCode());
         result = prime * result + ((getGroupName() == null) ? 0 : getGroupName().hashCode());
         result = prime * result + ((getDescription() == null) ? 0 : getDescription().hashCode());
-        result = prime * result + ((getGrmPeriod() == null) ? 0 : getGrmPeriod().hashCode());
         result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
+        result = prime * result + ((getGrmPeriod() == null) ? 0 : getGrmPeriod().hashCode());
         return result;
     }
 }
