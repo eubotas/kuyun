@@ -641,6 +641,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         UpmsRole role = getRole(upmsUserCompany.getCompanyId(), RoleEnum.CUSTOMER_TICKETCREATE);
         assignCustomerRole(upmsUser, role);
         assignPermission(upmsUser, UpmsConstant.UPDATE_USER_PERMISSION_ID);
+        assignPermission(upmsUser, UpmsConstant.READ_MESSAGE_PERMISSION_ID);
 
         return count;
     }

@@ -14,6 +14,7 @@ import com.kuyun.upms.dao.model.UpmsUserCompany;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,7 @@ public class EamAlertMessageController extends BaseController {
     }
 
     @ApiOperation(value = "消息列表")
+    @RequiresPermissions("eam:alertMessage:read")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public Object list(
@@ -81,6 +83,7 @@ public class EamAlertMessageController extends BaseController {
     }
 
     @ApiOperation(value = "消息列表")
+    @RequiresPermissions("eam:alertMessage:read")
     @RequestMapping(value = "/history/list", method = RequestMethod.GET)
     @ResponseBody
     public Object historyList(
@@ -120,6 +123,7 @@ public class EamAlertMessageController extends BaseController {
 
 
     @ApiOperation(value = "修改消息")
+    @RequiresPermissions("eam:alertMessage:read")
     @RequestMapping(value = "/update/{ids}", method = RequestMethod.POST)
     @ResponseBody
     public Object update(@PathVariable("ids") String ids) {

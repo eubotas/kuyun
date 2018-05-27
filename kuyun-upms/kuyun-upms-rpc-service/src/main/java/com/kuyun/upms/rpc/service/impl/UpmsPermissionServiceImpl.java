@@ -100,16 +100,18 @@ public class UpmsPermissionServiceImpl extends BaseServiceImpl<UpmsPermissionMap
                     node.put("id", upmsPermission.getPermissionId());
                     node.put("name", upmsPermission.getName());
                     node.put("open", true);
-                    for (UpmsRolePermission rolePermission : rolePermissions) {
-                        if (rolePermission.getPermissionId().intValue() == upmsPermission.getPermissionId().intValue()) {
-                            node.put("checked", true);
-                        }
-                    }
                     if (customerRolePermissionIds.contains(upmsPermission.getPermissionId())){
                         node.put("disable", false);
                     }else {
                         node.put("disable", true);
                     }
+                    for (UpmsRolePermission rolePermission : rolePermissions) {
+                        if (rolePermission.getPermissionId().intValue() == upmsPermission.getPermissionId().intValue()) {
+                            node.put("checked", true);
+                            break;
+                        }
+                    }
+
                     folders.add(node);
                     // 菜单
                     JSONArray menus = new JSONArray();
@@ -120,16 +122,18 @@ public class UpmsPermissionServiceImpl extends BaseServiceImpl<UpmsPermissionMap
                             node2.put("id", upmsPermission2.getPermissionId());
                             node2.put("name", upmsPermission2.getName());
                             node2.put("open", true);
+                            if (customerRolePermissionIds.contains(upmsPermission2.getPermissionId())){
+                                node2.put("disable", false);
+                            }else {
+                                node2.put("disable", true);
+                            }
                             for (UpmsRolePermission rolePermission : rolePermissions) {
                                 if (rolePermission.getPermissionId().intValue() == upmsPermission2.getPermissionId().intValue()) {
                                     node2.put("checked", true);
+                                    break;
                                 }
                             }
-                            if (customerRolePermissionIds.contains(upmsPermission2.getPermissionId())){
-                                node.put("disable", false);
-                            }else {
-                                node.put("disable", true);
-                            }
+
                             menus.add(node2);
                             // 按钮
                             JSONArray buttons = new JSONArray();
@@ -140,16 +144,18 @@ public class UpmsPermissionServiceImpl extends BaseServiceImpl<UpmsPermissionMap
                                     node3.put("id", upmsPermission3.getPermissionId());
                                     node3.put("name", upmsPermission3.getName());
                                     node3.put("open", true);
+                                    if (customerRolePermissionIds.contains(upmsPermission3.getPermissionId())){
+                                        node3.put("disable", false);
+                                    }else {
+                                        node3.put("disable", true);
+                                    }
                                     for (UpmsRolePermission rolePermission : rolePermissions) {
                                         if (rolePermission.getPermissionId().intValue() == upmsPermission3.getPermissionId().intValue()) {
                                             node3.put("checked", true);
+                                            break;
                                         }
                                     }
-                                    if (customerRolePermissionIds.contains(upmsPermission3.getPermissionId())){
-                                        node.put("disable", false);
-                                    }else {
-                                        node.put("disable", true);
-                                    }
+
                                     buttons.add(node3);
                                 }
                                 if (buttons.size() > 0) {

@@ -193,6 +193,7 @@ INSERT INTO upms_role_permission VALUES ('117', '7', '710', 0);
 INSERT INTO upms_role_permission VALUES ('118', '7', '711', 0);
 INSERT INTO upms_role_permission VALUES ('119', '7', '712', 0);
 INSERT INTO upms_role_permission VALUES ('120', '7', '713', 0);
+INSERT INTO upms_role_permission VALUES ('120', '7', '719', 0);
 
 
 INSERT INTO upms_user_company (user_id, company_id, delete_flag) VALUES (1, 1, 0);
