@@ -385,7 +385,7 @@ public class EamApiServiceMock implements EamApiService {
     }
 
     @Override
-    public void statisticJob() {
+    public void statisticJob(String date) {
 
     }
 

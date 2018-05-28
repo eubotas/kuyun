@@ -157,7 +157,7 @@ public interface EamApiService {
 
     void importOrderData(List<OrderBean> orderBeanList);
 
-    void statisticJob();
+    void statisticJob(String date);
 
     void importPartData(List<PartBean> partBeanList, UpmsUserCompany company, EamEquipment equipment);
 

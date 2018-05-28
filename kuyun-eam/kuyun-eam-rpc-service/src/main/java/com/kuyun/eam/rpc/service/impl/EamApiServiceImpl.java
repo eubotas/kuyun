@@ -2016,8 +2016,7 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     @Override
-    public void statisticJob(){
-        String date = LocalDateTime.now().minusDays(1).format(DateTimeFormatter.ISO_LOCAL_DATE);
+    public void statisticJob(String date){
 
         List<EamGrmVariableDataVO> grmVariableDataList = eamApiMapper.selectStatisticGrmVariable();
         if (grmVariableDataList != null && !grmVariableDataList.isEmpty()){
@@ -2517,8 +2516,9 @@ public class EamApiServiceImpl implements EamApiService {
 
     public void processShiftData(List<EamGrmVariableDataHistory> dataHistoryList) throws ParseException{
         EamGrmVariableVO variable = new EamGrmVariableVO();
-        if(dataHistoryList == null || dataHistoryList.isEmpty())
-            return ;
+        if(dataHistoryList == null || dataHistoryList.isEmpty()) {
+            return;
+        }
         variable.setGrmVariableIds(getGrmVariableIds(dataHistoryList));
         List<EamProductLineGrmDataElementVO> vos= eamApiMapper.getProductShiftGrmVariable(variable); //shift list
 

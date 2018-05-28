@@ -11,6 +11,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 /**
  * Created by user on 2018-03-28.
  */
@@ -38,7 +41,8 @@ public class StatisticJob extends QuartzJobBean {
 
         if (eamApiService != null){
             _log.info("******Start Statistic Job********");
-             eamApiService.statisticJob();
+            String date = LocalDateTime.now().minusDays(1).format(DateTimeFormatter.ISO_LOCAL_DATE);
+            eamApiService.statisticJob(date);
             _log.info("******End Statistic Job**********");
         }
     }
