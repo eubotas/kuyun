@@ -2317,7 +2317,7 @@ public class EamApiServiceImpl implements EamApiService {
             if(variable.getSummation())
                 newValue = NumberUtil.toBigDecimal(data.getValue()).add(NumberUtil.toBigDecimal(value));
             else
-                newValue = NumberUtil.toBigDecimal(data.getValue());
+                newValue = NumberUtil.toBigDecimal(value);
             data.setValue(newValue.toString());
             data.setUpdateTime(new Date());
             eamGrmVariableDataByYearService.updateByPrimaryKeySelective(data);
@@ -2362,7 +2362,7 @@ public class EamApiServiceImpl implements EamApiService {
             if(variable.getSummation())
                 newValue = NumberUtil.toBigDecimal(data.getValue()).add(NumberUtil.toBigDecimal(value));
             else
-                newValue = NumberUtil.toBigDecimal(data.getValue());
+                newValue = NumberUtil.toBigDecimal(value);
             data.setValue(newValue.toString());
             data.setUpdateTime(new Date());
             eamGrmVariableDataByMonthService.updateByPrimaryKeySelective(data);
@@ -2553,25 +2553,28 @@ public class EamApiServiceImpl implements EamApiService {
             String dataType= vo.getDataType(); //analog  digital 开关量
             boolean isShift = vo.getStatisticByShift();
             boolean isSummary = vo.getSummation()==null? false:vo.getSummation();
-            if(isShift) {
-                if((DataType.DIGITAL.getCode()).equals(dataType)) {  //开关量
+
+            if((DataType.DIGITAL.getCode()).equals(dataType)) {  //开关量
+                if(isSummary) {
                     String key = "SHIFT-SWITCH-" + h.getProductLineId() + "-" + h.getEquipmentId() + "-" + h.getDataElementId() + "-" + h.getEamGrmVariableId();
                     String preVal = RedisUtil.get(key);
                     int changeCount = 0;
-                    String offOn=h.getValue();
+                    String offOn = h.getValue();
                     if (preVal == null && h.getValue() != null) {
                         changeCount++;
-                    }else if (!preVal.equals(h.getValue())) {
+                    } else if (!preVal.equals(h.getValue())) {
                         changeCount++;
                     }
-                    if(changeCount > 0) {
+                    if (changeCount > 0) {
                         RedisUtil.set(key, h.getValue());
                     }
                     handleGrmVariableDataByShiftSwitch(variable,""+changeCount, isSummary, StringUtil.getSwitchName(offOn), shiftNum,startDate, endDate);
                     handleGrmVariableDataByShiftSwitch(variable,"0", isSummary, StringUtil.getOppositeSwitchName(offOn), shiftNum,startDate, endDate);
-                }else{ //模拟量
-                    handleGrmVariableDataByShiftAmount(variable,h.getValue(), isSummary, null, shiftNum,startDate, endDate);
+                }else{
+                    handleGrmVariableDataByShiftSwitch(variable,h.getValue(), isSummary, null, shiftNum,startDate, endDate);
                 }
+            }else{ //模拟量
+                handleGrmVariableDataByShiftAmount(variable,h.getValue(), isSummary, null, shiftNum,startDate, endDate);
             }
         }
     }
