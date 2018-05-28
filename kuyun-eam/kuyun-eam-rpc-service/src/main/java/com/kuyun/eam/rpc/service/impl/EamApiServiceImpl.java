@@ -2047,6 +2047,7 @@ public class EamApiServiceImpl implements EamApiService {
                 }else{  //开关量
                     List<EamGrmVariableDataHistory> datas=getHistoryDayData(variableVo, date);
                     if (!datas.isEmpty()) {
+                        EamGrmVariableDataHistory last = datas.get(datas.size() - 1);
                         boolean isSummary = variableVo.getSummation() == null ? false : variableVo.getSummation();
                         if (isSummary) {
                             String dayKey = "DAY-SWITCH-" + variableVo.getProductLineId() + "-" + variableVo.getEquipmentId() + "-" + variableVo.getDataElementId() + "-" + variableVo.getEamGrmVariableId();
@@ -2054,22 +2055,17 @@ public class EamApiServiceImpl implements EamApiService {
                             String onVal = preDayVal;
                             int changeCount = summarySwitchDay(preDayVal, datas);
                             if (!datas.isEmpty() && changeCount > 0) {
-                                RedisUtil.set(dayKey, datas.get(datas.size() - 1).getValue());
+                                RedisUtil.set(dayKey, last.getValue());
                             }
 
-                            if (changeCount > 1) {
-                                handleGrmVariableDataByDay(variableVo, String.valueOf(changeCount / 2), date, StringUtil.getSwitchName(preDayVal));
-                                handleGrmVariableDataByMonth(variableVo, String.valueOf(changeCount / 2), StringUtil.getSwitchName(preDayVal));
-                                handleGrmVariableDataByYear(variableVo, String.valueOf(changeCount / 2), StringUtil.getSwitchName(preDayVal));
-                            }
-                            if (changeCount > 0) {
-                                handleGrmVariableDataByDay(variableVo, String.valueOf((changeCount + 1) / 2), date, StringUtil.getOppositeSwitchName(onVal));
-                                handleGrmVariableDataByMonth(variableVo, String.valueOf((changeCount + 1) / 2), StringUtil.getOppositeSwitchName(onVal));
-                                handleGrmVariableDataByYear(variableVo, String.valueOf((changeCount + 1) / 2), StringUtil.getOppositeSwitchName(onVal));
-                            }
+                            handleGrmVariableDataByDay(variableVo, String.valueOf(changeCount / 2), date, StringUtil.getSwitchName(preDayVal));
+                            handleGrmVariableDataByMonth(variableVo, String.valueOf(changeCount / 2), StringUtil.getSwitchName(preDayVal));
+                            handleGrmVariableDataByYear(variableVo, String.valueOf(changeCount / 2), StringUtil.getSwitchName(preDayVal));
+
+                            handleGrmVariableDataByDay(variableVo, String.valueOf((changeCount + 1) / 2), date, StringUtil.getOppositeSwitchName(onVal));
+                            handleGrmVariableDataByMonth(variableVo, String.valueOf((changeCount + 1) / 2), StringUtil.getOppositeSwitchName(onVal));
+                            handleGrmVariableDataByYear(variableVo, String.valueOf((changeCount + 1) / 2), StringUtil.getOppositeSwitchName(onVal));
                         } else {
-                            EamGrmVariableDataHistory last = datas.get(datas.size() - 1);
-
                             handleGrmVariableDataByDay(variableVo, last.getValue(), date, null);
                             //2. handle month data
                             handleGrmVariableDataByMonth(variableVo, last.getValue(), null);
@@ -2520,23 +2516,23 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     public void processShiftData(List<EamGrmVariableDataHistory> dataHistoryList) throws ParseException{
-        EamGrmVariableVO para = new EamGrmVariableVO();
+        EamGrmVariableVO variable = new EamGrmVariableVO();
         if(dataHistoryList == null || dataHistoryList.isEmpty())
             return ;
-        para.setGrmVariableIds(getGrmVariableIds(dataHistoryList));
-        List<EamProductLineGrmDataElementVO> vos= eamApiMapper.getProductShiftGrmVariable(para); //shift list
+        variable.setGrmVariableIds(getGrmVariableIds(dataHistoryList));
+        List<EamProductLineGrmDataElementVO> vos= eamApiMapper.getProductShiftGrmVariable(variable); //shift list
 
         for(EamProductLineGrmDataElementVO vo : vos){
             EamGrmVariableDataHistory h = getEamGrmVariableDataHistory(dataHistoryList, vo.getId());
             if(h == null) {
                 continue;
             }
-            para.setProductLineId(h.getProductLineId());
-            para.setEquipmentId(h.getEquipmentId());
-            para.setDataElementId(h.getDataElementId());
-            para.setDataGroupId(h.getDataGroupId());
-            para.setEquipmentDataGroupId(h.getEquipmentDataGroupId());
-            para.setId(h.getEamGrmVariableId());
+            variable.setProductLineId(h.getProductLineId());
+            variable.setEquipmentId(h.getEquipmentId());
+            variable.setDataElementId(h.getDataElementId());
+            variable.setDataGroupId(h.getDataGroupId());
+            variable.setEquipmentDataGroupId(h.getEquipmentDataGroupId());
+            variable.setId(h.getEamGrmVariableId());
 
             String shiftNum = null, startDate, endDate;
             if(EamDateUtil.inThisTimes(vo.getMorningShiftStartTime(), vo.getMorningShiftEndTime())) {
@@ -2571,35 +2567,71 @@ public class EamApiServiceImpl implements EamApiService {
                     if(changeCount > 0) {
                         RedisUtil.set(key, h.getValue());
                     }
-                    handleGrmVariableDataByShift(para,""+changeCount, isSummary, StringUtil.getSwitchName(offOn), shiftNum,startDate, endDate);
-                    handleGrmVariableDataByShift(para,"0", isSummary, StringUtil.getOppositeSwitchName(offOn), shiftNum,startDate, endDate);
+                    handleGrmVariableDataByShiftSwitch(variable,""+changeCount, isSummary, StringUtil.getSwitchName(offOn), shiftNum,startDate, endDate);
+                    handleGrmVariableDataByShiftSwitch(variable,"0", isSummary, StringUtil.getOppositeSwitchName(offOn), shiftNum,startDate, endDate);
                 }else{ //模拟量
-                    handleGrmVariableDataByShift(para,h.getValue(), isSummary, null, shiftNum,startDate, endDate);
+                    handleGrmVariableDataByShiftAmount(variable,h.getValue(), isSummary, null, shiftNum,startDate, endDate);
                 }
             }
         }
     }
 
-    private void handleGrmVariableDataByShift(EamGrmVariable variable, String value,boolean isSummary, String offOpen, String shiftNum,String startDate,String endDate) throws ParseException {
-        String key = "SHIFT-AMOUNT-" + variable.getProductLineId() + "-" + variable.getEquipmentId() + "-" + variable.getDataElementId() + "-" + variable.getId();
-        EamShiftDataElementValue data = getEamGrmVariableDataByShift(variable, shiftNum, offOpen, startDate, endDate); //模拟量
-        if (data != null){
-            if(isSummary) {
-                BigDecimal newValue = NumberUtil.toBigDecimal(value);
-                BigDecimal orgValue =NumberUtil.toBigDecimal(RedisUtil.get(key));
-                data.setValue(newValue.subtract(orgValue).toString());
-            }else {
-                data.setValue(value);
+    private void handleGrmVariableDataByShiftSwitch(EamGrmVariable variable, String value,boolean isSummary, String offOpen, String shiftNum,String startDate,String endDate) throws ParseException {
+        EamShiftDataElementValue data = getEamGrmVariableDataByShift(variable, shiftNum, offOpen, startDate, endDate);
+        //得到变化的数量
+        String val= null;
+        if(isSummary) {
+            BigDecimal orgValue = null;
+            BigDecimal newValue = NumberUtil.toBigDecimal(value);
+            if (data != null){
+                orgValue =NumberUtil.toBigDecimal(data.getValue());
+            }else {  //insert
+                orgValue = new  BigDecimal(0);
             }
+            val = newValue.subtract(orgValue).toString();
+        }else {
+            val= value;
+        }
+
+        if (data != null){
+            data.setValue(val);
             data.setUpdateTime(new Date());
             data.setShift(shiftNum);
             eamShiftDataElementValueService.updateByPrimaryKeySelective(data);
         }else{
-            RedisUtil.set(key, value);
-
-            data = buildEamGrmVariableDataByShift(variable, "0", offOpen,  shiftNum);
+            data = buildEamGrmVariableDataByShift(variable, val, offOpen,  shiftNum);
             eamShiftDataElementValueService.insertSelective(data);
         }
+    }
+
+    private void handleGrmVariableDataByShiftAmount(EamGrmVariable variable, String value,boolean isSummary, String offOpen, String shiftNum,String startDate,String endDate) throws ParseException {
+        String key = "SHIFT-AMOUNT-" + variable.getProductLineId() + "-" + variable.getEquipmentId() + "-" + variable.getDataElementId() + "-" + variable.getId();
+        EamShiftDataElementValue data = getEamGrmVariableDataByShift(variable, shiftNum, offOpen, startDate, endDate);
+        //得到变化的数量
+        String val= null;
+        if(isSummary) {
+            BigDecimal orgValue = null;
+            BigDecimal newValue = NumberUtil.toBigDecimal(value);
+            if (data != null){
+                orgValue =NumberUtil.toBigDecimal(data.getValue());
+            }else {  //insert
+                orgValue = NumberUtil.toBigDecimal(RedisUtil.get(key));
+            }
+            val = newValue.subtract(orgValue).toString();
+        }else {
+            val= value;
+        }
+
+        if (data != null){
+            data.setValue(val);
+            data.setUpdateTime(new Date());
+            data.setShift(shiftNum);
+            eamShiftDataElementValueService.updateByPrimaryKeySelective(data);
+        }else{
+            data = buildEamGrmVariableDataByShift(variable, val, offOpen,  shiftNum);
+            eamShiftDataElementValueService.insertSelective(data);
+        }
+        RedisUtil.set(key, value);
     }
 
     private EamShiftDataElementValue getEamGrmVariableDataByShift(EamGrmVariable variable, String shiftNum,String offOpen, String startDate,String endDate) throws ParseException{
