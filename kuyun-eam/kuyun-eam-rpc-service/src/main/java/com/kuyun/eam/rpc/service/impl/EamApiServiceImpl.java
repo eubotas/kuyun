@@ -2203,7 +2203,9 @@ public class EamApiServiceImpl implements EamApiService {
                 dataElement.setIsStatisticByDate("是".equals(elementBean.getStatisticByDate()) ? true : false);
                 dataElement.setIsStatisticByShift("是".equals(elementBean.getStatisticByShift()) ? true : false);
                 dataElement.setIsSummation("是".equals(elementBean.getSummation()) ? true : false);
-
+                dataElement.setDeleteFlag(Boolean.FALSE);
+                dataElement.setCreateTime(new Date());
+                dataElement.setUpdateTime(new Date());
                 if (!hasDataElement(elementBean.getName())){
                     dataElements.add(dataElement);
                 }

@@ -132,7 +132,7 @@ public class EamAlertMessageController extends BaseController {
         for(Integer id : idList){
             EamAlertMessage msg=new EamAlertMessage();
             msg.setId(id);
-            msg.setReadFlag(true);
+            msg.setReadFlag(Boolean.TRUE);
             baseEntityUtil.updateAddtionalValue(msg);
             count = eamAlertMessageService.updateByPrimaryKeySelective(msg);
         }
@@ -143,7 +143,7 @@ public class EamAlertMessageController extends BaseController {
         List<Integer> result = new ArrayList<>();
         String[] idArray = ids.split("::");
         for(String idStr : idArray){
-            Integer id = NumberUtil.toInteger(ids);
+            Integer id = NumberUtil.toInteger(idStr);
             result.add(id);
         }
         return result;
