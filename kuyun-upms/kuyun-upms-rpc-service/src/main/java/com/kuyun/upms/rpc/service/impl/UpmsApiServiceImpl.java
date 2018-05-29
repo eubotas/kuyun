@@ -519,6 +519,11 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     }
 
     @Override
+    public int updateUser(UpmsUser upmsUser) {
+      return upmsUserService.updateByPrimaryKey(upmsUser);
+    }
+
+    @Override
     public int handleSimpleUser(UpmsUser upmsUser, int companyId){
         upmsUser.setLocked(Byte.decode("0"));
 
