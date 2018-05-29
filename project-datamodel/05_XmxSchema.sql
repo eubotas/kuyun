@@ -312,7 +312,7 @@ create table eam_grm_variable_data
    equipment_id         varchar(32),
    product_line_id      varchar(32),
    data_element_id      int,
-   value                varchar(30),
+   value                varchar(10),
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,
@@ -324,12 +324,12 @@ create table eam_grm_variable_data
 drop table if exists eam_grm_variable_data_history;
 create table eam_grm_variable_data_history
 (
-   id                   int not null auto_increment,
+   id                   bigint unsigned not null auto_increment,
    eam_grm_variable_id  int,
    equipment_id         varchar(32),
    product_line_id      varchar(32),
    data_element_id      int,
-   value                varchar(30),
+   value                varchar(10),
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,
@@ -376,7 +376,7 @@ drop table if exists eam_grm_variable_data_history_group;
 create table eam_grm_variable_data_history_group
 (
    id                   int not null auto_increment,
-   eam_grm_variable_data_history_id   int,
+   eam_grm_variable_data_history_id   bigint,
    data_group_id        int,
    equipment_data_group_id int comment '设备数据分组ID',
    create_user_id       int,
@@ -390,14 +390,14 @@ create table eam_grm_variable_data_history_group
 drop table if exists eam_grm_variable_data_by_day;
 create table eam_grm_variable_data_by_day
 (
-   id                   int not null auto_increment,
+   id                   bigint unsigned not null auto_increment,
    eam_grm_variable_id  int,
    equipment_id         varchar(32),
    product_line_id      varchar(32),
    data_element_id      int,
-   value                varchar(30),
+   value                varchar(10),
    date                 date,
-   switch_value        varchar(30) NULL COMMENT '开关量 --有值,模拟量--空',
+   switch_value         boolean COMMENT '开关量 --有值,模拟量--空',
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,
@@ -411,15 +411,15 @@ ALTER table eam_grm_variable_data_by_day ADD INDEX index_date(date);
 drop table if exists eam_grm_variable_data_by_month;
 create table eam_grm_variable_data_by_month
 (
-   id                   int not null auto_increment,
+   id                   bigint unsigned not null auto_increment,
    eam_grm_variable_id  int,
    equipment_id         varchar(32),
    product_line_id      varchar(32),
    data_element_id      int,
    year                 int,
    month                int,
-   value                varchar(30),
-   switch_value      varchar(30) NULL COMMENT '开关量 --有值,模拟量--空',
+   value                varchar(10),
+   switch_value         boolean COMMENT '开关量 --有值,模拟量--空',
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,
@@ -433,14 +433,14 @@ ALTER table eam_grm_variable_data_by_month ADD INDEX index_update_time(update_ti
 drop table if exists eam_grm_variable_data_by_year;
 create table eam_grm_variable_data_by_year
 (
-   id                   int not null auto_increment,
+   id                   bigint unsigned not null auto_increment,
    eam_grm_variable_id  int,
    equipment_id         varchar(32),
    product_line_id      varchar(32),
    data_element_id      int,
    year                 int,
-   value                varchar(30),
-   switch_value      varchar(30) NULL COMMENT '开关量 --有值,模拟量--空',
+   value                varchar(10),
+   switch_value         boolean COMMENT '开关量 --有值,模拟量--空',
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,
@@ -632,14 +632,14 @@ CREATE TABLE eam_order (
 drop table if exists eam_shift_data_element_value;
 create table eam_shift_data_element_value
 (  
-   id                   int not null auto_increment,
+   id                   bigint unsigned not null auto_increment,
    eam_grm_variable_id  int,
    equipment_id         varchar(32),
    product_line_id      varchar(32),
    data_element_id      int,
-   shift                varchar(10) COMMENT '班次',
-   value                varchar(30),
-   switch_value      varchar(30) NULL COMMENT '开关量 --有值,模拟量--空',
+   shift                varchar(8) COMMENT '班次',
+   value                varchar(10),
+   switch_value         boolean  COMMENT '开关量 --有值,模拟量--空',
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,
