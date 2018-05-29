@@ -1388,7 +1388,7 @@
 
 	<select id="selectEamAlertMessages" parameterType="com.kuyun.eam.vo.EamAlertMessageVO" resultMap="EamAlertMessageVOResultMap">
 		select
-		p.plan_id as eam_alert_message_plan_id,
+		<include refid="com.kuyun.eam.dao.mapper.EamAlertMessageMapper.Base_Column_List" />,
 		l.name as product_line_name,
 		e.name as equipment_name,
 		p.work_content,

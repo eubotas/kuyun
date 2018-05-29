@@ -133,6 +133,7 @@ public class EamAlertMessageController extends BaseController {
             EamAlertMessage msg=new EamAlertMessage();
             msg.setId(id);
             msg.setReadFlag(Boolean.TRUE);
+            msg.setReadTime(new Date());
             baseEntityUtil.updateAddtionalValue(msg);
             count = eamAlertMessageService.updateByPrimaryKeySelective(msg);
         }
