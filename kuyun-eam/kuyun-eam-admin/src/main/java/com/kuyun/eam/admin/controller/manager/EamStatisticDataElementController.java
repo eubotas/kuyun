@@ -75,10 +75,11 @@ public class EamStatisticDataElementController extends BaseController {
 			criteria.andDataElementIdEqualTo(variable.getDataElementId());
 		}
 
-//		Date now = new Date();
-//		Pair<Date,Date> startEnd = EamDateUtil.getShiftStartEndTime(EamDateUtil.getDateStr(now,"yyyy-MM-dd"), );
-//		criteria.andUpdateTimeBetween(startDate, endDate);
-
+		try {
+            Date now = new Date();
+            Pair<Date, Date> startEnd = EamDateUtil.getShiftStartEndTime(EamDateUtil.getDateStr(now, "yyyy-MM-dd"));
+            criteria.andUpdateTimeBetween(startEnd.getKey(), startEnd.getValue());
+        }catch(Exception ex){ex.printStackTrace();}
 		example.setOrderByClause("date asc");
 
 		List<EamShiftDataElementValue> data = eamShiftDataElementValueService.selectByExample(example);
@@ -106,11 +107,11 @@ public class EamStatisticDataElementController extends BaseController {
 		if (variable.getDataElementId() != null){
 			criteria.andDataElementIdEqualTo(variable.getDataElementId());
 		}
-		LocalDate now = LocalDate.now();
-//		Date startDate = DateUtil.asDate(now.withDayOfMonth(1));
-//		Date endDate = DateUtil.asDate(now.withDayOfMonth(now.lengthOfMonth()));
-//
-//		criteria.andDateBetween(startDate, endDate);
+        try {
+            Date now = new Date();
+            Pair<Date, Date> startEnd = EamDateUtil.getShiftStartEndTime(EamDateUtil.getDateStr(now, "yyyy-MM-dd"));
+            criteria.andUpdateTimeBetween(startEnd.getKey(), startEnd.getValue());
+        }catch(Exception ex){ex.printStackTrace();}
 		example.setOrderByClause("date asc");
 
 		List<EamGrmVariableDataByDay> data = eamGrmVariableDataByDayService.selectByExample(example);

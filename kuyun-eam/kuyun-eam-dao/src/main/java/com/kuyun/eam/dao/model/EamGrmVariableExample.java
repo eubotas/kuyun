@@ -328,126 +328,6 @@ public class EamGrmVariableExample implements Serializable {
             return (Criteria) this;
         }
 
-        public Criteria andDataGroupIdIsNull() {
-            addCriterion("eam_grm_variable.data_group_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDataGroupIdIsNotNull() {
-            addCriterion("eam_grm_variable.data_group_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDataGroupIdEqualTo(Integer value) {
-            addCriterion("eam_grm_variable.data_group_id =", value, "dataGroupId");
-            return (Criteria) this;
-        }
-
-        public Criteria andDataGroupIdNotEqualTo(Integer value) {
-            addCriterion("eam_grm_variable.data_group_id <>", value, "dataGroupId");
-            return (Criteria) this;
-        }
-
-        public Criteria andDataGroupIdGreaterThan(Integer value) {
-            addCriterion("eam_grm_variable.data_group_id >", value, "dataGroupId");
-            return (Criteria) this;
-        }
-
-        public Criteria andDataGroupIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("eam_grm_variable.data_group_id >=", value, "dataGroupId");
-            return (Criteria) this;
-        }
-
-        public Criteria andDataGroupIdLessThan(Integer value) {
-            addCriterion("eam_grm_variable.data_group_id <", value, "dataGroupId");
-            return (Criteria) this;
-        }
-
-        public Criteria andDataGroupIdLessThanOrEqualTo(Integer value) {
-            addCriterion("eam_grm_variable.data_group_id <=", value, "dataGroupId");
-            return (Criteria) this;
-        }
-
-        public Criteria andDataGroupIdIn(List<Integer> values) {
-            addCriterion("eam_grm_variable.data_group_id in", values, "dataGroupId");
-            return (Criteria) this;
-        }
-
-        public Criteria andDataGroupIdNotIn(List<Integer> values) {
-            addCriterion("eam_grm_variable.data_group_id not in", values, "dataGroupId");
-            return (Criteria) this;
-        }
-
-        public Criteria andDataGroupIdBetween(Integer value1, Integer value2) {
-            addCriterion("eam_grm_variable.data_group_id between", value1, value2, "dataGroupId");
-            return (Criteria) this;
-        }
-
-        public Criteria andDataGroupIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("eam_grm_variable.data_group_id not between", value1, value2, "dataGroupId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentDataGroupIdIsNull() {
-            addCriterion("eam_grm_variable.equipment_data_group_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentDataGroupIdIsNotNull() {
-            addCriterion("eam_grm_variable.equipment_data_group_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentDataGroupIdEqualTo(Integer value) {
-            addCriterion("eam_grm_variable.equipment_data_group_id =", value, "equipmentDataGroupId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentDataGroupIdNotEqualTo(Integer value) {
-            addCriterion("eam_grm_variable.equipment_data_group_id <>", value, "equipmentDataGroupId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentDataGroupIdGreaterThan(Integer value) {
-            addCriterion("eam_grm_variable.equipment_data_group_id >", value, "equipmentDataGroupId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentDataGroupIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("eam_grm_variable.equipment_data_group_id >=", value, "equipmentDataGroupId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentDataGroupIdLessThan(Integer value) {
-            addCriterion("eam_grm_variable.equipment_data_group_id <", value, "equipmentDataGroupId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentDataGroupIdLessThanOrEqualTo(Integer value) {
-            addCriterion("eam_grm_variable.equipment_data_group_id <=", value, "equipmentDataGroupId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentDataGroupIdIn(List<Integer> values) {
-            addCriterion("eam_grm_variable.equipment_data_group_id in", values, "equipmentDataGroupId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentDataGroupIdNotIn(List<Integer> values) {
-            addCriterion("eam_grm_variable.equipment_data_group_id not in", values, "equipmentDataGroupId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentDataGroupIdBetween(Integer value1, Integer value2) {
-            addCriterion("eam_grm_variable.equipment_data_group_id between", value1, value2, "equipmentDataGroupId");
-            return (Criteria) this;
-        }
-
-        public Criteria andEquipmentDataGroupIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("eam_grm_variable.equipment_data_group_id not between", value1, value2, "equipmentDataGroupId");
-            return (Criteria) this;
-        }
-
         public Criteria andDataElementIdIsNull() {
             addCriterion("eam_grm_variable.data_element_id is null");
             return (Criteria) this;
@@ -928,6 +808,66 @@ public class EamGrmVariableExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andGrmPeriodIsNull() {
+            addCriterion("eam_grm_variable.grm_period is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodIsNotNull() {
+            addCriterion("eam_grm_variable.grm_period is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodEqualTo(Integer value) {
+            addCriterion("eam_grm_variable.grm_period =", value, "grmPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodNotEqualTo(Integer value) {
+            addCriterion("eam_grm_variable.grm_period <>", value, "grmPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodGreaterThan(Integer value) {
+            addCriterion("eam_grm_variable.grm_period >", value, "grmPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodGreaterThanOrEqualTo(Integer value) {
+            addCriterion("eam_grm_variable.grm_period >=", value, "grmPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodLessThan(Integer value) {
+            addCriterion("eam_grm_variable.grm_period <", value, "grmPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodLessThanOrEqualTo(Integer value) {
+            addCriterion("eam_grm_variable.grm_period <=", value, "grmPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodIn(List<Integer> values) {
+            addCriterion("eam_grm_variable.grm_period in", values, "grmPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodNotIn(List<Integer> values) {
+            addCriterion("eam_grm_variable.grm_period not in", values, "grmPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodBetween(Integer value1, Integer value2) {
+            addCriterion("eam_grm_variable.grm_period between", value1, value2, "grmPeriod");
+            return (Criteria) this;
+        }
+
+        public Criteria andGrmPeriodNotBetween(Integer value1, Integer value2) {
+            addCriterion("eam_grm_variable.grm_period not between", value1, value2, "grmPeriod");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateUserIdIsNull() {
             addCriterion("eam_grm_variable.create_user_id is null");
             return (Criteria) this;
@@ -1225,66 +1165,6 @@ public class EamGrmVariableExample implements Serializable {
 
         public Criteria andDeleteFlagNotBetween(Boolean value1, Boolean value2) {
             addCriterion("eam_grm_variable.delete_flag not between", value1, value2, "deleteFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrmPeriodIsNull() {
-            addCriterion("eam_grm_variable.grm_period is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrmPeriodIsNotNull() {
-            addCriterion("eam_grm_variable.grm_period is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrmPeriodEqualTo(Integer value) {
-            addCriterion("eam_grm_variable.grm_period =", value, "grmPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrmPeriodNotEqualTo(Integer value) {
-            addCriterion("eam_grm_variable.grm_period <>", value, "grmPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrmPeriodGreaterThan(Integer value) {
-            addCriterion("eam_grm_variable.grm_period >", value, "grmPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrmPeriodGreaterThanOrEqualTo(Integer value) {
-            addCriterion("eam_grm_variable.grm_period >=", value, "grmPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrmPeriodLessThan(Integer value) {
-            addCriterion("eam_grm_variable.grm_period <", value, "grmPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrmPeriodLessThanOrEqualTo(Integer value) {
-            addCriterion("eam_grm_variable.grm_period <=", value, "grmPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrmPeriodIn(List<Integer> values) {
-            addCriterion("eam_grm_variable.grm_period in", values, "grmPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrmPeriodNotIn(List<Integer> values) {
-            addCriterion("eam_grm_variable.grm_period not in", values, "grmPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrmPeriodBetween(Integer value1, Integer value2) {
-            addCriterion("eam_grm_variable.grm_period between", value1, value2, "grmPeriod");
-            return (Criteria) this;
-        }
-
-        public Criteria andGrmPeriodNotBetween(Integer value1, Integer value2) {
-            addCriterion("eam_grm_variable.grm_period not between", value1, value2, "grmPeriod");
             return (Criteria) this;
         }
 

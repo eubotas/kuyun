@@ -394,17 +394,6 @@ public abstract class AbstractAlarmHandler {
             criteria.andEquipmentIdEqualTo(variable.getEquipmentId());
         }
 
-        if (variable.getDataGroupId() == null){
-            criteria.andDataGroupIdIsNull();
-        }else {
-            criteria.andDataGroupIdEqualTo(variable.getDataGroupId());
-        }
-
-        if (variable.getEquipmentDataGroupId() == null){
-            criteria.andEquipmentDataGroupIdIsNull();
-        }else {
-            criteria.andEquipmentDataGroupIdEqualTo(variable.getEquipmentDataGroupId());
-        }
         criteria.andUpdateTimeBetween(startDate, endDate);
         example.setOrderByClause("update_time desc");
 

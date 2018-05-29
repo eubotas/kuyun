@@ -102,6 +102,15 @@ public class EamApiServiceImpl implements EamApiService {
     private EamGrmVariableDataHistoryService eamGrmVariableDataHistoryService;
 
     @Autowired
+    private EamGrmVariableService eamGrmVariableGroupService;
+
+    @Autowired
+    private EamGrmVariableDataService eamGrmVariableDataGroupService;
+
+    @Autowired
+    private EamGrmVariableDataHistoryService eamGrmVariableDataHistoryGroupService;
+
+    @Autowired
     private EamAlarmModelService eamAlarmModelService;
 
     @Autowired
@@ -650,8 +659,6 @@ public class EamApiServiceImpl implements EamApiService {
         result.setEamGrmVariableId(variable.getId());
         result.setEquipmentId(variable.getEquipmentId());
         result.setProductLineId(variable.getProductLineId());
-        result.setDataGroupId(variable.getDataGroupId());
-        result.setEquipmentDataGroupId(variable.getEquipmentDataGroupId());
         result.setDataElementId(variable.getDataElementId());
         result.setValue(value);
         Date now = new Date();
@@ -666,8 +673,6 @@ public class EamApiServiceImpl implements EamApiService {
         result.setEamGrmVariableId(pair.getKey().getId());
         result.setEquipmentId(pair.getKey().getEquipmentId());
         result.setProductLineId(pair.getKey().getProductLineId());
-        result.setDataGroupId(pair.getKey().getDataGroupId());
-        result.setEquipmentDataGroupId(pair.getKey().getEquipmentDataGroupId());
         result.setDataElementId(pair.getKey().getDataElementId());
         result.setValue(pair.getValue());
         Date now = new Date();
@@ -884,9 +889,7 @@ public class EamApiServiceImpl implements EamApiService {
         EamGrmVariableExample grmVariableExample = new EamGrmVariableExample();
         grmVariableExample.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE)
                 .andProductLineIdEqualTo(productLineId)
-                .andEquipmentIdIsNull()
-                .andDataGroupIdIsNull()
-                .andEquipmentDataGroupIdIsNull();
+                .andEquipmentIdIsNull();
         eamGrmVariableService.deleteByExample(grmVariableExample);
 
         if (!vos.isEmpty()){
@@ -917,9 +920,7 @@ public class EamApiServiceImpl implements EamApiService {
             EamGrmVariableExample grmVariableExample = new EamGrmVariableExample();
             grmVariableExample.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE)
                     .andProductLineIdEqualTo(equipment.getProductLineId())
-                    .andEquipmentIdEqualTo(equipmentId)
-                    .andDataGroupIdEqualTo(Integer.valueOf(dataGroupId))
-                    .andEquipmentDataGroupIdEqualTo(Integer.valueOf(equipmentDataGroupId));
+                    .andEquipmentIdEqualTo(equipmentId);
             eamGrmVariableService.deleteByExample(grmVariableExample);
 
             if(StringUtils.isNotEmpty(ids)){
@@ -1039,8 +1040,6 @@ public class EamApiServiceImpl implements EamApiService {
             EamGrmVariable variable = new EamGrmVariable();
             variable.setProductLineId(productLineId);
             variable.setEquipmentId(equipmentId);
-            variable.setDataGroupId(Integer.valueOf(dataGroupId));
-            variable.setEquipmentDataGroupId(Integer.valueOf(equipmentDataGroupId));
             variable.setDataElementId(element.getId());
             variable.setName(element.getName());
             variable.setDeleteFlag(Boolean.FALSE);
@@ -2351,8 +2350,9 @@ public class EamApiServiceImpl implements EamApiService {
         criteria.andEamGrmVariableIdEqualTo(variable.getId());
         criteria.andYearEqualTo(year);
         criteria.andDeleteFlagEqualTo(Boolean.FALSE);
-        if(offOn != null)
+        if(offOn != null) {
             criteria.andSwitchValueEqualTo(offOn);
+        }
         return eamGrmVariableDataByYearService.selectFirstByExample(example);
     }
 
@@ -2384,8 +2384,9 @@ public class EamApiServiceImpl implements EamApiService {
         criteria.andMonthEqualTo(month);
         criteria.andDeleteFlagEqualTo(Boolean.FALSE);
 
-        if(!StringUtil.isEmpty(offOn))
+        if(!StringUtil.isEmpty(offOn)) {
             criteria.andSwitchValueEqualTo(offOn);
+        }
         return eamGrmVariableDataByMonthService.selectFirstByExample(example);
     }
 
@@ -2417,7 +2418,7 @@ public class EamApiServiceImpl implements EamApiService {
         try {
             date = DateUtils.parseDate(argDate, new String[]{"yyyy-MM-dd"});
         } catch (ParseException e) {
-
+            e.printStackTrace();
         }
         data.setDate(date);
         data.setCreateTime(new Date());
@@ -2532,8 +2533,6 @@ public class EamApiServiceImpl implements EamApiService {
             variable.setProductLineId(h.getProductLineId());
             variable.setEquipmentId(h.getEquipmentId());
             variable.setDataElementId(h.getDataElementId());
-            variable.setDataGroupId(h.getDataGroupId());
-            variable.setEquipmentDataGroupId(h.getEquipmentDataGroupId());
             variable.setId(h.getEamGrmVariableId());
 
             String shiftNum = null, startDate, endDate;

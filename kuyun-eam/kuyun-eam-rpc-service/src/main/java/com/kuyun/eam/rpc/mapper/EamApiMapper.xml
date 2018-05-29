@@ -1278,7 +1278,7 @@
 	</resultMap>
 	<select id="selectStatisticGrmVariable" resultMap="eamGrmVariableDataVO">
 		select
-		max(eam_grm_variable.id) as eam_grm_variable_id,
+		eam_grm_variable.id as eam_grm_variable_id,
 		eam_grm_variable.equipment_id as eam_grm_variable_equipment_id,
 		eam_grm_variable.product_line_id as eam_grm_variable_product_line_id,
 		eam_grm_variable.data_element_id as eam_grm_variable_data_element_id,
@@ -1287,8 +1287,7 @@
 		where eam_grm_variable.delete_flag = 0 and e.delete_flag = 0
 		and eam_grm_variable.data_element_id = e.id
 		and e.is_statistic_by_date = 1
-		GROUP BY product_line_id, equipment_id, data_element_id,e.data_type, e.is_summation
-		ORDER by product_line_id, equipment_id, data_element_id,e.data_type, e.is_summation
+		ORDER by data_element_id,e.data_type
 
 	</select>
 
@@ -1455,7 +1454,7 @@
 
 	<select id="selectGrmVariableGroupByPeriod" parameterType="java.lang.String" resultMap="com.kuyun.eam.dao.mapper.EamGrmVariableMapper.BaseResultMap">
 		select
-		max(eam_grm_variable.id) as eam_grm_variable_id,
+		eam_grm_variable.id as eam_grm_variable_id,
 		eam_grm_variable.grm_period as eam_grm_variable_grm_period
 		from eam_grm_variable where delete_flag = 0
 		and product_line_id = #{productLineId, jdbcType=VARCHAR}
@@ -1540,12 +1539,6 @@
 		</if>
 		<if test="dataElementId != null and dataElementId != ''">
 			AND eam_grm_variable.data_element_id = #{dataElementId}
-		</if>
-		<if test="dataGroupId != null and dataGroupId != ''">
-			AND eam_grm_variable.data_group_id = #{dataGroupId}
-		</if>
-		<if test="equipmentDataGroupId != null and equipmentDataGroupId != ''">
-			AND eam_grm_variable.equipment_data_group_id = #{equipmentDataGroupId}
 		</if>
 		<if test="id != null and id != ''">
 			AND eam_grm_variable.id = #{id}

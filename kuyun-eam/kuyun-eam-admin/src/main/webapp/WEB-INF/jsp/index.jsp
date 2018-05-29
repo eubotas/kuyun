@@ -13,5 +13,6 @@
 </head>
 <body>
 <a href="${basePath}/manage/index">后台首页</a>
+<a href="${basePath}/manage/test?date=2018-5-9">test</a>
 </body>
 </html>

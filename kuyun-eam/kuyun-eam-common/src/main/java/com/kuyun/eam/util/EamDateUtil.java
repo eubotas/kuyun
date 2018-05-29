@@ -64,8 +64,9 @@ public class EamDateUtil {
     }
 
     public static String getDateStr(Date d, String format) {
-        if(format == null )
-            format=defaultFormat;
+        if(format == null ) {
+            format = defaultFormat;
+        }
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         return sdf.format(d);
     }
@@ -85,28 +86,40 @@ public class EamDateUtil {
         return last - day;
     }
 
+    public static Pair<Date,Date> getShiftStartEndTime(String date) throws java.text.ParseException{
+        Pair<Date, Date> pair = null;
+        Date startDate = org.apache.commons.lang.time.DateUtils.parseDate(date + "00:00:00", new String[]{"yyyy-MM-dd HH:mm:ss"});
+        Date endDate = org.apache.commons.lang.time.DateUtils.parseDate(date + "23:59:59", new String[]{"yyyy-MM-dd HH:mm:ss"});
+        pair = new Pair<>(startDate, endDate);
+        return pair;
+    }
+
     public static Pair<Date,Date> getShiftStartEndTime(String date, String startHourMinute, String endHourMinute) throws java.text.ParseException{
         Pair<Date, Date> pair = null;
         Date startDate = org.apache.commons.lang.time.DateUtils.parseDate(date + " " + startHourMinute + ":00", new String[]{"yyyy-MM-dd HH:mm:ss"});
         Date endDate = org.apache.commons.lang.time.DateUtils.parseDate(date + " " + endHourMinute + ":59", new String[]{"yyyy-MM-dd HH:mm:ss"});
-        if (endDate.before(startDate))
+        if (endDate.before(startDate)) {
             endDate = getDateAfter(endDate, 1);
+        }
         pair = new Pair<>(startDate, endDate);
         return pair;
     }
 
     public static boolean inThisTimes(String startHourMinute, String endHourMinute) throws java.text.ParseException{
-        if(startHourMinute == null || endHourMinute==null)
+        if(startHourMinute == null || endHourMinute==null) {
             return false;
+        }
         Date now =new Date();
         String strDate = getDateStr(now, "yyyy-MM-dd");
         try {
             Date startDate = org.apache.commons.lang.time.DateUtils.parseDate(strDate + " " + startHourMinute, new String[]{"yyyy-MM-dd HH:mm"});
             Date endDate = org.apache.commons.lang.time.DateUtils.parseDate(strDate + " " + endHourMinute, new String[]{"yyyy-MM-dd HH:mm"});
-            if (endDate.before(startDate))
+            if (endDate.before(startDate)) {
                 endDate = getDateAfter(endDate, 1);
-            if(now.after(startDate) && now.before(endDate))
+            }
+            if(now.after(startDate) && now.before(endDate)) {
                 return true;
+            }
         }catch(Exception ex){ex.getStackTrace();}
         return false;
     }

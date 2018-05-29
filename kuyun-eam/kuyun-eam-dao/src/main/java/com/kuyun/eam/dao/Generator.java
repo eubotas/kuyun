@@ -26,6 +26,9 @@ public class Generator {
         LAST_INSERT_ID_TABLES.put("eam_ticket", "ticket_id");
         LAST_INSERT_ID_TABLES.put("eam_ticket_assessment", "id");
         LAST_INSERT_ID_TABLES.put("eam_maintain_plan", "plan_id");
+        LAST_INSERT_ID_TABLES.put("eam_grm_variable", "id");
+        LAST_INSERT_ID_TABLES.put("eam_grm_variable_data", "id");
+        LAST_INSERT_ID_TABLES.put("eam_grm_variable_data_history", "id");
         LAST_INSERT_ID_TABLES.put("eam_equipment_data_group", "id");
         LAST_INSERT_ID_TABLES.put("eam_parts_category", "category_id");
         LAST_INSERT_ID_TABLES.put("eam_alarm", "alarm_id");
@@ -55,7 +58,7 @@ public class Generator {
      */
     public static void main(String[] args) throws Exception {
         MybatisGeneratorUtil.generator(JDBC_DRIVER, JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD, MODULE, DATABASE, TABLE_PREFIX, PACKAGE_NAME, LAST_INSERT_ID_TABLES,ALIAS_NEEDED_TABLES);
-        //one table
-        //MybatisGeneratorUtil.generator(JDBC_DRIVER, JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD, MODULE, DATABASE, TABLE_PREFIX, PACKAGE_NAME, LAST_INSERT_ID_TABLES,ALIAS_NEEDED_TABLES, "eam_grm_variable_data_by_day,eam_grm_variable_data_by_month,eam_grm_variable_data_by_year,eam_shift_data_element_value");
+        //only part tables
+       // MybatisGeneratorUtil.generator(JDBC_DRIVER, JDBC_URL, JDBC_USERNAME, JDBC_PASSWORD, MODULE, DATABASE, TABLE_PREFIX, PACKAGE_NAME, LAST_INSERT_ID_TABLES,ALIAS_NEEDED_TABLES, "eam_grm_variable,eam_grm_variable_group,eam_grm_variable_data,eam_grm_variable_data_group,eam_grm_variable_data_history,eam_grm_variable_data_history_group");
     }
 }

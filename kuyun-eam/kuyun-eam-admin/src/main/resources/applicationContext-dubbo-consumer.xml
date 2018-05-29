@@ -72,6 +72,9 @@
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamGrmVariableService" id="eamGrmEquipmentVariableService" mock="true" />
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamGrmVariableDataService" id="eamGrmVariableDataService" mock="true" />
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamGrmVariableDataHistoryService" id="eamGrmVariableDataHistoryService" mock="true" />
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamGrmVariableGroupService" id="eamGrmVariableGroupService" mock="true" />
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamGrmVariableDataGroupService" id="eamGrmVariableDataGroupService" mock="true" />
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamGrmVariableDataHistoryGroupService" id="eamGrmVariableDataHistoryGroupService" mock="true" />
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamGrmVariableDataByDayService" id="eamGrmVariableDataByDayService" mock="true" />
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamGrmVariableDataByMonthService" id="eamGrmVariableDataByMonthService" mock="true" />
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamGrmVariableDataByYearService" id="eamGrmVariableDataByYearService" mock="true" />

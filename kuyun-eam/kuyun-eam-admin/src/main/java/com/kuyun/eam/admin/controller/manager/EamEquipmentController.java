@@ -392,8 +392,9 @@ public class EamEquipmentController extends BaseController {
 		for(int i=0; i < propertyLabels.size(); i++ ){
 			label=propertyLabels.get(i);
 			val=propertyValues.get(i);
-			if("".equals(label) || "".equals(val))
-				continue;
+			if("".equals(label) || "".equals(val)) {
+                continue;
+            }
 			prop=new EamEquipmentProperty();
 			prop.setEquipmentId(equipmentId);
 			prop.setPropertyLabel(label);
@@ -401,9 +402,9 @@ public class EamEquipmentController extends BaseController {
 			baseEntityUtil.addAddtionalValue(prop);
 			props.add(prop);
 		}
-		if(props.size() < 1)
-			return new UpmsResult(UpmsResultConstant.SUCCESS, 0);
-
+		if(props.size() < 1) {
+            return new UpmsResult(UpmsResultConstant.SUCCESS, 0);
+        }
 		EamEquipmentPropertyExample ex=new EamEquipmentPropertyExample();
 		ex.createCriteria().andEquipmentIdEqualTo(equipmentId).andDeleteFlagEqualTo(false);
 		int result = eamEquipmentPropertyService.deleteByExample(ex);

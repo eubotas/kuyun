@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kuyun.eam.dao.mapper.EamGrmVariableDataHistoryGroupMapper">
+  <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamGrmVariableDataHistoryGroup">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="eam_grm_variable_data_history_id" jdbcType="INTEGER" property="eamGrmVariableDataHistoryId" />
+    <result column="data_group_id" jdbcType="INTEGER" property="dataGroupId" />
+    <result column="equipment_data_group_id" jdbcType="INTEGER" property="equipmentDataGroupId" />
+    <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, eam_grm_variable_data_history_id, data_group_id, equipment_data_group_id, create_user_id, 
+    create_time, update_user_id, update_time, delete_flag
+  </sql>
+  <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataHistoryGroupExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from eam_grm_variable_data_history_group
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from eam_grm_variable_data_history_group
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    update eam_grm_variable_data_history_group set delete_flag = 1 
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataHistoryGroupExample">
+    update eam_grm_variable_data_history_group set delete_flag = 1 
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataHistoryGroup">
+    insert into eam_grm_variable_data_history_group (id, eam_grm_variable_data_history_id, 
+      data_group_id, equipment_data_group_id, create_user_id, 
+      create_time, update_user_id, update_time, 
+      delete_flag)
+    values (#{id,jdbcType=INTEGER}, #{eamGrmVariableDataHistoryId,jdbcType=INTEGER}, 
+      #{dataGroupId,jdbcType=INTEGER}, #{equipmentDataGroupId,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{deleteFlag,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataHistoryGroup">
+    insert into eam_grm_variable_data_history_group
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="eamGrmVariableDataHistoryId != null">
+        eam_grm_variable_data_history_id,
+      </if>
+      <if test="dataGroupId != null">
+        data_group_id,
+      </if>
+      <if test="equipmentDataGroupId != null">
+        equipment_data_group_id,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="eamGrmVariableDataHistoryId != null">
+        #{eamGrmVariableDataHistoryId,jdbcType=INTEGER},
+      </if>
+      <if test="dataGroupId != null">
+        #{dataGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentDataGroupId != null">
+        #{equipmentDataGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null">
+        #{deleteFlag,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataHistoryGroupExample" resultType="java.lang.Long">
+    select count(*) from eam_grm_variable_data_history_group
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update eam_grm_variable_data_history_group
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.eamGrmVariableDataHistoryId != null">
+        eam_grm_variable_data_history_id = #{record.eamGrmVariableDataHistoryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.dataGroupId != null">
+        data_group_id = #{record.dataGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="record.equipmentDataGroupId != null">
+        equipment_data_group_id = #{record.equipmentDataGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createUserId != null">
+        create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUserId != null">
+        update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deleteFlag != null">
+        delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update eam_grm_variable_data_history_group
+    set id = #{record.id,jdbcType=INTEGER},
+      eam_grm_variable_data_history_id = #{record.eamGrmVariableDataHistoryId,jdbcType=INTEGER},
+      data_group_id = #{record.dataGroupId,jdbcType=INTEGER},
+      equipment_data_group_id = #{record.equipmentDataGroupId,jdbcType=INTEGER},
+      create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      delete_flag = #{record.deleteFlag,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataHistoryGroup">
+    update eam_grm_variable_data_history_group
+    <set>
+      <if test="eamGrmVariableDataHistoryId != null">
+        eam_grm_variable_data_history_id = #{eamGrmVariableDataHistoryId,jdbcType=INTEGER},
+      </if>
+      <if test="dataGroupId != null">
+        data_group_id = #{dataGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="equipmentDataGroupId != null">
+        equipment_data_group_id = #{equipmentDataGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag = #{deleteFlag,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataHistoryGroup">
+    update eam_grm_variable_data_history_group
+    set eam_grm_variable_data_history_id = #{eamGrmVariableDataHistoryId,jdbcType=INTEGER},
+      data_group_id = #{dataGroupId,jdbcType=INTEGER},
+      equipment_data_group_id = #{equipmentDataGroupId,jdbcType=INTEGER},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      delete_flag = #{deleteFlag,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <insert id="batchInsert">
+    <if test="items.get(0) != null">
+            insert into eam_grm_variable_data_history_group  (id, eam_grm_variable_data_history_id, 
+        data_group_id, equipment_data_group_id, create_user_id, 
+        create_time, update_user_id, update_time, 
+        delete_flag)
+      values
+      <foreach collection="items" item="item" index="index" separator=",">
+      (#{item.id,jdbcType=INTEGER}, #{item.eamGrmVariableDataHistoryId,jdbcType=INTEGER}, 
+        #{item.dataGroupId,jdbcType=INTEGER}, #{item.equipmentDataGroupId,jdbcType=INTEGER}, #{item.createUserId,jdbcType=INTEGER}, 
+        #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
+        #{item.deleteFlag,jdbcType=BIT})
+      </foreach>
+    </if>
+  </insert>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+</mapper>
