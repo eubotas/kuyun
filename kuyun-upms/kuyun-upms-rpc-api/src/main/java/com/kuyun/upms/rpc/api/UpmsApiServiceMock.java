@@ -195,5 +195,10 @@ public class UpmsApiServiceMock implements UpmsApiService {
         return 0;
     }
 
+    @Override
+    public int updateUser(UpmsUser upmsUser) {
+        return 0;
+    }
+
 
 }
