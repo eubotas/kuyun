@@ -434,4 +434,9 @@ public class EamApiServiceMock implements EamApiService {
 
     }
 
+    @Override
+    public List<EamGrmVariableGroupVO> selectEamGrmVariableGroup(EamGrmVariableGroupVO eamGrmVariableGroupVO) {
+        return null;
+    }
+
 }

@@ -160,17 +160,18 @@ public class StringUtil {
         return false;
     }
 
-    public static String getOppositeSwitchName(String on){
+    public static Boolean getOppositeSwitchName(String on){
         return getSwitchName("XXXXXXXXX"+on);
     }
 
-    public static String getSwitchName(String on){
+    public static Boolean getSwitchName(String on){
+
         if(StringUtil.isEmpty(on )) {
-            return "0";
+            return Boolean.FALSE;
         }else if("0".equals(on) || "FALSE".equalsIgnoreCase(on) || "OFF".equalsIgnoreCase(on) || "CLOSE".equalsIgnoreCase(on)){
-            return "0";
+            return Boolean.FALSE;
         }
-        return "1";
+        return Boolean.TRUE;
     }
 
 }

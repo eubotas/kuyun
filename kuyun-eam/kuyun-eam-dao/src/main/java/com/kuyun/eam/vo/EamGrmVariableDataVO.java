@@ -18,12 +18,31 @@ public class EamGrmVariableDataVO extends EamGrmVariableData {
     private Boolean isSummation;
 
     private Integer limit;
+    private String dataGroupId;
+    private String equipmentDataGroupId;
+
 
     private Integer grmPeriod;
 
     private Integer offset;
 
     private String orderByClause;
+
+    public String getDataGroupId() {
+        return dataGroupId;
+    }
+
+    public void setDataGroupId(String dataGroupId) {
+        this.dataGroupId = dataGroupId;
+    }
+
+    public String getEquipmentDataGroupId() {
+        return equipmentDataGroupId;
+    }
+
+    public void setEquipmentDataGroupId(String equipmentDataGroupId) {
+        this.equipmentDataGroupId = equipmentDataGroupId;
+    }
 
     public Integer getGrmPeriod() {
         return grmPeriod;

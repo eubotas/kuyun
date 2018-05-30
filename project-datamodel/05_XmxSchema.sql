@@ -356,37 +356,6 @@ create table eam_grm_variable_group
    primary key (id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
-drop table if exists eam_grm_variable_data_group;
-create table eam_grm_variable_data_group
-(
-   id                   int not null auto_increment,
-   eam_grm_variable_data_id   int,
-   data_group_id        int,
-   equipment_data_group_id int comment '设备数据分组ID',
-   create_user_id       int,
-   create_time          datetime,
-   update_user_id       int,
-   update_time          datetime,
-   delete_flag          boolean,
-   primary key (id)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-drop table if exists eam_grm_variable_data_history_group;
-create table eam_grm_variable_data_history_group
-(
-   id                   int not null auto_increment,
-   eam_grm_variable_data_history_id   bigint,
-   data_group_id        int,
-   equipment_data_group_id int comment '设备数据分组ID',
-   create_user_id       int,
-   create_time          datetime,
-   update_user_id       int,
-   update_time          datetime,
-   delete_flag          boolean,
-   primary key (id)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 drop table if exists eam_grm_variable_data_by_day;
 create table eam_grm_variable_data_by_day
 (

@@ -16,12 +16,21 @@ public class EamGrmVariableVO extends EamGrmVariable {
     private String equipmentName;
 
     private List<Integer> grmVariableIds;
+    private List<Integer> dataElementIds;
 
     private Integer limit;
 
     private Integer offset;
 
     private String orderByClause;
+
+    public List<Integer> getDataElementIds() {
+        return dataElementIds;
+    }
+
+    public void setDataElementIds(List<Integer> dataElementIds) {
+        this.dataElementIds = dataElementIds;
+    }
 
     public List<Integer> getGrmVariableIds() {
         return grmVariableIds;

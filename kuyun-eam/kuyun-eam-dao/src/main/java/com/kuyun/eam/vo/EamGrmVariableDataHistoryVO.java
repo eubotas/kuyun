@@ -22,11 +22,30 @@ public class EamGrmVariableDataHistoryVO extends EamGrmVariableDataHistory {
     private Integer interval;
     private Integer grmPeriod;
 
+    private Integer dataGroupId;
+    private Integer equipmentDataGroupId;
+
     private Integer limit;
 
     private Integer offset;
 
     private String orderByClause;
+
+    public Integer getDataGroupId() {
+        return dataGroupId;
+    }
+
+    public void setDataGroupId(Integer dataGroupId) {
+        this.dataGroupId = dataGroupId;
+    }
+
+    public Integer getEquipmentDataGroupId() {
+        return equipmentDataGroupId;
+    }
+
+    public void setEquipmentDataGroupId(Integer equipmentDataGroupId) {
+        this.equipmentDataGroupId = equipmentDataGroupId;
+    }
 
     public List<Integer> getDataElementIds() {
         return dataElementIds;

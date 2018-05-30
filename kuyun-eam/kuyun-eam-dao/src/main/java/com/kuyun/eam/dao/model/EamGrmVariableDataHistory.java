@@ -4,7 +4,7 @@ import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
 
 public class EamGrmVariableDataHistory extends BaseEntity implements Serializable {
-    private Integer id;
+    private Long id;
 
     private Integer eamGrmVariableId;
 
@@ -18,11 +18,11 @@ public class EamGrmVariableDataHistory extends BaseEntity implements Serializabl
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

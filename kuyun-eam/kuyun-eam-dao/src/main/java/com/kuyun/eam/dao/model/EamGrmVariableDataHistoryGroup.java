@@ -6,7 +6,7 @@ import java.io.Serializable;
 public class EamGrmVariableDataHistoryGroup extends BaseEntity implements Serializable {
     private Integer id;
 
-    private Integer eamGrmVariableDataHistoryId;
+    private Long eamGrmVariableDataHistoryId;
 
     private Integer dataGroupId;
 
@@ -27,11 +27,11 @@ public class EamGrmVariableDataHistoryGroup extends BaseEntity implements Serial
         this.id = id;
     }
 
-    public Integer getEamGrmVariableDataHistoryId() {
+    public Long getEamGrmVariableDataHistoryId() {
         return eamGrmVariableDataHistoryId;
     }
 
-    public void setEamGrmVariableDataHistoryId(Integer eamGrmVariableDataHistoryId) {
+    public void setEamGrmVariableDataHistoryId(Long eamGrmVariableDataHistoryId) {
         this.eamGrmVariableDataHistoryId = eamGrmVariableDataHistoryId;
     }
 

@@ -10,7 +10,7 @@ public interface EamGrmVariableDataHistoryMapper {
 
     int deleteByExample(EamGrmVariableDataHistoryExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(EamGrmVariableDataHistory record);
 
@@ -18,7 +18,7 @@ public interface EamGrmVariableDataHistoryMapper {
 
     List<EamGrmVariableDataHistory> selectByExample(EamGrmVariableDataHistoryExample example);
 
-    EamGrmVariableDataHistory selectByPrimaryKey(Integer id);
+    EamGrmVariableDataHistory selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") EamGrmVariableDataHistory record, @Param("example") EamGrmVariableDataHistoryExample example);
 

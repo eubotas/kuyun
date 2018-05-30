@@ -10,7 +10,7 @@ public interface EamGrmVariableDataByDayMapper {
 
     int deleteByExample(EamGrmVariableDataByDayExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(EamGrmVariableDataByDay record);
 
@@ -18,7 +18,7 @@ public interface EamGrmVariableDataByDayMapper {
 
     List<EamGrmVariableDataByDay> selectByExample(EamGrmVariableDataByDayExample example);
 
-    EamGrmVariableDataByDay selectByPrimaryKey(Integer id);
+    EamGrmVariableDataByDay selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") EamGrmVariableDataByDay record, @Param("example") EamGrmVariableDataByDayExample example);
 

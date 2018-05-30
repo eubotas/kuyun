@@ -176,4 +176,6 @@ public interface EamApiService {
     long countGrmVariables(EamGrmVariableVO variableVO);
 
     void importDataElement(List<DataElementBean> list, UpmsUserCompany company);
+
+    List<EamGrmVariableGroupVO> selectEamGrmVariableGroup(EamGrmVariableGroupVO eamGrmVariableGroupVO);
 }

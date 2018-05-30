@@ -10,7 +10,7 @@ public interface EamGrmVariableDataByMonthMapper {
 
     int deleteByExample(EamGrmVariableDataByMonthExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(EamGrmVariableDataByMonth record);
 
@@ -18,7 +18,7 @@ public interface EamGrmVariableDataByMonthMapper {
 
     List<EamGrmVariableDataByMonth> selectByExample(EamGrmVariableDataByMonthExample example);
 
-    EamGrmVariableDataByMonth selectByPrimaryKey(Integer id);
+    EamGrmVariableDataByMonth selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") EamGrmVariableDataByMonth record, @Param("example") EamGrmVariableDataByMonthExample example);
 

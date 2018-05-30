@@ -3,7 +3,7 @@
 <mapper namespace="com.kuyun.eam.dao.mapper.EamGrmVariableDataHistoryGroupMapper">
   <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamGrmVariableDataHistoryGroup">
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="eam_grm_variable_data_history_id" jdbcType="INTEGER" property="eamGrmVariableDataHistoryId" />
+    <result column="eam_grm_variable_data_history_id" jdbcType="BIGINT" property="eamGrmVariableDataHistoryId" />
     <result column="data_group_id" jdbcType="INTEGER" property="dataGroupId" />
     <result column="equipment_data_group_id" jdbcType="INTEGER" property="equipmentDataGroupId" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
@@ -113,14 +113,14 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataHistoryGroup">
-    insert into eam_grm_variable_data_history_group (id, eam_grm_variable_data_history_id, 
-      data_group_id, equipment_data_group_id, create_user_id, 
-      create_time, update_user_id, update_time, 
-      delete_flag)
-    values (#{id,jdbcType=INTEGER}, #{eamGrmVariableDataHistoryId,jdbcType=INTEGER}, 
-      #{dataGroupId,jdbcType=INTEGER}, #{equipmentDataGroupId,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlag,jdbcType=BIT})
+    insert into eam_grm_variable_data_history_group (id, eam_grm_variable_data_history_id, data_group_id, 
+      equipment_data_group_id, create_user_id, create_time, 
+      update_user_id, update_time, delete_flag
+      )
+    values (#{id,jdbcType=INTEGER}, #{eamGrmVariableDataHistoryId,jdbcType=BIGINT}, #{dataGroupId,jdbcType=INTEGER}, 
+      #{equipmentDataGroupId,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataHistoryGroup">
     insert into eam_grm_variable_data_history_group
@@ -158,7 +158,7 @@
         #{id,jdbcType=INTEGER},
       </if>
       <if test="eamGrmVariableDataHistoryId != null">
-        #{eamGrmVariableDataHistoryId,jdbcType=INTEGER},
+        #{eamGrmVariableDataHistoryId,jdbcType=BIGINT},
       </if>
       <if test="dataGroupId != null">
         #{dataGroupId,jdbcType=INTEGER},
@@ -196,7 +196,7 @@
         id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.eamGrmVariableDataHistoryId != null">
-        eam_grm_variable_data_history_id = #{record.eamGrmVariableDataHistoryId,jdbcType=INTEGER},
+        eam_grm_variable_data_history_id = #{record.eamGrmVariableDataHistoryId,jdbcType=BIGINT},
       </if>
       <if test="record.dataGroupId != null">
         data_group_id = #{record.dataGroupId,jdbcType=INTEGER},
@@ -227,7 +227,7 @@
   <update id="updateByExample" parameterType="map">
     update eam_grm_variable_data_history_group
     set id = #{record.id,jdbcType=INTEGER},
-      eam_grm_variable_data_history_id = #{record.eamGrmVariableDataHistoryId,jdbcType=INTEGER},
+      eam_grm_variable_data_history_id = #{record.eamGrmVariableDataHistoryId,jdbcType=BIGINT},
       data_group_id = #{record.dataGroupId,jdbcType=INTEGER},
       equipment_data_group_id = #{record.equipmentDataGroupId,jdbcType=INTEGER},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
@@ -243,7 +243,7 @@
     update eam_grm_variable_data_history_group
     <set>
       <if test="eamGrmVariableDataHistoryId != null">
-        eam_grm_variable_data_history_id = #{eamGrmVariableDataHistoryId,jdbcType=INTEGER},
+        eam_grm_variable_data_history_id = #{eamGrmVariableDataHistoryId,jdbcType=BIGINT},
       </if>
       <if test="dataGroupId != null">
         data_group_id = #{dataGroupId,jdbcType=INTEGER},
@@ -271,7 +271,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataHistoryGroup">
     update eam_grm_variable_data_history_group
-    set eam_grm_variable_data_history_id = #{eamGrmVariableDataHistoryId,jdbcType=INTEGER},
+    set eam_grm_variable_data_history_id = #{eamGrmVariableDataHistoryId,jdbcType=BIGINT},
       data_group_id = #{dataGroupId,jdbcType=INTEGER},
       equipment_data_group_id = #{equipmentDataGroupId,jdbcType=INTEGER},
       create_user_id = #{createUserId,jdbcType=INTEGER},
@@ -283,16 +283,16 @@
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into eam_grm_variable_data_history_group  (id, eam_grm_variable_data_history_id, 
-        data_group_id, equipment_data_group_id, create_user_id, 
-        create_time, update_user_id, update_time, 
-        delete_flag)
+            insert into eam_grm_variable_data_history_group  (id, eam_grm_variable_data_history_id, data_group_id, 
+        equipment_data_group_id, create_user_id, create_time, 
+        update_user_id, update_time, delete_flag
+        )
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.id,jdbcType=INTEGER}, #{item.eamGrmVariableDataHistoryId,jdbcType=INTEGER}, 
-        #{item.dataGroupId,jdbcType=INTEGER}, #{item.equipmentDataGroupId,jdbcType=INTEGER}, #{item.createUserId,jdbcType=INTEGER}, 
-        #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
-        #{item.deleteFlag,jdbcType=BIT})
+      (#{item.id,jdbcType=INTEGER}, #{item.eamGrmVariableDataHistoryId,jdbcType=BIGINT}, #{item.dataGroupId,jdbcType=INTEGER}, 
+        #{item.equipmentDataGroupId,jdbcType=INTEGER}, #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, 
+        #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}
+        )
       </foreach>
     </if>
   </insert>

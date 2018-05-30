@@ -17,3 +17,13 @@ truncate eam_maintain_plan;
 truncate eam_maintain_user;
 truncate eam_maintain_ticket;
 truncate eam_alert_message;
+
+truncate eam_grm_variable;
+truncate eam_grm_variable_group;
+truncate eam_grm_variable_data;
+truncate eam_grm_variable_data_history;
+truncate eam_grm_variable_data_by_day;
+truncate eam_grm_variable_data_by_month;
+truncate eam_grm_variable_data_by_year;
+truncate eam_shift_data_element_value;
+
