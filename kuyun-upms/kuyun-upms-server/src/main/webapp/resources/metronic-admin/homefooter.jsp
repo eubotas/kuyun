@@ -33,7 +33,7 @@
 </footer>
 
 
-<div class="customer-service" id="customer-service">
+<%--<div class="customer-service" id="customer-service">
     <ul>
         <li class="app-service"><a title="APP" href="javascript:;"><span class="icon"></span><span class="text"></span></a>
             <div class="tips">
@@ -54,4 +54,4 @@
                 <div class="con"><img src="/resources/images/wx.png" alt=""></div><i class="arrow-right"></i></div>
         </li>
     </ul>
-</div>
+</div>--%>

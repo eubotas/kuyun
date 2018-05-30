@@ -268,13 +268,13 @@ public class SSOController extends BaseController {
     public Object checkUserName(HttpServletRequest request, ModelMap modelMap) {
         String userName = request.getParameter("account");
         if (StringUtils.isBlank(userName)) {
-            return new UpmsResult(UpmsResultConstant.EMPTY_USERNAME, "用户名不能为空！");
+            return new UpmsResult(UpmsResultConstant.EMPTY_PHONE, "手机号码不能为空！");
         }
 
         UpmsUser user = getUpmsUser(userName);
 
         if (user != null) {
-            return new UpmsResult(UpmsResultConstant.FAILED, "用户名已存在");
+            return new UpmsResult(UpmsResultConstant.FAILED, "手机号码已注册");
         } else {
             return new UpmsResult(UpmsResultConstant.SUCCESS, "用户名可用");
         }
@@ -301,17 +301,17 @@ public class SSOController extends BaseController {
     @RequestMapping(value = "/reg", method = RequestMethod.POST)
     @ResponseBody
     public Object reg(HttpServletRequest request, ModelMap modelMap) {
-        String userName = request.getParameter("account");
         String password = request.getParameter("password");
         String name = request.getParameter("name");
         String company = request.getParameter("company");
         String email = request.getParameter("email");
         String phone = request.getParameter("phone");
         String code = request.getParameter("code");
+        String userName = phone;
 
         UpmsUser user = getUpmsUser(userName);
         if (user != null) {
-            return new UpmsResult(UpmsResultConstant.FAILED, "用户名已存在");
+            return new UpmsResult(UpmsResultConstant.FAILED, "手机号码已经注册过, 请找回密码.");
         }
 
         String resCode = checkVerifyCode(phone, code);
