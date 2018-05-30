@@ -1,7 +1,6 @@
 package com.kuyun.common.util;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -26,8 +25,7 @@ import org.springframework.util.StringUtils;
 
 public class HuaWeiSaasUtil {
 
-    private final static Logger log = LoggerFactory.getLogger(HuaWeiSaasUtil.class);
-    public final static String key = "b8560db7-3a5f-41e7-bb09-bf99e4c32342";
+  private static final Logger log = LoggerFactory.getLogger(HuaWeiSaasUtil.class);
   /**
    * 校验通知消息的合法性
    *
@@ -49,56 +47,46 @@ public class HuaWeiSaasUtil {
     String[] authTokenArray = paramsMap.remove("authToken");
     if (null != authTokenArray && authTokenArray.length > 0) {
       authToken = authTokenArray[0];
-        try {
-            authToken = URLEncoder.encode(authToken,"UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            log.debug("authToken url encode error",e );
-        }
-        log.debug("autoToken:" +authToken);
+      log.debug("autoToken:" + authToken);
     }
-      String signature = getAuthToken(accessKey, paramsMap, timeStamp);
+    String signature = getAuthToken(accessKey, paramsMap, timeStamp);
 
-      return authToken.equals(signature);
+    return authToken.equals(signature);
   }
 
-    public static String getAuthToken(String accessKey, Map<String, String[]> paramsMap,
-        String timeStamp) {
-        // 对剩下的参数进行排序，拼接成加密内容
-        Map<String, String[]> sortedMap = new TreeMap<String, String[]>();
-        sortedMap.putAll(paramsMap);
-        StringBuffer strBuffer = new StringBuffer();
-        Set<String> keySet = sortedMap.keySet();
-        Iterator<String> iter = keySet.iterator();
-        while (iter.hasNext()) {
-          String key = iter.next();
-          String value = sortedMap.get(key)[0];
-            try {
-                value = URLEncoder.encode(value,"UTF-8");//Need encode again to match
-            } catch (UnsupportedEncodingException e) {
-                log.debug("url encode error",e);
-            }
-            strBuffer.append("&").append(key).append("=").append(value);
-        }
-        // 修正消息体,去除第一个参数前面的&
-        String reqParams = strBuffer.toString().substring(1);
-        String key = accessKey + timeStamp;
-        String signature = null;
-        try {
-          signature = generateResponseBodySignature(key, reqParams);
-          log.debug("signature:"+ signature );
-        } catch (InvalidKeyException
-            | NoSuchAlgorithmException
-            | IllegalStateException
-            | UnsupportedEncodingException e) {
-
-          // TODO Auto-generated catch block
-
-        }
-        log.debug("reqParams: " +reqParams);
-        return signature;
+  public static String getAuthToken(
+      String accessKey, Map<String, String[]> paramsMap, String timeStamp) {
+    // 对剩下的参数进行排序，拼接成加密内容
+    Map<String, String[]> sortedMap = new TreeMap<String, String[]>();
+    sortedMap.putAll(paramsMap);
+    StringBuffer strBuffer = new StringBuffer();
+    Set<String> keySet = sortedMap.keySet();
+    Iterator<String> iter = keySet.iterator();
+    while (iter.hasNext()) {
+      String key = iter.next();
+      String value = sortedMap.get(key)[0];
+      strBuffer.append("&").append(key).append("=").append(value);
     }
+    // 修正消息体,去除第一个参数前面的&
+    String reqParams = strBuffer.toString().substring(1);
+    String key = accessKey + timeStamp;
+    String signature = null;
+    try {
+      signature = generateResponseBodySignature(key, reqParams);
+      log.debug("signature:" + signature);
+    } catch (InvalidKeyException
+        | NoSuchAlgorithmException
+        | IllegalStateException
+        | UnsupportedEncodingException e) {
 
-    /**
+      // TODO Auto-generated catch block
+
+    }
+    log.debug("reqParams: " + reqParams);
+    return signature;
+  }
+
+  /**
    * 生成http响应消息体签名示例Demo
    *
    * @param key 用户在isv console分配的accessKey，请登录后查看
@@ -156,12 +144,15 @@ public class HuaWeiSaasUtil {
    */
   public static String decryptMobilePhoneOrEMail(String key, String str, int encryptLength) {
 
+    log.info("Key: " + key);
+    log.info("encrypted Str: " + str);
     if (null != str && str.length() > 16) {
 
       String iv = str.substring(0, 16);
 
       String encryptStr = str.substring(16);
-
+      log.info("iv: " + iv);
+      log.info("real encrypted Str: " + encryptStr);
       String result = null;
 
       try {
@@ -175,8 +166,7 @@ public class HuaWeiSaasUtil {
           | IllegalBlockSizeException
           | BadPaddingException e) {
 
-        // TODO:异常处理
-
+        log.error("decrypt mobile/email error", e);
       }
 
       return result;
@@ -210,7 +200,7 @@ public class HuaWeiSaasUtil {
 
     return new String(
         decryptAESCBC(
-            Base64.getEncoder().encode(content.getBytes()),
+            Base64.getDecoder().decode(content.getBytes()),
             key.getBytes(),
             iv.getBytes(),
             encryptType));
