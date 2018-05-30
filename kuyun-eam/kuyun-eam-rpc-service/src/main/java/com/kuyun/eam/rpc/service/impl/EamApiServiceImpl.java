@@ -2590,23 +2590,23 @@ public class EamApiServiceImpl implements EamApiService {
         //得到变化的数量
         String val= null;
         if(isSummary) {
-            BigDecimal orgValue = null;
-            BigDecimal newValue = NumberUtil.toBigDecimal(value);
+            BigDecimal orgValue = new  BigDecimal(0);;
+            BigDecimal chnageValue = NumberUtil.toBigDecimal(value);
             if (data != null){
                 orgValue =NumberUtil.toBigDecimal(data.getValue());
-            }else {  //insert
-                orgValue = new  BigDecimal(0);
             }
-            val = newValue.subtract(orgValue).toString();
+            val = chnageValue.add(orgValue).toString();
         }else {
             val= value;
         }
 
         if (data != null){
-            data.setValue(val);
-            data.setUpdateTime(new Date());
-            data.setShift(shiftNum);
-            eamShiftDataElementValueService.updateByPrimaryKeySelective(data);
+            if(val !=null && !"0".equals(val)) { //没有改变不需要更新
+                data.setValue(val);
+                data.setUpdateTime(new Date());
+                data.setShift(shiftNum);
+                eamShiftDataElementValueService.updateByPrimaryKeySelective(data);
+            }
         }else{
             data = buildEamGrmVariableDataByShift(variable, val, offOpen,  shiftNum);
             eamShiftDataElementValueService.insertSelective(data);
@@ -2619,23 +2619,20 @@ public class EamApiServiceImpl implements EamApiService {
         //得到变化的数量
         String val= null;
         if(isSummary) {
-            BigDecimal orgValue = null;
+            BigDecimal orgValue = NumberUtil.toBigDecimal(RedisUtil.get(key));
             BigDecimal newValue = NumberUtil.toBigDecimal(value);
-            if (data != null){
-                orgValue =NumberUtil.toBigDecimal(data.getValue());
-            }else {  //insert
-                orgValue = NumberUtil.toBigDecimal(RedisUtil.get(key));
-            }
-            val = newValue.subtract(orgValue).toString();
+            val = newValue.subtract(orgValue).toString();  //变化值
         }else {
             val= value;
         }
 
         if (data != null){
-            data.setValue(val);
-            data.setUpdateTime(new Date());
-            data.setShift(shiftNum);
-            eamShiftDataElementValueService.updateByPrimaryKeySelective(data);
+            if(val !=null && !"0".equals(val)) { //没有改变不需要更新
+                data.setValue(val);
+                data.setUpdateTime(new Date());
+                data.setShift(shiftNum);
+                eamShiftDataElementValueService.updateByPrimaryKeySelective(data);
+            }
         }else{
             data = buildEamGrmVariableDataByShift(variable, val, offOpen,  shiftNum);
             eamShiftDataElementValueService.insertSelective(data);
