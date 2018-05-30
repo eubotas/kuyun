@@ -102,13 +102,7 @@ public class EamApiServiceImpl implements EamApiService {
     private EamGrmVariableDataHistoryService eamGrmVariableDataHistoryService;
 
     @Autowired
-    private EamGrmVariableService eamGrmVariableGroupService;
-
-    @Autowired
-    private EamGrmVariableDataService eamGrmVariableDataGroupService;
-
-    @Autowired
-    private EamGrmVariableDataHistoryService eamGrmVariableDataHistoryGroupService;
+    private EamGrmVariableGroupService eamGrmVariableGroupService;
 
     @Autowired
     private EamAlarmModelService eamAlarmModelService;
@@ -931,6 +925,17 @@ public class EamApiServiceImpl implements EamApiService {
 
                 List<EamGrmVariable> variables = buildGrmVariables(equipment.getProductLineId(), equipmentId, dataGroupId, equipmentDataGroupId, ids);
                 eamGrmVariableService.batchInsert(variables);
+
+                List<EamGrmVariableGroup> amGrmVariableGroups =new ArrayList<EamGrmVariableGroup>();
+                EamGrmVariableGroup amGrmVariableGroup = null;
+                for(EamGrmVariable v: variables) {
+                    amGrmVariableGroup = new EamGrmVariableGroup();
+                    amGrmVariableGroup.setEamGrmVariableId(v.getId());
+                    amGrmVariableGroup.setDataGroupId(Integer.valueOf(dataGroupId));
+                    amGrmVariableGroup.setEquipmentDataGroupId(Integer.valueOf(equipmentDataGroupId));
+                    amGrmVariableGroups.add(amGrmVariableGroup);
+                }
+                eamGrmVariableGroupService.batchInsert(amGrmVariableGroups);
             }
 
         }
@@ -2537,15 +2542,15 @@ public class EamApiServiceImpl implements EamApiService {
 
             String shiftNum = null, startDate, endDate;
             if(EamDateUtil.inThisTimes(vo.getMorningShiftStartTime(), vo.getMorningShiftEndTime())) {
-                shiftNum = ProductShift.MORNING.getCode();
+                shiftNum = ProductLineShift.MORNING.getCode();
                 startDate=vo.getMorningShiftStartTime();
                 endDate =vo.getMorningShiftEndTime();
             }else if(EamDateUtil.inThisTimes(vo.getMiddleShiftStartTime(), vo.getMorningShiftEndTime())) {
-                shiftNum = ProductShift.MIDDLE.getCode();
+                shiftNum = ProductLineShift.MIDDLE.getCode();
                 startDate=vo.getMiddleShiftStartTime();
                 endDate =vo.getMorningShiftEndTime();
             }else if(EamDateUtil.inThisTimes(vo.getNightShiftStartTime(), vo.getNightShiftEndTime())) {
-                shiftNum = ProductShift.NIGHT.getCode();
+                shiftNum = ProductLineShift.NIGHT.getCode();
                 startDate=vo.getNightShiftStartTime();
                 endDate =vo.getNightShiftEndTime();
             }else {
