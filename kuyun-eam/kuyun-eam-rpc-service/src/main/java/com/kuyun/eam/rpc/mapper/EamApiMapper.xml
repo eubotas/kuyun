@@ -1040,6 +1040,9 @@
             <if test="equipmentId != null and equipmentId != ''">
                 AND t.equipment_id = #{equipmentId}
             </if>
+            <if test="equipmentModelPropertyId != null and equipmentModelPropertyId != ''">
+                AND t.equipment_model_property_id = #{equipmentModelPropertyId}
+            </if>
             <if test="startDate != null">
                 AND t.create_time <![CDATA[>=]]> #{startDate}
             </if>

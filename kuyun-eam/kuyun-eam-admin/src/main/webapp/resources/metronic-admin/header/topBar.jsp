@@ -189,7 +189,7 @@
                                             <i class="m-nav__link-icon flaticon-share" ></i>
                                             <span class="m-nav__link-title" style="padding-left:10px;">
 																			<span class="m-nav__link-wrap">
-																				<span class="m-nav__link-text">
+																				<span class="m-nav__link-text" style="color:#6f727d">
 																					  公司Logo
 																				</span>
 																			</span>
