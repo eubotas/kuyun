@@ -100,13 +100,16 @@ public class ManageController extends BaseController {
         UpmsCompany company = upmsCompanyService.selectByPrimaryKey(companyId);
         UpmsCompanyOption opt = upmsCompanyOptionService.selectByPrimaryKey(companyId);
         CompanyInfo comp = new CompanyInfo();
-        if(!StringUtil.isEmpty(opt.getLogoPath()))
-        comp.setCompanyLogo( fileUploaderService.getServerInfo().getServerBaseUri()+"/fileStorage/eam/"+opt.getLogoPath());
-        comp.setCompanySystemName(opt.getSystemName());
-        comp.setCompanyName(company.getName());
-        comp.setCompanyAddr(company.getAddress());
-        comp.setCompanyTel(company.getPhone());
+        if (opt != null){
+            if(!StringUtil.isEmpty(opt.getLogoPath())){
+                comp.setCompanyLogo( fileUploaderService.getServerInfo().getServerBaseUri()+"/fileStorage/eam/"+opt.getLogoPath());
+            }
+            comp.setCompanySystemName(opt.getSystemName());
+            comp.setCompanyName(company.getName());
+            comp.setCompanyAddr(company.getAddress());
+            comp.setCompanyTel(company.getPhone());
 
+        }
         request.getSession(true).setAttribute("COMPANY", comp);
     }
 }
