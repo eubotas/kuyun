@@ -20,6 +20,14 @@ import com.kuyun.upms.rpc.api.UpmsSystemService;
 import com.kuyun.upms.rpc.api.UpmsUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.net.URLEncoder;
+import java.util.Map;
+import java.util.UUID;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
@@ -37,15 +45,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.net.URLEncoder;
-import java.util.Map;
-import java.util.UUID;
 
 /** 单点登录管理 Created by kuyun on 2016/12/10. */
 @Controller
@@ -284,7 +283,8 @@ public class SSOController extends BaseController {
   @RequestMapping(value = "/manage1", method = RequestMethod.POST)
   @ResponseBody
   public Object manage1(HttpServletRequest request, ModelMap modelMap) {
-    if (!HuaWeiSaasUtil.verificateRequestParams(request, HuaWeiSaasUtil.key, 256)) {
+    if (!HuaWeiSaasUtil.verificateRequestParams(request, HuaWeiSaasUtil.key, 256)
+        && !HuaWeiSaasUtil.verificateDecodedRequestParams(request, HuaWeiSaasUtil.key, 256)) {
       return new UpmsResult(UpmsResultConstant.WRONG_TOKEN, "authToken error");
     }
     String userName = request.getParameter("account");
@@ -308,7 +308,8 @@ public class SSOController extends BaseController {
   @RequestMapping(value = "/reg1", method = RequestMethod.POST)
   @ResponseBody
   public Object reg1(HttpServletRequest request, ModelMap modelMap) {
-    if (!HuaWeiSaasUtil.verificateRequestParams(request, HuaWeiSaasUtil.key, 256)) {
+    if (!HuaWeiSaasUtil.verificateRequestParams(request, HuaWeiSaasUtil.key, 256)
+        && !HuaWeiSaasUtil.verificateDecodedRequestParams(request, HuaWeiSaasUtil.key, 256)) {
       return new UpmsResult(UpmsResultConstant.WRONG_TOKEN, "authToken error");
     }
     String userName = request.getParameter("account");

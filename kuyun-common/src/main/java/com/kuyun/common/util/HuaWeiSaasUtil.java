@@ -1,15 +1,19 @@
 package com.kuyun.common.util;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.stream.Stream;
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
@@ -25,9 +29,11 @@ import org.springframework.util.StringUtils;
 
 public class HuaWeiSaasUtil {
 
+  public static final String key = "b8560db7-3a5f-41e7-bb09-bf99e4c32342";
   private static final Logger log = LoggerFactory.getLogger(HuaWeiSaasUtil.class);
+
   /**
-   * 校验通知消息的合法性
+   * 校验通知消息的合法性,URL seems didn't decoded in current spring & servlet
    *
    * @param request http请求通知消息
    * @param accessKey 接入码
@@ -37,7 +43,44 @@ public class HuaWeiSaasUtil {
   public static boolean verificateRequestParams(
       javax.servlet.http.HttpServletRequest request, String accessKey, int encryptLength) {
     // 解析出url内容
-    Map<String, String[]> paramsMap = request.getParameterMap();
+    Map<String, String[]> paramsMap = new HashMap<>();
+    //    paramsMap.putAll(request.getParameterMap());
+    for (Map.Entry<String, String[]> entry :
+        ((Map<String, String[]>) request.getParameterMap()).entrySet()) {
+      String key = entry.getKey();
+      String[] values = entry.getValue();
+      paramsMap.put(key, Stream.of(values).map(HuaWeiSaasUtil::decode).toArray(String[]::new));
+    }
+
+    String timeStamp = null;
+    String authToken = null;
+    String[] timeStampArray = paramsMap.get("timeStamp");
+    if (null != timeStampArray && timeStampArray.length > 0) {
+      timeStamp = timeStampArray[0];
+    }
+    String[] authTokenArray = paramsMap.remove("authToken");
+    if (null != authTokenArray && authTokenArray.length > 0) {
+      authToken = authTokenArray[0];
+      log.debug("autoToken:" + authToken);
+    }
+    String signature = getAuthToken(accessKey, paramsMap, timeStamp);
+
+    return authToken.equals(signature);
+  }
+
+  public static String decode(String s) {
+    try {
+      return URLDecoder.decode(s, StandardCharsets.UTF_8.name());
+    } catch (UnsupportedEncodingException e) {
+      return s;
+    }
+  }
+
+  public static boolean verificateDecodedRequestParams(
+      javax.servlet.http.HttpServletRequest request, String accessKey, int encryptLength) {
+    // 解析出url内容
+    Map<String, String[]> paramsMap = new HashMap<>();
+    paramsMap.putAll(request.getParameterMap());
     String timeStamp = null;
     String authToken = null;
     String[] timeStampArray = paramsMap.get("timeStamp");
@@ -73,7 +116,7 @@ public class HuaWeiSaasUtil {
     String signature = null;
     try {
       signature = generateResponseBodySignature(key, reqParams);
-      log.debug("signature:" + signature);
+      log.debug("signature:" + signature+" ReqParams:"+reqParams);
     } catch (InvalidKeyException
         | NoSuchAlgorithmException
         | IllegalStateException
