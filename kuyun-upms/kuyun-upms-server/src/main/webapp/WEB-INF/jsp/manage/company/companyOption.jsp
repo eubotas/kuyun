@@ -152,12 +152,12 @@
                 <div class="form-group m-form__group row">
                     <label class="col-7 col-form-label" style="color:#d8cdcd;">建议尺寸85 x 20</label>
                 </div>
-                <div class="form-group m-form__group row">
+                <%--<div class="form-group m-form__group row">
                     <label class="col-3 col-form-label">域名</label>
                     <div class="col-sm-6">
                         <input id="domainName" type="text" class="form-control" name="domainName" maxlength="20" value="${companyOpt.domainName}">
                     </div>
-                </div>
+                </div>--%>
                 <div class="modal-footer">
                     <input type="hidden" id="edit_id" name="companyId" value="${companyOpt.companyId}">
                     <button type="submit" class="btn btn-primary" id="submit">

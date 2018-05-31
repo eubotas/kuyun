@@ -29,10 +29,11 @@ public class BasePath {
     public String getKuyunEamAdmin(HttpServletRequest request) {
         if(kuyunEamAdmin == null){
             int port = request.getServerPort();
-            if (port != 0)
+            if (port != 0) {
                 kuyunEamAdmin = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
-            else
+            }else {
                 kuyunEamAdmin = request.getScheme() + "://" + request.getServerName();
+            }
         }
         return kuyunEamAdmin;
     }

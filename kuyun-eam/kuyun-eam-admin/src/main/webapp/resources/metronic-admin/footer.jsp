@@ -14,8 +14,6 @@
         <div class="m-stack m-stack--flex-tablet-and-mobile m-stack--ver m-stack--desktop">
             <div class="m-stack__item m-stack__item--left m-stack__item--middle m-stack__item--last">
                 <span class="m-footer__copyright">
-                                <%=new SessionUser().getCompany(request).getCompanyName()%>
-                                <br/>
                                 版权所有  2018©库德莱兹物联科技（苏州）有限公司
 								<a href="http://www.coderise.cn" target="_blank">
 									coderise.cn
