@@ -12,6 +12,8 @@
 <c:set var="upmsPath" value="<%=BasePath.getInstance().getKuyunUpmsServer()%>"/>
 
 <script>
+    var eamPath="<%=BasePath.getInstance().getKuyunEamAdmin(request)%>";
+    var upmsPath ="<%=BasePath.getInstance().getKuyunUpmsServer()%>";
     var siteDomain = '<%=BasePath.getInstance().getSiteDomain()%>';
 </script>
 

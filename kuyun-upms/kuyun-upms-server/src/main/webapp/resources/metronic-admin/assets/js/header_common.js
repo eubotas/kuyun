@@ -40,8 +40,13 @@ function selectedColor(id, borderAlign){
     $("#" + id).addClass('m-menu__item--active');
 }
 
+
 function setmenu(e){
     var selItemId=e.id;
+    setmenuById(selItemId);
+}
+
+function setmenuById(selItemId){
     //header menu
     if(selItemId=='header_menu_equiOp'){
         if(!isMenuContainHml("menu_assetsTitle") && !isMenuContainHml("menu_systemTitle") && !isMenuContainHml("menu_equiOpTitle"))
@@ -51,6 +56,10 @@ function setmenu(e){
             $("#menu").append($("#menuDashboard").html()).append($("#menu_equiOpList").html());
         }
         $("#submenu_equiOp").show();
+        setmenuById('submenu_equiOp_DataCollect');
+        setTimeout(function(){
+            window.location = eamPath+'/manage/equipment/monitor/list';
+        },300);
     }else if(selItemId=='header_menu_assets'){
         if(!isMenuContainHml("menu_assetsTitle") && !isMenuContainHml("menu_systemTitle") && !isMenuContainHml("menu_equiOpTitle"))
             $("#menu").append($("#menuDashboard").html()).append($("#menu_assetsList").html());
@@ -58,6 +67,10 @@ function setmenu(e){
             $("#menu").html("");
             $("#menu").append($("#menuDashboard").html()).append($("#menu_assetsList").html());
         }
+        setmenuById('submenu_assetsEquipment1');
+        setTimeout(function(){
+            window.location =eamPath+ '/manage/equipment/model/index';
+        },300);
     }else if(selItemId=='header_menu_system'){
         if(!isMenuContainHml("menu_assetsTitle") && !isMenuContainHml("menu_systemTitle") && !isMenuContainHml("menu_equiOpTitle"))
             $("#menu").append($("#menuDashboard").html()).append($("#menu_systemList").html());
@@ -66,6 +79,10 @@ function setmenu(e){
             $("#menu").append($("#menuDashboard").html()).append($("#menu_systemList").html());
         }
         $("#submenu_system").show();
+        setmenuById('submenu_system2');
+        setTimeout(function(){
+            window.location = upmsPath + '/manage/organization/index';
+        },300);
     }
 
     if(selItemId.startsWith("header")) {
@@ -73,7 +90,7 @@ function setmenu(e){
             $(this).removeClass("m-menu__item--active");
         });
         selectedColor(selItemId, 'border-bottom');
-        $('#mainBody').addClass("kuyun-bg").html('');
+        //$('#mainBody').addClass("kuyun-bg").html('');
     }else
         selectedColor(selItemId);
 

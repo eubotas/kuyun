@@ -12,6 +12,8 @@
 <c:set var="upmsPath" value="<%=BasePath.getInstance().getKuyunUpmsServer()%>"/>
 
 <script>
+    var eamPath="<%=BasePath.getInstance().getKuyunEamAdmin(request)%>";
+    var upmsPath ="<%=BasePath.getInstance().getKuyunUpmsServer()%>";
     var siteDomain = '<%=BasePath.getInstance().getSiteDomain()%>';
 </script>
 
@@ -359,7 +361,7 @@
                     <ul class="m-menu__subnav">
 
                         <li id="submenu_equiOp_DataCollect" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
-                            <a  href="${eamPath}/manage/equipment/monitor/list" class="m-menu__link ">
+                            <a id="submenu_equiOp_DataCollect_href"  href="${eamPath}/manage/equipment/monitor/list" class="m-menu__link ">
                                 <i class="m-menu__link-bullet m-menu__link-bullet--dot">
                                     <span></span>
                                 </i>
