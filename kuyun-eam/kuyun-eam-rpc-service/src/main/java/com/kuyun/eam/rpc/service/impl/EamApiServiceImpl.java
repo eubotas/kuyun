@@ -2374,10 +2374,12 @@ public class EamApiServiceImpl implements EamApiService {
         EamGrmVariableDataByYear data = getEamGrmVariableDataByYear(variable,offOn);
         if (data != null){
             BigDecimal newValue = null;
-            if(variable.getSummation())
+            if(variable.getSummation()){
                 newValue = NumberUtil.toBigDecimal(data.getValue()).add(NumberUtil.toBigDecimal(value));
-            else
+            }else {
                 newValue = NumberUtil.toBigDecimal(value);
+            }
+
             data.setValue(newValue.toString());
             data.setUpdateTime(new Date());
             eamGrmVariableDataByYearService.updateByPrimaryKeySelective(data);
@@ -2395,7 +2397,7 @@ public class EamApiServiceImpl implements EamApiService {
         data.setDataElementId(variable.getDataElementId());
         data.setValue(value.toString());
         data.setSwitchValue(offOn);
-        data.setYear(LocalDateTime.now().getYear());
+        data.setYear(LocalDateTime.now().minusDays(1).getYear());
         data.setCreateTime(new Date());
         data.setUpdateTime(new Date());
         data.setDeleteFlag(Boolean.FALSE);
@@ -2403,7 +2405,7 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     private EamGrmVariableDataByYear getEamGrmVariableDataByYear(EamGrmVariableDataVO variable, Boolean offOn){
-        int year = LocalDateTime.now().getYear();
+        int year = LocalDateTime.now().minusDays(1).getYear();
         EamGrmVariableDataByYearExample example = new EamGrmVariableDataByYearExample();
         EamGrmVariableDataByYearExample.Criteria criteria = example.createCriteria();
 
@@ -2420,10 +2422,12 @@ public class EamApiServiceImpl implements EamApiService {
         EamGrmVariableDataByMonth data = getEamGrmVariableDataByMoth(variable, offOn);
         if (data != null){
             BigDecimal newValue = null;
-            if(variable.getSummation())
+            if(variable.getSummation()){
                 newValue = NumberUtil.toBigDecimal(data.getValue()).add(NumberUtil.toBigDecimal(value));
-            else
+            } else{
                 newValue = NumberUtil.toBigDecimal(value);
+            }
+
             data.setValue(newValue.toString());
             data.setUpdateTime(new Date());
             eamGrmVariableDataByMonthService.updateByPrimaryKeySelective(data);
@@ -2435,8 +2439,8 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     private EamGrmVariableDataByMonth getEamGrmVariableDataByMoth(EamGrmVariableDataVO variable, Boolean offOn){
-        int year = LocalDateTime.now().getYear();
-        int month = LocalDateTime.now().getMonthValue();
+        int year = LocalDateTime.now().minusDays(1).getYear();
+        int month = LocalDateTime.now().minusDays(1).getMonthValue();
         EamGrmVariableDataByMonthExample example = new EamGrmVariableDataByMonthExample();
         EamGrmVariableDataByMonthExample.Criteria criteria = example.createCriteria();
         criteria.andEamGrmVariableIdEqualTo(variable.getId());
@@ -2458,8 +2462,8 @@ public class EamApiServiceImpl implements EamApiService {
         data.setDataElementId(variable.getDataElementId());
         data.setValue(value);
         data.setSwitchValue(offOn);
-        data.setYear(LocalDateTime.now().getYear());
-        data.setMonth(LocalDateTime.now().getMonthValue());
+        data.setYear(LocalDateTime.now().minusDays(1).getYear());
+        data.setMonth(LocalDateTime.now().minusDays(1).getMonthValue());
         data.setCreateTime(new Date());
         data.setUpdateTime(new Date());
         data.setDeleteFlag(Boolean.FALSE);
@@ -2600,7 +2604,7 @@ public class EamApiServiceImpl implements EamApiService {
                 shiftNum = ProductLineShift.MORNING.getCode();
                 startDate=vo.getMorningShiftStartTime();
                 endDate =vo.getMorningShiftEndTime();
-            }else if(EamDateUtil.inThisTimes(vo.getMiddleShiftStartTime(), vo.getMorningShiftEndTime())) {
+            }else if(EamDateUtil.inThisTimes(vo.getMiddleShiftStartTime(), vo.getMiddleShiftEndTime())) {
                 shiftNum = ProductLineShift.MIDDLE.getCode();
                 startDate=vo.getMiddleShiftStartTime();
                 endDate =vo.getMorningShiftEndTime();

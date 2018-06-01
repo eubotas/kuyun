@@ -88,8 +88,8 @@ public class EamDateUtil {
 
     public static Pair<Date,Date> getShiftStartEndTime(String date) throws java.text.ParseException{
         Pair<Date, Date> pair = null;
-        Date startDate = org.apache.commons.lang.time.DateUtils.parseDate(date + "00:00:00", new String[]{"yyyy-MM-dd HH:mm:ss"});
-        Date endDate = org.apache.commons.lang.time.DateUtils.parseDate(date + "23:59:59", new String[]{"yyyy-MM-dd HH:mm:ss"});
+        Date startDate = org.apache.commons.lang.time.DateUtils.parseDate(date + " " + "00:00:00", new String[]{"yyyy-MM-dd HH:mm:ss"});
+        Date endDate = org.apache.commons.lang.time.DateUtils.parseDate(date + " " + "23:59:59", new String[]{"yyyy-MM-dd HH:mm:ss"});
         pair = new Pair<>(startDate, endDate);
         return pair;
     }
