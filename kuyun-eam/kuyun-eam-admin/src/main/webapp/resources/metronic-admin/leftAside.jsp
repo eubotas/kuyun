@@ -396,7 +396,7 @@
                     <a  href="#" class="m-menu__link m-menu__toggle">
                         <i class="m-menu__link-icon flaticon-interface-9"></i>
                         <span class="m-menu__link-text">
-										系统设置
+										权限设置
 									</span>
                         <i class="m-menu__ver-arrow la la-angle-right"></i>
                     </a>
@@ -493,6 +493,17 @@
 												<%--</span>--%>
                                 <%--</a></shiro:hasPermission>--%>
                         <%--</li>--%>
+                            <li id="submenu_system9" class="m-menu__item " aria-haspopup="true" onclick="setmenu(this);">
+                                <shiro:hasPermission name="upms:company:update">
+                                    <a  href="${upmsPath}/manage/company/updateOption" class="m-menu__link ">
+                                        <i class="m-menu__link-bullet m-menu__link-bullet--dot">
+                                            <span></span>
+                                        </i>
+                                        <span class="m-menu__link-text">
+                                    系统设置
+                                </span>
+                                    </a></shiro:hasPermission>
+                            </li>
                     </ul>
                 </div>
             </li>

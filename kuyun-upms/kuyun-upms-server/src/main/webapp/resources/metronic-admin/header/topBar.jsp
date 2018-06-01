@@ -185,20 +185,6 @@
 																		</span>
                                         </a>
                                     </li>
-                                    <li class="m-nav__item">
-                                        <shiro:hasPermission name="upms:company:update">
-                                        <a href="${upmsPath}/manage/company/updateOption" class="m-nav__link">
-                                            <i class="m-nav__link-icon flaticon-share"></i>
-                                            <span class="m-nav__link-title" style="padding-left:10px;">
-																			<span class="m-nav__link-wrap">
-																				<span class="m-nav__link-text" style="color:#6f727d">
-																					  公司Logo
-																				</span>
-																			</span>
-																		</span>
-                                        </a>
-                                        </shiro:hasPermission>
-                                    </li>
                                     <li class="m-nav__separator m-nav__separator--fit"></li>
                                     <li class="m-nav__item">
                                         <a href="${upmsPath}/sso/logout" class="btn m-btn--pill    btn-secondary m-btn m-btn--custom m-btn--label-brand m-btn--bolder">
