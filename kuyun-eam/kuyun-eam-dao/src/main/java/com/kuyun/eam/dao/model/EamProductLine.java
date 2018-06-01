@@ -61,6 +61,47 @@ public class EamProductLine extends BaseEntity implements Serializable {
 
     private String nightShiftEndTime;
 
+    private BigDecimal morningStopTime;
+
+    private BigDecimal middleStopTime;
+
+    private BigDecimal nightStopTime;
+
+    /**
+     * 存放实际产能 数据点ID
+     *
+     * @mbg.generated
+     */
+    private Integer actualCapacityId;
+
+    /**
+     * 额定产能
+     *
+     * @mbg.generated
+     */
+    private Integer baseCapacityId;
+
+    /**
+     * 合格数量
+     *
+     * @mbg.generated
+     */
+    private Integer qualifiedQuantityId;
+
+    /**
+     * 总数量
+     *
+     * @mbg.generated
+     */
+    private Integer totalQuantityId;
+
+    /**
+     * 统计变量
+     *
+     * @mbg.generated
+     */
+    private Integer statisticVariableId;
+
     private static final long serialVersionUID = 1L;
 
     public String getProductLineId() {
@@ -207,6 +248,70 @@ public class EamProductLine extends BaseEntity implements Serializable {
         this.nightShiftEndTime = nightShiftEndTime;
     }
 
+    public BigDecimal getMorningStopTime() {
+        return morningStopTime;
+    }
+
+    public void setMorningStopTime(BigDecimal morningStopTime) {
+        this.morningStopTime = morningStopTime;
+    }
+
+    public BigDecimal getMiddleStopTime() {
+        return middleStopTime;
+    }
+
+    public void setMiddleStopTime(BigDecimal middleStopTime) {
+        this.middleStopTime = middleStopTime;
+    }
+
+    public BigDecimal getNightStopTime() {
+        return nightStopTime;
+    }
+
+    public void setNightStopTime(BigDecimal nightStopTime) {
+        this.nightStopTime = nightStopTime;
+    }
+
+    public Integer getActualCapacityId() {
+        return actualCapacityId;
+    }
+
+    public void setActualCapacityId(Integer actualCapacityId) {
+        this.actualCapacityId = actualCapacityId;
+    }
+
+    public Integer getBaseCapacityId() {
+        return baseCapacityId;
+    }
+
+    public void setBaseCapacityId(Integer baseCapacityId) {
+        this.baseCapacityId = baseCapacityId;
+    }
+
+    public Integer getQualifiedQuantityId() {
+        return qualifiedQuantityId;
+    }
+
+    public void setQualifiedQuantityId(Integer qualifiedQuantityId) {
+        this.qualifiedQuantityId = qualifiedQuantityId;
+    }
+
+    public Integer getTotalQuantityId() {
+        return totalQuantityId;
+    }
+
+    public void setTotalQuantityId(Integer totalQuantityId) {
+        this.totalQuantityId = totalQuantityId;
+    }
+
+    public Integer getStatisticVariableId() {
+        return statisticVariableId;
+    }
+
+    public void setStatisticVariableId(Integer statisticVariableId) {
+        this.statisticVariableId = statisticVariableId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -231,6 +336,14 @@ public class EamProductLine extends BaseEntity implements Serializable {
         sb.append(", middleShiftEndTime=").append(middleShiftEndTime);
         sb.append(", nightShiftStartTime=").append(nightShiftStartTime);
         sb.append(", nightShiftEndTime=").append(nightShiftEndTime);
+        sb.append(", morningStopTime=").append(morningStopTime);
+        sb.append(", middleStopTime=").append(middleStopTime);
+        sb.append(", nightStopTime=").append(nightStopTime);
+        sb.append(", actualCapacityId=").append(actualCapacityId);
+        sb.append(", baseCapacityId=").append(baseCapacityId);
+        sb.append(", qualifiedQuantityId=").append(qualifiedQuantityId);
+        sb.append(", totalQuantityId=").append(totalQuantityId);
+        sb.append(", statisticVariableId=").append(statisticVariableId);
         sb.append("]");
         return sb.toString();
     }
@@ -269,7 +382,15 @@ public class EamProductLine extends BaseEntity implements Serializable {
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
-            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()));
+            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
+            && (this.getMorningStopTime() == null ? other.getMorningStopTime() == null : this.getMorningStopTime().equals(other.getMorningStopTime()))
+            && (this.getMiddleStopTime() == null ? other.getMiddleStopTime() == null : this.getMiddleStopTime().equals(other.getMiddleStopTime()))
+            && (this.getNightStopTime() == null ? other.getNightStopTime() == null : this.getNightStopTime().equals(other.getNightStopTime()))
+            && (this.getActualCapacityId() == null ? other.getActualCapacityId() == null : this.getActualCapacityId().equals(other.getActualCapacityId()))
+            && (this.getBaseCapacityId() == null ? other.getBaseCapacityId() == null : this.getBaseCapacityId().equals(other.getBaseCapacityId()))
+            && (this.getQualifiedQuantityId() == null ? other.getQualifiedQuantityId() == null : this.getQualifiedQuantityId().equals(other.getQualifiedQuantityId()))
+            && (this.getTotalQuantityId() == null ? other.getTotalQuantityId() == null : this.getTotalQuantityId().equals(other.getTotalQuantityId()))
+            && (this.getStatisticVariableId() == null ? other.getStatisticVariableId() == null : this.getStatisticVariableId().equals(other.getStatisticVariableId()));
     }
 
     @Override
@@ -299,6 +420,14 @@ public class EamProductLine extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
+        result = prime * result + ((getMorningStopTime() == null) ? 0 : getMorningStopTime().hashCode());
+        result = prime * result + ((getMiddleStopTime() == null) ? 0 : getMiddleStopTime().hashCode());
+        result = prime * result + ((getNightStopTime() == null) ? 0 : getNightStopTime().hashCode());
+        result = prime * result + ((getActualCapacityId() == null) ? 0 : getActualCapacityId().hashCode());
+        result = prime * result + ((getBaseCapacityId() == null) ? 0 : getBaseCapacityId().hashCode());
+        result = prime * result + ((getQualifiedQuantityId() == null) ? 0 : getQualifiedQuantityId().hashCode());
+        result = prime * result + ((getTotalQuantityId() == null) ? 0 : getTotalQuantityId().hashCode());
+        result = prime * result + ((getStatisticVariableId() == null) ? 0 : getStatisticVariableId().hashCode());
         return result;
     }
 }

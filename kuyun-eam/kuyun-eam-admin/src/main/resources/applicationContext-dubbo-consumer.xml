@@ -21,6 +21,7 @@
 
     <!-- 设备 -->
     <dubbo:reference id="eamEquipmentService" interface="com.kuyun.eam.rpc.api.EamEquipmentService" mock="true"/>
+    <dubbo:reference id="eamEquipmentProductService" interface="com.kuyun.eam.rpc.api.EamEquipmentProductService" mock="true"/>
 
     <!-- 设备属性 -->
     <dubbo:reference id="eamEquipmentPropertyService" interface="com.kuyun.eam.rpc.api.EamEquipmentPropertyService" mock="true"/>

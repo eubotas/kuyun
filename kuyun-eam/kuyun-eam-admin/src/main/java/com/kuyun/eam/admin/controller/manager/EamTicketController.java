@@ -156,7 +156,7 @@ public class EamTicketController extends EamTicketBaseController {
 
 		switch (TicketSearchCategory.getCategroy(category)) {
 		case MY_OPEN:
-			if(subject.hasRole(TICKET_CREATE)) {
+			if(subject.hasRole(TICKET_CREATE) || subject.hasRole(RoleEnum.CUSTOMER_TICKETCREATE.getName())) {
 				//工单提报人 有权限
 				criteria.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId())
 						.andStatusNotEqualTo(TicketStatus.CLOSED.getName())
@@ -193,7 +193,7 @@ public class EamTicketController extends EamTicketBaseController {
 			}
 			break;
 		case MY_ALL:
-			if(subject.hasRole(TICKET_CREATE)) {
+			if(subject.hasRole(TICKET_CREATE) || subject.hasRole(RoleEnum.CUSTOMER_TICKETCREATE.getName())) {
 				//工单提报人 有权限
 				criteria.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
 

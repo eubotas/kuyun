@@ -1649,6 +1649,486 @@ public class EamProductLineExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andMorningStopTimeIsNull() {
+            addCriterion("eam_product_line.morning_stop_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMorningStopTimeIsNotNull() {
+            addCriterion("eam_product_line.morning_stop_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMorningStopTimeEqualTo(BigDecimal value) {
+            addCriterion("eam_product_line.morning_stop_time =", value, "morningStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMorningStopTimeNotEqualTo(BigDecimal value) {
+            addCriterion("eam_product_line.morning_stop_time <>", value, "morningStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMorningStopTimeGreaterThan(BigDecimal value) {
+            addCriterion("eam_product_line.morning_stop_time >", value, "morningStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMorningStopTimeGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("eam_product_line.morning_stop_time >=", value, "morningStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMorningStopTimeLessThan(BigDecimal value) {
+            addCriterion("eam_product_line.morning_stop_time <", value, "morningStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMorningStopTimeLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("eam_product_line.morning_stop_time <=", value, "morningStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMorningStopTimeIn(List<BigDecimal> values) {
+            addCriterion("eam_product_line.morning_stop_time in", values, "morningStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMorningStopTimeNotIn(List<BigDecimal> values) {
+            addCriterion("eam_product_line.morning_stop_time not in", values, "morningStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMorningStopTimeBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("eam_product_line.morning_stop_time between", value1, value2, "morningStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMorningStopTimeNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("eam_product_line.morning_stop_time not between", value1, value2, "morningStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMiddleStopTimeIsNull() {
+            addCriterion("eam_product_line.middle_stop_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMiddleStopTimeIsNotNull() {
+            addCriterion("eam_product_line.middle_stop_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMiddleStopTimeEqualTo(BigDecimal value) {
+            addCriterion("eam_product_line.middle_stop_time =", value, "middleStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMiddleStopTimeNotEqualTo(BigDecimal value) {
+            addCriterion("eam_product_line.middle_stop_time <>", value, "middleStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMiddleStopTimeGreaterThan(BigDecimal value) {
+            addCriterion("eam_product_line.middle_stop_time >", value, "middleStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMiddleStopTimeGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("eam_product_line.middle_stop_time >=", value, "middleStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMiddleStopTimeLessThan(BigDecimal value) {
+            addCriterion("eam_product_line.middle_stop_time <", value, "middleStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMiddleStopTimeLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("eam_product_line.middle_stop_time <=", value, "middleStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMiddleStopTimeIn(List<BigDecimal> values) {
+            addCriterion("eam_product_line.middle_stop_time in", values, "middleStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMiddleStopTimeNotIn(List<BigDecimal> values) {
+            addCriterion("eam_product_line.middle_stop_time not in", values, "middleStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMiddleStopTimeBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("eam_product_line.middle_stop_time between", value1, value2, "middleStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMiddleStopTimeNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("eam_product_line.middle_stop_time not between", value1, value2, "middleStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNightStopTimeIsNull() {
+            addCriterion("eam_product_line.night_stop_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNightStopTimeIsNotNull() {
+            addCriterion("eam_product_line.night_stop_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNightStopTimeEqualTo(BigDecimal value) {
+            addCriterion("eam_product_line.night_stop_time =", value, "nightStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNightStopTimeNotEqualTo(BigDecimal value) {
+            addCriterion("eam_product_line.night_stop_time <>", value, "nightStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNightStopTimeGreaterThan(BigDecimal value) {
+            addCriterion("eam_product_line.night_stop_time >", value, "nightStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNightStopTimeGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("eam_product_line.night_stop_time >=", value, "nightStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNightStopTimeLessThan(BigDecimal value) {
+            addCriterion("eam_product_line.night_stop_time <", value, "nightStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNightStopTimeLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("eam_product_line.night_stop_time <=", value, "nightStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNightStopTimeIn(List<BigDecimal> values) {
+            addCriterion("eam_product_line.night_stop_time in", values, "nightStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNightStopTimeNotIn(List<BigDecimal> values) {
+            addCriterion("eam_product_line.night_stop_time not in", values, "nightStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNightStopTimeBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("eam_product_line.night_stop_time between", value1, value2, "nightStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andNightStopTimeNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("eam_product_line.night_stop_time not between", value1, value2, "nightStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualCapacityIdIsNull() {
+            addCriterion("eam_product_line.actual_capacity_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualCapacityIdIsNotNull() {
+            addCriterion("eam_product_line.actual_capacity_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualCapacityIdEqualTo(Integer value) {
+            addCriterion("eam_product_line.actual_capacity_id =", value, "actualCapacityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualCapacityIdNotEqualTo(Integer value) {
+            addCriterion("eam_product_line.actual_capacity_id <>", value, "actualCapacityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualCapacityIdGreaterThan(Integer value) {
+            addCriterion("eam_product_line.actual_capacity_id >", value, "actualCapacityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualCapacityIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("eam_product_line.actual_capacity_id >=", value, "actualCapacityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualCapacityIdLessThan(Integer value) {
+            addCriterion("eam_product_line.actual_capacity_id <", value, "actualCapacityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualCapacityIdLessThanOrEqualTo(Integer value) {
+            addCriterion("eam_product_line.actual_capacity_id <=", value, "actualCapacityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualCapacityIdIn(List<Integer> values) {
+            addCriterion("eam_product_line.actual_capacity_id in", values, "actualCapacityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualCapacityIdNotIn(List<Integer> values) {
+            addCriterion("eam_product_line.actual_capacity_id not in", values, "actualCapacityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualCapacityIdBetween(Integer value1, Integer value2) {
+            addCriterion("eam_product_line.actual_capacity_id between", value1, value2, "actualCapacityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualCapacityIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("eam_product_line.actual_capacity_id not between", value1, value2, "actualCapacityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaseCapacityIdIsNull() {
+            addCriterion("eam_product_line.base_capacity_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaseCapacityIdIsNotNull() {
+            addCriterion("eam_product_line.base_capacity_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaseCapacityIdEqualTo(Integer value) {
+            addCriterion("eam_product_line.base_capacity_id =", value, "baseCapacityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaseCapacityIdNotEqualTo(Integer value) {
+            addCriterion("eam_product_line.base_capacity_id <>", value, "baseCapacityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaseCapacityIdGreaterThan(Integer value) {
+            addCriterion("eam_product_line.base_capacity_id >", value, "baseCapacityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaseCapacityIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("eam_product_line.base_capacity_id >=", value, "baseCapacityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaseCapacityIdLessThan(Integer value) {
+            addCriterion("eam_product_line.base_capacity_id <", value, "baseCapacityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaseCapacityIdLessThanOrEqualTo(Integer value) {
+            addCriterion("eam_product_line.base_capacity_id <=", value, "baseCapacityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaseCapacityIdIn(List<Integer> values) {
+            addCriterion("eam_product_line.base_capacity_id in", values, "baseCapacityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaseCapacityIdNotIn(List<Integer> values) {
+            addCriterion("eam_product_line.base_capacity_id not in", values, "baseCapacityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaseCapacityIdBetween(Integer value1, Integer value2) {
+            addCriterion("eam_product_line.base_capacity_id between", value1, value2, "baseCapacityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBaseCapacityIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("eam_product_line.base_capacity_id not between", value1, value2, "baseCapacityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andQualifiedQuantityIdIsNull() {
+            addCriterion("eam_product_line.qualified_quantity_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andQualifiedQuantityIdIsNotNull() {
+            addCriterion("eam_product_line.qualified_quantity_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andQualifiedQuantityIdEqualTo(Integer value) {
+            addCriterion("eam_product_line.qualified_quantity_id =", value, "qualifiedQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andQualifiedQuantityIdNotEqualTo(Integer value) {
+            addCriterion("eam_product_line.qualified_quantity_id <>", value, "qualifiedQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andQualifiedQuantityIdGreaterThan(Integer value) {
+            addCriterion("eam_product_line.qualified_quantity_id >", value, "qualifiedQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andQualifiedQuantityIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("eam_product_line.qualified_quantity_id >=", value, "qualifiedQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andQualifiedQuantityIdLessThan(Integer value) {
+            addCriterion("eam_product_line.qualified_quantity_id <", value, "qualifiedQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andQualifiedQuantityIdLessThanOrEqualTo(Integer value) {
+            addCriterion("eam_product_line.qualified_quantity_id <=", value, "qualifiedQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andQualifiedQuantityIdIn(List<Integer> values) {
+            addCriterion("eam_product_line.qualified_quantity_id in", values, "qualifiedQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andQualifiedQuantityIdNotIn(List<Integer> values) {
+            addCriterion("eam_product_line.qualified_quantity_id not in", values, "qualifiedQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andQualifiedQuantityIdBetween(Integer value1, Integer value2) {
+            addCriterion("eam_product_line.qualified_quantity_id between", value1, value2, "qualifiedQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andQualifiedQuantityIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("eam_product_line.qualified_quantity_id not between", value1, value2, "qualifiedQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalQuantityIdIsNull() {
+            addCriterion("eam_product_line.total_quantity_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalQuantityIdIsNotNull() {
+            addCriterion("eam_product_line.total_quantity_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalQuantityIdEqualTo(Integer value) {
+            addCriterion("eam_product_line.total_quantity_id =", value, "totalQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalQuantityIdNotEqualTo(Integer value) {
+            addCriterion("eam_product_line.total_quantity_id <>", value, "totalQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalQuantityIdGreaterThan(Integer value) {
+            addCriterion("eam_product_line.total_quantity_id >", value, "totalQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalQuantityIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("eam_product_line.total_quantity_id >=", value, "totalQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalQuantityIdLessThan(Integer value) {
+            addCriterion("eam_product_line.total_quantity_id <", value, "totalQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalQuantityIdLessThanOrEqualTo(Integer value) {
+            addCriterion("eam_product_line.total_quantity_id <=", value, "totalQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalQuantityIdIn(List<Integer> values) {
+            addCriterion("eam_product_line.total_quantity_id in", values, "totalQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalQuantityIdNotIn(List<Integer> values) {
+            addCriterion("eam_product_line.total_quantity_id not in", values, "totalQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalQuantityIdBetween(Integer value1, Integer value2) {
+            addCriterion("eam_product_line.total_quantity_id between", value1, value2, "totalQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andTotalQuantityIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("eam_product_line.total_quantity_id not between", value1, value2, "totalQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatisticVariableIdIsNull() {
+            addCriterion("eam_product_line.statistic_variable_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatisticVariableIdIsNotNull() {
+            addCriterion("eam_product_line.statistic_variable_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatisticVariableIdEqualTo(Integer value) {
+            addCriterion("eam_product_line.statistic_variable_id =", value, "statisticVariableId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatisticVariableIdNotEqualTo(Integer value) {
+            addCriterion("eam_product_line.statistic_variable_id <>", value, "statisticVariableId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatisticVariableIdGreaterThan(Integer value) {
+            addCriterion("eam_product_line.statistic_variable_id >", value, "statisticVariableId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatisticVariableIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("eam_product_line.statistic_variable_id >=", value, "statisticVariableId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatisticVariableIdLessThan(Integer value) {
+            addCriterion("eam_product_line.statistic_variable_id <", value, "statisticVariableId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatisticVariableIdLessThanOrEqualTo(Integer value) {
+            addCriterion("eam_product_line.statistic_variable_id <=", value, "statisticVariableId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatisticVariableIdIn(List<Integer> values) {
+            addCriterion("eam_product_line.statistic_variable_id in", values, "statisticVariableId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatisticVariableIdNotIn(List<Integer> values) {
+            addCriterion("eam_product_line.statistic_variable_id not in", values, "statisticVariableId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatisticVariableIdBetween(Integer value1, Integer value2) {
+            addCriterion("eam_product_line.statistic_variable_id between", value1, value2, "statisticVariableId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStatisticVariableIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("eam_product_line.statistic_variable_id not between", value1, value2, "statisticVariableId");
+            return (Criteria) this;
+        }
+
         public Criteria addConditionSql(String conditionSql) {
             addCriterion(conditionSql);
             return (Criteria) this;

@@ -89,10 +89,18 @@ create table eam_product_line
    is_online            boolean,
    morning_shift_start_time  varchar(10),
    morning_shift_end_time    varchar(10),
+   morning_stop_time         decimal(10,2) DEFAULT 0 comment '早班停机时间',
    middle_shift_start_time   varchar(10),
    middle_shift_end_time     varchar(10),
+   middle_stop_time          decimal(10,2) DEFAULT 0 comment '中班停机时间',
    night_shift_start_time    varchar(10),
    night_shift_end_time      varchar(10),
+   night_stop_time           decimal(10,2) DEFAULT 0 comment '晚班停机时间',
+   actual_capacity_id        int comment '存放实际产能 数据点ID',
+   base_capacity_id          int comment '额定产能',
+   qualified_quantity_id     int comment '合格数量',
+   total_quantity_id         int comment '总数量',
+   statistic_variable_id     int comment '统计变量',
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,
@@ -162,8 +170,6 @@ create table eam_equipment
    primary key (equipment_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
- -- ALTER TABLE `eam_equipment`DROP COLUMN `output`;
-
 drop table if exists eam_equipment_property;
 create table eam_equipment_property
 (
@@ -179,6 +185,24 @@ create table eam_equipment_property
    company_id           int,
    primary key (equipment_property_id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+drop table if exists eam_equipment_product;
+create table eam_equipment_product
+(
+   id                   int not null auto_increment,
+   equipment_id         varchar(32) not null,
+   materiel_number      varchar(10) comment '物料ID',
+   materiel_name        varchar(20) comment '物料名称',
+   capacity             int         comment '额定产能',
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   company_id           int,
+   primary key (id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '设备生产品相';
+
 
 DROP TABLE IF EXISTS eam_equipment_data_group;
 create table eam_equipment_data_group
