@@ -26,6 +26,7 @@ import com.kuyun.upms.dao.model.UpmsUserCompany;
 import com.kuyun.upms.dao.vo.UpmsOrgUserVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
@@ -40,10 +41,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
-import static com.kuyun.eam.common.constant.EamConstant.TICKET_CREATE;
-import static com.kuyun.eam.common.constant.EamConstant.TICKET_REPAIR;
 import static com.kuyun.eam.common.constant.EamResultConstant.SUCCESS;
 
 /**
@@ -137,11 +137,14 @@ public class EamTicketController extends EamTicketBaseController {
 		EamTicketExample eamTicketExample = new EamTicketExample();
 		eamTicketExample.setOffset(offset);
 		eamTicketExample.setLimit(limit);
-		EamTicketExample.Criteria criteria = eamTicketExample.createCriteria();
-		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+		EamTicketExample.Criteria criteria1 = eamTicketExample.createCriteria();
+		EamTicketExample.Criteria criteria2 = eamTicketExample.createCriteria();
+		criteria1.andDeleteFlagEqualTo(Boolean.FALSE);
+		criteria2.andDeleteFlagEqualTo(Boolean.FALSE);
 
 		if (StringUtils.isNotEmpty(ticketTypeId)){
-			criteria.andTicketTypeIdEqualTo(NumberUtil.toInteger(ticketTypeId));
+			criteria1.andTicketTypeIdEqualTo(NumberUtil.toInteger(ticketTypeId));
+			criteria2.andTicketTypeIdEqualTo(NumberUtil.toInteger(ticketTypeId));
 		}
 
 
@@ -156,16 +159,26 @@ public class EamTicketController extends EamTicketBaseController {
 
 		switch (TicketSearchCategory.getCategroy(category)) {
 		case MY_OPEN:
-			if(subject.hasRole(TICKET_CREATE) || subject.hasRole(RoleEnum.CUSTOMER_TICKETCREATE.getName())) {
+			if(subject.hasRole(RoleEnum.TICKETCREATE.getName()) || subject.hasRole(RoleEnum.CUSTOMER_TICKETCREATE.getName())) {
 				//工单提报人 有权限
-				criteria.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId())
+				criteria1.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId())
 						.andStatusNotEqualTo(TicketStatus.CLOSED.getName())
 						.andStatusNotEqualTo(TicketStatus.RESOLVED.getName())
 						.andStatusNotEqualTo(TicketStatus.COMPLETE.getName());
 
-			}else if(subject.hasRole(TICKET_REPAIR)) {
+				criteria2.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId())
+						.andStatusNotEqualTo(TicketStatus.CLOSED.getName())
+						.andStatusNotEqualTo(TicketStatus.RESOLVED.getName())
+						.andStatusNotEqualTo(TicketStatus.COMPLETE.getName());
+
+			}else if(subject.hasRole(RoleEnum.TICKETREPAIR.getName()) || subject.hasRole(RoleEnum.CUSTOMER_TICKETREPAIR.getName())) {
 				//工单维修人 有权限
-				criteria.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId())
+				criteria1.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId())
+						.andStatusNotEqualTo(TicketStatus.CLOSED.getName())
+						.andStatusNotEqualTo(TicketStatus.RESOLVED.getName())
+						.andStatusNotEqualTo(TicketStatus.COMPLETE.getName());
+
+				criteria2.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId())
 						.andStatusNotEqualTo(TicketStatus.CLOSED.getName())
 						.andStatusNotEqualTo(TicketStatus.RESOLVED.getName())
 						.andStatusNotEqualTo(TicketStatus.COMPLETE.getName());
@@ -173,33 +186,39 @@ public class EamTicketController extends EamTicketBaseController {
 			}
 			break;
 		case MY_RESOLVED:
-			if(subject.hasRole(TICKET_CREATE) || subject.hasRole(RoleEnum.CUSTOMER_TICKETCREATE.getName())) {
+			if(subject.hasRole(RoleEnum.TICKETCREATE.getName()) || subject.hasRole(RoleEnum.CUSTOMER_TICKETCREATE.getName())) {
 				//工单提报人 有权限
-				criteria.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
+				criteria1.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
+				criteria2.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
 				List<String> list=new ArrayList();
 				list.add(TicketStatus.CLOSED.getName());
 				list.add(TicketStatus.RESOLVED.getName());
 				list.add(TicketStatus.COMPLETE.getName());
-				criteria.andStatusIn(list);
+				criteria1.andStatusIn(list);
+				criteria2.andStatusIn(list);
 
-			}else if(subject.hasRole(TICKET_REPAIR)) {
+			}else if(subject.hasRole(RoleEnum.TICKETREPAIR.getName()) || subject.hasRole(RoleEnum.CUSTOMER_TICKETREPAIR.getName())) {
 				//工单维修人 有权限
-				criteria.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
+				criteria1.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
+				criteria2.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
 				List<String> list=new ArrayList();
 				list.add(TicketStatus.CLOSED.getName());
 				list.add(TicketStatus.RESOLVED.getName());
 				list.add(TicketStatus.COMPLETE.getName());
-				criteria.andStatusIn(list);
+				criteria1.andStatusIn(list);
+				criteria2.andStatusIn(list);
 			}
 			break;
 		case MY_ALL:
-			if(subject.hasRole(TICKET_CREATE) || subject.hasRole(RoleEnum.CUSTOMER_TICKETCREATE.getName())) {
+			if(subject.hasRole(RoleEnum.TICKETCREATE.getName()) || subject.hasRole(RoleEnum.CUSTOMER_TICKETCREATE.getName())) {
 				//工单提报人 有权限
-				criteria.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
+				criteria1.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
+				criteria2.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
 
-			}else if(subject.hasRole(TICKET_REPAIR)) {
+			}else if(subject.hasRole(RoleEnum.TICKETREPAIR.getName()) || subject.hasRole(RoleEnum.CUSTOMER_TICKETREPAIR.getName())) {
 				//工单维修人 有权限
-				criteria.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
+				criteria1.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
+				criteria2.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
 			}
 			break;
 		case OPEN:
@@ -208,30 +227,35 @@ public class EamTicketController extends EamTicketBaseController {
 			list.add(TicketStatus.CLOSED.getName());
 			list.add(TicketStatus.RESOLVED.getName());
 			list.add(TicketStatus.COMPLETE.getName());
-			criteria.andStatusNotIn(list);
+			criteria1.andStatusNotIn(list);
+			criteria2.andStatusNotIn(list);
 			break;
 		case INIT:
-			criteria.andStatusEqualTo(TicketStatus.INIT.getName());
+			criteria1.andStatusEqualTo(TicketStatus.INIT.getName());
+			criteria2.andStatusEqualTo(TicketStatus.INIT.getName());
 			break;
 		case PROCESSING:
 			list=new ArrayList();
             list.add(TicketStatus.TO_PROCESS.getName());
             list.add(TicketStatus.PROCESSING.getName());
-             criteria.andStatusIn(list);
+			criteria1.andStatusIn(list);
+			criteria2.andStatusIn(list);
              break;
         case NOTRESOLVED:
 			list=new ArrayList();
 			list.add(TicketStatus.CLOSED.getName());
 			list.add(TicketStatus.RESOLVED.getName());
 			list.add(TicketStatus.COMPLETE.getName());
-			criteria.andStatusNotIn(list);
+			criteria1.andStatusNotIn(list);
+			criteria2.andStatusNotIn(list);
              break;
         case RESOLVED:
             list=new ArrayList();
             list.add(TicketStatus.CLOSED.getName());
             list.add(TicketStatus.RESOLVED.getName());
             list.add(TicketStatus.COMPLETE.getName());
-            criteria.andStatusIn(list);
+            criteria1.andStatusIn(list);
+            criteria2.andStatusIn(list);
              break;
          case ALL:
 		default:
@@ -245,12 +269,20 @@ public class EamTicketController extends EamTicketBaseController {
 			List<Integer> childCompanyIds =baseEntityUtil.getChildCompanys(company.getCompanyId());
 			if(childCompanyIds != null) {
 				companys.addAll(childCompanyIds);
-				criteria.andCompanyIdIn(companys);
+				criteria1.andCompanyIdIn(companys);
+				criteria1.andTicketTypeIdEqualTo(TicketType.REPAIR.getCode());
+
+				criteria2.andCompanyIdEqualTo(company.getCompanyId());
+
+				eamTicketExample.or(criteria2);
 			}else{
-				criteria.andCompanyIdEqualTo(company.getCompanyId());
+				criteria1.andCompanyIdEqualTo(company.getCompanyId());
+
 			}
 
 		}
+
+
 
 		List<EamTicketVO> rows = eamApiService.selectTicket(eamTicketExample);
 
@@ -369,7 +401,7 @@ public class EamTicketController extends EamTicketBaseController {
 	public Object complete(@PathVariable("id") int id) {
 		EamTicket ticket = eamTicketService.selectByPrimaryKey(id);
 		//维修工单
-		if (TicketType.REPAIR.match(ticket.getTicketId())){
+		if (TicketType.REPAIR.match(ticket.getTicketTypeId())){
 			ticket.setStatus(TicketStatus.RESOLVED.getName());
 		}else {
 			ticket.setStatus(TicketStatus.CLOSED.getName());

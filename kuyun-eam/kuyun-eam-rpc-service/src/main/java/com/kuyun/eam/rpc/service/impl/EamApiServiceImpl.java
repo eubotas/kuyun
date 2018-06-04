@@ -265,6 +265,36 @@ public class EamApiServiceImpl implements EamApiService {
         return tree;
     }
 
+    @Override
+    public ProductLineInfo getProductLineInfo(UpmsUserCompany company) {
+        ProductLineInfo result = new ProductLineInfo();
+
+        EamProductLineVO productLineVO = new EamProductLineVO();
+        productLineVO.setDeleteFlag(Boolean.FALSE);
+        productLineVO.setCompanyId(company.getCompanyId());
+
+        List<EamProductLineVO> rows = selectProductLines(productLineVO);
+        _log.info("Product Line Size:{}", rows != null ? rows.size() : 0);
+        if (rows != null && !rows.isEmpty()){
+            result.setTotalQuantity(rows.size());
+
+            long oneLineQuantity = rows.stream().filter(p -> p.getIsOnline() != null).filter(p -> p.getIsOnline()).count();
+            result.setOnLineQuantity(Math.toIntExact(oneLineQuantity));
+
+
+            List<String> productLineIds = rows.stream().map(p -> p.getProductLineId()).collect(Collectors.toList());
+            EamAlarmRecordVO recordVO = new EamAlarmRecordVO();
+            recordVO.setAlarmStatus(AlarmStatus.ANU.getCode());
+            recordVO.setProductLineIds(productLineIds);
+
+            Long alarmQuantity = countAlarmRecords(recordVO);
+
+            result.setAlarmQuantity(Math.toIntExact(alarmQuantity));
+        }
+
+        return result;
+    }
+
     private ProductLine buildProductLine(EamProductLine productLine){
         ProductLine result = new ProductLine();
         result.setId(productLine.getProductLineId());

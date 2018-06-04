@@ -10,6 +10,7 @@ import com.kuyun.eam.dao.model.EamProductLine;
 import com.kuyun.eam.dao.model.EamProductLineCompany;
 import com.kuyun.eam.dao.model.EamProductLineDataElement;
 import com.kuyun.eam.dao.model.EamProductLineDataElementExample;
+import com.kuyun.eam.pojo.ProductLineInfo;
 import com.kuyun.eam.pojo.tree.Tree;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.vo.EamDataElementVO;
@@ -268,5 +269,15 @@ public class EamProductLineController extends BaseController {
 	public Object copy(@PathVariable("id") String id, String name) {
 		int count = eamApiService.copyProductLine(id, name, baseEntityUtil.getCurrentUserCompany().getCompanyId());
 		return new EamResult(SUCCESS, count);
+	}
+
+	@ApiOperation(value = "产线信息-App使用")
+	@RequiresPermissions("eam:productLine:read")
+	@RequestMapping(value = "/info", method = RequestMethod.GET)
+	@ResponseBody
+	public Object getProductLineInfo() {
+
+		ProductLineInfo info = eamApiService.getProductLineInfo(baseEntityUtil.getCurrentUserCompany());
+		return new EamResult(SUCCESS, info);
 	}
 }

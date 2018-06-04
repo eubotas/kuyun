@@ -28,7 +28,7 @@ create table eam_data_element
    equipment_category_id int ,
    is_statistic_by_date  boolean comment '是否按年、月、日统计',
    is_statistic_by_shift boolean comment '是否按班次统计',
-   is_summation         boolean comment '是否累加统计'
+   is_summation         boolean comment '是否累加统计',
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,
@@ -359,8 +359,11 @@ create table eam_grm_variable_data_history
    update_user_id       int,
    update_time          datetime,
    delete_flag          boolean,
-   primary key (id)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+   primary key (id, update_time)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8
+PARTITION BY RANGE (TO_DAYS(update_time)) (         
+    PARTITION p20180601 VALUES LESS THAN ( TO_DAYS('2018-06-01') )
+);
 
 ALTER table eam_grm_variable_data_history ADD INDEX index_update_time(update_time);
 

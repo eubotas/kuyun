@@ -36,6 +36,7 @@ public interface EamApiService {
     Integer outTask(EamInventory inventory);
 
     Tree getCityTree(UpmsUserCompany company);
+    ProductLineInfo getProductLineInfo(UpmsUserCompany company);
 
     int handleEquimpmentCollect(String jsonString, CollectStatus collectStatus);
 
