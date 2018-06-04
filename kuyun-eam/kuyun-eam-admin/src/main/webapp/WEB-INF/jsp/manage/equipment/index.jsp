@@ -18,7 +18,7 @@
       <script src="${basePath}/resources/metronic-admin/assets/js/bootstrap4-editable/js/bootstrap-editable.min.js"></script>
       <script src="${basePath}/resources/metronic-admin/assets/js/bootstrap-table.1.11.1/extensions/editable/bootstrap-table-editable.min.js"></script>
 
-
+    <jsp:include page="/resources/metronic-admin/equipment_qrcode.jsp" flush="true"/>
     <jsp:include page="/resources/metronic-admin/file_upload.jsp" flush="true"/>
     <script>
         $.fn.editable.defaults.mode = 'inline';
@@ -76,6 +76,10 @@
 
             $('#deleteButton').click(function(){
                 deleteAction();
+            });
+            $('#qrcodeBtn').click(function(){
+                var rows = $table.bootstrapTable('getSelections');
+                qrcodeActionImpl(rows);
             });
 
             provinceChange('add');
@@ -554,6 +558,9 @@
                         <%--<i class="la la-send"></i>--%>
                     <%--</a></shiro:hasPermission>--%>
 
+                    <a href="#" id="qrcodeBtn" class="btn btn-outline-primary m-btn m-btn--icon m-btn--icon-only" title="二维码">
+                        <i class="la flaticon-squares-3"></i>
+                    </a>
                     <div class="m-separator m-separator--dashed d-xl-none"></div>
                 </div>
             </div>
