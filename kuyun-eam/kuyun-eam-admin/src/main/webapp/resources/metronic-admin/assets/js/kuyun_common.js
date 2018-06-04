@@ -638,3 +638,9 @@ function removeDuplicatedItem(ar) {
     }
     return ret;
 }
+
+function getRequestUrl(path, base){
+    if(base && path)
+        return base+path;
+    return path;
+}

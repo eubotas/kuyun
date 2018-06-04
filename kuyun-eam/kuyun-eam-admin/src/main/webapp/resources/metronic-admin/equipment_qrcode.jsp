@@ -40,7 +40,6 @@
             }
 
             jQuery("#qrcodeContainer").modal("show");
-            //$('#qrcodeContainer').modal('toggle');
         }//end else
     }
 
