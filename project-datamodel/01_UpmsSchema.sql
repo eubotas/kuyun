@@ -145,7 +145,7 @@ CREATE TABLE upms_user (
   password varchar(32) NOT NULL COMMENT '密码MD5(密码+盐)',
   salt varchar(32) DEFAULT NULL COMMENT '盐',
   realname varchar(20) DEFAULT NULL COMMENT '姓名',
-  avatar varchar(50) DEFAULT NULL COMMENT '头像',
+  avatar varchar(150) DEFAULT NULL COMMENT '头像',
   phone varchar(20) DEFAULT NULL COMMENT '电话',
   email varchar(50) DEFAULT NULL COMMENT '邮箱',
   sex tinyint(4) DEFAULT NULL COMMENT '性别',
