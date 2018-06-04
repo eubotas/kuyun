@@ -96,7 +96,7 @@ public class EamAlertMessageController extends BaseController {
         EamAlertMessageVO eamAlertMessageVO = new EamAlertMessageVO();
         eamAlertMessageVO.setOffset(offset);
         eamAlertMessageVO.setLimit(limit);
-
+        eamAlertMessageVO.setUserId(getCurrUserId());
         List<String> productLineIds = eamUtil.getProductLineIds();
         if (!productLineIds.isEmpty()){
             eamAlertMessageVO.setProductLineIds(productLineIds);

@@ -469,6 +469,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
 
         //2. insert upms_role
         Integer roleId_2 = createRole(upmsCompany.getCompanyId(), RoleEnum.CUSTOMER_TICKETCREATE);
+        Integer roleId_3 = createRole(upmsCompany.getCompanyId(), RoleEnum.CUSTOMER_TICKETREPAIR);
 
         //4. insert upms_user_organization
         createUserOrganization(upmsUser.getUserId(), organizationId_1);
@@ -635,6 +636,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
 
     @Override
     public int createUser(UpmsUser upmsUser, UpmsUserCompany upmsUserCompany) {
+        upmsUser.setDeleteFlag(Boolean.FALSE);
         int count = upmsUserService.insertSelective(upmsUser);
         createUserCompany(upmsUser, upmsUserCompany.getCompanyId());
 
