@@ -92,47 +92,5 @@
         });
     </script>
 
-    <script>
-        //toMap
-        function callbackShowMap(treeNode){
-            selectedequipid=treeNode.id;
-            selectedMark(treeNode);
-        }
-
-        function change2Map(){
-            setMarkOnMap();
-            var eqloc=getEqloc(selectedequipid);
-            if(eqloc)
-                selectedMark(eqloc);
-            changeMode();
-        }
-
-        function change2List(id){
-            showEquipmentInfo(id);
-            changeMode();
-            selectNode();
-        }
-
-        function getEqloc(eid){
-            var equipmentloc;
-            $.each(equipmentLocations, function (n, eqloc) {
-               if(eqloc.id==eid) {
-                   equipmentloc = eqloc;
-               }
-            });
-            return equipmentloc;
-        }
-
-        function selectNode(){
-            if(selectedequipid) {
-                var treeObj = $.fn.zTree.getZTreeObj("treeCity");
-                var devNodes = treeObj.getNodesByParam("id", selectedequipid, null);
-                treeObj.selectNode(devNodes[0]);
-                treeObj.expandAll(true);
-            }
-        }
-
-
-    </script>
 
 
