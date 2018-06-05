@@ -292,7 +292,9 @@ public class SSOController extends BaseController {
 
     private UpmsUser getUpmsUser(String userName) {
         UpmsUserExample userExample = new UpmsUserExample();
-        userExample.createCriteria().andUsernameEqualTo(userName);
+        UpmsUserExample.Criteria criteria =  userExample.createCriteria();
+        criteria.andUsernameEqualTo(userName);
+        criteria.andDeleteFlagEqualTo(false);
 
         return upmsUserService.selectFirstByExample(userExample);
     }
@@ -321,7 +323,7 @@ public class SSOController extends BaseController {
 
         upmsApiService.handleReg(userName, name, password, email, phone, company, true);
 
-        return new UpmsResult(UpmsResultConstant.SUCCESS, null);
+        return new UpmsResult(UpmsResultConstant.SUCCESS, "注册成功");
     }
 
     private String checkVerifyCode(String phone, String code) {
