@@ -453,4 +453,59 @@ public class SSOController extends BaseController {
 
         request.getSession(true).setAttribute("COMPANY", comp);
     }
+
+    @RequestMapping(value = "/manage1", method = RequestMethod.POST)
+    @ResponseBody
+    public Object manage1(HttpServletRequest request, ModelMap modelMap) {
+        if (!HuaWeiSaasUtil.verificateRequestParams(request, HuaWeiSaasUtil.key, 256)
+                && !HuaWeiSaasUtil.verificateDecodedRequestParams(request, HuaWeiSaasUtil.key, 256)) {
+            return new UpmsResult(UpmsResultConstant.WRONG_TOKEN, "authToken error");
+        }
+        String userName = request.getParameter("account");
+        boolean isLocked = true;
+        try {
+            isLocked = request.getParameter("isLocked").equals("1");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        UpmsUser user = getUpmsUser1(userName);
+        if (user == null) {
+            return new UpmsResult(UpmsResultConstant.FAILED, "用户名不存在");
+        }
+        user.setLocked(isLocked ? (byte) 1 : (byte) 0);
+        upmsUserService.updateByPrimaryKey(user);
+        return new UpmsResult(UpmsResultConstant.SUCCESS, null);
+    }
+
+    @RequestMapping(value = "/reg1", method = RequestMethod.POST)
+    @ResponseBody
+    public Object reg1(HttpServletRequest request, ModelMap modelMap) {
+        if (!HuaWeiSaasUtil.verificateRequestParams(request, HuaWeiSaasUtil.key, 256)
+                && !HuaWeiSaasUtil.verificateDecodedRequestParams(request, HuaWeiSaasUtil.key, 256)) {
+            return new UpmsResult(UpmsResultConstant.WRONG_TOKEN, "authToken error");
+        }
+        String userName = request.getParameter("account");
+        String password = request.getParameter("password");
+        String name = request.getParameter("name");
+        String company = request.getParameter("company");
+        String email = request.getParameter("email");
+        String phone = request.getParameter("phone");
+
+        UpmsUser user = getUpmsUser1(userName);
+        if (user != null) {
+            return new UpmsResult(UpmsResultConstant.FAILED, "用户名已存在");
+        }
+        upmsApiService.handleReg(userName, name, password, email, phone, company,true);
+
+        return new UpmsResult(UpmsResultConstant.SUCCESS, null);
+    }
+    private UpmsUser getUpmsUser1(String userName) {
+        UpmsUserExample userExample = new UpmsUserExample();
+        UpmsUserExample.Criteria criteria = userExample.createCriteria();
+        criteria.andUsernameEqualTo(userName);
+//        criteria.andDeleteFlagEqualTo(false);
+
+        return upmsUserService.selectFirstByExample(userExample);
+    }
 }
