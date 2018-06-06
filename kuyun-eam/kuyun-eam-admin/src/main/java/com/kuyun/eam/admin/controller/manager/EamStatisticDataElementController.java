@@ -7,6 +7,7 @@ import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.util.EamDateUtil;
 import com.kuyun.eam.vo.EamCodeValueVo;
 import com.kuyun.eam.vo.EamCountryValueVo;
+import com.kuyun.eam.vo.EamShiftDataElementValueVO;
 import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsCompanyExample;
 import com.kuyun.upms.rpc.api.UpmsCompanyService;
@@ -54,7 +55,7 @@ public class EamStatisticDataElementController extends BaseController {
 	@RequiresPermissions("eam:productLine:read")
 	@ResponseBody
 	@RequestMapping(value = "/shift", method = RequestMethod.POST)
-	public Object shift(EamShiftDataElementValue variable) {
+	public Object shift(EamShiftDataElementValueVO variable) {
 		EamShiftDataElementValueExample example = new EamShiftDataElementValueExample();
 		EamShiftDataElementValueExample.Criteria criteria = example.createCriteria();
 
@@ -76,9 +77,11 @@ public class EamStatisticDataElementController extends BaseController {
 		}
 
 		try {
-            Date now = new Date();
-            Pair<Date, Date> startEnd = EamDateUtil.getShiftStartEndTime(EamDateUtil.getDateStr(now, "yyyy-MM-dd"));
-            criteria.andUpdateTimeBetween(startEnd.getKey(), startEnd.getValue());
+            Date date = variable.getData();
+            if (date != null){
+				Pair<Date, Date> startEnd = EamDateUtil.getShiftStartEndTime(EamDateUtil.getDateStr(date, "yyyy-MM-dd"));
+				criteria.andUpdateTimeBetween(startEnd.getKey(), startEnd.getValue());
+			}
         }catch(Exception ex){ex.printStackTrace();}
 		example.setOrderByClause("date asc");
 
@@ -107,11 +110,6 @@ public class EamStatisticDataElementController extends BaseController {
 		if (variable.getDataElementId() != null){
 			criteria.andDataElementIdEqualTo(variable.getDataElementId());
 		}
-        try {
-            Date now = new Date();
-            Pair<Date, Date> startEnd = EamDateUtil.getShiftStartEndTime(EamDateUtil.getDateStr(now, "yyyy-MM-dd"));
-            criteria.andUpdateTimeBetween(startEnd.getKey(), startEnd.getValue());
-        }catch(Exception ex){ex.printStackTrace();}
 		example.setOrderByClause("date asc");
 
 		List<EamGrmVariableDataByDay> data = eamGrmVariableDataByDayService.selectByExample(example);

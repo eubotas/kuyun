@@ -1816,13 +1816,13 @@ public class EamApiServiceImpl implements EamApiService {
             int dataElementIdSize = eamGrmVariableDataHistoryVO.getDataElementIds().size();
 
             int groupSize = historyData.size() / dataElementIdSize;
-            int groupIndex = 0;
 
+            int groupIndex = 0;
             while (groupIndex < groupSize){
 
                 int index = 0;
                 while (index < dataElementIdSize){
-                    EamGrmVariableDataHistoryExtVO vo = historyData.get(groupIndex * dataElementIdSize + index);
+                    EamGrmVariableDataHistoryExtVO vo = historyData.get(groupSize * index + groupIndex);
                     String value = vo.getValue();
                     Integer dataElementId = vo.getDataElementId();
                     Date date = vo.getUpdateTime();
