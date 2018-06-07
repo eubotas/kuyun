@@ -245,15 +245,24 @@ public class KnowledgeController extends BaseController {
         List<String> tabs = buildTabs(k, t, c, request);
         List rows = pageObj != null ? pageObj.getContent() : null;
         long total = pageObj != null ? pageObj.getTotalElements() : 0;
+        long numberOfElements = pageObj != null ? pageObj.getNumberOfElements() : 0;
+        boolean hasNext = pageObj.hasNext();
+        boolean hasPrevious = pageObj.hasPrevious();
 
         modelMap.put("rows", rows);
         modelMap.put("total", total);
+        modelMap.put("numberOfElements", numberOfElements);
+        modelMap.put("hasNext", hasNext);
+        modelMap.put("hasPrevious", hasPrevious);
         modelMap.put("k", k);
         modelMap.put("c", c);
         modelMap.put("tabs", tabs);
 
         map.put("rows", rows);
         map.put("total", total);
+        map.put("numberOfElements", numberOfElements);
+        map.put("hasNext", hasNext);
+        map.put("hasPrevious", hasPrevious);
         map.put("k", k);
         map.put("c", c);
         map.put("tabs", tabs);

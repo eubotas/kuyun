@@ -1997,6 +1997,7 @@ public class EamApiServiceImpl implements EamApiService {
                 eamOrder.setCompanyName(orderBean.getCompanyName());
                 eamOrder.setYear(orderBean.getYear());
                 eamOrder.setTaskNumber(orderBean.getTaskNumber());
+                eamOrder.setShortName(orderBean.getShortName());
 
                 eamOrder.setState(getCodeValueFromRedis(CodeValueType.STATE, orderBean.getState()));
 

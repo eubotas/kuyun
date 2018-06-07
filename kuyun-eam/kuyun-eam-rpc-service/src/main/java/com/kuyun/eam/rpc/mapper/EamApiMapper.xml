@@ -1321,11 +1321,11 @@
 
 	<select id="summaryIndustryAndCompanyName" resultMap="IndustryValueVOResultMap">
 		select industry,
-		case when short_name is null then company_name else short_name END companyName,
+		IFNULL(short_name, company_name) companyName,
 		count(id) as count from eam_order
 		where delete_flag = 0
 		group by industry, companyName
-		order by count, industry, companyName asc
+		order by count desc, industry, companyName asc
 	</select>
 
 	<resultMap id="eamGrmVariableDataVO" type="com.kuyun.eam.vo.EamGrmVariableDataVO" extends="com.kuyun.eam.dao.mapper.EamGrmVariableMapper.BaseResultMap">
