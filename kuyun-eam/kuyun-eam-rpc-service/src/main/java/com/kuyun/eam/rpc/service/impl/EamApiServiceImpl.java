@@ -2651,7 +2651,7 @@ public class EamApiServiceImpl implements EamApiService {
                 .andShiftEqualTo(shiftNum)
                 .andCreateTimeBetween(startEnd.getKey(),startEnd.getValue())
                 .andDeleteFlagEqualTo(Boolean.FALSE);
-        if(null != null){
+        if(offOpen != null){
             criteria.andSwitchValueEqualTo(offOpen);
         }
 
