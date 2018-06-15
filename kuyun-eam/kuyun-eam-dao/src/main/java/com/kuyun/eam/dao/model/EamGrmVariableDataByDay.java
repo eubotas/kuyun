@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class EamGrmVariableDataByDay extends BaseEntity implements Serializable {
-    private Integer id;
+    private Long id;
 
     private Integer eamGrmVariableId;
 
@@ -17,22 +17,22 @@ public class EamGrmVariableDataByDay extends BaseEntity implements Serializable 
 
     private String value;
 
+    private Date date;
+
     /**
      * 开关量 --有值,模拟量--空
      *
      * @mbg.generated
      */
-    private String switchValue;
-
-    private Date date;
+    private Boolean switchValue;
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -76,20 +76,20 @@ public class EamGrmVariableDataByDay extends BaseEntity implements Serializable 
         this.value = value;
     }
 
-    public String getSwitchValue() {
-        return switchValue;
-    }
-
-    public void setSwitchValue(String switchValue) {
-        this.switchValue = switchValue;
-    }
-
     public Date getDate() {
         return date;
     }
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Boolean getSwitchValue() {
+        return switchValue;
+    }
+
+    public void setSwitchValue(Boolean switchValue) {
+        this.switchValue = switchValue;
     }
 
     @Override
@@ -104,8 +104,8 @@ public class EamGrmVariableDataByDay extends BaseEntity implements Serializable 
         sb.append(", productLineId=").append(productLineId);
         sb.append(", dataElementId=").append(dataElementId);
         sb.append(", value=").append(value);
-        sb.append(", switchValue=").append(switchValue);
         sb.append(", date=").append(date);
+        sb.append(", switchValue=").append(switchValue);
         sb.append("]");
         return sb.toString();
     }
@@ -128,8 +128,8 @@ public class EamGrmVariableDataByDay extends BaseEntity implements Serializable 
             && (this.getProductLineId() == null ? other.getProductLineId() == null : this.getProductLineId().equals(other.getProductLineId()))
             && (this.getDataElementId() == null ? other.getDataElementId() == null : this.getDataElementId().equals(other.getDataElementId()))
             && (this.getValue() == null ? other.getValue() == null : this.getValue().equals(other.getValue()))
-            && (this.getSwitchValue() == null ? other.getSwitchValue() == null : this.getSwitchValue().equals(other.getSwitchValue()))
             && (this.getDate() == null ? other.getDate() == null : this.getDate().equals(other.getDate()))
+            && (this.getSwitchValue() == null ? other.getSwitchValue() == null : this.getSwitchValue().equals(other.getSwitchValue()))
             && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
@@ -147,8 +147,8 @@ public class EamGrmVariableDataByDay extends BaseEntity implements Serializable 
         result = prime * result + ((getProductLineId() == null) ? 0 : getProductLineId().hashCode());
         result = prime * result + ((getDataElementId() == null) ? 0 : getDataElementId().hashCode());
         result = prime * result + ((getValue() == null) ? 0 : getValue().hashCode());
-        result = prime * result + ((getSwitchValue() == null) ? 0 : getSwitchValue().hashCode());
         result = prime * result + ((getDate() == null) ? 0 : getDate().hashCode());
+        result = prime * result + ((getSwitchValue() == null) ? 0 : getSwitchValue().hashCode());
         result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());

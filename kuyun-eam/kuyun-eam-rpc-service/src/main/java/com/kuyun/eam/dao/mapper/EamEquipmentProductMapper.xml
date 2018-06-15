@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kuyun.eam.dao.mapper.EamShiftDataElementValueMapper">
-  <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamShiftDataElementValue">
-    <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="eam_grm_variable_id" jdbcType="INTEGER" property="eamGrmVariableId" />
+<mapper namespace="com.kuyun.eam.dao.mapper.EamEquipmentProductMapper">
+  <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamEquipmentProduct">
+    <id column="id" jdbcType="INTEGER" property="id" />
     <result column="equipment_id" jdbcType="VARCHAR" property="equipmentId" />
-    <result column="product_line_id" jdbcType="VARCHAR" property="productLineId" />
-    <result column="data_element_id" jdbcType="INTEGER" property="dataElementId" />
-    <result column="shift" jdbcType="VARCHAR" property="shift" />
-    <result column="value" jdbcType="VARCHAR" property="value" />
-    <result column="switch_value" jdbcType="BIT" property="switchValue" />
+    <result column="materiel_number" jdbcType="VARCHAR" property="materielNumber" />
+    <result column="materiel_name" jdbcType="VARCHAR" property="materielName" />
+    <result column="capacity" jdbcType="INTEGER" property="capacity" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -75,16 +73,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, eam_grm_variable_id, equipment_id, product_line_id, data_element_id, shift, value, 
-    switch_value, create_user_id, create_time, update_user_id, update_time, delete_flag
+    id, equipment_id, materiel_number, materiel_name, capacity, create_user_id, create_time, 
+    update_user_id, update_time, delete_flag, company_id
   </sql>
-  <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamShiftDataElementValueExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentProductExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from eam_shift_data_element_value
+    from eam_equipment_product
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -100,60 +98,49 @@
       </if>
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from eam_shift_data_element_value
-    where id = #{id,jdbcType=BIGINT}
+    from eam_equipment_product
+    where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
-    update eam_shift_data_element_value set delete_flag = 1 
-    where id = #{id,jdbcType=BIGINT}
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    update eam_equipment_product set delete_flag = 1 
+    where id = #{id,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamShiftDataElementValueExample">
-    update eam_shift_data_element_value set delete_flag = 1 
+  <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentProductExample">
+    update eam_equipment_product set delete_flag = 1 
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamShiftDataElementValue">
-    insert into eam_shift_data_element_value (id, eam_grm_variable_id, equipment_id, 
-      product_line_id, data_element_id, shift, 
-      value, switch_value, create_user_id, 
+  <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamEquipmentProduct">
+    insert into eam_equipment_product (id, equipment_id, materiel_number, 
+      materiel_name, capacity, create_user_id, 
       create_time, update_user_id, update_time, 
-      delete_flag)
-    values (#{id,jdbcType=BIGINT}, #{eamGrmVariableId,jdbcType=INTEGER}, #{equipmentId,jdbcType=VARCHAR}, 
-      #{productLineId,jdbcType=VARCHAR}, #{dataElementId,jdbcType=INTEGER}, #{shift,jdbcType=VARCHAR}, 
-      #{value,jdbcType=VARCHAR}, #{switchValue,jdbcType=BIT}, #{createUserId,jdbcType=INTEGER}, 
+      delete_flag, company_id)
+    values (#{id,jdbcType=INTEGER}, #{equipmentId,jdbcType=VARCHAR}, #{materielNumber,jdbcType=VARCHAR}, 
+      #{materielName,jdbcType=VARCHAR}, #{capacity,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlag,jdbcType=BIT})
+      #{deleteFlag,jdbcType=BIT}, #{companyId,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamShiftDataElementValue">
-    insert into eam_shift_data_element_value
+  <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamEquipmentProduct">
+    insert into eam_equipment_product
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="eamGrmVariableId != null">
-        eam_grm_variable_id,
-      </if>
       <if test="equipmentId != null">
         equipment_id,
       </if>
-      <if test="productLineId != null">
-        product_line_id,
+      <if test="materielNumber != null">
+        materiel_number,
       </if>
-      <if test="dataElementId != null">
-        data_element_id,
+      <if test="materielName != null">
+        materiel_name,
       </if>
-      <if test="shift != null">
-        shift,
-      </if>
-      <if test="value != null">
-        value,
-      </if>
-      <if test="switchValue != null">
-        switch_value,
+      <if test="capacity != null">
+        capacity,
       </if>
       <if test="createUserId != null">
         create_user_id,
@@ -170,31 +157,25 @@
       <if test="deleteFlag != null">
         delete_flag,
       </if>
+      <if test="companyId != null">
+        company_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=BIGINT},
-      </if>
-      <if test="eamGrmVariableId != null">
-        #{eamGrmVariableId,jdbcType=INTEGER},
+        #{id,jdbcType=INTEGER},
       </if>
       <if test="equipmentId != null">
         #{equipmentId,jdbcType=VARCHAR},
       </if>
-      <if test="productLineId != null">
-        #{productLineId,jdbcType=VARCHAR},
+      <if test="materielNumber != null">
+        #{materielNumber,jdbcType=VARCHAR},
       </if>
-      <if test="dataElementId != null">
-        #{dataElementId,jdbcType=INTEGER},
+      <if test="materielName != null">
+        #{materielName,jdbcType=VARCHAR},
       </if>
-      <if test="shift != null">
-        #{shift,jdbcType=VARCHAR},
-      </if>
-      <if test="value != null">
-        #{value,jdbcType=VARCHAR},
-      </if>
-      <if test="switchValue != null">
-        #{switchValue,jdbcType=BIT},
+      <if test="capacity != null">
+        #{capacity,jdbcType=INTEGER},
       </if>
       <if test="createUserId != null">
         #{createUserId,jdbcType=INTEGER},
@@ -211,40 +192,34 @@
       <if test="deleteFlag != null">
         #{deleteFlag,jdbcType=BIT},
       </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamShiftDataElementValueExample" resultType="java.lang.Long">
-    select count(*) from eam_shift_data_element_value
+  <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentProductExample" resultType="java.lang.Long">
+    select count(*) from eam_equipment_product
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update eam_shift_data_element_value
+    update eam_equipment_product
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=BIGINT},
-      </if>
-      <if test="record.eamGrmVariableId != null">
-        eam_grm_variable_id = #{record.eamGrmVariableId,jdbcType=INTEGER},
+        id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.equipmentId != null">
         equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
       </if>
-      <if test="record.productLineId != null">
-        product_line_id = #{record.productLineId,jdbcType=VARCHAR},
+      <if test="record.materielNumber != null">
+        materiel_number = #{record.materielNumber,jdbcType=VARCHAR},
       </if>
-      <if test="record.dataElementId != null">
-        data_element_id = #{record.dataElementId,jdbcType=INTEGER},
+      <if test="record.materielName != null">
+        materiel_name = #{record.materielName,jdbcType=VARCHAR},
       </if>
-      <if test="record.shift != null">
-        shift = #{record.shift,jdbcType=VARCHAR},
-      </if>
-      <if test="record.value != null">
-        value = #{record.value,jdbcType=VARCHAR},
-      </if>
-      <if test="record.switchValue != null">
-        switch_value = #{record.switchValue,jdbcType=BIT},
+      <if test="record.capacity != null">
+        capacity = #{record.capacity,jdbcType=INTEGER},
       </if>
       <if test="record.createUserId != null">
         create_user_id = #{record.createUserId,jdbcType=INTEGER},
@@ -261,53 +236,45 @@
       <if test="record.deleteFlag != null">
         delete_flag = #{record.deleteFlag,jdbcType=BIT},
       </if>
+      <if test="record.companyId != null">
+        company_id = #{record.companyId,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update eam_shift_data_element_value
-    set id = #{record.id,jdbcType=BIGINT},
-      eam_grm_variable_id = #{record.eamGrmVariableId,jdbcType=INTEGER},
+    update eam_equipment_product
+    set id = #{record.id,jdbcType=INTEGER},
       equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
-      product_line_id = #{record.productLineId,jdbcType=VARCHAR},
-      data_element_id = #{record.dataElementId,jdbcType=INTEGER},
-      shift = #{record.shift,jdbcType=VARCHAR},
-      value = #{record.value,jdbcType=VARCHAR},
-      switch_value = #{record.switchValue,jdbcType=BIT},
+      materiel_number = #{record.materielNumber,jdbcType=VARCHAR},
+      materiel_name = #{record.materielName,jdbcType=VARCHAR},
+      capacity = #{record.capacity,jdbcType=INTEGER},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      delete_flag = #{record.deleteFlag,jdbcType=BIT}
+      delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      company_id = #{record.companyId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.kuyun.eam.dao.model.EamShiftDataElementValue">
-    update eam_shift_data_element_value
+  <update id="updateByPrimaryKeySelective" parameterType="com.kuyun.eam.dao.model.EamEquipmentProduct">
+    update eam_equipment_product
     <set>
-      <if test="eamGrmVariableId != null">
-        eam_grm_variable_id = #{eamGrmVariableId,jdbcType=INTEGER},
-      </if>
       <if test="equipmentId != null">
         equipment_id = #{equipmentId,jdbcType=VARCHAR},
       </if>
-      <if test="productLineId != null">
-        product_line_id = #{productLineId,jdbcType=VARCHAR},
+      <if test="materielNumber != null">
+        materiel_number = #{materielNumber,jdbcType=VARCHAR},
       </if>
-      <if test="dataElementId != null">
-        data_element_id = #{dataElementId,jdbcType=INTEGER},
+      <if test="materielName != null">
+        materiel_name = #{materielName,jdbcType=VARCHAR},
       </if>
-      <if test="shift != null">
-        shift = #{shift,jdbcType=VARCHAR},
-      </if>
-      <if test="value != null">
-        value = #{value,jdbcType=VARCHAR},
-      </if>
-      <if test="switchValue != null">
-        switch_value = #{switchValue,jdbcType=BIT},
+      <if test="capacity != null">
+        capacity = #{capacity,jdbcType=INTEGER},
       </if>
       <if test="createUserId != null">
         create_user_id = #{createUserId,jdbcType=INTEGER},
@@ -324,39 +291,38 @@
       <if test="deleteFlag != null">
         delete_flag = #{deleteFlag,jdbcType=BIT},
       </if>
+      <if test="companyId != null">
+        company_id = #{companyId,jdbcType=INTEGER},
+      </if>
     </set>
-    where id = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamShiftDataElementValue">
-    update eam_shift_data_element_value
-    set eam_grm_variable_id = #{eamGrmVariableId,jdbcType=INTEGER},
-      equipment_id = #{equipmentId,jdbcType=VARCHAR},
-      product_line_id = #{productLineId,jdbcType=VARCHAR},
-      data_element_id = #{dataElementId,jdbcType=INTEGER},
-      shift = #{shift,jdbcType=VARCHAR},
-      value = #{value,jdbcType=VARCHAR},
-      switch_value = #{switchValue,jdbcType=BIT},
+  <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamEquipmentProduct">
+    update eam_equipment_product
+    set equipment_id = #{equipmentId,jdbcType=VARCHAR},
+      materiel_number = #{materielNumber,jdbcType=VARCHAR},
+      materiel_name = #{materielName,jdbcType=VARCHAR},
+      capacity = #{capacity,jdbcType=INTEGER},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      delete_flag = #{deleteFlag,jdbcType=BIT}
-    where id = #{id,jdbcType=BIGINT}
+      delete_flag = #{deleteFlag,jdbcType=BIT},
+      company_id = #{companyId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into eam_shift_data_element_value  (id, eam_grm_variable_id, equipment_id, 
-        product_line_id, data_element_id, shift, 
-        value, switch_value, create_user_id, 
+            insert into eam_equipment_product  (id, equipment_id, materiel_number, 
+        materiel_name, capacity, create_user_id, 
         create_time, update_user_id, update_time, 
-        delete_flag)
+        delete_flag, company_id)
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.id,jdbcType=BIGINT}, #{item.eamGrmVariableId,jdbcType=INTEGER}, #{item.equipmentId,jdbcType=VARCHAR}, 
-        #{item.productLineId,jdbcType=VARCHAR}, #{item.dataElementId,jdbcType=INTEGER}, #{item.shift,jdbcType=VARCHAR}, 
-        #{item.value,jdbcType=VARCHAR}, #{item.switchValue,jdbcType=BIT}, #{item.createUserId,jdbcType=INTEGER}, 
+      (#{item.id,jdbcType=INTEGER}, #{item.equipmentId,jdbcType=VARCHAR}, #{item.materielNumber,jdbcType=VARCHAR}, 
+        #{item.materielName,jdbcType=VARCHAR}, #{item.capacity,jdbcType=INTEGER}, #{item.createUserId,jdbcType=INTEGER}, 
         #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
-        #{item.deleteFlag,jdbcType=BIT})
+        #{item.deleteFlag,jdbcType=BIT}, #{item.companyId,jdbcType=INTEGER})
       </foreach>
     </if>
   </insert>

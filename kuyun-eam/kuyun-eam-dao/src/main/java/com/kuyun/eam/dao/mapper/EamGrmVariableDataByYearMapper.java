@@ -10,7 +10,7 @@ public interface EamGrmVariableDataByYearMapper {
 
     int deleteByExample(EamGrmVariableDataByYearExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(EamGrmVariableDataByYear record);
 
@@ -18,7 +18,7 @@ public interface EamGrmVariableDataByYearMapper {
 
     List<EamGrmVariableDataByYear> selectByExample(EamGrmVariableDataByYearExample example);
 
-    EamGrmVariableDataByYear selectByPrimaryKey(Integer id);
+    EamGrmVariableDataByYear selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") EamGrmVariableDataByYear record, @Param("example") EamGrmVariableDataByYearExample example);
 

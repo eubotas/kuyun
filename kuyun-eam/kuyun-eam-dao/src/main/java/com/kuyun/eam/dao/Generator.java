@@ -45,6 +45,7 @@ public class Generator {
     		ALIAS_NEEDED_TABLES.put("eam_equipment", "eam_equipment");
     		ALIAS_NEEDED_TABLES.put("eam_equipment_data_group", "eam_equipment_data_group");
     		ALIAS_NEEDED_TABLES.put("eam_grm_variable", "eam_grm_variable");
+    		ALIAS_NEEDED_TABLES.put("eam_grm_variable_group", "eam_grm_variable_group");
     		ALIAS_NEEDED_TABLES.put("eam_grm_variable_data", "eam_grm_variable_data");
     		ALIAS_NEEDED_TABLES.put("eam_grm_variable_data_history", "eam_grm_variable_data_history");
     		ALIAS_NEEDED_TABLES.put("eam_ticket", "eam_ticket");

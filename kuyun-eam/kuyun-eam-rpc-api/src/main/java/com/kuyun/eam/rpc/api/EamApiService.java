@@ -36,6 +36,7 @@ public interface EamApiService {
     Integer outTask(EamInventory inventory);
 
     Tree getCityTree(UpmsUserCompany company);
+    ProductLineInfo getProductLineInfo(UpmsUserCompany company);
 
     int handleEquimpmentCollect(String jsonString, CollectStatus collectStatus);
 
@@ -176,4 +177,6 @@ public interface EamApiService {
     long countGrmVariables(EamGrmVariableVO variableVO);
 
     void importDataElement(List<DataElementBean> list, UpmsUserCompany company);
+
+    List<EamGrmVariableGroupVO> selectEamGrmVariableGroup(EamGrmVariableGroupVO eamGrmVariableGroupVO);
 }

@@ -4,7 +4,7 @@ import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
 
 public class EamGrmVariableDataByMonth extends BaseEntity implements Serializable {
-    private Integer id;
+    private Long id;
 
     private Integer eamGrmVariableId;
 
@@ -25,15 +25,15 @@ public class EamGrmVariableDataByMonth extends BaseEntity implements Serializabl
      *
      * @mbg.generated
      */
-    private String switchValue;
+    private Boolean switchValue;
 
     private static final long serialVersionUID = 1L;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -93,11 +93,11 @@ public class EamGrmVariableDataByMonth extends BaseEntity implements Serializabl
         this.value = value;
     }
 
-    public String getSwitchValue() {
+    public Boolean getSwitchValue() {
         return switchValue;
     }
 
-    public void setSwitchValue(String switchValue) {
+    public void setSwitchValue(Boolean switchValue) {
         this.switchValue = switchValue;
     }
 

@@ -9,7 +9,10 @@ import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.util.TicketUtil;
 import com.kuyun.upms.dao.model.UpmsUser;
+import com.kuyun.upms.dao.model.UpmsUserCompany;
+import com.kuyun.upms.dao.model.UpmsUserCompanyExample;
 import com.kuyun.upms.dao.model.UpmsUserExample;
+import com.kuyun.upms.rpc.api.UpmsUserCompanyService;
 import com.kuyun.upms.rpc.api.UpmsUserService;
 import net.sf.json.JSONArray;
 import org.apache.commons.lang.BooleanUtils;
@@ -75,6 +78,9 @@ public abstract class AbstractAlarmHandler {
     @Autowired
     private EamProductLineCompanyService eamProductLineCompanyService;
 
+    @Autowired
+    private UpmsUserCompanyService upmsUserCompanyService;
+
     public void process(EamGrmVariableData variableData, EamAlarm alarm) {
         EamAlarmRecord alarmRecord = getAlarmRecord(variableData, alarm);
 
@@ -116,7 +122,7 @@ public abstract class AbstractAlarmHandler {
                 ticket.setTicketTypeId(TicketType.ALARM.getCode());
                 ticket.setTicketNumber(TicketUtil.generatorTicketNumber());
                 ticket.setExecutorId(user.getUserId());
-                ticket.setCompanyId(getCompanyId(variableData.getProductLineId()));
+                ticket.setCompanyId(getCompanyId(user.getUserId()));
                 ticket.setCreateTime(new Date());
                 ticket.setUpdateTime(new Date());
                 ticket.setDeleteFlag(Boolean.FALSE);
@@ -127,15 +133,14 @@ public abstract class AbstractAlarmHandler {
 
     }
 
-    private Integer getCompanyId(String productLineId) {
+    private Integer getCompanyId(Integer userId) {
         Integer result = null;
-        EamProductLineCompanyExample example = new EamProductLineCompanyExample();
-        example.createCriteria().andProductLineIdEqualTo(productLineId);
+        UpmsUserCompanyExample example = new UpmsUserCompanyExample();
+        example.createCriteria().andUserIdEqualTo(userId);
 
-        EamProductLineCompany productLineCompany = eamProductLineCompanyService.selectFirstByExample(example);
-
-        if (productLineCompany != null){
-            result = productLineCompany.getCompanyId();
+        UpmsUserCompany userCompany = upmsUserCompanyService.selectFirstByExample(example);
+        if (userCompany != null){
+            result = userCompany.getCompanyId();
         }
         return result;
     }

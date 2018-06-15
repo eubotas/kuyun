@@ -265,6 +265,36 @@ public class EamApiServiceImpl implements EamApiService {
         return tree;
     }
 
+    @Override
+    public ProductLineInfo getProductLineInfo(UpmsUserCompany company) {
+        ProductLineInfo result = new ProductLineInfo();
+
+        EamProductLineVO productLineVO = new EamProductLineVO();
+        productLineVO.setDeleteFlag(Boolean.FALSE);
+        productLineVO.setCompanyId(company.getCompanyId());
+
+        List<EamProductLineVO> rows = selectProductLines(productLineVO);
+        _log.info("Product Line Size:{}", rows != null ? rows.size() : 0);
+        if (rows != null && !rows.isEmpty()){
+            result.setTotalQuantity(rows.size());
+
+            long oneLineQuantity = rows.stream().filter(p -> p.getIsOnline() != null).filter(p -> p.getIsOnline()).count();
+            result.setOnLineQuantity(Math.toIntExact(oneLineQuantity));
+
+
+            List<String> productLineIds = rows.stream().map(p -> p.getProductLineId()).collect(Collectors.toList());
+            EamAlarmRecordVO recordVO = new EamAlarmRecordVO();
+            recordVO.setAlarmStatus(AlarmStatus.ANU.getCode());
+            recordVO.setProductLineIds(productLineIds);
+
+            Long alarmQuantity = countAlarmRecords(recordVO);
+
+            result.setAlarmQuantity(Math.toIntExact(alarmQuantity));
+        }
+
+        return result;
+    }
+
     private ProductLine buildProductLine(EamProductLine productLine){
         ProductLine result = new ProductLine();
         result.setId(productLine.getProductLineId());
@@ -911,11 +941,7 @@ public class EamApiServiceImpl implements EamApiService {
             eamEquipmentDataGroupElemetsService.deleteByExample(example);
 
             //remove
-            EamGrmVariableExample grmVariableExample = new EamGrmVariableExample();
-            grmVariableExample.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE)
-                    .andProductLineIdEqualTo(equipment.getProductLineId())
-                    .andEquipmentIdEqualTo(equipmentId);
-            eamGrmVariableService.deleteByExample(grmVariableExample);
+            removeEamGrmVariableGroup(equipment, dataGroupId, equipmentDataGroupId, ids);
 
             if(StringUtils.isNotEmpty(ids)){
                 //Add new
@@ -923,24 +949,80 @@ public class EamApiServiceImpl implements EamApiService {
 
                 eamEquipmentDataGroupElemetsService.batchInsert(elements);
 
-                List<EamGrmVariable> variables = buildGrmVariables(equipment.getProductLineId(), equipmentId, dataGroupId, equipmentDataGroupId, ids);
-                eamGrmVariableService.batchInsert(variables);
+                List<EamGrmVariable> variables = buildGrmVariables(equipment.getProductLineId(), equipmentId, ids);
 
                 List<EamGrmVariableGroup> amGrmVariableGroups =new ArrayList<EamGrmVariableGroup>();
-                EamGrmVariableGroup amGrmVariableGroup = null;
                 for(EamGrmVariable v: variables) {
-                    amGrmVariableGroup = new EamGrmVariableGroup();
+
+                    EamGrmVariable variable = getEamGrmVariable(v);
+                    if (variable == null){
+                        eamGrmVariableService.insert(v);
+                    }else {
+                        v.setId(variable.getId());
+                    }
+
+                    EamGrmVariableGroup amGrmVariableGroup = new EamGrmVariableGroup();
                     amGrmVariableGroup.setEamGrmVariableId(v.getId());
                     amGrmVariableGroup.setDataGroupId(Integer.valueOf(dataGroupId));
                     amGrmVariableGroup.setEquipmentDataGroupId(Integer.valueOf(equipmentDataGroupId));
+                    amGrmVariableGroup.setDeleteFlag(Boolean.FALSE);
+                    amGrmVariableGroup.setCreateTime(new Date());
+                    amGrmVariableGroup.setUpdateTime(new Date());
                     amGrmVariableGroups.add(amGrmVariableGroup);
                 }
                 eamGrmVariableGroupService.batchInsert(amGrmVariableGroups);
+
+                removeEamGrmVariable(equipment, dataGroupId, equipmentDataGroupId, ids);
             }
 
         }
 
         return 1;
+    }
+
+
+    private EamGrmVariable getEamGrmVariable(EamGrmVariable v){
+        EamGrmVariableExample grmVariableExample = new EamGrmVariableExample();
+        grmVariableExample.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE)
+                .andProductLineIdEqualTo(v.getProductLineId())
+                .andEquipmentIdEqualTo(v.getEquipmentId())
+                .andDataElementIdEqualTo(v.getDataElementId());
+
+        return eamGrmVariableService.selectFirstByExample(grmVariableExample);
+    }
+
+    private void removeEamGrmVariableGroup(EamEquipment equipment, String dataGroupId, String equipmentDataGroupId, String dataElementIds){
+        EamGrmVariableGroupVO vo = new EamGrmVariableGroupVO();
+        vo.setProductLineId(equipment.getProductLineId());
+        vo.setEquipmentId(equipment.getEquipmentId());
+        vo.setDataGroupId(NumberUtil.toInteger(dataGroupId));
+        vo.setEquipmentDataGroupId(NumberUtil.toInteger(equipmentDataGroupId));
+
+        List<EamGrmVariableGroupVO> vos = selectEamGrmVariableGroup(vo);
+
+        if (vos != null){
+            List<Integer> ids = vos.stream().map(x -> x.getId()).collect(Collectors.toList());
+
+            EamGrmVariableGroupExample example = new EamGrmVariableGroupExample();
+            example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE).andEamGrmVariableIdIn(ids);
+            eamGrmVariableGroupService.deleteByExample(example);
+        }
+
+    }
+    private void removeEamGrmVariable(EamEquipment equipment, String dataGroupId, String equipmentDataGroupId, String dataElementIds){
+        EamGrmVariableVO vo = new EamGrmVariableVO();
+        vo.setProductLineId(equipment.getProductLineId());
+        vo.setEquipmentId(equipment.getEquipmentId());
+        vo.setDataElementIds(coverToInteger(dataElementIds.split("::")));
+
+        List<EamGrmVariableVO> vos = eamApiMapper.selectUnUsedEamGrmVariable(vo);
+        if (vos != null){
+            List<Integer> ids = vos.stream().map(x -> x.getId()).collect(Collectors.toList());
+
+            EamGrmVariableExample example = new EamGrmVariableExample();
+            example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE).andIdIn(ids);
+            eamGrmVariableService.deleteByExample(example);
+        }
     }
 
     @Override
@@ -1037,7 +1119,7 @@ public class EamApiServiceImpl implements EamApiService {
         return result;
     }
 
-    private List<EamGrmVariable> buildGrmVariables(String productLineId, String equipmentId, String dataGroupId, String equipmentDataGroupId, String dataElementIds){
+    private List<EamGrmVariable> buildGrmVariables(String productLineId, String equipmentId, String dataElementIds){
         List<EamGrmVariable> result = new ArrayList<>();
         List<EamDataElement> dataElements = getDataElements(dataElementIds);
 
@@ -1048,8 +1130,6 @@ public class EamApiServiceImpl implements EamApiService {
             variable.setDataElementId(element.getId());
             variable.setName(element.getName());
             variable.setDeleteFlag(Boolean.FALSE);
-            variable.setCreateTime(new Date());
-            variable.setUpdateTime(new Date());
             result.add(variable);
         }
 
@@ -1736,13 +1816,13 @@ public class EamApiServiceImpl implements EamApiService {
             int dataElementIdSize = eamGrmVariableDataHistoryVO.getDataElementIds().size();
 
             int groupSize = historyData.size() / dataElementIdSize;
-            int groupIndex = 0;
 
+            int groupIndex = 0;
             while (groupIndex < groupSize){
 
                 int index = 0;
                 while (index < dataElementIdSize){
-                    EamGrmVariableDataHistoryExtVO vo = historyData.get(groupIndex * dataElementIdSize + index);
+                    EamGrmVariableDataHistoryExtVO vo = historyData.get(groupSize * index + groupIndex);
                     String value = vo.getValue();
                     Integer dataElementId = vo.getDataElementId();
                     Date date = vo.getUpdateTime();
@@ -1917,6 +1997,7 @@ public class EamApiServiceImpl implements EamApiService {
                 eamOrder.setCompanyName(orderBean.getCompanyName());
                 eamOrder.setYear(orderBean.getYear());
                 eamOrder.setTaskNumber(orderBean.getTaskNumber());
+                eamOrder.setShortName(orderBean.getShortName());
 
                 eamOrder.setState(getCodeValueFromRedis(CodeValueType.STATE, orderBean.getState()));
 
@@ -2220,6 +2301,11 @@ public class EamApiServiceImpl implements EamApiService {
         }
     }
 
+    @Override
+    public List<EamGrmVariableGroupVO> selectEamGrmVariableGroup(EamGrmVariableGroupVO eamGrmVariableGroupVO) {
+        return eamApiMapper.selectEamGrmVariableGroup(eamGrmVariableGroupVO);
+    }
+
     private Integer getEquipmentCategoryId(String equipmentCategory) {
 
         int categoryId = -1;
@@ -2315,14 +2401,16 @@ public class EamApiServiceImpl implements EamApiService {
         return categoryId;
     }
 
-    private void handleGrmVariableDataByYear(EamGrmVariableDataVO variable, String value, String offOn) {
+    private void handleGrmVariableDataByYear(EamGrmVariableDataVO variable, String value, Boolean offOn) {
         EamGrmVariableDataByYear data = getEamGrmVariableDataByYear(variable,offOn);
         if (data != null){
             BigDecimal newValue = null;
-            if(variable.getSummation())
+            if(variable.getSummation()){
                 newValue = NumberUtil.toBigDecimal(data.getValue()).add(NumberUtil.toBigDecimal(value));
-            else
+            }else {
                 newValue = NumberUtil.toBigDecimal(value);
+            }
+
             data.setValue(newValue.toString());
             data.setUpdateTime(new Date());
             eamGrmVariableDataByYearService.updateByPrimaryKeySelective(data);
@@ -2332,7 +2420,7 @@ public class EamApiServiceImpl implements EamApiService {
         }
     }
 
-    private EamGrmVariableDataByYear buildEamGrmVariableDataByYear(EamGrmVariableDataVO variable, String value, String offOn){
+    private EamGrmVariableDataByYear buildEamGrmVariableDataByYear(EamGrmVariableDataVO variable, String value, Boolean offOn){
         EamGrmVariableDataByYear data = new EamGrmVariableDataByYear();
         data.setEamGrmVariableId(variable.getId());
         data.setProductLineId(variable.getProductLineId());
@@ -2340,15 +2428,15 @@ public class EamApiServiceImpl implements EamApiService {
         data.setDataElementId(variable.getDataElementId());
         data.setValue(value.toString());
         data.setSwitchValue(offOn);
-        data.setYear(LocalDateTime.now().getYear());
+        data.setYear(LocalDateTime.now().minusDays(1).getYear());
         data.setCreateTime(new Date());
         data.setUpdateTime(new Date());
         data.setDeleteFlag(Boolean.FALSE);
         return data;
     }
 
-    private EamGrmVariableDataByYear getEamGrmVariableDataByYear(EamGrmVariableDataVO variable, String offOn){
-        int year = LocalDateTime.now().getYear();
+    private EamGrmVariableDataByYear getEamGrmVariableDataByYear(EamGrmVariableDataVO variable, Boolean offOn){
+        int year = LocalDateTime.now().minusDays(1).getYear();
         EamGrmVariableDataByYearExample example = new EamGrmVariableDataByYearExample();
         EamGrmVariableDataByYearExample.Criteria criteria = example.createCriteria();
 
@@ -2361,14 +2449,16 @@ public class EamApiServiceImpl implements EamApiService {
         return eamGrmVariableDataByYearService.selectFirstByExample(example);
     }
 
-    private void handleGrmVariableDataByMonth(EamGrmVariableDataVO variable, String value, String offOn) {
+    private void handleGrmVariableDataByMonth(EamGrmVariableDataVO variable, String value, Boolean offOn) {
         EamGrmVariableDataByMonth data = getEamGrmVariableDataByMoth(variable, offOn);
         if (data != null){
             BigDecimal newValue = null;
-            if(variable.getSummation())
+            if(variable.getSummation()){
                 newValue = NumberUtil.toBigDecimal(data.getValue()).add(NumberUtil.toBigDecimal(value));
-            else
+            } else{
                 newValue = NumberUtil.toBigDecimal(value);
+            }
+
             data.setValue(newValue.toString());
             data.setUpdateTime(new Date());
             eamGrmVariableDataByMonthService.updateByPrimaryKeySelective(data);
@@ -2379,9 +2469,9 @@ public class EamApiServiceImpl implements EamApiService {
 
     }
 
-    private EamGrmVariableDataByMonth getEamGrmVariableDataByMoth(EamGrmVariableDataVO variable, String offOn){
-        int year = LocalDateTime.now().getYear();
-        int month = LocalDateTime.now().getMonthValue();
+    private EamGrmVariableDataByMonth getEamGrmVariableDataByMoth(EamGrmVariableDataVO variable, Boolean offOn){
+        int year = LocalDateTime.now().minusDays(1).getYear();
+        int month = LocalDateTime.now().minusDays(1).getMonthValue();
         EamGrmVariableDataByMonthExample example = new EamGrmVariableDataByMonthExample();
         EamGrmVariableDataByMonthExample.Criteria criteria = example.createCriteria();
         criteria.andEamGrmVariableIdEqualTo(variable.getId());
@@ -2389,13 +2479,13 @@ public class EamApiServiceImpl implements EamApiService {
         criteria.andMonthEqualTo(month);
         criteria.andDeleteFlagEqualTo(Boolean.FALSE);
 
-        if(!StringUtil.isEmpty(offOn)) {
+        if(offOn != null) {
             criteria.andSwitchValueEqualTo(offOn);
         }
         return eamGrmVariableDataByMonthService.selectFirstByExample(example);
     }
 
-    private EamGrmVariableDataByMonth buildEamGrmVariableDataByMoth(EamGrmVariableDataVO variable, String value, String offOn){
+    private EamGrmVariableDataByMonth buildEamGrmVariableDataByMoth(EamGrmVariableDataVO variable, String value, Boolean offOn){
         EamGrmVariableDataByMonth data = new EamGrmVariableDataByMonth();
         data.setEamGrmVariableId(variable.getId());
         data.setProductLineId(variable.getProductLineId());
@@ -2403,15 +2493,15 @@ public class EamApiServiceImpl implements EamApiService {
         data.setDataElementId(variable.getDataElementId());
         data.setValue(value);
         data.setSwitchValue(offOn);
-        data.setYear(LocalDateTime.now().getYear());
-        data.setMonth(LocalDateTime.now().getMonthValue());
+        data.setYear(LocalDateTime.now().minusDays(1).getYear());
+        data.setMonth(LocalDateTime.now().minusDays(1).getMonthValue());
         data.setCreateTime(new Date());
         data.setUpdateTime(new Date());
         data.setDeleteFlag(Boolean.FALSE);
         return data;
     }
 
-    private void handleGrmVariableDataByDay(EamGrmVariableDataVO variable, String value, String argDate, String offOn){
+    private void handleGrmVariableDataByDay(EamGrmVariableDataVO variable, String value, String argDate, Boolean offOn){
         EamGrmVariableDataByDay data = new EamGrmVariableDataByDay();
         data.setEamGrmVariableId(variable.getId());
         data.setProductLineId(variable.getProductLineId());
@@ -2545,7 +2635,7 @@ public class EamApiServiceImpl implements EamApiService {
                 shiftNum = ProductLineShift.MORNING.getCode();
                 startDate=vo.getMorningShiftStartTime();
                 endDate =vo.getMorningShiftEndTime();
-            }else if(EamDateUtil.inThisTimes(vo.getMiddleShiftStartTime(), vo.getMorningShiftEndTime())) {
+            }else if(EamDateUtil.inThisTimes(vo.getMiddleShiftStartTime(), vo.getMiddleShiftEndTime())) {
                 shiftNum = ProductLineShift.MIDDLE.getCode();
                 startDate=vo.getMiddleShiftStartTime();
                 endDate =vo.getMorningShiftEndTime();
@@ -2585,13 +2675,13 @@ public class EamApiServiceImpl implements EamApiService {
         }
     }
 
-    private void handleGrmVariableDataByShiftSwitch(EamGrmVariable variable, String value,boolean isSummary, String offOpen, String shiftNum,String startDate,String endDate) throws ParseException {
+    private void handleGrmVariableDataByShiftSwitch(EamGrmVariable variable, String value,boolean isSummary, Boolean offOpen, String shiftNum,String startDate,String endDate) throws ParseException {
         EamShiftDataElementValue data = getEamGrmVariableDataByShift(variable, shiftNum, offOpen, startDate, endDate);
         _log.debug("handleGrmVariableDataByShiftSwitch EamShiftDataElementValue=" + (data==null?"NULL":"EXIST"));
         //得到变化的数量
         String val= null;
         if(isSummary) {
-            BigDecimal orgValue = new  BigDecimal(0);;
+            BigDecimal orgValue = new  BigDecimal(0);
             BigDecimal chnageValue = NumberUtil.toBigDecimal(value);
             if (data != null){
                 orgValue =NumberUtil.toBigDecimal(data.getValue());
@@ -2614,7 +2704,7 @@ public class EamApiServiceImpl implements EamApiService {
         }
     }
 
-    private void handleGrmVariableDataByShiftAmount(EamGrmVariable variable, String value,boolean isSummary, String offOpen, String shiftNum,String startDate,String endDate) throws ParseException {
+    private void handleGrmVariableDataByShiftAmount(EamGrmVariable variable, String value,boolean isSummary, Boolean offOpen, String shiftNum,String startDate,String endDate) throws ParseException {
         String key = "SHIFT-AMOUNT-" + variable.getProductLineId() + "-" + variable.getEquipmentId() + "-" + variable.getDataElementId() + "-" + variable.getId();
         EamShiftDataElementValue data = getEamGrmVariableDataByShift(variable, shiftNum, offOpen, startDate, endDate);
         _log.debug("handleGrmVariableDataByShiftAmount EamShiftDataElementValue=" + (data==null?"NULL":"EXIST"));
@@ -2642,7 +2732,7 @@ public class EamApiServiceImpl implements EamApiService {
         RedisUtil.set(key, value);
     }
 
-    private EamShiftDataElementValue getEamGrmVariableDataByShift(EamGrmVariable variable, String shiftNum,String offOpen, String startDate,String endDate) throws ParseException{
+    private EamShiftDataElementValue getEamGrmVariableDataByShift(EamGrmVariable variable, String shiftNum,Boolean offOpen, String startDate,String endDate) throws ParseException{
         Pair<Date,Date> startEnd=getShiftStartEndTime(getDateStr(new Date(), "yyyy-MM-dd"),startDate, endDate);
         EamShiftDataElementValueExample example = new EamShiftDataElementValueExample();
         EamShiftDataElementValueExample.Criteria criteria = example.createCriteria();
@@ -2661,7 +2751,7 @@ public class EamApiServiceImpl implements EamApiService {
         return eamShiftDataElementValueService.selectFirstByExample(example);
     }
 
-    private EamShiftDataElementValue buildEamGrmVariableDataByShift(EamGrmVariable variable, String value,String offOpen, String shiftNum){
+    private EamShiftDataElementValue buildEamGrmVariableDataByShift(EamGrmVariable variable, String value,Boolean offOpen, String shiftNum){
         EamShiftDataElementValue data = new EamShiftDataElementValue();
         data.setEamGrmVariableId(variable.getId());
         data.setProductLineId(variable.getProductLineId());

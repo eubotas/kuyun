@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kuyun.eam.dao.mapper.EamGrmVariableDataHistoryMapper">
   <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamGrmVariableDataHistory">
-    <id column="eam_grm_variable_data_history_id" jdbcType="INTEGER" property="id" />
+    <id column="eam_grm_variable_data_history_id" jdbcType="BIGINT" property="id" />
     <result column="eam_grm_variable_data_history_eam_grm_variable_id" jdbcType="INTEGER" property="eamGrmVariableId" />
     <result column="eam_grm_variable_data_history_equipment_id" jdbcType="VARCHAR" property="equipmentId" />
     <result column="eam_grm_variable_data_history_product_line_id" jdbcType="VARCHAR" property="productLineId" />
@@ -105,15 +105,15 @@
       </if>
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from eam_grm_variable_data_history eam_grm_variable_data_history
-    where eam_grm_variable_data_history.id = #{id,jdbcType=INTEGER}
+    where eam_grm_variable_data_history.id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     update eam_grm_variable_data_history eam_grm_variable_data_history set delete_flag = 1 
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataHistoryExample">
     update eam_grm_variable_data_history eam_grm_variable_data_history set delete_flag = 1 
@@ -122,7 +122,7 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataHistory">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into eam_grm_variable_data_history (eam_grm_variable_id, equipment_id, product_line_id, 
@@ -135,7 +135,7 @@
       #{deleteFlag,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataHistory">
-    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into eam_grm_variable_data_history
@@ -214,7 +214,7 @@
     update eam_grm_variable_data_history eam_grm_variable_data_history
     <set>
       <if test="record.id != null">
-        eam_grm_variable_data_history.id = #{record.id,jdbcType=INTEGER},
+        eam_grm_variable_data_history.id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.eamGrmVariableId != null">
         eam_grm_variable_data_history.eam_grm_variable_id = #{record.eamGrmVariableId,jdbcType=INTEGER},
@@ -253,7 +253,7 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update eam_grm_variable_data_history eam_grm_variable_data_history
-    set eam_grm_variable_data_history.id = #{record.id,jdbcType=INTEGER},
+    set eam_grm_variable_data_history.id = #{record.id,jdbcType=BIGINT},
       eam_grm_variable_data_history.eam_grm_variable_id = #{record.eamGrmVariableId,jdbcType=INTEGER},
       eam_grm_variable_data_history.equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
       eam_grm_variable_data_history.product_line_id = #{record.productLineId,jdbcType=VARCHAR},
@@ -302,7 +302,7 @@
         delete_flag = #{deleteFlag,jdbcType=BIT},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataHistory">
     update eam_grm_variable_data_history
@@ -316,7 +316,7 @@
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">

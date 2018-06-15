@@ -10,7 +10,7 @@ public interface EamShiftDataElementValueMapper {
 
     int deleteByExample(EamShiftDataElementValueExample example);
 
-    int deleteByPrimaryKey(Integer id);
+    int deleteByPrimaryKey(Long id);
 
     int insert(EamShiftDataElementValue record);
 
@@ -18,7 +18,7 @@ public interface EamShiftDataElementValueMapper {
 
     List<EamShiftDataElementValue> selectByExample(EamShiftDataElementValueExample example);
 
-    EamShiftDataElementValue selectByPrimaryKey(Integer id);
+    EamShiftDataElementValue selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") EamShiftDataElementValue record, @Param("example") EamShiftDataElementValueExample example);
 

@@ -70,6 +70,11 @@ public class EamApiServiceMock implements EamApiService {
         return null;
     }
 
+    @Override
+    public ProductLineInfo getProductLineInfo(UpmsUserCompany company) {
+        return null;
+    }
+
 
     @Override
     public int handleEquimpmentCollect(String jsonString, CollectStatus collectStatus) {
@@ -432,6 +437,11 @@ public class EamApiServiceMock implements EamApiService {
     @Override
     public void importDataElement(List<DataElementBean> list, UpmsUserCompany company) {
 
+    }
+
+    @Override
+    public List<EamGrmVariableGroupVO> selectEamGrmVariableGroup(EamGrmVariableGroupVO eamGrmVariableGroupVO) {
+        return null;
     }
 
 }

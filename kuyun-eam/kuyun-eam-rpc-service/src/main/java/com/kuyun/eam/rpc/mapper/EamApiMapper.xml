@@ -879,14 +879,17 @@
 		from eam_grm_variable_data egvd,
 		eam_data_element e,
 		eam_grm_variable egv,
-		eam_product_line p
+		eam_product_line p,
+		eam_grm_variable_group egvg
 		WHERE egvd.delete_flag = 0
 		AND e.delete_flag = 0
 		AND egv.delete_flag = 0
 		AND p.delete_flag = 0
+		AND egvg.delete_flag = 0
 		AND egvd.data_element_id = e.id
 		AND egvd.eam_grm_variable_id = egv.id
 		AND egvd.product_line_id = p.product_line_id
+		AND egv.id = egvg.eam_grm_variable_id
 		<if test="productLineId != null and productLineId != ''">
 			AND egvd.product_line_id = #{productLineId}
 		</if>
@@ -900,11 +903,11 @@
 		</if>
 
 		<if test="dataGroupId != null and dataGroupId != ''">
-			AND egvd.data_group_id = #{dataGroupId}
+			AND egvg.data_group_id = #{dataGroupId}
 		</if>
 
 		<if test="equipmentDataGroupId != null and equipmentDataGroupId != ''">
-			AND egvd.equipmentDataGroupId = #{equipmentDataGroupId}
+			AND egvg.equipment_data_group_id = #{equipmentDataGroupId}
 		</if>
 
 		<if test="dataElementId != null and dataElementId != ''">
@@ -930,6 +933,56 @@
 		</if>
 	</select>
 
+	<resultMap id="EamGrmVariableGroupVOResultMap" type="com.kuyun.eam.vo.EamGrmVariableGroupVO" extends="com.kuyun.eam.dao.mapper.EamGrmVariableGroupMapper.BaseResultMap">
+	</resultMap>
+
+	<select id="selectEamGrmVariableGroup" parameterType="com.kuyun.eam.vo.EamGrmVariableGroupVO" resultMap="EamGrmVariableGroupVOResultMap">
+		select
+		<include refid="com.kuyun.eam.dao.mapper.EamGrmVariableGroupMapper.Base_Column_List" />
+		from eam_grm_variable_group,
+		eam_grm_variable egv
+		WHERE eam_grm_variable_group.delete_flag = 0
+		AND egv.delete_flag = 0
+		AND egv.id = eam_grm_variable_group.eam_grm_variable_id
+		<if test="productLineId != null and productLineId != ''">
+			AND egv.product_line_id = #{productLineId}
+		</if>
+		<if test="equipmentId != null and equipmentId != ''">
+			AND egv.equipment_id = #{equipmentId}
+		</if>
+
+		<if test="dataGroupId != null and dataGroupId != ''">
+			AND eam_grm_variable_group.data_group_id = #{dataGroupId}
+		</if>
+		<if test="equipmentDataGroupId != null and equipmentDataGroupId != ''">
+			AND eam_grm_variable_group.equipment_data_group_id = #{equipmentDataGroupId}
+		</if>
+	</select>
+
+	<select id="selectUnUsedEamGrmVariable" parameterType="com.kuyun.eam.vo.EamGrmVariableVO" resultMap="EamGrmVariableVOResultMap">
+		select
+		<include refid="com.kuyun.eam.dao.mapper.EamGrmVariableMapper.Base_Column_List" />
+		from eam_grm_variable
+		WHERE eam_grm_variable.delete_flag = 0
+		AND eam_grm_variable.id not in (
+			select eam_grm_variable_id from eam_grm_variable_group egvg where egvg.delete_flag = 0
+		)
+		<if test="productLineId != null and productLineId != ''">
+			AND eam_grm_variable.product_line_id = #{productLineId}
+		</if>
+		<if test="equipmentId != null and equipmentId != ''">
+			AND eam_grm_variable.equipment_id = #{equipmentId}
+		</if>
+
+		<if test="dataElementIds != null">
+			AND eam_grm_variable.data_element_id IN
+			<foreach item="item" index="index" collection="dataElementIds"
+					 open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+	</select>
+
 	<resultMap id="EamGrmVariableDataHistoryVOResultMap" type="com.kuyun.eam.vo.EamGrmVariableDataHistoryExtVO" >
 		<result column="data_element_name" jdbcType="VARCHAR" property="dataElementName" />
 		<result column="lable_name" jdbcType="VARCHAR" property="lableName" />
@@ -949,12 +1002,15 @@
 		egvdh.update_time
 		from eam_grm_variable_data_history egvdh,
 		eam_data_element e,
-		eam_grm_variable egv
+		eam_grm_variable egv,
+		eam_grm_variable_group egvg
 		WHERE egvdh.delete_flag = 0
 		AND e.delete_flag = 0
 		AND egv.delete_flag = 0
+		AND egvg.delete_flag = 0
 		AND egvdh.data_element_id = e.id
 		AND egvdh.eam_grm_variable_id = egv.id
+		AND egv.id = egvg.eam_grm_variable_id
 
 		<if test="productLineId != null and productLineId != ''">
 			AND egvdh.product_line_id = #{productLineId}
@@ -969,11 +1025,11 @@
 		</if>
 
 		<if test="dataGroupId != null and dataGroupId != ''">
-			AND egvdh.data_group_id = #{dataGroupId}
+			AND egvg.data_group_id = #{dataGroupId}
 		</if>
 
 		<if test="equipmentDataGroupId != null and equipmentDataGroupId != ''">
-			AND egvdh.equipmentDataGroupId = #{equipmentDataGroupId}
+			AND egvg.equipment_data_group_id = #{equipmentDataGroupId}
 		</if>
 
 		<if test="dataElementId != null and dataElementId != ''">
@@ -1265,11 +1321,11 @@
 
 	<select id="summaryIndustryAndCompanyName" resultMap="IndustryValueVOResultMap">
 		select industry,
-		case when short_name is null then company_name else short_name END companyName,
+		IFNULL(short_name, company_name) companyName,
 		count(id) as count from eam_order
 		where delete_flag = 0
 		group by industry, companyName
-		order by count, industry, companyName asc
+		order by count desc, industry, companyName asc
 	</select>
 
 	<resultMap id="eamGrmVariableDataVO" type="com.kuyun.eam.vo.EamGrmVariableDataVO" extends="com.kuyun.eam.dao.mapper.EamGrmVariableMapper.BaseResultMap">
@@ -1407,6 +1463,9 @@
 				#{item}
 			</foreach>
 		</if>
+		<if test="userId != null">
+			AND eam_alert_message.user_id = #{userId}
+		</if>
 		<if test="startDate != null">
 			AND eam_alert_message.alert_start_date <![CDATA[>=]]> #{startDate}
 		</if>
@@ -1454,7 +1513,7 @@
 
 	<select id="selectGrmVariableGroupByPeriod" parameterType="java.lang.String" resultMap="com.kuyun.eam.dao.mapper.EamGrmVariableMapper.BaseResultMap">
 		select
-		eam_grm_variable.id as eam_grm_variable_id,
+		max(eam_grm_variable.id) as eam_grm_variable_id,
 		eam_grm_variable.grm_period as eam_grm_variable_grm_period
 		from eam_grm_variable where delete_flag = 0
 		and product_line_id = #{productLineId, jdbcType=VARCHAR}

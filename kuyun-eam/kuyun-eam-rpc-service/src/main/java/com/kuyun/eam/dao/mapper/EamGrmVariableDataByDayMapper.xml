@@ -2,14 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.kuyun.eam.dao.mapper.EamGrmVariableDataByDayMapper">
   <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamGrmVariableDataByDay">
-    <id column="id" jdbcType="INTEGER" property="id" />
+    <id column="id" jdbcType="BIGINT" property="id" />
     <result column="eam_grm_variable_id" jdbcType="INTEGER" property="eamGrmVariableId" />
     <result column="equipment_id" jdbcType="VARCHAR" property="equipmentId" />
     <result column="product_line_id" jdbcType="VARCHAR" property="productLineId" />
     <result column="data_element_id" jdbcType="INTEGER" property="dataElementId" />
     <result column="value" jdbcType="VARCHAR" property="value" />
-    <result column="switch_value" jdbcType="VARCHAR" property="switchValue" />
     <result column="date" jdbcType="DATE" property="date" />
+    <result column="switch_value" jdbcType="BIT" property="switchValue" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
@@ -75,8 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, eam_grm_variable_id, equipment_id, product_line_id, data_element_id, value, switch_value, 
-    date, create_user_id, create_time, update_user_id, update_time, delete_flag
+    id, eam_grm_variable_id, equipment_id, product_line_id, data_element_id, value, date, 
+    switch_value, create_user_id, create_time, update_user_id, update_time, delete_flag
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataByDayExample" resultMap="BaseResultMap">
     select
@@ -100,15 +100,15 @@
       </if>
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from eam_grm_variable_data_by_day
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     update eam_grm_variable_data_by_day set delete_flag = 1 
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataByDayExample">
     update eam_grm_variable_data_by_day set delete_flag = 1 
@@ -119,12 +119,12 @@
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataByDay">
     insert into eam_grm_variable_data_by_day (id, eam_grm_variable_id, equipment_id, 
       product_line_id, data_element_id, value, 
-      switch_value, date, create_user_id, 
+      date, switch_value, create_user_id, 
       create_time, update_user_id, update_time, 
       delete_flag)
-    values (#{id,jdbcType=INTEGER}, #{eamGrmVariableId,jdbcType=INTEGER}, #{equipmentId,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{eamGrmVariableId,jdbcType=INTEGER}, #{equipmentId,jdbcType=VARCHAR}, 
       #{productLineId,jdbcType=VARCHAR}, #{dataElementId,jdbcType=INTEGER}, #{value,jdbcType=VARCHAR}, 
-      #{switchValue,jdbcType=VARCHAR}, #{date,jdbcType=DATE}, #{createUserId,jdbcType=INTEGER}, 
+      #{date,jdbcType=DATE}, #{switchValue,jdbcType=BIT}, #{createUserId,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{deleteFlag,jdbcType=BIT})
   </insert>
@@ -149,11 +149,11 @@
       <if test="value != null">
         value,
       </if>
-      <if test="switchValue != null">
-        switch_value,
-      </if>
       <if test="date != null">
         date,
+      </if>
+      <if test="switchValue != null">
+        switch_value,
       </if>
       <if test="createUserId != null">
         create_user_id,
@@ -173,7 +173,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=BIGINT},
       </if>
       <if test="eamGrmVariableId != null">
         #{eamGrmVariableId,jdbcType=INTEGER},
@@ -190,11 +190,11 @@
       <if test="value != null">
         #{value,jdbcType=VARCHAR},
       </if>
-      <if test="switchValue != null">
-        #{switchValue,jdbcType=VARCHAR},
-      </if>
       <if test="date != null">
         #{date,jdbcType=DATE},
+      </if>
+      <if test="switchValue != null">
+        #{switchValue,jdbcType=BIT},
       </if>
       <if test="createUserId != null">
         #{createUserId,jdbcType=INTEGER},
@@ -223,7 +223,7 @@
     update eam_grm_variable_data_by_day
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.eamGrmVariableId != null">
         eam_grm_variable_id = #{record.eamGrmVariableId,jdbcType=INTEGER},
@@ -240,11 +240,11 @@
       <if test="record.value != null">
         value = #{record.value,jdbcType=VARCHAR},
       </if>
-      <if test="record.switchValue != null">
-        switch_value = #{record.switchValue,jdbcType=VARCHAR},
-      </if>
       <if test="record.date != null">
         date = #{record.date,jdbcType=DATE},
+      </if>
+      <if test="record.switchValue != null">
+        switch_value = #{record.switchValue,jdbcType=BIT},
       </if>
       <if test="record.createUserId != null">
         create_user_id = #{record.createUserId,jdbcType=INTEGER},
@@ -268,14 +268,14 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update eam_grm_variable_data_by_day
-    set id = #{record.id,jdbcType=INTEGER},
+    set id = #{record.id,jdbcType=BIGINT},
       eam_grm_variable_id = #{record.eamGrmVariableId,jdbcType=INTEGER},
       equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
       product_line_id = #{record.productLineId,jdbcType=VARCHAR},
       data_element_id = #{record.dataElementId,jdbcType=INTEGER},
       value = #{record.value,jdbcType=VARCHAR},
-      switch_value = #{record.switchValue,jdbcType=VARCHAR},
       date = #{record.date,jdbcType=DATE},
+      switch_value = #{record.switchValue,jdbcType=BIT},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
@@ -303,11 +303,11 @@
       <if test="value != null">
         value = #{value,jdbcType=VARCHAR},
       </if>
-      <if test="switchValue != null">
-        switch_value = #{switchValue,jdbcType=VARCHAR},
-      </if>
       <if test="date != null">
         date = #{date,jdbcType=DATE},
+      </if>
+      <if test="switchValue != null">
+        switch_value = #{switchValue,jdbcType=BIT},
       </if>
       <if test="createUserId != null">
         create_user_id = #{createUserId,jdbcType=INTEGER},
@@ -325,7 +325,7 @@
         delete_flag = #{deleteFlag,jdbcType=BIT},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataByDay">
     update eam_grm_variable_data_by_day
@@ -334,27 +334,27 @@
       product_line_id = #{productLineId,jdbcType=VARCHAR},
       data_element_id = #{dataElementId,jdbcType=INTEGER},
       value = #{value,jdbcType=VARCHAR},
-      switch_value = #{switchValue,jdbcType=VARCHAR},
       date = #{date,jdbcType=DATE},
+      switch_value = #{switchValue,jdbcType=BIT},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT}
-    where id = #{id,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
             insert into eam_grm_variable_data_by_day  (id, eam_grm_variable_id, equipment_id, 
         product_line_id, data_element_id, value, 
-        switch_value, date, create_user_id, 
+        date, switch_value, create_user_id, 
         create_time, update_user_id, update_time, 
         delete_flag)
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.id,jdbcType=INTEGER}, #{item.eamGrmVariableId,jdbcType=INTEGER}, #{item.equipmentId,jdbcType=VARCHAR}, 
+      (#{item.id,jdbcType=BIGINT}, #{item.eamGrmVariableId,jdbcType=INTEGER}, #{item.equipmentId,jdbcType=VARCHAR}, 
         #{item.productLineId,jdbcType=VARCHAR}, #{item.dataElementId,jdbcType=INTEGER}, #{item.value,jdbcType=VARCHAR}, 
-        #{item.switchValue,jdbcType=VARCHAR}, #{item.date,jdbcType=DATE}, #{item.createUserId,jdbcType=INTEGER}, 
+        #{item.date,jdbcType=DATE}, #{item.switchValue,jdbcType=BIT}, #{item.createUserId,jdbcType=INTEGER}, 
         #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
         #{item.deleteFlag,jdbcType=BIT})
       </foreach>

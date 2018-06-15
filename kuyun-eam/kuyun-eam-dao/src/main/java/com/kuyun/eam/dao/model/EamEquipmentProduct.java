@@ -3,35 +3,40 @@ package com.kuyun.eam.dao.model;
 import com.kuyun.common.dao.model.BaseEntity;
 import java.io.Serializable;
 
-public class EamGrmVariableDataHistory extends BaseEntity implements Serializable {
-    private Long id;
-
-    private Integer eamGrmVariableId;
+public class EamEquipmentProduct extends BaseEntity implements Serializable {
+    private Integer id;
 
     private String equipmentId;
 
-    private String productLineId;
+    /**
+     * 物料ID
+     *
+     * @mbg.generated
+     */
+    private String materielNumber;
 
-    private Integer dataElementId;
+    /**
+     * 物料名称
+     *
+     * @mbg.generated
+     */
+    private String materielName;
 
-    private String value;
+    /**
+     * 额定产能
+     *
+     * @mbg.generated
+     */
+    private Integer capacity;
 
     private static final long serialVersionUID = 1L;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getEamGrmVariableId() {
-        return eamGrmVariableId;
-    }
-
-    public void setEamGrmVariableId(Integer eamGrmVariableId) {
-        this.eamGrmVariableId = eamGrmVariableId;
     }
 
     public String getEquipmentId() {
@@ -42,28 +47,28 @@ public class EamGrmVariableDataHistory extends BaseEntity implements Serializabl
         this.equipmentId = equipmentId;
     }
 
-    public String getProductLineId() {
-        return productLineId;
+    public String getMaterielNumber() {
+        return materielNumber;
     }
 
-    public void setProductLineId(String productLineId) {
-        this.productLineId = productLineId;
+    public void setMaterielNumber(String materielNumber) {
+        this.materielNumber = materielNumber;
     }
 
-    public Integer getDataElementId() {
-        return dataElementId;
+    public String getMaterielName() {
+        return materielName;
     }
 
-    public void setDataElementId(Integer dataElementId) {
-        this.dataElementId = dataElementId;
+    public void setMaterielName(String materielName) {
+        this.materielName = materielName;
     }
 
-    public String getValue() {
-        return value;
+    public Integer getCapacity() {
+        return capacity;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
     }
 
     @Override
@@ -73,11 +78,10 @@ public class EamGrmVariableDataHistory extends BaseEntity implements Serializabl
         sb.append(" [");
         sb.append("Hash = ").append(hashCode());
         sb.append(", id=").append(id);
-        sb.append(", eamGrmVariableId=").append(eamGrmVariableId);
         sb.append(", equipmentId=").append(equipmentId);
-        sb.append(", productLineId=").append(productLineId);
-        sb.append(", dataElementId=").append(dataElementId);
-        sb.append(", value=").append(value);
+        sb.append(", materielNumber=").append(materielNumber);
+        sb.append(", materielName=").append(materielName);
+        sb.append(", capacity=").append(capacity);
         sb.append("]");
         return sb.toString();
     }
@@ -93,18 +97,18 @@ public class EamGrmVariableDataHistory extends BaseEntity implements Serializabl
         if (getClass() != that.getClass()) {
             return false;
         }
-        EamGrmVariableDataHistory other = (EamGrmVariableDataHistory) that;
+        EamEquipmentProduct other = (EamEquipmentProduct) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
-            && (this.getEamGrmVariableId() == null ? other.getEamGrmVariableId() == null : this.getEamGrmVariableId().equals(other.getEamGrmVariableId()))
             && (this.getEquipmentId() == null ? other.getEquipmentId() == null : this.getEquipmentId().equals(other.getEquipmentId()))
-            && (this.getProductLineId() == null ? other.getProductLineId() == null : this.getProductLineId().equals(other.getProductLineId()))
-            && (this.getDataElementId() == null ? other.getDataElementId() == null : this.getDataElementId().equals(other.getDataElementId()))
-            && (this.getValue() == null ? other.getValue() == null : this.getValue().equals(other.getValue()))
+            && (this.getMaterielNumber() == null ? other.getMaterielNumber() == null : this.getMaterielNumber().equals(other.getMaterielNumber()))
+            && (this.getMaterielName() == null ? other.getMaterielName() == null : this.getMaterielName().equals(other.getMaterielName()))
+            && (this.getCapacity() == null ? other.getCapacity() == null : this.getCapacity().equals(other.getCapacity()))
             && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
-            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()));
+            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
+            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()));
     }
 
     @Override
@@ -112,16 +116,16 @@ public class EamGrmVariableDataHistory extends BaseEntity implements Serializabl
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-        result = prime * result + ((getEamGrmVariableId() == null) ? 0 : getEamGrmVariableId().hashCode());
         result = prime * result + ((getEquipmentId() == null) ? 0 : getEquipmentId().hashCode());
-        result = prime * result + ((getProductLineId() == null) ? 0 : getProductLineId().hashCode());
-        result = prime * result + ((getDataElementId() == null) ? 0 : getDataElementId().hashCode());
-        result = prime * result + ((getValue() == null) ? 0 : getValue().hashCode());
+        result = prime * result + ((getMaterielNumber() == null) ? 0 : getMaterielNumber().hashCode());
+        result = prime * result + ((getMaterielName() == null) ? 0 : getMaterielName().hashCode());
+        result = prime * result + ((getCapacity() == null) ? 0 : getCapacity().hashCode());
         result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
+        result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
         return result;
     }
 }

@@ -25,6 +25,14 @@
     <result column="eam_product_line_update_user_id" jdbcType="INTEGER" property="updateUserId" />
     <result column="eam_product_line_update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="eam_product_line_delete_flag" jdbcType="BIT" property="deleteFlag" />
+    <result column="eam_product_line_morning_stop_time" jdbcType="DECIMAL" property="morningStopTime" />
+    <result column="eam_product_line_middle_stop_time" jdbcType="DECIMAL" property="middleStopTime" />
+    <result column="eam_product_line_night_stop_time" jdbcType="DECIMAL" property="nightStopTime" />
+    <result column="eam_product_line_actual_capacity_id" jdbcType="INTEGER" property="actualCapacityId" />
+    <result column="eam_product_line_base_capacity_id" jdbcType="INTEGER" property="baseCapacityId" />
+    <result column="eam_product_line_qualified_quantity_id" jdbcType="INTEGER" property="qualifiedQuantityId" />
+    <result column="eam_product_line_total_quantity_id" jdbcType="INTEGER" property="totalQuantityId" />
+    <result column="eam_product_line_statistic_variable_id" jdbcType="INTEGER" property="statisticVariableId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -98,7 +106,11 @@
     eam_product_line.night_shift_start_time as eam_product_line_night_shift_start_time, 
     eam_product_line.night_shift_end_time as eam_product_line_night_shift_end_time, eam_product_line.create_user_id as eam_product_line_create_user_id, 
     eam_product_line.create_time as eam_product_line_create_time, eam_product_line.update_user_id as eam_product_line_update_user_id, 
-    eam_product_line.update_time as eam_product_line_update_time, eam_product_line.delete_flag as eam_product_line_delete_flag
+    eam_product_line.update_time as eam_product_line_update_time, eam_product_line.delete_flag as eam_product_line_delete_flag, 
+    eam_product_line.morning_stop_time as eam_product_line_morning_stop_time, eam_product_line.middle_stop_time as eam_product_line_middle_stop_time, 
+    eam_product_line.night_stop_time as eam_product_line_night_stop_time, eam_product_line.actual_capacity_id as eam_product_line_actual_capacity_id, 
+    eam_product_line.base_capacity_id as eam_product_line_base_capacity_id, eam_product_line.qualified_quantity_id as eam_product_line_qualified_quantity_id, 
+    eam_product_line.total_quantity_id as eam_product_line_total_quantity_id, eam_product_line.statistic_variable_id as eam_product_line_statistic_variable_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamProductLineExample" resultMap="BaseResultMap">
     select
@@ -147,7 +159,10 @@
       middle_shift_start_time, middle_shift_end_time, 
       night_shift_start_time, night_shift_end_time, 
       create_user_id, create_time, update_user_id, 
-      update_time, delete_flag)
+      update_time, delete_flag, morning_stop_time, 
+      middle_stop_time, night_stop_time, actual_capacity_id, 
+      base_capacity_id, qualified_quantity_id, total_quantity_id, 
+      statistic_variable_id)
     values (#{productLineId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{imagePath,jdbcType=VARCHAR}, 
       #{longitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}, #{province,jdbcType=VARCHAR}, 
       #{city,jdbcType=VARCHAR}, #{grm,jdbcType=VARCHAR}, #{grmPassword,jdbcType=VARCHAR}, 
@@ -156,7 +171,10 @@
       #{middleShiftStartTime,jdbcType=VARCHAR}, #{middleShiftEndTime,jdbcType=VARCHAR}, 
       #{nightShiftStartTime,jdbcType=VARCHAR}, #{nightShiftEndTime,jdbcType=VARCHAR}, 
       #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT})
+      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{morningStopTime,jdbcType=DECIMAL}, 
+      #{middleStopTime,jdbcType=DECIMAL}, #{nightStopTime,jdbcType=DECIMAL}, #{actualCapacityId,jdbcType=INTEGER}, 
+      #{baseCapacityId,jdbcType=INTEGER}, #{qualifiedQuantityId,jdbcType=INTEGER}, #{totalQuantityId,jdbcType=INTEGER}, 
+      #{statisticVariableId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamProductLine">
     insert into eam_product_line
@@ -230,6 +248,30 @@
       <if test="deleteFlag != null">
         delete_flag,
       </if>
+      <if test="morningStopTime != null">
+        morning_stop_time,
+      </if>
+      <if test="middleStopTime != null">
+        middle_stop_time,
+      </if>
+      <if test="nightStopTime != null">
+        night_stop_time,
+      </if>
+      <if test="actualCapacityId != null">
+        actual_capacity_id,
+      </if>
+      <if test="baseCapacityId != null">
+        base_capacity_id,
+      </if>
+      <if test="qualifiedQuantityId != null">
+        qualified_quantity_id,
+      </if>
+      <if test="totalQuantityId != null">
+        total_quantity_id,
+      </if>
+      <if test="statisticVariableId != null">
+        statistic_variable_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="productLineId != null">
@@ -300,6 +342,30 @@
       </if>
       <if test="deleteFlag != null">
         #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="morningStopTime != null">
+        #{morningStopTime,jdbcType=DECIMAL},
+      </if>
+      <if test="middleStopTime != null">
+        #{middleStopTime,jdbcType=DECIMAL},
+      </if>
+      <if test="nightStopTime != null">
+        #{nightStopTime,jdbcType=DECIMAL},
+      </if>
+      <if test="actualCapacityId != null">
+        #{actualCapacityId,jdbcType=INTEGER},
+      </if>
+      <if test="baseCapacityId != null">
+        #{baseCapacityId,jdbcType=INTEGER},
+      </if>
+      <if test="qualifiedQuantityId != null">
+        #{qualifiedQuantityId,jdbcType=INTEGER},
+      </if>
+      <if test="totalQuantityId != null">
+        #{totalQuantityId,jdbcType=INTEGER},
+      </if>
+      <if test="statisticVariableId != null">
+        #{statisticVariableId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -381,6 +447,30 @@
       <if test="record.deleteFlag != null">
         eam_product_line.delete_flag = #{record.deleteFlag,jdbcType=BIT},
       </if>
+      <if test="record.morningStopTime != null">
+        eam_product_line.morning_stop_time = #{record.morningStopTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.middleStopTime != null">
+        eam_product_line.middle_stop_time = #{record.middleStopTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.nightStopTime != null">
+        eam_product_line.night_stop_time = #{record.nightStopTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.actualCapacityId != null">
+        eam_product_line.actual_capacity_id = #{record.actualCapacityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.baseCapacityId != null">
+        eam_product_line.base_capacity_id = #{record.baseCapacityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.qualifiedQuantityId != null">
+        eam_product_line.qualified_quantity_id = #{record.qualifiedQuantityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.totalQuantityId != null">
+        eam_product_line.total_quantity_id = #{record.totalQuantityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.statisticVariableId != null">
+        eam_product_line.statistic_variable_id = #{record.statisticVariableId,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -410,7 +500,15 @@
       eam_product_line.create_time = #{record.createTime,jdbcType=TIMESTAMP},
       eam_product_line.update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       eam_product_line.update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      eam_product_line.delete_flag = #{record.deleteFlag,jdbcType=BIT}
+      eam_product_line.delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      eam_product_line.morning_stop_time = #{record.morningStopTime,jdbcType=DECIMAL},
+      eam_product_line.middle_stop_time = #{record.middleStopTime,jdbcType=DECIMAL},
+      eam_product_line.night_stop_time = #{record.nightStopTime,jdbcType=DECIMAL},
+      eam_product_line.actual_capacity_id = #{record.actualCapacityId,jdbcType=INTEGER},
+      eam_product_line.base_capacity_id = #{record.baseCapacityId,jdbcType=INTEGER},
+      eam_product_line.qualified_quantity_id = #{record.qualifiedQuantityId,jdbcType=INTEGER},
+      eam_product_line.total_quantity_id = #{record.totalQuantityId,jdbcType=INTEGER},
+      eam_product_line.statistic_variable_id = #{record.statisticVariableId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -484,6 +582,30 @@
       <if test="deleteFlag != null">
         delete_flag = #{deleteFlag,jdbcType=BIT},
       </if>
+      <if test="morningStopTime != null">
+        morning_stop_time = #{morningStopTime,jdbcType=DECIMAL},
+      </if>
+      <if test="middleStopTime != null">
+        middle_stop_time = #{middleStopTime,jdbcType=DECIMAL},
+      </if>
+      <if test="nightStopTime != null">
+        night_stop_time = #{nightStopTime,jdbcType=DECIMAL},
+      </if>
+      <if test="actualCapacityId != null">
+        actual_capacity_id = #{actualCapacityId,jdbcType=INTEGER},
+      </if>
+      <if test="baseCapacityId != null">
+        base_capacity_id = #{baseCapacityId,jdbcType=INTEGER},
+      </if>
+      <if test="qualifiedQuantityId != null">
+        qualified_quantity_id = #{qualifiedQuantityId,jdbcType=INTEGER},
+      </if>
+      <if test="totalQuantityId != null">
+        total_quantity_id = #{totalQuantityId,jdbcType=INTEGER},
+      </if>
+      <if test="statisticVariableId != null">
+        statistic_variable_id = #{statisticVariableId,jdbcType=INTEGER},
+      </if>
     </set>
     where product_line_id = #{productLineId,jdbcType=VARCHAR}
   </update>
@@ -510,7 +632,15 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      delete_flag = #{deleteFlag,jdbcType=BIT}
+      delete_flag = #{deleteFlag,jdbcType=BIT},
+      morning_stop_time = #{morningStopTime,jdbcType=DECIMAL},
+      middle_stop_time = #{middleStopTime,jdbcType=DECIMAL},
+      night_stop_time = #{nightStopTime,jdbcType=DECIMAL},
+      actual_capacity_id = #{actualCapacityId,jdbcType=INTEGER},
+      base_capacity_id = #{baseCapacityId,jdbcType=INTEGER},
+      qualified_quantity_id = #{qualifiedQuantityId,jdbcType=INTEGER},
+      total_quantity_id = #{totalQuantityId,jdbcType=INTEGER},
+      statistic_variable_id = #{statisticVariableId,jdbcType=INTEGER}
     where product_line_id = #{productLineId,jdbcType=VARCHAR}
   </update>
   <insert id="batchInsert">
@@ -523,7 +653,10 @@
         middle_shift_start_time, middle_shift_end_time, 
         night_shift_start_time, night_shift_end_time, 
         create_user_id, create_time, update_user_id, 
-        update_time, delete_flag)
+        update_time, delete_flag, morning_stop_time, 
+        middle_stop_time, night_stop_time, actual_capacity_id, 
+        base_capacity_id, qualified_quantity_id, total_quantity_id, 
+        statistic_variable_id)
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.productLineId,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, #{item.imagePath,jdbcType=VARCHAR}, 
@@ -534,7 +667,10 @@
         #{item.middleShiftStartTime,jdbcType=VARCHAR}, #{item.middleShiftEndTime,jdbcType=VARCHAR}, 
         #{item.nightShiftStartTime,jdbcType=VARCHAR}, #{item.nightShiftEndTime,jdbcType=VARCHAR}, 
         #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, 
-        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT})
+        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, #{item.morningStopTime,jdbcType=DECIMAL}, 
+        #{item.middleStopTime,jdbcType=DECIMAL}, #{item.nightStopTime,jdbcType=DECIMAL}, #{item.actualCapacityId,jdbcType=INTEGER}, 
+        #{item.baseCapacityId,jdbcType=INTEGER}, #{item.qualifiedQuantityId,jdbcType=INTEGER}, #{item.totalQuantityId,jdbcType=INTEGER}, 
+        #{item.statisticVariableId,jdbcType=INTEGER})
       </foreach>
     </if>
   </insert>
