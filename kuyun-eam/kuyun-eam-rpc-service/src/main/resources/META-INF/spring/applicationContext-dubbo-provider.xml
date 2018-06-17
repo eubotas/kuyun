@@ -65,6 +65,9 @@
     <bean id="eamShiftDataElementValueServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamShiftDataElementValueServiceImpl"/>
     <dubbo:service interface="com.kuyun.eam.rpc.api.EamShiftDataElementValueService" ref="eamShiftDataElementValueServiceImpl" timeout="10000"/>
 
+    <bean id="eamProductLineShiftDataServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamProductLineShiftDataServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamProductLineShiftDataService" ref="eamProductLineShiftDataServiceImpl" timeout="10000"/>
+
 
     <!-- 工单相关 -->
 	<bean id="eamTicketServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamTicketServiceImpl" />

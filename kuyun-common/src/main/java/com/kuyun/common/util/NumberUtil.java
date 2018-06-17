@@ -30,4 +30,12 @@ public class NumberUtil {
         }
         return result;
     }
+
+    public static BigDecimal nonNull(BigDecimal value){
+        BigDecimal result = BigDecimal.ZERO;
+        if (value != null){
+            result = value;
+        }
+        return result;
+    }
 }

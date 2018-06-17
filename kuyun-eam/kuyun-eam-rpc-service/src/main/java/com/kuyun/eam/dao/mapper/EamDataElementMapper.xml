@@ -9,13 +9,13 @@
     <result column="data_type" jdbcType="VARCHAR" property="dataType" />
     <result column="equipment_category_id" jdbcType="INTEGER" property="equipmentCategoryId" />
     <result column="is_statistic_by_date" jdbcType="BIT" property="isStatisticByDate" />
+    <result column="is_statistic_by_shift" jdbcType="BIT" property="isStatisticByShift" />
+    <result column="is_summation" jdbcType="BIT" property="isSummation" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
-    <result column="is_statistic_by_shift" jdbcType="BIT" property="isStatisticByShift" />
-    <result column="is_summation" jdbcType="BIT" property="isSummation" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -77,8 +77,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, name, lable_name, unit, data_type, equipment_category_id, is_statistic_by_date, 
-    create_user_id, create_time, update_user_id, update_time, delete_flag, is_statistic_by_shift, 
-    is_summation
+    is_statistic_by_shift, is_summation, create_user_id, create_time, update_user_id, 
+    update_time, delete_flag
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamDataElementExample" resultMap="BaseResultMap">
     select
@@ -121,14 +121,14 @@
   <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamDataElement">
     insert into eam_data_element (id, name, lable_name, 
       unit, data_type, equipment_category_id, 
-      is_statistic_by_date, create_user_id, create_time, 
-      update_user_id, update_time, delete_flag, 
-      is_statistic_by_shift, is_summation)
+      is_statistic_by_date, is_statistic_by_shift, is_summation, 
+      create_user_id, create_time, update_user_id, 
+      update_time, delete_flag)
     values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{lableName,jdbcType=VARCHAR}, 
       #{unit,jdbcType=VARCHAR}, #{dataType,jdbcType=VARCHAR}, #{equipmentCategoryId,jdbcType=INTEGER}, 
-      #{isStatisticByDate,jdbcType=BIT}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
-      #{isStatisticByShift,jdbcType=BIT}, #{isSummation,jdbcType=BIT})
+      #{isStatisticByDate,jdbcType=BIT}, #{isStatisticByShift,jdbcType=BIT}, #{isSummation,jdbcType=BIT}, 
+      #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamDataElement">
     insert into eam_data_element
@@ -154,6 +154,12 @@
       <if test="isStatisticByDate != null">
         is_statistic_by_date,
       </if>
+      <if test="isStatisticByShift != null">
+        is_statistic_by_shift,
+      </if>
+      <if test="isSummation != null">
+        is_summation,
+      </if>
       <if test="createUserId != null">
         create_user_id,
       </if>
@@ -168,12 +174,6 @@
       </if>
       <if test="deleteFlag != null">
         delete_flag,
-      </if>
-      <if test="isStatisticByShift != null">
-        is_statistic_by_shift,
-      </if>
-      <if test="isSummation != null">
-        is_summation,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -198,6 +198,12 @@
       <if test="isStatisticByDate != null">
         #{isStatisticByDate,jdbcType=BIT},
       </if>
+      <if test="isStatisticByShift != null">
+        #{isStatisticByShift,jdbcType=BIT},
+      </if>
+      <if test="isSummation != null">
+        #{isSummation,jdbcType=BIT},
+      </if>
       <if test="createUserId != null">
         #{createUserId,jdbcType=INTEGER},
       </if>
@@ -212,12 +218,6 @@
       </if>
       <if test="deleteFlag != null">
         #{deleteFlag,jdbcType=BIT},
-      </if>
-      <if test="isStatisticByShift != null">
-        #{isStatisticByShift,jdbcType=BIT},
-      </if>
-      <if test="isSummation != null">
-        #{isSummation,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -251,6 +251,12 @@
       <if test="record.isStatisticByDate != null">
         is_statistic_by_date = #{record.isStatisticByDate,jdbcType=BIT},
       </if>
+      <if test="record.isStatisticByShift != null">
+        is_statistic_by_shift = #{record.isStatisticByShift,jdbcType=BIT},
+      </if>
+      <if test="record.isSummation != null">
+        is_summation = #{record.isSummation,jdbcType=BIT},
+      </if>
       <if test="record.createUserId != null">
         create_user_id = #{record.createUserId,jdbcType=INTEGER},
       </if>
@@ -266,12 +272,6 @@
       <if test="record.deleteFlag != null">
         delete_flag = #{record.deleteFlag,jdbcType=BIT},
       </if>
-      <if test="record.isStatisticByShift != null">
-        is_statistic_by_shift = #{record.isStatisticByShift,jdbcType=BIT},
-      </if>
-      <if test="record.isSummation != null">
-        is_summation = #{record.isSummation,jdbcType=BIT},
-      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -286,13 +286,13 @@
       data_type = #{record.dataType,jdbcType=VARCHAR},
       equipment_category_id = #{record.equipmentCategoryId,jdbcType=INTEGER},
       is_statistic_by_date = #{record.isStatisticByDate,jdbcType=BIT},
+      is_statistic_by_shift = #{record.isStatisticByShift,jdbcType=BIT},
+      is_summation = #{record.isSummation,jdbcType=BIT},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      is_statistic_by_shift = #{record.isStatisticByShift,jdbcType=BIT},
-      is_summation = #{record.isSummation,jdbcType=BIT}
+      delete_flag = #{record.deleteFlag,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -318,6 +318,12 @@
       <if test="isStatisticByDate != null">
         is_statistic_by_date = #{isStatisticByDate,jdbcType=BIT},
       </if>
+      <if test="isStatisticByShift != null">
+        is_statistic_by_shift = #{isStatisticByShift,jdbcType=BIT},
+      </if>
+      <if test="isSummation != null">
+        is_summation = #{isSummation,jdbcType=BIT},
+      </if>
       <if test="createUserId != null">
         create_user_id = #{createUserId,jdbcType=INTEGER},
       </if>
@@ -333,12 +339,6 @@
       <if test="deleteFlag != null">
         delete_flag = #{deleteFlag,jdbcType=BIT},
       </if>
-      <if test="isStatisticByShift != null">
-        is_statistic_by_shift = #{isStatisticByShift,jdbcType=BIT},
-      </if>
-      <if test="isSummation != null">
-        is_summation = #{isSummation,jdbcType=BIT},
-      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -350,29 +350,29 @@
       data_type = #{dataType,jdbcType=VARCHAR},
       equipment_category_id = #{equipmentCategoryId,jdbcType=INTEGER},
       is_statistic_by_date = #{isStatisticByDate,jdbcType=BIT},
+      is_statistic_by_shift = #{isStatisticByShift,jdbcType=BIT},
+      is_summation = #{isSummation,jdbcType=BIT},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      delete_flag = #{deleteFlag,jdbcType=BIT},
-      is_statistic_by_shift = #{isStatisticByShift,jdbcType=BIT},
-      is_summation = #{isSummation,jdbcType=BIT}
+      delete_flag = #{deleteFlag,jdbcType=BIT}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
             insert into eam_data_element  (id, name, lable_name, 
         unit, data_type, equipment_category_id, 
-        is_statistic_by_date, create_user_id, create_time, 
-        update_user_id, update_time, delete_flag, 
-        is_statistic_by_shift, is_summation)
+        is_statistic_by_date, is_statistic_by_shift, is_summation, 
+        create_user_id, create_time, update_user_id, 
+        update_time, delete_flag)
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.id,jdbcType=INTEGER}, #{item.name,jdbcType=VARCHAR}, #{item.lableName,jdbcType=VARCHAR}, 
         #{item.unit,jdbcType=VARCHAR}, #{item.dataType,jdbcType=VARCHAR}, #{item.equipmentCategoryId,jdbcType=INTEGER}, 
-        #{item.isStatisticByDate,jdbcType=BIT}, #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, 
-        #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, 
-        #{item.isStatisticByShift,jdbcType=BIT}, #{item.isSummation,jdbcType=BIT})
+        #{item.isStatisticByDate,jdbcType=BIT}, #{item.isStatisticByShift,jdbcType=BIT}, #{item.isSummation,jdbcType=BIT}, 
+        #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, 
+        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT})
       </foreach>
     </if>
   </insert>

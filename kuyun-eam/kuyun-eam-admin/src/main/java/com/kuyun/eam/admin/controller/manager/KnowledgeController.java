@@ -108,8 +108,8 @@ public class KnowledgeController extends BaseController {
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     @ResponseBody
     public Object search(
-            @RequestParam(required = false, defaultValue = "0", value = "page") int page,
-            @RequestParam(required = false, defaultValue = "10", value = "size") int size,
+            @RequestParam(required = false, value = "page") Integer page,
+            @RequestParam(required = false, value = "size") Integer size,
             @RequestParam(required = false, value = "k") String k,
             @RequestParam(required = false, value = "t") String t,
             @RequestParam(required = false, value = "c") String c, ModelMap modelMap, HttpServletRequest request) {
@@ -124,8 +124,8 @@ public class KnowledgeController extends BaseController {
     @RequiresPermissions("eam:knowledge:read")
     @RequestMapping(value = "/search/index", method = RequestMethod.GET)
     public String searchIndex(
-            @RequestParam(required = false, defaultValue = "0", value = "page") int page,
-            @RequestParam(required = false, defaultValue = "10", value = "size") int size,
+            @RequestParam(required = false, value = "page") Integer page,
+            @RequestParam(required = false, value = "size") Integer size,
             @RequestParam(required = false, value = "k") String k,
             @RequestParam(required = false, value = "t") String t,
             @RequestParam(required = false, value = "c") String c, ModelMap modelMap, HttpServletRequest request) {
@@ -136,7 +136,7 @@ public class KnowledgeController extends BaseController {
         return "/manage/knowledge/search.jsp";
     }
 
-    private void handelSeachModel(int page, int size, String k, String t, String c, ModelMap modelMap, HttpServletRequest request, HashMap<String, Object> map) {
+    private void handelSeachModel(Integer page, Integer size, String k, String t, String c, ModelMap modelMap, HttpServletRequest request, HashMap<String, Object> map) {
         SearchQuery searchQuery = null;
 
         List<String> types = new ArrayList<>();
@@ -168,7 +168,7 @@ public class KnowledgeController extends BaseController {
         }
 
         if (!StringUtils.isEmpty(k)){
-            searchQuery = new NativeSearchQueryBuilder()
+            NativeSearchQueryBuilder queryBuilder = new NativeSearchQueryBuilder()
                     .withIndices(INDEX_NAME)
                     .withTypes(types.toArray(new String[types.size()]))
                     .withQuery(multiMatchQuery(k, TITLE, DESCRIPTION, CODE))
@@ -177,18 +177,26 @@ public class KnowledgeController extends BaseController {
 //                    .withQuery(termQuery("companyId", company.getCompanyId()))
                     .withHighlightFields(codeField, descriptionField, titleField)
 //                    .withHighlightFields(fields.toArray(new HighlightBuilder.Field[fields.size()]))
-                    .withSort(SortBuilders.fieldSort(CREATE_TIME).order(SortOrder.DESC))
-                    .withPageable(new PageRequest(page, size))
-                    .build();
+                    .withSort(SortBuilders.fieldSort(CREATE_TIME).order(SortOrder.DESC));
+
+            if (page != null && size != null){
+                queryBuilder.withPageable(new PageRequest(page, size));
+            }
+            searchQuery = queryBuilder.build();
+
+
         }else if (!StringUtils.isEmpty(t)){
-            searchQuery = new NativeSearchQueryBuilder()
+            NativeSearchQueryBuilder queryBuilder  = new NativeSearchQueryBuilder()
                     .withIndices(INDEX_NAME)
                     .withTypes(types.toArray(new String[types.size()]))
                     .withQuery(termQuery(TAG, t))
                     .withFilter(boolQueryBuilder)
-                    .withSort(SortBuilders.fieldSort(CREATE_TIME).order(SortOrder.DESC))
-                    .withPageable(new PageRequest(page, size))
-                    .build();
+                    .withSort(SortBuilders.fieldSort(CREATE_TIME).order(SortOrder.DESC));
+
+            if (page != null && size != null){
+                queryBuilder.withPageable(new PageRequest(page, size));
+            }
+            searchQuery = queryBuilder.build();
         }
 
 
@@ -245,24 +253,15 @@ public class KnowledgeController extends BaseController {
         List<String> tabs = buildTabs(k, t, c, request);
         List rows = pageObj != null ? pageObj.getContent() : null;
         long total = pageObj != null ? pageObj.getTotalElements() : 0;
-        long numberOfElements = pageObj != null ? pageObj.getNumberOfElements() : 0;
-        boolean hasNext = pageObj.hasNext();
-        boolean hasPrevious = pageObj.hasPrevious();
 
         modelMap.put("rows", rows);
         modelMap.put("total", total);
-        modelMap.put("numberOfElements", numberOfElements);
-        modelMap.put("hasNext", hasNext);
-        modelMap.put("hasPrevious", hasPrevious);
         modelMap.put("k", k);
         modelMap.put("c", c);
         modelMap.put("tabs", tabs);
 
         map.put("rows", rows);
         map.put("total", total);
-        map.put("numberOfElements", numberOfElements);
-        map.put("hasNext", hasNext);
-        map.put("hasPrevious", hasPrevious);
         map.put("k", k);
         map.put("c", c);
         map.put("tabs", tabs);

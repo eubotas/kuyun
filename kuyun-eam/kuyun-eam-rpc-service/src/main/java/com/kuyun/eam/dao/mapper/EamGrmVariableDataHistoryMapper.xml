@@ -3,6 +3,7 @@
 <mapper namespace="com.kuyun.eam.dao.mapper.EamGrmVariableDataHistoryMapper">
   <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamGrmVariableDataHistory">
     <id column="eam_grm_variable_data_history_id" jdbcType="BIGINT" property="id" />
+    <id column="eam_grm_variable_data_history_update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="eam_grm_variable_data_history_eam_grm_variable_id" jdbcType="INTEGER" property="eamGrmVariableId" />
     <result column="eam_grm_variable_data_history_equipment_id" jdbcType="VARCHAR" property="equipmentId" />
     <result column="eam_grm_variable_data_history_product_line_id" jdbcType="VARCHAR" property="productLineId" />
@@ -11,7 +12,6 @@
     <result column="eam_grm_variable_data_history_create_user_id" jdbcType="INTEGER" property="createUserId" />
     <result column="eam_grm_variable_data_history_create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="eam_grm_variable_data_history_update_user_id" jdbcType="INTEGER" property="updateUserId" />
-    <result column="eam_grm_variable_data_history_update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="eam_grm_variable_data_history_delete_flag" jdbcType="BIT" property="deleteFlag" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -73,14 +73,14 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    eam_grm_variable_data_history.id as eam_grm_variable_data_history_id, eam_grm_variable_data_history.eam_grm_variable_id as eam_grm_variable_data_history_eam_grm_variable_id, 
+    eam_grm_variable_data_history.id as eam_grm_variable_data_history_id, eam_grm_variable_data_history.update_time as eam_grm_variable_data_history_update_time, 
+    eam_grm_variable_data_history.eam_grm_variable_id as eam_grm_variable_data_history_eam_grm_variable_id, 
     eam_grm_variable_data_history.equipment_id as eam_grm_variable_data_history_equipment_id, 
     eam_grm_variable_data_history.product_line_id as eam_grm_variable_data_history_product_line_id, 
     eam_grm_variable_data_history.data_element_id as eam_grm_variable_data_history_data_element_id, 
     eam_grm_variable_data_history.value as eam_grm_variable_data_history_value, eam_grm_variable_data_history.create_user_id as eam_grm_variable_data_history_create_user_id, 
     eam_grm_variable_data_history.create_time as eam_grm_variable_data_history_create_time, 
     eam_grm_variable_data_history.update_user_id as eam_grm_variable_data_history_update_user_id, 
-    eam_grm_variable_data_history.update_time as eam_grm_variable_data_history_update_time, 
     eam_grm_variable_data_history.delete_flag as eam_grm_variable_data_history_delete_flag
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataHistoryExample" resultMap="BaseResultMap">
@@ -105,15 +105,17 @@
       </if>
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from eam_grm_variable_data_history eam_grm_variable_data_history
     where eam_grm_variable_data_history.id = #{id,jdbcType=BIGINT}
+      and eam_grm_variable_data_history.update_time = #{updateTime,jdbcType=TIMESTAMP}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  <delete id="deleteByPrimaryKey" parameterType="map">
     update eam_grm_variable_data_history eam_grm_variable_data_history set delete_flag = 1 
     where id = #{id,jdbcType=BIGINT}
+      and update_time = #{updateTime,jdbcType=TIMESTAMP}
   </delete>
   <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataHistoryExample">
     update eam_grm_variable_data_history eam_grm_variable_data_history set delete_flag = 1 
@@ -125,13 +127,13 @@
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into eam_grm_variable_data_history (eam_grm_variable_id, equipment_id, product_line_id, 
-      data_element_id, value, create_user_id, 
-      create_time, update_user_id, update_time, 
+    insert into eam_grm_variable_data_history (update_time, eam_grm_variable_id, equipment_id, 
+      product_line_id, data_element_id, value, 
+      create_user_id, create_time, update_user_id, 
       delete_flag)
-    values (#{eamGrmVariableId,jdbcType=INTEGER}, #{equipmentId,jdbcType=VARCHAR}, #{productLineId,jdbcType=VARCHAR}, 
-      #{dataElementId,jdbcType=INTEGER}, #{value,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+    values (#{updateTime,jdbcType=TIMESTAMP}, #{eamGrmVariableId,jdbcType=INTEGER}, #{equipmentId,jdbcType=VARCHAR}, 
+      #{productLineId,jdbcType=VARCHAR}, #{dataElementId,jdbcType=INTEGER}, #{value,jdbcType=VARCHAR}, 
+      #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
       #{deleteFlag,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataHistory">
@@ -140,6 +142,9 @@
     </selectKey>
     insert into eam_grm_variable_data_history
     <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="updateTime != null">
+        update_time,
+      </if>
       <if test="eamGrmVariableId != null">
         eam_grm_variable_id,
       </if>
@@ -164,14 +169,14 @@
       <if test="updateUserId != null">
         update_user_id,
       </if>
-      <if test="updateTime != null">
-        update_time,
-      </if>
       <if test="deleteFlag != null">
         delete_flag,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="eamGrmVariableId != null">
         #{eamGrmVariableId,jdbcType=INTEGER},
       </if>
@@ -196,9 +201,6 @@
       <if test="updateUserId != null">
         #{updateUserId,jdbcType=INTEGER},
       </if>
-      <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="deleteFlag != null">
         #{deleteFlag,jdbcType=BIT},
       </if>
@@ -215,6 +217,9 @@
     <set>
       <if test="record.id != null">
         eam_grm_variable_data_history.id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateTime != null">
+        eam_grm_variable_data_history.update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.eamGrmVariableId != null">
         eam_grm_variable_data_history.eam_grm_variable_id = #{record.eamGrmVariableId,jdbcType=INTEGER},
@@ -240,9 +245,6 @@
       <if test="record.updateUserId != null">
         eam_grm_variable_data_history.update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       </if>
-      <if test="record.updateTime != null">
-        eam_grm_variable_data_history.update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="record.deleteFlag != null">
         eam_grm_variable_data_history.delete_flag = #{record.deleteFlag,jdbcType=BIT},
       </if>
@@ -254,6 +256,7 @@
   <update id="updateByExample" parameterType="map">
     update eam_grm_variable_data_history eam_grm_variable_data_history
     set eam_grm_variable_data_history.id = #{record.id,jdbcType=BIGINT},
+      eam_grm_variable_data_history.update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       eam_grm_variable_data_history.eam_grm_variable_id = #{record.eamGrmVariableId,jdbcType=INTEGER},
       eam_grm_variable_data_history.equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
       eam_grm_variable_data_history.product_line_id = #{record.productLineId,jdbcType=VARCHAR},
@@ -262,7 +265,6 @@
       eam_grm_variable_data_history.create_user_id = #{record.createUserId,jdbcType=INTEGER},
       eam_grm_variable_data_history.create_time = #{record.createTime,jdbcType=TIMESTAMP},
       eam_grm_variable_data_history.update_user_id = #{record.updateUserId,jdbcType=INTEGER},
-      eam_grm_variable_data_history.update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       eam_grm_variable_data_history.delete_flag = #{record.deleteFlag,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -295,14 +297,12 @@
       <if test="updateUserId != null">
         update_user_id = #{updateUserId,jdbcType=INTEGER},
       </if>
-      <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
       <if test="deleteFlag != null">
         delete_flag = #{deleteFlag,jdbcType=BIT},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
+      and update_time = #{updateTime,jdbcType=TIMESTAMP}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamGrmVariableDataHistory">
     update eam_grm_variable_data_history
@@ -314,21 +314,21 @@
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=INTEGER},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
+      and update_time = #{updateTime,jdbcType=TIMESTAMP}
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into eam_grm_variable_data_history  (eam_grm_variable_id, equipment_id, product_line_id, 
-        data_element_id, value, create_user_id, 
-        create_time, update_user_id, update_time, 
+            insert into eam_grm_variable_data_history  (update_time, eam_grm_variable_id, equipment_id, 
+        product_line_id, data_element_id, value, 
+        create_user_id, create_time, update_user_id, 
         delete_flag)
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.eamGrmVariableId,jdbcType=INTEGER}, #{item.equipmentId,jdbcType=VARCHAR}, #{item.productLineId,jdbcType=VARCHAR}, 
-        #{item.dataElementId,jdbcType=INTEGER}, #{item.value,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER}, 
-        #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
+      (#{item.updateTime,jdbcType=TIMESTAMP}, #{item.eamGrmVariableId,jdbcType=INTEGER}, #{item.equipmentId,jdbcType=VARCHAR}, 
+        #{item.productLineId,jdbcType=VARCHAR}, #{item.dataElementId,jdbcType=INTEGER}, #{item.value,jdbcType=VARCHAR}, 
+        #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, 
         #{item.deleteFlag,jdbcType=BIT})
       </foreach>
     </if>

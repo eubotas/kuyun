@@ -3,6 +3,7 @@ package com.kuyun.eam.rpc.api;
 import com.kuyun.eam.common.constant.CollectStatus;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.pojo.*;
+import com.kuyun.eam.pojo.map.MapData;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.pojo.tree.Tree;
 import com.kuyun.eam.vo.*;
@@ -441,6 +442,26 @@ public class EamApiServiceMock implements EamApiService {
 
     @Override
     public List<EamGrmVariableGroupVO> selectEamGrmVariableGroup(EamGrmVariableGroupVO eamGrmVariableGroupVO) {
+        return null;
+    }
+
+    @Override
+    public void productLineShirtStatisticJob() {
+
+    }
+
+    @Override
+    public long sumBottleQuantity() {
+        return 0;
+    }
+
+    @Override
+    public MapData buildMapData() {
+        return null;
+    }
+
+    @Override
+    public List<ShiftStatus> getShiftStatus() {
         return null;
     }
 

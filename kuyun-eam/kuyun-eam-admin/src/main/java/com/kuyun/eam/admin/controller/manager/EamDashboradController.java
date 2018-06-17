@@ -53,7 +53,7 @@ public class EamDashboradController extends BaseController {
 	@ResponseBody
 	public Object index() {
 
-		HashMap map = new HashMap();
+		HashMap map = new HashMap(10);
 
 		//1. 客户行业
 		List<EamCodeValueVo> industry = eamApiService.summaryIndustry();
@@ -64,7 +64,7 @@ public class EamDashboradController extends BaseController {
 		map.put("buyOrder", buyOrder);
 
 		//3. 产线状态统计
-		//TODO:
+		map.put("shiftStatus", eamApiService.getShiftStatus());
 
 		//4. 产线数量（按州）
 		List<EamCodeValueVo> state = eamApiService.summaryState();
@@ -87,9 +87,15 @@ public class EamDashboradController extends BaseController {
 		map.put("productLineCount", productLineCount);
 
 		//9. 生产总瓶数
-		//TODO:
+		map.put("sumBottleQuantity", eamApiService.sumBottleQuantity());
 
+
+		//10. map Data
+		map.put("mapData", eamApiService.buildMapData());
 		return map;
+
+
+
 	}
 
 

@@ -48,6 +48,7 @@
     <!-- 设备管理 -->
     <dubbo:reference id="eamApiService" interface="com.kuyun.eam.rpc.api.EamApiService" mock="true"/>
     <dubbo:reference id="eamShiftDataElementValueService" interface="com.kuyun.eam.rpc.api.EamShiftDataElementValueService" mock="true"/>
+    <dubbo:reference id="eamProductLineShiftDataService" interface="com.kuyun.eam.rpc.api.EamProductLineShiftDataService" mock="true"/>
 
 
     <!-- 接入协议 -->

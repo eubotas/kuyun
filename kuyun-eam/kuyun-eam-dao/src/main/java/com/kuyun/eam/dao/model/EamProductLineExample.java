@@ -1069,6 +1069,66 @@ public class EamProductLineExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andMorningStopTimeIsNull() {
+            addCriterion("eam_product_line.morning_stop_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMorningStopTimeIsNotNull() {
+            addCriterion("eam_product_line.morning_stop_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMorningStopTimeEqualTo(BigDecimal value) {
+            addCriterion("eam_product_line.morning_stop_time =", value, "morningStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMorningStopTimeNotEqualTo(BigDecimal value) {
+            addCriterion("eam_product_line.morning_stop_time <>", value, "morningStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMorningStopTimeGreaterThan(BigDecimal value) {
+            addCriterion("eam_product_line.morning_stop_time >", value, "morningStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMorningStopTimeGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("eam_product_line.morning_stop_time >=", value, "morningStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMorningStopTimeLessThan(BigDecimal value) {
+            addCriterion("eam_product_line.morning_stop_time <", value, "morningStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMorningStopTimeLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("eam_product_line.morning_stop_time <=", value, "morningStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMorningStopTimeIn(List<BigDecimal> values) {
+            addCriterion("eam_product_line.morning_stop_time in", values, "morningStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMorningStopTimeNotIn(List<BigDecimal> values) {
+            addCriterion("eam_product_line.morning_stop_time not in", values, "morningStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMorningStopTimeBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("eam_product_line.morning_stop_time between", value1, value2, "morningStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMorningStopTimeNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("eam_product_line.morning_stop_time not between", value1, value2, "morningStopTime");
+            return (Criteria) this;
+        }
+
         public Criteria andMiddleShiftStartTimeIsNull() {
             addCriterion("eam_product_line.middle_shift_start_time is null");
             return (Criteria) this;
@@ -1209,6 +1269,66 @@ public class EamProductLineExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andMiddleStopTimeIsNull() {
+            addCriterion("eam_product_line.middle_stop_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMiddleStopTimeIsNotNull() {
+            addCriterion("eam_product_line.middle_stop_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andMiddleStopTimeEqualTo(BigDecimal value) {
+            addCriterion("eam_product_line.middle_stop_time =", value, "middleStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMiddleStopTimeNotEqualTo(BigDecimal value) {
+            addCriterion("eam_product_line.middle_stop_time <>", value, "middleStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMiddleStopTimeGreaterThan(BigDecimal value) {
+            addCriterion("eam_product_line.middle_stop_time >", value, "middleStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMiddleStopTimeGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("eam_product_line.middle_stop_time >=", value, "middleStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMiddleStopTimeLessThan(BigDecimal value) {
+            addCriterion("eam_product_line.middle_stop_time <", value, "middleStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMiddleStopTimeLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("eam_product_line.middle_stop_time <=", value, "middleStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMiddleStopTimeIn(List<BigDecimal> values) {
+            addCriterion("eam_product_line.middle_stop_time in", values, "middleStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMiddleStopTimeNotIn(List<BigDecimal> values) {
+            addCriterion("eam_product_line.middle_stop_time not in", values, "middleStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMiddleStopTimeBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("eam_product_line.middle_stop_time between", value1, value2, "middleStopTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andMiddleStopTimeNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("eam_product_line.middle_stop_time not between", value1, value2, "middleStopTime");
+            return (Criteria) this;
+        }
+
         public Criteria andNightShiftStartTimeIsNull() {
             addCriterion("eam_product_line.night_shift_start_time is null");
             return (Criteria) this;
@@ -1346,426 +1466,6 @@ public class EamProductLineExample implements Serializable {
 
         public Criteria andNightShiftEndTimeNotBetween(String value1, String value2) {
             addCriterion("eam_product_line.night_shift_end_time not between", value1, value2, "nightShiftEndTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateUserIdIsNull() {
-            addCriterion("eam_product_line.create_user_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateUserIdIsNotNull() {
-            addCriterion("eam_product_line.create_user_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateUserIdEqualTo(Integer value) {
-            addCriterion("eam_product_line.create_user_id =", value, "createUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateUserIdNotEqualTo(Integer value) {
-            addCriterion("eam_product_line.create_user_id <>", value, "createUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateUserIdGreaterThan(Integer value) {
-            addCriterion("eam_product_line.create_user_id >", value, "createUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateUserIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("eam_product_line.create_user_id >=", value, "createUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateUserIdLessThan(Integer value) {
-            addCriterion("eam_product_line.create_user_id <", value, "createUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateUserIdLessThanOrEqualTo(Integer value) {
-            addCriterion("eam_product_line.create_user_id <=", value, "createUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateUserIdIn(List<Integer> values) {
-            addCriterion("eam_product_line.create_user_id in", values, "createUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateUserIdNotIn(List<Integer> values) {
-            addCriterion("eam_product_line.create_user_id not in", values, "createUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateUserIdBetween(Integer value1, Integer value2) {
-            addCriterion("eam_product_line.create_user_id between", value1, value2, "createUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateUserIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("eam_product_line.create_user_id not between", value1, value2, "createUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeIsNull() {
-            addCriterion("eam_product_line.create_time is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeIsNotNull() {
-            addCriterion("eam_product_line.create_time is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeEqualTo(Date value) {
-            addCriterion("eam_product_line.create_time =", value, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeNotEqualTo(Date value) {
-            addCriterion("eam_product_line.create_time <>", value, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeGreaterThan(Date value) {
-            addCriterion("eam_product_line.create_time >", value, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("eam_product_line.create_time >=", value, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeLessThan(Date value) {
-            addCriterion("eam_product_line.create_time <", value, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeLessThanOrEqualTo(Date value) {
-            addCriterion("eam_product_line.create_time <=", value, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeIn(List<Date> values) {
-            addCriterion("eam_product_line.create_time in", values, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeNotIn(List<Date> values) {
-            addCriterion("eam_product_line.create_time not in", values, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeBetween(Date value1, Date value2) {
-            addCriterion("eam_product_line.create_time between", value1, value2, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
-            addCriterion("eam_product_line.create_time not between", value1, value2, "createTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateUserIdIsNull() {
-            addCriterion("eam_product_line.update_user_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateUserIdIsNotNull() {
-            addCriterion("eam_product_line.update_user_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateUserIdEqualTo(Integer value) {
-            addCriterion("eam_product_line.update_user_id =", value, "updateUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateUserIdNotEqualTo(Integer value) {
-            addCriterion("eam_product_line.update_user_id <>", value, "updateUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateUserIdGreaterThan(Integer value) {
-            addCriterion("eam_product_line.update_user_id >", value, "updateUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateUserIdGreaterThanOrEqualTo(Integer value) {
-            addCriterion("eam_product_line.update_user_id >=", value, "updateUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateUserIdLessThan(Integer value) {
-            addCriterion("eam_product_line.update_user_id <", value, "updateUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateUserIdLessThanOrEqualTo(Integer value) {
-            addCriterion("eam_product_line.update_user_id <=", value, "updateUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateUserIdIn(List<Integer> values) {
-            addCriterion("eam_product_line.update_user_id in", values, "updateUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateUserIdNotIn(List<Integer> values) {
-            addCriterion("eam_product_line.update_user_id not in", values, "updateUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateUserIdBetween(Integer value1, Integer value2) {
-            addCriterion("eam_product_line.update_user_id between", value1, value2, "updateUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateUserIdNotBetween(Integer value1, Integer value2) {
-            addCriterion("eam_product_line.update_user_id not between", value1, value2, "updateUserId");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateTimeIsNull() {
-            addCriterion("eam_product_line.update_time is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateTimeIsNotNull() {
-            addCriterion("eam_product_line.update_time is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateTimeEqualTo(Date value) {
-            addCriterion("eam_product_line.update_time =", value, "updateTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateTimeNotEqualTo(Date value) {
-            addCriterion("eam_product_line.update_time <>", value, "updateTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateTimeGreaterThan(Date value) {
-            addCriterion("eam_product_line.update_time >", value, "updateTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateTimeGreaterThanOrEqualTo(Date value) {
-            addCriterion("eam_product_line.update_time >=", value, "updateTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateTimeLessThan(Date value) {
-            addCriterion("eam_product_line.update_time <", value, "updateTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateTimeLessThanOrEqualTo(Date value) {
-            addCriterion("eam_product_line.update_time <=", value, "updateTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateTimeIn(List<Date> values) {
-            addCriterion("eam_product_line.update_time in", values, "updateTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateTimeNotIn(List<Date> values) {
-            addCriterion("eam_product_line.update_time not in", values, "updateTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateTimeBetween(Date value1, Date value2) {
-            addCriterion("eam_product_line.update_time between", value1, value2, "updateTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andUpdateTimeNotBetween(Date value1, Date value2) {
-            addCriterion("eam_product_line.update_time not between", value1, value2, "updateTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeleteFlagIsNull() {
-            addCriterion("eam_product_line.delete_flag is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeleteFlagIsNotNull() {
-            addCriterion("eam_product_line.delete_flag is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeleteFlagEqualTo(Boolean value) {
-            addCriterion("eam_product_line.delete_flag =", value, "deleteFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeleteFlagNotEqualTo(Boolean value) {
-            addCriterion("eam_product_line.delete_flag <>", value, "deleteFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeleteFlagGreaterThan(Boolean value) {
-            addCriterion("eam_product_line.delete_flag >", value, "deleteFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeleteFlagGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("eam_product_line.delete_flag >=", value, "deleteFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeleteFlagLessThan(Boolean value) {
-            addCriterion("eam_product_line.delete_flag <", value, "deleteFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeleteFlagLessThanOrEqualTo(Boolean value) {
-            addCriterion("eam_product_line.delete_flag <=", value, "deleteFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeleteFlagIn(List<Boolean> values) {
-            addCriterion("eam_product_line.delete_flag in", values, "deleteFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeleteFlagNotIn(List<Boolean> values) {
-            addCriterion("eam_product_line.delete_flag not in", values, "deleteFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeleteFlagBetween(Boolean value1, Boolean value2) {
-            addCriterion("eam_product_line.delete_flag between", value1, value2, "deleteFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andDeleteFlagNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("eam_product_line.delete_flag not between", value1, value2, "deleteFlag");
-            return (Criteria) this;
-        }
-
-        public Criteria andMorningStopTimeIsNull() {
-            addCriterion("eam_product_line.morning_stop_time is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andMorningStopTimeIsNotNull() {
-            addCriterion("eam_product_line.morning_stop_time is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andMorningStopTimeEqualTo(BigDecimal value) {
-            addCriterion("eam_product_line.morning_stop_time =", value, "morningStopTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andMorningStopTimeNotEqualTo(BigDecimal value) {
-            addCriterion("eam_product_line.morning_stop_time <>", value, "morningStopTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andMorningStopTimeGreaterThan(BigDecimal value) {
-            addCriterion("eam_product_line.morning_stop_time >", value, "morningStopTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andMorningStopTimeGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("eam_product_line.morning_stop_time >=", value, "morningStopTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andMorningStopTimeLessThan(BigDecimal value) {
-            addCriterion("eam_product_line.morning_stop_time <", value, "morningStopTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andMorningStopTimeLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("eam_product_line.morning_stop_time <=", value, "morningStopTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andMorningStopTimeIn(List<BigDecimal> values) {
-            addCriterion("eam_product_line.morning_stop_time in", values, "morningStopTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andMorningStopTimeNotIn(List<BigDecimal> values) {
-            addCriterion("eam_product_line.morning_stop_time not in", values, "morningStopTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andMorningStopTimeBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("eam_product_line.morning_stop_time between", value1, value2, "morningStopTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andMorningStopTimeNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("eam_product_line.morning_stop_time not between", value1, value2, "morningStopTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andMiddleStopTimeIsNull() {
-            addCriterion("eam_product_line.middle_stop_time is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andMiddleStopTimeIsNotNull() {
-            addCriterion("eam_product_line.middle_stop_time is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andMiddleStopTimeEqualTo(BigDecimal value) {
-            addCriterion("eam_product_line.middle_stop_time =", value, "middleStopTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andMiddleStopTimeNotEqualTo(BigDecimal value) {
-            addCriterion("eam_product_line.middle_stop_time <>", value, "middleStopTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andMiddleStopTimeGreaterThan(BigDecimal value) {
-            addCriterion("eam_product_line.middle_stop_time >", value, "middleStopTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andMiddleStopTimeGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("eam_product_line.middle_stop_time >=", value, "middleStopTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andMiddleStopTimeLessThan(BigDecimal value) {
-            addCriterion("eam_product_line.middle_stop_time <", value, "middleStopTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andMiddleStopTimeLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("eam_product_line.middle_stop_time <=", value, "middleStopTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andMiddleStopTimeIn(List<BigDecimal> values) {
-            addCriterion("eam_product_line.middle_stop_time in", values, "middleStopTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andMiddleStopTimeNotIn(List<BigDecimal> values) {
-            addCriterion("eam_product_line.middle_stop_time not in", values, "middleStopTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andMiddleStopTimeBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("eam_product_line.middle_stop_time between", value1, value2, "middleStopTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andMiddleStopTimeNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("eam_product_line.middle_stop_time not between", value1, value2, "middleStopTime");
             return (Criteria) this;
         }
 
@@ -2126,6 +1826,486 @@ public class EamProductLineExample implements Serializable {
 
         public Criteria andStatisticVariableIdNotBetween(Integer value1, Integer value2) {
             addCriterion("eam_product_line.statistic_variable_id not between", value1, value2, "statisticVariableId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateUserIdIsNull() {
+            addCriterion("eam_product_line.create_user_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateUserIdIsNotNull() {
+            addCriterion("eam_product_line.create_user_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateUserIdEqualTo(Integer value) {
+            addCriterion("eam_product_line.create_user_id =", value, "createUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateUserIdNotEqualTo(Integer value) {
+            addCriterion("eam_product_line.create_user_id <>", value, "createUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateUserIdGreaterThan(Integer value) {
+            addCriterion("eam_product_line.create_user_id >", value, "createUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("eam_product_line.create_user_id >=", value, "createUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateUserIdLessThan(Integer value) {
+            addCriterion("eam_product_line.create_user_id <", value, "createUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("eam_product_line.create_user_id <=", value, "createUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateUserIdIn(List<Integer> values) {
+            addCriterion("eam_product_line.create_user_id in", values, "createUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateUserIdNotIn(List<Integer> values) {
+            addCriterion("eam_product_line.create_user_id not in", values, "createUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("eam_product_line.create_user_id between", value1, value2, "createUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("eam_product_line.create_user_id not between", value1, value2, "createUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeIsNull() {
+            addCriterion("eam_product_line.create_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeIsNotNull() {
+            addCriterion("eam_product_line.create_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeEqualTo(Date value) {
+            addCriterion("eam_product_line.create_time =", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeNotEqualTo(Date value) {
+            addCriterion("eam_product_line.create_time <>", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeGreaterThan(Date value) {
+            addCriterion("eam_product_line.create_time >", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("eam_product_line.create_time >=", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeLessThan(Date value) {
+            addCriterion("eam_product_line.create_time <", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeLessThanOrEqualTo(Date value) {
+            addCriterion("eam_product_line.create_time <=", value, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeIn(List<Date> values) {
+            addCriterion("eam_product_line.create_time in", values, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeNotIn(List<Date> values) {
+            addCriterion("eam_product_line.create_time not in", values, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeBetween(Date value1, Date value2) {
+            addCriterion("eam_product_line.create_time between", value1, value2, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreateTimeNotBetween(Date value1, Date value2) {
+            addCriterion("eam_product_line.create_time not between", value1, value2, "createTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateUserIdIsNull() {
+            addCriterion("eam_product_line.update_user_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateUserIdIsNotNull() {
+            addCriterion("eam_product_line.update_user_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateUserIdEqualTo(Integer value) {
+            addCriterion("eam_product_line.update_user_id =", value, "updateUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateUserIdNotEqualTo(Integer value) {
+            addCriterion("eam_product_line.update_user_id <>", value, "updateUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateUserIdGreaterThan(Integer value) {
+            addCriterion("eam_product_line.update_user_id >", value, "updateUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateUserIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("eam_product_line.update_user_id >=", value, "updateUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateUserIdLessThan(Integer value) {
+            addCriterion("eam_product_line.update_user_id <", value, "updateUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateUserIdLessThanOrEqualTo(Integer value) {
+            addCriterion("eam_product_line.update_user_id <=", value, "updateUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateUserIdIn(List<Integer> values) {
+            addCriterion("eam_product_line.update_user_id in", values, "updateUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateUserIdNotIn(List<Integer> values) {
+            addCriterion("eam_product_line.update_user_id not in", values, "updateUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateUserIdBetween(Integer value1, Integer value2) {
+            addCriterion("eam_product_line.update_user_id between", value1, value2, "updateUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateUserIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("eam_product_line.update_user_id not between", value1, value2, "updateUserId");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeIsNull() {
+            addCriterion("eam_product_line.update_time is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeIsNotNull() {
+            addCriterion("eam_product_line.update_time is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeEqualTo(Date value) {
+            addCriterion("eam_product_line.update_time =", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeNotEqualTo(Date value) {
+            addCriterion("eam_product_line.update_time <>", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeGreaterThan(Date value) {
+            addCriterion("eam_product_line.update_time >", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeGreaterThanOrEqualTo(Date value) {
+            addCriterion("eam_product_line.update_time >=", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeLessThan(Date value) {
+            addCriterion("eam_product_line.update_time <", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeLessThanOrEqualTo(Date value) {
+            addCriterion("eam_product_line.update_time <=", value, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeIn(List<Date> values) {
+            addCriterion("eam_product_line.update_time in", values, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeNotIn(List<Date> values) {
+            addCriterion("eam_product_line.update_time not in", values, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeBetween(Date value1, Date value2) {
+            addCriterion("eam_product_line.update_time between", value1, value2, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andUpdateTimeNotBetween(Date value1, Date value2) {
+            addCriterion("eam_product_line.update_time not between", value1, value2, "updateTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagIsNull() {
+            addCriterion("eam_product_line.delete_flag is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagIsNotNull() {
+            addCriterion("eam_product_line.delete_flag is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagEqualTo(Boolean value) {
+            addCriterion("eam_product_line.delete_flag =", value, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagNotEqualTo(Boolean value) {
+            addCriterion("eam_product_line.delete_flag <>", value, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagGreaterThan(Boolean value) {
+            addCriterion("eam_product_line.delete_flag >", value, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("eam_product_line.delete_flag >=", value, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagLessThan(Boolean value) {
+            addCriterion("eam_product_line.delete_flag <", value, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagLessThanOrEqualTo(Boolean value) {
+            addCriterion("eam_product_line.delete_flag <=", value, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagIn(List<Boolean> values) {
+            addCriterion("eam_product_line.delete_flag in", values, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagNotIn(List<Boolean> values) {
+            addCriterion("eam_product_line.delete_flag not in", values, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagBetween(Boolean value1, Boolean value2) {
+            addCriterion("eam_product_line.delete_flag between", value1, value2, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeleteFlagNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("eam_product_line.delete_flag not between", value1, value2, "deleteFlag");
+            return (Criteria) this;
+        }
+
+        public Criteria andBottleQuantityIdIsNull() {
+            addCriterion("eam_product_line.bottle_quantity_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBottleQuantityIdIsNotNull() {
+            addCriterion("eam_product_line.bottle_quantity_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBottleQuantityIdEqualTo(Integer value) {
+            addCriterion("eam_product_line.bottle_quantity_id =", value, "bottleQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBottleQuantityIdNotEqualTo(Integer value) {
+            addCriterion("eam_product_line.bottle_quantity_id <>", value, "bottleQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBottleQuantityIdGreaterThan(Integer value) {
+            addCriterion("eam_product_line.bottle_quantity_id >", value, "bottleQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBottleQuantityIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("eam_product_line.bottle_quantity_id >=", value, "bottleQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBottleQuantityIdLessThan(Integer value) {
+            addCriterion("eam_product_line.bottle_quantity_id <", value, "bottleQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBottleQuantityIdLessThanOrEqualTo(Integer value) {
+            addCriterion("eam_product_line.bottle_quantity_id <=", value, "bottleQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBottleQuantityIdIn(List<Integer> values) {
+            addCriterion("eam_product_line.bottle_quantity_id in", values, "bottleQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBottleQuantityIdNotIn(List<Integer> values) {
+            addCriterion("eam_product_line.bottle_quantity_id not in", values, "bottleQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBottleQuantityIdBetween(Integer value1, Integer value2) {
+            addCriterion("eam_product_line.bottle_quantity_id between", value1, value2, "bottleQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andBottleQuantityIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("eam_product_line.bottle_quantity_id not between", value1, value2, "bottleQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartProduceIdIsNull() {
+            addCriterion("eam_product_line.start_produce_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartProduceIdIsNotNull() {
+            addCriterion("eam_product_line.start_produce_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartProduceIdEqualTo(Integer value) {
+            addCriterion("eam_product_line.start_produce_id =", value, "startProduceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartProduceIdNotEqualTo(Integer value) {
+            addCriterion("eam_product_line.start_produce_id <>", value, "startProduceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartProduceIdGreaterThan(Integer value) {
+            addCriterion("eam_product_line.start_produce_id >", value, "startProduceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartProduceIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("eam_product_line.start_produce_id >=", value, "startProduceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartProduceIdLessThan(Integer value) {
+            addCriterion("eam_product_line.start_produce_id <", value, "startProduceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartProduceIdLessThanOrEqualTo(Integer value) {
+            addCriterion("eam_product_line.start_produce_id <=", value, "startProduceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartProduceIdIn(List<Integer> values) {
+            addCriterion("eam_product_line.start_produce_id in", values, "startProduceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartProduceIdNotIn(List<Integer> values) {
+            addCriterion("eam_product_line.start_produce_id not in", values, "startProduceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartProduceIdBetween(Integer value1, Integer value2) {
+            addCriterion("eam_product_line.start_produce_id between", value1, value2, "startProduceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andStartProduceIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("eam_product_line.start_produce_id not between", value1, value2, "startProduceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndProduceIdIsNull() {
+            addCriterion("eam_product_line.end_produce_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndProduceIdIsNotNull() {
+            addCriterion("eam_product_line.end_produce_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndProduceIdEqualTo(Integer value) {
+            addCriterion("eam_product_line.end_produce_id =", value, "endProduceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndProduceIdNotEqualTo(Integer value) {
+            addCriterion("eam_product_line.end_produce_id <>", value, "endProduceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndProduceIdGreaterThan(Integer value) {
+            addCriterion("eam_product_line.end_produce_id >", value, "endProduceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndProduceIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("eam_product_line.end_produce_id >=", value, "endProduceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndProduceIdLessThan(Integer value) {
+            addCriterion("eam_product_line.end_produce_id <", value, "endProduceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndProduceIdLessThanOrEqualTo(Integer value) {
+            addCriterion("eam_product_line.end_produce_id <=", value, "endProduceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndProduceIdIn(List<Integer> values) {
+            addCriterion("eam_product_line.end_produce_id in", values, "endProduceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndProduceIdNotIn(List<Integer> values) {
+            addCriterion("eam_product_line.end_produce_id not in", values, "endProduceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndProduceIdBetween(Integer value1, Integer value2) {
+            addCriterion("eam_product_line.end_produce_id between", value1, value2, "endProduceId");
+            return (Criteria) this;
+        }
+
+        public Criteria andEndProduceIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("eam_product_line.end_produce_id not between", value1, value2, "endProduceId");
             return (Criteria) this;
         }
 

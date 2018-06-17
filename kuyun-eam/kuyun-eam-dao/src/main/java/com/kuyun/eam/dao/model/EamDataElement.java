@@ -169,13 +169,13 @@ public class EamDataElement extends BaseEntity implements Serializable {
             && (this.getDataType() == null ? other.getDataType() == null : this.getDataType().equals(other.getDataType()))
             && (this.getEquipmentCategoryId() == null ? other.getEquipmentCategoryId() == null : this.getEquipmentCategoryId().equals(other.getEquipmentCategoryId()))
             && (this.getIsStatisticByDate() == null ? other.getIsStatisticByDate() == null : this.getIsStatisticByDate().equals(other.getIsStatisticByDate()))
+            && (this.getIsStatisticByShift() == null ? other.getIsStatisticByShift() == null : this.getIsStatisticByShift().equals(other.getIsStatisticByShift()))
+            && (this.getIsSummation() == null ? other.getIsSummation() == null : this.getIsSummation().equals(other.getIsSummation()))
             && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
-            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getIsStatisticByShift() == null ? other.getIsStatisticByShift() == null : this.getIsStatisticByShift().equals(other.getIsStatisticByShift()))
-            && (this.getIsSummation() == null ? other.getIsSummation() == null : this.getIsSummation().equals(other.getIsSummation()));
+            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()));
     }
 
     @Override
@@ -189,13 +189,13 @@ public class EamDataElement extends BaseEntity implements Serializable {
         result = prime * result + ((getDataType() == null) ? 0 : getDataType().hashCode());
         result = prime * result + ((getEquipmentCategoryId() == null) ? 0 : getEquipmentCategoryId().hashCode());
         result = prime * result + ((getIsStatisticByDate() == null) ? 0 : getIsStatisticByDate().hashCode());
+        result = prime * result + ((getIsStatisticByShift() == null) ? 0 : getIsStatisticByShift().hashCode());
+        result = prime * result + ((getIsSummation() == null) ? 0 : getIsSummation().hashCode());
         result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
-        result = prime * result + ((getIsStatisticByShift() == null) ? 0 : getIsStatisticByShift().hashCode());
-        result = prime * result + ((getIsSummation() == null) ? 0 : getIsSummation().hashCode());
         return result;
     }
 }

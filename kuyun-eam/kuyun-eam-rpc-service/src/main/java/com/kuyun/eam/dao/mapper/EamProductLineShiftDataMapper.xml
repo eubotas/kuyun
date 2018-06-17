@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kuyun.eam.dao.mapper.EamProductLineShiftDataMapper">
+  <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamProductLineShiftData">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="product_line_id" jdbcType="VARCHAR" property="productLineId" />
+    <result column="actual_capacity" jdbcType="DECIMAL" property="actualCapacity" />
+    <result column="base_capacity" jdbcType="DECIMAL" property="baseCapacity" />
+    <result column="performance_rate" jdbcType="DECIMAL" property="performanceRate" />
+    <result column="qualified_rate" jdbcType="DECIMAL" property="qualifiedRate" />
+    <result column="rejection_rate" jdbcType="DECIMAL" property="rejectionRate" />
+    <result column="time_starting_rate" jdbcType="DECIMAL" property="timeStartingRate" />
+    <result column="oee" jdbcType="DECIMAL" property="oee" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="start_date" jdbcType="TIMESTAMP" property="startDate" />
+    <result column="end_date" jdbcType="TIMESTAMP" property="endDate" />
+    <result column="sum_time_str" jdbcType="VARCHAR" property="sumTimeStr" />
+    <result column="sum_time" jdbcType="DECIMAL" property="sumTime" />
+    <result column="shirt_time" jdbcType="DECIMAL" property="shirtTime" />
+    <result column="plan_stop_time" jdbcType="DECIMAL" property="planStopTime" />
+    <result column="shift_name" jdbcType="VARCHAR" property="shiftName" />
+    <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, product_line_id, actual_capacity, base_capacity, performance_rate, qualified_rate, 
+    rejection_rate, time_starting_rate, oee, product_name, start_date, end_date, sum_time_str, 
+    sum_time, shirt_time, plan_stop_time, shift_name, create_user_id, create_time, update_user_id, 
+    update_time, delete_flag
+  </sql>
+  <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamProductLineShiftDataExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from eam_product_line_shift_data
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from eam_product_line_shift_data
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    update eam_product_line_shift_data set delete_flag = 1 
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamProductLineShiftDataExample">
+    update eam_product_line_shift_data set delete_flag = 1 
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamProductLineShiftData">
+    insert into eam_product_line_shift_data (id, product_line_id, actual_capacity, 
+      base_capacity, performance_rate, qualified_rate, 
+      rejection_rate, time_starting_rate, oee, 
+      product_name, start_date, end_date, 
+      sum_time_str, sum_time, shirt_time, 
+      plan_stop_time, shift_name, create_user_id, 
+      create_time, update_user_id, update_time, 
+      delete_flag)
+    values (#{id,jdbcType=BIGINT}, #{productLineId,jdbcType=VARCHAR}, #{actualCapacity,jdbcType=DECIMAL}, 
+      #{baseCapacity,jdbcType=DECIMAL}, #{performanceRate,jdbcType=DECIMAL}, #{qualifiedRate,jdbcType=DECIMAL}, 
+      #{rejectionRate,jdbcType=DECIMAL}, #{timeStartingRate,jdbcType=DECIMAL}, #{oee,jdbcType=DECIMAL}, 
+      #{productName,jdbcType=VARCHAR}, #{startDate,jdbcType=TIMESTAMP}, #{endDate,jdbcType=TIMESTAMP}, 
+      #{sumTimeStr,jdbcType=VARCHAR}, #{sumTime,jdbcType=DECIMAL}, #{shirtTime,jdbcType=DECIMAL}, 
+      #{planStopTime,jdbcType=DECIMAL}, #{shiftName,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{deleteFlag,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamProductLineShiftData">
+    insert into eam_product_line_shift_data
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="productLineId != null">
+        product_line_id,
+      </if>
+      <if test="actualCapacity != null">
+        actual_capacity,
+      </if>
+      <if test="baseCapacity != null">
+        base_capacity,
+      </if>
+      <if test="performanceRate != null">
+        performance_rate,
+      </if>
+      <if test="qualifiedRate != null">
+        qualified_rate,
+      </if>
+      <if test="rejectionRate != null">
+        rejection_rate,
+      </if>
+      <if test="timeStartingRate != null">
+        time_starting_rate,
+      </if>
+      <if test="oee != null">
+        oee,
+      </if>
+      <if test="productName != null">
+        product_name,
+      </if>
+      <if test="startDate != null">
+        start_date,
+      </if>
+      <if test="endDate != null">
+        end_date,
+      </if>
+      <if test="sumTimeStr != null">
+        sum_time_str,
+      </if>
+      <if test="sumTime != null">
+        sum_time,
+      </if>
+      <if test="shirtTime != null">
+        shirt_time,
+      </if>
+      <if test="planStopTime != null">
+        plan_stop_time,
+      </if>
+      <if test="shiftName != null">
+        shift_name,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateUserId != null">
+        update_user_id,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="productLineId != null">
+        #{productLineId,jdbcType=VARCHAR},
+      </if>
+      <if test="actualCapacity != null">
+        #{actualCapacity,jdbcType=DECIMAL},
+      </if>
+      <if test="baseCapacity != null">
+        #{baseCapacity,jdbcType=DECIMAL},
+      </if>
+      <if test="performanceRate != null">
+        #{performanceRate,jdbcType=DECIMAL},
+      </if>
+      <if test="qualifiedRate != null">
+        #{qualifiedRate,jdbcType=DECIMAL},
+      </if>
+      <if test="rejectionRate != null">
+        #{rejectionRate,jdbcType=DECIMAL},
+      </if>
+      <if test="timeStartingRate != null">
+        #{timeStartingRate,jdbcType=DECIMAL},
+      </if>
+      <if test="oee != null">
+        #{oee,jdbcType=DECIMAL},
+      </if>
+      <if test="productName != null">
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null">
+        #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sumTimeStr != null">
+        #{sumTimeStr,jdbcType=VARCHAR},
+      </if>
+      <if test="sumTime != null">
+        #{sumTime,jdbcType=DECIMAL},
+      </if>
+      <if test="shirtTime != null">
+        #{shirtTime,jdbcType=DECIMAL},
+      </if>
+      <if test="planStopTime != null">
+        #{planStopTime,jdbcType=DECIMAL},
+      </if>
+      <if test="shiftName != null">
+        #{shiftName,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null">
+        #{deleteFlag,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamProductLineShiftDataExample" resultType="java.lang.Long">
+    select count(*) from eam_product_line_shift_data
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update eam_product_line_shift_data
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.productLineId != null">
+        product_line_id = #{record.productLineId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.actualCapacity != null">
+        actual_capacity = #{record.actualCapacity,jdbcType=DECIMAL},
+      </if>
+      <if test="record.baseCapacity != null">
+        base_capacity = #{record.baseCapacity,jdbcType=DECIMAL},
+      </if>
+      <if test="record.performanceRate != null">
+        performance_rate = #{record.performanceRate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.qualifiedRate != null">
+        qualified_rate = #{record.qualifiedRate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.rejectionRate != null">
+        rejection_rate = #{record.rejectionRate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.timeStartingRate != null">
+        time_starting_rate = #{record.timeStartingRate,jdbcType=DECIMAL},
+      </if>
+      <if test="record.oee != null">
+        oee = #{record.oee,jdbcType=DECIMAL},
+      </if>
+      <if test="record.productName != null">
+        product_name = #{record.productName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startDate != null">
+        start_date = #{record.startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endDate != null">
+        end_date = #{record.endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sumTimeStr != null">
+        sum_time_str = #{record.sumTimeStr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sumTime != null">
+        sum_time = #{record.sumTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.shirtTime != null">
+        shirt_time = #{record.shirtTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.planStopTime != null">
+        plan_stop_time = #{record.planStopTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.shiftName != null">
+        shift_name = #{record.shiftName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUserId != null">
+        create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUserId != null">
+        update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateTime != null">
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deleteFlag != null">
+        delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update eam_product_line_shift_data
+    set id = #{record.id,jdbcType=BIGINT},
+      product_line_id = #{record.productLineId,jdbcType=VARCHAR},
+      actual_capacity = #{record.actualCapacity,jdbcType=DECIMAL},
+      base_capacity = #{record.baseCapacity,jdbcType=DECIMAL},
+      performance_rate = #{record.performanceRate,jdbcType=DECIMAL},
+      qualified_rate = #{record.qualifiedRate,jdbcType=DECIMAL},
+      rejection_rate = #{record.rejectionRate,jdbcType=DECIMAL},
+      time_starting_rate = #{record.timeStartingRate,jdbcType=DECIMAL},
+      oee = #{record.oee,jdbcType=DECIMAL},
+      product_name = #{record.productName,jdbcType=VARCHAR},
+      start_date = #{record.startDate,jdbcType=TIMESTAMP},
+      end_date = #{record.endDate,jdbcType=TIMESTAMP},
+      sum_time_str = #{record.sumTimeStr,jdbcType=VARCHAR},
+      sum_time = #{record.sumTime,jdbcType=DECIMAL},
+      shirt_time = #{record.shirtTime,jdbcType=DECIMAL},
+      plan_stop_time = #{record.planStopTime,jdbcType=DECIMAL},
+      shift_name = #{record.shiftName,jdbcType=VARCHAR},
+      create_user_id = #{record.createUserId,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{record.updateUserId,jdbcType=INTEGER},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      delete_flag = #{record.deleteFlag,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kuyun.eam.dao.model.EamProductLineShiftData">
+    update eam_product_line_shift_data
+    <set>
+      <if test="productLineId != null">
+        product_line_id = #{productLineId,jdbcType=VARCHAR},
+      </if>
+      <if test="actualCapacity != null">
+        actual_capacity = #{actualCapacity,jdbcType=DECIMAL},
+      </if>
+      <if test="baseCapacity != null">
+        base_capacity = #{baseCapacity,jdbcType=DECIMAL},
+      </if>
+      <if test="performanceRate != null">
+        performance_rate = #{performanceRate,jdbcType=DECIMAL},
+      </if>
+      <if test="qualifiedRate != null">
+        qualified_rate = #{qualifiedRate,jdbcType=DECIMAL},
+      </if>
+      <if test="rejectionRate != null">
+        rejection_rate = #{rejectionRate,jdbcType=DECIMAL},
+      </if>
+      <if test="timeStartingRate != null">
+        time_starting_rate = #{timeStartingRate,jdbcType=DECIMAL},
+      </if>
+      <if test="oee != null">
+        oee = #{oee,jdbcType=DECIMAL},
+      </if>
+      <if test="productName != null">
+        product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null">
+        start_date = #{startDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endDate != null">
+        end_date = #{endDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sumTimeStr != null">
+        sum_time_str = #{sumTimeStr,jdbcType=VARCHAR},
+      </if>
+      <if test="sumTime != null">
+        sum_time = #{sumTime,jdbcType=DECIMAL},
+      </if>
+      <if test="shirtTime != null">
+        shirt_time = #{shirtTime,jdbcType=DECIMAL},
+      </if>
+      <if test="planStopTime != null">
+        plan_stop_time = #{planStopTime,jdbcType=DECIMAL},
+      </if>
+      <if test="shiftName != null">
+        shift_name = #{shiftName,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null">
+        update_user_id = #{updateUserId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null">
+        delete_flag = #{deleteFlag,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamProductLineShiftData">
+    update eam_product_line_shift_data
+    set product_line_id = #{productLineId,jdbcType=VARCHAR},
+      actual_capacity = #{actualCapacity,jdbcType=DECIMAL},
+      base_capacity = #{baseCapacity,jdbcType=DECIMAL},
+      performance_rate = #{performanceRate,jdbcType=DECIMAL},
+      qualified_rate = #{qualifiedRate,jdbcType=DECIMAL},
+      rejection_rate = #{rejectionRate,jdbcType=DECIMAL},
+      time_starting_rate = #{timeStartingRate,jdbcType=DECIMAL},
+      oee = #{oee,jdbcType=DECIMAL},
+      product_name = #{productName,jdbcType=VARCHAR},
+      start_date = #{startDate,jdbcType=TIMESTAMP},
+      end_date = #{endDate,jdbcType=TIMESTAMP},
+      sum_time_str = #{sumTimeStr,jdbcType=VARCHAR},
+      sum_time = #{sumTime,jdbcType=DECIMAL},
+      shirt_time = #{shirtTime,jdbcType=DECIMAL},
+      plan_stop_time = #{planStopTime,jdbcType=DECIMAL},
+      shift_name = #{shiftName,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      delete_flag = #{deleteFlag,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <insert id="batchInsert">
+    <if test="items.get(0) != null">
+            insert into eam_product_line_shift_data  (id, product_line_id, actual_capacity, 
+        base_capacity, performance_rate, qualified_rate, 
+        rejection_rate, time_starting_rate, oee, 
+        product_name, start_date, end_date, 
+        sum_time_str, sum_time, shirt_time, 
+        plan_stop_time, shift_name, create_user_id, 
+        create_time, update_user_id, update_time, 
+        delete_flag)
+      values
+      <foreach collection="items" item="item" index="index" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.productLineId,jdbcType=VARCHAR}, #{item.actualCapacity,jdbcType=DECIMAL}, 
+        #{item.baseCapacity,jdbcType=DECIMAL}, #{item.performanceRate,jdbcType=DECIMAL}, #{item.qualifiedRate,jdbcType=DECIMAL}, 
+        #{item.rejectionRate,jdbcType=DECIMAL}, #{item.timeStartingRate,jdbcType=DECIMAL}, #{item.oee,jdbcType=DECIMAL}, 
+        #{item.productName,jdbcType=VARCHAR}, #{item.startDate,jdbcType=TIMESTAMP}, #{item.endDate,jdbcType=TIMESTAMP}, 
+        #{item.sumTimeStr,jdbcType=VARCHAR}, #{item.sumTime,jdbcType=DECIMAL}, #{item.shirtTime,jdbcType=DECIMAL}, 
+        #{item.planStopTime,jdbcType=DECIMAL}, #{item.shiftName,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER}, 
+        #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
+        #{item.deleteFlag,jdbcType=BIT})
+      </foreach>
+    </if>
+  </insert>
+  <cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+</mapper>

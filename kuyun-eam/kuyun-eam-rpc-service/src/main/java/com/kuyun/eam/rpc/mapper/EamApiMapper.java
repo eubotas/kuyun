@@ -3,6 +3,7 @@ package com.kuyun.eam.rpc.mapper;
 import java.util.List;
 
 import com.kuyun.eam.dao.model.*;
+import com.kuyun.eam.pojo.ShiftStatus;
 import com.kuyun.eam.vo.*;
 
 /**
@@ -100,6 +101,9 @@ public interface EamApiMapper {
 
     long countEamAlertMessages(EamAlertMessageVO alertMessageVO);
 
+    long sumBottleQuantity();
+
+
     List<EamGrmVariable> selectGrmVariableGroupByPeriod(String productLineId);
 
     List<EamGrmVariableVO> selectGrmVariables(EamGrmVariableVO variableVO);
@@ -108,5 +112,7 @@ public interface EamApiMapper {
 
     List<EamProductLineGrmDataElementVO> getProductShiftGrmVariable(EamGrmVariableVO eamGrmVariableVO);
     List<EamGrmVariableGroupVO> selectEamGrmVariableGroup(EamGrmVariableGroupVO eamGrmVariableGroupVO);
-    List<EamGrmVariableVO> selectUnUsedEamGrmVariable(EamGrmVariableVO eamGrmVariableVO);
+    List<EamGrmVariableVO> selectUsedEamGrmVariable(EamGrmVariableVO eamGrmVariableVO);
+
+    List<ShiftStatus> selectShiftStatus();
 }

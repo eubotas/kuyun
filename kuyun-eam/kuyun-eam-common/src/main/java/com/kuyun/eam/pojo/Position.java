@@ -8,8 +8,17 @@ import java.math.BigDecimal;
  */
 public class Position implements Serializable{
     private String equipmentId;
+    private String equipmentName;
     private BigDecimal left;
     private BigDecimal top;
+
+    public String getEquipmentName() {
+        return equipmentName;
+    }
+
+    public void setEquipmentName(String equipmentName) {
+        this.equipmentName = equipmentName;
+    }
 
     public String getEquipmentId() {
         return equipmentId;
