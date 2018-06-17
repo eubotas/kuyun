@@ -3070,6 +3070,7 @@ public class EamApiServiceImpl implements EamApiService {
 
     private void handleGrmVariableDataByShiftSwitch(EamGrmVariable variable, String value,boolean isSummary, Boolean offOpen, String shiftNum,String startDate,String endDate) throws ParseException {
         EamShiftDataElementValue data = getEamGrmVariableDataByShift(variable, shiftNum, offOpen, startDate, endDate);
+        _log.debug("handleGrmVariableDataByShiftSwitch EamShiftDataElementValue=" + (data==null?"NULL":"EXIST"));
         //得到变化的数量
         String val= null;
         if(isSummary) {
@@ -3099,6 +3100,7 @@ public class EamApiServiceImpl implements EamApiService {
     private void handleGrmVariableDataByShiftAmount(EamGrmVariable variable, String value,boolean isSummary, Boolean offOpen, String shiftNum,String startDate,String endDate) throws ParseException {
         String key = "SHIFT-AMOUNT-" + variable.getProductLineId() + "-" + variable.getEquipmentId() + "-" + variable.getDataElementId() + "-" + variable.getId();
         EamShiftDataElementValue data = getEamGrmVariableDataByShift(variable, shiftNum, offOpen, startDate, endDate);
+        _log.debug("handleGrmVariableDataByShiftAmount EamShiftDataElementValue=" + (data==null?"NULL":"EXIST"));
         //得到变化的数量
         String val= null;
         if(isSummary) {
@@ -3138,6 +3140,7 @@ public class EamApiServiceImpl implements EamApiService {
             criteria.andSwitchValueEqualTo(offOpen);
         }
 
+        _log.debug("get existed EamShiftDataElementValue -- selectFirstByExample:" + example);
         return eamShiftDataElementValueService.selectFirstByExample(example);
     }
 
