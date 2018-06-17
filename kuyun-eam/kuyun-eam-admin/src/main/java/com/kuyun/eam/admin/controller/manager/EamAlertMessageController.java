@@ -54,7 +54,7 @@ public class EamAlertMessageController extends BaseController {
         return "/manage/alertmsg/index.jsp";
     }
 
-    @ApiOperation(value = "消息列表")
+    @ApiOperation(value = "未读消息列表")
     @RequiresPermissions("eam:alertMessage:read")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody

@@ -1502,7 +1502,9 @@
 				#{item}
 			</foreach>
 		</if>
-
+		<if test="userId != null">
+			AND eam_alert_message.user_id = #{userId}
+		</if>
 		<if test="startDate != null">
 			AND eam_alert_message.alert_start_date <![CDATA[>=]]> #{startDate}
 		</if>
