@@ -183,7 +183,7 @@ public interface EamApiService {
 
     void productLineShirtStatisticJob();
 
-    long sumBottleQuantity();
+    Long sumBottleQuantity();
 
     MapData buildMapData();
 

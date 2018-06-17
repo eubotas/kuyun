@@ -101,7 +101,7 @@ public interface EamApiMapper {
 
     long countEamAlertMessages(EamAlertMessageVO alertMessageVO);
 
-    long sumBottleQuantity();
+    Long sumBottleQuantity();
 
 
     List<EamGrmVariable> selectGrmVariableGroupByPeriod(String productLineId);

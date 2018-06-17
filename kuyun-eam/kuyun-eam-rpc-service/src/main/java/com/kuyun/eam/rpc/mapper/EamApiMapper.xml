@@ -1514,7 +1514,7 @@
 		</if>
 	</select>
 
-	<select id="countEamAlertMessages"  resultType="java.lang.Long">
+	<select id="sumBottleQuantity"  resultType="java.lang.Long">
 		select sum(value * 1)
 		from eam_grm_variable_data
 		where data_element_id

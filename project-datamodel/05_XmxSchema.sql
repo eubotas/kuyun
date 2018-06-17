@@ -365,7 +365,7 @@ create table eam_grm_variable_data_history
    primary key (id, update_time)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8
 PARTITION BY RANGE (TO_DAYS(update_time)) (         
-    PARTITION p20180601 VALUES LESS THAN ( TO_DAYS('2018-06-01') )
+    PARTITION p2018_06_01 VALUES LESS THAN ( TO_DAYS('2018-06-01') )
 );
 
 ALTER table eam_grm_variable_data_history ADD INDEX index_update_time(update_time);

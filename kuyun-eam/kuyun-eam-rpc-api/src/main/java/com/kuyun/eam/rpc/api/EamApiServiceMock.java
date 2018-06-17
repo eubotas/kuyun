@@ -451,8 +451,8 @@ public class EamApiServiceMock implements EamApiService {
     }
 
     @Override
-    public long sumBottleQuantity() {
-        return 0;
+    public Long sumBottleQuantity() {
+        return Long.valueOf(0);
     }
 
     @Override

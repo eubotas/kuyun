@@ -2350,7 +2350,7 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     @Override
-    public long sumBottleQuantity() {
+    public Long sumBottleQuantity() {
         return eamApiMapper.sumBottleQuantity();
     }
 
