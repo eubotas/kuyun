@@ -2365,7 +2365,8 @@ public class EamApiServiceImpl implements EamApiService {
         Map<String, Pair> map = new HashMap<>();
         for(EamProductLine productLine : productLines){
 
-            String name = productLine.getCity() != null ? productLine.getCity() : productLine.getProvince();
+            String code = productLine.getCity() != null ? productLine.getCity() : productLine.getProvince();
+            String name =  areaUtil.getName(code);
             if (EamConstant.HEADQUARTER.equals(name)){
                 continue;
             }
