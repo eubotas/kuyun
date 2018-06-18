@@ -1407,7 +1407,7 @@
 	<select id="countOrders" parameterType="com.kuyun.eam.vo.EamOrderVO" resultType="java.lang.Long">
 		select count(id)
 		from eam_order
-		WHERE 1 = 1
+		WHERE delete_flag = 0
 		<if test="search != null and search != ''">
 			<bind name="pattern" value="'%' + search + '%'" />
 			AND company_name like #{pattern}
