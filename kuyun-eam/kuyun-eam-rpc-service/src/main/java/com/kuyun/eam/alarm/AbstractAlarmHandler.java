@@ -267,7 +267,7 @@ public abstract class AbstractAlarmHandler {
             try {
                 _log.info("Send Email To : [ {} ], Message: [ {} ]", email, message);
                 emailService.sendSimpleMail(message, email, isClearMessage);
-            } catch (MessagingException e) {
+            } catch (Exception e) {
                 _log.error("Send Email Error:" + e.getMessage());
             }
         }

@@ -95,6 +95,7 @@ public class EamGrmVariableDataHistory extends BaseEntity implements Serializabl
         }
         EamGrmVariableDataHistory other = (EamGrmVariableDataHistory) that;
         return (this.getId() == null ? other.getId() == null : this.getId().equals(other.getId()))
+            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getEamGrmVariableId() == null ? other.getEamGrmVariableId() == null : this.getEamGrmVariableId().equals(other.getEamGrmVariableId()))
             && (this.getEquipmentId() == null ? other.getEquipmentId() == null : this.getEquipmentId().equals(other.getEquipmentId()))
             && (this.getProductLineId() == null ? other.getProductLineId() == null : this.getProductLineId().equals(other.getProductLineId()))
@@ -103,7 +104,6 @@ public class EamGrmVariableDataHistory extends BaseEntity implements Serializabl
             && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
-            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()));
     }
 
@@ -112,6 +112,7 @@ public class EamGrmVariableDataHistory extends BaseEntity implements Serializabl
         final int prime = 31;
         int result = 1;
         result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
+        result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getEamGrmVariableId() == null) ? 0 : getEamGrmVariableId().hashCode());
         result = prime * result + ((getEquipmentId() == null) ? 0 : getEquipmentId().hashCode());
         result = prime * result + ((getProductLineId() == null) ? 0 : getProductLineId().hashCode());
@@ -120,7 +121,6 @@ public class EamGrmVariableDataHistory extends BaseEntity implements Serializabl
         result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());
-        result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         return result;
     }

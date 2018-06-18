@@ -3,6 +3,7 @@ package com.kuyun.eam.rpc.api;
 import com.kuyun.eam.common.constant.CollectStatus;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.pojo.*;
+import com.kuyun.eam.pojo.map.MapData;
 import com.kuyun.eam.pojo.sensor.SensorGroup;
 import com.kuyun.eam.pojo.tree.Tree;
 import com.kuyun.eam.vo.*;
@@ -179,4 +180,12 @@ public interface EamApiService {
     void importDataElement(List<DataElementBean> list, UpmsUserCompany company);
 
     List<EamGrmVariableGroupVO> selectEamGrmVariableGroup(EamGrmVariableGroupVO eamGrmVariableGroupVO);
+
+    void productLineShirtStatisticJob();
+
+    Long sumBottleQuantity();
+
+    MapData buildMapData();
+
+    List<ShiftStatus> getShiftStatus();
 }

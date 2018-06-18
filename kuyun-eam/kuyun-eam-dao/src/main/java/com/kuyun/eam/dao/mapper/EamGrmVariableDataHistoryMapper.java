@@ -2,6 +2,7 @@ package com.kuyun.eam.dao.mapper;
 
 import com.kuyun.eam.dao.model.EamGrmVariableDataHistory;
 import com.kuyun.eam.dao.model.EamGrmVariableDataHistoryExample;
+import java.util.Date;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -10,7 +11,7 @@ public interface EamGrmVariableDataHistoryMapper {
 
     int deleteByExample(EamGrmVariableDataHistoryExample example);
 
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(@Param("id") Long id, @Param("updateTime") Date updateTime);
 
     int insert(EamGrmVariableDataHistory record);
 
@@ -18,7 +19,7 @@ public interface EamGrmVariableDataHistoryMapper {
 
     List<EamGrmVariableDataHistory> selectByExample(EamGrmVariableDataHistoryExample example);
 
-    EamGrmVariableDataHistory selectByPrimaryKey(Long id);
+    EamGrmVariableDataHistory selectByPrimaryKey(@Param("id") Long id, @Param("updateTime") Date updateTime);
 
     int updateByExampleSelective(@Param("record") EamGrmVariableDataHistory record, @Param("example") EamGrmVariableDataHistoryExample example);
 

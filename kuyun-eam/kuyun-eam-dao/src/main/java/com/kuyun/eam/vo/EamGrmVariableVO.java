@@ -14,6 +14,9 @@ public class EamGrmVariableVO extends EamGrmVariable {
     private Boolean checked;
     private String productLineName;
     private String equipmentName;
+    private String dataGroupId;
+
+    private String equipmentDataGroupId;
 
     private List<Integer> grmVariableIds;
     private List<Integer> dataElementIds;
@@ -23,6 +26,22 @@ public class EamGrmVariableVO extends EamGrmVariable {
     private Integer offset;
 
     private String orderByClause;
+
+    public String getDataGroupId() {
+        return dataGroupId;
+    }
+
+    public void setDataGroupId(String dataGroupId) {
+        this.dataGroupId = dataGroupId;
+    }
+
+    public String getEquipmentDataGroupId() {
+        return equipmentDataGroupId;
+    }
+
+    public void setEquipmentDataGroupId(String equipmentDataGroupId) {
+        this.equipmentDataGroupId = equipmentDataGroupId;
+    }
 
     public List<Integer> getDataElementIds() {
         return dataElementIds;

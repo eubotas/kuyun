@@ -53,18 +53,33 @@ public class EamProductLine extends BaseEntity implements Serializable {
 
     private String morningShiftEndTime;
 
+    /**
+     * 早班停机时间
+     *
+     * @mbg.generated
+     */
+    private BigDecimal morningStopTime;
+
     private String middleShiftStartTime;
 
     private String middleShiftEndTime;
+
+    /**
+     * 中班停机时间
+     *
+     * @mbg.generated
+     */
+    private BigDecimal middleStopTime;
 
     private String nightShiftStartTime;
 
     private String nightShiftEndTime;
 
-    private BigDecimal morningStopTime;
-
-    private BigDecimal middleStopTime;
-
+    /**
+     * 晚班停机时间
+     *
+     * @mbg.generated
+     */
     private BigDecimal nightStopTime;
 
     /**
@@ -101,6 +116,27 @@ public class EamProductLine extends BaseEntity implements Serializable {
      * @mbg.generated
      */
     private Integer statisticVariableId;
+
+    /**
+     * 统计瓶数ID
+     *
+     * @mbg.generated
+     */
+    private Integer bottleQuantityId;
+
+    /**
+     * 大屏显示（开始生产）
+     *
+     * @mbg.generated
+     */
+    private Integer startProduceId;
+
+    /**
+     * 大屏显示（结束生产）
+     *
+     * @mbg.generated
+     */
+    private Integer endProduceId;
 
     private static final long serialVersionUID = 1L;
 
@@ -216,6 +252,14 @@ public class EamProductLine extends BaseEntity implements Serializable {
         this.morningShiftEndTime = morningShiftEndTime;
     }
 
+    public BigDecimal getMorningStopTime() {
+        return morningStopTime;
+    }
+
+    public void setMorningStopTime(BigDecimal morningStopTime) {
+        this.morningStopTime = morningStopTime;
+    }
+
     public String getMiddleShiftStartTime() {
         return middleShiftStartTime;
     }
@@ -232,6 +276,14 @@ public class EamProductLine extends BaseEntity implements Serializable {
         this.middleShiftEndTime = middleShiftEndTime;
     }
 
+    public BigDecimal getMiddleStopTime() {
+        return middleStopTime;
+    }
+
+    public void setMiddleStopTime(BigDecimal middleStopTime) {
+        this.middleStopTime = middleStopTime;
+    }
+
     public String getNightShiftStartTime() {
         return nightShiftStartTime;
     }
@@ -246,22 +298,6 @@ public class EamProductLine extends BaseEntity implements Serializable {
 
     public void setNightShiftEndTime(String nightShiftEndTime) {
         this.nightShiftEndTime = nightShiftEndTime;
-    }
-
-    public BigDecimal getMorningStopTime() {
-        return morningStopTime;
-    }
-
-    public void setMorningStopTime(BigDecimal morningStopTime) {
-        this.morningStopTime = morningStopTime;
-    }
-
-    public BigDecimal getMiddleStopTime() {
-        return middleStopTime;
-    }
-
-    public void setMiddleStopTime(BigDecimal middleStopTime) {
-        this.middleStopTime = middleStopTime;
     }
 
     public BigDecimal getNightStopTime() {
@@ -312,6 +348,30 @@ public class EamProductLine extends BaseEntity implements Serializable {
         this.statisticVariableId = statisticVariableId;
     }
 
+    public Integer getBottleQuantityId() {
+        return bottleQuantityId;
+    }
+
+    public void setBottleQuantityId(Integer bottleQuantityId) {
+        this.bottleQuantityId = bottleQuantityId;
+    }
+
+    public Integer getStartProduceId() {
+        return startProduceId;
+    }
+
+    public void setStartProduceId(Integer startProduceId) {
+        this.startProduceId = startProduceId;
+    }
+
+    public Integer getEndProduceId() {
+        return endProduceId;
+    }
+
+    public void setEndProduceId(Integer endProduceId) {
+        this.endProduceId = endProduceId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -332,18 +392,21 @@ public class EamProductLine extends BaseEntity implements Serializable {
         sb.append(", isOnline=").append(isOnline);
         sb.append(", morningShiftStartTime=").append(morningShiftStartTime);
         sb.append(", morningShiftEndTime=").append(morningShiftEndTime);
+        sb.append(", morningStopTime=").append(morningStopTime);
         sb.append(", middleShiftStartTime=").append(middleShiftStartTime);
         sb.append(", middleShiftEndTime=").append(middleShiftEndTime);
+        sb.append(", middleStopTime=").append(middleStopTime);
         sb.append(", nightShiftStartTime=").append(nightShiftStartTime);
         sb.append(", nightShiftEndTime=").append(nightShiftEndTime);
-        sb.append(", morningStopTime=").append(morningStopTime);
-        sb.append(", middleStopTime=").append(middleStopTime);
         sb.append(", nightStopTime=").append(nightStopTime);
         sb.append(", actualCapacityId=").append(actualCapacityId);
         sb.append(", baseCapacityId=").append(baseCapacityId);
         sb.append(", qualifiedQuantityId=").append(qualifiedQuantityId);
         sb.append(", totalQuantityId=").append(totalQuantityId);
         sb.append(", statisticVariableId=").append(statisticVariableId);
+        sb.append(", bottleQuantityId=").append(bottleQuantityId);
+        sb.append(", startProduceId=").append(startProduceId);
+        sb.append(", endProduceId=").append(endProduceId);
         sb.append("]");
         return sb.toString();
     }
@@ -374,23 +437,26 @@ public class EamProductLine extends BaseEntity implements Serializable {
             && (this.getIsOnline() == null ? other.getIsOnline() == null : this.getIsOnline().equals(other.getIsOnline()))
             && (this.getMorningShiftStartTime() == null ? other.getMorningShiftStartTime() == null : this.getMorningShiftStartTime().equals(other.getMorningShiftStartTime()))
             && (this.getMorningShiftEndTime() == null ? other.getMorningShiftEndTime() == null : this.getMorningShiftEndTime().equals(other.getMorningShiftEndTime()))
+            && (this.getMorningStopTime() == null ? other.getMorningStopTime() == null : this.getMorningStopTime().equals(other.getMorningStopTime()))
             && (this.getMiddleShiftStartTime() == null ? other.getMiddleShiftStartTime() == null : this.getMiddleShiftStartTime().equals(other.getMiddleShiftStartTime()))
             && (this.getMiddleShiftEndTime() == null ? other.getMiddleShiftEndTime() == null : this.getMiddleShiftEndTime().equals(other.getMiddleShiftEndTime()))
+            && (this.getMiddleStopTime() == null ? other.getMiddleStopTime() == null : this.getMiddleStopTime().equals(other.getMiddleStopTime()))
             && (this.getNightShiftStartTime() == null ? other.getNightShiftStartTime() == null : this.getNightShiftStartTime().equals(other.getNightShiftStartTime()))
             && (this.getNightShiftEndTime() == null ? other.getNightShiftEndTime() == null : this.getNightShiftEndTime().equals(other.getNightShiftEndTime()))
-            && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
-            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
-            && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
-            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
-            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getMorningStopTime() == null ? other.getMorningStopTime() == null : this.getMorningStopTime().equals(other.getMorningStopTime()))
-            && (this.getMiddleStopTime() == null ? other.getMiddleStopTime() == null : this.getMiddleStopTime().equals(other.getMiddleStopTime()))
             && (this.getNightStopTime() == null ? other.getNightStopTime() == null : this.getNightStopTime().equals(other.getNightStopTime()))
             && (this.getActualCapacityId() == null ? other.getActualCapacityId() == null : this.getActualCapacityId().equals(other.getActualCapacityId()))
             && (this.getBaseCapacityId() == null ? other.getBaseCapacityId() == null : this.getBaseCapacityId().equals(other.getBaseCapacityId()))
             && (this.getQualifiedQuantityId() == null ? other.getQualifiedQuantityId() == null : this.getQualifiedQuantityId().equals(other.getQualifiedQuantityId()))
             && (this.getTotalQuantityId() == null ? other.getTotalQuantityId() == null : this.getTotalQuantityId().equals(other.getTotalQuantityId()))
-            && (this.getStatisticVariableId() == null ? other.getStatisticVariableId() == null : this.getStatisticVariableId().equals(other.getStatisticVariableId()));
+            && (this.getStatisticVariableId() == null ? other.getStatisticVariableId() == null : this.getStatisticVariableId().equals(other.getStatisticVariableId()))
+            && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
+            && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
+            && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
+            && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
+            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
+            && (this.getBottleQuantityId() == null ? other.getBottleQuantityId() == null : this.getBottleQuantityId().equals(other.getBottleQuantityId()))
+            && (this.getStartProduceId() == null ? other.getStartProduceId() == null : this.getStartProduceId().equals(other.getStartProduceId()))
+            && (this.getEndProduceId() == null ? other.getEndProduceId() == null : this.getEndProduceId().equals(other.getEndProduceId()));
     }
 
     @Override
@@ -411,23 +477,26 @@ public class EamProductLine extends BaseEntity implements Serializable {
         result = prime * result + ((getIsOnline() == null) ? 0 : getIsOnline().hashCode());
         result = prime * result + ((getMorningShiftStartTime() == null) ? 0 : getMorningShiftStartTime().hashCode());
         result = prime * result + ((getMorningShiftEndTime() == null) ? 0 : getMorningShiftEndTime().hashCode());
+        result = prime * result + ((getMorningStopTime() == null) ? 0 : getMorningStopTime().hashCode());
         result = prime * result + ((getMiddleShiftStartTime() == null) ? 0 : getMiddleShiftStartTime().hashCode());
         result = prime * result + ((getMiddleShiftEndTime() == null) ? 0 : getMiddleShiftEndTime().hashCode());
+        result = prime * result + ((getMiddleStopTime() == null) ? 0 : getMiddleStopTime().hashCode());
         result = prime * result + ((getNightShiftStartTime() == null) ? 0 : getNightShiftStartTime().hashCode());
         result = prime * result + ((getNightShiftEndTime() == null) ? 0 : getNightShiftEndTime().hashCode());
-        result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());
-        result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
-        result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());
-        result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
-        result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
-        result = prime * result + ((getMorningStopTime() == null) ? 0 : getMorningStopTime().hashCode());
-        result = prime * result + ((getMiddleStopTime() == null) ? 0 : getMiddleStopTime().hashCode());
         result = prime * result + ((getNightStopTime() == null) ? 0 : getNightStopTime().hashCode());
         result = prime * result + ((getActualCapacityId() == null) ? 0 : getActualCapacityId().hashCode());
         result = prime * result + ((getBaseCapacityId() == null) ? 0 : getBaseCapacityId().hashCode());
         result = prime * result + ((getQualifiedQuantityId() == null) ? 0 : getQualifiedQuantityId().hashCode());
         result = prime * result + ((getTotalQuantityId() == null) ? 0 : getTotalQuantityId().hashCode());
         result = prime * result + ((getStatisticVariableId() == null) ? 0 : getStatisticVariableId().hashCode());
+        result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());
+        result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
+        result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());
+        result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
+        result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
+        result = prime * result + ((getBottleQuantityId() == null) ? 0 : getBottleQuantityId().hashCode());
+        result = prime * result + ((getStartProduceId() == null) ? 0 : getStartProduceId().hashCode());
+        result = prime * result + ((getEndProduceId() == null) ? 0 : getEndProduceId().hashCode());
         return result;
     }
 }

@@ -54,9 +54,13 @@ public class EamUtil {
     public List<String> getProductLineIds(){
         List<String> result = new ArrayList<>();
         List<EamProductLineVO> productLines = getCurrentCompanyProductLines();
-        for (EamProductLineVO productLineVO : productLines){
-            result.add(productLineVO.getProductLineId());
+        if (productLines != null){
+            for (EamProductLineVO productLineVO : productLines){
+                result.add(productLineVO.getProductLineId());
+            }
         }
         return result;
     }
+
+
 }

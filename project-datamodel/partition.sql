@@ -13,7 +13,7 @@ BEGIN
         SET BEGINTIME = DATE(NOW()) + INTERVAL 1 DAY;
         SET PARTITIONNAME = DATE_FORMAT( BEGINTIME, 'p%Y_%m_%d' );
  
-        SET ENDTIME = UNIX_TIMESTAMP(BEGINTIME + INTERVAL 1 DAY);
+        SET ENDTIME = TO_DAYS(BEGINTIME + INTERVAL 1 DAY);
  
         SELECT COUNT(*) INTO ROWS_CNT
                 FROM information_schema.partitions

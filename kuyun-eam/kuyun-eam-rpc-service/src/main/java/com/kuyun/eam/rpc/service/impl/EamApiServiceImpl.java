@@ -11,6 +11,7 @@ import com.kuyun.eam.alarm.OfflineHandler;
 import com.kuyun.eam.common.constant.*;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.pojo.*;
+import com.kuyun.eam.pojo.map.*;
 import com.kuyun.eam.pojo.tree.*;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.rpc.mapper.EamApiMapper;
@@ -18,7 +19,6 @@ import com.kuyun.eam.util.AreaUtil;
 import com.kuyun.eam.util.EamDateUtil;
 import com.kuyun.eam.vo.*;
 import com.kuyun.grm.rpc.api.GrmApiService;
-import com.kuyun.modbus.rpc.api.ModbusSlaveRtuApiService;
 import com.kuyun.upms.dao.model.UpmsCompany;
 import com.kuyun.upms.dao.model.UpmsCompanyExample;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
@@ -29,6 +29,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang.time.DateUtils;
+import org.joda.time.*;
 import org.quartz.SchedulerException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,11 +37,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
+import java.time.*;
+import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -170,6 +174,11 @@ public class EamApiServiceImpl implements EamApiService {
 
     @Autowired
     private  EamShiftDataElementValueService eamShiftDataElementValueService;
+
+    @Autowired
+    private EamEquipmentProductService eamEquipmentProductService;
+    @Autowired
+    private EamProductLineShiftDataService eamProductLineShiftDataService;
 
     @Override
     public List<EamMaintenanceVO> selectMaintenance(EamMaintenanceVO maintenanceVO) {
@@ -941,7 +950,8 @@ public class EamApiServiceImpl implements EamApiService {
             eamEquipmentDataGroupElemetsService.deleteByExample(example);
 
             //remove
-            removeEamGrmVariableGroup(equipment, dataGroupId, equipmentDataGroupId, ids);
+            removeEamGrmVariable(equipment, dataGroupId, equipmentDataGroupId);
+            removeEamGrmVariableGroup(equipment, dataGroupId, equipmentDataGroupId);
 
             if(StringUtils.isNotEmpty(ids)){
                 //Add new
@@ -971,8 +981,6 @@ public class EamApiServiceImpl implements EamApiService {
                     amGrmVariableGroups.add(amGrmVariableGroup);
                 }
                 eamGrmVariableGroupService.batchInsert(amGrmVariableGroups);
-
-                removeEamGrmVariable(equipment, dataGroupId, equipmentDataGroupId, ids);
             }
 
         }
@@ -991,7 +999,7 @@ public class EamApiServiceImpl implements EamApiService {
         return eamGrmVariableService.selectFirstByExample(grmVariableExample);
     }
 
-    private void removeEamGrmVariableGroup(EamEquipment equipment, String dataGroupId, String equipmentDataGroupId, String dataElementIds){
+    private void removeEamGrmVariableGroup(EamEquipment equipment, String dataGroupId, String equipmentDataGroupId){
         EamGrmVariableGroupVO vo = new EamGrmVariableGroupVO();
         vo.setProductLineId(equipment.getProductLineId());
         vo.setEquipmentId(equipment.getEquipmentId());
@@ -1009,13 +1017,14 @@ public class EamApiServiceImpl implements EamApiService {
         }
 
     }
-    private void removeEamGrmVariable(EamEquipment equipment, String dataGroupId, String equipmentDataGroupId, String dataElementIds){
+    private void removeEamGrmVariable(EamEquipment equipment, String dataGroupId, String equipmentDataGroupId){
         EamGrmVariableVO vo = new EamGrmVariableVO();
         vo.setProductLineId(equipment.getProductLineId());
         vo.setEquipmentId(equipment.getEquipmentId());
-        vo.setDataElementIds(coverToInteger(dataElementIds.split("::")));
+        vo.setDataGroupId(dataGroupId);
+        vo.setEquipmentDataGroupId(equipmentDataGroupId);
 
-        List<EamGrmVariableVO> vos = eamApiMapper.selectUnUsedEamGrmVariable(vo);
+        List<EamGrmVariableVO> vos = eamApiMapper.selectUsedEamGrmVariable(vo);
         if (vos != null){
             List<Integer> ids = vos.stream().map(x -> x.getId()).collect(Collectors.toList());
 
@@ -1290,6 +1299,7 @@ public class EamApiServiceImpl implements EamApiService {
                 position.setLeft(equipment.getLeftPosition());
                 position.setTop(equipment.getTopPosition());
                 position.setEquipmentId(equipment.getEquipmentId());
+                position.setEquipmentName(equipment.getName());
                 result.add(position);
             }
         }
@@ -2305,6 +2315,390 @@ public class EamApiServiceImpl implements EamApiService {
     public List<EamGrmVariableGroupVO> selectEamGrmVariableGroup(EamGrmVariableGroupVO eamGrmVariableGroupVO) {
         return eamApiMapper.selectEamGrmVariableGroup(eamGrmVariableGroupVO);
     }
+
+
+    @Override
+    public void productLineShirtStatisticJob() {
+        List<EamProductLine> productLines = getOnLineProductLines();
+        if (productLines != null && !productLines.isEmpty()){
+            for (EamProductLine productLine : productLines){
+                EamProductLineShiftData productLineShiftData = new EamProductLineShiftData();
+
+                ShirtInfo shirtInfo = getShirtInfo(productLine);
+                if (shirtInfo.getName() != null){
+                    productLineShiftData.setShiftName(shirtInfo.getName());
+                    productLineShiftData.setProductLineId(productLine.getProductLineId());
+                    productLineShiftData.setStartDate(shirtInfo.getStartDate());
+                    productLineShiftData.setEndDate(shirtInfo.getEndDate());
+                    productLineShiftData.setSumTimeStr(getSumTime(shirtInfo.getStartDate()));
+                    productLineShiftData.setSumTime(shirtInfo.getSumTime());
+                    productLineShiftData.setShirtTime(shirtInfo.getShirtTime());
+                    productLineShiftData.setPlanStopTime(shirtInfo.getStopTime());
+
+                    setProductLineShiftData(productLineShiftData, productLine);
+
+                    productLineShiftData.setTimeStartingRate(calcTimeStartingRate(productLine, productLineShiftData));
+                    productLineShiftData.setOee(calcOEE(productLineShiftData));
+
+                    persistProductLineShiftData(productLineShiftData);
+                }
+
+            }
+        }
+
+
+    }
+
+    @Override
+    public Long sumBottleQuantity() {
+        return eamApiMapper.sumBottleQuantity();
+    }
+
+    @Override
+    public MapData buildMapData() {
+        MapData data = new MapData();
+        List<City> citys = new ArrayList<>();
+        List<MoveLine> moveLines = new ArrayList<>();
+
+        List<EamProductLine> productLines = getAllProductLine();
+
+        Map<String, Pair> map = new HashMap<>();
+        for(EamProductLine productLine : productLines){
+
+            String code = productLine.getCity() != null ? productLine.getCity() : productLine.getProvince();
+            String name =  areaUtil.getName(code);
+            if (EamConstant.HEADQUARTER.equals(name)){
+                continue;
+            }
+
+            if (map.containsKey(name)){
+                Pair pair = map.get(name);
+                Pair position = (Pair)pair.getKey();
+                int number = (int)pair.getValue();
+                ++number;
+
+                pair = new Pair(position, number);
+                map.put(name, pair);
+            }else {
+                Pair position = new Pair(productLine.getLatitude(), productLine.getLongitude());
+                Pair pair = new Pair(position, 1);
+                map.put(name, pair);
+
+            }
+
+        }
+
+
+
+        City city = new City();
+        city.setName(EamConstant.HEADQUARTER);
+        city.setSymboleSize(productLines.size());
+        List<String> value = new ArrayList<>(2);
+        value.add(EamConstant.LONGITUDE);
+        value.add(EamConstant.LATITUDE);
+        city.setValue(value);
+        city.setItemStyle(buildItemStyle());
+
+        citys.add(city);
+
+        for(Map.Entry entry : map.entrySet()){
+            buildCity(entry, citys);
+            buildMoveLine(entry, moveLines);
+
+        }
+        data.setCitys(citys);
+        data.setMoveLines(moveLines);
+        return data;
+    }
+
+    @Override
+    public List<ShiftStatus> getShiftStatus() {
+        return eamApiMapper.selectShiftStatus();
+    }
+
+    private void buildMoveLine(Map.Entry entry, List<MoveLine> moveLines) {
+        String name = (String) entry.getKey();
+        Pair pair = (Pair) entry.getValue();
+
+        Pair position = (Pair) pair.getKey();
+
+        MoveLine moveLine = new MoveLine();
+        moveLine.setFromName(EamConstant.HEADQUARTER);
+        moveLine.setToName(name);
+        List<String> from = new ArrayList<>();
+        from.add(EamConstant.LONGITUDE);
+        from.add(EamConstant.LATITUDE);
+
+        List<String> to = new ArrayList<>();
+        to.add(String.valueOf(position.getKey()));
+        to.add(String.valueOf(position.getValue()));
+        List<List<String>> coords = new ArrayList<>();
+        coords.add(from);
+        coords.add(to);
+
+        moveLine.setCoords(coords);
+        moveLines.add(moveLine);
+    }
+
+    private void buildCity(Map.Entry entry, List<City> citys) {
+
+        City city = new City();
+        city.setName((String) entry.getKey());
+        Pair pair = (Pair)entry.getValue();
+
+        Pair position = (Pair)pair.getKey();
+        int number = (int)pair.getValue();
+
+        city.setSymboleSize(number);
+        List<String> value = new ArrayList<>(2);
+        value.add(String.valueOf(position.getKey()));
+        value.add(String.valueOf(position.getValue()));
+        city.setValue(value);
+        city.setItemStyle(buildItemStyle());
+
+        citys.add(city);
+    }
+
+    private ItemStyle buildItemStyle(){
+        ItemStyle itemStyle = new ItemStyle();
+        Normal normal = new Normal();
+        normal.setColor("#49bcf8");
+        itemStyle.setNormal(normal);
+        return itemStyle;
+    }
+
+    private List<EamProductLine> getAllProductLine(){
+        EamProductLineExample example = new EamProductLineExample();
+        example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE);
+        return eamProductLineService.selectByExample(example);
+    }
+
+    private void persistProductLineShiftData(EamProductLineShiftData productLineShiftData) {
+        EamProductLineShiftDataExample example = new EamProductLineShiftDataExample();
+        example.createCriteria().andShiftNameEqualTo(productLineShiftData.getShiftName())
+                .andStartDateEqualTo(productLineShiftData.getStartDate())
+                .andEndDateEqualTo(productLineShiftData.getEndDate())
+                .andProductLineIdEqualTo(productLineShiftData.getProductLineId());
+
+        EamProductLineShiftData eamProductLineShiftData = eamProductLineShiftDataService.selectFirstByExample(example);
+
+        if (eamProductLineShiftData == null){
+
+            eamProductLineShiftData.setDeleteFlag(Boolean.FALSE);
+            eamProductLineShiftData.setCreateTime(new Date());
+            eamProductLineShiftData.setUpdateTime(new Date());
+            eamProductLineShiftDataService.insert(eamProductLineShiftData);
+        }else {
+            eamProductLineShiftData.setOee(productLineShiftData.getOee());
+            eamProductLineShiftData.setActualCapacity(productLineShiftData.getActualCapacity());
+            eamProductLineShiftData.setBaseCapacity(productLineShiftData.getBaseCapacity());
+            eamProductLineShiftData.setPerformanceRate(productLineShiftData.getPerformanceRate());
+            eamProductLineShiftData.setQualifiedRate(productLineShiftData.getQualifiedRate());
+            eamProductLineShiftData.setRejectionRate(productLineShiftData.getRejectionRate());
+            eamProductLineShiftData.setTimeStartingRate(productLineShiftData.getTimeStartingRate());
+            eamProductLineShiftData.setProductName(productLineShiftData.getProductName());
+            eamProductLineShiftData.setStartDate(productLineShiftData.getStartDate());
+            eamProductLineShiftData.setEndDate(productLineShiftData.getEndDate());
+            eamProductLineShiftData.setSumTime(productLineShiftData.getSumTime());
+            eamProductLineShiftData.setSumTimeStr(productLineShiftData.getSumTimeStr());
+            eamProductLineShiftData.setShirtTime(productLineShiftData.getShirtTime());
+            eamProductLineShiftData.setPlanStopTime(productLineShiftData.getPlanStopTime());
+            eamProductLineShiftData.setUpdateTime(new Date());
+
+            eamProductLineShiftDataService.updateByPrimaryKeySelective(eamProductLineShiftData);
+        }
+
+    }
+
+    private List<EamProductLine> getOnLineProductLines(){
+        EamProductLineExample example = new EamProductLineExample();
+        example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE).andIsOnlineEqualTo(Boolean.TRUE);
+        return eamProductLineService.selectByExample(example);
+    }
+
+    private BigDecimal calcTimeStartingRate(EamProductLine productLine, EamProductLineShiftData productLineShiftData){
+        /**
+         * 时间开动率 =（班次时间-当前统计的实际停机时间）/（班次时间-计划停机时间）*100%
+         * 当前统计的停机时间：从班次开始到现在的时长 - 从班次开始到现在的‘运行中’时长
+         */
+
+        BigDecimal stopTime = NumberUtil.nonNull(productLineShiftData.getSumTime()).subtract(getRunningTime(productLineShiftData, productLine));
+
+        BigDecimal a = NumberUtil.nonNull(productLineShiftData.getShirtTime()).subtract(stopTime);
+
+        BigDecimal b = NumberUtil.nonNull(productLineShiftData.getShirtTime()).subtract(NumberUtil.nonNull(productLineShiftData.getPlanStopTime()));
+
+        BigDecimal result = BigDecimal.ZERO;
+        if (!BigDecimal.ZERO.equals(b)){
+            result = a.divide(b).movePointRight(2).setScale(2,BigDecimal.ROUND_HALF_UP);
+        }
+        return result;
+    }
+
+    private BigDecimal calcOEE(EamProductLineShiftData productLineShiftData){
+        /**
+         * OEE=时间开动率*性能开动率*合格品率*100%
+         */
+
+        return NumberUtil.nonNull(productLineShiftData.getTimeStartingRate())
+                .multiply(NumberUtil.nonNull(productLineShiftData.getPerformanceRate()))
+                .multiply(NumberUtil.nonNull(productLineShiftData.getQualifiedRate())).movePointRight(2);
+    }
+
+    private BigDecimal getRunningTime(EamProductLineShiftData productLineShiftData, EamProductLine productLine) {
+        String productLineId = productLine.getProductLineId();
+        Date startDate = productLineShiftData.getStartDate();
+        Date endDate = productLineShiftData.getEndDate();
+        int statisticVariableId = productLine.getStatisticVariableId();
+
+        EamGrmVariableDataHistoryExample example = new EamGrmVariableDataHistoryExample();
+        example.createCriteria().andProductLineIdEqualTo(productLineId).andDataElementIdEqualTo(statisticVariableId).andUpdateTimeBetween(startDate, endDate);
+
+        List<EamGrmVariableDataHistory> dataHistoryList = eamGrmVariableDataHistoryService.selectByExample(example);
+        BigDecimal totalMinutes = BigDecimal.ZERO;
+        if (dataHistoryList != null && !dataHistoryList.isEmpty()){
+            for (int i = 1; i < dataHistoryList.size(); i++){
+
+                String previousValue = dataHistoryList.get(i - 1).getValue();
+                Date previousDateTime = dataHistoryList.get(i - 1).getUpdateTime();
+
+                Date updateTime = dataHistoryList.get(i).getUpdateTime();
+
+                if ("1".equals(previousValue)){
+                    long diffMinutes = Duration.between(previousDateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), updateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()).toMinutes();
+                    totalMinutes = totalMinutes.add(BigDecimal.valueOf(diffMinutes));
+                }
+            }
+        }
+
+        return totalMinutes;
+    }
+
+    private void setProductLineShiftData(EamProductLineShiftData productLineShiftData, EamProductLine productLine){
+        int actualCapacityId = productLine.getActualCapacityId();
+        int baseCapacityId = productLine.getBaseCapacityId();
+        int qualifiedQuantityId = productLine.getQualifiedQuantityId();
+        int totalQuantityId = productLine.getTotalQuantityId();
+
+
+        List<Integer> dataElementIds = new ArrayList<>();
+        dataElementIds.add(actualCapacityId);
+        dataElementIds.add(qualifiedQuantityId);
+        dataElementIds.add(totalQuantityId);
+        dataElementIds.add(baseCapacityId);
+
+        EamGrmVariableDataExample example = new EamGrmVariableDataExample();
+        example.createCriteria().andProductLineIdEqualTo(productLine.getProductLineId())
+                .andDeleteFlagEqualTo(Boolean.FALSE)
+                .andDataElementIdIn(dataElementIds);
+
+        BigDecimal qualifiedQuantity = BigDecimal.ZERO;
+        BigDecimal totalQuantity = BigDecimal.ZERO;
+        String materielNumber = "XXX";
+
+        List<EamGrmVariableData> variableDataList = eamGrmVariableDataService.selectByExample(example);
+        if (variableDataList != null){
+            for(EamGrmVariableData data : variableDataList){
+                if (data.getDataElementId() == actualCapacityId){
+                    productLineShiftData.setActualCapacity(NumberUtil.toBigDecimal(data.getValue()));
+                }else if (data.getDataElementId() == qualifiedQuantityId){
+                    qualifiedQuantity = NumberUtil.toBigDecimal(data.getValue());
+                }else if (data.getDataElementId() == totalQuantityId){
+                    totalQuantity = NumberUtil.toBigDecimal(data.getValue());
+                }else if (data.getDataElementId() == baseCapacityId){
+                    materielNumber = data.getValue();
+                }
+            }
+            if (!BigDecimal.ZERO.equals(totalQuantity)){
+                BigDecimal qualifiedRate = qualifiedQuantity.divide(totalQuantity).movePointRight(2).setScale(2,BigDecimal.ROUND_HALF_UP);
+                BigDecimal rejectionRate = BigDecimal.valueOf(100).subtract(qualifiedRate);
+                productLineShiftData.setQualifiedRate(qualifiedRate);
+                productLineShiftData.setRejectionRate(rejectionRate);
+            }
+
+            EamEquipmentProduct eamEquipmentProduct = getEamEquipmentProduct(materielNumber);
+            if (eamEquipmentProduct != null){
+                productLineShiftData.setProductName(eamEquipmentProduct.getMaterielName());
+                productLineShiftData.setBaseCapacity(BigDecimal.valueOf(eamEquipmentProduct.getCapacity()));
+
+                if (productLineShiftData.getActualCapacity() != null && productLineShiftData.getBaseCapacity() != null && !BigDecimal.ZERO.equals(productLineShiftData.getBaseCapacity())){
+                    BigDecimal performanceRate = productLineShiftData.getActualCapacity().divide(productLineShiftData.getBaseCapacity()).movePointRight(2).setScale(2,BigDecimal.ROUND_HALF_UP);
+                    productLineShiftData.setPerformanceRate(performanceRate);
+                }
+            }
+        }
+
+    }
+
+    private EamEquipmentProduct getEamEquipmentProduct(String materielNumber){
+        EamEquipmentProductExample example = new EamEquipmentProductExample();
+        example.createCriteria().andMaterielNameEqualTo(materielNumber);
+
+        return eamEquipmentProductService.selectFirstByExample(example);
+    }
+
+    private String getSumTime(Date startDate){
+        String result = null;
+        if (startDate != null){
+            Interval interval = new Interval(startDate.getTime(), System.currentTimeMillis());
+            org.joda.time.Period period = interval.toPeriod();
+
+            result =  period.getHours() + ":" + period.getMinutes() + ":" + period.getSeconds();
+        }
+        return result;
+    }
+
+    private ShirtInfo getShirtInfo(EamProductLine productLine) {
+        ShirtInfo result = new ShirtInfo();
+        String shiftName = null, startTime = null, endTime = null;
+        BigDecimal stopTime = BigDecimal.ZERO;
+        try {
+            if (EamDateUtil.inThisTimes(productLine.getMorningShiftStartTime(), productLine.getMorningShiftEndTime())) {
+                shiftName = ProductLineShift.MORNING.getName();
+                startTime = productLine.getMorningShiftStartTime();
+                endTime = productLine.getMorningShiftEndTime();
+                stopTime = productLine.getMorningStopTime();
+            } else if (EamDateUtil.inThisTimes(productLine.getMiddleShiftStartTime(), productLine.getMiddleShiftEndTime())) {
+                shiftName = ProductLineShift.MIDDLE.getName();
+                startTime = productLine.getMiddleShiftStartTime();
+                endTime = productLine.getMiddleShiftEndTime();
+                stopTime = productLine.getMiddleStopTime();
+            } else if (EamDateUtil.inThisTimes(productLine.getNightShiftStartTime(), productLine.getNightShiftEndTime())) {
+                shiftName = ProductLineShift.NIGHT.getName();
+                startTime = productLine.getNightShiftStartTime();
+                endTime = productLine.getNightShiftEndTime();
+                stopTime = productLine.getNightStopTime();
+            }
+
+
+            if (startTime != null && endTime != null) {
+                Date now = new Date();
+                String strDate = getDateStr(now, "yyyy-MM-dd");
+                Date startDate = org.apache.commons.lang.time.DateUtils.parseDate(strDate + " " + startTime, new String[]{"yyyy-MM-dd HH:mm"});
+                Date endDate = org.apache.commons.lang.time.DateUtils.parseDate(strDate + " " + endTime, new String[]{"yyyy-MM-dd HH:mm"});
+
+                result.setStartDate(startDate);
+                result.setEndDate(endDate);
+
+                long shirtTime = Duration.between(startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
+                .toMinutes();
+
+                long sumTime = Duration.between(startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now()).toMinutes();
+
+
+                result.setShirtTime(BigDecimal.valueOf(shirtTime));
+                result.setSumTime(BigDecimal.valueOf(sumTime));
+                result.setStopTime(stopTime);
+
+            }
+
+            result.setName(shiftName);
+        } catch (ParseException e) {
+            _log.error("Parse data error:{}", e.getMessage());
+        }
+        return result;
+    }
+
 
     private Integer getEquipmentCategoryId(String equipmentCategory) {
 

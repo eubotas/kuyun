@@ -1,16 +1,10 @@
 package com.kuyun.eam.admin.controller.manager;
 
 import com.kuyun.common.base.BaseController;
-//import com.kuyun.common.util.DateUtil;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.util.EamDateUtil;
-import com.kuyun.eam.vo.EamCodeValueVo;
-import com.kuyun.eam.vo.EamCountryValueVo;
 import com.kuyun.eam.vo.EamShiftDataElementValueVO;
-import com.kuyun.upms.client.util.BaseEntityUtil;
-import com.kuyun.upms.dao.model.UpmsCompanyExample;
-import com.kuyun.upms.rpc.api.UpmsCompanyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import javafx.util.Pair;
@@ -25,8 +19,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
+
+//import com.kuyun.common.util.DateUtil;
 
 /**
  * 模板控制器
@@ -50,6 +45,12 @@ public class EamStatisticDataElementController extends BaseController {
 
 	@Autowired
 	private  EamShiftDataElementValueService eamShiftDataElementValueService;
+
+	@Autowired
+	private EamApiService eamApiService;
+
+	@Autowired
+	private EamProductLineShiftDataService eamProductLineShiftDataService;
 
 	@ApiOperation(value = "按班次统计数据点")
 	@RequiresPermissions("eam:productLine:read")
@@ -181,5 +182,36 @@ public class EamStatisticDataElementController extends BaseController {
 		return data;
 	}
 
+	@ApiOperation(value = "产线当前班次数据")
+	@RequiresPermissions("eam:productLine:read")
+	@ResponseBody
+	@RequestMapping(value = "/productLine", method = RequestMethod.POST)
+	public Object getProductLineShiftInfo(String productLineId) {
+		EamProductLineShiftDataExample example = new EamProductLineShiftDataExample();
+		example.createCriteria().andProductLineIdEqualTo(productLineId).andDeleteFlagEqualTo(Boolean.FALSE);
+		example.setOrderByClause("update_time desc");
+		return eamProductLineShiftDataService.selectFirstByExample(example);
+	}
+
+	@ApiOperation(value = "产线历史班次数据")
+	@RequiresPermissions("eam:productLine:read")
+	@ResponseBody
+	@RequestMapping(value = "/productLine/history", method = RequestMethod.POST)
+	public Object getProductLineShiftHistoryInfo(EamProductLineShiftData productLineShiftData) {
+		EamProductLineShiftDataExample example = new EamProductLineShiftDataExample();
+		EamProductLineShiftDataExample.Criteria criteria = example.createCriteria();
+		criteria.andProductLineIdEqualTo(productLineShiftData.getProductLineId()).andDeleteFlagEqualTo(Boolean.FALSE);
+
+		if (productLineShiftData.getStartDate() != null && productLineShiftData.getEndDate() != null){
+			criteria.andStartDateBetween(productLineShiftData.getStartDate(), productLineShiftData.getEndDate());
+		}
+
+		if (productLineShiftData.getShiftName() != null){
+			criteria.andShiftNameEqualTo(productLineShiftData.getShiftName());
+		}
+
+		example.setOrderByClause("update_time desc");
+		return eamProductLineShiftDataService.selectByExample(example);
+	}
 
 }

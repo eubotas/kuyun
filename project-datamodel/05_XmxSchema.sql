@@ -101,6 +101,9 @@ create table eam_product_line
    qualified_quantity_id     int comment '合格数量',
    total_quantity_id         int comment '总数量',
    statistic_variable_id     int comment '统计变量',
+   bottle_quantity_id        int comment '大屏显示(统计瓶数ID)',
+   start_produce_id          int comment '大屏显示（开始生产）',
+   end_produce_id            int comment '大屏显示（结束生产）',
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,
@@ -362,7 +365,7 @@ create table eam_grm_variable_data_history
    primary key (id, update_time)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8
 PARTITION BY RANGE (TO_DAYS(update_time)) (         
-    PARTITION p20180601 VALUES LESS THAN ( TO_DAYS('2018-06-01') )
+    PARTITION p2018_06_01 VALUES LESS THAN ( TO_DAYS('2018-06-01') )
 );
 
 ALTER table eam_grm_variable_data_history ADD INDEX index_update_time(update_time);
@@ -643,3 +646,32 @@ create table eam_shift_data_element_value
    delete_flag          boolean,
    primary key (id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+drop table if exists eam_product_line_shift_data;
+create table eam_product_line_shift_data
+(  
+   id                   bigint unsigned not null auto_increment,
+   product_line_id      varchar(32),
+   actual_capacity      decimal(10,2),
+   base_capacity        decimal(10,2),
+   performance_rate     decimal(10,2),
+   qualified_rate       decimal(10,2),
+   rejection_rate       decimal(10,2),
+   time_starting_rate   decimal(10,2),
+   oee                  decimal(10,2),
+   product_name         varchar(20),
+   start_date           datetime,
+   end_date             datetime,
+   sum_time_str         varchar(15),
+   sum_time             decimal(10,2),
+   shirt_time           decimal(10,2),
+   plan_stop_time       decimal(10,2),
+   shift_name           varchar(8),
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   primary key (id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+

@@ -10,6 +10,7 @@
     <result column="eam_equipment_number" jdbcType="VARCHAR" property="number" />
     <result column="eam_equipment_serial_number" jdbcType="VARCHAR" property="serialNumber" />
     <result column="eam_equipment_image_path" jdbcType="VARCHAR" property="imagePath" />
+    <result column="eam_equipment_user" jdbcType="VARCHAR" property="user" />
     <result column="eam_equipment_collect_status" jdbcType="VARCHAR" property="collectStatus" />
     <result column="eam_equipment_grm" jdbcType="VARCHAR" property="grm" />
     <result column="eam_equipment_grm_password" jdbcType="VARCHAR" property="grmPassword" />
@@ -91,15 +92,15 @@
     eam_equipment.product_line_id as eam_equipment_product_line_id, eam_equipment.name as eam_equipment_name, 
     eam_equipment.task_number as eam_equipment_task_number, eam_equipment.number as eam_equipment_number, 
     eam_equipment.serial_number as eam_equipment_serial_number, eam_equipment.image_path as eam_equipment_image_path, 
-    eam_equipment.collect_status as eam_equipment_collect_status, eam_equipment.grm as eam_equipment_grm, 
-    eam_equipment.grm_password as eam_equipment_grm_password, eam_equipment.grm_period as eam_equipment_grm_period, 
-    eam_equipment.factory_date as eam_equipment_factory_date, eam_equipment.commissioning_date as eam_equipment_commissioning_date, 
-    eam_equipment.warranty_start_date as eam_equipment_warranty_start_date, eam_equipment.warranty_end_date as eam_equipment_warranty_end_date, 
-    eam_equipment.maintenance_period as eam_equipment_maintenance_period, eam_equipment.left_position as eam_equipment_left_position, 
-    eam_equipment.top_position as eam_equipment_top_position, eam_equipment.create_user_id as eam_equipment_create_user_id, 
-    eam_equipment.create_time as eam_equipment_create_time, eam_equipment.update_user_id as eam_equipment_update_user_id, 
-    eam_equipment.update_time as eam_equipment_update_time, eam_equipment.delete_flag as eam_equipment_delete_flag, 
-    eam_equipment.is_online as eam_equipment_is_online
+    eam_equipment.user as eam_equipment_user, eam_equipment.collect_status as eam_equipment_collect_status, 
+    eam_equipment.grm as eam_equipment_grm, eam_equipment.grm_password as eam_equipment_grm_password, 
+    eam_equipment.grm_period as eam_equipment_grm_period, eam_equipment.factory_date as eam_equipment_factory_date, 
+    eam_equipment.commissioning_date as eam_equipment_commissioning_date, eam_equipment.warranty_start_date as eam_equipment_warranty_start_date, 
+    eam_equipment.warranty_end_date as eam_equipment_warranty_end_date, eam_equipment.maintenance_period as eam_equipment_maintenance_period, 
+    eam_equipment.left_position as eam_equipment_left_position, eam_equipment.top_position as eam_equipment_top_position, 
+    eam_equipment.create_user_id as eam_equipment_create_user_id, eam_equipment.create_time as eam_equipment_create_time, 
+    eam_equipment.update_user_id as eam_equipment_update_user_id, eam_equipment.update_time as eam_equipment_update_time, 
+    eam_equipment.delete_flag as eam_equipment_delete_flag, eam_equipment.is_online as eam_equipment_is_online
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentExample" resultMap="BaseResultMap">
     select
@@ -143,23 +144,23 @@
     insert into eam_equipment (equipment_id, equipment_category_id, 
       product_line_id, name, task_number, 
       number, serial_number, image_path, 
-      collect_status, grm, grm_password, 
-      grm_period, factory_date, commissioning_date, 
-      warranty_start_date, warranty_end_date, 
-      maintenance_period, left_position, top_position, 
-      create_user_id, create_time, update_user_id, 
-      update_time, delete_flag, is_online
-      )
+      user, collect_status, grm, 
+      grm_password, grm_period, factory_date, 
+      commissioning_date, warranty_start_date, 
+      warranty_end_date, maintenance_period, left_position, 
+      top_position, create_user_id, create_time, 
+      update_user_id, update_time, delete_flag, 
+      is_online)
     values (#{equipmentId,jdbcType=VARCHAR}, #{equipmentCategoryId,jdbcType=INTEGER}, 
       #{productLineId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{taskNumber,jdbcType=VARCHAR}, 
       #{number,jdbcType=VARCHAR}, #{serialNumber,jdbcType=VARCHAR}, #{imagePath,jdbcType=VARCHAR}, 
-      #{collectStatus,jdbcType=VARCHAR}, #{grm,jdbcType=VARCHAR}, #{grmPassword,jdbcType=VARCHAR}, 
-      #{grmPeriod,jdbcType=INTEGER}, #{factoryDate,jdbcType=TIMESTAMP}, #{commissioningDate,jdbcType=TIMESTAMP}, 
-      #{warrantyStartDate,jdbcType=TIMESTAMP}, #{warrantyEndDate,jdbcType=TIMESTAMP}, 
-      #{maintenancePeriod,jdbcType=VARCHAR}, #{leftPosition,jdbcType=DECIMAL}, #{topPosition,jdbcType=DECIMAL}, 
-      #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{isOnline,jdbcType=BIT}
-      )
+      #{user,jdbcType=VARCHAR}, #{collectStatus,jdbcType=VARCHAR}, #{grm,jdbcType=VARCHAR}, 
+      #{grmPassword,jdbcType=VARCHAR}, #{grmPeriod,jdbcType=INTEGER}, #{factoryDate,jdbcType=TIMESTAMP}, 
+      #{commissioningDate,jdbcType=TIMESTAMP}, #{warrantyStartDate,jdbcType=TIMESTAMP}, 
+      #{warrantyEndDate,jdbcType=TIMESTAMP}, #{maintenancePeriod,jdbcType=VARCHAR}, #{leftPosition,jdbcType=DECIMAL}, 
+      #{topPosition,jdbcType=DECIMAL}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
+      #{isOnline,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamEquipment">
     insert into eam_equipment
@@ -187,6 +188,9 @@
       </if>
       <if test="imagePath != null">
         image_path,
+      </if>
+      <if test="user != null">
+        user,
       </if>
       <if test="collectStatus != null">
         collect_status,
@@ -264,6 +268,9 @@
       </if>
       <if test="imagePath != null">
         #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="user != null">
+        #{user,jdbcType=VARCHAR},
       </if>
       <if test="collectStatus != null">
         #{collectStatus,jdbcType=VARCHAR},
@@ -351,6 +358,9 @@
       <if test="record.imagePath != null">
         eam_equipment.image_path = #{record.imagePath,jdbcType=VARCHAR},
       </if>
+      <if test="record.user != null">
+        eam_equipment.user = #{record.user,jdbcType=VARCHAR},
+      </if>
       <if test="record.collectStatus != null">
         eam_equipment.collect_status = #{record.collectStatus,jdbcType=VARCHAR},
       </if>
@@ -417,6 +427,7 @@
       eam_equipment.number = #{record.number,jdbcType=VARCHAR},
       eam_equipment.serial_number = #{record.serialNumber,jdbcType=VARCHAR},
       eam_equipment.image_path = #{record.imagePath,jdbcType=VARCHAR},
+      eam_equipment.user = #{record.user,jdbcType=VARCHAR},
       eam_equipment.collect_status = #{record.collectStatus,jdbcType=VARCHAR},
       eam_equipment.grm = #{record.grm,jdbcType=VARCHAR},
       eam_equipment.grm_password = #{record.grmPassword,jdbcType=VARCHAR},
@@ -461,6 +472,9 @@
       </if>
       <if test="imagePath != null">
         image_path = #{imagePath,jdbcType=VARCHAR},
+      </if>
+      <if test="user != null">
+        user = #{user,jdbcType=VARCHAR},
       </if>
       <if test="collectStatus != null">
         collect_status = #{collectStatus,jdbcType=VARCHAR},
@@ -525,6 +539,7 @@
       number = #{number,jdbcType=VARCHAR},
       serial_number = #{serialNumber,jdbcType=VARCHAR},
       image_path = #{imagePath,jdbcType=VARCHAR},
+      user = #{user,jdbcType=VARCHAR},
       collect_status = #{collectStatus,jdbcType=VARCHAR},
       grm = #{grm,jdbcType=VARCHAR},
       grm_password = #{grmPassword,jdbcType=VARCHAR},
@@ -549,25 +564,25 @@
             insert into eam_equipment  (equipment_id, equipment_category_id, 
         product_line_id, name, task_number, 
         number, serial_number, image_path, 
-        collect_status, grm, grm_password, 
-        grm_period, factory_date, commissioning_date, 
-        warranty_start_date, warranty_end_date, 
-        maintenance_period, left_position, top_position, 
-        create_user_id, create_time, update_user_id, 
-        update_time, delete_flag, is_online
-        )
+        user, collect_status, grm, 
+        grm_password, grm_period, factory_date, 
+        commissioning_date, warranty_start_date, 
+        warranty_end_date, maintenance_period, left_position, 
+        top_position, create_user_id, create_time, 
+        update_user_id, update_time, delete_flag, 
+        is_online)
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.equipmentId,jdbcType=VARCHAR}, #{item.equipmentCategoryId,jdbcType=INTEGER}, 
         #{item.productLineId,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, #{item.taskNumber,jdbcType=VARCHAR}, 
         #{item.number,jdbcType=VARCHAR}, #{item.serialNumber,jdbcType=VARCHAR}, #{item.imagePath,jdbcType=VARCHAR}, 
-        #{item.collectStatus,jdbcType=VARCHAR}, #{item.grm,jdbcType=VARCHAR}, #{item.grmPassword,jdbcType=VARCHAR}, 
-        #{item.grmPeriod,jdbcType=INTEGER}, #{item.factoryDate,jdbcType=TIMESTAMP}, #{item.commissioningDate,jdbcType=TIMESTAMP}, 
-        #{item.warrantyStartDate,jdbcType=TIMESTAMP}, #{item.warrantyEndDate,jdbcType=TIMESTAMP}, 
-        #{item.maintenancePeriod,jdbcType=VARCHAR}, #{item.leftPosition,jdbcType=DECIMAL}, #{item.topPosition,jdbcType=DECIMAL}, 
-        #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, 
-        #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, #{item.isOnline,jdbcType=BIT}
-        )
+        #{item.user,jdbcType=VARCHAR}, #{item.collectStatus,jdbcType=VARCHAR}, #{item.grm,jdbcType=VARCHAR}, 
+        #{item.grmPassword,jdbcType=VARCHAR}, #{item.grmPeriod,jdbcType=INTEGER}, #{item.factoryDate,jdbcType=TIMESTAMP}, 
+        #{item.commissioningDate,jdbcType=TIMESTAMP}, #{item.warrantyStartDate,jdbcType=TIMESTAMP}, 
+        #{item.warrantyEndDate,jdbcType=TIMESTAMP}, #{item.maintenancePeriod,jdbcType=VARCHAR}, #{item.leftPosition,jdbcType=DECIMAL}, 
+        #{item.topPosition,jdbcType=DECIMAL}, #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, 
+        #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, 
+        #{item.isOnline,jdbcType=BIT})
       </foreach>
     </if>
   </insert>
