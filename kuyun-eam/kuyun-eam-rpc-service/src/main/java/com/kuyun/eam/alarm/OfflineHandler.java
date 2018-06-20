@@ -2,18 +2,14 @@ package com.kuyun.eam.alarm;
 
 import com.kuyun.eam.common.constant.AlarmType;
 import com.kuyun.eam.dao.model.*;
-import net.sf.json.JSONArray;
 
 /**
  * Created by user on 2017-09-08.
  */
 public class OfflineHandler extends AbstractAlarmHandler {
-    @Override
-    protected String buildEmailMessage(EamGrmVariableData variableData, EamAlarm alarm, boolean isClearMessage) {
 
-        EamProductLine productLine = getProductLine(variableData);
-        EamEquipment equipment = getEquipment(variableData);
-        EamDataElement dataElement = getEamDataElement(variableData);
+    @Override
+    protected String buildEmailMessage(EamGrmVariableData variableData, EamAlarm alarm, boolean isClearMessage, EamProductLine productLine, EamEquipment equipment, EamDataElement dataElement) {
 
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("报警产线：");
@@ -39,12 +35,7 @@ public class OfflineHandler extends AbstractAlarmHandler {
     }
 
     @Override
-    protected String buildSmsMessage(EamGrmVariableData variableData, EamAlarm alarm, boolean isClearMessage) {
-
-        EamProductLine productLine = getProductLine(variableData);
-        EamEquipment equipment = getEquipment(variableData);
-        EamDataElement dataElement = getEamDataElement(variableData);
-
+    protected String buildSmsMessage(EamGrmVariableData variableData, EamAlarm alarm, boolean isClearMessage, EamProductLine productLine, EamEquipment equipment, EamDataElement dataElement) {
 
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("报警产线：");

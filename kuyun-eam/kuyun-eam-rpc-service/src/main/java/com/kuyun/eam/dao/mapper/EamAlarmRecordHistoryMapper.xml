@@ -15,6 +15,7 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
+    <result column="alarm_content" jdbcType="VARCHAR" property="alarmContent" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -76,7 +77,8 @@
   </sql>
   <sql id="Base_Column_List">
     id, alarm_id, product_line_id, equipment_id, alarm_value, alarm_status, alarm_clear_value, 
-    create_user_id, create_time, update_user_id, update_time, delete_flag, company_id
+    create_user_id, create_time, update_user_id, update_time, delete_flag, company_id, 
+    alarm_content
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamAlarmRecordHistoryExample" resultMap="BaseResultMap">
     select
@@ -121,12 +123,12 @@
       equipment_id, alarm_value, alarm_status, 
       alarm_clear_value, create_user_id, create_time, 
       update_user_id, update_time, delete_flag, 
-      company_id)
+      company_id, alarm_content)
     values (#{id,jdbcType=INTEGER}, #{alarmId,jdbcType=INTEGER}, #{productLineId,jdbcType=VARCHAR}, 
       #{equipmentId,jdbcType=VARCHAR}, #{alarmValue,jdbcType=VARCHAR}, #{alarmStatus,jdbcType=VARCHAR}, 
       #{alarmClearValue,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
-      #{companyId,jdbcType=INTEGER})
+      #{companyId,jdbcType=INTEGER}, #{alarmContent,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamAlarmRecordHistory">
     insert into eam_alarm_record_history
@@ -170,6 +172,9 @@
       <if test="companyId != null">
         company_id,
       </if>
+      <if test="alarmContent != null">
+        alarm_content,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -210,6 +215,9 @@
       </if>
       <if test="companyId != null">
         #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="alarmContent != null">
+        #{alarmContent,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -261,6 +269,9 @@
       <if test="record.companyId != null">
         company_id = #{record.companyId,jdbcType=INTEGER},
       </if>
+      <if test="record.alarmContent != null">
+        alarm_content = #{record.alarmContent,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -280,7 +291,8 @@
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      company_id = #{record.companyId,jdbcType=INTEGER}
+      company_id = #{record.companyId,jdbcType=INTEGER},
+      alarm_content = #{record.alarmContent,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -324,6 +336,9 @@
       <if test="companyId != null">
         company_id = #{companyId,jdbcType=INTEGER},
       </if>
+      <if test="alarmContent != null">
+        alarm_content = #{alarmContent,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -340,7 +355,8 @@
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
-      company_id = #{companyId,jdbcType=INTEGER}
+      company_id = #{companyId,jdbcType=INTEGER},
+      alarm_content = #{alarmContent,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <insert id="batchInsert">
@@ -349,14 +365,14 @@
         equipment_id, alarm_value, alarm_status, 
         alarm_clear_value, create_user_id, create_time, 
         update_user_id, update_time, delete_flag, 
-        company_id)
+        company_id, alarm_content)
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.id,jdbcType=INTEGER}, #{item.alarmId,jdbcType=INTEGER}, #{item.productLineId,jdbcType=VARCHAR}, 
         #{item.equipmentId,jdbcType=VARCHAR}, #{item.alarmValue,jdbcType=VARCHAR}, #{item.alarmStatus,jdbcType=VARCHAR}, 
         #{item.alarmClearValue,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, 
         #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, 
-        #{item.companyId,jdbcType=INTEGER})
+        #{item.companyId,jdbcType=INTEGER}, #{item.alarmContent,jdbcType=VARCHAR})
       </foreach>
     </if>
   </insert>

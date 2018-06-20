@@ -53,7 +53,7 @@ public class EamDashboradController extends BaseController {
 	@ResponseBody
 	public Object index() {
 
-		HashMap map = new HashMap(10);
+		HashMap map = new HashMap(8);
 
 		//1. 客户行业
 		List<EamCodeValueVo> industry = eamApiService.summaryIndustry();
@@ -63,8 +63,7 @@ public class EamDashboradController extends BaseController {
 		HashMap buyOrder = eamApiService.summaryIndustryAndCompanyName();
 		map.put("buyOrder", buyOrder);
 
-		//3. 产线状态统计
-		map.put("shiftStatus", eamApiService.getShiftStatus());
+
 
 		//4. 产线数量（按州）
 		List<EamCodeValueVo> state = eamApiService.summaryState();
@@ -94,10 +93,25 @@ public class EamDashboradController extends BaseController {
 		map.put("mapData", eamApiService.buildMapData());
 		return map;
 
-
-
 	}
 
+	@ApiOperation(value = "生产总瓶数")
+	@RequiresPermissions("eam:productLine:read")
+	@RequestMapping(value = "/sumBottle", method = RequestMethod.GET)
+	@ResponseBody
+	public Object sumBottle() {
+		//9. 生产总瓶数
+		return eamApiService.sumBottleQuantity();
+	}
+
+	@ApiOperation(value = "产线状态")
+	@RequiresPermissions("eam:productLine:read")
+	@RequestMapping(value = "/productLineStatus", method = RequestMethod.GET)
+	@ResponseBody
+	public Object productLineStatus() {
+		//3. 产线状态统计
+		return eamApiService.getShiftStatus();
+	}
 
 	private int getProductLineCount(){
 		EamProductLineExample example = new EamProductLineExample();

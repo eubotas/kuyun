@@ -331,7 +331,7 @@
 	</resultMap>
 
 	<sql id="Alarm_Record_Column_List">
-		t.id, t.alarm_id, t.equipment_id, t.product_line_id, t.alarm_value, t.alarm_status, t.create_user_id,
+		t.id, t.alarm_id, t.equipment_id, t.product_line_id, t.alarm_value, t.alarm_status, t.alarm_content, t.create_user_id,
         t.create_time, t.update_user_id, t.update_time, t.delete_flag, t.company_id,
 	</sql>
 
@@ -452,7 +452,7 @@
 	</select>
 
 	<sql id="Alarm_Record_History_Column_List">
-		t.id, t.alarm_id, t.equipment_id, t.product_line_id,  t.alarm_value, t.alarm_status,
+		t.id, t.alarm_id, t.equipment_id, t.product_line_id,  t.alarm_value, t.alarm_status, t.alarm_content,
 		t.alarm_clear_value, t.create_user_id, t.create_time, t.update_user_id, t.update_time, t.delete_flag,
 		t.company_id,
 	</sql>
@@ -1517,13 +1517,10 @@
 	</select>
 
 	<select id="sumBottleQuantity"  resultType="java.lang.Long">
-		select sum(value * 1)
-		from eam_grm_variable_data
-		where data_element_id
-		in (
-			select bottle_quantity_id from eam_product_line
-			where delete_flag = 0 and bottle_quantity_id is null
-		)
+		select sum(d.value * 1) from eam_product_line p, eam_grm_variable_data d
+			where p.product_line_id = d.product_line_id
+			and p.delete_flag = 0
+			and p.bottle_quantity_id = d.data_element_id
 	</select>
 
 	<select id="selectGrmVariableGroupByPeriod" parameterType="java.lang.String" resultMap="com.kuyun.eam.dao.mapper.EamGrmVariableMapper.BaseResultMap">
@@ -1583,7 +1580,7 @@
 	</select>
 
 	<resultMap id="ShiftStatusResultMap" type="com.kuyun.eam.pojo.ShiftStatus">
-		<result column="name" jdbcType="VARCHAR" property="product_line_name" />
+		<result column="name" jdbcType="VARCHAR" property="productLineName" />
 		<result column="status" jdbcType="VARCHAR" property="status" />
 		<result column="date" jdbcType="TIMESTAMP" property="date" />
 	</resultMap>
@@ -1596,17 +1593,17 @@
 		'开始生产' as status
 		from eam_grm_variable_data_history h, eam_product_line p
 		WHERE
-	    h.update_time <![CDATA[>=]]> (select
+	    h.update_time <![CDATA[>=]]> CONCAT(date(now()), ' ', (select
 			case when now() between CONCAT(date(now()), ' ' , p.morning_shift_start_time) and  CONCAT(date(now()), ' ' , p.morning_shift_end_time)  =  1 then p.morning_shift_start_time
 			when now() between CONCAT(date(now()), ' ' , p.middle_shift_start_time) and  CONCAT(date(now()), ' ' , p.middle_shift_end_time) = 1 then p.middle_shift_start_time
 			when now() between CONCAT(date(now()), ' ' , p.night_shift_start_time) and  CONCAT(date(now()), ' ' , p.night_shift_end_time) = 1 then p.night_shift_start_time
-			else null end start_time from eam_product_line l where l.delete_flag = 0 and p.product_line_id = l.product_line_id)
+			else null end start_time from eam_product_line l where l.delete_flag = 0 and p.product_line_id = l.product_line_id))
 
-		AND h.update_time <![CDATA[<=]]> (select
+		AND h.update_time <![CDATA[<=]]> CONCAT(date(now()), ' ', (select
 		    case when now() between CONCAT(date(now()), ' ' , p.morning_shift_start_time) and  CONCAT(date(now()), ' ' , p.morning_shift_end_time)  =  1 then p.morning_shift_end_time
 			when now() between CONCAT(date(now()), ' ' , p.middle_shift_start_time) and  CONCAT(date(now()), ' ' , p.middle_shift_end_time) = 1 then p.middle_shift_end_time
 			when now() between CONCAT(date(now()), ' ' , p.night_shift_start_time) and  CONCAT(date(now()), ' ' , p.night_shift_end_time) = 1 then p.night_shift_end_time
-			else null end end_time from eam_product_line l where l.delete_flag = 0 and p.product_line_id = l.product_line_id)
+			else null end end_time from eam_product_line l where l.delete_flag = 0 and p.product_line_id = l.product_line_id))
 		AND h.value = 1
 		AND h.delete_flag = 0 AND p.delete_flag = 0
 		AND p.product_line_id = h.product_line_id

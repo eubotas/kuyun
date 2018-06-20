@@ -16,6 +16,8 @@ public class EamAlarmRecord extends BaseEntity implements Serializable {
 
     private String alarmStatus;
 
+    private String alarmContent;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -66,6 +68,14 @@ public class EamAlarmRecord extends BaseEntity implements Serializable {
         this.alarmStatus = alarmStatus;
     }
 
+    public String getAlarmContent() {
+        return alarmContent;
+    }
+
+    public void setAlarmContent(String alarmContent) {
+        this.alarmContent = alarmContent;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -78,6 +88,7 @@ public class EamAlarmRecord extends BaseEntity implements Serializable {
         sb.append(", equipmentId=").append(equipmentId);
         sb.append(", alarmValue=").append(alarmValue);
         sb.append(", alarmStatus=").append(alarmStatus);
+        sb.append(", alarmContent=").append(alarmContent);
         sb.append("]");
         return sb.toString();
     }
@@ -105,7 +116,8 @@ public class EamAlarmRecord extends BaseEntity implements Serializable {
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()));
+            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()))
+            && (this.getAlarmContent() == null ? other.getAlarmContent() == null : this.getAlarmContent().equals(other.getAlarmContent()));
     }
 
     @Override
@@ -124,6 +136,7 @@ public class EamAlarmRecord extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
+        result = prime * result + ((getAlarmContent() == null) ? 0 : getAlarmContent().hashCode());
         return result;
     }
 }

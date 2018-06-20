@@ -3,7 +3,6 @@ package com.kuyun.eam.alarm;
 import com.kuyun.common.jpush.JpushUtil;
 import com.kuyun.common.mail.service.EmailService;
 import com.kuyun.common.netease.SMSUtil;
-import com.kuyun.common.util.EhCacheUtil;
 import com.kuyun.eam.common.constant.*;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
@@ -22,7 +21,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.mail.MessagingException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -85,29 +83,38 @@ public abstract class AbstractAlarmHandler {
         EamAlarmRecord alarmRecord = getAlarmRecord(variableData, alarm);
 
         if (metAlarmCondition(variableData, alarm) && alarmRecord == null) {
+            EamProductLine productLine = getProductLine(variableData);
+            EamEquipment equipment = getEquipment(variableData);
+            EamDataElement dataElement = getEamDataElement(variableData);
+
             //1. create alarm record
-            createAlarmRecord(variableData, alarm);
+            createAlarmRecord(variableData, alarm, productLine, equipment);
             //2. create alarm record history
-            createAlarmRecordHistory(variableData, alarm, AlarmStatus.ANU);
+            createAlarmRecordHistory(variableData, alarm, AlarmStatus.ANU, productLine, equipment);
             //3. send message
-            sendAlarmMessage(variableData, alarm, false);
+            sendAlarmMessage(variableData, alarm, false, productLine, equipment, dataElement);
             //4. create ticket
-            createTicket(variableData, alarm);
+            createTicket(variableData, alarm, productLine, equipment, dataElement);
         }
 
         if (!metAlarmCondition(variableData, alarm) && alarmRecord != null){
+
+            EamProductLine productLine = getProductLine(variableData);
+            EamEquipment equipment = getEquipment(variableData);
+            EamDataElement dataElement = getEamDataElement(variableData);
+
+
             //1. update alarm record
             updateAlarmRecord(alarmRecord, variableData);
             //2. create alarm record history
             updateAlarmRecordHistory(variableData, alarm, AlarmStatus.CNU);
             //3. send clear message
-            sendAlarmMessage(variableData, alarm, true);
+            sendAlarmMessage(variableData, alarm, true, productLine, equipment, dataElement);
         }
     }
 
-    protected void createTicket(EamGrmVariableData variableData, EamAlarm alarm){
+    protected void createTicket(EamGrmVariableData variableData, EamAlarm alarm, EamProductLine productLine, EamEquipment equipment, EamDataElement dataElement){
         if (alarm.getIsCreateTicket() != null && alarm.getIsCreateTicket().booleanValue()){
-            EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(variableData.getEquipmentId());
             List<UpmsUser> users = getUpmsUsers(alarm);
             List<EamTicket> tickets = new ArrayList<>(users != null ? users.size() : 0);
             for (UpmsUser user : users){
@@ -115,7 +122,7 @@ public abstract class AbstractAlarmHandler {
                 ticket.setProductLineId(variableData.getProductLineId());
                 ticket.setEquipmentId(variableData.getEquipmentId());
                 ticket.setEquipmentCategoryId(equipment.getEquipmentCategoryId());
-                String message = buildSmsMessage(variableData, alarm, false);
+                String message = buildSmsMessage(variableData, alarm, false, productLine, equipment, dataElement);
                 ticket.setDescription(message);
                 ticket.setPriority(TicketPriority.URGENT.getName());
                 ticket.setStatus(TicketStatus.TO_PROCESS.getName());
@@ -208,13 +215,14 @@ public abstract class AbstractAlarmHandler {
         return eamAlarmRecordHistoryService.selectFirstByExample(example);
     }
 
-    public void createAlarmRecord(EamGrmVariableData variableData, EamAlarm alarm) {
+    public void createAlarmRecord(EamGrmVariableData variableData, EamAlarm alarm, EamProductLine productLine, EamEquipment equipment) {
         EamAlarmRecord record = new EamAlarmRecord();
         record.setAlarmId(alarm.getAlarmId());
         record.setAlarmValue(variableData.getValue());
         record.setAlarmStatus(AlarmStatus.ANU.getCode());
         record.setEquipmentId(variableData.getEquipmentId());
         record.setProductLineId(variableData.getProductLineId());
+        record.setAlarmContent(buildAlarmContent(variableData, alarm, productLine));
         record.setCreateTime(new Date());
         record.setDeleteFlag(Boolean.FALSE);
 
@@ -223,7 +231,15 @@ public abstract class AbstractAlarmHandler {
 
     }
 
-    private void createAlarmRecordHistory(EamGrmVariableData variableData, EamAlarm alarm, AlarmStatus alarmStatus) {
+    public String buildAlarmContent(EamGrmVariableData variableData, EamAlarm alarm, EamProductLine productLine){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(productLine.getName() + "  ");
+        stringBuilder.append(alarm.getName() + "  ");
+        stringBuilder.append(buildAlarmMessage(variableData, alarm));
+        return stringBuilder.toString();
+    }
+
+    private void createAlarmRecordHistory(EamGrmVariableData variableData, EamAlarm alarm, AlarmStatus alarmStatus, EamProductLine productLine, EamEquipment equipment) {
         //Create a alarm history
         EamAlarmRecordHistory recordHistory = new EamAlarmRecordHistory();
         recordHistory.setAlarmId(alarm.getAlarmId());
@@ -231,6 +247,7 @@ public abstract class AbstractAlarmHandler {
         recordHistory.setAlarmStatus(alarmStatus.getCode());
         recordHistory.setEquipmentId(variableData.getEquipmentId());
         recordHistory.setProductLineId(variableData.getProductLineId());
+        recordHistory.setAlarmContent(buildAlarmContent(variableData, alarm, productLine));
         recordHistory.setCreateTime(new Date());
         recordHistory.setDeleteFlag(Boolean.FALSE);
 
@@ -247,20 +264,20 @@ public abstract class AbstractAlarmHandler {
 
     }
 
-    public void sendAlarmMessage(EamGrmVariableData variableData, EamAlarm alarm, boolean isClearMessage) {
+    public void sendAlarmMessage(EamGrmVariableData variableData, EamAlarm alarm, boolean isClearMessage, EamProductLine productLine, EamEquipment equipment, EamDataElement dataElement) {
         if (AlarmTarget.SMS.match(alarm.getAlarmTarget())) {
-            handleSms(variableData, alarm, isClearMessage);
+            handleSms(variableData, alarm, isClearMessage, productLine, equipment, dataElement);
         } else if (AlarmTarget.EMAIL.match(alarm.getAlarmTarget())) {
-            handleEmail(variableData, alarm, isClearMessage);
+            handleEmail(variableData, alarm, isClearMessage, productLine, equipment, dataElement);
         }
         //send APP notification
-        handleJpush(variableData, alarm, isClearMessage);
+        handleJpush(variableData, alarm, isClearMessage, productLine, equipment, dataElement);
     }
 
 
 
-    private void handleEmail(EamGrmVariableData variableData, EamAlarm alarm, boolean isClearMessage) {
-        String message = buildEmailMessage(variableData, alarm, isClearMessage);
+    private void handleEmail(EamGrmVariableData variableData, EamAlarm alarm, boolean isClearMessage, EamProductLine productLine, EamEquipment equipment, EamDataElement dataElement) {
+        String message = buildEmailMessage(variableData, alarm, isClearMessage, productLine, equipment, dataElement);
 
         List<String> emails = getEmails(alarm);
         for (String email : emails) {
@@ -273,9 +290,9 @@ public abstract class AbstractAlarmHandler {
         }
     }
 
-    private void handleSms(EamGrmVariableData variableData, EamAlarm alarm, boolean isClearMessage) {
+    private void handleSms(EamGrmVariableData variableData, EamAlarm alarm, boolean isClearMessage, EamProductLine productLine, EamEquipment equipment, EamDataElement dataElement) {
         String mobiles = getJsonMobiles(alarm);
-        String message = buildSmsMessage(variableData, alarm, isClearMessage);
+        String message = buildSmsMessage(variableData, alarm, isClearMessage,  productLine, equipment, dataElement);
         _log.info("Send SMS To : [ {} ], Message: [ {} ]", mobiles, message);
         if (!StringUtils.isEmpty(mobiles) && !StringUtils.isEmpty(message) ){
 
@@ -289,9 +306,9 @@ public abstract class AbstractAlarmHandler {
         }
     }
 
-    private void handleJpush(EamGrmVariableData variableData, EamAlarm alarm, boolean isClearMessage) {
+    private void handleJpush(EamGrmVariableData variableData, EamAlarm alarm, boolean isClearMessage, EamProductLine productLine, EamEquipment equipment, EamDataElement dataElement) {
         List<String> mobiles = getMobiles(alarm);
-        String message = buildJpushMessage(variableData, alarm, isClearMessage);
+        String message = buildJpushMessage(variableData, alarm, isClearMessage, productLine, equipment, dataElement);
         _log.info("Send APP To : [ {} ], Message: [ {} ]", mobiles, message);
         if (!mobiles.isEmpty() && !StringUtils.isEmpty(message) ){
             jpushUtil.sendPush(mobiles, message, OrgDepartment.ALARM_DEPARTMENT.getCode());
@@ -405,7 +422,7 @@ public abstract class AbstractAlarmHandler {
         return grmVariableDataHistoryService.selectByExample(example);
     }
 
-    protected EamEquipment getEquipment(EamGrmVariableData variableData) {
+    public EamEquipment getEquipment(EamGrmVariableData variableData) {
         EamEquipment result = null;
         if (variableData.getEquipmentId() != null){
             result = eamEquipmentService.selectByPrimaryKey(variableData.getEquipmentId());
@@ -413,7 +430,7 @@ public abstract class AbstractAlarmHandler {
         return result;
     }
 
-    protected EamProductLine getProductLine(EamGrmVariableData variableData) {
+    public EamProductLine getProductLine(EamGrmVariableData variableData) {
         EamProductLine result = null;
         if (variableData.getEquipmentId() != null){
             result = eamProductLineService.selectByPrimaryKey(variableData.getProductLineId());
@@ -421,7 +438,7 @@ public abstract class AbstractAlarmHandler {
         return result;
     }
 
-    protected EamDataElement getEamDataElement(EamGrmVariableData variableData) {
+    public EamDataElement getEamDataElement(EamGrmVariableData variableData) {
         EamDataElement result = null;
         if (variableData.getDataElementId() != null){
             result = eamDataElementService.selectByPrimaryKey(variableData.getDataElementId());
@@ -429,10 +446,7 @@ public abstract class AbstractAlarmHandler {
         return result;
     }
 
-    protected String buildEmailMessage(EamGrmVariableData variableData, EamAlarm alarm, boolean isClearMessage) {
-        EamProductLine productLine = getProductLine(variableData);
-        EamEquipment equipment = getEquipment(variableData);
-        EamDataElement dataElement = getEamDataElement(variableData);
+    protected String buildEmailMessage(EamGrmVariableData variableData, EamAlarm alarm, boolean isClearMessage, EamProductLine productLine, EamEquipment equipment, EamDataElement dataElement) {
 
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("报警产线：");
@@ -461,16 +475,11 @@ public abstract class AbstractAlarmHandler {
         return stringBuilder.toString();
     }
 
-    protected String buildSmsMessage(EamGrmVariableData variableData, EamAlarm alarm, boolean isClearMessage) {
-        return buildJpushMessage(variableData, alarm, isClearMessage);
+    protected String buildSmsMessage(EamGrmVariableData variableData, EamAlarm alarm, boolean isClearMessage, EamProductLine productLine, EamEquipment equipment, EamDataElement dataElement) {
+        return buildJpushMessage(variableData, alarm, isClearMessage, productLine, equipment, dataElement);
     }
 
-    protected String buildJpushMessage(EamGrmVariableData variableData, EamAlarm alarm, boolean isClearMessage) {
-
-        EamProductLine productLine = getProductLine(variableData);
-        EamEquipment equipment = getEquipment(variableData);
-        EamDataElement dataElement = getEamDataElement(variableData);
-
+    protected String buildJpushMessage(EamGrmVariableData variableData, EamAlarm alarm, boolean isClearMessage, EamProductLine productLine, EamEquipment equipment, EamDataElement dataElement) {
 
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("报警产线：");

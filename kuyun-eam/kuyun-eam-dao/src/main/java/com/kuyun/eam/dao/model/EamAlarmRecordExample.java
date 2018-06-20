@@ -888,6 +888,76 @@ public class EamAlarmRecordExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andAlarmContentIsNull() {
+            addCriterion("alarm_content is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlarmContentIsNotNull() {
+            addCriterion("alarm_content is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlarmContentEqualTo(String value) {
+            addCriterion("alarm_content =", value, "alarmContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlarmContentNotEqualTo(String value) {
+            addCriterion("alarm_content <>", value, "alarmContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlarmContentGreaterThan(String value) {
+            addCriterion("alarm_content >", value, "alarmContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlarmContentGreaterThanOrEqualTo(String value) {
+            addCriterion("alarm_content >=", value, "alarmContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlarmContentLessThan(String value) {
+            addCriterion("alarm_content <", value, "alarmContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlarmContentLessThanOrEqualTo(String value) {
+            addCriterion("alarm_content <=", value, "alarmContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlarmContentLike(String value) {
+            addCriterion("alarm_content like", value, "alarmContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlarmContentNotLike(String value) {
+            addCriterion("alarm_content not like", value, "alarmContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlarmContentIn(List<String> values) {
+            addCriterion("alarm_content in", values, "alarmContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlarmContentNotIn(List<String> values) {
+            addCriterion("alarm_content not in", values, "alarmContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlarmContentBetween(String value1, String value2) {
+            addCriterion("alarm_content between", value1, value2, "alarmContent");
+            return (Criteria) this;
+        }
+
+        public Criteria andAlarmContentNotBetween(String value1, String value2) {
+            addCriterion("alarm_content not between", value1, value2, "alarmContent");
+            return (Criteria) this;
+        }
+
         public Criteria addConditionSql(String conditionSql) {
             addCriterion(conditionSql);
             return (Criteria) this;
