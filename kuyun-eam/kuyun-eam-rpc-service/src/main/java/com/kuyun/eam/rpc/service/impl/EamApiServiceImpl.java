@@ -3016,7 +3016,8 @@ public class EamApiServiceImpl implements EamApiService {
 
         for(EamProductLineGrmDataElementVO vo : vos){
             EamGrmVariableDataHistory h = getEamGrmVariableDataHistory(dataHistoryList, vo.getId());
-            if(h == null) {
+            //停机是不处理
+            if(h == null || !NumberUtil.isBigDecimal(h.getValue())) {
                 continue;
             }
             variable.setProductLineId(h.getProductLineId());
