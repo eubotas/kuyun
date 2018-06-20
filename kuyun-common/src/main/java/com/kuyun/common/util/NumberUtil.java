@@ -38,4 +38,13 @@ public class NumberUtil {
         }
         return result;
     }
+
+    public static boolean isBigDecimal(String value) {
+        try {
+            new BigDecimal(value);
+            return Boolean.TRUE;
+        }catch(Exception e){
+            return Boolean.FALSE;
+        }
+    }
 }
