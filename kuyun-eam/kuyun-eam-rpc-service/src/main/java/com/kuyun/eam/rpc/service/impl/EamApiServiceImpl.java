@@ -2380,7 +2380,7 @@ public class EamApiServiceImpl implements EamApiService {
                 pair = new Pair(position, number);
                 map.put(name, pair);
             }else {
-                Pair position = new Pair(productLine.getLatitude(), productLine.getLongitude());
+                Pair position = new Pair(productLine.getLongitude(), productLine.getLatitude());
                 Pair pair = new Pair(position, 1);
                 map.put(name, pair);
 
