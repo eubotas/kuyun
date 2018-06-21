@@ -20,7 +20,7 @@
             <div class="m-stack__item m-stack__item--left m-stack__item--middle m-stack__item--last">
                 <span class="m-footer__copyright">
                         <% CompanyInfo company = new SessionUser().getCompany(request);
-                         if(company !=null){  //session expired  %>
+                         if(company ==null){  //session expired  %>
                             <script>
                             KConfirm('Session 过期.',function(){
                                 window.location.href ='${upmsPath}/sso/login';
