@@ -246,6 +246,30 @@ function deleteRowsChar(rows,idName,delUrl,tag, tipContent, successTip, tableObj
     }//end else
 }
 
+function kConfirmTip(tipContent, callFun){
+    swal({
+        title: "操作提示",
+        text: tipContent,
+        confirmButtonText: '确认'
+    }).then(function(result) {
+        if (callFun) {
+            callFun();
+        }
+    });
+}
+
+function KConfirm(title, callFun){
+    swal({
+        title: title,
+        text: '',
+        confirmButtonText: '确认'
+    }).then(function(result) {
+        if (callFun){
+            callFun();
+        }
+    });
+}
+
 function sendErrorInfo(result)
 {
     var errorMsgs = "";

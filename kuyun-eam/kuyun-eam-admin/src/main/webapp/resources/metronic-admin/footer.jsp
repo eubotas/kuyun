@@ -7,6 +7,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
+    <c:set var="eamPath" value="<%=BasePath.getInstance().getKuyunEamAdmin(request)%>"/>
 
 <!-- begin::Footer -->
 <footer class="m-grid__item		m-footer ">
@@ -14,7 +15,13 @@
         <div class="m-stack m-stack--flex-tablet-and-mobile m-stack--ver m-stack--desktop">
             <div class="m-stack__item m-stack__item--left m-stack__item--middle m-stack__item--last">
                 <span class="m-footer__copyright">
-                        <% String companyName=new SessionUser().getCompany(request).getCompanyName();
+                        <% CompanyInfo company = new SessionUser().getCompany(request);
+                         if(company ==null){  //session expired  %>
+                            KConfirm('Session expired',function(){
+                                window.location.href ='${eamPath}/sso/login';
+                            });
+                         <%}
+                        String companyName=company.getCompanyName();
                         if(companyName == null || "".equals(companyName)){
                         %>
                                 版权所有  2018©库德莱兹物联科技（苏州）有限公司
