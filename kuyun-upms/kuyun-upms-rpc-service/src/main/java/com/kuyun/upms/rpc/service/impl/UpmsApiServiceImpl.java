@@ -695,6 +695,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
                 }
             }
         }
+
     }
 
     private void assignPermission(UpmsUser upmsUser, int updateUserPermissionId) {

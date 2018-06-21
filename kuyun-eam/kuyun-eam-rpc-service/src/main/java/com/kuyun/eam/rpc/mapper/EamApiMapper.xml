@@ -626,7 +626,7 @@
 		<if test="companyId != null and companyId != ''">
 			AND (e.company_id = #{companyId}
 			     OR eam_product_line.product_line_id not in (
-					select product_line_id from eam_product_line_company where company_id != 1
+					select product_line_id from eam_product_line_company where company_id != 1 and delete_flag = 0
 			))
 		</if>
 		<if test="orderByClause != null">

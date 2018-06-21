@@ -16,9 +16,9 @@ public class ProductLineShirtStatisticJob extends BaseJob {
     @Override
     protected void runJob() {
         if (eamApiService != null){
-            _log.info("******Start Statistic Job********");
+            _log.info("******Start ProductLineShirtStatisticJob Job********");
             eamApiService.productLineShirtStatisticJob();
-            _log.info("******End Statistic Job**********");
+            _log.info("******End ProductLineShirtStatisticJob Job**********");
         }
     }
 }
