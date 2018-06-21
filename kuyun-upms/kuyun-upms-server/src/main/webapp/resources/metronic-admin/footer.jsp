@@ -1,4 +1,5 @@
 <%@ page import="com.kuyun.upms.dao.vo.CompanyInfo" %>
+<%@ page import="com.kuyun.upms.client.util.SessionUser" %>
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib uri="http://java.sun.com/jstl/core_rt" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -8,6 +9,8 @@
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
 
+<script src="${basePath}/resources/metronic-admin/assets/vendors/base/vendors.bundle.js" type="text/javascript"></script>
+<script src="${basePath}/resources/metronic-admin/assets/js/kuyun_common.js" type="text/javascript"></script>
 <!-- begin::Footer -->
 <footer class="m-grid__item		m-footer ">
     <div class="m-container m-container--fluid m-container--full-height m-page__container">
@@ -16,9 +19,11 @@
                 <span class="m-footer__copyright">
                             <%   CompanyInfo company = new SessionUser().getCompany(request);
                                  if(company ==null){  //session expired %>
-                                    KConfirm('Session expired',function(){
-                                       window.location.href ="/sso/login";
+                                    <script>
+                                    KConfirm('Session 过期.',function(){
+                                        window.location.href ='/sso/login';
                                     });
+                                    </script>
                                 <%}
                                 String companyName=company.getCompanyName();
                                 if(companyName == null || "".equals(companyName)){
@@ -27,7 +32,7 @@
 								<a href="http://www.coderise.cn" target="_blank">
 									coderise.cn
 								</a>
-                                 <%}else{%>
+                                 <%}else{ %>
                                      <%=companyName%>
                                  <%}%>
 							</span>
