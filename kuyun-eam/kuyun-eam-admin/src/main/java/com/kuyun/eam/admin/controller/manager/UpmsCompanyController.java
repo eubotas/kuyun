@@ -131,9 +131,32 @@ public class UpmsCompanyController extends BaseController {
     @RequestMapping(value = "/delete/{ids}",method = RequestMethod.GET)
     @ResponseBody
     public Object delete(@PathVariable("ids") String ids) {
+        deleteProductLineCompany(ids);
+
         int count = upmsApiService.deleteCompanies(ids);
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
     }
+
+    private void deleteProductLineCompany(String ids){
+        EamProductLineCompanyExample example = new EamProductLineCompanyExample();
+        example.createCriteria().andCompanyIdIn(covert(ids)).andDeleteFlagEqualTo(Boolean.FALSE);
+
+        eamProductLineCompanyService.deleteByExample(example);
+    }
+
+    private List<Integer> covert(String ids){
+        List<Integer> result = new ArrayList<>();
+        String[] idArray = ids.split("-");
+        for(String idStr : idArray){
+            if (StringUtils.isBlank(idStr)) {
+                continue;
+            }
+            Integer id = Integer.parseInt(idStr);
+            result.add(id);
+        }
+        return result;
+    }
+
 
     @ApiOperation(value = "修改公司")
     @RequiresPermissions("eam:company:update")

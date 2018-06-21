@@ -39,7 +39,7 @@
     </bean>
     <bean id="productLineShirtTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="productLineShirtDetail" />
-        <property name="cronExpression" value="0 */1 * * * ?" />
+        <property name="cronExpression" value="0 */10 * * * ?" />
     </bean>
 
 
