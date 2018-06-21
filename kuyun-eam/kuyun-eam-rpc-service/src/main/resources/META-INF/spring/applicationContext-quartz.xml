@@ -32,7 +32,7 @@
 
     <bean id="productLineShirtDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
         <property name="jobClass">
-            <value>com.kuyun.eam.job.StatisticJob</value>
+            <value>com.kuyun.eam.job.ProductLineShirtStatisticJob</value>
         </property>
         <property name="durability" value="true" />
         <property name="requestsRecovery" value="true" />

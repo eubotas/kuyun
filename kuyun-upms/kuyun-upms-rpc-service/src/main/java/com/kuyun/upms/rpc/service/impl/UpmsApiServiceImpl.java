@@ -384,6 +384,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         upmsUser.setEmail(email);
         upmsUser.setPhone(phone);
         upmsUser.setLocked(Byte.decode("0"));
+        upmsUser.setDeleteFlag(Boolean.FALSE);
 
         long time = System.currentTimeMillis();
         String salt = UUID.randomUUID().toString().replaceAll("-", "");
@@ -568,6 +569,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         UpmsUserCompany upmsUserCompany = new UpmsUserCompany();
         upmsUserCompany.setCompanyId(companyId);
         upmsUserCompany.setUserId(upmsUser.getUserId());
+        upmsUserCompany.setDeleteFlag(Boolean.FALSE);
         upmsUserCompanyService.insert(upmsUserCompany);
         upmsUser.setCompanyId(companyId);
     }

@@ -2129,9 +2129,9 @@ public class EamApiServiceImpl implements EamApiService {
                         boolean isSummary = variableVo.getSummation() ==null? false : variableVo.getSummation();
                         BigDecimal value = null;
                         if(isSummary) {
-                            value = NumberUtil.toBigDecimal(last.getValue()).subtract(NumberUtil.toBigDecimal(first.getValue()));
+                            value = NumberUtil.toBigDecimal(last.getValue()).subtract(NumberUtil.toBigDecimal(first.getValue())).setScale(2, BigDecimal.ROUND_HALF_UP);
                         }else{
-                            value = NumberUtil.toBigDecimal(last.getValue());
+                            value = NumberUtil.toBigDecimal(last.getValue()).setScale(2, BigDecimal.ROUND_HALF_UP);
                         }
                         _log.info("ProductLineId:{}", variableVo.getProductLineId());
                         _log.info("DataElementId:{}", variableVo.getDataElementId());
@@ -2805,9 +2805,9 @@ public class EamApiServiceImpl implements EamApiService {
         if (data != null){
             BigDecimal newValue = null;
             if(variable.getSummation()){
-                newValue = NumberUtil.toBigDecimal(data.getValue()).add(NumberUtil.toBigDecimal(value));
+                newValue = NumberUtil.toBigDecimal(data.getValue()).add(NumberUtil.toBigDecimal(value)).setScale(2, BigDecimal.ROUND_HALF_UP);
             }else {
-                newValue = NumberUtil.toBigDecimal(value);
+                newValue = NumberUtil.toBigDecimal(value).setScale(2, BigDecimal.ROUND_HALF_UP);
             }
 
             data.setValue(newValue.toString());
@@ -2853,9 +2853,9 @@ public class EamApiServiceImpl implements EamApiService {
         if (data != null){
             BigDecimal newValue = null;
             if(variable.getSummation()){
-                newValue = NumberUtil.toBigDecimal(data.getValue()).add(NumberUtil.toBigDecimal(value));
+                newValue = NumberUtil.toBigDecimal(data.getValue()).add(NumberUtil.toBigDecimal(value)).setScale(2, BigDecimal.ROUND_HALF_UP);
             } else{
-                newValue = NumberUtil.toBigDecimal(value);
+                newValue = NumberUtil.toBigDecimal(value).setScale(2, BigDecimal.ROUND_HALF_UP);
             }
 
             data.setValue(newValue.toString());

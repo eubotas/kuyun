@@ -11,6 +11,7 @@ import com.kuyun.upms.common.constant.UpmsResultConstant;
 import com.kuyun.upms.dao.model.UpmsCompany;
 import com.kuyun.upms.dao.model.UpmsCompanyExample;
 import com.kuyun.upms.dao.model.UpmsUserCompany;
+import com.kuyun.upms.rpc.api.UpmsApiService;
 import com.kuyun.upms.rpc.api.UpmsCompanyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -44,6 +45,9 @@ public class UpmsCompanyController extends BaseController {
 
     @Autowired
     private BaseEntityUtil baseEntityUtil;
+
+    @Autowired
+    private UpmsApiService upmsApiService;
 
     @ApiOperation(value = "公司首页")
     @RequiresPermissions("upms:company:read")
@@ -121,7 +125,7 @@ public class UpmsCompanyController extends BaseController {
     @RequestMapping(value = "/delete/{ids}",method = RequestMethod.GET)
     @ResponseBody
     public Object delete(@PathVariable("ids") String ids) {
-        int count = upmsCompanyService.deleteByPrimaryKeys(ids);
+        int count = upmsApiService.deleteCompanies(ids);
         return new UpmsResult(UpmsResultConstant.SUCCESS, count);
     }
 
