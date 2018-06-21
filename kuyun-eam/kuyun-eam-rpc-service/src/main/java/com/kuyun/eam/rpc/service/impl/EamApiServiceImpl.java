@@ -3038,7 +3038,7 @@ public class EamApiServiceImpl implements EamApiService {
             }else if(EamDateUtil.inThisTimes(vo.getMiddleShiftStartTime(), vo.getMiddleShiftEndTime())) {
                 shiftNum = ProductLineShift.MIDDLE.getCode();
                 startDate=vo.getMiddleShiftStartTime();
-                endDate =vo.getMorningShiftEndTime();
+                endDate =vo.getMiddleShiftEndTime();
             }else if(EamDateUtil.inThisTimes(vo.getNightShiftStartTime(), vo.getNightShiftEndTime())) {
                 shiftNum = ProductLineShift.NIGHT.getCode();
                 startDate=vo.getNightShiftStartTime();
@@ -3147,7 +3147,7 @@ public class EamApiServiceImpl implements EamApiService {
             criteria.andSwitchValueEqualTo(offOpen);
         }
 
-        _log.info("get existed EamShiftDataElementValue -- selectFirstByExample:" + example);
+        _log.info("get existed EamShiftDataElementValue -- selectFirstByExample:" + shiftNum+"--"+ startDate+"--"+ endDate);
         return eamShiftDataElementValueService.selectFirstByExample(example);
     }
 
