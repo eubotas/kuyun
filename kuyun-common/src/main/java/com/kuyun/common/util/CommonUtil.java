@@ -1,8 +1,11 @@
 package com.kuyun.common.util;
 
 import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.StringUtils;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by user on 2017-06-22.
@@ -15,6 +18,18 @@ public class CommonUtil {
 //        return UUID.randomUUID().toString().replaceAll("-", "");
     }
 
+    public static List<Integer> covert(String ids){
+        List<Integer> result = new ArrayList<>();
+        String[] idArray = ids.split("-");
+        for(String idStr : idArray){
+            if (StringUtils.isBlank(idStr)) {
+                continue;
+            }
+            Integer id = Integer.parseInt(idStr);
+            result.add(id);
+        }
+        return result;
+    }
 
     //LocalTime time = LocalTime.parse("11:22")
 

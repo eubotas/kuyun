@@ -6,6 +6,7 @@ import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.google.gson.Gson;
 import com.kuyun.common.base.BaseController;
 import com.kuyun.common.excel.ExcelUtils;
+import com.kuyun.common.util.CommonUtil;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.*;
@@ -31,10 +32,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static com.kuyun.eam.common.constant.CollectStatus.NO_START;
 import static com.kuyun.eam.common.constant.EamResultConstant.INVALID_LENGTH;
@@ -171,10 +169,23 @@ public class EamEquipmentController extends BaseController {
 	@ResponseBody
 	public Object delete(@PathVariable("ids") String ids) {
 		String jsonString = covertToJson(ids);
-
 		eamApiService.handleEquimpmentCollect(jsonString, NO_START);
+		deleteGrmVariable(ids);
 		int count = eamEquipmentService.deleteByPrimaryKeys(ids);
 		return new EamResult(SUCCESS, count);
+	}
+
+	private void deleteGrmVariable(String ids){
+		String[] idArray = ids.split("-");
+		List<String> idList = Arrays.asList(idArray);
+		if (idList != null && !idList.isEmpty()){
+			EamGrmVariableExample example = new EamGrmVariableExample();
+			example.createCriteria().andEquipmentIdIn(idList).andDeleteFlagEqualTo(Boolean.FALSE);
+
+			EamGrmVariable record = new EamGrmVariable();
+			record.setDeleteFlag(Boolean.TRUE);
+			eamGrmVariableService.updateByExampleSelective(record, example);
+		}
 	}
 
 	private String covertToJson(String ids) {

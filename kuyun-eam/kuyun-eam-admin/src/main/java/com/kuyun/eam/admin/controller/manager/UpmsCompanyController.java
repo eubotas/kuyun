@@ -37,6 +37,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 
+import static com.kuyun.common.util.CommonUtil.covert;
+
 /**
  * 公司controller
  * Created by kuyun on 2017/2/6.
@@ -144,18 +146,7 @@ public class UpmsCompanyController extends BaseController {
         eamProductLineCompanyService.deleteByExample(example);
     }
 
-    private List<Integer> covert(String ids){
-        List<Integer> result = new ArrayList<>();
-        String[] idArray = ids.split("-");
-        for(String idStr : idArray){
-            if (StringUtils.isBlank(idStr)) {
-                continue;
-            }
-            Integer id = Integer.parseInt(idStr);
-            result.add(id);
-        }
-        return result;
-    }
+
 
 
     @ApiOperation(value = "修改公司")

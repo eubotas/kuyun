@@ -1,5 +1,6 @@
 package com.kuyun.eam.util;
 
+import com.kuyun.eam.common.constant.ProductLineShift;
 import javafx.util.Pair;
 
 import java.text.ParsePosition;
@@ -94,18 +95,30 @@ public class EamDateUtil {
         return pair;
     }
 
-    public static Pair<Date,Date> getShiftStartEndTime(String date, String startHourMinute, String endHourMinute) throws java.text.ParseException{
+    public static Pair<Date,Date> getShiftStartEndTime(String shiftCode, String date, String startHourMinute, String endHourMinute) throws java.text.ParseException{
         Pair<Date, Date> pair = null;
         Date startDate = org.apache.commons.lang.time.DateUtils.parseDate(date + " " + startHourMinute + ":00", new String[]{"yyyy-MM-dd HH:mm:ss"});
         Date endDate = org.apache.commons.lang.time.DateUtils.parseDate(date + " " + endHourMinute + ":00", new String[]{"yyyy-MM-dd HH:mm:ss"});
+
         if (endDate.before(startDate)) {
-            endDate = getDateAfter(endDate, 1);
+            /**
+             * 早班 中班 跨天 减 1 天
+             */
+            if (ProductLineShift.MORNING.match(shiftCode) || ProductLineShift.MIDDLE.match(shiftCode)){
+                startDate = getDateAfter(startDate, -1);
+            }else if (ProductLineShift.NIGHT.match(shiftCode)){
+                /**
+                 * 晚班 跨天 加 1 天
+                 */
+                endDate = getDateAfter(endDate, 1);
+            }
         }
+
         pair = new Pair<>(startDate, endDate);
         return pair;
     }
 
-    public static boolean inThisTimes(String startHourMinute, String endHourMinute) throws java.text.ParseException{
+    public static boolean inThisTimes(String shiftCode, String startHourMinute, String endHourMinute) throws java.text.ParseException{
         if(startHourMinute == null || endHourMinute==null) {
             return false;
         }
@@ -114,9 +127,21 @@ public class EamDateUtil {
         try {
             Date startDate = org.apache.commons.lang.time.DateUtils.parseDate(strDate + " " + startHourMinute, new String[]{"yyyy-MM-dd HH:mm"});
             Date endDate = org.apache.commons.lang.time.DateUtils.parseDate(strDate + " " + endHourMinute, new String[]{"yyyy-MM-dd HH:mm"});
+
             if (endDate.before(startDate)) {
-                endDate = getDateAfter(endDate, 1);
+                /**
+                 * 早班 中班 跨天 减 1 天
+                 */
+                if (ProductLineShift.MORNING.match(shiftCode) || ProductLineShift.MIDDLE.match(shiftCode)){
+                    startDate = getDateAfter(startDate, -1);
+                }else if (ProductLineShift.NIGHT.match(shiftCode)){
+                    /**
+                     * 晚班 跨天 加 1 天
+                     */
+                    endDate = getDateAfter(endDate, 1);
+                }
             }
+
             if(now.after(startDate) && now.before(endDate)) {
                 return true;
             }

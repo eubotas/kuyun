@@ -12,11 +12,15 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -52,6 +56,13 @@ public class EamStatisticDataElementController extends BaseController {
 	@Autowired
 	private EamProductLineShiftDataService eamProductLineShiftDataService;
 
+	@InitBinder
+	public void initBinder(WebDataBinder binder) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		dateFormat.setLenient(false);
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));   //true:允许输入空值，false:不能为空值
+	}
+
 	@ApiOperation(value = "按班次统计数据点")
 	@RequiresPermissions("eam:productLine:read")
 	@ResponseBody
@@ -78,7 +89,7 @@ public class EamStatisticDataElementController extends BaseController {
 		}
 
 		try {
-            Date date = variable.getData();
+            Date date = variable.getDate();
             if (date != null){
 				Pair<Date, Date> startEnd = EamDateUtil.getShiftStartEndTime(EamDateUtil.getDateStr(date, "yyyy-MM-dd"));
 				criteria.andUpdateTimeBetween(startEnd.getKey(), startEnd.getValue());

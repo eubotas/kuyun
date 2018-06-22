@@ -9,13 +9,13 @@ import java.util.Date;
  */
 public class EamShiftDataElementValueVO extends EamShiftDataElementValue {
 
-    private Date data;
+    private Date date;
 
-    public Date getData() {
-        return data;
+    public Date getDate() {
+        return date;
     }
 
-    public void setData(Date data) {
-        this.data = data;
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

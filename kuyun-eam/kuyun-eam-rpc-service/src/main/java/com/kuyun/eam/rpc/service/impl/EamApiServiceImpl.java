@@ -43,11 +43,13 @@ import java.math.BigDecimal;
 import java.text.ParseException;
 import java.time.*;
 import java.time.Duration;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.kuyun.common.util.CommonUtil.covert;
 import static com.kuyun.eam.common.constant.CollectStatus.NO_START;
 import static com.kuyun.eam.common.constant.CollectStatus.WORKING;
 import static com.kuyun.eam.util.EamDateUtil.getDateStr;
@@ -1750,7 +1752,7 @@ public class EamApiServiceImpl implements EamApiService {
     @Override
     public int deleteDataElements(String ids) {
         int count = dataElementService.deleteByPrimaryKeys(ids);
-        List<Integer> idList = coverToList(ids);
+        List<Integer> idList = covert(ids);
         //1. delete alarm model
         EamAlarmModelExample example = new EamAlarmModelExample();
         example.createCriteria().andEamDataElementIdIn(idList).andDeleteFlagEqualTo(Boolean.FALSE);
@@ -2062,18 +2064,6 @@ public class EamApiServiceImpl implements EamApiService {
         ganttData.setDataElementId(dataElementId);
         ganttData.setStartDate(date);
         result.add(ganttData);
-    }
-
-    private List<Integer> coverToList(String ids){
-        List<Integer> result = new ArrayList<>();
-
-        String[] idArray = ids.split("-");
-        if (idArray != null){
-            for(String id : idArray){
-                result.add(Integer.valueOf(id));
-            }
-        }
-        return result;
     }
 
     @Override
@@ -2570,7 +2560,7 @@ public class EamApiServiceImpl implements EamApiService {
                 Date updateTime = dataHistoryList.get(i).getUpdateTime();
 
                 if ("1".equals(previousValue)){
-                    long diffMinutes = Duration.between(previousDateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), updateTime.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()).toMinutes();
+                    long diffMinutes = Duration.between(previousDateTime.toInstant(), updateTime.toInstant()).toMinutes();
                     totalMinutes = totalMinutes.add(BigDecimal.valueOf(diffMinutes));
                 }
             }
@@ -2658,17 +2648,17 @@ public class EamApiServiceImpl implements EamApiService {
         String shiftName = null, startTime = null, endTime = null;
         BigDecimal stopTime = BigDecimal.ZERO;
         try {
-            if (EamDateUtil.inThisTimes(productLine.getMorningShiftStartTime(), productLine.getMorningShiftEndTime())) {
+            if (EamDateUtil.inThisTimes(ProductLineShift.MORNING.getCode(), productLine.getMorningShiftStartTime(), productLine.getMorningShiftEndTime())) {
                 shiftName = ProductLineShift.MORNING.getName();
                 startTime = productLine.getMorningShiftStartTime();
                 endTime = productLine.getMorningShiftEndTime();
                 stopTime = productLine.getMorningStopTime();
-            } else if (EamDateUtil.inThisTimes(productLine.getMiddleShiftStartTime(), productLine.getMiddleShiftEndTime())) {
+            } else if (EamDateUtil.inThisTimes(ProductLineShift.MORNING.getCode(), productLine.getMiddleShiftStartTime(), productLine.getMiddleShiftEndTime())) {
                 shiftName = ProductLineShift.MIDDLE.getName();
                 startTime = productLine.getMiddleShiftStartTime();
                 endTime = productLine.getMiddleShiftEndTime();
                 stopTime = productLine.getMiddleStopTime();
-            } else if (EamDateUtil.inThisTimes(productLine.getNightShiftStartTime(), productLine.getNightShiftEndTime())) {
+            } else if (EamDateUtil.inThisTimes(ProductLineShift.NIGHT.getCode(), productLine.getNightShiftStartTime(), productLine.getNightShiftEndTime())) {
                 shiftName = ProductLineShift.NIGHT.getName();
                 startTime = productLine.getNightShiftStartTime();
                 endTime = productLine.getNightShiftEndTime();
@@ -2685,11 +2675,9 @@ public class EamApiServiceImpl implements EamApiService {
                 result.setStartDate(startDate);
                 result.setEndDate(endDate);
 
-                long shirtTime = Duration.between(startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate())
-                .toMinutes();
+                long shirtTime = Duration.between(startDate.toInstant(), endDate.toInstant()).toMinutes();
 
-                long sumTime = Duration.between(startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), LocalDate.now()).toMinutes();
-
+                long sumTime = Duration.between(startDate.toInstant(), Instant.now()).toMinutes();
 
                 result.setShirtTime(BigDecimal.valueOf(shirtTime));
                 result.setSumTime(BigDecimal.valueOf(sumTime));
@@ -3031,15 +3019,15 @@ public class EamApiServiceImpl implements EamApiService {
             variable.setId(h.getEamGrmVariableId());
 
             String shiftNum = null, startDate, endDate;
-            if(EamDateUtil.inThisTimes(vo.getMorningShiftStartTime(), vo.getMorningShiftEndTime())) {
+            if(EamDateUtil.inThisTimes(ProductLineShift.MORNING.getCode(), vo.getMorningShiftStartTime(), vo.getMorningShiftEndTime())) {
                 shiftNum = ProductLineShift.MORNING.getCode();
                 startDate=vo.getMorningShiftStartTime();
                 endDate =vo.getMorningShiftEndTime();
-            }else if(EamDateUtil.inThisTimes(vo.getMiddleShiftStartTime(), vo.getMiddleShiftEndTime())) {
+            }else if(EamDateUtil.inThisTimes(ProductLineShift.MIDDLE.getCode(), vo.getMiddleShiftStartTime(), vo.getMiddleShiftEndTime())) {
                 shiftNum = ProductLineShift.MIDDLE.getCode();
                 startDate=vo.getMiddleShiftStartTime();
                 endDate =vo.getMiddleShiftEndTime();
-            }else if(EamDateUtil.inThisTimes(vo.getNightShiftStartTime(), vo.getNightShiftEndTime())) {
+            }else if(EamDateUtil.inThisTimes(ProductLineShift.NIGHT.getCode(), vo.getNightShiftStartTime(), vo.getNightShiftEndTime())) {
                 shiftNum = ProductLineShift.NIGHT.getCode();
                 startDate=vo.getNightShiftStartTime();
                 endDate =vo.getNightShiftEndTime();
@@ -3133,7 +3121,7 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     private EamShiftDataElementValue getEamGrmVariableDataByShift(EamGrmVariable variable, String shiftNum,Boolean offOpen, String startDate,String endDate) throws ParseException{
-        Pair<Date,Date> startEnd=getShiftStartEndTime(getDateStr(new Date(), "yyyy-MM-dd"),startDate, endDate);
+        Pair<Date,Date> startEnd=getShiftStartEndTime(shiftNum, getDateStr(new Date(), "yyyy-MM-dd"),startDate, endDate);
         EamShiftDataElementValueExample example = new EamShiftDataElementValueExample();
         EamShiftDataElementValueExample.Criteria criteria = example.createCriteria();
         criteria.andEamGrmVariableIdEqualTo(variable.getId())

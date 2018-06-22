@@ -7,7 +7,13 @@ import com.kuyun.eam.pojo.map.*;
 
 import javax.swing.text.html.HTML;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -15,7 +21,7 @@ import java.util.List;
  */
 public class Test {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
 //        Positions pList = new Positions();
 //        Position p = new Position();
 //        p.setEquipmentId("111");
@@ -39,65 +45,77 @@ public class Test {
 
 
 
-        MapData data = new MapData();
-        List<City> cities = new ArrayList<>();
-        City city = new City();
-        city.setName("南通市");
-        city.setSymboleSize(25);
-        List<String> values = new ArrayList<>(2);
-        values.add("121");
-        values.add("32");
+//        MapData data = new MapData();
+//        List<City> cities = new ArrayList<>();
+//        City city = new City();
+//        city.setName("南通市");
+//        city.setSymboleSize(25);
+//        List<String> values = new ArrayList<>(2);
+//        values.add("121");
+//        values.add("32");
+//
+//        city.setValue(values);
+//        ItemStyle itemStyle = new ItemStyle();
+//        Normal normal = new Normal();
+//        normal.setColor("#49bcf8");
+//        itemStyle.setNormal(normal);
+//        city.setItemStyle(itemStyle);
+//        cities.add(city);
+//
+//
+//
+//        city = new City();
+//        city.setName("上海市");
+//        city.setSymboleSize(21);
+//        values = new ArrayList<>(2);
+//        values.add("100");
+//        values.add("321");
+//
+//        city.setValue(values);
+//        itemStyle = new ItemStyle();
+//        normal = new Normal();
+//        normal.setColor("#49bcf8");
+//        itemStyle.setNormal(normal);
+//        city.setItemStyle(itemStyle);
+//
+//        cities.add(city);
+//
+//        data.setCitys(cities);
+//
+//        List<MoveLine> moveLines = new ArrayList<>();
+//        MoveLine moveLine = new MoveLine();
+//        moveLine.setFromName("南通市");
+//        moveLine.setToName("上海市");
+//        List<String> from = new ArrayList<>();
+//        from.add("121");
+//        from.add("32");
+//
+//        List<String> to = new ArrayList<>();
+//        to.add("100");
+//        to.add("321");
+//        List<List<String>> coords = new ArrayList<>();
+//        coords.add(from);
+//        coords.add(to);
+//
+//        moveLine.setCoords(coords);
+//        moveLines.add(moveLine);
+//
+//        data.setMoveLines(moveLines);
+//
+//
+//
+//        System.out.println(gson.toJson(data));
 
-        city.setValue(values);
-        ItemStyle itemStyle = new ItemStyle();
-        Normal normal = new Normal();
-        normal.setColor("#49bcf8");
-        itemStyle.setNormal(normal);
-        city.setItemStyle(itemStyle);
-        cities.add(city);
+
+        Date startDate = org.apache.commons.lang.time.DateUtils.parseDate("2018-06-22" + " " + "02:00", new String[]{"yyyy-MM-dd HH:mm"});
+        Date endDate = org.apache.commons.lang.time.DateUtils.parseDate("2018-06-22" + " " + "18:00", new String[]{"yyyy-MM-dd HH:mm"});
 
 
+        long shirtTime = Duration.between(startDate.toInstant(), endDate.toInstant()).toMinutes();
 
-        city = new City();
-        city.setName("上海市");
-        city.setSymboleSize(21);
-        values = new ArrayList<>(2);
-        values.add("100");
-        values.add("321");
+        long sumTime = Duration.between(startDate.toInstant(), Instant.now()).toMinutes();
 
-        city.setValue(values);
-        itemStyle = new ItemStyle();
-        normal = new Normal();
-        normal.setColor("#49bcf8");
-        itemStyle.setNormal(normal);
-        city.setItemStyle(itemStyle);
-
-        cities.add(city);
-
-        data.setCitys(cities);
-
-        List<MoveLine> moveLines = new ArrayList<>();
-        MoveLine moveLine = new MoveLine();
-        moveLine.setFromName("南通市");
-        moveLine.setToName("上海市");
-        List<String> from = new ArrayList<>();
-        from.add("121");
-        from.add("32");
-
-        List<String> to = new ArrayList<>();
-        to.add("100");
-        to.add("321");
-        List<List<String>> coords = new ArrayList<>();
-        coords.add(from);
-        coords.add(to);
-
-        moveLine.setCoords(coords);
-        moveLines.add(moveLine);
-
-        data.setMoveLines(moveLines);
-
-
-
-        System.out.println(gson.toJson(data));
+        System.out.println(shirtTime);
+        System.out.println(sumTime);
     }
 }
