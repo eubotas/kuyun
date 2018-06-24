@@ -1,0 +1,1068 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kuyun.eam.rpc.mapper.EamApiMapper">
+
+	<resultMap id="EamLocationVOResultMap" type="com.kuyun.eam.vo.EamLocationVO" extends="com.kuyun.eam.dao.mapper.EamLocationMapper.BaseResultMap">
+		<result column="warehouse_name" jdbcType="VARCHAR" property="warehouseName" />
+	</resultMap>
+
+
+	<!-- 仓位字段 -->
+	<sql id="Location_Column_List">
+		t.location_id, t.warehouse_id, t.number, t.comments,
+		t.create_user_id, t.create_time, t.update_user_id, t.update_time, t.delete_flag,
+		t.company_id,
+	</sql>
+
+
+
+	<select id="selectLocation" parameterType="com.kuyun.eam.vo.EamLocationVO" resultMap="EamLocationVOResultMap">
+		select
+
+		<include refid="Location_Column_List" />
+		e.name as warehouse_name
+		from eam_Location t
+		LEFT JOIN eam_warehouse e ON t.warehouse_id = e.warehouse_id
+		WHERE t.delete_flag = 0
+		<if test="companyId != null and companyId != ''">
+			AND t.company_id = #{companyId}
+		</if>
+		<if test="warehouseId != null">
+			AND t.warehouse_id = #{warehouseId}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+
+	<resultMap id="EamPartVOResultMap" type="com.kuyun.eam.vo.EamPartVO" extends="com.kuyun.eam.dao.mapper.EamPartsMapper.BaseResultMap">
+		<result column="category_name" jdbcType="VARCHAR" property="categoryName" />
+	</resultMap>
+
+
+	<!-- 配件字段 -->
+	<sql id="Part_Column_List">
+		t.part_id, t.category_id, t.name, t.spec, t.model, t.unit, t.brand,
+		t.create_user_id, t.create_time, t.update_user_id, t.update_time, t.delete_flag,
+		t.company_id,
+	</sql>
+
+
+
+	<select id="selectPart" parameterType="com.kuyun.eam.vo.EamPartVO" resultMap="EamPartVOResultMap">
+		select
+
+		<include refid="Part_Column_List" />
+		e.name as category_name
+		from eam_parts t
+		LEFT JOIN eam_parts_category e ON t.category_id = e.category_id
+		WHERE t.delete_flag = 0
+		<if test="companyId != null and companyId != ''">
+			AND t.company_id = #{companyId}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+
+	<resultMap id="EamInventoryVOResultMap" type="com.kuyun.eam.vo.EamInventoryVO" extends="com.kuyun.eam.dao.mapper.EamInventoryMapper.BaseResultMap">
+		<result column="warehouse_name" jdbcType="VARCHAR" property="warehouseName" />
+		<result column="location_number" jdbcType="VARCHAR" property="locationNumber" />
+		<result column="part_name" jdbcType="VARCHAR" property="partName" />
+	</resultMap>
+
+
+	<!-- 库存字段 -->
+	<sql id="Inventory_Column_List">
+		t.inventory_id, t.warehouse_id, t.location_id, t.part_id, t.quantity, t.in_task_date,
+		t.create_user_id, t.create_time, t.update_user_id, t.update_time, t.delete_flag,
+		t.company_id,
+	</sql>
+
+
+
+	<select id="selectInventory" parameterType="com.kuyun.eam.vo.EamInventoryVO" resultMap="EamInventoryVOResultMap">
+		select
+
+		<include refid="Inventory_Column_List" />
+		w.name as warehouse_name,
+		l.number as location_number,
+		p.name as part_name
+		from eam_inventory t
+		LEFT JOIN eam_warehouse w ON t.warehouse_id = w.warehouse_id
+		LEFT JOIN eam_location l ON t.location_id = l.location_id
+		LEFT JOIN eam_parts p ON t.part_id = p.part_id
+		WHERE t.delete_flag = 0
+		<if test="companyId != null and companyId != ''">
+			AND t.company_id = #{companyId}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+
+	<resultMap id="EamSensorDataVOResultMap" type="com.kuyun.eam.vo.EamSensorDataVO" extends="com.kuyun.eam.dao.mapper.EamSensorDataMapper.BaseResultMap">
+		<result column="equipment_name" jdbcType="VARCHAR" property="equipmentName" />
+		<result column="equipment_model_property_id" jdbcType="VARCHAR" property="equipmentModelPropertyId" />
+		<result column="equipment_model_property_name" jdbcType="VARCHAR" property="equipmentModelPropertyName" />
+	</resultMap>
+
+	<sql id="Sensor_Data_Column_List">
+		t.sensor_data_id, t.equipment_id, t.sensor_id, t.string_value, t.number_value, t.boolean_value, t.longitude_value,
+		t.latitude_value, t.create_user_id, t.create_time, t.update_user_id, t.update_time, t.delete_flag,
+		t.company_id,
+	</sql>
+
+	<select id="selectEamSensorData" parameterType="com.kuyun.eam.vo.EamSensorVO" resultMap="EamSensorDataVOResultMap">
+		select
+		<include refid="Sensor_Data_Column_List" />
+		e.name as equipment_name,
+		p.equipment_model_property_id,
+		p.name as equipment_model_property_name
+		from eam_sensor_data_history t
+		LEFT JOIN eam_sensor s ON t.sensor_id = s.sensor_id
+		LEFT JOIN eam_equipment_model_properties p ON p.equipment_model_property_id = s.equipment_model_property_id
+		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
+		WHERE t.delete_flag = 0
+		AND s.delete_flag = 0
+		AND p.delete_flag = 0
+		AND e.delete_flag = 0
+		<if test="equipmentId != null and equipmentId != ''">
+			AND t.equipment_id = #{equipmentId}
+		</if>
+		<if test="sensorId != null and sensorId != ''">
+			AND t.sensor_id = #{sensorId}
+		</if>
+		<if test="equipmentModelPropertyId != null and equipmentModelPropertyId != ''">
+			AND s.equipment_model_property_id = #{equipmentModelPropertyId}
+		</if>
+		<if test="startDate != null">
+			AND t.create_time <![CDATA[>=]]> #{startDate}
+		</if>
+		<if test="endDate != null">
+			AND t.create_time <![CDATA[<=]]>#{endDate}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+	<sql id="Sensor_Column_List">
+		s.sensor_id, s.equipment_model_property_id, s.function_code, s.address, s.data_format,
+		s.bit_order, s.period, s.quantity, s.write_number, s.grm_action, s.grm_variable, s.grm_variable_value,
+		s.osh, s.osl, s.ish, s.isl, s.create_user_id, s.create_time, s.update_user_id,
+		s.update_time, s.delete_flag, s.company_id,
+	</sql>
+
+	<resultMap id="EamSensorVOResultMap" type="com.kuyun.eam.vo.EamSensorVO" extends="com.kuyun.eam.dao.mapper.EamSensorMapper.BaseResultMap">
+		<result column="name" jdbcType="VARCHAR" property="name" />
+		<result column="unit" jdbcType="VARCHAR" property="unit" />
+		<result column="data_type" jdbcType="VARCHAR" property="dataType" />
+		<result column="string_value" jdbcType="VARCHAR" property="stringValue" />
+		<result column="display_type" jdbcType="VARCHAR" property="displayType" />
+	</resultMap>
+
+	<select id="selectSensorData" parameterType="String" resultMap="EamSensorVOResultMap">
+		SELECT DISTINCT
+		<include refid="Sensor_Column_List" />
+		p.name,
+		p.unit,
+		p.data_type,
+		p.display_type,
+		case when e.is_online = 1 then d.string_value else null END string_value
+		FROM eam_sensor s
+		LEFT JOIN eam_equipment_model_properties p ON s.equipment_model_property_id = p.equipment_model_property_id
+		LEFT JOIN eam_equipment_model m ON m.equipment_model_id = p.equipment_model_id
+		LEFT JOIN eam_equipment e ON e.equipment_model_id = m.equipment_model_id
+		LEFT JOIN eam_sensor_data d On s.sensor_id = d.sensor_id
+		WHERE s.delete_flag = 0
+		AND p.delete_flag = 0
+		AND m.delete_flag = 0
+		AND e.delete_flag = 0
+		AND e.equipment_id = d.equipment_id
+		AND e.equipment_id = #{equipmentId}
+
+		ORDER BY s.sensor_id ASC
+
+	</select>
+
+
+	<resultMap id="EamTicketVOResultMap" type="com.kuyun.eam.vo.EamTicketVO" extends="com.kuyun.eam.dao.mapper.EamTicketMapper.BaseResultMap">
+	    <result column="serviceman" jdbcType="VARCHAR" property="serviceman" />
+		<result column="servicePhone" jdbcType="VARCHAR" property="servicePhone" />
+        <result column="customerContacts" jdbcType="VARCHAR" property="customerContacts" />
+        <result column="customerPhone" jdbcType="VARCHAR" property="customerPhone" />
+        <result column="assessmentDescription" jdbcType="VARCHAR" property="assessmentDescription" />
+        <result column="assessmentLevel" jdbcType="INTEGER" property="assessmentLevel" />
+        <result column="assessmentId" jdbcType="INTEGER" property="assessmentId" />
+		<association property="ticketType" resultMap="com.kuyun.eam.dao.mapper.EamTicketTypeMapper.BaseResultMap"></association>
+	</resultMap>
+
+	<select id="selectTicket" parameterType="com.kuyun.eam.dao.model.EamTicketExample" resultMap="EamTicketVOResultMap">
+		select
+		<include refid="com.kuyun.eam.dao.mapper.EamTicketMapper.Base_Column_List" />,
+		(select uu.realname from upms_user uu where eam_ticket.executor_id = uu.user_id) as serviceman,
+		(select uu.phone from upms_user uu where eam_ticket.executor_id = uu.user_id) as servicePhone,
+		(select cu.realname from upms_user cu where eam_ticket.create_user_id = cu.user_id)  as customerContacts,
+		(select cu.phone from upms_user cu where eam_ticket.create_user_id = cu.user_id)  as customerPhone,
+		(select ass.assessment_level from eam_ticket_assessment ass where eam_ticket.ticket_id = ass.ticket_id) as assessmentLevel,
+		(select ass.description from eam_ticket_assessment ass where eam_ticket.ticket_id = ass.ticket_id) as assessmentDescription,
+		(select ass.id from eam_ticket_assessment ass where eam_ticket.ticket_id = ass.ticket_id) as assessmentId,
+		<include refid="com.kuyun.eam.dao.mapper.EamTicketTypeMapper.Base_Column_List"/>
+		from eam_ticket
+		LEFT OUTER JOIN eam_ticket_type  ON eam_ticket.ticket_type_id = eam_ticket_type.id
+		<if test="_parameter != null">
+      		<include refid="com.kuyun.eam.dao.mapper.EamTicketMapper.Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+	<resultMap id="EamPlanTicketVOResultMap" type="com.kuyun.eam.vo.EamPlanTicketVO" extends="com.kuyun.eam.dao.mapper.EamTicketMapper.BaseResultMap">
+		<result column="serviceman" jdbcType="VARCHAR" property="serviceman" />
+		<result column="servicePhone" jdbcType="VARCHAR" property="servicePhone" />
+		<result column="customerContacts" jdbcType="VARCHAR" property="customerContacts" />
+		<result column="customerPhone" jdbcType="VARCHAR" property="customerPhone" />
+		<result column="assessmentDescription" jdbcType="VARCHAR" property="assessmentDescription" />
+		<result column="assessment_level" jdbcType="INTEGER" property="assessmentLevel" />
+		<result column="assessmentId" jdbcType="INTEGER" property="assessmentId" />
+		<result column="planId" jdbcType="INTEGER" property="planId" />
+		<result column="planTicketId" jdbcType="INTEGER" property="planTicketId" />
+		<result column="ticketTypeName" jdbcType="VARCHAR" property="ticketTypeName" />
+	</resultMap>
+
+	<select id="selectTicketByPlan" parameterType="com.kuyun.eam.vo.EamPlanTicketVO" resultMap="EamPlanTicketVOResultMap">
+        SELECT t.description as ticketDescription,   t.priority as ticketPriority,
+        t.status as ticketStatus,   uu.realname as serviceman,
+        uu.phone as servicePhone,   cu.realname as customerContacts,   cu.phone as customerPhone,
+        ass.assessment_level,
+        ass.description as assessmentDescription,   ass.id as assessmentId,   mt.plan_id as planId,
+        mt.id as planTicketId,
+        eam_ticket_type.name as ticketTypeName
+        from eam_maintain_ticket mt
+        LEFT JOIN eam_ticket t on t.ticket_id = mt.ticket_id
+        LEFT OUTER JOIN eam_ticket_type  ON t.ticket_type_id = eam_ticket_type.id
+        LEFT OUTER JOIN upms_user uu ON t.executor_id = uu.user_id
+        LEFT OUTER JOIN upms_user cu ON t.create_user_id = cu.user_id
+        LEFT OUTER JOIN eam_ticket_assessment ass ON t.ticket_id = ass.ticket_id
+		where t.delete_flag = 0 and mt.delete_flag = 0
+		<if test="planId != null and planId != ''">
+			AND mt.plan_id = #{planId}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+	<resultMap id="EamTicketAssessmentTagVOResultMap" type="com.kuyun.eam.vo.EamTicketAssessmentTagVO" extends="com.kuyun.eam.dao.mapper.EamTicketMapper.BaseResultMap">
+		<result column="tag_name" jdbcType="VARCHAR" property="tagName" />
+	</resultMap>
+
+	<select id="selectTicketAssessmentTags" parameterType="com.kuyun.eam.vo.EamTicketAssessmentTagVO" resultMap="EamTicketAssessmentTagVOResultMap">
+		select
+		e.name as tag_name
+		from eam_ticket_assessment_tag t,eam_ticket_tag e
+		WHERE e.delete_flag = 0 and t.tag_id = e.id
+		<if test="assessmentId != null and assessmentId != ''">
+			AND t.assessment_id = #{assessmentId}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+
+	<resultMap id="EamTicketAppointVOResultMap" type="com.kuyun.eam.vo.EamTicketAppointVO" extends="com.kuyun.eam.dao.mapper.EamTicketAppointedRecordMapper.BaseResultMap">
+		<result column="username" jdbcType="VARCHAR" property="userName" />
+		<result column="phone" jdbcType="VARCHAR" property="phone" />
+	</resultMap>
+
+	<select id="selectTicketAppointRecord" parameterType="com.kuyun.eam.dao.model.EamTicketAppointedRecordExample" resultMap="EamTicketAppointVOResultMap">
+		select
+		<include refid="com.kuyun.eam.dao.mapper.EamTicketAppointedRecordMapper.Base_Column_List" /> ,
+		uu.realname as username,
+		uu.phone
+		from eam_ticket_appointed_record a
+		LEFT OUTER JOIN upms_user uu ON a.order_taker_id = uu.user_id
+		<if test="_parameter != null">
+			<include refid="com.kuyun.eam.dao.mapper.EamTicketAppointedRecordMapper.Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+	<select id="selectAlarm" parameterType="com.kuyun.eam.dao.model.EamSensorData" resultMap="com.kuyun.eam.dao.mapper.EamAlarmMapper.BaseResultMap">
+		select
+		a.alarm_id, a.alarm_type, a.upper_Bound, a.lower_Bound, a.duration, a.alarm_target, a.equipment_model_property_id,
+		a.create_user_id, a.create_time, a.update_user_id, a.update_time, a.delete_flag, a.company_id
+		from eam_alarm a, eam_sensor s
+		WHERE s.equipment_model_property_id = a.equipment_model_property_id
+		AND a.delete_flag = 0 AND s.delete_flag = 0
+		<if test="sensorId != null and sensorId != ''">
+			AND s.sensor_id = #{sensorId}
+		</if>
+	</select>
+
+	<select id="selectAlarms" parameterType="String" resultMap="com.kuyun.eam.dao.mapper.EamAlarmMapper.BaseResultMap">
+		select
+		a.alarm_id, a.alarm_type, a.upper_Bound, a.lower_Bound, a.duration, a.alarm_target, a.equipment_model_property_id,
+		a.create_user_id, a.create_time, a.update_user_id, a.update_time, a.delete_flag, a.company_id
+		from eam_alarm a
+		left join eam_equipment_model_properties p on a.equipment_model_property_id = p.equipment_model_property_id
+		left join eam_equipment_model m on m.equipment_model_id = p.equipment_model_id
+		left join eam_equipment e on e.equipment_model_id = m.equipment_model_id
+		WHERE a.delete_flag = 0 and p.delete_flag = 0 and m.delete_flag = 0 and e.delete_flag = 0
+		 and e.equipment_id = #{deviceId}
+	</select>
+
+	<resultMap id="EamAlarmRecordVOResultMap" type="com.kuyun.eam.vo.EamAlarmRecordVO" extends="com.kuyun.eam.dao.mapper.EamAlarmRecordMapper.BaseResultMap">
+		<result column="alarm_value" jdbcType="VARCHAR" property="alarmValue" />
+		<result column="alarm_clear_value" jdbcType="VARCHAR" property="alarmClearValue" />
+		<result column="alarm_type" jdbcType="VARCHAR" property="alarmType" />
+		<result column="upper_Bound" jdbcType="DECIMAL" property="upperBound" />
+		<result column="lower_Bound" jdbcType="DECIMAL" property="lowerBound" />
+		<result column="duration" jdbcType="DECIMAL" property="duration" />
+		<result column="alarm_target" jdbcType="VARCHAR" property="alarmTarget" />
+		<result column="phone" jdbcType="VARCHAR" property="phone" />
+		<result column="email" jdbcType="VARCHAR" property="email" />
+		<result column="user_name" jdbcType="VARCHAR" property="userName" />
+		<result column="equipment_name" jdbcType="VARCHAR" property="equipmentName" />
+		<result column="equipment_number" jdbcType="VARCHAR" property="equipmentNumber" />
+		<result column="equipment_model_property_name" jdbcType="VARCHAR" property="equipmentModelPropertyName" />
+	</resultMap>
+
+	<sql id="Alarm_Record_Column_List">
+		t.id, t.alarm_id, t.equipment_id, t.equipment_model_property_id, t.alarm_value, t.alarm_status, t.create_user_id,
+        t.create_time, t.update_user_id, t.update_time, t.delete_flag, t.company_id,
+	</sql>
+
+	<select id="selectAlarmRecords" parameterType="com.kuyun.eam.vo.EamAlarmRecordVO" resultMap="EamAlarmRecordVOResultMap">
+		select DISTINCT
+		<include refid="Alarm_Record_Column_List" />
+		a.alarm_type,
+		a.upper_Bound,
+		a.lower_Bound,
+		a.duration,
+		a.alarm_target,
+		uu.phone,
+		uu.email,
+		uu.realname as user_name,
+		e.name as equipment_name,
+		e.number as equipment_number,
+		p.name as equipment_model_property_name
+		from eam_alarm_record t
+		LEFT JOIN eam_alarm a ON t.alarm_id = a.alarm_id
+		LEFT JOIN eam_alarm_target_user u ON t.alarm_id = u.alarm_id
+		LEFT JOIN upms_user uu ON uu.user_id = u.user_id
+		LEFT JOIN eam_equipment_model_properties p ON p.equipment_model_property_id = t.equipment_model_property_id
+		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
+		WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0 AND u.delete_flag = 0
+
+		<if test="equipmentIds != null and equipmentIds.size > 0">
+			AND t.equipment_id IN
+			<foreach item="item" index="index" collection="equipmentIds"
+					 open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+
+		<if test="equipmentId != null and equipmentId != ''">
+			AND t.equipment_id = #{equipmentId}
+		</if>
+		<if test="equipmentModelPropertyId != null and equipmentModelPropertyId != ''">
+			AND t.equipment_model_property_id = #{equipmentModelPropertyId}
+		</if>
+		<if test="startDate != null">
+			AND t.create_time <![CDATA[>=]]> #{startDate}
+		</if>
+		<if test="endDate != null">
+			AND t.create_time <![CDATA[<=]]>#{endDate}
+		</if>
+		<if test="alarmStatus != null and alarmStatus != ''">
+			AND t.alarm_status = #{alarmStatus}
+		</if>
+        <if test="alarmStatuses != null and alarmStatuses.size > 0">
+            AND t.alarm_status in
+            <foreach item="item" index="index" collection="alarmStatuses"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+	<select id="countAlarmRecords" parameterType="com.kuyun.eam.vo.EamAlarmRecordVO" resultType="java.lang.Long">
+		select
+		count(DISTINCT t.id)
+		from eam_alarm_record t
+		LEFT JOIN eam_alarm a ON t.alarm_id = a.alarm_id
+		LEFT JOIN eam_alarm_target_user u ON t.alarm_id = u.alarm_id
+		LEFT JOIN upms_user uu ON uu.user_id = u.user_id
+		LEFT JOIN eam_equipment_model_properties p ON p.equipment_model_property_id = t.equipment_model_property_id
+		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
+		WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0 AND u.delete_flag = 0
+
+		<if test="equipmentIds != null and equipmentIds.size > 0">
+			AND t.equipment_id IN
+			<foreach item="item" index="index" collection="equipmentIds"
+					 open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+
+		<if test="equipmentId != null and equipmentId != ''">
+			AND t.equipment_id = #{equipmentId}
+		</if>
+		<if test="equipmentModelPropertyId != null and equipmentModelPropertyId != ''">
+			AND t.equipment_model_property_id = #{equipmentModelPropertyId}
+		</if>
+		<if test="startDate != null">
+			AND t.create_time <![CDATA[>=]]> #{startDate}
+		</if>
+		<if test="endDate != null">
+			AND t.create_time <![CDATA[<=]]>#{endDate}
+		</if>
+		<if test="alarmStatus != null and alarmStatus != ''">
+			AND t.alarm_status = #{alarmStatus}
+		</if>
+
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+
+	<sql id="Alarm_Record_History_Column_List">
+		t.id, t.alarm_id, t.equipment_id, t.equipment_model_property_id, t.alarm_value, t.alarm_status,
+		t.alarm_clear_value, t.create_user_id, t.create_time, t.update_user_id, t.update_time, t.delete_flag,
+		t.company_id,
+	</sql>
+
+	<select id="selectAlarmRecordHistoies" parameterType="com.kuyun.eam.vo.EamAlarmRecordVO" resultMap="EamAlarmRecordVOResultMap">
+		select DISTINCT
+		<include refid="Alarm_Record_History_Column_List" />
+		a.alarm_type,
+		a.upper_Bound,
+		a.lower_Bound,
+		a.duration,
+		a.alarm_target,
+		uu.phone,
+		uu.email,
+		uu.realname as user_name,
+		e.name as equipment_name,
+		e.number as equipment_number,
+		p.name as equipment_model_property_name
+		from eam_alarm_record_history t
+		LEFT JOIN eam_alarm a ON t.alarm_id = a.alarm_id
+		LEFT JOIN eam_alarm_target_user u ON t.alarm_id = u.alarm_id
+		LEFT JOIN upms_user uu ON uu.user_id = u.user_id
+		LEFT JOIN eam_equipment_model_properties p ON p.equipment_model_property_id = t.equipment_model_property_id
+		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
+		WHERE t.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0 AND u.delete_flag = 0
+
+		<if test="equipmentIds != null and equipmentIds.size > 0">
+			AND t.equipment_id IN
+			<foreach item="item" index="index" collection="equipmentIds"
+					 open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+
+		<if test="equipmentId != null and equipmentId != ''">
+			AND t.equipment_id = #{equipmentId}
+		</if>
+		<if test="equipmentModelPropertyId != null and equipmentModelPropertyId != ''">
+			AND t.equipment_model_property_id = #{equipmentModelPropertyId}
+		</if>
+		<if test="startDate != null">
+			AND t.create_time <![CDATA[>=]]> #{startDate}
+		</if>
+		<if test="endDate != null">
+			AND t.create_time <![CDATA[<=]]>#{endDate}
+		</if>
+		<if test="alarmStatus != null and alarmStatus != ''">
+			AND t.alarm_status = #{alarmStatus}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+	<select id="countAlarmRecordHistoies" parameterType="com.kuyun.eam.vo.EamAlarmRecordVO" resultType="java.lang.Long">
+		select
+		count(DISTINCT t.id)
+		from eam_alarm_record_history t
+		LEFT JOIN eam_alarm a ON t.alarm_id = a.alarm_id
+		LEFT JOIN eam_alarm_target_user u ON t.alarm_id = u.alarm_id
+		LEFT JOIN upms_user uu ON uu.user_id = u.user_id
+		LEFT JOIN eam_equipment_model_properties p ON p.equipment_model_property_id = t.equipment_model_property_id
+		LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
+		WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0 AND u.delete_flag = 0
+
+		<if test="equipmentIds != null and equipmentIds.size > 0">
+			AND t.equipment_id IN
+			<foreach item="item" index="index" collection="equipmentIds"
+					 open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+
+		<if test="equipmentId != null and equipmentId != ''">
+			AND t.equipment_id = #{equipmentId}
+		</if>
+		<if test="equipmentModelPropertyId != null and equipmentModelPropertyId != ''">
+			AND t.equipment_model_property_id = #{equipmentModelPropertyId}
+		</if>
+		<if test="startDate != null">
+			AND t.create_time <![CDATA[>=]]> #{startDate}
+		</if>
+		<if test="endDate != null">
+			AND t.create_time <![CDATA[<=]]>#{endDate}
+		</if>
+		<if test="alarmStatus != null and alarmStatus != ''">
+			AND t.alarm_status = #{alarmStatus}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+
+	</select>
+
+	<resultMap id="EamEquipmentVOResultMap" type="com.kuyun.eam.vo.EamEquipmentVO" extends="com.kuyun.eam.dao.mapper.EamEquipmentMapper.BaseResultMap">
+		<result column="dtu_id" jdbcType="VARCHAR" property="dtuId" />
+		<result column="equipment_model_name" jdbcType="VARCHAR" property="equipmentModelName" />
+	</resultMap>
+
+	<select id="selectEquipments" parameterType="com.kuyun.eam.vo.EamEquipmentVO" resultMap="EamEquipmentVOResultMap">
+		select
+		d.dtu_id,
+		m.name as equipment_model_name,
+		<include refid="com.kuyun.eam.dao.mapper.EamEquipmentMapper.Base_Column_List" />
+		from eam_equipment
+		LEFT JOIN eam_equipment_model m ON eam_equipment.equipment_model_id = m.equipment_model_id
+		LEFT JOIN eam_equipment_company e ON eam_equipment.equipment_id = e.equipment_id
+		LEFT JOIN eam_dtu_equipment d ON eam_equipment.equipment_id = d.equipment_id AND d.delete_flag = 0
+		WHERE eam_equipment.delete_flag = 0 AND e.delete_flag = 0
+		<if test="equipmentCategoryId != null and equipmentCategoryId != ''">
+			AND e.equipment_category_id = #{equipmentCategoryId}
+		</if>
+		<if test="companyId != null and companyId != ''">
+			AND e.company_id = #{companyId}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+	<select id="countEquipments" parameterType="com.kuyun.eam.vo.EamEquipmentVO" resultType="java.lang.Long">
+		select count(*)
+		from eam_equipment
+		LEFT JOIN eam_equipment_company e ON eam_equipment.equipment_id = e.equipment_id
+		LEFT JOIN eam_dtu_equipment d ON eam_equipment.equipment_id = d.equipment_id AND d.delete_flag = 0
+		WHERE eam_equipment.delete_flag = 0 AND e.delete_flag = 0
+		<if test="equipmentCategoryId != null and equipmentCategoryId != ''">
+			AND e.equipment_category_id = #{equipmentCategoryId}
+		</if>
+		<if test="companyId != null and companyId != ''">
+			AND e.company_id = #{companyId}
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+
+	<select id="selectUnConnectDtuEquipments" parameterType="com.kuyun.eam.vo.EamEquipmentVO" resultMap="EamEquipmentVOResultMap">
+		select
+		<include refid="com.kuyun.eam.dao.mapper.EamEquipmentMapper.Base_Column_List" />
+		from eam_equipment
+		LEFT JOIN eam_equipment_company e ON eam_equipment.equipment_id = e.equipment_id
+		LEFT JOIN eam_equipment_model m ON eam_equipment.equipment_model_id = m.equipment_model_id
+		WHERE eam_equipment.delete_flag = 0 AND e.delete_flag = 0
+		AND m.protocol_id = 1
+		<if test="companyId != null and companyId != ''">
+			AND e.company_id = #{companyId}
+		</if>
+		<if test="dtuId != null and dtuId != ''">
+			AND eam_equipment.equipment_id not in (
+				select equipment_id from eam_dtu_equipment where dtu_id != #{dtuId} and delete_flag = 0
+			)
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+	<select id="countUnConnectDtuEquipments" parameterType="com.kuyun.eam.vo.EamEquipmentVO" resultType="java.lang.Long">
+		select count(*)
+		from eam_equipment
+		LEFT JOIN eam_equipment_company e ON eam_equipment.equipment_id = e.equipment_id
+		LEFT JOIN eam_equipment_model m ON eam_equipment.equipment_model_id = m.equipment_model_id
+		WHERE eam_equipment.delete_flag = 0 AND e.delete_flag = 0
+		AND m.protocol_id = 1
+		<if test="companyId != null and companyId != ''">
+			AND e.company_id = #{companyId}
+		</if>
+		<if test="dtuId != null and dtuId != ''">
+			AND eam_equipment.equipment_id not in (
+			select equipment_id from eam_dtu_equipment where dtu_id != #{dtuId} and delete_flag = 0
+			)
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+
+
+	<select id="selectUnConnectGrmEquipments" parameterType="com.kuyun.eam.vo.EamEquipmentVO" resultMap="EamEquipmentVOResultMap">
+		select
+		<include refid="com.kuyun.eam.dao.mapper.EamEquipmentMapper.Base_Column_List" />
+		from eam_equipment
+		LEFT JOIN eam_equipment_company e ON eam_equipment.equipment_id = e.equipment_id
+		LEFT JOIN eam_equipment_model m ON eam_equipment.equipment_model_id = m.equipment_model_id
+		WHERE eam_equipment.delete_flag = 0 AND e.delete_flag = 0
+		AND m.protocol_id = 4
+		<if test="companyId != null and companyId != ''">
+			AND e.company_id = #{companyId}
+		</if>
+		<if test="grmId != null and grmId != ''">
+			AND eam_equipment.equipment_id not in (
+			select equipment_id from eam_grm_equipment where grm_id != #{grmId} and delete_flag = 0
+			)
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+
+	<select id="countUnConnectGrmEquipments" parameterType="com.kuyun.eam.vo.EamEquipmentVO" resultType="java.lang.Long">
+		select count(*)
+		from eam_equipment
+		LEFT JOIN eam_equipment_company e ON eam_equipment.equipment_id = e.equipment_id
+		LEFT JOIN eam_equipment_model m ON eam_equipment.equipment_model_id = m.equipment_model_id
+		WHERE eam_equipment.delete_flag = 0 AND e.delete_flag = 0
+		AND m.protocol_id = 4
+		<if test="companyId != null and companyId != ''">
+			AND e.company_id = #{companyId}
+		</if>
+		<if test="grmId != null and grmId != ''">
+			AND eam_equipment.equipment_id not in (
+			select equipment_id from eam_grm_equipment where grm_id != #{grmId} and delete_flag = 0
+			)
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+
+	<resultMap id="EquipmentModelPropertiesVOResultMap" type="com.kuyun.eam.vo.EamEquipmentModelPropertiesVO" extends="com.kuyun.eam.dao.mapper.EamEquipmentModelPropertiesMapper.BaseResultMap">
+		<result column="write_value" jdbcType="VARCHAR" property="writeValue" />
+		<result column="equipment_id" jdbcType="VARCHAR" property="equipmentId" />
+		<result column="sensor_id" jdbcType="INTEGER" property="sensorId" />
+	</resultMap>
+
+	<sql id="EquipmentModelProperties_Column_List">
+		p.equipment_model_property_id, p.equipment_model_id, p.name, p.label, p.unit, p.address, p.data_type,
+    	p.display_type, p.refresh_period, p.create_user_id, p.create_time, p.update_user_id, p.update_time,
+    	p.delete_flag, p.company_id,
+	</sql>
+
+	<select id="selectEquipmentModelProperties" parameterType="com.kuyun.eam.vo.EamEquipmentModelPropertiesVO" resultMap="EquipmentModelPropertiesVOResultMap">
+		select DISTINCT
+		<include refid="EquipmentModelProperties_Column_List" />
+		s.sensor_id,
+		e.equipment_id,
+		d.write_value
+		from eam_equipment_model_properties p
+		left join eam_sensor s on s.equipment_model_property_id = p.equipment_model_property_id
+		left join eam_equipment e on e.equipment_model_id = p.equipment_model_id
+		left join eam_sensor_write_data d on
+		d.equipment_model_property_id = p.equipment_model_property_id
+		AND d.equipment_id = e.equipment_id
+		AND d.delete_flag = 0
+		WHERE s.delete_flag = 0
+		AND p.delete_flag = 0
+		AND e.delete_flag = 0
+		and e.equipment_id = #{equipmentId}
+		<if test="search != null and search != ''">
+			<bind name="pattern" value="'%' + search + '%'" />
+			AND (p.name like #{pattern} or p.label like #{pattern} )
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+	<select id="countEquipmentModelProperties" parameterType="com.kuyun.eam.vo.EamEquipmentModelPropertiesVO" resultType="java.lang.Long">
+		select count(p.equipment_model_property_id)
+		from eam_equipment_model_properties p
+		left join eam_sensor s on s.equipment_model_property_id = p.equipment_model_property_id
+		left join eam_equipment e on e.equipment_model_id = p.equipment_model_id
+		left join eam_sensor_write_data d on
+		d.equipment_model_property_id = p.equipment_model_property_id
+		AND d.equipment_id = e.equipment_id
+		AND d.delete_flag = 0
+		WHERE s.delete_flag = 0
+		AND p.delete_flag = 0
+		AND e.delete_flag = 0
+		and e.equipment_id = #{equipmentId}
+		<if test="search != null and search != ''">
+			<bind name="pattern" value="'%' + search + '%'" />
+			AND (p.name like #{pattern} or p.label like #{pattern} )
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+
+    <resultMap id="TicketRejectRecordVOResultMap" type="com.kuyun.eam.vo.EamTicketRejectRecordVO" >
+        <result column="reject_commont" jdbcType="VARCHAR" property="rejectCommont" />
+		<result column="realname" jdbcType="VARCHAR" property="userName" />
+		<result column="create_time" jdbcType="VARCHAR" property="rejectDate" />
+    </resultMap>
+
+    <select id="getTicketRejectRecord" parameterType="Integer" resultMap="TicketRejectRecordVOResultMap">
+        select u.username, u.realname, ar.reject_commont, ar.create_time from eam_ticket_appointed_record ar, upms_user u
+        where ar.order_taker_id = u.user_id and ar.ticket_id =#{ticketId, jdbcType=INTEGER} order by ar.create_time desc
+    </select>
+
+	<resultMap id="SummaryTicketVOResultMap" type="com.kuyun.eam.vo.EamSummaryTicketVO" >
+		<result column="status" jdbcType="VARCHAR" property="statusName" />
+		<result column="count" jdbcType="INTEGER" property="count" />
+	</resultMap>
+
+	<select id="summaryTicket" parameterType="Integer" resultMap="SummaryTicketVOResultMap">
+		select status, count(ticket_id) as count from eam_ticket
+		where delete_flag=0 and company_id=#{companyId, jdbcType=INTEGER} group by status
+	</select>
+
+	<resultMap id="EamMaintainPlanVOResultMap" type="com.kuyun.eam.vo.EamMaintainPlanVO" extends="com.kuyun.eam.dao.mapper.EamMaintainPlanMapper.BaseResultMap">
+		<result column="equipmentCategoryName" jdbcType="VARCHAR" property="equipmentCategoryName" />
+		<result column="equipmentName" jdbcType="VARCHAR" property="equipmentName" />
+		<result column="orgName" jdbcType="VARCHAR" property="orgName" />
+		<result column="maintainUsers" jdbcType="VARCHAR" property="maintainUsers" />
+	</resultMap>
+
+	<select id="listMaintainPlans" parameterType="com.kuyun.eam.vo.EamMaintainPlanVO" resultMap="EamMaintainPlanVOResultMap">
+		select
+		a.plan_id, work_content, next_maintain_date, maintain_frequency_unit, maintain_frequency_quantity, maintain_type, remind_time, a.create_time ,
+		ec.name as equipmentCategoryName,
+		e.name as equipmentName,
+		group_concat(uu.realname) AS maintainUsers
+		from eam_maintain_plan a
+		LEFT OUTER JOIN eam_equipment_category ec ON a.equipment_category_id = ec.equipment_category_id
+		LEFT OUTER JOIN eam_equipment e ON a.equipment_id = e.equipment_id
+		LEFT OUTER JOIN eam_maintain_user mu ON (a.plan_id = mu.plan_id AND mu.delete_flag = 0)
+		LEFT OUTER JOIN upms_user uu ON mu.user_id = uu.user_id
+		WHERE a.delete_flag = 0 and mu.delete_flag = 0
+		<if test="companyId != null and companyId != ''">
+			AND a.company_id = #{companyId}
+		</if>
+		group by a.plan_id
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+		<if test="limit != null">
+			<if test="offset != null">
+				limit ${offset}, ${limit}
+			</if>
+			<if test="offset == null">
+				limit ${limit}
+			</if>
+		</if>
+	</select>
+
+    <select id="getMaintainPlan" parameterType="Integer" resultMap="EamMaintainPlanVOResultMap">
+        select
+        a.plan_id, work_content, next_maintain_date, maintain_frequency_unit, maintain_frequency_quantity, maintain_type, remind_time, a.create_time ,
+        ec.name as equipmentCategoryName,
+        e.name as equipmentName,
+        group_concat(uu.realname) AS maintainUsers
+        from eam_maintain_plan a
+        LEFT OUTER JOIN eam_equipment_category ec ON a.equipment_category_id = ec.equipment_category_id
+        LEFT OUTER JOIN eam_equipment e ON a.equipment_id = e.equipment_id
+        LEFT OUTER JOIN eam_maintain_user mu ON a.plan_id = mu.plan_id
+		LEFT OUTER JOIN upms_user uu ON mu.user_id = uu.user_id
+		WHERE a.delete_flag = 0 and mu.delete_flag = 0 and a.plan_id=#{planId, jdbcType=INTEGER}
+    </select>
+
+    <resultMap id="SummaryResultMap" type="com.kuyun.eam.vo.EamHomeSummaryVO" >
+        <result column="alarmNum" jdbcType="INTEGER" property="alarmNumber" />
+        <result column="ticketNum" jdbcType="INTEGER" property="ticketNumber" />
+        <result column="eqNum" jdbcType="INTEGER" property="equipmentNumber" />
+    </resultMap>
+
+    <select id="getSummaryRecord" parameterType="Integer" resultMap="SummaryResultMap">
+        select count(alarm_id) as alarmNum, IFNULL((select count(ticket_id) from eam_ticket where delete_flag=0 and company_id=#{ticketId, jdbcType=INTEGER}),0) as ticketNum,
+        IFNULL((select count(eq.equipment_id) from eam_equipment eq, eam_equipment_company c where eq.equipment_id = c.equipment_id and c.delete_flag=0 and c.company_id=#{ticketId, jdbcType=INTEGER}),0) as eqNum
+        from eam_alarm_record a where a.delete_flag=0 and a.company_id=#{ticketId, jdbcType=INTEGER}
+    </select>
+
+    <resultMap id="StatusSummaryResultMap" type="com.kuyun.eam.vo.EamHomeStatusSummaryVO" >
+        <result column="type" jdbcType="VARCHAR" property="statusName" />
+        <result column="num" jdbcType="INTEGER" property="count" />
+    </resultMap>
+
+    <select id="getStatusSummaryRecord" parameterType="Integer" resultMap="StatusSummaryResultMap">
+        select  IFNULL(is_online,0) as type, count(eq.equipment_id) as num from eam_equipment eq, eam_equipment_company c where eq.equipment_id = c.equipment_id
+        and c.delete_flag=0 and c.company_id=#{ticketId, jdbcType=INTEGER} group by type
+    </select>
+
+	<resultMap id="UserAlarmsResultMap" type="com.kuyun.eam.vo.EamAlarmRemindVO" >
+		<result column="equipmentId" jdbcType="VARCHAR" property="equipmentId" />
+		<result column="message_title" jdbcType="VARCHAR" property="messageTitle" />
+		<result column="content" jdbcType="VARCHAR" property="messageContent" />
+        <result column="alarmType" jdbcType="VARCHAR" property="alarmType" />
+        <result column="alarmStatus" jdbcType="VARCHAR" property="alarmStatus" />
+		<result column="id" jdbcType="INTEGER" property="id" />
+        <result column="update_time" jdbcType="DATE" property="updateTime" />
+	</resultMap>
+
+	<!--<select id="getUserAlarms" parameterType="Integer" resultMap="UserAlarmsResultMap">
+        SELECT message_title, content, id, update_time FROM kuyun.eam_alert_message where user_id=#{userId, jdbcType=INTEGER} and read_flag is null and alert_start_date >= CURDATE() and alert_end_date >= CURDATE()
+	</select>-->
+
+    <select id="getUserAlarms" parameterType="com.kuyun.eam.vo.EamAlarmRecordVO" resultMap="UserAlarmsResultMap">
+        SELECT message_title, content, 'P' alarmType, id, 0 AS equipmentId, 'P' alarmStatus, update_time FROM kuyun.eam_alert_message where user_id=#{updateUserId, jdbcType=INTEGER} and read_flag is null and alert_start_date >= CURDATE() and alert_end_date >= CURDATE()
+        union
+        select '' message_title, e.name ||'('|| e.number||')  '||p.name||'  '|| case a.alarm_type
+        when 'val_above' then '数值高于'||a.upper_Bound
+        when 'val_below' then '数值低于'||a.lower_Bound
+        when 'val_between' then '数值在'||a.lower_Bound || '和'||a.upper_Bound ||'之间'
+        when 'val_above_below_ofm' then '数值在'||a.lower_Bound || '和'||a.upper_Bound ||'之间超过'||a.duration||'分钟'
+        when 'val_above_bound' then '数值超过超过'||a.duration||'分钟高于'||a.upper_Bound
+        when 'val_below_bound' then '数值超过超过'||a.duration||'分钟低于'||a.lower_Bound
+        when 'offline' then '传感器断开'
+        when 'switch_on' then '开关开启'
+        when 'switch_off' then '开关关闭' end as content,
+        'E' alarmType, t.alarm_id id, t.equipment_id equipmentId, t.alarm_status alarmStatus,t.update_time
+        from eam_alarm_record t
+        LEFT JOIN eam_alarm a ON t.alarm_id = a.alarm_id
+        LEFT JOIN eam_alarm_target_user u ON t.alarm_id = u.alarm_id
+        LEFT JOIN upms_user uu ON uu.user_id = u.user_id
+        LEFT JOIN eam_equipment_model_properties p ON p.equipment_model_property_id = t.equipment_model_property_id
+        LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
+        WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0 AND u.delete_flag = 0
+
+        <if test="equipmentIds != null and equipmentIds.size > 0">
+            AND t.equipment_id IN
+            <foreach item="item" index="index" collection="equipmentIds"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+        <if test="equipmentId != null and equipmentId != ''">
+            AND t.equipment_id = #{equipmentId}
+        </if>
+        <if test="equipmentModelPropertyId != null and equipmentModelPropertyId != ''">
+            AND t.equipment_model_property_id = #{equipmentModelPropertyId}
+        </if>
+        <if test="startDate != null">
+            AND t.create_time <![CDATA[>=]]> #{startDate}
+        </if>
+        <if test="endDate != null">
+            AND t.create_time <![CDATA[<=]]>#{endDate}
+        </if>
+        <if test="alarmStatus != null and alarmStatus != ''">
+            AND t.alarm_status = #{alarmStatus}
+        </if>
+        <if test="alarmStatuses != null and alarmStatuses.size > 0">
+            AND t.alarm_status in
+            <foreach item="item" index="index" collection="alarmStatuses"
+                     open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+        <if test="limit != null">
+            <if test="offset != null">
+                limit ${offset}, ${limit}
+            </if>
+            <if test="offset == null">
+                limit ${limit}
+            </if>
+        </if>
+    </select>
+
+    <select id="getUserAlarmsCount" parameterType="com.kuyun.eam.vo.EamAlarmRecordVO" resultType="java.lang.Long">
+        select count(id) from (
+            SELECT message_title, content, 'P' alarmType, id, 0 AS equipmentId, 'P' alarmStatus, update_time FROM
+            kuyun.eam_alert_message where user_id=#{updateUserId, jdbcType=INTEGER} and read_flag is null and
+            alert_start_date >= CURDATE() and alert_end_date >= CURDATE()
+            union
+            select '' message_title, e.name ||'('|| e.number||') '||p.name||' '|| case a.alarm_type
+            when 'val_above' then '数值高于'||a.upper_Bound
+            when 'val_below' then '数值低于'||a.lower_Bound
+            when 'val_between' then '数值在'||a.lower_Bound || '和'||a.upper_Bound ||'之间'
+            when 'val_above_below_ofm' then '数值在'||a.lower_Bound || '和'||a.upper_Bound ||'之间超过'||a.duration||'分钟'
+            when 'val_above_bound' then '数值超过超过'||a.duration||'分钟高于'||a.upper_Bound
+            when 'val_below_bound' then '数值超过超过'||a.duration||'分钟低于'||a.lower_Bound
+            when 'offline' then '传感器断开'
+            when 'switch_on' then '开关开启'
+            when 'switch_off' then '开关关闭' end as content,
+            'E' alarmType, t.alarm_id id, t.equipment_id equipmentId, t.alarm_status alarmStatus,t.update_time
+            from eam_alarm_record t
+            LEFT JOIN eam_alarm a ON t.alarm_id = a.alarm_id
+            LEFT JOIN eam_alarm_target_user u ON t.alarm_id = u.alarm_id
+            LEFT JOIN upms_user uu ON uu.user_id = u.user_id
+            LEFT JOIN eam_equipment_model_properties p ON p.equipment_model_property_id = t.equipment_model_property_id
+            LEFT JOIN eam_equipment e ON e.equipment_id = t.equipment_id
+            WHERE t.delete_flag = 0 AND a.delete_flag = 0 AND p.delete_flag = 0 AND e.delete_flag = 0 AND u.delete_flag = 0
+
+            <if test="equipmentIds != null and equipmentIds.size > 0">
+                AND t.equipment_id IN
+                <foreach item="item" index="index" collection="equipmentIds"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="equipmentId != null and equipmentId != ''">
+                AND t.equipment_id = #{equipmentId}
+            </if>
+            <if test="equipmentModelPropertyId != null and equipmentModelPropertyId != ''">
+                AND t.equipment_model_property_id = #{equipmentModelPropertyId}
+            </if>
+            <if test="startDate != null">
+                AND t.create_time <![CDATA[>=]]> #{startDate}
+            </if>
+            <if test="endDate != null">
+                AND t.create_time <![CDATA[<=]]>#{endDate}
+            </if>
+            <if test="alarmStatus != null and alarmStatus != ''">
+                AND t.alarm_status = #{alarmStatus}
+            </if>
+            <if test="alarmStatuses != null and alarmStatuses.size > 0">
+                AND t.alarm_status in
+                <foreach item="item" index="index" collection="alarmStatuses"
+                         open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        ) a
+    </select>
+
+	<!-- 缓存 -->
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" />
+
+</mapper>
