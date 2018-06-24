@@ -80,6 +80,7 @@ public interface EamApiService {
     public EamSummaryTicketItemVO summaryTicket(Integer companyId);
 
     List<EamMaintainPlanVO> listMaintainPlans(EamMaintainPlanVO vo);
+    long getMaintainPlanCount(EamMaintainPlanVO vo);
     List<EamPlanTicketVO> selectTicketByPlan(EamPlanTicketVO vo);
     EamMaintainPlanVO getMaintainPlan(Integer planId);
 

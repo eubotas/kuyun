@@ -341,6 +341,7 @@
                     {field: 'action', width: 120, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ]
             });
+            setSearchPlaceholder('设备名称');
         });
 
         function maintainFrequencyQuantityFormatter(value , row, index) {
@@ -527,7 +528,7 @@
             $('#ticketTable').bootstrapTable({
                 url: '${basePath}/manage/maintainPlan/'+planId+'/tickets',
                 striped: true,
-              //  search: false,
+                search: false,
                 minimumCountColumns: 2,
                 clickToSelect: true,
                 detailView: true,
@@ -538,7 +539,7 @@
                 silentSort: false,
                 smartDisplay: false,
                 escape: true,
-             //   searchOnEnterKey: true,
+                searchOnEnterKey: true,
                 idField: 'planTicketId',
                 sortName: 'planTicketId',
                 sortOrder: 'desc',

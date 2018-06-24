@@ -882,7 +882,7 @@
 		</if>
 		<if test="search != null and search != ''">
 			<bind name="pattern" value="'%' + search + '%'" />
-			AND name like #{pattern}
+			AND e.name like #{pattern}
 		</if>
 		group by a.plan_id
 		<if test="orderByClause != null">
@@ -896,6 +896,29 @@
 				limit ${limit}
 			</if>
 		</if>
+	</select>
+
+	<select id="getMaintainPlanCount" parameterType="com.kuyun.eam.vo.EamMaintainPlanVO" resultMap="java.lang.long">
+		select count(*) from (
+		select
+		a.plan_id, work_content, next_maintain_date, maintain_frequency_unit, maintain_frequency_quantity, maintain_type, remind_time, a.create_time ,
+		ec.name as equipmentCategoryName,
+		e.name as equipmentName,
+		group_concat(uu.realname) AS maintainUsers
+		from eam_maintain_plan a
+		LEFT OUTER JOIN eam_equipment_category ec ON a.equipment_category_id = ec.equipment_category_id
+		LEFT OUTER JOIN eam_equipment e ON a.equipment_id = e.equipment_id
+		LEFT OUTER JOIN eam_maintain_user mu ON (a.plan_id = mu.plan_id AND mu.delete_flag = 0)
+		LEFT OUTER JOIN upms_user uu ON mu.user_id = uu.user_id
+		WHERE a.delete_flag = 0 and mu.delete_flag = 0
+		<if test="companyId != null and companyId != ''">
+			AND a.company_id = #{companyId}
+		</if>
+		<if test="search != null and search != ''">
+			<bind name="pattern" value="'%' + search + '%'" />
+			AND e.name like #{pattern}
+		</if>
+		group by a.plan_id )
 	</select>
 
     <select id="getMaintainPlan" parameterType="Integer" resultMap="EamMaintainPlanVOResultMap">

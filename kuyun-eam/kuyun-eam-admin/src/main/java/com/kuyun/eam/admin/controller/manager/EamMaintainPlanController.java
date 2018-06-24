@@ -95,27 +95,23 @@ public class EamMaintainPlanController extends BaseController {
 	public Object list(
 			@RequestParam(required = false, defaultValue = "0", value = "offset") int offset,
 			@RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
+			@RequestParam(required = false, defaultValue = "", value = "search") String search,
 			@RequestParam(required = false, value = "sort") String sort,
 			@RequestParam(required = false, value = "order") String order) {
-		EamMaintainPlanExample eamMaintainPlanExample = new EamMaintainPlanExample();
-		eamMaintainPlanExample.setOffset(offset);
-		eamMaintainPlanExample.setLimit(limit);
-		EamMaintainPlanExample.Criteria criteria = eamMaintainPlanExample.createCriteria();
-		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
-		criteria.andCompanyIdEqualTo(getCompanyId());
-
 		EamMaintainPlanVO vo = new EamMaintainPlanVO();
 		vo.setOffset(offset);
 		vo.setLimit(limit);
 		vo.setCompanyId(getCompanyId());
 
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
-			eamMaintainPlanExample.setOrderByClause(sort + " " + order);
 			vo.setOrderByClause(sort + " " + order);
+		}
+		if (StringUtils.isNotBlank(search)) {
+			vo.setSearch(search);
 		}
 
 		List<EamMaintainPlanVO> rows = eamApiService.listMaintainPlans(vo);
-		long total = eamMaintainPlanService.countByExample(eamMaintainPlanExample);
+		long total = eamApiService.getMaintainPlanCount(vo);
 		Map<String, Object> result = new HashMap<>();
 		result.put("rows", rows);
 		result.put("total", total);

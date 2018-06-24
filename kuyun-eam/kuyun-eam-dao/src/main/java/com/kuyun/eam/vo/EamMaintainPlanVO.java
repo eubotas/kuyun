@@ -12,10 +12,18 @@ public class EamMaintainPlanVO extends EamMaintainPlan {
     private String maintainUsers;
     private String strNextMaintainDate;
     private Integer limit;
-
+    private String search;
     private Integer offset;
 
     private String orderByClause;
+
+    public String getSearch() {
+        return search;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
+    }
 
     public String getMaintainUsers() {
         return maintainUsers;
