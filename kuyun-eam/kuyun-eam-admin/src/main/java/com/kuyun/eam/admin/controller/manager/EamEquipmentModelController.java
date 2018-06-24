@@ -65,6 +65,7 @@ public class EamEquipmentModelController extends BaseController {
 	public Object list(
 			@RequestParam(required = false, defaultValue = "0", value = "offset") int offset,
 			@RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
+			@RequestParam(required = false, defaultValue = "", value = "search") String search,
 			@RequestParam(required = false, value = "sort") String sort,
 			@RequestParam(required = false, value = "order") String order) {
 		EamEquipmentModelExample eamEquipmentModelExample = new EamEquipmentModelExample();
@@ -83,7 +84,9 @@ public class EamEquipmentModelController extends BaseController {
 		if (company != null){
 			criteria.andCompanyIdEqualTo(company.getCompanyId());
 		}
-
+		if (StringUtils.isNotBlank(search)) {
+			criteria.andNameLike("%" + search + "%");
+		}
 
 		List<EamEquipmentModel> rows = eamEquipmentModelService.selectByExample(eamEquipmentModelExample);
 		long total = eamEquipmentModelService.countByExample(eamEquipmentModelExample);

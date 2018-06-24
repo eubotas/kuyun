@@ -79,13 +79,12 @@ public class UpmsCompanyController extends BaseController {
         if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
             companyExample.setOrderByClause(sort + " " + order);
         }
-        if (StringUtils.isNotBlank(search)) {
-            companyExample.or()
-                    .andNameLike("%" + search + "%");
-        }
 
         UpmsCompanyExample.Criteria criteria = companyExample.createCriteria();
         criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+        if (StringUtils.isNotBlank(search)) {
+            criteria.andNameLike("%" + search + "%");
+        }
 
         UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
         if (company != null){

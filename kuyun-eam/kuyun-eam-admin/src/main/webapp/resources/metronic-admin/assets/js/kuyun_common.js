@@ -668,3 +668,10 @@ function getRequestUrl(path, base){
         return base+path;
     return path;
 }
+
+function setSearchPlaceholder(txt){
+    var search="搜索";
+    if(txt)
+        search +="-"+txt;
+    $('.fixed-table-toolbar').find('.search').find('input').attr('placeholder',search);
+}

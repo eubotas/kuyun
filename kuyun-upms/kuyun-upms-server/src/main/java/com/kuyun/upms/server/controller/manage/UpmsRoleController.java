@@ -114,13 +114,20 @@ public class UpmsRoleController extends BaseController {
         if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
             upmsRoleExample.setOrderByClause(sort + " " + order);
         }
-        if (StringUtils.isNotBlank(search)) {
-            upmsRoleExample.or()
-                    .andTitleLike("%" + search + "%");
-        }
+
         UpmsRoleExample.Criteria criteria = upmsRoleExample.createCriteria();
         criteria.andCompanyIdEqualTo(getCompanyId());
         criteria.andDeleteFlagEqualTo(false);
+        List<String> fixedOrgs= new ArrayList<String>();
+        fixedOrgs.add("super");
+        fixedOrgs.add("ticketCreate");
+        fixedOrgs.add("ticketRepair");
+        fixedOrgs.add("ticketAppoint");
+        criteria.andNameNotIn(fixedOrgs);
+        if (StringUtils.isNotBlank(search)) {
+            criteria.andTitleLike("%" + search + "%");
+        }
+
         List<UpmsRole> rows = upmsRoleService.selectByExample(upmsRoleExample);
         long total = upmsRoleService.countByExample(upmsRoleExample);
         Map<String, Object> result = new HashMap<>();

@@ -210,6 +210,8 @@
                     {field: 'action', width: 120, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ]
             });
+
+            setSearchPlaceholder('角色标题');
         });
         // 格式化操作按钮
         function actionFormatter(value, row, index) {

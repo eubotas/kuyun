@@ -74,6 +74,7 @@ public class EamGrmController extends BaseController {
 	public Object list(
 			@RequestParam(required = false, defaultValue = "0", value = "offset") int offset,
 			@RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
+			@RequestParam(required = false, defaultValue = "", value = "search") String search,
 			@RequestParam(required = false, value = "sort") String sort,
 			@RequestParam(required = false, value = "order") String order) {
 		EamGrmExample grmExample = new EamGrmExample();
@@ -92,6 +93,10 @@ public class EamGrmController extends BaseController {
 		if (company != null){
 			criteria.andCompanyIdEqualTo(company.getCompanyId());
 		}
+		if (StringUtils.isNotBlank(search)) {
+			criteria.andGrmLike("%" + search + "%");
+		}
+
 		List<EamGrm> rows = eamGrmService.selectByExample(grmExample);
 		long total = eamGrmService.countByExample(grmExample);
 		Map<String, Object> result = new HashMap<>();

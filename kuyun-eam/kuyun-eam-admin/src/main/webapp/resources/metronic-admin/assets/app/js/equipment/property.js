@@ -56,6 +56,8 @@ $(function() {
             {field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
         ]
     });
+
+    setSearchPlaceholder('参数名称');
 });
 
 // 格式化操作按钮

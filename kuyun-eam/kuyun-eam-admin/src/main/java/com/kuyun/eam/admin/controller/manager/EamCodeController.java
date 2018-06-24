@@ -61,6 +61,7 @@ public class EamCodeController extends BaseController {
 	public Object list(
 			@RequestParam(required = false, defaultValue = "0", value = "offset") int offset,
 			@RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
+			@RequestParam(required = false, defaultValue = "", value = "search") String search,
 			@RequestParam(required = false, value = "sort") String sort,
 			@RequestParam(required = false, value = "order") String order) {
 		EamCodeValueExample eamCodeValueExample = new EamCodeValueExample();
@@ -68,6 +69,9 @@ public class EamCodeController extends BaseController {
 		eamCodeValueExample.setLimit(limit);
 		EamCodeValueExample.Criteria criteria = eamCodeValueExample.createCriteria();
 		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+		if (StringUtils.isNotBlank(search)) {
+			criteria.andCodeNameLike("%" + search + "%");
+		}
 
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			eamCodeValueExample.setOrderByClause(sort + " " + order);

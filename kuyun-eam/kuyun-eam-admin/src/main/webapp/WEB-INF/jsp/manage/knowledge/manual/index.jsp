@@ -212,6 +212,7 @@
                     {field: 'action', title: '操作', align: 'center', width:"100px", formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ]
             });
+            setSearchPlaceholder('标题,描述,标签');
         });
         // 格式化操作按钮
         function actionFormatter(value, row, index) {

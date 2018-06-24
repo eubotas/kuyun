@@ -326,6 +326,8 @@
                     {field: 'action', width: 190, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ]
             });
+
+            setSearchPlaceholder('姓名,电话');
         });
         // 格式化操作按钮
         function actionFormatter(value, row, index) {

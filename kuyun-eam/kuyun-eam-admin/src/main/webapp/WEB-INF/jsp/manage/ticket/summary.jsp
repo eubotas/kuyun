@@ -141,6 +141,7 @@
                 {field: 'action', width: 100, title: '详细', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
             ]
         });
+        setSearchPlaceholder('工单编号');
     });
 
     function actionFormatter(value, row, index) {

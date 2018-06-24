@@ -190,7 +190,7 @@ $(function() {
         }
     });
 
-
+    setSearchPlaceholder('设备名称');
 });
 
 function doOpenClose(state, row) {

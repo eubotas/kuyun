@@ -27,4 +27,11 @@ public class SessionUser {
         return (CompanyInfo)request.getSession(true).getAttribute(COMPANY);
     }
 
+    public String getCompanyLogo(HttpServletRequest request){
+        CompanyInfo comp= getCompany(request);
+        if(comp != null){
+            return comp.getCompanyLogo();
+        }
+        return null;
+    }
 }

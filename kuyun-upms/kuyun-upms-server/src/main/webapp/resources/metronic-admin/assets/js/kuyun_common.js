@@ -425,3 +425,10 @@ function removeDuplicatedItem(ar) {
     }
     return ret;
 }
+
+function setSearchPlaceholder(txt){
+    var search="搜索";
+    if(txt)
+        search +="-"+txt;
+    $('.fixed-table-toolbar').find('.search').find('input').attr('placeholder',search);
+}

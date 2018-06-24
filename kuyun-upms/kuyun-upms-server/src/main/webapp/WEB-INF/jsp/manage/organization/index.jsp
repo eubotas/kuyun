@@ -204,7 +204,6 @@
             $('#deleteButton').click(function(){
                 deleteAction();
             });
-
         });
 
         var $table = $('#table');
@@ -238,6 +237,8 @@
                     {field: 'action', width: 150, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ]
             });
+
+            setSearchPlaceholder('部门名称');
         });
         // 格式化操作按钮
         function actionFormatter(value, row, index) {

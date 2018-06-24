@@ -86,14 +86,12 @@ public class UpmsCompanyController extends BaseController {
         }else {
             companyExample.setOrderByClause("create_time desc ");
         }
-        if (StringUtils.isNotBlank(search)) {
-            companyExample.or()
-                    .andNameLike("%" + search + "%");
-        }
 
         UpmsCompanyExample.Criteria criteria = companyExample.createCriteria();
         criteria.andDeleteFlagEqualTo(Boolean.FALSE);
-
+        if (StringUtils.isNotBlank(search)) {
+            criteria.andNameLike("%" + search + "%");
+        }
 
         UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
         if (company != null){
@@ -202,7 +200,7 @@ public class UpmsCompanyController extends BaseController {
         EamEquipmentController equipmentController = SpringContextUtil.getBean(EamEquipmentController.class);
 
 
-        Map<String, Object> objectMap = (Map<String, Object> )equipmentController.list(offset, limit, null, sort, order);
+        Map<String, Object> objectMap = (Map<String, Object> )equipmentController.list(offset, limit, null,null, sort, order);
         List<EamEquipmentVO> rows = (List<EamEquipmentVO>)objectMap.get("rows");
         long total = (long)objectMap.get("total");
 

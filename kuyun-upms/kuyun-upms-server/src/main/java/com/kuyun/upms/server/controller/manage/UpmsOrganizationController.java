@@ -11,8 +11,10 @@ import com.kuyun.upms.common.constant.UpmsResultConstant;
 import com.kuyun.upms.dao.model.*;
 import com.kuyun.upms.dao.vo.UpmsOrgRoleVo;
 import com.kuyun.upms.dao.vo.UpmsOrgUserVo;
-import com.kuyun.upms.dao.vo.UpmsUserVo;
-import com.kuyun.upms.rpc.api.*;
+import com.kuyun.upms.rpc.api.UpmsApiService;
+import com.kuyun.upms.rpc.api.UpmsCompanyService;
+import com.kuyun.upms.rpc.api.UpmsOrganizationService;
+import com.kuyun.upms.rpc.api.UpmsUserOrganizationService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
@@ -77,13 +79,19 @@ public class UpmsOrganizationController extends BaseController {
         if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
             upmsOrganizationExample.setOrderByClause(sort + " " + order);
         }
-        if (StringUtils.isNotBlank(search)) {
-            upmsOrganizationExample.or()
-                    .andNameLike("%" + search + "%");
-        }
+
         UpmsOrganizationExample.Criteria criteria = upmsOrganizationExample.createCriteria();
         criteria.andCompanyIdEqualTo(getCompanyId());
         criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+        List<String> fixedOrgs= new ArrayList<String>();
+        fixedOrgs.add("维修部门");
+        fixedOrgs.add("维保部门");
+        fixedOrgs.add("报警部门");
+        criteria.andNameNotIn(fixedOrgs);
+
+        if (StringUtils.isNotBlank(search)) {
+            criteria.andNameLike("%" + search + "%");
+        }
 
         List<UpmsOrganization> rows = upmsOrganizationService.selectByExample(upmsOrganizationExample);
         long total = upmsOrganizationService.countByExample(upmsOrganizationExample);

@@ -26,17 +26,18 @@
                                 window.location.href ='${upmsPath}/sso/login';
                             });
                             </script>
-                         <%}
-                        String companyName=company.getCompanyName();
-                        if(companyName == null || "".equals(companyName)){
-                        %>
-                                版权所有  2018©库德莱兹物联科技（苏州）有限公司
-								<a href="http://www.coderise.cn" target="_blank">
-									coderise.cn
-								</a>
-                         <%}else{%>
-                            <%=companyName%>
-                         <%}%>
+                         <%}else{
+                            String companyName=company.getCompanyName();
+                            if(companyName == null || "".equals(companyName)){
+                            %>
+                                    版权所有  2018©库德莱兹物联科技（苏州）有限公司
+                                    <a href="http://www.coderise.cn" target="_blank">
+                                        coderise.cn
+                                    </a>
+                             <%}else{%>
+                                <%=companyName%>
+                             <%}
+                         }%>
                 </span>
             </div>
         </div>

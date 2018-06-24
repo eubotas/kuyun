@@ -219,6 +219,7 @@
                     {field: 'action', title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ]
             });
+            setSearchPlaceholder('智库网关ID');
         });
         // 格式化操作按钮
         function actionFormatter(value, row, index) {

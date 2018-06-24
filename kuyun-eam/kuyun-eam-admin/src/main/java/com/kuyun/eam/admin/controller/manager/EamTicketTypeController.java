@@ -68,6 +68,7 @@ public class EamTicketTypeController extends BaseController {
 	public Object list(
 			@RequestParam(required = false, defaultValue = "0", value = "offset") int offset,
 			@RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
+			@RequestParam(required = false, defaultValue = "", value = "search") String search,
 			@RequestParam(required = false, value = "sort") String sort,
 			@RequestParam(required = false, value = "order") String order) {
 		EamTicketTypeExample eamTicketTypeExample = new EamTicketTypeExample();
@@ -85,7 +86,9 @@ public class EamTicketTypeController extends BaseController {
 		if (company != null){
 			criteria.andCompanyIdEqualTo(company.getCompanyId());
 		}
-
+		if (StringUtils.isNotBlank(search)) {
+			criteria.andNameLike("%" + search + "%");
+		}
 
 		List<EamTicketType> rows = eamTicketTypeService.selectByExample(eamTicketTypeExample);
 		long total = eamTicketTypeService.countByExample(eamTicketTypeExample);

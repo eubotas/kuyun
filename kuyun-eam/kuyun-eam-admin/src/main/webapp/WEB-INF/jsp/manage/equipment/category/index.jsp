@@ -170,6 +170,7 @@
                     {field: 'action', width: 100, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
                 ]
             });
+            setSearchPlaceholder('设备类别名称');
         });
         // 格式化操作按钮
         function actionFormatter(value, row, index) {

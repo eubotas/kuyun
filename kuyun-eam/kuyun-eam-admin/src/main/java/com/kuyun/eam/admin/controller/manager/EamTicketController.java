@@ -148,6 +148,7 @@ public class EamTicketController extends EamTicketBaseController {
 	public Object list(
 			@RequestParam(required = false, defaultValue = "0", value = "offset") int offset,
 			@RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
+			@RequestParam(required = false, defaultValue = "", value = "search") String search,
 			@RequestParam(required = false, defaultValue = "myAll", value = "category") String category,
 			@RequestParam(required = false, value = "sort") String sort,
 			@RequestParam(required = false, value = "order") String order) {
@@ -158,7 +159,10 @@ public class EamTicketController extends EamTicketBaseController {
 		EamTicketExample.Criteria criteria2 = eamTicketExample.createCriteria();
 		criteria.andDeleteFlagEqualTo(Boolean.FALSE);
 		criteria2.andDeleteFlagEqualTo(Boolean.FALSE);
-
+		if (StringUtils.isNotBlank(search)) {
+			criteria.andTicketNumberLike("%" + search + "%");
+			criteria2.andTicketNumberLike("%" + search + "%");
+		}
 		if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
 			eamTicketExample.setOrderByClause(sort + " " + order);
 		}else{

@@ -635,6 +635,10 @@
 		<if test="companyId != null and companyId != ''">
 			AND e.company_id = #{companyId}
 		</if>
+		<if test="search != null and search != ''">
+			<bind name="pattern" value="'%' + search + '%'" />
+			AND eam_equipment.name like #{pattern}
+		</if>
 		<if test="orderByClause != null">
 			order by ${orderByClause}
 		</if>
@@ -875,6 +879,10 @@
 		WHERE a.delete_flag = 0 and mu.delete_flag = 0
 		<if test="companyId != null and companyId != ''">
 			AND a.company_id = #{companyId}
+		</if>
+		<if test="search != null and search != ''">
+			<bind name="pattern" value="'%' + search + '%'" />
+			AND name like #{pattern}
 		</if>
 		group by a.plan_id
 		<if test="orderByClause != null">

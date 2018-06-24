@@ -347,6 +347,11 @@ $(function() {
             {field: 'action', width: 150, title: '操作', align: 'center', formatter: 'actionFormatter', events: 'actionEvents', clickToSelect: false}
         ]
     });
+
+    $table.on('search.bs.table', function (e, text) {
+        refreshTable();
+    });
+    setSearchPlaceholder('参数名称');
 });
 // 格式化操作按钮
 function actionFormatter(value, row, index) {
@@ -393,6 +398,7 @@ var ModelPropertyFormWidgets = function () {
 }();
 
 function showModelProperties(id) {
+    $('.fixed-table-toolbar').find('.search').find('input').val('');
     selectedItemColor("models", 'eqModel'+id);
     $('#equipmentModelId').val(id);
     refreshTable();
