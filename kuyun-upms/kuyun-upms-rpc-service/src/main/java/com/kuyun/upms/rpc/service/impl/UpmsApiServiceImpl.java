@@ -442,11 +442,12 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     }
 
     private void handleUserCompany(String company, UpmsUser upmsUser) {
-
+        boolean isNewCompany = false;
         UpmsCompany upmsCompany = getUpmsCompany(company);
 
         if (upmsCompany == null) {
             upmsCompany = createCompany(company);
+            isNewCompany = true;
         }
 
         UpmsUserCompany upmsUserCompany = new UpmsUserCompany();
@@ -454,33 +455,37 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         upmsUserCompany.setUserId(upmsUser.getUserId());
         upmsUserCompanyService.insert(upmsUserCompany);
 
-        //#1. insert upms_organization
-        Integer organizationId_1 = createOrganization(upmsCompany.getCompanyId(), OrgDepartment.REPAIR_DEPARTMENT.getName());
-        Integer organizationId_2 = createOrganization(upmsCompany.getCompanyId(), OrgDepartment.MAINTENANCE_DEPARTMENT.getName());
-        Integer organizationId_3 = createOrganization(upmsCompany.getCompanyId(), OrgDepartment.ALARM_DEPARTMENT.getName());
+        if(!isNewCompany) {
+            //#1. insert upms_organization
+            Integer organizationId_1 = createOrganization(upmsCompany.getCompanyId(), OrgDepartment.REPAIR_DEPARTMENT.getName());
+            Integer organizationId_2 = createOrganization(upmsCompany.getCompanyId(), OrgDepartment.MAINTENANCE_DEPARTMENT.getName());
+            Integer organizationId_3 = createOrganization(upmsCompany.getCompanyId(), OrgDepartment.ALARM_DEPARTMENT.getName());
 
-        //2. insert upms_role
-        Integer roleId_1 = createRole(upmsCompany.getCompanyId(), RoleEnum.SUPER);
-        Integer roleId_2 = createRole(upmsCompany.getCompanyId(), RoleEnum.TICKETCREATE);
-        Integer roleId_3 = createRole(upmsCompany.getCompanyId(), RoleEnum.TICKETREPAIR);
-        Integer roleId_4 = createRole(upmsCompany.getCompanyId(), RoleEnum.TICKETAPPOINT);
+            //2. insert upms_role
+            Integer roleId_1 = createRole(upmsCompany.getCompanyId(), RoleEnum.SUPER);
+            Integer roleId_2 = createRole(upmsCompany.getCompanyId(), RoleEnum.TICKETCREATE);
+            Integer roleId_3 = createRole(upmsCompany.getCompanyId(), RoleEnum.TICKETREPAIR);
+            Integer roleId_4 = createRole(upmsCompany.getCompanyId(), RoleEnum.TICKETAPPOINT);
 
-        //3. insert upms_role_permission
-        createRolePermissions(roleId_1);
-        //4. insert upms_user_organization
-        createUserOrganization(upmsUser.getUserId(), organizationId_1);
-        createUserOrganization(upmsUser.getUserId(), organizationId_2);
-        createUserOrganization(upmsUser.getUserId(), organizationId_3);
-        //5. insert upms_user_role
-        createUserRole(upmsUser.getUserId(), roleId_1);
-        createUserRole(upmsUser.getUserId(), roleId_2);
-        createUserRole(upmsUser.getUserId(), roleId_3);
-        createUserRole(upmsUser.getUserId(), roleId_4);
+            //3. insert upms_role_permission
+            createRolePermissions(roleId_1);
+            //4. insert upms_user_organization
+            createUserOrganization(upmsUser.getUserId(), organizationId_1);
+            createUserOrganization(upmsUser.getUserId(), organizationId_2);
+            createUserOrganization(upmsUser.getUserId(), organizationId_3);
+            //5. insert upms_user_role
+            createUserRole(upmsUser.getUserId(), roleId_1);
+            createUserRole(upmsUser.getUserId(), roleId_2);
+            createUserRole(upmsUser.getUserId(), roleId_3);
+            createUserRole(upmsUser.getUserId(), roleId_4);
 
-        createTicketType(upmsCompany.getCompanyId(), TicketType.REPAIR);
-        createTicketType(upmsCompany.getCompanyId(), TicketType.MIANTAIN);
-        createTicketType(upmsCompany.getCompanyId(), TicketType.ALARM);
-
+            createTicketType(upmsCompany.getCompanyId(), TicketType.REPAIR);
+            createTicketType(upmsCompany.getCompanyId(), TicketType.MIANTAIN);
+            createTicketType(upmsCompany.getCompanyId(), TicketType.ALARM);
+        }else{
+            createUserOrganization(upmsUser.getUserId(), getOrganization(upmsCompany.getCompanyId(), OrgDepartment.REPAIR_DEPARTMENT.getName()).getOrganizationId());
+            createUserRole(upmsUser.getUserId(), getRole(upmsCompany.getCompanyId(), RoleEnum.TICKETCREATE).getRoleId());
+        }
     }
 
     private void createTicketType(Integer companyId, TicketType ticketTypeEnum){
@@ -547,6 +552,24 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         organization.setCtime(System.currentTimeMillis());
         upmsOrganizationService.insertSelective(organization);
         return organization.getOrganizationId();
+    }
+
+    private UpmsOrganization getOrganization(Integer companyId, String orgName){
+        UpmsOrganizationExample example = new UpmsOrganizationExample();
+        UpmsOrganizationExample.Criteria criteria =  example.createCriteria();
+        criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+        criteria.andNameEqualTo(orgName);
+        criteria.andCompanyIdEqualTo(companyId);
+        return  upmsOrganizationService.selectFirstByExample(example);
+    }
+
+    private UpmsRole getRole(Integer companyId, RoleEnum roleEnum){
+        UpmsRoleExample example = new UpmsRoleExample();
+        UpmsRoleExample.Criteria criteria =  example.createCriteria();
+        criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+        criteria.andNameEqualTo(roleEnum.getName());
+        criteria.andCompanyIdEqualTo(companyId);
+        return  upmsRoleService.selectFirstByExample(example);
     }
 
     private UpmsCompany createCompany(String company) {

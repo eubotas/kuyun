@@ -158,6 +158,11 @@
     <script>
         $(document).ready(function()
         {
+            $.validator.addMethod("checkSpecName", function (value, element) {
+                return !isInSet(value, 'super','ticketCreate', 'ticketRepair', 'ticketAppoint');
+
+            }, '请不要用这个名称， 系统保留名称.');
+
             //codes works on all bootstrap modal windows in application
             $('.modal').on('hidden.bs.modal', function(e)
             {
@@ -215,11 +220,13 @@
         });
         // 格式化操作按钮
         function actionFormatter(value, row, index) {
-            return [
-                '<shiro:hasPermission name="upms:role:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="upms:role:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="upms:role:permission"><a id="assignPermission" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="分配权限">	<i class="la la-chevron-circle-right"></i>	</a></shiro:hasPermission>'
-            ].join('');
+            var arrBtns=[];
+            if(!isInSet(row['name'], 'super','ticketCreate', 'ticketRepair', 'ticketAppoint')) {
+                arrBtns.push('<shiro:hasPermission name="upms:role:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>');
+                arrBtns.push('<shiro:hasPermission name="upms:role:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>');
+            }
+            arrBtns.push('<shiro:hasPermission name="upms:role:permission"><a id="assignPermission" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="分配权限">	<i class="la la-chevron-circle-right"></i>	</a></shiro:hasPermission>');
+            return arrBtns.join('');
         }
 
         var FormWidgets = function () {
@@ -229,6 +236,7 @@
                     rules: {
                         name: {
                             required: true,
+                            checkSpecName: true,
                             minlength: 2,
                             maxlength: 20
                         },
@@ -319,7 +327,11 @@
 
         function deleteAction(){
             var rows = $table.bootstrapTable('getSelections');
-            deleteActionImpl(rows);
+            if(isSpecRoleInRow(rows)){
+                swWarn("系统数据不能删除.");
+            }else {
+                deleteActionImpl(rows);
+            }
         }
 
         function deleteActionImpl(rows) {
@@ -330,6 +342,14 @@
             }//end else
         }
 
+        function isSpecRoleInRow(rows){
+            for (var i in rows) {
+                var name= rows[i]['name'];
+                if(isInSet(name, 'super','ticketCreate', 'ticketRepair', 'ticketAppoint'))
+                    return true;
+            }
+            return false
+        }
     </script>
 
 

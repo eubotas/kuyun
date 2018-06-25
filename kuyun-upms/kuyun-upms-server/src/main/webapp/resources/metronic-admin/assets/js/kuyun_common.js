@@ -432,3 +432,13 @@ function setSearchPlaceholder(txt){
         search +="-"+txt;
     $('.fixed-table-toolbar').find('.search').find('input').attr('placeholder',search);
 }
+
+// Return true if the given value is in the set of subsequent values
+function isInSet(value, values) {
+    if((arguments.length > 2) || !isArray(values)) // in case client did not wrap values in array
+        values = Array.prototype.slice.call(arguments, 1, arguments.length);
+    for(var i=0; i<values.length; i++)
+        if(value == values[i])
+            return true;
+    return false;
+}

@@ -118,12 +118,7 @@ public class UpmsRoleController extends BaseController {
         UpmsRoleExample.Criteria criteria = upmsRoleExample.createCriteria();
         criteria.andCompanyIdEqualTo(getCompanyId());
         criteria.andDeleteFlagEqualTo(false);
-        List<String> fixedOrgs= new ArrayList<String>();
-        fixedOrgs.add("super");
-        fixedOrgs.add("ticketCreate");
-        fixedOrgs.add("ticketRepair");
-        fixedOrgs.add("ticketAppoint");
-        criteria.andNameNotIn(fixedOrgs);
+
         if (StringUtils.isNotBlank(search)) {
             criteria.andTitleLike("%" + search + "%");
         }

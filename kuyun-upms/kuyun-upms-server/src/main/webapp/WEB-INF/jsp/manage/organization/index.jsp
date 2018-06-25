@@ -187,6 +187,11 @@
     <script>
         $(document).ready(function()
         {
+            $.validator.addMethod("checkSpecName", function (value, element) {
+                return !isInSet(value, '维修部门', '维保部门', '报警部门');
+
+            }, '请不要用这个名称， 系统保留名称.');
+
             //codes works on all bootstrap modal windows in application
             $('.modal').on('hidden.bs.modal', function(e)
             {
@@ -242,12 +247,14 @@
         });
         // 格式化操作按钮
         function actionFormatter(value, row, index) {
-            return [
-                '<shiro:hasPermission name="upms:organization:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="upms:organization:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="upms:organization:update"><a id="assignPerson" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="分配人员">	<i class="la la-user-plus"></i>	</a></shiro:hasPermission>',
-                '<shiro:hasPermission name="upms:organization:update"><a id="assignRole" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="分配角色">	<i class="la la-chevron-circle-right"></i>	</a></shiro:hasPermission>'
-            ].join('');
+            var arrBtns=[];
+            if(!isInSet(row['name'], '维修部门', '维保部门', '报警部门')) {
+                arrBtns.push('<shiro:hasPermission name="upms:organization:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>');
+                arrBtns.push('<shiro:hasPermission name="upms:organization:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>');
+            }
+            arrBtns.push('<shiro:hasPermission name="upms:organization:update"><a id="assignPerson" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="分配人员">	<i class="la la-user-plus"></i>	</a></shiro:hasPermission>');
+            arrBtns.push('<shiro:hasPermission name="upms:organization:update"><a id="assignRole" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="分配角色">	<i class="la la-chevron-circle-right"></i>	</a></shiro:hasPermission>');
+            return arrBtns.join('');
         }
 
         var FormWidgets = function () {
@@ -257,6 +264,7 @@
                     rules: {
                         name: {
                             required: true,
+                            checkSpecName: true,
                             minlength: 2,
                             maxlength: 20
                         },
@@ -346,7 +354,11 @@
 
         function deleteAction(){
             var rows = $table.bootstrapTable('getSelections');
-            deleteActionImpl(rows);
+            if(isSpecOrgInRow(rows)){
+                swWarn("系统数据不能删除.");
+            }else {
+                deleteActionImpl(rows);
+            }
         }
 
         function deleteActionImpl(rows) {
@@ -357,6 +369,14 @@
             }//end else
         }
 
+        function isSpecOrgInRow(rows){
+            for (var i in rows) {
+                var name= rows[i]['name'];
+                if(isInSet(name, '维修部门', '维保部门', '报警部门'))
+                    return true;
+            }
+            return false
+        }
     </script>
 
 

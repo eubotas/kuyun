@@ -83,11 +83,6 @@ public class UpmsOrganizationController extends BaseController {
         UpmsOrganizationExample.Criteria criteria = upmsOrganizationExample.createCriteria();
         criteria.andCompanyIdEqualTo(getCompanyId());
         criteria.andDeleteFlagEqualTo(Boolean.FALSE);
-        List<String> fixedOrgs= new ArrayList<String>();
-        fixedOrgs.add("维修部门");
-        fixedOrgs.add("维保部门");
-        fixedOrgs.add("报警部门");
-        criteria.andNameNotIn(fixedOrgs);
 
         if (StringUtils.isNotBlank(search)) {
             criteria.andNameLike("%" + search + "%");
