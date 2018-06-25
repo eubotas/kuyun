@@ -898,7 +898,7 @@
 		</if>
 	</select>
 
-	<select id="getMaintainPlanCount" parameterType="com.kuyun.eam.vo.EamMaintainPlanVO" resultMap="java.lang.long">
+	<select id="getMaintainPlanCount" parameterType="com.kuyun.eam.vo.EamMaintainPlanVO" resultType="java.lang.Long">
 		select count(*) from (
 		select
 		a.plan_id, work_content, next_maintain_date, maintain_frequency_unit, maintain_frequency_quantity, maintain_type, remind_time, a.create_time ,
@@ -918,7 +918,7 @@
 			<bind name="pattern" value="'%' + search + '%'" />
 			AND e.name like #{pattern}
 		</if>
-		group by a.plan_id )
+		group by a.plan_id ) xx
 	</select>
 
     <select id="getMaintainPlan" parameterType="Integer" resultMap="EamMaintainPlanVOResultMap">
