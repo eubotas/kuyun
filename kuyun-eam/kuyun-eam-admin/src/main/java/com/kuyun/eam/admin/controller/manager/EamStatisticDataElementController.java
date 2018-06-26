@@ -95,7 +95,7 @@ public class EamStatisticDataElementController extends BaseController {
 				criteria.andUpdateTimeBetween(startEnd.getKey(), startEnd.getValue());
 			}
         }catch(Exception ex){ex.printStackTrace();}
-		example.setOrderByClause("date asc");
+		example.setOrderByClause("update_time asc");
 
 		List<EamShiftDataElementValue> data = eamShiftDataElementValueService.selectByExample(example);
 		return data;

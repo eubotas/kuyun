@@ -2479,10 +2479,10 @@ public class EamApiServiceImpl implements EamApiService {
 
         if (eamProductLineShiftData == null){
 
-            eamProductLineShiftData.setDeleteFlag(Boolean.FALSE);
-            eamProductLineShiftData.setCreateTime(new Date());
-            eamProductLineShiftData.setUpdateTime(new Date());
-            eamProductLineShiftDataService.insert(eamProductLineShiftData);
+            productLineShiftData.setDeleteFlag(Boolean.FALSE);
+            productLineShiftData.setCreateTime(new Date());
+            productLineShiftData.setUpdateTime(new Date());
+            eamProductLineShiftDataService.insert(productLineShiftData);
         }else {
             eamProductLineShiftData.setOee(productLineShiftData.getOee());
             eamProductLineShiftData.setActualCapacity(productLineShiftData.getActualCapacity());
@@ -2525,7 +2525,7 @@ public class EamApiServiceImpl implements EamApiService {
 
         BigDecimal result = BigDecimal.ZERO;
         if (!BigDecimal.ZERO.equals(b)){
-            result = a.divide(b).movePointRight(2).setScale(2,BigDecimal.ROUND_HALF_UP);
+            result = a.divide(b, 2, BigDecimal.ROUND_HALF_DOWN).movePointRight(2).setScale(2,BigDecimal.ROUND_HALF_UP);
         }
         return result;
     }
@@ -2605,7 +2605,7 @@ public class EamApiServiceImpl implements EamApiService {
                 }
             }
             if (!BigDecimal.ZERO.equals(totalQuantity)){
-                BigDecimal qualifiedRate = qualifiedQuantity.divide(totalQuantity).movePointRight(2).setScale(2,BigDecimal.ROUND_HALF_UP);
+                BigDecimal qualifiedRate = qualifiedQuantity.divide(totalQuantity, 2, BigDecimal.ROUND_HALF_DOWN).movePointRight(2).setScale(2,BigDecimal.ROUND_HALF_UP);
                 BigDecimal rejectionRate = BigDecimal.valueOf(100).subtract(qualifiedRate);
                 productLineShiftData.setQualifiedRate(qualifiedRate);
                 productLineShiftData.setRejectionRate(rejectionRate);
@@ -2617,7 +2617,7 @@ public class EamApiServiceImpl implements EamApiService {
                 productLineShiftData.setBaseCapacity(BigDecimal.valueOf(eamEquipmentProduct.getCapacity()));
 
                 if (productLineShiftData.getActualCapacity() != null && productLineShiftData.getBaseCapacity() != null && !BigDecimal.ZERO.equals(productLineShiftData.getBaseCapacity())){
-                    BigDecimal performanceRate = productLineShiftData.getActualCapacity().divide(productLineShiftData.getBaseCapacity()).movePointRight(2).setScale(2,BigDecimal.ROUND_HALF_UP);
+                    BigDecimal performanceRate = productLineShiftData.getActualCapacity().divide(productLineShiftData.getBaseCapacity(), 2, BigDecimal.ROUND_HALF_DOWN).movePointRight(2).setScale(2,BigDecimal.ROUND_HALF_UP);
                     productLineShiftData.setPerformanceRate(performanceRate);
                 }
             }

@@ -1,6 +1,7 @@
 use xmx_job;
 SET FOREIGN_KEY_CHECKS=0;
 
+truncate QRTZ_CRON_TRIGGERS;
 truncate QRTZ_TRIGGERS;
 truncate QRTZ_JOB_DETAILS;
 truncate QRTZ_FIRED_TRIGGERS;
@@ -8,8 +9,12 @@ truncate QRTZ_SIMPLE_TRIGGERS;
 
 use xmx;
 
+delete from upms_company where company_id != 1;
 delete from upms_user where user_id not in (select user_id from upms_user_company where company_id = 1);
-	
+delete from upms_user_company where company_id != 1;
+delete from eam_product_line_company where company_id != 1;
+
+
 truncate eam_alarm_record;
 truncate eam_alarm_record_history;
 truncate eam_ticket;
