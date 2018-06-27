@@ -1816,6 +1816,11 @@ public class EamApiServiceImpl implements EamApiService {
 
     @Override
     public List<GanttData> getGanttData(EamGrmVariableDataHistoryVO eamGrmVariableDataHistoryVO) {
+
+        if (eamGrmVariableDataHistoryVO.getOrderByClause() == null){
+            eamGrmVariableDataHistoryVO.setOrderByClause("egvdh.update_time, egvdh.data_element_id asc");
+        }
+
         if (eamGrmVariableDataHistoryVO.getInterval() == null){
             /*
               间隔为半小时
@@ -1834,31 +1839,53 @@ public class EamApiServiceImpl implements EamApiService {
 
             int groupSize = historyData.size() / dataElementIdSize;
 
+            _log.info("dataElementIdSize:"+dataElementIdSize);
+            _log.info("groupSize:"+groupSize);
+
             int groupIndex = 0;
             while (groupIndex < groupSize){
+                _log.info("groupIndex:"+groupIndex);
 
                 int index = 0;
                 while (index < dataElementIdSize){
-                    EamGrmVariableDataHistoryExtVO vo = historyData.get(groupSize * index + groupIndex);
-                    String value = vo.getValue();
-                    Integer dataElementId = vo.getDataElementId();
-                    Date date = vo.getUpdateTime();
 
-                    if ("1".equalsIgnoreCase(value)){
-                        if (result.isEmpty()){
-                            addNewGantt(result, dataElementId, date);
-                        }else {
-                            GanttData lastGanttData = result.get(result.size() -1);
-                            Integer lastDataElementId = lastGanttData.getDataElementId();
+                    _log.info("************************");
 
-                            lastGanttData.setEndDate(date);
+                    _log.info("index:"+index);
 
-                            if (!lastDataElementId.equals(dataElementId)){
+                    int i = (dataElementIdSize * groupIndex + index);
+                    _log.info("historyData.get("+ i +")");
+
+
+                    if (i <= historyData.size()){
+                        EamGrmVariableDataHistoryExtVO vo = historyData.get(i);
+
+                        String value = vo.getValue();
+                        Integer dataElementId = vo.getDataElementId();
+                        Date date = vo.getUpdateTime();
+
+                        _log.info("value:"+value);
+                        _log.info("dataElementId:"+dataElementId);
+                        _log.info("date:"+date);
+
+                        if ("1".equalsIgnoreCase(value)){
+                            if (result.isEmpty()){
                                 addNewGantt(result, dataElementId, date);
+                            }else {
+                                GanttData lastGanttData = result.get(result.size() -1);
+                                Integer lastDataElementId = lastGanttData.getDataElementId();
+
+                                lastGanttData.setEndDate(date);
+
+                                if (!lastDataElementId.equals(dataElementId)){
+                                    addNewGantt(result, dataElementId, date);
+                                }
                             }
                         }
+                        _log.info("result:"+result);
+
+                        index++;
                     }
-                    index++;
                 }
                 groupIndex++;
             }
