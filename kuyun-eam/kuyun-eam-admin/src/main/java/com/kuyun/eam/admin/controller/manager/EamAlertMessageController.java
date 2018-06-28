@@ -63,20 +63,21 @@ public class EamAlertMessageController extends BaseController {
             @RequestParam(required = false, defaultValue = "10", value = "limit") int limit,
             @RequestParam(required = false, value = "sort") String sort,
             @RequestParam(required = false, value = "order") String order) {
-        EamAlertMessageExample eamAlertMessageExample = new EamAlertMessageExample();
-        eamAlertMessageExample.setOffset(offset);
-        eamAlertMessageExample.setLimit(limit);
-        EamAlertMessageExample.Criteria criteria = eamAlertMessageExample.createCriteria();
-        criteria.andReadFlagEqualTo(Boolean.FALSE);
-        criteria.andUserIdEqualTo(getCurrUserId());
 
+        EamAlertMessageVO eamAlertMessageVO = new EamAlertMessageVO();
+        eamAlertMessageVO.setOffset(offset);
+        eamAlertMessageVO.setLimit(limit);
+        eamAlertMessageVO.setUserId(getCurrUserId());
+        eamAlertMessageVO.setReadFlag(Boolean.FALSE);
         if (!StringUtils.isBlank(sort) && !StringUtils.isBlank(order)) {
-            eamAlertMessageExample.setOrderByClause(sort + " " + order);
+            eamAlertMessageVO.setOrderByClause(sort + " " + order);
+        }else{
+            eamAlertMessageVO.setOrderByClause("eam_alert_message.create_time desc");
         }
+        List<EamAlertMessageVO> rows = eamApiService.selectEamAlertMessages(eamAlertMessageVO);
+        long total = eamApiService.countEamAlertMessages(eamAlertMessageVO);
 
-        List<EamAlertMessage> rows = eamAlertMessageService.selectByExample(eamAlertMessageExample);
-        long total = eamAlertMessageService.countByExample(eamAlertMessageExample);
-        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>(2);
         result.put("rows", rows);
         result.put("total", total);
         return result;
@@ -115,7 +116,7 @@ public class EamAlertMessageController extends BaseController {
 
         List<EamAlertMessageVO> rows = eamApiService.selectEamAlertMessages(eamAlertMessageVO);
         long total = eamApiService.countEamAlertMessages(eamAlertMessageVO);
-        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>(2);
         result.put("rows", rows);
         result.put("total", total);
         return result;

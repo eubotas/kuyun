@@ -960,21 +960,18 @@
 	</select>
 
 	<select id="selectUsedEamGrmVariable" parameterType="com.kuyun.eam.vo.EamGrmVariableVO" resultMap="EamGrmVariableVOResultMap">
-		select
-		count(eam_grm_variable.id) count_id,
-		eam_grm_variable.id,
-		eam_grm_variable.name
-		from eam_grm_variable,
-		eam_grm_variable_group egvg
-		WHERE eam_grm_variable.delete_flag = 0
-		AND eam_grm_variable.id = egvg.eam_grm_variable_id
-		AND egvg.delete_flag = 0
+
+		select count(eam_grm_variable_id) count_id , eam_grm_variable_id as id
+		from eam_grm_variable_group
+		where eam_grm_variable_id in (
+		    select egvg.eam_grm_variable_id from eam_grm_variable_group egvg, eam_grm_variable egv
+		   where egv.id = egvg.eam_grm_variable_id and  egvg.delete_flag = 0 and egv.delete_flag = 0
 
 		<if test="productLineId != null and productLineId != ''">
-			AND eam_grm_variable.product_line_id = #{productLineId}
+			AND egv.product_line_id = #{productLineId}
 		</if>
 		<if test="equipmentId != null and equipmentId != ''">
-			AND eam_grm_variable.equipment_id = #{equipmentId}
+			AND egv.equipment_id = #{equipmentId}
 		</if>
 		<if test="dataGroupId != null and dataGroupId != ''">
 			AND egvg.data_group_id = #{dataGroupId}
@@ -982,8 +979,10 @@
 		<if test="equipmentDataGroupId != null and equipmentDataGroupId != ''">
 			AND egvg.equipment_data_group_id = #{equipmentDataGroupId}
 		</if>
-		GROUP BY eam_grm_variable.name, eam_grm_variable.id
-		HAVING count_id = 1;
+
+		) group by eam_grm_variable_id HAVING count_id = 1;
+
+
 	</select>
 
 	<resultMap id="EamGrmVariableDataHistoryVOResultMap" type="com.kuyun.eam.vo.EamGrmVariableDataHistoryExtVO" >
@@ -1469,6 +1468,9 @@
 		<if test="userId != null">
 			AND eam_alert_message.user_id = #{userId}
 		</if>
+		<if test="readFlag != null">
+			AND eam_alert_message.read_flag = #{readFlag}
+		</if>
 		<if test="startDate != null">
 			AND eam_alert_message.alert_start_date <![CDATA[>=]]> #{startDate}
 		</if>
@@ -1507,6 +1509,9 @@
 		</if>
 		<if test="userId != null">
 			AND eam_alert_message.user_id = #{userId}
+		</if>
+		<if test="readFlag != null">
+			AND eam_alert_message.read_flag = #{readFlag}
 		</if>
 		<if test="startDate != null">
 			AND eam_alert_message.alert_start_date <![CDATA[>=]]> #{startDate}
@@ -1594,16 +1599,16 @@
 		from eam_grm_variable_data_history h, eam_product_line p
 		WHERE
 	    h.update_time <![CDATA[>=]]> CONCAT(date(now()), ' ', (select
-			case when now() between CONCAT(date(now()), ' ' , p.morning_shift_start_time) and  CONCAT(date(now()), ' ' , p.morning_shift_end_time)  =  1 then p.morning_shift_start_time
-			when now() between CONCAT(date(now()), ' ' , p.middle_shift_start_time) and  CONCAT(date(now()), ' ' , p.middle_shift_end_time) = 1 then p.middle_shift_start_time
-			when now() between CONCAT(date(now()), ' ' , p.night_shift_start_time) and  CONCAT(date(now()), ' ' , p.night_shift_end_time) = 1 then p.night_shift_start_time
-			else null end start_time from eam_product_line l where l.delete_flag = 0 and p.product_line_id = l.product_line_id))
+			case when now() between CONCAT(date(now()), ' ' , l.morning_shift_start_time) and  CONCAT(date(now()), ' ' , l.morning_shift_end_time)  =  1 then l.morning_shift_start_time
+			when now() between CONCAT(date(now()), ' ' , l.middle_shift_start_time) and  CONCAT(date(now()), ' ' , l.middle_shift_end_time) = 1 then l.middle_shift_start_time
+			when now() between CONCAT(date(now()), ' ' , l.night_shift_start_time) and  CONCAT(date(now()), ' ' , l.night_shift_end_time) = 1 then l.night_shift_start_time
+			else null end start_time from eam_product_line l where l.delete_flag = 0 ))
 
 		AND h.update_time <![CDATA[<=]]> CONCAT(date(now()), ' ', (select
-		    case when now() between CONCAT(date(now()), ' ' , p.morning_shift_start_time) and  CONCAT(date(now()), ' ' , p.morning_shift_end_time)  =  1 then p.morning_shift_end_time
-			when now() between CONCAT(date(now()), ' ' , p.middle_shift_start_time) and  CONCAT(date(now()), ' ' , p.middle_shift_end_time) = 1 then p.middle_shift_end_time
-			when now() between CONCAT(date(now()), ' ' , p.night_shift_start_time) and  CONCAT(date(now()), ' ' , p.night_shift_end_time) = 1 then p.night_shift_end_time
-			else null end end_time from eam_product_line l where l.delete_flag = 0 and p.product_line_id = l.product_line_id))
+		    case when now() between CONCAT(date(now()), ' ' , l.morning_shift_start_time) and  CONCAT(date(now()), ' ' , l.morning_shift_end_time)  =  1 then l.morning_shift_end_time
+			when now() between CONCAT(date(now()), ' ' , l.middle_shift_start_time) and  CONCAT(date(now()), ' ' , l.middle_shift_end_time) = 1 then l.middle_shift_end_time
+			when now() between CONCAT(date(now()), ' ' , l.night_shift_start_time) and  CONCAT(date(now()), ' ' , l.night_shift_end_time) = 1 then l.night_shift_end_time
+			else null end end_time from eam_product_line l where l.delete_flag = 0))
 		AND h.value = 1
 		AND h.delete_flag = 0 AND p.delete_flag = 0
 		AND p.product_line_id = h.product_line_id
