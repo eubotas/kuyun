@@ -1019,7 +1019,7 @@ public class EamApiServiceImpl implements EamApiService {
             List<Integer> ids = vos.stream().map(x -> x.getId()).collect(Collectors.toList());
 
             EamGrmVariableGroupExample example = new EamGrmVariableGroupExample();
-            example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE).andEamGrmVariableIdIn(ids);
+            example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE).andIdIn(ids);
             eamGrmVariableGroupService.deleteByExample(example);
         }
 
@@ -1032,7 +1032,7 @@ public class EamApiServiceImpl implements EamApiService {
         vo.setEquipmentDataGroupId(equipmentDataGroupId);
 
         List<EamGrmVariableVO> vos = eamApiMapper.selectUsedEamGrmVariable(vo);
-        if (vos != null){
+        if (vos != null && !vos.isEmpty()){
             List<Integer> ids = vos.stream().map(x -> x.getId()).collect(Collectors.toList());
 
             EamGrmVariableExample example = new EamGrmVariableExample();
