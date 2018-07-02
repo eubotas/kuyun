@@ -18,6 +18,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
@@ -96,12 +97,20 @@ public class RepairKnowledgeController extends BaseController {
 
         SearchQuery searchQuery = null;
 
+        BoolQueryBuilder boolQueryBuilder = boolQuery();
+        if (company.getParentId() != null) {
+            boolQueryBuilder.should(termQuery("companyId", company.getCompanyId()));
+            boolQueryBuilder.should(termQuery("companyId", company.getParentId()));
+        } else {
+            boolQueryBuilder.filter(termQuery("companyId", company.getCompanyId()));
+        }
+
         if (StringUtils.isNotEmpty(search)){
             searchQuery = new NativeSearchQueryBuilder()
                     .withIndices(INDEX_NAME)
                     .withTypes(KnowledgeCategory.REPAIR_KNOWLEDGE.getName())
                     .withQuery(multiMatchQuery(search, CODE, DESCRIPTION, TAG))
-                    .withFilter(boolQuery().filter(termQuery("companyId", company.getCompanyId())))
+                    .withFilter(boolQueryBuilder)
                     .withSort(SortBuilders.fieldSort(CREATE_TIME).order(SortOrder.DESC))
                     .withPageable(new PageRequest(page, size))
                     .build();
@@ -109,7 +118,7 @@ public class RepairKnowledgeController extends BaseController {
             searchQuery = new NativeSearchQueryBuilder()
                     .withIndices(INDEX_NAME)
                     .withTypes(KnowledgeCategory.REPAIR_KNOWLEDGE.getName())
-                    .withFilter(boolQuery().filter(termQuery("companyId", company.getCompanyId())))
+                    .withFilter(boolQueryBuilder)
                     .withSort(SortBuilders.fieldSort(CREATE_TIME).order(SortOrder.DESC))
                     .withPageable(new PageRequest(page, size))
                     .build();

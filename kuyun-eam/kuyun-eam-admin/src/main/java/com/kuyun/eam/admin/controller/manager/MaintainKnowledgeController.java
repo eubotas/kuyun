@@ -18,6 +18,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
@@ -95,13 +96,19 @@ public class MaintainKnowledgeController extends BaseController {
         _log.info("companyId="+company.getCompanyId());
 
         SearchQuery searchQuery = null;
-
+        BoolQueryBuilder boolQueryBuilder = boolQuery();
+        if (company.getParentId() != null) {
+            boolQueryBuilder.should(termQuery("companyId", company.getCompanyId()));
+            boolQueryBuilder.should(termQuery("companyId", company.getParentId()));
+        } else {
+            boolQueryBuilder.filter(termQuery("companyId", company.getCompanyId()));
+        }
         if (StringUtils.isNotEmpty(search)){
             searchQuery = new NativeSearchQueryBuilder()
                     .withIndices(INDEX_NAME)
                     .withTypes(KnowledgeCategory.MAINTAIN_KNOWLEDGE.getName())
                     .withQuery(multiMatchQuery(search, TITLE, DESCRIPTION, TAG))
-                    .withFilter(boolQuery().filter(termQuery("companyId", company.getCompanyId())))
+                    .withFilter(boolQueryBuilder)
                     .withSort(SortBuilders.fieldSort(CREATE_TIME).order(SortOrder.DESC))
                     .withPageable(new PageRequest(page, size))
                     .build();
@@ -109,7 +116,7 @@ public class MaintainKnowledgeController extends BaseController {
             searchQuery = new NativeSearchQueryBuilder()
                     .withIndices(INDEX_NAME)
                     .withTypes(KnowledgeCategory.MAINTAIN_KNOWLEDGE.getName())
-                    .withFilter(boolQuery().filter(termQuery("companyId", company.getCompanyId())))
+                    .withFilter(boolQueryBuilder)
                     .withSort(SortBuilders.fieldSort(CREATE_TIME).order(SortOrder.DESC))
                     .withPageable(new PageRequest(page, size))
                     .build();
@@ -128,20 +135,19 @@ public class MaintainKnowledgeController extends BaseController {
     @RequiresPermissions("eam:maintainKnowledge:create")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
-    public Object create(MaintainKnowledge maintain) {
+    public Object create(MaintainKnowledge doc) {
         ComplexResult result = FluentValidator.checkAll()
-                .on(maintain.getTitle(), new LengthValidator(1, 20, "保养知识标题"))
+                .on(doc.getTitle(), new LengthValidator(1, 20, "保养知识标题"))
                 .doValidate()
                 .result(ResultCollectors.toComplex());
         if (!result.isSuccess()) {
             return new EamResult(INVALID_LENGTH, result.getErrors());
         }
-        baseModelUtil.addAddtionalValue(maintain);
-        maintain.setId(null);
+        baseModelUtil.addAddtionalValue(doc);
 
-        tagUtil.handleTag(ActionEnum.CREATE.getName(), null, maintain.getTag());
+        tagUtil.handleTag(ActionEnum.CREATE.getName(), null, doc.getTag());
 
-        maintainKnowledgeRepository.save(maintain);
+        maintainKnowledgeRepository.save(doc);
         return new EamResult(SUCCESS, 1);
     }
 

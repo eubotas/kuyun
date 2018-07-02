@@ -18,6 +18,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
 import org.slf4j.Logger;
@@ -95,13 +96,19 @@ public class EquipmentManualController extends BaseController {
         _log.info("companyId="+company.getCompanyId());
 
         SearchQuery searchQuery = null;
-
+        BoolQueryBuilder boolQueryBuilder = boolQuery();
+        if (company.getParentId() != null) {
+            boolQueryBuilder.should(termQuery("companyId", company.getCompanyId()));
+            boolQueryBuilder.should(termQuery("companyId", company.getParentId()));
+        } else {
+            boolQueryBuilder.should(termQuery("companyId", company.getCompanyId()));
+        }
         if (StringUtils.isNotEmpty(search)){
             searchQuery = new NativeSearchQueryBuilder()
                     .withIndices(INDEX_NAME)
                     .withTypes(KnowledgeCategory.EQUIPMENT_MANUAL.getName())
                     .withQuery(multiMatchQuery(search, TITLE, DESCRIPTION, TAG))
-                    .withFilter(boolQuery().filter(termQuery("companyId", company.getCompanyId())))
+                    .withFilter(boolQueryBuilder)
                     .withSort(SortBuilders.fieldSort(CREATE_TIME).order(SortOrder.DESC))
                     .withPageable(new PageRequest(page, size))
                     .build();
@@ -109,7 +116,7 @@ public class EquipmentManualController extends BaseController {
             searchQuery = new NativeSearchQueryBuilder()
                     .withIndices(INDEX_NAME)
                     .withTypes(KnowledgeCategory.EQUIPMENT_MANUAL.getName())
-                    .withFilter(boolQuery().filter(termQuery("companyId", company.getCompanyId())))
+                    .withFilter(boolQueryBuilder)
                     .withSort(SortBuilders.fieldSort(CREATE_TIME).order(SortOrder.DESC))
                     .withPageable(new PageRequest(page, size))
                     .build();
@@ -124,24 +131,24 @@ public class EquipmentManualController extends BaseController {
         return result;
     }
 
+
     @ApiOperation(value = "新增设备手册")
     @RequiresPermissions("eam:equipmentManual:create")
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
-    public Object create(EquipmentManual manual) {
+    public Object create(EquipmentManual doc) {
         ComplexResult result = FluentValidator.checkAll()
-                .on(manual.getTitle(), new LengthValidator(1, 20, "设备手册标题"))
+                .on(doc.getTitle(), new LengthValidator(1, 20, "设备手册标题"))
                 .doValidate()
                 .result(ResultCollectors.toComplex());
         if (!result.isSuccess()) {
             return new EamResult(INVALID_LENGTH, result.getErrors());
         }
-        baseModelUtil.addAddtionalValue(manual);
-        manual.setId(null);
+        baseModelUtil.addAddtionalValue(doc);
+        doc.setId(null);
+        tagUtil.handleTag(ActionEnum.CREATE.getName(), null, doc.getTag());
 
-        tagUtil.handleTag(ActionEnum.CREATE.getName(), null, manual.getTag());
-
-        equipmentManualRepository.save(manual);
+        equipmentManualRepository.save(doc);
         return new EamResult(SUCCESS, 1);
     }
 
@@ -158,8 +165,8 @@ public class EquipmentManualController extends BaseController {
                 }
 
                 Optional<EquipmentManual> optional = equipmentManualRepository.findById(id);
-                EquipmentManual manual = optional.orElse(null);
-                String tag = manual.getTag() == null ? null : manual.getTag();
+                EquipmentManual doc = optional.orElse(null);
+                String tag = doc.getTag() == null ? null : doc.getTag();
                 tagUtil.handleTag(ActionEnum.DELETE.getName(), null, tag);
 
                 equipmentManualRepository.deleteById(id);
