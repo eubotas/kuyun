@@ -128,7 +128,7 @@ public class EamOrderController extends BaseController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public Object create(EamOrder eamOrder) {
         ComplexResult result = FluentValidator.checkAll()
-                .on(eamOrder.getCompanyName(), new LengthValidator(1, 20, "名称"))
+                .on(eamOrder.getCompanyName(), new LengthValidator(1, 100, "名称"))
                 .doValidate()
                 .result(ResultCollectors.toComplex());
         if (!result.isSuccess()) {
