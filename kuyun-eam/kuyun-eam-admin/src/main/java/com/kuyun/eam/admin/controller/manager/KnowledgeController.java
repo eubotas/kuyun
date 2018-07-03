@@ -94,7 +94,7 @@ public class KnowledgeController extends BaseController {
     @RequiresPermissions("eam:knowledge:read")
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     @ResponseBody
-    public Object search(
+    public String search(
             @RequestParam(required = false, value = "page") Integer page,
             @RequestParam(required = false, value = "size") Integer size,
             @RequestParam(required = false, value = "k") String k,
@@ -102,9 +102,8 @@ public class KnowledgeController extends BaseController {
             @RequestParam(required = false, value = "c") String c, ModelMap modelMap, HttpServletRequest request) {
 
         _log.info("key [ {} ], tag [ {} ], category [ {} ]", k, t, c);
-        HashMap map = new HashMap<String, Object>();
-        handelSeachModel(page, size, k, t, c, modelMap, request, map);
-        return map;
+        handelSeachModel(page, size, k, t, c, modelMap, request);
+        return "/manage/knowledge/search.jsp";
     }
 
     @ApiOperation(value = "知识搜索列表")
@@ -119,11 +118,11 @@ public class KnowledgeController extends BaseController {
 
         _log.info("key [ {} ], tag [ {} ], category [ {} ]", k, t, c);
 
-        handelSeachModel(page, size, k, t, c, modelMap, request, new HashMap<String, Object>());
+        handelSeachModel(page, size, k, t, c, modelMap, request);
         return "/manage/knowledge/search.jsp";
     }
 
-    private void handelSeachModel(Integer page, Integer size, String k, String t, String c, ModelMap modelMap, HttpServletRequest request, HashMap<String, Object> map) {
+    private void handelSeachModel(Integer page, Integer size, String k, String t, String c, ModelMap modelMap, HttpServletRequest request) {
         SearchQuery searchQuery = null;
 
         List<String> types = new ArrayList<>();
@@ -246,12 +245,6 @@ public class KnowledgeController extends BaseController {
         modelMap.put("k", k);
         modelMap.put("c", c);
         modelMap.put("tabs", tabs);
-
-        map.put("rows", rows);
-        map.put("total", total);
-        map.put("k", k);
-        map.put("c", c);
-        map.put("tabs", tabs);
     }
 
     private List<String> buildTabs(String k, String t, String c, HttpServletRequest request){
