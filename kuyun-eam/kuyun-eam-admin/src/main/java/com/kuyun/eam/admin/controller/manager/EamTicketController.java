@@ -4,11 +4,17 @@ import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.google.common.base.Splitter;
+import com.kuyun.common.constant.RoleEnum;
+import com.kuyun.common.util.NumberUtil;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.common.validator.NotNullValidator;
+import com.kuyun.eam.admin.model.RepairKnowledge;
+import com.kuyun.eam.admin.repository.RepairKnowledgeRepository;
+import com.kuyun.eam.admin.util.ActionEnum;
+import com.kuyun.eam.admin.util.BaseModelUtil;
+import com.kuyun.eam.admin.util.TagUtil;
 import com.kuyun.eam.common.constant.*;
-import com.kuyun.eam.dao.model.EamTicket;
-import com.kuyun.eam.dao.model.EamTicketExample;
+import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.util.TicketUtil;
 import com.kuyun.eam.vo.EamTicketVO;
@@ -22,6 +28,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +39,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 import static com.kuyun.eam.common.constant.EamConstant.TICKET_APPOINT;
@@ -59,12 +68,6 @@ public class EamTicketController extends EamTicketBaseController {
 	private EamTicketService eamTicketService;
 
 	@Autowired
-	private EamTicketTypeService eamTicketTypeService;
-
-	@Autowired
-	private EamEquipmentCategoryService eamEquipmentCategoryService;
-
-	@Autowired
 	private EamEquipmentService eamEquipmentService;
 
 	@Autowired
@@ -74,13 +77,20 @@ public class EamTicketController extends EamTicketBaseController {
 	private BaseEntityUtil baseEntityUtil;
 
 	@Autowired
-	private UpmsApiService upmsApiService;
-
-	@Autowired
 	private EamTicketRecordService eamTicketRecordService;
 
 	@Autowired
 	private com.kuyun.fileuploader.rpc.api.FileUploaderService fileUploaderService;
+
+	@Resource
+	private RepairKnowledgeRepository repairKnowledgeRepository;
+
+	@Autowired
+	private TagUtil tagUtil;
+
+	@Autowired
+	private BaseModelUtil baseModelUtil;
+
 
 	@ApiOperation(value = "工单管理首页")
 	@RequiresPermissions("eam:ticket:read")
@@ -172,86 +182,128 @@ public class EamTicketController extends EamTicketBaseController {
 		Subject subject = SecurityUtils.getSubject();
 
 		switch (TicketSearchCategory.getCategroy(category)) {
-			case MY_OPEN:
-				if(subject.hasRole(TICKET_CREATE)) {
-					//工单提报人 有权限
-					criteria.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId())
-							.andStatusNotEqualTo(TicketStatus.RESOLVED.getName())
-							.andStatusNotEqualTo(TicketStatus.COMPLETE.getName());
+		case MY_OPEN:
+			if(subject.hasRole(RoleEnum.TICKETCREATE.getName()) || subject.hasRole(RoleEnum.CUSTOMER_TICKETCREATE.getName())) {
+				//工单提报人 有权限
+				criteria.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId())
+						.andStatusNotEqualTo(TicketStatus.CLOSED.getName())
+						.andStatusNotEqualTo(TicketStatus.RESOLVED.getName())
+						.andStatusNotEqualTo(TicketStatus.COMPLETE.getName());
 
-				}else if(subject.hasRole(TICKET_REPAIR)) {
-					//工单维修人 有权限
-					criteria.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId())
-							.andStatusNotEqualTo(TicketStatus.RESOLVED.getName())
-							.andStatusNotEqualTo(TicketStatus.COMPLETE.getName());
+				criteria2.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId())
+						.andStatusNotEqualTo(TicketStatus.CLOSED.getName())
+						.andStatusNotEqualTo(TicketStatus.RESOLVED.getName())
+						.andStatusNotEqualTo(TicketStatus.COMPLETE.getName());
 
-				}
-				break;
-			case MY_RESOLVED:
-				if(subject.hasRole(TICKET_CREATE)) {
-					//工单提报人 有权限
-					criteria.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId())
-							.andStatusEqualTo(TicketStatus.RESOLVED.getName());
-					criteria2.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId())
-							.andStatusEqualTo(TicketStatus.COMPLETE.getName());
-					eamTicketExample.or(criteria2);
+			}else if(subject.hasRole(RoleEnum.TICKETREPAIR.getName()) || subject.hasRole(RoleEnum.CUSTOMER_TICKETREPAIR.getName())) {
+				//工单维修人 有权限
+				criteria.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId())
+						.andStatusNotEqualTo(TicketStatus.CLOSED.getName())
+						.andStatusNotEqualTo(TicketStatus.RESOLVED.getName())
+						.andStatusNotEqualTo(TicketStatus.COMPLETE.getName());
 
-				}else if(subject.hasRole(TICKET_REPAIR)) {
-					//工单维修人 有权限
-					criteria.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId())
-							.andStatusEqualTo(TicketStatus.RESOLVED.getName());
-					criteria2.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId())
-							.andStatusEqualTo(TicketStatus.COMPLETE.getName());
-					eamTicketExample.or(criteria2);
-				}
-				break;
-			case MY_ALL:
-				if(subject.hasRole(TICKET_CREATE)) {
-					//工单提报人 有权限
-					criteria.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
+				criteria2.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId())
+						.andStatusNotEqualTo(TicketStatus.CLOSED.getName())
+						.andStatusNotEqualTo(TicketStatus.RESOLVED.getName())
+						.andStatusNotEqualTo(TicketStatus.COMPLETE.getName());
 
-				}else if(subject.hasRole(TICKET_REPAIR)) {
-					//工单维修人 有权限
-					criteria.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
-				}
-				break;
-			case OPEN:
+			}
+			break;
+		case MY_RESOLVED:
+			if(subject.hasRole(RoleEnum.TICKETCREATE.getName()) || subject.hasRole(RoleEnum.CUSTOMER_TICKETCREATE.getName())) {
+				//工单提报人 有权限
+				criteria.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
+				criteria2.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
 				List<String> list=new ArrayList();
-				list.add(TicketStatus.INIT.getName());
-				list.add(TicketStatus.RESOLVED.getName());
-				list.add(TicketStatus.COMPLETE.getName());
-				criteria.andStatusNotIn(list);
-				break;
-			case INIT:
-				criteria.andStatusEqualTo(TicketStatus.INIT.getName());
-				break;
-			case PROCESSING:
-				list=new ArrayList();
-				list.add(TicketStatus.TO_PROCESS.getName());
-				list.add(TicketStatus.PROCESSING.getName());
-				criteria.andStatusIn(list);
-				break;
-			case NOTRESOLVED:
-				list=new ArrayList();
-				list.add(TicketStatus.RESOLVED.getName());
-				list.add(TicketStatus.COMPLETE.getName());
-				criteria.andStatusNotIn(list);
-				break;
-			case RESOLVED:
-				list=new ArrayList();
+				list.add(TicketStatus.CLOSED.getName());
 				list.add(TicketStatus.RESOLVED.getName());
 				list.add(TicketStatus.COMPLETE.getName());
 				criteria.andStatusIn(list);
-				break;
-			case ALL:
-			default:
-				break;
+				criteria2.andStatusIn(list);
+
+			}else if(subject.hasRole(RoleEnum.TICKETREPAIR.getName()) || subject.hasRole(RoleEnum.CUSTOMER_TICKETREPAIR.getName())) {
+				//工单维修人 有权限
+				criteria.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
+				criteria2.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
+				List<String> list=new ArrayList();
+				list.add(TicketStatus.CLOSED.getName());
+				list.add(TicketStatus.RESOLVED.getName());
+				list.add(TicketStatus.COMPLETE.getName());
+				criteria.andStatusIn(list);
+				criteria2.andStatusIn(list);
+			}
+			break;
+		case MY_ALL:
+			if(subject.hasRole(RoleEnum.TICKETCREATE.getName()) || subject.hasRole(RoleEnum.CUSTOMER_TICKETCREATE.getName())) {
+				//工单提报人 有权限
+				criteria.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
+				criteria2.andCreateUserIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
+
+			}else if(subject.hasRole(RoleEnum.TICKETREPAIR.getName()) || subject.hasRole(RoleEnum.CUSTOMER_TICKETREPAIR.getName())) {
+				//工单维修人 有权限
+				criteria.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
+				criteria2.andExecutorIdEqualTo(baseEntityUtil.getCurrentUser().getUserId());
+			}
+			break;
+		case OPEN:
+			List<String> list=new ArrayList();
+			list.add(TicketStatus.INIT.getName());
+			list.add(TicketStatus.CLOSED.getName());
+			list.add(TicketStatus.RESOLVED.getName());
+			list.add(TicketStatus.COMPLETE.getName());
+			criteria.andStatusNotIn(list);
+			criteria2.andStatusNotIn(list);
+			break;
+		case INIT:
+			criteria.andStatusEqualTo(TicketStatus.INIT.getName());
+			criteria2.andStatusEqualTo(TicketStatus.INIT.getName());
+			break;
+		case PROCESSING:
+			list=new ArrayList();
+            list.add(TicketStatus.TO_PROCESS.getName());
+            list.add(TicketStatus.PROCESSING.getName());
+			criteria.andStatusIn(list);
+			criteria2.andStatusIn(list);
+             break;
+        case NOTRESOLVED:
+			list=new ArrayList();
+			list.add(TicketStatus.CLOSED.getName());
+			list.add(TicketStatus.RESOLVED.getName());
+			list.add(TicketStatus.COMPLETE.getName());
+			criteria.andStatusNotIn(list);
+			criteria2.andStatusNotIn(list);
+             break;
+        case RESOLVED:
+            list=new ArrayList();
+            list.add(TicketStatus.CLOSED.getName());
+            list.add(TicketStatus.RESOLVED.getName());
+            list.add(TicketStatus.COMPLETE.getName());
+			criteria.andStatusIn(list);
+            criteria2.andStatusIn(list);
+             break;
+         case ALL:
+		default:
+			break;
 		}
 
 		UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
 		if (company != null){
-			criteria.andCompanyIdEqualTo(company.getCompanyId());
-			criteria2.andCompanyIdEqualTo(company.getCompanyId());
+			List companys=new ArrayList();
+			companys.add(company.getCompanyId());
+			List<Integer> childCompanyIds =baseEntityUtil.getChildCompanys(company.getCompanyId());
+			if(childCompanyIds != null) {
+				companys.addAll(childCompanyIds);
+				criteria.andCompanyIdIn(companys);
+				criteria.andTicketTypeIdEqualTo(TicketType.REPAIR.getCode());
+
+				criteria2.andCompanyIdEqualTo(company.getCompanyId());
+
+				eamTicketExample.or(criteria2);
+			}else{
+				criteria.andCompanyIdEqualTo(company.getCompanyId());
+
+			}
+
 		}
 
 		List<EamTicketVO> rows = eamApiService.selectTicket(eamTicketExample);
@@ -369,10 +421,15 @@ public class EamTicketController extends EamTicketBaseController {
 	@RequestMapping(value = "/complete/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public Object complete(@PathVariable("id") int id) {
-		EamTicket ticket=new EamTicket();
-		ticket.setTicketId(id);
-		ticket.setStatus(TicketStatus.RESOLVED.getName());
+		EamTicket ticket = eamTicketService.selectByPrimaryKey(id);
+		//维修工单
+		if (TicketType.REPAIR.match(ticket.getTicketTypeId())){
+			ticket.setStatus(TicketStatus.RESOLVED.getName());
+		}else {
+			ticket.setStatus(TicketStatus.CLOSED.getName());
+		}
 		ticket.setUpdateTime(new Date());
+		ticket.setUpdateUserId(getCurrUserId());
 		int count= eamTicketService.updateByPrimaryKeySelective(ticket);
 		return new EamResult(EamResultConstant.SUCCESS, count);
 	}
@@ -394,6 +451,57 @@ public class EamTicketController extends EamTicketBaseController {
 		HashMap<String, List<UpmsOrgUserVo>> map = new HashMap();
 		map.put("users", getOperatorUsers());
 		return map;
+	}
+
+	@ApiOperation(value = "生成维修知识")
+	@RequiresPermissions("eam:ticket:update")
+	@RequestMapping(value = "/create/knowledge/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public Object createKnowledge(@PathVariable("id") int id) {
+		int count = createKnowledgeImpl(id);
+		return new EamResult(EamResultConstant.SUCCESS, count);
+	}
+
+	private int createKnowledgeImpl(int id) {
+		int result =  0;
+		EamTicket ticket = eamTicketService.selectByPrimaryKey(id);
+		if (ticket != null){
+			RepairKnowledge repairKnowledge = new RepairKnowledge();
+			repairKnowledge.setDescription(ticket.getDescription());
+			repairKnowledge.setMethod(buildMethods(id));
+			repairKnowledge.setTag(getEquipmentName(ticket));
+
+			baseModelUtil.addAddtionalValue(repairKnowledge);
+
+			tagUtil.handleTag(ActionEnum.CREATE.getName(), null, repairKnowledge.getTag());
+
+			repairKnowledgeRepository.save(repairKnowledge);
+		}
+		return result;
+	}
+
+	private String getEquipmentName(EamTicket ticket) {
+		String result = null;
+		EamEquipment equipment = eamEquipmentService.selectByPrimaryKey(ticket.getEquipmentId());
+		if (equipment != null){
+			result = equipment.getName();
+		}
+		return result;
+	}
+
+	private String buildMethods(int id){
+		StringBuilder method = new StringBuilder();
+		List<EamTicketRecord> records = getTicketRecords(id);
+		for(EamTicketRecord record : records){
+			method.append(record.getComments()).append("\r\n");
+		}
+		return method.toString();
+	}
+	private List<EamTicketRecord> getTicketRecords(int id){
+		EamTicketRecordExample example = new EamTicketRecordExample();
+		example.createCriteria().andTicketIdEqualTo(id).andDeleteFlagEqualTo(Boolean.FALSE);
+		example.setOrderByClause("eam_ticket_record.create_time asc");
+		return eamTicketRecordService.selectByExample(example);
 	}
 
 }

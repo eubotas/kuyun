@@ -10,11 +10,21 @@ public class UpmsCompanyVo extends UpmsCompany {
     private Integer onlineNumber;
     private Integer offlineNumber;
 
+    private String search;
+
     private Integer limit;
 
     private Integer offset;
 
     private String orderByClause;
+
+    public String getSearch() {
+        return search;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
+    }
 
     public Integer getLimit() {
         return limit;

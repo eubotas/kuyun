@@ -84,23 +84,10 @@ public class KnowledgeController extends BaseController {
     @RequiresPermissions("eam:knowledge:read")
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String index(ModelMap modelMap) {
-        handleIndexModel(modelMap, new HashMap<>());
+        UpmsUserCompany company = baseEntityUtil.getCurrentUserCompany();
+        _log.info("companyId="+company.getCompanyId());
+        modelMap.put("tags", tagRepository.findByCompanyId(company.getCompanyId()));
         return "/manage/knowledge/index.jsp";
-    }
-
-    private void handleIndexModel(ModelMap modelMap, HashMap<String, Object> map) {
-        modelMap.put("tags", tagRepository.findAll());
-        map.put("tags", tagRepository.findAll());
-    }
-
-    @ApiOperation(value = "Tag列表")
-    @RequiresPermissions("eam:knowledge:read")
-    @RequestMapping(value = "/tag", method = RequestMethod.GET)
-    @ResponseBody
-    public Object tag( ModelMap modelMap) {
-        HashMap map = new HashMap();
-        handleIndexModel(modelMap, map);
-        return map;
     }
 
     @ApiOperation(value = "知识搜索列表")
