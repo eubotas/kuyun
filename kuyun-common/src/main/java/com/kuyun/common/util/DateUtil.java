@@ -1,9 +1,6 @@
 package com.kuyun.common.util;
 
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
@@ -39,5 +36,17 @@ public class DateUtil {
     public static String getCurrentDate(){
         DateTimeFormatter formatter = DateTimeFormatter.BASIC_ISO_DATE;
         return formatter.format(LocalDate.now());
+    }
+
+    public static Date getFirstDateOfMonth(int year, int month){
+        YearMonth yearMonth = YearMonth.of( year, month );
+        LocalDate firstOfMonth = yearMonth.atDay( 1 );
+        return asDate(firstOfMonth);
+    }
+
+    public static Date getLastDateOfMonth(int year, int month){
+        YearMonth yearMonth = YearMonth.of( year, month );
+        LocalDate lastOfMonth = yearMonth.atEndOfMonth();
+        return asDate(lastOfMonth);
     }
 }

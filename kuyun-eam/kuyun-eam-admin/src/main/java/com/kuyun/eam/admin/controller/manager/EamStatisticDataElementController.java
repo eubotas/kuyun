@@ -1,9 +1,11 @@
 package com.kuyun.eam.admin.controller.manager;
 
 import com.kuyun.common.base.BaseController;
+import com.kuyun.common.util.DateUtil;
 import com.kuyun.eam.dao.model.*;
 import com.kuyun.eam.rpc.api.*;
 import com.kuyun.eam.util.EamDateUtil;
+import com.kuyun.eam.vo.EamGrmVariableDataByDayVO;
 import com.kuyun.eam.vo.EamShiftDataElementValueVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -105,7 +107,7 @@ public class EamStatisticDataElementController extends BaseController {
 	@RequiresPermissions("eam:productLine:read")
 	@ResponseBody
 	@RequestMapping(value = "/day", method = RequestMethod.POST)
-	public Object day(EamGrmVariableDataByDay variable) {
+	public Object day(EamGrmVariableDataByDayVO variable) {
 		EamGrmVariableDataByDayExample example = new EamGrmVariableDataByDayExample();
 		EamGrmVariableDataByDayExample.Criteria criteria = example.createCriteria();
 
@@ -122,6 +124,15 @@ public class EamStatisticDataElementController extends BaseController {
 		if (variable.getDataElementId() != null){
 			criteria.andDataElementIdEqualTo(variable.getDataElementId());
 		}
+		if (variable.getDate() != null){
+			criteria.andDateEqualTo(variable.getDate());
+		}
+		if (variable.getYear() != null && variable.getMonth() != null){
+			Date firstDateOfMonth = DateUtil.getFirstDateOfMonth(variable.getYear(), variable.getMonth());
+			Date lastDateOfMonth = DateUtil.getLastDateOfMonth(variable.getYear(), variable.getMonth());
+			criteria.andDateBetween(firstDateOfMonth, lastDateOfMonth);
+		}
+
 		example.setOrderByClause("date asc");
 
 		List<EamGrmVariableDataByDay> data = eamGrmVariableDataByDayService.selectByExample(example);
@@ -151,9 +162,13 @@ public class EamStatisticDataElementController extends BaseController {
 		if (variable.getDataElementId() != null){
 			criteria.andDataElementIdEqualTo(variable.getDataElementId());
 		}
-		int year = LocalDate.now().getYear();
+		if (variable.getYear() == null){
+			int year = LocalDate.now().getYear();
+			criteria.andYearEqualTo(year);
+		}else {
+			criteria.andYearEqualTo(variable.getYear());
+		}
 
-		criteria.andYearEqualTo(year);
 		example.setOrderByClause("update_time asc");
 
 		List<EamGrmVariableDataByMonth> data = eamGrmVariableDataByMonthService.selectByExample(example);
@@ -184,9 +199,15 @@ public class EamStatisticDataElementController extends BaseController {
 		if (variable.getSwitchValue() != null){
 			criteria.andSwitchValueEqualTo(variable.getSwitchValue());
 		}
-		int year = LocalDate.now().getYear();
 
-		criteria.andYearEqualTo(year);
+		if (variable.getYear() == null){
+			int year = LocalDate.now().getYear();
+
+			criteria.andYearEqualTo(year);
+		}else {
+			criteria.andYearEqualTo(variable.getYear());
+		}
+
 		example.setOrderByClause("update_time asc");
 
 		List<EamGrmVariableDataByYear> data = eamGrmVariableDataByYearService.selectByExample(example);
