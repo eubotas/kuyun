@@ -446,6 +446,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         UpmsUserCompany upmsUserCompany = new UpmsUserCompany();
         upmsUserCompany.setCompanyId(upmsCompany.getCompanyId());
         upmsUserCompany.setUserId(upmsUser.getUserId());
+        upmsUserCompany.setDeleteFlag(false);
         upmsUserCompanyService.insert(upmsUserCompany);
 
         if(!isNewCompany) {
