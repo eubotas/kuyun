@@ -136,4 +136,5 @@ public interface UpmsApiService {
 
     List<UpmsCompany> selectCompanies(UpmsCompanyVo companyVo);
     UpmsUser getUserCompanyByUserName(String username);
+    UpmsUserCompany getUpmsUserCompany(Integer userId);
 }

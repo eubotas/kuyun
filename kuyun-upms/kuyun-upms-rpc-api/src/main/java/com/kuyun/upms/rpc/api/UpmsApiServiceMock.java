@@ -141,6 +141,11 @@ public class UpmsApiServiceMock implements UpmsApiService {
     }
 
     @Override
+    public UpmsUserCompany getUpmsUserCompany(Integer userId) {
+        return null;
+    }
+
+    @Override
     public UpmsCompany getUpmsCompany(Integer userId) {
         return null;
     }

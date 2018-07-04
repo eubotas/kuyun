@@ -599,6 +599,11 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     }
 
     @Override
+    public UpmsUserCompany getUpmsUserCompany(Integer userId){
+        return upmsApiMapper.getUpmsUserCompany(userId);
+    }
+
+    @Override
     public List<UpmsCompanyVo> selectCompanyEquipments(UpmsCompanyVo upmsCompanyVo) {
         return upmsApiMapper.selectCompanyEquipments(upmsCompanyVo);
     }

@@ -58,7 +58,7 @@ public class BaseEntityUtil {
     }
 
     public UpmsUserCompany getUserCompany(UpmsUser user){
-        return upmsApiService.getUserCompany(user);
+        return upmsApiService.getUpmsUserCompany(user.getUserId());
     }
 
     public UpmsUser getCurrentUser(){
