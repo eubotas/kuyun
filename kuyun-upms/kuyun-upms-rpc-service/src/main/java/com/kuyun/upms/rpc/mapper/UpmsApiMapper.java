@@ -57,4 +57,6 @@ public interface UpmsApiMapper {
 	Long countCompanyEquipments(UpmsCompanyVo upmsCompanyVo);
 
     List<UpmsCompany> selectCompanies(UpmsCompanyVo companyVo);
+
+	UpmsUser getUserCompanyByUserName(String username);
 }

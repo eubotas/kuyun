@@ -188,14 +188,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
      */
     @Override
     public UpmsUser selectUpmsUserByUsername(String username) {
-        UpmsUserExample upmsUserExample = new UpmsUserExample();
-        upmsUserExample.createCriteria()
-                .andUsernameEqualTo(username);
-        List<UpmsUser> upmsUsers = upmsUserMapper.selectByExample(upmsUserExample);
-        if (null != upmsUsers && upmsUsers.size() > 0) {
-            return upmsUsers.get(0);
-        }
-        return null;
+        return upmsApiMapper.getUserCompanyByUserName(username);
     }
 
     @Override
@@ -707,5 +700,10 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     @Override
     public List<UpmsCompany> selectCompanies(UpmsCompanyVo companyVo) {
         return upmsApiMapper.selectCompanies(companyVo);
+    }
+
+    @Override
+    public UpmsUser getUserCompanyByUserName(String username){
+        return upmsApiMapper.getUserCompanyByUserName(username);
     }
 }

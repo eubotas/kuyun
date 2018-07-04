@@ -93,7 +93,6 @@ public class KnowledgeController extends BaseController {
     @ApiOperation(value = "知识搜索列表")
     @RequiresPermissions("eam:knowledge:read")
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    @ResponseBody
     public String search(
             @RequestParam(required = false, value = "page") Integer page,
             @RequestParam(required = false, value = "size") Integer size,

@@ -413,4 +413,16 @@
         </if>
     </select>
 
+	<resultMap id="UpmsUserCompanyResultMap" type="com.kuyun.upms.dao.model.UpmsUser">
+		<id column="user_id" jdbcType="INTEGER" property="userId" />
+		<result column="company_id" jdbcType="INTEGER" property="companyId" />
+	</resultMap>
+	<select id="getUserCompanyByUserName" parameterType="java.lang.String" resultMap="UpmsUserCompanyResultMap">
+		select distinct
+		uc.company_id,
+		<include refid="UpmsUser_Column_List" />
+		from upms_user ur, upms_user_company uc where ur.delete_flag=0 and uc.delete_flag=0 and ur.user_id=uc.user_id
+		and ur.username =#{username,jdbcType=VARCHAR}
+		limit 1
+	</select>
 </mapper>

@@ -135,4 +135,5 @@ public interface UpmsApiService {
     void handleReg(String userName, String name, String password, String email, String phone, String company, boolean sendToManager);
 
     List<UpmsCompany> selectCompanies(UpmsCompanyVo companyVo);
+    UpmsUser getUserCompanyByUserName(String username);
 }

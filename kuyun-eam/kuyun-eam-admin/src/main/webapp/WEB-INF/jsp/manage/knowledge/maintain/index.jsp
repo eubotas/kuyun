@@ -6,6 +6,8 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:set var="basePath" value="${pageContext.request.contextPath}"/>
+<%@ page import="com.kuyun.eam.admin.util.SessionUser" %>
+
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
@@ -214,6 +216,8 @@
         });
         // 格式化操作按钮
         function actionFormatter(value, row, index) {
+            if(row['companyId'] != <%=new SessionUser().getCurrentCompanyId(request)%> )
+                return '';
             return [
                 '<shiro:hasPermission name="eam:maintainKnowledge:update"><a id="update" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-accent m-btn--icon m-btn--icon-only m-btn--pill" title="编辑">	<i class="la la-edit"></i>	</a></shiro:hasPermission>',
                 '<shiro:hasPermission name="eam:maintainKnowledge:delete"><a id="delete" href="javascript:void(0)" class="m-portlet__nav-link btn m-btn m-btn--hover-danger m-btn--icon m-btn--icon-only m-btn--pill" title="删除">	<i class="la la-trash"></i>	</a></shiro:hasPermission>'
