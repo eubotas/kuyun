@@ -576,18 +576,30 @@
 
 
 	<resultMap id="EamEquipmentVOResultMap" type="com.kuyun.eam.vo.EamEquipmentVO" extends="com.kuyun.eam.dao.mapper.EamEquipmentMapper.BaseResultMap">
+		<result column="morning_shift_start_time" jdbcType="VARCHAR" property="morningShiftStartTime" />
+		<result column="morning_shift_end_time" jdbcType="VARCHAR" property="morningShiftEndTime" />
+		<result column="middle_shift_start_time" jdbcType="VARCHAR" property="middleShiftStartTime" />
+		<result column="middle_shift_end_time" jdbcType="VARCHAR" property="middleShiftEndTime" />
+		<result column="night_shift_start_time" jdbcType="VARCHAR" property="nightShiftStartTime" />
+		<result column="night_shift_end_time" jdbcType="VARCHAR" property="nightShiftEndTime" />
+		<result column="electricity_unit_price" jdbcType="DECIMAL" property="electricityUnitPrice" />
 	</resultMap>
 
 	<select id="selectEquipments" parameterType="com.kuyun.eam.vo.EamEquipmentVO" resultMap="EamEquipmentVOResultMap">
 		select
+		p.morning_shift_start_time, p.morning_shift_end_time,
+		p.middle_shift_start_time, p.middle_shift_end_time,
+		p.night_shift_start_time, p.night_shift_end_time,
+		p.electricity_unit_price,
 		<include refid="com.kuyun.eam.dao.mapper.EamEquipmentMapper.Base_Column_List" />
-		from eam_equipment
-		WHERE delete_flag = 0
+		from eam_equipment eam_equipment, eam_product_line p
+		WHERE eam_equipment.delete_flag = 0 and p.delete_flag = 0
+		and eam_equipment.product_line_id = p.product_line_id
 		<if test="productLineId != null and productLineId != ''">
-			AND product_line_id = #{productLineId}
+			AND eam_equipment.product_line_id = #{productLineId}
 		</if>
 		<if test="equipmentCategoryId != null and equipmentCategoryId != ''">
-			AND equipment_category_id = #{equipmentCategoryId}
+			AND eam_equipment.equipment_category_id = #{equipmentCategoryId}
 		</if>
 		<if test="orderByClause != null">
 			order by ${orderByClause}

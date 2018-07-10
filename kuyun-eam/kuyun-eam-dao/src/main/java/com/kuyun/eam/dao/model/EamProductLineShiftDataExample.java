@@ -1489,6 +1489,126 @@ public class EamProductLineShiftDataExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andPreformConsumeIsNull() {
+            addCriterion("preform_consume is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreformConsumeIsNotNull() {
+            addCriterion("preform_consume is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreformConsumeEqualTo(Integer value) {
+            addCriterion("preform_consume =", value, "preformConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreformConsumeNotEqualTo(Integer value) {
+            addCriterion("preform_consume <>", value, "preformConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreformConsumeGreaterThan(Integer value) {
+            addCriterion("preform_consume >", value, "preformConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreformConsumeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("preform_consume >=", value, "preformConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreformConsumeLessThan(Integer value) {
+            addCriterion("preform_consume <", value, "preformConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreformConsumeLessThanOrEqualTo(Integer value) {
+            addCriterion("preform_consume <=", value, "preformConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreformConsumeIn(List<Integer> values) {
+            addCriterion("preform_consume in", values, "preformConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreformConsumeNotIn(List<Integer> values) {
+            addCriterion("preform_consume not in", values, "preformConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreformConsumeBetween(Integer value1, Integer value2) {
+            addCriterion("preform_consume between", value1, value2, "preformConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreformConsumeNotBetween(Integer value1, Integer value2) {
+            addCriterion("preform_consume not between", value1, value2, "preformConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andCapConsumeIsNull() {
+            addCriterion("cap_consume is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCapConsumeIsNotNull() {
+            addCriterion("cap_consume is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCapConsumeEqualTo(Integer value) {
+            addCriterion("cap_consume =", value, "capConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andCapConsumeNotEqualTo(Integer value) {
+            addCriterion("cap_consume <>", value, "capConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andCapConsumeGreaterThan(Integer value) {
+            addCriterion("cap_consume >", value, "capConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andCapConsumeGreaterThanOrEqualTo(Integer value) {
+            addCriterion("cap_consume >=", value, "capConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andCapConsumeLessThan(Integer value) {
+            addCriterion("cap_consume <", value, "capConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andCapConsumeLessThanOrEqualTo(Integer value) {
+            addCriterion("cap_consume <=", value, "capConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andCapConsumeIn(List<Integer> values) {
+            addCriterion("cap_consume in", values, "capConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andCapConsumeNotIn(List<Integer> values) {
+            addCriterion("cap_consume not in", values, "capConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andCapConsumeBetween(Integer value1, Integer value2) {
+            addCriterion("cap_consume between", value1, value2, "capConsume");
+            return (Criteria) this;
+        }
+
+        public Criteria andCapConsumeNotBetween(Integer value1, Integer value2) {
+            addCriterion("cap_consume not between", value1, value2, "capConsume");
+            return (Criteria) this;
+        }
+
         public Criteria addConditionSql(String conditionSql) {
             addCriterion(conditionSql);
             return (Criteria) this;

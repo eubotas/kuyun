@@ -40,6 +40,20 @@ public class EamProductLineShiftData extends BaseEntity implements Serializable 
 
     private String shiftName;
 
+    /**
+     * 瓶坯损耗
+     *
+     * @mbg.generated
+     */
+    private Integer preformConsume;
+
+    /**
+     * 瓶盖消耗
+     *
+     * @mbg.generated
+     */
+    private Integer capConsume;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -178,6 +192,22 @@ public class EamProductLineShiftData extends BaseEntity implements Serializable 
         this.shiftName = shiftName;
     }
 
+    public Integer getPreformConsume() {
+        return preformConsume;
+    }
+
+    public void setPreformConsume(Integer preformConsume) {
+        this.preformConsume = preformConsume;
+    }
+
+    public Integer getCapConsume() {
+        return capConsume;
+    }
+
+    public void setCapConsume(Integer capConsume) {
+        this.capConsume = capConsume;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -201,6 +231,8 @@ public class EamProductLineShiftData extends BaseEntity implements Serializable 
         sb.append(", shirtTime=").append(shirtTime);
         sb.append(", planStopTime=").append(planStopTime);
         sb.append(", shiftName=").append(shiftName);
+        sb.append(", preformConsume=").append(preformConsume);
+        sb.append(", capConsume=").append(capConsume);
         sb.append("]");
         return sb.toString();
     }
@@ -238,7 +270,9 @@ public class EamProductLineShiftData extends BaseEntity implements Serializable 
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
-            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()));
+            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
+            && (this.getPreformConsume() == null ? other.getPreformConsume() == null : this.getPreformConsume().equals(other.getPreformConsume()))
+            && (this.getCapConsume() == null ? other.getCapConsume() == null : this.getCapConsume().equals(other.getCapConsume()));
     }
 
     @Override
@@ -267,6 +301,8 @@ public class EamProductLineShiftData extends BaseEntity implements Serializable 
         result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
+        result = prime * result + ((getPreformConsume() == null) ? 0 : getPreformConsume().hashCode());
+        result = prime * result + ((getCapConsume() == null) ? 0 : getCapConsume().hashCode());
         return result;
     }
 }

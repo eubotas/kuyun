@@ -138,6 +138,34 @@ public class EamProductLine extends BaseEntity implements Serializable {
      */
     private Integer endProduceId;
 
+    /**
+     * 瓶坯总数
+     *
+     * @mbg.generated
+     */
+    private Integer preformQuantityId;
+
+    /**
+     * 旋盖总数
+     *
+     * @mbg.generated
+     */
+    private Integer capQuantityId;
+
+    /**
+     * 膜包数量
+     *
+     * @mbg.generated
+     */
+    private Integer wrapQuantityId;
+
+    /**
+     * 电费单价
+     *
+     * @mbg.generated
+     */
+    private BigDecimal electricityUnitPrice;
+
     private static final long serialVersionUID = 1L;
 
     public String getProductLineId() {
@@ -372,6 +400,38 @@ public class EamProductLine extends BaseEntity implements Serializable {
         this.endProduceId = endProduceId;
     }
 
+    public Integer getPreformQuantityId() {
+        return preformQuantityId;
+    }
+
+    public void setPreformQuantityId(Integer preformQuantityId) {
+        this.preformQuantityId = preformQuantityId;
+    }
+
+    public Integer getCapQuantityId() {
+        return capQuantityId;
+    }
+
+    public void setCapQuantityId(Integer capQuantityId) {
+        this.capQuantityId = capQuantityId;
+    }
+
+    public Integer getWrapQuantityId() {
+        return wrapQuantityId;
+    }
+
+    public void setWrapQuantityId(Integer wrapQuantityId) {
+        this.wrapQuantityId = wrapQuantityId;
+    }
+
+    public BigDecimal getElectricityUnitPrice() {
+        return electricityUnitPrice;
+    }
+
+    public void setElectricityUnitPrice(BigDecimal electricityUnitPrice) {
+        this.electricityUnitPrice = electricityUnitPrice;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -407,6 +467,10 @@ public class EamProductLine extends BaseEntity implements Serializable {
         sb.append(", bottleQuantityId=").append(bottleQuantityId);
         sb.append(", startProduceId=").append(startProduceId);
         sb.append(", endProduceId=").append(endProduceId);
+        sb.append(", preformQuantityId=").append(preformQuantityId);
+        sb.append(", capQuantityId=").append(capQuantityId);
+        sb.append(", wrapQuantityId=").append(wrapQuantityId);
+        sb.append(", electricityUnitPrice=").append(electricityUnitPrice);
         sb.append("]");
         return sb.toString();
     }
@@ -456,7 +520,11 @@ public class EamProductLine extends BaseEntity implements Serializable {
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
             && (this.getBottleQuantityId() == null ? other.getBottleQuantityId() == null : this.getBottleQuantityId().equals(other.getBottleQuantityId()))
             && (this.getStartProduceId() == null ? other.getStartProduceId() == null : this.getStartProduceId().equals(other.getStartProduceId()))
-            && (this.getEndProduceId() == null ? other.getEndProduceId() == null : this.getEndProduceId().equals(other.getEndProduceId()));
+            && (this.getEndProduceId() == null ? other.getEndProduceId() == null : this.getEndProduceId().equals(other.getEndProduceId()))
+            && (this.getPreformQuantityId() == null ? other.getPreformQuantityId() == null : this.getPreformQuantityId().equals(other.getPreformQuantityId()))
+            && (this.getCapQuantityId() == null ? other.getCapQuantityId() == null : this.getCapQuantityId().equals(other.getCapQuantityId()))
+            && (this.getWrapQuantityId() == null ? other.getWrapQuantityId() == null : this.getWrapQuantityId().equals(other.getWrapQuantityId()))
+            && (this.getElectricityUnitPrice() == null ? other.getElectricityUnitPrice() == null : this.getElectricityUnitPrice().equals(other.getElectricityUnitPrice()));
     }
 
     @Override
@@ -497,6 +565,10 @@ public class EamProductLine extends BaseEntity implements Serializable {
         result = prime * result + ((getBottleQuantityId() == null) ? 0 : getBottleQuantityId().hashCode());
         result = prime * result + ((getStartProduceId() == null) ? 0 : getStartProduceId().hashCode());
         result = prime * result + ((getEndProduceId() == null) ? 0 : getEndProduceId().hashCode());
+        result = prime * result + ((getPreformQuantityId() == null) ? 0 : getPreformQuantityId().hashCode());
+        result = prime * result + ((getCapQuantityId() == null) ? 0 : getCapQuantityId().hashCode());
+        result = prime * result + ((getWrapQuantityId() == null) ? 0 : getWrapQuantityId().hashCode());
+        result = prime * result + ((getElectricityUnitPrice() == null) ? 0 : getElectricityUnitPrice().hashCode());
         return result;
     }
 }

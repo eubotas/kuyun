@@ -83,6 +83,27 @@ public class EamEquipment extends BaseEntity implements Serializable {
 
     private Boolean isOnline;
 
+    /**
+     * 产量ID
+     *
+     * @mbg.generated
+     */
+    private Integer outputId;
+
+    /**
+     * 耗电量ID
+     *
+     * @mbg.generated
+     */
+    private Integer electricityId;
+
+    /**
+     * 视频地址
+     *
+     * @mbg.generated
+     */
+    private String videoPath;
+
     private static final long serialVersionUID = 1L;
 
     public String getEquipmentId() {
@@ -253,6 +274,30 @@ public class EamEquipment extends BaseEntity implements Serializable {
         this.isOnline = isOnline;
     }
 
+    public Integer getOutputId() {
+        return outputId;
+    }
+
+    public void setOutputId(Integer outputId) {
+        this.outputId = outputId;
+    }
+
+    public Integer getElectricityId() {
+        return electricityId;
+    }
+
+    public void setElectricityId(Integer electricityId) {
+        this.electricityId = electricityId;
+    }
+
+    public String getVideoPath() {
+        return videoPath;
+    }
+
+    public void setVideoPath(String videoPath) {
+        this.videoPath = videoPath;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -280,6 +325,9 @@ public class EamEquipment extends BaseEntity implements Serializable {
         sb.append(", leftPosition=").append(leftPosition);
         sb.append(", topPosition=").append(topPosition);
         sb.append(", isOnline=").append(isOnline);
+        sb.append(", outputId=").append(outputId);
+        sb.append(", electricityId=").append(electricityId);
+        sb.append(", videoPath=").append(videoPath);
         sb.append("]");
         return sb.toString();
     }
@@ -321,7 +369,10 @@ public class EamEquipment extends BaseEntity implements Serializable {
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getIsOnline() == null ? other.getIsOnline() == null : this.getIsOnline().equals(other.getIsOnline()));
+            && (this.getIsOnline() == null ? other.getIsOnline() == null : this.getIsOnline().equals(other.getIsOnline()))
+            && (this.getOutputId() == null ? other.getOutputId() == null : this.getOutputId().equals(other.getOutputId()))
+            && (this.getElectricityId() == null ? other.getElectricityId() == null : this.getElectricityId().equals(other.getElectricityId()))
+            && (this.getVideoPath() == null ? other.getVideoPath() == null : this.getVideoPath().equals(other.getVideoPath()));
     }
 
     @Override
@@ -354,6 +405,9 @@ public class EamEquipment extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getIsOnline() == null) ? 0 : getIsOnline().hashCode());
+        result = prime * result + ((getOutputId() == null) ? 0 : getOutputId().hashCode());
+        result = prime * result + ((getElectricityId() == null) ? 0 : getElectricityId().hashCode());
+        result = prime * result + ((getVideoPath() == null) ? 0 : getVideoPath().hashCode());
         return result;
     }
 }

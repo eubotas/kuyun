@@ -2309,6 +2309,246 @@ public class EamProductLineExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andPreformQuantityIdIsNull() {
+            addCriterion("eam_product_line.preform_quantity_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreformQuantityIdIsNotNull() {
+            addCriterion("eam_product_line.preform_quantity_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreformQuantityIdEqualTo(Integer value) {
+            addCriterion("eam_product_line.preform_quantity_id =", value, "preformQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreformQuantityIdNotEqualTo(Integer value) {
+            addCriterion("eam_product_line.preform_quantity_id <>", value, "preformQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreformQuantityIdGreaterThan(Integer value) {
+            addCriterion("eam_product_line.preform_quantity_id >", value, "preformQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreformQuantityIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("eam_product_line.preform_quantity_id >=", value, "preformQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreformQuantityIdLessThan(Integer value) {
+            addCriterion("eam_product_line.preform_quantity_id <", value, "preformQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreformQuantityIdLessThanOrEqualTo(Integer value) {
+            addCriterion("eam_product_line.preform_quantity_id <=", value, "preformQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreformQuantityIdIn(List<Integer> values) {
+            addCriterion("eam_product_line.preform_quantity_id in", values, "preformQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreformQuantityIdNotIn(List<Integer> values) {
+            addCriterion("eam_product_line.preform_quantity_id not in", values, "preformQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreformQuantityIdBetween(Integer value1, Integer value2) {
+            addCriterion("eam_product_line.preform_quantity_id between", value1, value2, "preformQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreformQuantityIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("eam_product_line.preform_quantity_id not between", value1, value2, "preformQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCapQuantityIdIsNull() {
+            addCriterion("eam_product_line.cap_quantity_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCapQuantityIdIsNotNull() {
+            addCriterion("eam_product_line.cap_quantity_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCapQuantityIdEqualTo(Integer value) {
+            addCriterion("eam_product_line.cap_quantity_id =", value, "capQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCapQuantityIdNotEqualTo(Integer value) {
+            addCriterion("eam_product_line.cap_quantity_id <>", value, "capQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCapQuantityIdGreaterThan(Integer value) {
+            addCriterion("eam_product_line.cap_quantity_id >", value, "capQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCapQuantityIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("eam_product_line.cap_quantity_id >=", value, "capQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCapQuantityIdLessThan(Integer value) {
+            addCriterion("eam_product_line.cap_quantity_id <", value, "capQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCapQuantityIdLessThanOrEqualTo(Integer value) {
+            addCriterion("eam_product_line.cap_quantity_id <=", value, "capQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCapQuantityIdIn(List<Integer> values) {
+            addCriterion("eam_product_line.cap_quantity_id in", values, "capQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCapQuantityIdNotIn(List<Integer> values) {
+            addCriterion("eam_product_line.cap_quantity_id not in", values, "capQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCapQuantityIdBetween(Integer value1, Integer value2) {
+            addCriterion("eam_product_line.cap_quantity_id between", value1, value2, "capQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andCapQuantityIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("eam_product_line.cap_quantity_id not between", value1, value2, "capQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWrapQuantityIdIsNull() {
+            addCriterion("eam_product_line.wrap_quantity_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWrapQuantityIdIsNotNull() {
+            addCriterion("eam_product_line.wrap_quantity_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWrapQuantityIdEqualTo(Integer value) {
+            addCriterion("eam_product_line.wrap_quantity_id =", value, "wrapQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWrapQuantityIdNotEqualTo(Integer value) {
+            addCriterion("eam_product_line.wrap_quantity_id <>", value, "wrapQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWrapQuantityIdGreaterThan(Integer value) {
+            addCriterion("eam_product_line.wrap_quantity_id >", value, "wrapQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWrapQuantityIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("eam_product_line.wrap_quantity_id >=", value, "wrapQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWrapQuantityIdLessThan(Integer value) {
+            addCriterion("eam_product_line.wrap_quantity_id <", value, "wrapQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWrapQuantityIdLessThanOrEqualTo(Integer value) {
+            addCriterion("eam_product_line.wrap_quantity_id <=", value, "wrapQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWrapQuantityIdIn(List<Integer> values) {
+            addCriterion("eam_product_line.wrap_quantity_id in", values, "wrapQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWrapQuantityIdNotIn(List<Integer> values) {
+            addCriterion("eam_product_line.wrap_quantity_id not in", values, "wrapQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWrapQuantityIdBetween(Integer value1, Integer value2) {
+            addCriterion("eam_product_line.wrap_quantity_id between", value1, value2, "wrapQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andWrapQuantityIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("eam_product_line.wrap_quantity_id not between", value1, value2, "wrapQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andElectricityUnitPriceIsNull() {
+            addCriterion("eam_product_line.electricity_unit_price is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andElectricityUnitPriceIsNotNull() {
+            addCriterion("eam_product_line.electricity_unit_price is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andElectricityUnitPriceEqualTo(BigDecimal value) {
+            addCriterion("eam_product_line.electricity_unit_price =", value, "electricityUnitPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andElectricityUnitPriceNotEqualTo(BigDecimal value) {
+            addCriterion("eam_product_line.electricity_unit_price <>", value, "electricityUnitPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andElectricityUnitPriceGreaterThan(BigDecimal value) {
+            addCriterion("eam_product_line.electricity_unit_price >", value, "electricityUnitPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andElectricityUnitPriceGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("eam_product_line.electricity_unit_price >=", value, "electricityUnitPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andElectricityUnitPriceLessThan(BigDecimal value) {
+            addCriterion("eam_product_line.electricity_unit_price <", value, "electricityUnitPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andElectricityUnitPriceLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("eam_product_line.electricity_unit_price <=", value, "electricityUnitPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andElectricityUnitPriceIn(List<BigDecimal> values) {
+            addCriterion("eam_product_line.electricity_unit_price in", values, "electricityUnitPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andElectricityUnitPriceNotIn(List<BigDecimal> values) {
+            addCriterion("eam_product_line.electricity_unit_price not in", values, "electricityUnitPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andElectricityUnitPriceBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("eam_product_line.electricity_unit_price between", value1, value2, "electricityUnitPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andElectricityUnitPriceNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("eam_product_line.electricity_unit_price not between", value1, value2, "electricityUnitPrice");
+            return (Criteria) this;
+        }
+
         public Criteria addConditionSql(String conditionSql) {
             addCriterion(conditionSql);
             return (Criteria) this;

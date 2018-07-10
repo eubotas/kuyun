@@ -1,5 +1,10 @@
 package com.kuyun.common.util;
 
+import org.apache.commons.lang.time.DateUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.text.ParseException;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -8,6 +13,7 @@ import java.util.Date;
  * Created by user on 2018-01-21.
  */
 public class DateUtil {
+    private static Logger _log = LoggerFactory.getLogger(DateUtil.class);
 
     public static boolean isDateBetween(Date argDate, Date startDate, Date endDate){
         boolean result = false;
@@ -48,5 +54,22 @@ public class DateUtil {
         YearMonth yearMonth = YearMonth.of( year, month );
         LocalDate lastOfMonth = yearMonth.atEndOfMonth();
         return asDate(lastOfMonth);
+    }
+
+    public static Date parseDate(String argDate){
+        Date date = null;
+        try {
+            date = DateUtils.parseDate(argDate, new String[]{"yyyy-MM-dd"});
+        } catch (ParseException e) {
+            _log.error("Parse Date Error:{}, formate:{}", argDate, "yyyy-MM-dd");
+        }
+        return date;
+    }
+
+    public static String getCurrentHoursAndMiutes(){
+        LocalTime time = LocalTime.now();
+        int hours = time.getHour();
+        int minutes = time.getMinute();
+        return String.format("%02d:%02d", hours , minutes ) ;
     }
 }

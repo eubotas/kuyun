@@ -8,6 +8,8 @@ public class EamEquipmentCategory extends BaseEntity implements Serializable {
 
     private String name;
 
+    private String imagePath;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getEquipmentCategoryId() {
@@ -26,6 +28,14 @@ public class EamEquipmentCategory extends BaseEntity implements Serializable {
         this.name = name;
     }
 
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -34,6 +44,7 @@ public class EamEquipmentCategory extends BaseEntity implements Serializable {
         sb.append("Hash = ").append(hashCode());
         sb.append(", equipmentCategoryId=").append(equipmentCategoryId);
         sb.append(", name=").append(name);
+        sb.append(", imagePath=").append(imagePath);
         sb.append("]");
         return sb.toString();
     }
@@ -57,7 +68,8 @@ public class EamEquipmentCategory extends BaseEntity implements Serializable {
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()));
+            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()))
+            && (this.getImagePath() == null ? other.getImagePath() == null : this.getImagePath().equals(other.getImagePath()));
     }
 
     @Override
@@ -72,6 +84,7 @@ public class EamEquipmentCategory extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
+        result = prime * result + ((getImagePath() == null) ? 0 : getImagePath().hashCode());
         return result;
     }
 }

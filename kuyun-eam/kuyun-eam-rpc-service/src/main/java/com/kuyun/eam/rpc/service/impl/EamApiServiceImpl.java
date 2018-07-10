@@ -2,6 +2,7 @@ package com.kuyun.eam.rpc.service.impl;
 
 import cn.jiguang.common.utils.StringUtils;
 import com.google.gson.Gson;
+import com.kuyun.common.util.DateUtil;
 import com.kuyun.common.util.NumberUtil;
 import com.kuyun.common.util.RedisUtil;
 import com.kuyun.common.util.StringUtil;
@@ -37,14 +38,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.ParseException;
-import java.time.*;
 import java.time.Duration;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -54,6 +52,7 @@ import static com.kuyun.eam.common.constant.CollectStatus.NO_START;
 import static com.kuyun.eam.common.constant.CollectStatus.WORKING;
 import static com.kuyun.eam.util.EamDateUtil.getDateStr;
 import static com.kuyun.eam.util.EamDateUtil.getShiftStartEndTime;
+import static java.lang.Enum.valueOf;
 
 
 /**
@@ -181,6 +180,18 @@ public class EamApiServiceImpl implements EamApiService {
     private EamEquipmentProductService eamEquipmentProductService;
     @Autowired
     private EamProductLineShiftDataService eamProductLineShiftDataService;
+
+    @Autowired
+    private EamStatisticDataByDayService eamStatisticDataByDayService;
+
+    @Autowired
+    private EamStatisticDataByMonthService eamStatisticDataByMonthService;
+
+    @Autowired
+    private EamStatisticDataByYearService eamStatisticDataByYearService;
+
+    @Autowired
+    private EamShiftStatisticDataService eamShiftStatisticDataService;
 
     @Override
     public List<EamMaintenanceVO> selectMaintenance(EamMaintenanceVO maintenanceVO) {
@@ -324,6 +335,7 @@ public class EamApiServiceImpl implements EamApiService {
         device.setProductLineId(equipment.getProductLineId());
         device.setId(equipment.getEquipmentId());
         device.setName(equipment.getName());
+        device.setEquipmentCategoryId(equipment.getEquipmentCategoryId());
         return device;
     }
 
@@ -393,7 +405,7 @@ public class EamApiServiceImpl implements EamApiService {
         EamEquipmentVO equipmentVO = new EamEquipmentVO();
         equipmentVO.setDeleteFlag(Boolean.FALSE);
         equipmentVO.setCompanyId(company.getCompanyId());
-        equipmentVO.setOrderByClause("province, city asc");
+        equipmentVO.setOrderByClause("eam_equipment.province, eam_equipment.city asc");
         return selectEquipments(equipmentVO);
     }
 
@@ -401,7 +413,7 @@ public class EamApiServiceImpl implements EamApiService {
         EamEquipmentVO equipmentVO = new EamEquipmentVO();
         equipmentVO.setDeleteFlag(Boolean.FALSE);
         equipmentVO.setProductLineId(productLine.getId());
-        equipmentVO.setOrderByClause("create_time asc");
+        equipmentVO.setOrderByClause("eam_equipment.create_time asc");
         return selectEquipments(equipmentVO);
     }
 
@@ -666,7 +678,9 @@ public class EamApiServiceImpl implements EamApiService {
             //shift data
             try {
                 processShiftData(dataHistoryList);
-            }catch(Exception ex){ex.getStackTrace();}
+            }catch(Exception ex){
+                _log.error("Error:{}", ex.getMessage());
+            }
         }
     }
 
@@ -2193,6 +2207,223 @@ public class EamApiServiceImpl implements EamApiService {
             }
         }
 
+        //处理 千瓶耗电量 电费
+        handlerEamStatisticData(date);
+    }
+
+    private void handlerEamStatisticData(String date) {
+        EamEquipmentVO equipmentVO = new EamEquipmentVO();
+        equipmentVO.setOrderByClause("eam_equipment.product_line_id, eam_equipment.create_time desc");
+        List<EamEquipmentVO> equipmentVOS = selectEquipments(equipmentVO);
+
+        for (EamEquipmentVO vo : equipmentVOS){
+            Integer outputId = vo.getOutputId();
+            Integer electricityId = vo.getElectricityId();
+
+            if (outputId != null && electricityId != null){
+                EamGrmVariableDataByDay outputDataByDay = selectEamGrmVariableDataByDay(date, vo, outputId);
+                EamGrmVariableDataByDay electricityDataByDay = selectEamGrmVariableDataByDay(date, vo, electricityId);
+
+                //1. 千瓶耗电量
+                BigDecimal thousandBottleElectricity = handlerThousandBottleElectricityByDay(vo, date, outputDataByDay, electricityDataByDay);
+                //2. 电费
+                BigDecimal electricCharge = handlerElectricChargeByDay(vo, date, electricityDataByDay);
+
+                handlerEamStatisticDataByMonth(vo, EamConstant.THOUSAND_BOTTLE_ELECTRICITY, thousandBottleElectricity);
+                handlerEamStatisticDataByMonth(vo, EamConstant.ELECTRIC_CHARGE, electricCharge);
+
+                handlerEamStatisticDataByYear(vo, EamConstant.THOUSAND_BOTTLE_ELECTRICITY, thousandBottleElectricity);
+                handlerEamStatisticDataByYear(vo, EamConstant.ELECTRIC_CHARGE, electricCharge);
+            }
+        }
+    }
+
+    private void handlerEamStatisticDataByYear(EamEquipmentVO vo, String code, BigDecimal value) {
+        EamStatisticDataByYear dataByYear = getEamStatisticDataByYear(vo, code);
+        if (dataByYear == null){
+            buildEamStatisticDataByYear(vo, code, value.toString());
+        }else {
+            BigDecimal newValue = NumberUtil.toBigDecimal(dataByYear.getValue()).add(value);
+            dataByYear.setValue(newValue.toString());
+            dataByYear.setUpdateTime(new Date());
+            eamStatisticDataByYearService.updateByPrimaryKeySelective(dataByYear);
+        }
+    }
+
+    private EamStatisticDataByYear getEamStatisticDataByYear(EamEquipmentVO vo, String code){
+        int year = LocalDateTime.now().minusDays(1).getYear();
+        EamStatisticDataByYearExample example = new EamStatisticDataByYearExample();
+        EamStatisticDataByYearExample.Criteria criteria = example.createCriteria();
+        criteria.andProductLineIdEqualTo(vo.getProductLineId());
+        criteria.andEquipmentIdEqualTo(vo.getEquipmentId());
+        criteria.andCodeEqualTo(code);
+        criteria.andYearEqualTo(year);
+        criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+
+        return eamStatisticDataByYearService.selectFirstByExample(example);
+    }
+
+    private EamStatisticDataByYear buildEamStatisticDataByYear(EamEquipmentVO vo, String code, String value){
+        int year = LocalDateTime.now().minusDays(1).getYear();
+
+        EamStatisticDataByYear dataByYear = new EamStatisticDataByYear();
+        dataByYear.setProductLineId(vo.getProductLineId());
+        dataByYear.setEquipmentId(vo.getEquipmentId());
+        dataByYear.setCode(code);
+        dataByYear.setValue(value);
+        dataByYear.setYear(year);
+        dataByYear.setCreateTime(new Date());
+        dataByYear.setUpdateTime(new Date());
+        dataByYear.setDeleteFlag(Boolean.FALSE);
+
+        eamStatisticDataByYearService.insert(dataByYear);
+        return  dataByYear;
+    }
+
+
+    private void handlerEamStatisticDataByMonth(EamEquipmentVO vo, String code, BigDecimal value){
+        EamStatisticDataByMonth dataByMonth = getEamStatisticDataByMonth(vo, code);
+        if (dataByMonth == null){
+            buildEamStatisticDataByMonth(vo, code, value.toString());
+        }else {
+            BigDecimal newValue = NumberUtil.toBigDecimal(dataByMonth.getValue()).add(value);
+            dataByMonth.setValue(newValue.toString());
+            dataByMonth.setUpdateTime(new Date());
+            eamStatisticDataByMonthService.updateByPrimaryKeySelective(dataByMonth);
+        }
+    }
+
+
+    private EamStatisticDataByMonth getEamStatisticDataByMonth(EamEquipmentVO vo, String code){
+        int year = LocalDateTime.now().minusDays(1).getYear();
+        int month = LocalDateTime.now().minusDays(1).getMonthValue();
+        EamStatisticDataByMonthExample example = new EamStatisticDataByMonthExample();
+        EamStatisticDataByMonthExample.Criteria criteria = example.createCriteria();
+        criteria.andProductLineIdEqualTo(vo.getProductLineId());
+        criteria.andEquipmentIdEqualTo(vo.getEquipmentId());
+        criteria.andCodeEqualTo(code);
+        criteria.andYearEqualTo(year);
+        criteria.andMonthEqualTo(month);
+        criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+
+        return eamStatisticDataByMonthService.selectFirstByExample(example);
+    }
+
+    private EamStatisticDataByMonth buildEamStatisticDataByMonth(EamEquipmentVO vo, String code, String value){
+        int year = LocalDateTime.now().minusDays(1).getYear();
+        int month = LocalDateTime.now().minusDays(1).getMonthValue();
+
+        EamStatisticDataByMonth dataByMonth = new EamStatisticDataByMonth();
+        dataByMonth.setProductLineId(vo.getProductLineId());
+        dataByMonth.setEquipmentId(vo.getEquipmentId());
+        dataByMonth.setCode(code);
+        dataByMonth.setValue(value);
+        dataByMonth.setYear(year);
+        dataByMonth.setMonth(month);
+        dataByMonth.setCreateTime(new Date());
+        dataByMonth.setUpdateTime(new Date());
+        dataByMonth.setDeleteFlag(Boolean.FALSE);
+
+        eamStatisticDataByMonthService.insert(dataByMonth);
+        return  dataByMonth;
+    }
+
+    private void handlerThousandBottleElectricityByShift(EamEquipmentVO vo, String shift, String startTime, String endTime, EamShiftDataElementValue outputData, EamShiftDataElementValue electricityData){
+        if (outputData != null && electricityData != null){
+            BigDecimal output = NumberUtil.toBigDecimal(outputData.getValue());
+            BigDecimal electricity =  NumberUtil.toBigDecimal(electricityData.getValue());
+            if (!BigDecimal.ZERO.equals(output)){
+                BigDecimal value = electricity.divide(output, BigDecimal.ROUND_HALF_UP).multiply(BigDecimal.valueOf(1000)).setScale(BigDecimal.ROUND_HALF_UP);
+                EamShiftStatisticData data = selectEamShiftStatisticData(vo, EamConstant.THOUSAND_BOTTLE_ELECTRICITY, shift, startTime, endTime);
+                if (data != null){
+                    data.setValue(value.toString());
+                    data.setUpdateTime(new Date());
+                    eamShiftStatisticDataService.updateByPrimaryKeySelective(data);
+                }else {
+                    buildEamShiftStatisticData(vo, EamConstant.THOUSAND_BOTTLE_ELECTRICITY, shift, value.toString(), null);
+                }
+            }
+        }
+    }
+
+    private BigDecimal handlerThousandBottleElectricityByDay(EamEquipmentVO vo, String date, EamGrmVariableDataByDay outputDataByDay, EamGrmVariableDataByDay electricityDataByDay){
+        BigDecimal result = null;
+        if (outputDataByDay != null && electricityDataByDay != null){
+            BigDecimal output = NumberUtil.toBigDecimal(outputDataByDay.getValue());
+            BigDecimal electricity =  NumberUtil.toBigDecimal(electricityDataByDay.getValue());
+            if (!BigDecimal.ZERO.equals(output)){
+                BigDecimal value = electricity.divide(output, BigDecimal.ROUND_HALF_UP).multiply(BigDecimal.valueOf(1000)).setScale(BigDecimal.ROUND_HALF_UP);
+                createEamStatisticDataByDay(vo, EamConstant.THOUSAND_BOTTLE_ELECTRICITY, date, value.toString());
+
+                result = value;
+            }
+        }
+        return result;
+    }
+
+
+    private void handlerElectricChargeByShift(EamEquipmentVO vo, String shift, String startTime, String endTime, EamShiftDataElementValue electricityData){
+        if (electricityData != null){
+            BigDecimal electricity =  NumberUtil.toBigDecimal(electricityData.getValue());
+
+            BigDecimal charge = electricity.multiply(getElectricityFee(vo)).setScale(BigDecimal.ROUND_HALF_UP);
+
+            EamShiftStatisticData data = selectEamShiftStatisticData(vo, EamConstant.ELECTRIC_CHARGE, shift, startTime, endTime);
+            if (data != null){
+                data.setValue(charge.toString());
+                data.setUpdateTime(new Date());
+                eamShiftStatisticDataService.updateByPrimaryKeySelective(data);
+            }else {
+                buildEamShiftStatisticData(vo, EamConstant.ELECTRIC_CHARGE, shift, charge.toString(), null);
+            }
+        }
+    }
+
+    private BigDecimal handlerElectricChargeByDay(EamEquipmentVO vo, String date, EamGrmVariableDataByDay electricityDataByDay){
+        BigDecimal result = null;
+        if (electricityDataByDay != null){
+            BigDecimal electricity =  NumberUtil.toBigDecimal(electricityDataByDay.getValue());
+
+            BigDecimal charge = electricity.multiply(getElectricityFee(vo)).setScale(BigDecimal.ROUND_HALF_UP);
+
+            createEamStatisticDataByDay(vo, EamConstant.ELECTRIC_CHARGE, date, charge.toString());
+            result = charge;
+        }
+        return result;
+    }
+
+    private BigDecimal getElectricityFee(EamEquipmentVO vo){
+        BigDecimal result = BigDecimal.valueOf(0.5);
+        if (vo.getElectricityUnitPrice() != null){
+            result = vo.getElectricityUnitPrice();
+        }
+        return result;
+    }
+
+    private EamStatisticDataByDay createEamStatisticDataByDay(EamEquipmentVO vo, String date, String code, String value){
+        EamStatisticDataByDay dataByDay = new EamStatisticDataByDay();
+        dataByDay.setCode(code);
+        dataByDay.setDate(DateUtil.parseDate(date));
+        dataByDay.setProductLineId(vo.getProductLineId());
+        dataByDay.setEquipmentId(vo.getEquipmentId());
+        dataByDay.setValue(value);
+        dataByDay.setCreateTime(new Date());
+        dataByDay.setUpdateTime(new Date());
+        dataByDay.setDeleteFlag(Boolean.FALSE);
+        eamStatisticDataByDayService.insert(dataByDay);
+        return dataByDay;
+    }
+
+
+    private EamGrmVariableDataByDay selectEamGrmVariableDataByDay(String date, EamEquipmentVO eamEquipmentVO, Integer dataElementId){
+
+        EamGrmVariableDataByDayExample example = new EamGrmVariableDataByDayExample();
+        example.createCriteria().andProductLineIdEqualTo(eamEquipmentVO.getProductLineId())
+                .andEquipmentIdEqualTo(eamEquipmentVO.getEquipmentId())
+                .andDataElementIdEqualTo(dataElementId)
+                .andDateEqualTo(DateUtil.parseDate(date));
+
+        return eamGrmVariableDataByDayService.selectFirstByExample(example);
     }
 
     private int summarySwitchDay(String orgVal, List<EamGrmVariableDataHistory> histories){
@@ -2362,13 +2593,88 @@ public class EamApiServiceImpl implements EamApiService {
                     productLineShiftData.setTimeStartingRate(calcTimeStartingRate(productLine, productLineShiftData));
                     productLineShiftData.setOee(calcOEE(productLineShiftData));
 
+
                     persistProductLineShiftData(productLineShiftData);
                 }
 
             }
         }
 
+        handlerEamShiftStatisticData();
 
+    }
+
+    /**
+     * 统计 当前班次 千瓶耗电量 和 电费 等
+     */
+    private void handlerEamShiftStatisticData() {
+        EamEquipmentVO equipmentVO = new EamEquipmentVO();
+        equipmentVO.setOrderByClause("eam_equipment.product_line_id, eam_equipment.create_time desc");
+        List<EamEquipmentVO> equipmentVOS = selectEquipments(equipmentVO);
+
+        for (EamEquipmentVO vo : equipmentVOS){
+            Integer outputId = vo.getOutputId();
+            Integer electricityId = vo.getElectricityId();
+
+            String shiftName = null;
+            String startTime = null;
+            String endTime = null;
+            if (EamDateUtil.inThisTimes(ProductLineShift.MORNING.getCode(), vo.getMorningShiftStartTime(), vo.getMorningShiftEndTime())) {
+                shiftName = ProductLineShift.MORNING.getName();
+                startTime = vo.getMorningShiftStartTime();
+                endTime = vo.getMorningShiftEndTime();
+            } else if (EamDateUtil.inThisTimes(ProductLineShift.MORNING.getCode(), vo.getMiddleShiftStartTime(), vo.getMiddleShiftEndTime())) {
+                shiftName = ProductLineShift.MIDDLE.getName();
+                startTime = vo.getMiddleShiftStartTime();
+                endTime = vo.getMiddleShiftEndTime();
+            } else if (EamDateUtil.inThisTimes(ProductLineShift.NIGHT.getCode(), vo.getNightShiftStartTime(), vo.getNightShiftEndTime())) {
+                shiftName = ProductLineShift.NIGHT.getName();
+                startTime = vo.getNightShiftStartTime();
+                endTime = vo.getNightShiftEndTime();
+            }
+
+            if (outputId != null && electricityId != null && shiftName != null){
+
+                EamShiftDataElementValue outputData = getEamGrmVariableDataByShift(null, vo.getProductLineId(), vo.getEquipmentId(), outputId, shiftName, null,  startTime, endTime);
+                EamShiftDataElementValue electricityData = getEamGrmVariableDataByShift(null, vo.getProductLineId(), vo.getEquipmentId(), electricityId, shiftName, null,  startTime, endTime);
+
+                //1. 千瓶耗电量
+                handlerThousandBottleElectricityByShift(vo, shiftName, startTime, endTime, outputData, electricityData);
+
+                //2. 电费
+                handlerElectricChargeByShift(vo, shiftName, startTime, endTime, electricityData);
+            }
+        }
+    }
+
+    private EamShiftStatisticData selectEamShiftStatisticData(EamEquipmentVO vo, String code, String shift, String startTime, String endTime){
+        Pair<Date,Date> startEnd=getShiftStartEndTime(shift, getDateStr(new Date(), "yyyy-MM-dd"),startTime, endTime);
+
+        EamShiftStatisticDataExample example = new EamShiftStatisticDataExample();
+        example.createCriteria().andEquipmentIdEqualTo(vo.getEquipmentId())
+                .andProductLineIdEqualTo(vo.getProductLineId())
+                .andCodeEqualTo(code)
+                .andShiftEqualTo(shift)
+                .andCreateTimeBetween(startEnd.getKey(), startEnd.getValue())
+                .andDeleteFlagEqualTo(Boolean.FALSE);
+        example.setOrderByClause("create_time desc");
+
+        return eamShiftStatisticDataService.selectFirstByExample(example);
+
+    }
+
+    private void buildEamShiftStatisticData(EamEquipmentVO vo, String code, String shift, String value, String time){
+        EamShiftStatisticData shiftStatisticData = new EamShiftStatisticData();
+        shiftStatisticData.setProductLineId(vo.getProductLineId());
+        shiftStatisticData.setEquipmentId(vo.getEquipmentId());
+        shiftStatisticData.setCode(code);
+        shiftStatisticData.setShift(shift);
+        shiftStatisticData.setValue(value);
+        shiftStatisticData.setTime(time);
+        shiftStatisticData.setCreateTime(new Date());
+        shiftStatisticData.setUpdateTime(new Date());
+        shiftStatisticData.setDeleteFlag(Boolean.FALSE);
+        eamShiftStatisticDataService.insert(shiftStatisticData);
     }
 
     @Override
@@ -2436,6 +2742,51 @@ public class EamApiServiceImpl implements EamApiService {
     @Override
     public List<ShiftStatus> getShiftStatus() {
         return eamApiMapper.selectShiftStatus();
+    }
+
+    @Override
+    public void shiftStatisticJob() {
+        EamEquipmentVO equipmentVO = new EamEquipmentVO();
+        equipmentVO.setOrderByClause("eam_equipment.product_line_id, eam_equipment.create_time desc");
+        List<EamEquipmentVO> equipmentVOS = selectEquipments(equipmentVO);
+
+        for (EamEquipmentVO vo : equipmentVOS){
+            Integer outputId = vo.getOutputId();
+
+            String shiftName = null;
+            String startTime = null;
+            String endTime = null;
+            if (EamDateUtil.inThisTimes(ProductLineShift.MORNING.getCode(), vo.getMorningShiftStartTime(), vo.getMorningShiftEndTime())) {
+                shiftName = ProductLineShift.MORNING.getName();
+                startTime = vo.getMorningShiftStartTime();
+                endTime = vo.getMorningShiftEndTime();
+            } else if (EamDateUtil.inThisTimes(ProductLineShift.MORNING.getCode(), vo.getMiddleShiftStartTime(), vo.getMiddleShiftEndTime())) {
+                shiftName = ProductLineShift.MIDDLE.getName();
+                startTime = vo.getMiddleShiftStartTime();
+                endTime = vo.getMiddleShiftEndTime();
+            } else if (EamDateUtil.inThisTimes(ProductLineShift.NIGHT.getCode(), vo.getNightShiftStartTime(), vo.getNightShiftEndTime())) {
+                shiftName = ProductLineShift.NIGHT.getName();
+                startTime = vo.getNightShiftStartTime();
+                endTime = vo.getNightShiftEndTime();
+            }
+
+            if (outputId != null && shiftName != null) {
+
+                EamShiftDataElementValue outputData = getEamGrmVariableDataByShift(null, vo.getProductLineId(), vo.getEquipmentId(), outputId, shiftName, null, startTime, endTime);
+                if (outputData != null){
+                    EamShiftStatisticData shiftStatisticData = selectEamShiftStatisticData(vo, EamConstant.OUTPUT, shiftName, startTime, endTime);
+                    String newValue = null;
+                    if (shiftStatisticData == null){
+                        newValue = outputData.getValue();
+                    }else {
+                        newValue = String.valueOf(NumberUtil.toInteger(outputData.getValue()) - NumberUtil.toInteger(shiftStatisticData.getValue()));
+                    }
+                    buildEamShiftStatisticData(vo, EamConstant.OUTPUT, shiftName, newValue, DateUtil.getCurrentHoursAndMiutes());
+                }
+
+            }
+        }
+
     }
 
     private void buildMoveLine(Map.Entry entry, List<MoveLine> moveLines) {
@@ -2525,6 +2876,8 @@ public class EamApiServiceImpl implements EamApiService {
             eamProductLineShiftData.setSumTimeStr(productLineShiftData.getSumTimeStr());
             eamProductLineShiftData.setShirtTime(productLineShiftData.getShirtTime());
             eamProductLineShiftData.setPlanStopTime(productLineShiftData.getPlanStopTime());
+            eamProductLineShiftData.setPreformConsume(productLineShiftData.getPreformConsume());
+            eamProductLineShiftData.setCapConsume(productLineShiftData.getCapConsume());
             eamProductLineShiftData.setUpdateTime(new Date());
 
             eamProductLineShiftDataService.updateByPrimaryKeySelective(eamProductLineShiftData);
@@ -2601,6 +2954,9 @@ public class EamApiServiceImpl implements EamApiService {
         int baseCapacityId = productLine.getBaseCapacityId();
         int qualifiedQuantityId = productLine.getQualifiedQuantityId();
         int totalQuantityId = productLine.getTotalQuantityId();
+        int preformQuantityId = productLine.getPreformQuantityId();
+        int capQuantityId = productLine.getCapQuantityId();
+        int wrapQuantityId = productLine.getWrapQuantityId();
 
 
         List<Integer> dataElementIds = new ArrayList<>();
@@ -2608,6 +2964,9 @@ public class EamApiServiceImpl implements EamApiService {
         dataElementIds.add(qualifiedQuantityId);
         dataElementIds.add(totalQuantityId);
         dataElementIds.add(baseCapacityId);
+        dataElementIds.add(preformQuantityId);
+        dataElementIds.add(capQuantityId);
+        dataElementIds.add(wrapQuantityId);
 
         EamGrmVariableDataExample example = new EamGrmVariableDataExample();
         example.createCriteria().andProductLineIdEqualTo(productLine.getProductLineId())
@@ -2616,6 +2975,9 @@ public class EamApiServiceImpl implements EamApiService {
 
         BigDecimal qualifiedQuantity = BigDecimal.ZERO;
         BigDecimal totalQuantity = BigDecimal.ZERO;
+        BigDecimal preformQuantity = BigDecimal.ZERO;
+        BigDecimal capQuantity = BigDecimal.ZERO;
+        BigDecimal wrapQuantity = BigDecimal.ZERO;
         String materielNumber = "XXX";
 
         List<EamGrmVariableData> variableDataList = eamGrmVariableDataService.selectByExample(example);
@@ -2629,6 +2991,12 @@ public class EamApiServiceImpl implements EamApiService {
                     totalQuantity = NumberUtil.toBigDecimal(data.getValue());
                 }else if (data.getDataElementId() == baseCapacityId){
                     materielNumber = data.getValue();
+                }else if (data.getDataElementId() == preformQuantityId){
+                    preformQuantity = NumberUtil.toBigDecimal(data.getValue());
+                }else if (data.getDataElementId() == capQuantityId){
+                    capQuantity = NumberUtil.toBigDecimal(data.getValue());
+                }else if (data.getDataElementId() == wrapQuantityId){
+                    wrapQuantity = NumberUtil.toBigDecimal(data.getValue());
                 }
             }
             if (!BigDecimal.ZERO.equals(totalQuantity)){
@@ -2647,6 +3015,16 @@ public class EamApiServiceImpl implements EamApiService {
                     BigDecimal performanceRate = productLineShiftData.getActualCapacity().divide(productLineShiftData.getBaseCapacity(), 2, BigDecimal.ROUND_HALF_DOWN).movePointRight(2).setScale(2,BigDecimal.ROUND_HALF_UP);
                     productLineShiftData.setPerformanceRate(performanceRate);
                 }
+
+                if (eamEquipmentProduct.getPacking() != null){
+                    BigDecimal preformConsume = preformQuantity.subtract(wrapQuantity.multiply(NumberUtil.toBigDecimal(eamEquipmentProduct.getPacking())));
+                    BigDecimal capConsume = capQuantity.subtract(wrapQuantity.multiply(NumberUtil.toBigDecimal(eamEquipmentProduct.getPacking())));
+
+                    productLineShiftData.setPreformConsume(preformConsume.toBigInteger().intValueExact());
+                    productLineShiftData.setCapConsume(capConsume.toBigInteger().intValueExact());
+                }
+
+
             }
         }
 
@@ -2923,13 +3301,7 @@ public class EamApiServiceImpl implements EamApiService {
         data.setDataElementId(variable.getDataElementId());
         data.setValue(value);
         data.setSwitchValue(offOn);
-        Date date = null;
-        try {
-            date = DateUtils.parseDate(argDate, new String[]{"yyyy-MM-dd"});
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        data.setDate(date);
+        data.setDate(DateUtil.parseDate(argDate));
         data.setCreateTime(new Date());
         data.setUpdateTime(new Date());
         data.setDeleteFlag(Boolean.FALSE);
@@ -3148,16 +3520,25 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     private EamShiftDataElementValue getEamGrmVariableDataByShift(EamGrmVariable variable, String shiftNum,Boolean offOpen, String startDate,String endDate) throws ParseException{
+        _log.info("get existed EamShiftDataElementValue -- selectFirstByExample:" + shiftNum+"--"+ startDate+"--"+ endDate);
+        return getEamGrmVariableDataByShift(variable.getId(), variable.getProductLineId(), variable.getEquipmentId(), variable.getDataElementId(), shiftNum, offOpen, startDate, endDate);
+    }
+
+
+    private EamShiftDataElementValue getEamGrmVariableDataByShift(Integer eamGrmVariableId, String productLineId, String equipmentId, Integer dataElementId, String shiftNum, Boolean offOpen, String startDate,String endDate){
         Pair<Date,Date> startEnd=getShiftStartEndTime(shiftNum, getDateStr(new Date(), "yyyy-MM-dd"),startDate, endDate);
         EamShiftDataElementValueExample example = new EamShiftDataElementValueExample();
         EamShiftDataElementValueExample.Criteria criteria = example.createCriteria();
-        criteria.andEamGrmVariableIdEqualTo(variable.getId())
-                .andProductLineIdEqualTo(variable.getProductLineId())
-                .andEquipmentIdEqualTo(variable.getEquipmentId())
-                .andDataElementIdEqualTo(variable.getDataElementId())
+        criteria.andProductLineIdEqualTo(productLineId)
+                .andEquipmentIdEqualTo(equipmentId)
+                .andDataElementIdEqualTo(dataElementId)
                 .andShiftEqualTo(shiftNum)
                 .andCreateTimeBetween(startEnd.getKey(),startEnd.getValue())
                 .andDeleteFlagEqualTo(Boolean.FALSE);
+
+        if (eamGrmVariableId != null){
+            criteria.andEamGrmVariableIdEqualTo(eamGrmVariableId);
+        }
         if(offOpen != null){
             criteria.andSwitchValueEqualTo(offOpen);
         }

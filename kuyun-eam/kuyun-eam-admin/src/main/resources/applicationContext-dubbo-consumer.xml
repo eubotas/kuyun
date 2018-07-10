@@ -87,6 +87,10 @@
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamDataElementService" id="eamDataElementService" mock="true" />
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamDataElementGroupService" id="eamDataElementGroupService" mock="true" />
     <dubbo:reference interface="com.kuyun.eam.rpc.api.EamAlarmModelService" id="eamAlarmModelService" mock="true" />
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamStatisticDataByDayService" id="eamStatisticDataByDayService" mock="true" />
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamStatisticDataByMonthService" id="eamStatisticDataByMonthService" mock="true" />
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamStatisticDataByYearService" id="eamStatisticDataByYearService" mock="true" />
+    <dubbo:reference interface="com.kuyun.eam.rpc.api.EamShiftStatisticDataService" id="eamShiftStatisticDataService" mock="true" />
 
     <!--报警 -->
     <dubbo:reference id="eamAlarmService" interface="com.kuyun.eam.rpc.api.EamAlarmService" mock="false" />

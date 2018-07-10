@@ -6,6 +6,7 @@ create table eam_equipment_category
 (
    equipment_category_id   int not null auto_increment,
    name                 varchar(30),
+   image_path           varchar(100),
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,
@@ -104,6 +105,10 @@ create table eam_product_line
    bottle_quantity_id        int comment '大屏显示(统计瓶数ID)',
    start_produce_id          int comment '大屏显示（开始生产）',
    end_produce_id            int comment '大屏显示（结束生产）',
+   preform_quantity_id       int comment '瓶坯总数',
+   cap_quantity_id           int comment '旋盖总数',
+   wrap_quantity_id          int comment '膜包数量',
+   electricity_unit_price    decimal(10,2) comment '电费单价',
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,
@@ -152,11 +157,14 @@ create table eam_equipment
    number               varchar(30) comment '设备型号',
    serial_number        varchar(50) comment '出厂编号',
    image_path           varchar(100),
+   video_path           varchar(100) comment '视频地址',
    user                 varchar(30),
    collect_status       varchar(10) comment '采集状态',
    grm                  varchar(50) comment '巨控设备ID',
    grm_password         varchar(50) comment '巨控设备密码',
    grm_period           int         comment '巨控采集频率单位秒',
+   output_id            int         comment '产量ID',
+   electricity_id       int         comment '耗电量ID',
    factory_date         datetime,
    commissioning_date   datetime,
    warranty_start_date  datetime,
@@ -197,6 +205,8 @@ create table eam_equipment_product
    materiel_number      varchar(10) comment '物料ID',
    materiel_name        varchar(20) comment '物料名称',
    capacity             int         comment '额定产能',
+   packing              int         comment '包装规格',
+   stacking             int         comment '码垛规格',
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,
@@ -409,6 +419,26 @@ create table eam_grm_variable_data_by_day
 
 ALTER table eam_grm_variable_data_by_day ADD INDEX index_date(date);
 
+
+drop table if exists eam_statistic_data_by_day;
+create table eam_statistic_data_by_day
+(
+   id                   bigint unsigned not null auto_increment,
+   equipment_id         varchar(32),
+   product_line_id      varchar(32),
+   code                 varchar(20) comment '统计变量名(Ex:千瓶耗电量)',
+   value                varchar(10),
+   date                 date,
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   primary key (id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER table eam_statistic_data_by_day ADD INDEX index_date(date);
+
 drop table if exists eam_grm_variable_data_by_month;
 create table eam_grm_variable_data_by_month
 (
@@ -431,6 +461,27 @@ create table eam_grm_variable_data_by_month
 
 ALTER table eam_grm_variable_data_by_month ADD INDEX index_update_time(update_time);
 
+drop table if exists eam_statistic_data_by_month;
+create table eam_statistic_data_by_month
+(
+   id                   bigint unsigned not null auto_increment,
+   equipment_id         varchar(32),
+   product_line_id      varchar(32),
+   code                 varchar(20) comment '统计变量名(Ex:千瓶耗电量)',
+   year                 int,
+   month                int,
+   value                varchar(10),
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   primary key (id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER table eam_statistic_data_by_month ADD INDEX index_update_time(update_time);
+
+
 drop table if exists eam_grm_variable_data_by_year;
 create table eam_grm_variable_data_by_year
 (
@@ -451,6 +502,25 @@ create table eam_grm_variable_data_by_year
 );
 
 ALTER table eam_grm_variable_data_by_year ADD INDEX index_update_time(update_time);
+
+drop table if exists eam_statistic_data_by_year;
+create table eam_statistic_data_by_year
+(
+   id                   bigint unsigned not null auto_increment,
+   equipment_id         varchar(32),
+   product_line_id      varchar(32),
+   code                 varchar(20) comment '统计变量名(Ex:千瓶耗电量)',
+   year                 int,
+   value                varchar(10),
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   primary key (id)
+);
+
+ALTER table eam_statistic_data_by_year ADD INDEX index_update_time(update_time);
 /*==============================================================*/
 /* Table: eam_inventory                                         */
 /*==============================================================*/
@@ -649,6 +719,24 @@ create table eam_shift_data_element_value
    primary key (id)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+drop table if exists eam_shift_statistic_data;
+create table eam_shift_statistic_data
+(  
+   id                   bigint unsigned not null auto_increment,
+   equipment_id         varchar(32),
+   product_line_id      varchar(32),
+   code                 varchar(20) comment '统计变量名(Ex:千瓶耗电量)',
+   shift                varchar(8) COMMENT '班次',
+   time                 varchar(5) COMMENT '整点',
+   value                varchar(10),
+   create_user_id       int,
+   create_time          datetime,
+   update_user_id       int,
+   update_time          datetime,
+   delete_flag          boolean,
+   primary key (id)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 drop table if exists eam_product_line_shift_data;
 create table eam_product_line_shift_data
 (  
@@ -669,6 +757,8 @@ create table eam_product_line_shift_data
    shirt_time           decimal(10,2) COMMENT '班次时间',
    plan_stop_time       decimal(10,2) COMMENT '计划停机时间',
    shift_name           varchar(8)    COMMENT '班次名称',
+   preform_consume      decimal(10,2) COMMENT '瓶坯损耗',
+   cap_consume          decimal(10,2) COMMENT '瓶盖消耗',
    create_user_id       int,
    create_time          datetime,
    update_user_id       int,

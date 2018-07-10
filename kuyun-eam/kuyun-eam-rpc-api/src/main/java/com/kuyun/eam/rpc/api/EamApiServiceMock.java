@@ -465,4 +465,9 @@ public class EamApiServiceMock implements EamApiService {
         return null;
     }
 
+    @Override
+    public void shiftStatisticJob() {
+
+    }
+
 }

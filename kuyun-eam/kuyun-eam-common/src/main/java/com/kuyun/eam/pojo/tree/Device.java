@@ -9,6 +9,7 @@ public class Device implements Serializable {
     private String id;
     private String productLineId;
     private String name;
+    private Integer equipmentCategoryId;
 
     public String getId() {
         return id;
@@ -32,5 +33,13 @@ public class Device implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getEquipmentCategoryId() {
+        return equipmentCategoryId;
+    }
+
+    public void setEquipmentCategoryId(Integer equipmentCategoryId) {
+        this.equipmentCategoryId = equipmentCategoryId;
     }
 }

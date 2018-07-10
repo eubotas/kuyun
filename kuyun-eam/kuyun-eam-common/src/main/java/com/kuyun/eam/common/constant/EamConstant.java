@@ -21,6 +21,18 @@ public class EamConstant extends BaseConstants {
     public static String HEADQUARTER = "张家港";
     public static String LONGITUDE = "120.55";
     public static String LATITUDE = "31.87";
+    /**
+     * 千瓶耗电量
+     */
+    public static String THOUSAND_BOTTLE_ELECTRICITY = "THOUSAND_BOTTLE_ELECTRICITY";
+    /**
+     * 电费
+     */
+    public static String ELECTRIC_CHARGE = "ELECTRIC_CHARGE";
+    /**
+     * 产量
+     */
+    public static String OUTPUT = "OUTPUT";
 
 
 }

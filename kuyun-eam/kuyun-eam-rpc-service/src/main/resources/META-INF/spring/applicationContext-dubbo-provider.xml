@@ -148,6 +148,18 @@
     <bean id="eamOrderServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamOrderServiceImpl"/>
     <dubbo:service interface="com.kuyun.eam.rpc.api.EamOrderService" ref="eamOrderServiceImpl" timeout="10000"/>
 
+    <bean id="eamStatisticDataByDayServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamStatisticDataByDayServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamStatisticDataByDayService" ref="eamStatisticDataByDayServiceImpl" timeout="10000"/>
+
+    <bean id="eamStatisticDataByMonthServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamStatisticDataByMonthServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamStatisticDataByMonthService" ref="eamStatisticDataByMonthServiceImpl" timeout="10000"/>
+
+    <bean id="eamStatisticDataByYearServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamStatisticDataByYearServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamStatisticDataByYearService" ref="eamStatisticDataByYearServiceImpl" timeout="10000"/>
+
+    <bean id="eamShiftStatisticDataServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamShiftStatisticDataServiceImpl"/>
+    <dubbo:service interface="com.kuyun.eam.rpc.api.EamShiftStatisticDataService" ref="eamShiftStatisticDataServiceImpl" timeout="10000"/>
+
 
     <!-- 维修计划相关 -->
     <bean id="eamMaintainPlanServiceImpl" class="com.kuyun.eam.rpc.service.impl.EamMaintainPlanServiceImpl" />

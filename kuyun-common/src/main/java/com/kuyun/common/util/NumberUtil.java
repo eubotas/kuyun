@@ -11,6 +11,16 @@ import java.math.BigDecimal;
 public class NumberUtil {
     private static Logger LOG = LoggerFactory.getLogger(NumberUtil.class);
 
+    public static BigDecimal toBigDecimal(Integer value){
+        BigDecimal result = BigDecimal.ZERO;
+        try{
+            result = new BigDecimal(value);
+        }catch (Exception e){
+            LOG.error("Can't parse {} to BigDecimal", value);
+        }
+        return result;
+    }
+
     public static BigDecimal toBigDecimal(String value){
         BigDecimal result = BigDecimal.ZERO;
         try{

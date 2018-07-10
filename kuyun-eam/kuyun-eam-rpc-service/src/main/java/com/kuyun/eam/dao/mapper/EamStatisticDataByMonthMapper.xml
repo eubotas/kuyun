@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kuyun.eam.dao.mapper.EamEquipmentCategoryMapper">
-  <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamEquipmentCategory">
-    <id column="equipment_category_id" jdbcType="INTEGER" property="equipmentCategoryId" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
+<mapper namespace="com.kuyun.eam.dao.mapper.EamStatisticDataByMonthMapper">
+  <resultMap id="BaseResultMap" type="com.kuyun.eam.dao.model.EamStatisticDataByMonth">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="equipment_id" jdbcType="VARCHAR" property="equipmentId" />
+    <result column="product_line_id" jdbcType="VARCHAR" property="productLineId" />
+    <result column="code" jdbcType="VARCHAR" property="code" />
+    <result column="year" jdbcType="INTEGER" property="year" />
+    <result column="month" jdbcType="INTEGER" property="month" />
+    <result column="value" jdbcType="VARCHAR" property="value" />
     <result column="create_user_id" jdbcType="INTEGER" property="createUserId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_user_id" jdbcType="INTEGER" property="updateUserId" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
-    <result column="company_id" jdbcType="INTEGER" property="companyId" />
-    <result column="image_path" jdbcType="VARCHAR" property="imagePath" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -71,16 +74,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    equipment_category_id, name, create_user_id, create_time, update_user_id, update_time, 
-    delete_flag, company_id, image_path
+    id, equipment_id, product_line_id, code, year, month, value, create_user_id, create_time, 
+    update_user_id, update_time, delete_flag
   </sql>
-  <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentCategoryExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamStatisticDataByMonthExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from eam_equipment_category
+    from eam_statistic_data_by_month
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -96,40 +99,57 @@
       </if>
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from eam_equipment_category
-    where equipment_category_id = #{equipmentCategoryId,jdbcType=INTEGER}
+    from eam_statistic_data_by_month
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    update eam_equipment_category set delete_flag = 1 
-    where equipment_category_id = #{equipmentCategoryId,jdbcType=INTEGER}
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    update eam_statistic_data_by_month set delete_flag = 1 
+    where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentCategoryExample">
-    update eam_equipment_category set delete_flag = 1 
+  <delete id="deleteByExample" parameterType="com.kuyun.eam.dao.model.EamStatisticDataByMonthExample">
+    update eam_statistic_data_by_month set delete_flag = 1 
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamEquipmentCategory">
-    insert into eam_equipment_category (equipment_category_id, name, create_user_id, 
-      create_time, update_user_id, update_time, 
-      delete_flag, company_id, image_path
+  <insert id="insert" parameterType="com.kuyun.eam.dao.model.EamStatisticDataByMonth">
+    insert into eam_statistic_data_by_month (id, equipment_id, product_line_id, 
+      code, year, month, 
+      value, create_user_id, create_time, 
+      update_user_id, update_time, delete_flag
       )
-    values (#{equipmentCategoryId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlag,jdbcType=BIT}, #{companyId,jdbcType=INTEGER}, #{imagePath,jdbcType=VARCHAR}
+    values (#{id,jdbcType=BIGINT}, #{equipmentId,jdbcType=VARCHAR}, #{productLineId,jdbcType=VARCHAR}, 
+      #{code,jdbcType=VARCHAR}, #{year,jdbcType=INTEGER}, #{month,jdbcType=INTEGER}, 
+      #{value,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamEquipmentCategory">
-    insert into eam_equipment_category
+  <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamStatisticDataByMonth">
+    insert into eam_statistic_data_by_month
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="equipmentCategoryId != null">
-        equipment_category_id,
+      <if test="id != null">
+        id,
       </if>
-      <if test="name != null">
-        name,
+      <if test="equipmentId != null">
+        equipment_id,
+      </if>
+      <if test="productLineId != null">
+        product_line_id,
+      </if>
+      <if test="code != null">
+        code,
+      </if>
+      <if test="year != null">
+        year,
+      </if>
+      <if test="month != null">
+        month,
+      </if>
+      <if test="value != null">
+        value,
       </if>
       <if test="createUserId != null">
         create_user_id,
@@ -146,19 +166,28 @@
       <if test="deleteFlag != null">
         delete_flag,
       </if>
-      <if test="companyId != null">
-        company_id,
-      </if>
-      <if test="imagePath != null">
-        image_path,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="equipmentCategoryId != null">
-        #{equipmentCategoryId,jdbcType=INTEGER},
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
+      <if test="equipmentId != null">
+        #{equipmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="productLineId != null">
+        #{productLineId,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null">
+        #{year,jdbcType=INTEGER},
+      </if>
+      <if test="month != null">
+        #{month,jdbcType=INTEGER},
+      </if>
+      <if test="value != null">
+        #{value,jdbcType=VARCHAR},
       </if>
       <if test="createUserId != null">
         #{createUserId,jdbcType=INTEGER},
@@ -175,28 +204,37 @@
       <if test="deleteFlag != null">
         #{deleteFlag,jdbcType=BIT},
       </if>
-      <if test="companyId != null">
-        #{companyId,jdbcType=INTEGER},
-      </if>
-      <if test="imagePath != null">
-        #{imagePath,jdbcType=VARCHAR},
-      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentCategoryExample" resultType="java.lang.Long">
-    select count(*) from eam_equipment_category
+  <select id="countByExample" parameterType="com.kuyun.eam.dao.model.EamStatisticDataByMonthExample" resultType="java.lang.Long">
+    select count(*) from eam_statistic_data_by_month
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update eam_equipment_category
+    update eam_statistic_data_by_month
     <set>
-      <if test="record.equipmentCategoryId != null">
-        equipment_category_id = #{record.equipmentCategoryId,jdbcType=INTEGER},
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
+      <if test="record.equipmentId != null">
+        equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.productLineId != null">
+        product_line_id = #{record.productLineId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.code != null">
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.year != null">
+        year = #{record.year,jdbcType=INTEGER},
+      </if>
+      <if test="record.month != null">
+        month = #{record.month,jdbcType=INTEGER},
+      </if>
+      <if test="record.value != null">
+        value = #{record.value,jdbcType=VARCHAR},
       </if>
       <if test="record.createUserId != null">
         create_user_id = #{record.createUserId,jdbcType=INTEGER},
@@ -213,37 +251,49 @@
       <if test="record.deleteFlag != null">
         delete_flag = #{record.deleteFlag,jdbcType=BIT},
       </if>
-      <if test="record.companyId != null">
-        company_id = #{record.companyId,jdbcType=INTEGER},
-      </if>
-      <if test="record.imagePath != null">
-        image_path = #{record.imagePath,jdbcType=VARCHAR},
-      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update eam_equipment_category
-    set equipment_category_id = #{record.equipmentCategoryId,jdbcType=INTEGER},
-      name = #{record.name,jdbcType=VARCHAR},
+    update eam_statistic_data_by_month
+    set id = #{record.id,jdbcType=BIGINT},
+      equipment_id = #{record.equipmentId,jdbcType=VARCHAR},
+      product_line_id = #{record.productLineId,jdbcType=VARCHAR},
+      code = #{record.code,jdbcType=VARCHAR},
+      year = #{record.year,jdbcType=INTEGER},
+      month = #{record.month,jdbcType=INTEGER},
+      value = #{record.value,jdbcType=VARCHAR},
       create_user_id = #{record.createUserId,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      company_id = #{record.companyId,jdbcType=INTEGER},
-      image_path = #{record.imagePath,jdbcType=VARCHAR}
+      delete_flag = #{record.deleteFlag,jdbcType=BIT}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.kuyun.eam.dao.model.EamEquipmentCategory">
-    update eam_equipment_category
+  <update id="updateByPrimaryKeySelective" parameterType="com.kuyun.eam.dao.model.EamStatisticDataByMonth">
+    update eam_statistic_data_by_month
     <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
+      <if test="equipmentId != null">
+        equipment_id = #{equipmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="productLineId != null">
+        product_line_id = #{productLineId,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="year != null">
+        year = #{year,jdbcType=INTEGER},
+      </if>
+      <if test="month != null">
+        month = #{month,jdbcType=INTEGER},
+      </if>
+      <if test="value != null">
+        value = #{value,jdbcType=VARCHAR},
       </if>
       <if test="createUserId != null">
         create_user_id = #{createUserId,jdbcType=INTEGER},
@@ -260,38 +310,37 @@
       <if test="deleteFlag != null">
         delete_flag = #{deleteFlag,jdbcType=BIT},
       </if>
-      <if test="companyId != null">
-        company_id = #{companyId,jdbcType=INTEGER},
-      </if>
-      <if test="imagePath != null">
-        image_path = #{imagePath,jdbcType=VARCHAR},
-      </if>
     </set>
-    where equipment_category_id = #{equipmentCategoryId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamEquipmentCategory">
-    update eam_equipment_category
-    set name = #{name,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.kuyun.eam.dao.model.EamStatisticDataByMonth">
+    update eam_statistic_data_by_month
+    set equipment_id = #{equipmentId,jdbcType=VARCHAR},
+      product_line_id = #{productLineId,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      year = #{year,jdbcType=INTEGER},
+      month = #{month,jdbcType=INTEGER},
+      value = #{value,jdbcType=VARCHAR},
       create_user_id = #{createUserId,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
-      delete_flag = #{deleteFlag,jdbcType=BIT},
-      company_id = #{companyId,jdbcType=INTEGER},
-      image_path = #{imagePath,jdbcType=VARCHAR}
-    where equipment_category_id = #{equipmentCategoryId,jdbcType=INTEGER}
+      delete_flag = #{deleteFlag,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <insert id="batchInsert">
     <if test="items.get(0) != null">
-            insert into eam_equipment_category  (equipment_category_id, name, create_user_id, 
-        create_time, update_user_id, update_time, 
-        delete_flag, company_id, image_path
+            insert into eam_statistic_data_by_month  (id, equipment_id, product_line_id, 
+        code, year, month, 
+        value, create_user_id, create_time, 
+        update_user_id, update_time, delete_flag
         )
       values
       <foreach collection="items" item="item" index="index" separator=",">
-      (#{item.equipmentCategoryId,jdbcType=INTEGER}, #{item.name,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER}, 
-        #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
-        #{item.deleteFlag,jdbcType=BIT}, #{item.companyId,jdbcType=INTEGER}, #{item.imagePath,jdbcType=VARCHAR}
+      (#{item.id,jdbcType=BIGINT}, #{item.equipmentId,jdbcType=VARCHAR}, #{item.productLineId,jdbcType=VARCHAR}, 
+        #{item.code,jdbcType=VARCHAR}, #{item.year,jdbcType=INTEGER}, #{item.month,jdbcType=INTEGER}, 
+        #{item.value,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, 
+        #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}
         )
       </foreach>
     </if>

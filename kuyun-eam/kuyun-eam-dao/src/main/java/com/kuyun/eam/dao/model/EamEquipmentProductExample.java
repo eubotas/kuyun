@@ -818,6 +818,126 @@ public class EamEquipmentProductExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andPackingIsNull() {
+            addCriterion("packing is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackingIsNotNull() {
+            addCriterion("packing is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackingEqualTo(Integer value) {
+            addCriterion("packing =", value, "packing");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackingNotEqualTo(Integer value) {
+            addCriterion("packing <>", value, "packing");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackingGreaterThan(Integer value) {
+            addCriterion("packing >", value, "packing");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackingGreaterThanOrEqualTo(Integer value) {
+            addCriterion("packing >=", value, "packing");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackingLessThan(Integer value) {
+            addCriterion("packing <", value, "packing");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackingLessThanOrEqualTo(Integer value) {
+            addCriterion("packing <=", value, "packing");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackingIn(List<Integer> values) {
+            addCriterion("packing in", values, "packing");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackingNotIn(List<Integer> values) {
+            addCriterion("packing not in", values, "packing");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackingBetween(Integer value1, Integer value2) {
+            addCriterion("packing between", value1, value2, "packing");
+            return (Criteria) this;
+        }
+
+        public Criteria andPackingNotBetween(Integer value1, Integer value2) {
+            addCriterion("packing not between", value1, value2, "packing");
+            return (Criteria) this;
+        }
+
+        public Criteria andStackingIsNull() {
+            addCriterion("stacking is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStackingIsNotNull() {
+            addCriterion("stacking is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStackingEqualTo(Integer value) {
+            addCriterion("stacking =", value, "stacking");
+            return (Criteria) this;
+        }
+
+        public Criteria andStackingNotEqualTo(Integer value) {
+            addCriterion("stacking <>", value, "stacking");
+            return (Criteria) this;
+        }
+
+        public Criteria andStackingGreaterThan(Integer value) {
+            addCriterion("stacking >", value, "stacking");
+            return (Criteria) this;
+        }
+
+        public Criteria andStackingGreaterThanOrEqualTo(Integer value) {
+            addCriterion("stacking >=", value, "stacking");
+            return (Criteria) this;
+        }
+
+        public Criteria andStackingLessThan(Integer value) {
+            addCriterion("stacking <", value, "stacking");
+            return (Criteria) this;
+        }
+
+        public Criteria andStackingLessThanOrEqualTo(Integer value) {
+            addCriterion("stacking <=", value, "stacking");
+            return (Criteria) this;
+        }
+
+        public Criteria andStackingIn(List<Integer> values) {
+            addCriterion("stacking in", values, "stacking");
+            return (Criteria) this;
+        }
+
+        public Criteria andStackingNotIn(List<Integer> values) {
+            addCriterion("stacking not in", values, "stacking");
+            return (Criteria) this;
+        }
+
+        public Criteria andStackingBetween(Integer value1, Integer value2) {
+            addCriterion("stacking between", value1, value2, "stacking");
+            return (Criteria) this;
+        }
+
+        public Criteria andStackingNotBetween(Integer value1, Integer value2) {
+            addCriterion("stacking not between", value1, value2, "stacking");
+            return (Criteria) this;
+        }
+
         public Criteria addConditionSql(String conditionSql) {
             addCriterion(conditionSql);
             return (Criteria) this;

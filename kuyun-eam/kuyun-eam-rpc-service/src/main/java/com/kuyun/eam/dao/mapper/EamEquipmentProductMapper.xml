@@ -13,6 +13,8 @@
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
+    <result column="packing" jdbcType="INTEGER" property="packing" />
+    <result column="stacking" jdbcType="INTEGER" property="stacking" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -74,7 +76,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, equipment_id, materiel_number, materiel_name, capacity, create_user_id, create_time, 
-    update_user_id, update_time, delete_flag, company_id
+    update_user_id, update_time, delete_flag, company_id, packing, stacking
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentProductExample" resultMap="BaseResultMap">
     select
@@ -118,11 +120,13 @@
     insert into eam_equipment_product (id, equipment_id, materiel_number, 
       materiel_name, capacity, create_user_id, 
       create_time, update_user_id, update_time, 
-      delete_flag, company_id)
+      delete_flag, company_id, packing, 
+      stacking)
     values (#{id,jdbcType=INTEGER}, #{equipmentId,jdbcType=VARCHAR}, #{materielNumber,jdbcType=VARCHAR}, 
       #{materielName,jdbcType=VARCHAR}, #{capacity,jdbcType=INTEGER}, #{createUserId,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlag,jdbcType=BIT}, #{companyId,jdbcType=INTEGER})
+      #{deleteFlag,jdbcType=BIT}, #{companyId,jdbcType=INTEGER}, #{packing,jdbcType=INTEGER}, 
+      #{stacking,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamEquipmentProduct">
     insert into eam_equipment_product
@@ -160,6 +164,12 @@
       <if test="companyId != null">
         company_id,
       </if>
+      <if test="packing != null">
+        packing,
+      </if>
+      <if test="stacking != null">
+        stacking,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -194,6 +204,12 @@
       </if>
       <if test="companyId != null">
         #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="packing != null">
+        #{packing,jdbcType=INTEGER},
+      </if>
+      <if test="stacking != null">
+        #{stacking,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -239,6 +255,12 @@
       <if test="record.companyId != null">
         company_id = #{record.companyId,jdbcType=INTEGER},
       </if>
+      <if test="record.packing != null">
+        packing = #{record.packing,jdbcType=INTEGER},
+      </if>
+      <if test="record.stacking != null">
+        stacking = #{record.stacking,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -256,7 +278,9 @@
       update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      company_id = #{record.companyId,jdbcType=INTEGER}
+      company_id = #{record.companyId,jdbcType=INTEGER},
+      packing = #{record.packing,jdbcType=INTEGER},
+      stacking = #{record.stacking,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -294,6 +318,12 @@
       <if test="companyId != null">
         company_id = #{companyId,jdbcType=INTEGER},
       </if>
+      <if test="packing != null">
+        packing = #{packing,jdbcType=INTEGER},
+      </if>
+      <if test="stacking != null">
+        stacking = #{stacking,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -308,7 +338,9 @@
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
-      company_id = #{companyId,jdbcType=INTEGER}
+      company_id = #{companyId,jdbcType=INTEGER},
+      packing = #{packing,jdbcType=INTEGER},
+      stacking = #{stacking,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <insert id="batchInsert">
@@ -316,13 +348,15 @@
             insert into eam_equipment_product  (id, equipment_id, materiel_number, 
         materiel_name, capacity, create_user_id, 
         create_time, update_user_id, update_time, 
-        delete_flag, company_id)
+        delete_flag, company_id, packing, 
+        stacking)
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.id,jdbcType=INTEGER}, #{item.equipmentId,jdbcType=VARCHAR}, #{item.materielNumber,jdbcType=VARCHAR}, 
         #{item.materielName,jdbcType=VARCHAR}, #{item.capacity,jdbcType=INTEGER}, #{item.createUserId,jdbcType=INTEGER}, 
         #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
-        #{item.deleteFlag,jdbcType=BIT}, #{item.companyId,jdbcType=INTEGER})
+        #{item.deleteFlag,jdbcType=BIT}, #{item.companyId,jdbcType=INTEGER}, #{item.packing,jdbcType=INTEGER}, 
+        #{item.stacking,jdbcType=INTEGER})
       </foreach>
     </if>
   </insert>

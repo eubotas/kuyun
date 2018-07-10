@@ -14,6 +14,7 @@
             <list>
                 <ref bean="statisticTrigger" />
                 <ref bean="productLineShirtTrigger" />
+                <ref bean="shirtStatisticDataTrigger" />
             </list>
         </property>
     </bean>
@@ -25,6 +26,7 @@
         <property name="durability" value="true" />
         <property name="requestsRecovery" value="true" />
     </bean>
+    <!--每天1点统计 日 月 年-->
     <bean id="statisticTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="statisticDetail" />
         <property name="cronExpression" value="0 0 1 * * ?" />
@@ -37,9 +39,23 @@
         <property name="durability" value="true" />
         <property name="requestsRecovery" value="true" />
     </bean>
+    <!--每隔10分钟统计 产线数据-->
     <bean id="productLineShirtTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="productLineShirtDetail" />
         <property name="cronExpression" value="0 */10 * * * ?" />
+    </bean>
+
+    <bean id="shirtStatisticDataDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass">
+            <value>com.kuyun.eam.job.ShiftStatisticJob</value>
+        </property>
+        <property name="durability" value="true" />
+        <property name="requestsRecovery" value="true" />
+    </bean>
+    <!--每隔1小时统计 产量-->
+    <bean id="shirtStatisticDataTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="shirtStatisticDataDetail" />
+        <property name="cronExpression" value="0 */1 * * * ?" />
     </bean>
 
 

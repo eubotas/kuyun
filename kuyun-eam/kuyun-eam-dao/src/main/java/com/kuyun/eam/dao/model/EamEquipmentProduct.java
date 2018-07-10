@@ -29,6 +29,20 @@ public class EamEquipmentProduct extends BaseEntity implements Serializable {
      */
     private Integer capacity;
 
+    /**
+     * 包装规格
+     *
+     * @mbg.generated
+     */
+    private Integer packing;
+
+    /**
+     * 码垛规格
+     *
+     * @mbg.generated
+     */
+    private Integer stacking;
+
     private static final long serialVersionUID = 1L;
 
     public Integer getId() {
@@ -71,6 +85,22 @@ public class EamEquipmentProduct extends BaseEntity implements Serializable {
         this.capacity = capacity;
     }
 
+    public Integer getPacking() {
+        return packing;
+    }
+
+    public void setPacking(Integer packing) {
+        this.packing = packing;
+    }
+
+    public Integer getStacking() {
+        return stacking;
+    }
+
+    public void setStacking(Integer stacking) {
+        this.stacking = stacking;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -82,6 +112,8 @@ public class EamEquipmentProduct extends BaseEntity implements Serializable {
         sb.append(", materielNumber=").append(materielNumber);
         sb.append(", materielName=").append(materielName);
         sb.append(", capacity=").append(capacity);
+        sb.append(", packing=").append(packing);
+        sb.append(", stacking=").append(stacking);
         sb.append("]");
         return sb.toString();
     }
@@ -108,7 +140,9 @@ public class EamEquipmentProduct extends BaseEntity implements Serializable {
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
-            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()));
+            && (this.getCompanyId() == null ? other.getCompanyId() == null : this.getCompanyId().equals(other.getCompanyId()))
+            && (this.getPacking() == null ? other.getPacking() == null : this.getPacking().equals(other.getPacking()))
+            && (this.getStacking() == null ? other.getStacking() == null : this.getStacking().equals(other.getStacking()));
     }
 
     @Override
@@ -126,6 +160,8 @@ public class EamEquipmentProduct extends BaseEntity implements Serializable {
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getCompanyId() == null) ? 0 : getCompanyId().hashCode());
+        result = prime * result + ((getPacking() == null) ? 0 : getPacking().hashCode());
+        result = prime * result + ((getStacking() == null) ? 0 : getStacking().hashCode());
         return result;
     }
 }

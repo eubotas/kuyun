@@ -28,6 +28,9 @@
     <result column="eam_equipment_update_time" jdbcType="TIMESTAMP" property="updateTime" />
     <result column="eam_equipment_delete_flag" jdbcType="BIT" property="deleteFlag" />
     <result column="eam_equipment_is_online" jdbcType="BIT" property="isOnline" />
+    <result column="eam_equipment_output_id" jdbcType="INTEGER" property="outputId" />
+    <result column="eam_equipment_electricity_id" jdbcType="INTEGER" property="electricityId" />
+    <result column="eam_equipment_video_path" jdbcType="VARCHAR" property="videoPath" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -100,7 +103,9 @@
     eam_equipment.left_position as eam_equipment_left_position, eam_equipment.top_position as eam_equipment_top_position, 
     eam_equipment.create_user_id as eam_equipment_create_user_id, eam_equipment.create_time as eam_equipment_create_time, 
     eam_equipment.update_user_id as eam_equipment_update_user_id, eam_equipment.update_time as eam_equipment_update_time, 
-    eam_equipment.delete_flag as eam_equipment_delete_flag, eam_equipment.is_online as eam_equipment_is_online
+    eam_equipment.delete_flag as eam_equipment_delete_flag, eam_equipment.is_online as eam_equipment_is_online, 
+    eam_equipment.output_id as eam_equipment_output_id, eam_equipment.electricity_id as eam_equipment_electricity_id, 
+    eam_equipment.video_path as eam_equipment_video_path
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamEquipmentExample" resultMap="BaseResultMap">
     select
@@ -150,7 +155,8 @@
       warranty_end_date, maintenance_period, left_position, 
       top_position, create_user_id, create_time, 
       update_user_id, update_time, delete_flag, 
-      is_online)
+      is_online, output_id, electricity_id, 
+      video_path)
     values (#{equipmentId,jdbcType=VARCHAR}, #{equipmentCategoryId,jdbcType=INTEGER}, 
       #{productLineId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{taskNumber,jdbcType=VARCHAR}, 
       #{number,jdbcType=VARCHAR}, #{serialNumber,jdbcType=VARCHAR}, #{imagePath,jdbcType=VARCHAR}, 
@@ -160,7 +166,8 @@
       #{warrantyEndDate,jdbcType=TIMESTAMP}, #{maintenancePeriod,jdbcType=VARCHAR}, #{leftPosition,jdbcType=DECIMAL}, 
       #{topPosition,jdbcType=DECIMAL}, #{createUserId,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
-      #{isOnline,jdbcType=BIT})
+      #{isOnline,jdbcType=BIT}, #{outputId,jdbcType=INTEGER}, #{electricityId,jdbcType=INTEGER}, 
+      #{videoPath,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamEquipment">
     insert into eam_equipment
@@ -243,6 +250,15 @@
       <if test="isOnline != null">
         is_online,
       </if>
+      <if test="outputId != null">
+        output_id,
+      </if>
+      <if test="electricityId != null">
+        electricity_id,
+      </if>
+      <if test="videoPath != null">
+        video_path,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="equipmentId != null">
@@ -322,6 +338,15 @@
       </if>
       <if test="isOnline != null">
         #{isOnline,jdbcType=BIT},
+      </if>
+      <if test="outputId != null">
+        #{outputId,jdbcType=INTEGER},
+      </if>
+      <if test="electricityId != null">
+        #{electricityId,jdbcType=INTEGER},
+      </if>
+      <if test="videoPath != null">
+        #{videoPath,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -412,6 +437,15 @@
       <if test="record.isOnline != null">
         eam_equipment.is_online = #{record.isOnline,jdbcType=BIT},
       </if>
+      <if test="record.outputId != null">
+        eam_equipment.output_id = #{record.outputId,jdbcType=INTEGER},
+      </if>
+      <if test="record.electricityId != null">
+        eam_equipment.electricity_id = #{record.electricityId,jdbcType=INTEGER},
+      </if>
+      <if test="record.videoPath != null">
+        eam_equipment.video_path = #{record.videoPath,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -444,7 +478,10 @@
       eam_equipment.update_user_id = #{record.updateUserId,jdbcType=INTEGER},
       eam_equipment.update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       eam_equipment.delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      eam_equipment.is_online = #{record.isOnline,jdbcType=BIT}
+      eam_equipment.is_online = #{record.isOnline,jdbcType=BIT},
+      eam_equipment.output_id = #{record.outputId,jdbcType=INTEGER},
+      eam_equipment.electricity_id = #{record.electricityId,jdbcType=INTEGER},
+      eam_equipment.video_path = #{record.videoPath,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -527,6 +564,15 @@
       <if test="isOnline != null">
         is_online = #{isOnline,jdbcType=BIT},
       </if>
+      <if test="outputId != null">
+        output_id = #{outputId,jdbcType=INTEGER},
+      </if>
+      <if test="electricityId != null">
+        electricity_id = #{electricityId,jdbcType=INTEGER},
+      </if>
+      <if test="videoPath != null">
+        video_path = #{videoPath,jdbcType=VARCHAR},
+      </if>
     </set>
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </update>
@@ -556,7 +602,10 @@
       update_user_id = #{updateUserId,jdbcType=INTEGER},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
-      is_online = #{isOnline,jdbcType=BIT}
+      is_online = #{isOnline,jdbcType=BIT},
+      output_id = #{outputId,jdbcType=INTEGER},
+      electricity_id = #{electricityId,jdbcType=INTEGER},
+      video_path = #{videoPath,jdbcType=VARCHAR}
     where equipment_id = #{equipmentId,jdbcType=VARCHAR}
   </update>
   <insert id="batchInsert">
@@ -570,7 +619,8 @@
         warranty_end_date, maintenance_period, left_position, 
         top_position, create_user_id, create_time, 
         update_user_id, update_time, delete_flag, 
-        is_online)
+        is_online, output_id, electricity_id, 
+        video_path)
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.equipmentId,jdbcType=VARCHAR}, #{item.equipmentCategoryId,jdbcType=INTEGER}, 
@@ -582,7 +632,8 @@
         #{item.warrantyEndDate,jdbcType=TIMESTAMP}, #{item.maintenancePeriod,jdbcType=VARCHAR}, #{item.leftPosition,jdbcType=DECIMAL}, 
         #{item.topPosition,jdbcType=DECIMAL}, #{item.createUserId,jdbcType=INTEGER}, #{item.createTime,jdbcType=TIMESTAMP}, 
         #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, 
-        #{item.isOnline,jdbcType=BIT})
+        #{item.isOnline,jdbcType=BIT}, #{item.outputId,jdbcType=INTEGER}, #{item.electricityId,jdbcType=INTEGER}, 
+        #{item.videoPath,jdbcType=VARCHAR})
       </foreach>
     </if>
   </insert>

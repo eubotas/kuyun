@@ -1809,6 +1809,196 @@ public class EamEquipmentExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andOutputIdIsNull() {
+            addCriterion("eam_equipment.output_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutputIdIsNotNull() {
+            addCriterion("eam_equipment.output_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutputIdEqualTo(Integer value) {
+            addCriterion("eam_equipment.output_id =", value, "outputId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutputIdNotEqualTo(Integer value) {
+            addCriterion("eam_equipment.output_id <>", value, "outputId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutputIdGreaterThan(Integer value) {
+            addCriterion("eam_equipment.output_id >", value, "outputId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutputIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("eam_equipment.output_id >=", value, "outputId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutputIdLessThan(Integer value) {
+            addCriterion("eam_equipment.output_id <", value, "outputId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutputIdLessThanOrEqualTo(Integer value) {
+            addCriterion("eam_equipment.output_id <=", value, "outputId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutputIdIn(List<Integer> values) {
+            addCriterion("eam_equipment.output_id in", values, "outputId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutputIdNotIn(List<Integer> values) {
+            addCriterion("eam_equipment.output_id not in", values, "outputId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutputIdBetween(Integer value1, Integer value2) {
+            addCriterion("eam_equipment.output_id between", value1, value2, "outputId");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutputIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("eam_equipment.output_id not between", value1, value2, "outputId");
+            return (Criteria) this;
+        }
+
+        public Criteria andElectricityIdIsNull() {
+            addCriterion("eam_equipment.electricity_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andElectricityIdIsNotNull() {
+            addCriterion("eam_equipment.electricity_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andElectricityIdEqualTo(Integer value) {
+            addCriterion("eam_equipment.electricity_id =", value, "electricityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andElectricityIdNotEqualTo(Integer value) {
+            addCriterion("eam_equipment.electricity_id <>", value, "electricityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andElectricityIdGreaterThan(Integer value) {
+            addCriterion("eam_equipment.electricity_id >", value, "electricityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andElectricityIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("eam_equipment.electricity_id >=", value, "electricityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andElectricityIdLessThan(Integer value) {
+            addCriterion("eam_equipment.electricity_id <", value, "electricityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andElectricityIdLessThanOrEqualTo(Integer value) {
+            addCriterion("eam_equipment.electricity_id <=", value, "electricityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andElectricityIdIn(List<Integer> values) {
+            addCriterion("eam_equipment.electricity_id in", values, "electricityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andElectricityIdNotIn(List<Integer> values) {
+            addCriterion("eam_equipment.electricity_id not in", values, "electricityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andElectricityIdBetween(Integer value1, Integer value2) {
+            addCriterion("eam_equipment.electricity_id between", value1, value2, "electricityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andElectricityIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("eam_equipment.electricity_id not between", value1, value2, "electricityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoPathIsNull() {
+            addCriterion("eam_equipment.video_path is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoPathIsNotNull() {
+            addCriterion("eam_equipment.video_path is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoPathEqualTo(String value) {
+            addCriterion("eam_equipment.video_path =", value, "videoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoPathNotEqualTo(String value) {
+            addCriterion("eam_equipment.video_path <>", value, "videoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoPathGreaterThan(String value) {
+            addCriterion("eam_equipment.video_path >", value, "videoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoPathGreaterThanOrEqualTo(String value) {
+            addCriterion("eam_equipment.video_path >=", value, "videoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoPathLessThan(String value) {
+            addCriterion("eam_equipment.video_path <", value, "videoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoPathLessThanOrEqualTo(String value) {
+            addCriterion("eam_equipment.video_path <=", value, "videoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoPathLike(String value) {
+            addCriterion("eam_equipment.video_path like", value, "videoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoPathNotLike(String value) {
+            addCriterion("eam_equipment.video_path not like", value, "videoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoPathIn(List<String> values) {
+            addCriterion("eam_equipment.video_path in", values, "videoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoPathNotIn(List<String> values) {
+            addCriterion("eam_equipment.video_path not in", values, "videoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoPathBetween(String value1, String value2) {
+            addCriterion("eam_equipment.video_path between", value1, value2, "videoPath");
+            return (Criteria) this;
+        }
+
+        public Criteria andVideoPathNotBetween(String value1, String value2) {
+            addCriterion("eam_equipment.video_path not between", value1, value2, "videoPath");
+            return (Criteria) this;
+        }
+
         public Criteria addConditionSql(String conditionSql) {
             addCriterion(conditionSql);
             return (Criteria) this;

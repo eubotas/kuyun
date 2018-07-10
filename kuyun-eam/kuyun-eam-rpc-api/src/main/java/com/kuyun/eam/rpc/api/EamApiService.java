@@ -188,4 +188,6 @@ public interface EamApiService {
     MapData buildMapData();
 
     List<ShiftStatus> getShiftStatus();
+
+    void shiftStatisticJob();
 }
