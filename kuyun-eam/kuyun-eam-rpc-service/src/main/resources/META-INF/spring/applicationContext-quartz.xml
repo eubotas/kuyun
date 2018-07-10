@@ -55,7 +55,7 @@
     <!--每隔1小时统计 产量-->
     <bean id="shirtStatisticDataTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="shirtStatisticDataDetail" />
-        <property name="cronExpression" value="0 */1 * * * ?" />
+        <property name="cronExpression" value="0 0 0/1 * * ?" />
     </bean>
 
 

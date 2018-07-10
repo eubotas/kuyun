@@ -52,7 +52,6 @@ import static com.kuyun.eam.common.constant.CollectStatus.NO_START;
 import static com.kuyun.eam.common.constant.CollectStatus.WORKING;
 import static com.kuyun.eam.util.EamDateUtil.getDateStr;
 import static com.kuyun.eam.util.EamDateUtil.getShiftStartEndTime;
-import static java.lang.Enum.valueOf;
 
 
 /**
@@ -987,7 +986,7 @@ public class EamApiServiceImpl implements EamApiService {
 
                     EamGrmVariable variable = getEamGrmVariable(v);
                     if (variable == null){
-                        eamGrmVariableService.insert(v);
+                        eamGrmVariableService.insertSelective(v);
                     }else {
                         v.setId(variable.getId());
                     }
@@ -1029,7 +1028,7 @@ public class EamApiServiceImpl implements EamApiService {
 
         List<EamGrmVariableGroupVO> vos = selectEamGrmVariableGroup(vo);
 
-        if (vos != null){
+        if (vos != null && !vos.isEmpty()){
             List<Integer> ids = vos.stream().map(x -> x.getId()).collect(Collectors.toList());
 
             EamGrmVariableGroupExample example = new EamGrmVariableGroupExample();
@@ -2276,7 +2275,7 @@ public class EamApiServiceImpl implements EamApiService {
         dataByYear.setUpdateTime(new Date());
         dataByYear.setDeleteFlag(Boolean.FALSE);
 
-        eamStatisticDataByYearService.insert(dataByYear);
+        eamStatisticDataByYearService.insertSelective(dataByYear);
         return  dataByYear;
     }
 
@@ -2324,7 +2323,7 @@ public class EamApiServiceImpl implements EamApiService {
         dataByMonth.setUpdateTime(new Date());
         dataByMonth.setDeleteFlag(Boolean.FALSE);
 
-        eamStatisticDataByMonthService.insert(dataByMonth);
+        eamStatisticDataByMonthService.insertSelective(dataByMonth);
         return  dataByMonth;
     }
 
@@ -2410,7 +2409,7 @@ public class EamApiServiceImpl implements EamApiService {
         dataByDay.setCreateTime(new Date());
         dataByDay.setUpdateTime(new Date());
         dataByDay.setDeleteFlag(Boolean.FALSE);
-        eamStatisticDataByDayService.insert(dataByDay);
+        eamStatisticDataByDayService.insertSelective(dataByDay);
         return dataByDay;
     }
 
@@ -2616,33 +2615,33 @@ public class EamApiServiceImpl implements EamApiService {
             Integer outputId = vo.getOutputId();
             Integer electricityId = vo.getElectricityId();
 
-            String shiftName = null;
+            String shiftCode = null;
             String startTime = null;
             String endTime = null;
             if (EamDateUtil.inThisTimes(ProductLineShift.MORNING.getCode(), vo.getMorningShiftStartTime(), vo.getMorningShiftEndTime())) {
-                shiftName = ProductLineShift.MORNING.getName();
+                shiftCode = ProductLineShift.MORNING.getCode();
                 startTime = vo.getMorningShiftStartTime();
                 endTime = vo.getMorningShiftEndTime();
             } else if (EamDateUtil.inThisTimes(ProductLineShift.MORNING.getCode(), vo.getMiddleShiftStartTime(), vo.getMiddleShiftEndTime())) {
-                shiftName = ProductLineShift.MIDDLE.getName();
+                shiftCode = ProductLineShift.MIDDLE.getCode();
                 startTime = vo.getMiddleShiftStartTime();
                 endTime = vo.getMiddleShiftEndTime();
             } else if (EamDateUtil.inThisTimes(ProductLineShift.NIGHT.getCode(), vo.getNightShiftStartTime(), vo.getNightShiftEndTime())) {
-                shiftName = ProductLineShift.NIGHT.getName();
+                shiftCode = ProductLineShift.NIGHT.getCode();
                 startTime = vo.getNightShiftStartTime();
                 endTime = vo.getNightShiftEndTime();
             }
 
-            if (outputId != null && electricityId != null && shiftName != null){
+            if (outputId != null && electricityId != null && shiftCode != null){
 
-                EamShiftDataElementValue outputData = getEamGrmVariableDataByShift(null, vo.getProductLineId(), vo.getEquipmentId(), outputId, shiftName, null,  startTime, endTime);
-                EamShiftDataElementValue electricityData = getEamGrmVariableDataByShift(null, vo.getProductLineId(), vo.getEquipmentId(), electricityId, shiftName, null,  startTime, endTime);
+                EamShiftDataElementValue outputData = getEamGrmVariableDataByShift(null, vo.getProductLineId(), vo.getEquipmentId(), outputId, shiftCode, null,  startTime, endTime);
+                EamShiftDataElementValue electricityData = getEamGrmVariableDataByShift(null, vo.getProductLineId(), vo.getEquipmentId(), electricityId, shiftCode, null,  startTime, endTime);
 
                 //1. 千瓶耗电量
-                handlerThousandBottleElectricityByShift(vo, shiftName, startTime, endTime, outputData, electricityData);
+                handlerThousandBottleElectricityByShift(vo, shiftCode, startTime, endTime, outputData, electricityData);
 
                 //2. 电费
-                handlerElectricChargeByShift(vo, shiftName, startTime, endTime, electricityData);
+                handlerElectricChargeByShift(vo, shiftCode, startTime, endTime, electricityData);
             }
         }
     }
@@ -2674,7 +2673,7 @@ public class EamApiServiceImpl implements EamApiService {
         shiftStatisticData.setCreateTime(new Date());
         shiftStatisticData.setUpdateTime(new Date());
         shiftStatisticData.setDeleteFlag(Boolean.FALSE);
-        eamShiftStatisticDataService.insert(shiftStatisticData);
+        eamShiftStatisticDataService.insertSelective(shiftStatisticData);
     }
 
     @Override
@@ -2753,35 +2752,35 @@ public class EamApiServiceImpl implements EamApiService {
         for (EamEquipmentVO vo : equipmentVOS){
             Integer outputId = vo.getOutputId();
 
-            String shiftName = null;
+            String shiftCode = null;
             String startTime = null;
             String endTime = null;
             if (EamDateUtil.inThisTimes(ProductLineShift.MORNING.getCode(), vo.getMorningShiftStartTime(), vo.getMorningShiftEndTime())) {
-                shiftName = ProductLineShift.MORNING.getName();
+                shiftCode = ProductLineShift.MORNING.getCode();
                 startTime = vo.getMorningShiftStartTime();
                 endTime = vo.getMorningShiftEndTime();
             } else if (EamDateUtil.inThisTimes(ProductLineShift.MORNING.getCode(), vo.getMiddleShiftStartTime(), vo.getMiddleShiftEndTime())) {
-                shiftName = ProductLineShift.MIDDLE.getName();
+                shiftCode = ProductLineShift.MIDDLE.getCode();
                 startTime = vo.getMiddleShiftStartTime();
                 endTime = vo.getMiddleShiftEndTime();
             } else if (EamDateUtil.inThisTimes(ProductLineShift.NIGHT.getCode(), vo.getNightShiftStartTime(), vo.getNightShiftEndTime())) {
-                shiftName = ProductLineShift.NIGHT.getName();
+                shiftCode = ProductLineShift.NIGHT.getCode();
                 startTime = vo.getNightShiftStartTime();
                 endTime = vo.getNightShiftEndTime();
             }
 
-            if (outputId != null && shiftName != null) {
+            if (outputId != null && shiftCode != null) {
 
-                EamShiftDataElementValue outputData = getEamGrmVariableDataByShift(null, vo.getProductLineId(), vo.getEquipmentId(), outputId, shiftName, null, startTime, endTime);
+                EamShiftDataElementValue outputData = getEamGrmVariableDataByShift(null, vo.getProductLineId(), vo.getEquipmentId(), outputId, shiftCode, null, startTime, endTime);
                 if (outputData != null){
-                    EamShiftStatisticData shiftStatisticData = selectEamShiftStatisticData(vo, EamConstant.OUTPUT, shiftName, startTime, endTime);
+                    EamShiftStatisticData shiftStatisticData = selectEamShiftStatisticData(vo, EamConstant.OUTPUT, shiftCode, startTime, endTime);
                     String newValue = null;
                     if (shiftStatisticData == null){
                         newValue = outputData.getValue();
                     }else {
                         newValue = String.valueOf(NumberUtil.toInteger(outputData.getValue()) - NumberUtil.toInteger(shiftStatisticData.getValue()));
                     }
-                    buildEamShiftStatisticData(vo, EamConstant.OUTPUT, shiftName, newValue, DateUtil.getCurrentHoursAndMiutes());
+                    buildEamShiftStatisticData(vo, EamConstant.OUTPUT, shiftCode, newValue, DateUtil.getCurrentHoursAndMiutes());
                 }
 
             }
@@ -2860,7 +2859,7 @@ public class EamApiServiceImpl implements EamApiService {
             productLineShiftData.setDeleteFlag(Boolean.FALSE);
             productLineShiftData.setCreateTime(new Date());
             productLineShiftData.setUpdateTime(new Date());
-            eamProductLineShiftDataService.insert(productLineShiftData);
+            eamProductLineShiftDataService.insertSelective(productLineShiftData);
         }else {
             eamProductLineShiftData.setOee(productLineShiftData.getOee());
             eamProductLineShiftData.setActualCapacity(productLineShiftData.getActualCapacity());
@@ -2950,23 +2949,45 @@ public class EamApiServiceImpl implements EamApiService {
     }
 
     private void setProductLineShiftData(EamProductLineShiftData productLineShiftData, EamProductLine productLine){
-        int actualCapacityId = productLine.getActualCapacityId();
-        int baseCapacityId = productLine.getBaseCapacityId();
-        int qualifiedQuantityId = productLine.getQualifiedQuantityId();
-        int totalQuantityId = productLine.getTotalQuantityId();
-        int preformQuantityId = productLine.getPreformQuantityId();
-        int capQuantityId = productLine.getCapQuantityId();
-        int wrapQuantityId = productLine.getWrapQuantityId();
+        Integer actualCapacityId = productLine.getActualCapacityId();
+        Integer baseCapacityId = productLine.getBaseCapacityId();
+        Integer qualifiedQuantityId = productLine.getQualifiedQuantityId();
+        Integer totalQuantityId = productLine.getTotalQuantityId();
+        Integer preformQuantityId = productLine.getPreformQuantityId();
+        Integer capQuantityId = productLine.getCapQuantityId();
+        Integer wrapQuantityId = productLine.getWrapQuantityId();
 
 
         List<Integer> dataElementIds = new ArrayList<>();
-        dataElementIds.add(actualCapacityId);
-        dataElementIds.add(qualifiedQuantityId);
-        dataElementIds.add(totalQuantityId);
-        dataElementIds.add(baseCapacityId);
-        dataElementIds.add(preformQuantityId);
-        dataElementIds.add(capQuantityId);
-        dataElementIds.add(wrapQuantityId);
+        if (actualCapacityId != null){
+            dataElementIds.add(actualCapacityId);
+        }
+
+        if (qualifiedQuantityId != null){
+            dataElementIds.add(qualifiedQuantityId);
+        }
+
+        if (totalQuantityId != null){
+            dataElementIds.add(totalQuantityId);
+        }
+
+        if (baseCapacityId != null){
+            dataElementIds.add(baseCapacityId);
+        }
+
+        if (preformQuantityId != null){
+            dataElementIds.add(preformQuantityId);
+        }
+
+        if (capQuantityId != null){
+            dataElementIds.add(capQuantityId);
+        }
+
+        if (wrapQuantityId != null){
+            dataElementIds.add(wrapQuantityId);
+        }
+
+
 
         EamGrmVariableDataExample example = new EamGrmVariableDataExample();
         example.createCriteria().andProductLineIdEqualTo(productLine.getProductLineId())
@@ -2983,19 +3004,19 @@ public class EamApiServiceImpl implements EamApiService {
         List<EamGrmVariableData> variableDataList = eamGrmVariableDataService.selectByExample(example);
         if (variableDataList != null){
             for(EamGrmVariableData data : variableDataList){
-                if (data.getDataElementId() == actualCapacityId){
+                if (data.getDataElementId().equals(actualCapacityId) ){
                     productLineShiftData.setActualCapacity(NumberUtil.toBigDecimal(data.getValue()));
-                }else if (data.getDataElementId() == qualifiedQuantityId){
+                }else if (data.getDataElementId().equals(qualifiedQuantityId) ){
                     qualifiedQuantity = NumberUtil.toBigDecimal(data.getValue());
-                }else if (data.getDataElementId() == totalQuantityId){
+                }else if (data.getDataElementId().equals(totalQuantityId) ){
                     totalQuantity = NumberUtil.toBigDecimal(data.getValue());
-                }else if (data.getDataElementId() == baseCapacityId){
+                }else if (data.getDataElementId().equals(baseCapacityId) ){
                     materielNumber = data.getValue();
-                }else if (data.getDataElementId() == preformQuantityId){
+                }else if (data.getDataElementId().equals(preformQuantityId) ){
                     preformQuantity = NumberUtil.toBigDecimal(data.getValue());
-                }else if (data.getDataElementId() == capQuantityId){
+                }else if (data.getDataElementId().equals(capQuantityId) ){
                     capQuantity = NumberUtil.toBigDecimal(data.getValue());
-                }else if (data.getDataElementId() == wrapQuantityId){
+                }else if (data.getDataElementId().equals(wrapQuantityId)){
                     wrapQuantity = NumberUtil.toBigDecimal(data.getValue());
                 }
             }
