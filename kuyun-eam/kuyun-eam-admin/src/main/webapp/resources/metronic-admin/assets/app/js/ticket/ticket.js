@@ -2,7 +2,7 @@ var addGalleryUploader;
 var editGalleryUploader;
 
 $(document).ready(function() {
-    selectedItemColor("ticketList", "${category}");
+    selectedItemColor("ticketList", category);
 
     //codes works on all bootstrap modal windows in application
     $('.modal').on('hidden.bs.modal', function(e)

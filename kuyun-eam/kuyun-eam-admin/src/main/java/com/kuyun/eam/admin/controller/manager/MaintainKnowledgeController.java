@@ -144,7 +144,7 @@ public class MaintainKnowledgeController extends BaseController {
             return new EamResult(INVALID_LENGTH, result.getErrors());
         }
         baseModelUtil.addAddtionalValue(doc);
-
+        doc.setId(null);
         tagUtil.handleTag(ActionEnum.CREATE.getName(), null, doc.getTag());
 
         maintainKnowledgeRepository.save(doc);

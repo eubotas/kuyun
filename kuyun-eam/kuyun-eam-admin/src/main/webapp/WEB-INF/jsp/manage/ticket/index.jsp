@@ -211,6 +211,7 @@
 
     <script>
         var basePath = "${basePath}";
+        var category="${category}";
     </script>
     <script src="${basePath}/resources/metronic-admin/assets/app/js/ticket/ticket.js"></script>
 

@@ -11,6 +11,11 @@ public class SessionUser {
     public static String USER="USER";
     public static String COMPANY="COMPANY";
 
+    public Integer getCurrentCompanyId(HttpServletRequest request){
+        UpmsUser user= getUser(request);
+        return user!= null? user.getCompanyId():null;
+    }
+
     public UpmsUser getUser(HttpServletRequest request){
         Object obj = request.getSession(true).getAttribute(USER);
         UpmsUser user = null;

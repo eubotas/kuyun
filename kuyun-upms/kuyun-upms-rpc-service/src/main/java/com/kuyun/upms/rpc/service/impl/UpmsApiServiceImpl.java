@@ -188,14 +188,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
      */
     @Override
     public UpmsUser selectUpmsUserByUsername(String username) {
-        UpmsUserExample upmsUserExample = new UpmsUserExample();
-        upmsUserExample.createCriteria()
-                .andUsernameEqualTo(username);
-        List<UpmsUser> upmsUsers = upmsUserMapper.selectByExample(upmsUserExample);
-        if (null != upmsUsers && upmsUsers.size() > 0) {
-            return upmsUsers.get(0);
-        }
-        return null;
+        return upmsApiMapper.getUserCompanyByUserName(username);
     }
 
     @Override
@@ -453,6 +446,7 @@ public class UpmsApiServiceImpl implements UpmsApiService {
         UpmsUserCompany upmsUserCompany = new UpmsUserCompany();
         upmsUserCompany.setCompanyId(upmsCompany.getCompanyId());
         upmsUserCompany.setUserId(upmsUser.getUserId());
+        upmsUserCompany.setDeleteFlag(false);
         upmsUserCompanyService.insert(upmsUserCompany);
 
         if(!isNewCompany) {
@@ -605,6 +599,11 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     }
 
     @Override
+    public UpmsUserCompany getUpmsUserCompany(Integer userId){
+        return upmsApiMapper.getUpmsUserCompany(userId);
+    }
+
+    @Override
     public List<UpmsCompanyVo> selectCompanyEquipments(UpmsCompanyVo upmsCompanyVo) {
         return upmsApiMapper.selectCompanyEquipments(upmsCompanyVo);
     }
@@ -707,5 +706,10 @@ public class UpmsApiServiceImpl implements UpmsApiService {
     @Override
     public List<UpmsCompany> selectCompanies(UpmsCompanyVo companyVo) {
         return upmsApiMapper.selectCompanies(companyVo);
+    }
+
+    @Override
+    public UpmsUser getUserCompanyByUserName(String username){
+        return upmsApiMapper.getUserCompanyByUserName(username);
     }
 }
