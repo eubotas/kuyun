@@ -45,7 +45,10 @@ function showEquipmentInfo(eid){
 }
 
 function getDataModel(equipid){
-    ajaxGet(basePath+'/manage/equipment/sensor/data/'+selectedequipid, function (responseData) {
+    $.ajax({
+        type: 'get',
+        url: basePath+'/manage/equipment/sensor/data/'+selectedequipid,
+        success: function (responseData) {
         if(responseData.code == 1) {
             var analogflag=0,digitalflag=0;
             var dataArr=responseData.data;
@@ -99,6 +102,11 @@ function getDataModel(equipid){
             showId('nav_runData',showAnalogTab);
             showId('nav_startStop',showDigitalTab);
             onlineHideShow(isOnline);
+        }
+        getDataModel(equipid);
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            getDataModel(equipid);
         }
     });
 }

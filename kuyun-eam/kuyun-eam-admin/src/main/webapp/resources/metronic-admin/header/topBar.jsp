@@ -205,8 +205,8 @@
 <script src="${basePath}/resources/metronic-admin/assets/app/js/refresh_alarm.js"></script>
 <script>
     var eamPath = "${eamPath}";
-    var refreshTime =5000;
     refreshAlarm();
+    //var refreshTime =5000;
     //setInterval(function(){ refreshAlarm(); }, refreshTime);
 
 </script>

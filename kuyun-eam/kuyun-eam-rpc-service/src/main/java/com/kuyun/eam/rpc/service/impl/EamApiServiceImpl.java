@@ -1,6 +1,7 @@
 package com.kuyun.eam.rpc.service.impl;
 
 import com.google.gson.Gson;
+import com.kuyun.common.util.EquipmentSensorDataUtil;
 import com.kuyun.common.util.RedisPublish;
 import com.kuyun.eam.alarm.AbstractAlarmHandler;
 import com.kuyun.eam.alarm.AlarmTypeFactory;
@@ -575,6 +576,9 @@ public class EamApiServiceImpl implements EamApiService {
             sensorData.setUpdateTime(now);
             sensorData.setStringValue(data);
             eamSensorDataService.updateByPrimaryKeySelective(sensorData);
+            if(EquipmentSensorDataUtil.isChangedData(deviceId,  sensorId,  data)){
+                new RedisPublish().publishDataChange(deviceId);
+            }
         }
         return sensorData;
     }

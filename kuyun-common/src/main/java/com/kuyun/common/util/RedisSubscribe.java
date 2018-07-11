@@ -19,7 +19,7 @@ public class RedisSubscribe {
         return isDataChanged;
     }
 
-    public void SubDataChange(Integer companyId){
+    public void SubDataChange(String eId){
         final Jedis jRedis = new Jedis("localhost");
 
         JedisPubSub jedisPub=new JedisPubSub() {
@@ -33,7 +33,7 @@ public class RedisSubscribe {
                 _log.debug(message);
             }
         };
-        jRedis.subscribe(jedisPub,RedisPublish.DATA_CHANGE+companyId);
+        jRedis.subscribe(jedisPub,RedisPublish.EQUIPMENT_DATA_CHANGE+eId);
     }
 
 

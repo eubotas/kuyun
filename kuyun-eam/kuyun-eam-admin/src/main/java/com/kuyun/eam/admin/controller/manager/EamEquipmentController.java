@@ -5,6 +5,7 @@ import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.google.gson.Gson;
 import com.kuyun.common.base.BaseController;
+import com.kuyun.common.util.RedisSubscribe;
 import com.kuyun.common.validator.LengthValidator;
 import com.kuyun.eam.common.constant.EamResult;
 import com.kuyun.eam.dao.model.*;
@@ -283,8 +284,23 @@ public class EamEquipmentController extends BaseController {
 	@RequestMapping(value = "/sensor/data/{eId}", method = RequestMethod.GET)
 	@ResponseBody
 	public Object getSensorData(@PathVariable("eId") String eId) {
-		List<SensorGroup> sensorGroups = eamApiService.getSensorData(eId);
-		return new EamResult(SUCCESS, sensorGroups);
+        RedisSubscribe sub=new RedisSubscribe();
+        sub.SubDataChange(eId);
+
+        while (true) {
+            if (sub.isDataChanged()) {
+                List<SensorGroup> sensorGroups = eamApiService.getSensorData(eId);
+                return new EamResult(SUCCESS, sensorGroups);
+            } else {
+                //没有新的数据 保持住连接
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    _log.error(e.getMessage());
+                }
+            }
+        }
+
 	}
 
 	@ApiOperation(value = "设备参数列表")
