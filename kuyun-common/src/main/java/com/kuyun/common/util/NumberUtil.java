@@ -57,4 +57,17 @@ public class NumberUtil {
             return Boolean.FALSE;
         }
     }
+
+    public static boolean isGreaterThanZero(BigDecimal argValue){
+        return argValue.compareTo(BigDecimal.ZERO) == 1;
+    }
+
+    public static BigDecimal divide(BigDecimal argA, BigDecimal argB){
+        BigDecimal result = BigDecimal.ZERO;
+        if (!BigDecimal.ZERO.equals(argB)){
+            result = argA.divide(argB, 2, BigDecimal.ROUND_HALF_UP);
+        }
+        return result;
+    }
+
 }

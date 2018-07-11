@@ -9,6 +9,9 @@ import java.util.Date;
  */
 public class ShirtInfo implements Serializable {
     private String name;
+    private String code;
+    private String startTime;
+    private String endTime;
     private Date startDate;
     private Date endDate;
     private BigDecimal stopTime;
@@ -23,6 +26,30 @@ public class ShirtInfo implements Serializable {
 
     public BigDecimal getSumTime() {
         return sumTime;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
     public void setSumTime(BigDecimal sumTime) {

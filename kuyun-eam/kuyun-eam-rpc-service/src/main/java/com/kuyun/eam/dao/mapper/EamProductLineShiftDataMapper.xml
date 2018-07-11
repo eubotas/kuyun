@@ -26,6 +26,7 @@
     <result column="delete_flag" jdbcType="BIT" property="deleteFlag" />
     <result column="preform_consume" jdbcType="INTEGER" property="preformConsume" />
     <result column="cap_consume" jdbcType="INTEGER" property="capConsume" />
+    <result column="actual_quantity" jdbcType="DECIMAL" property="actualQuantity" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -89,7 +90,7 @@
     id, product_line_id, actual_capacity, base_capacity, performance_rate, qualified_rate, 
     rejection_rate, time_starting_rate, oee, product_name, start_date, end_date, sum_time_str, 
     sum_time, shirt_time, plan_stop_time, shift_name, create_user_id, create_time, update_user_id, 
-    update_time, delete_flag, preform_consume, cap_consume
+    update_time, delete_flag, preform_consume, cap_consume, actual_quantity
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamProductLineShiftDataExample" resultMap="BaseResultMap">
     select
@@ -137,8 +138,8 @@
       sum_time_str, sum_time, shirt_time, 
       plan_stop_time, shift_name, create_user_id, 
       create_time, update_user_id, update_time, 
-      delete_flag, preform_consume, cap_consume
-      )
+      delete_flag, preform_consume, cap_consume, 
+      actual_quantity)
     values (#{id,jdbcType=BIGINT}, #{productLineId,jdbcType=VARCHAR}, #{actualCapacity,jdbcType=DECIMAL}, 
       #{baseCapacity,jdbcType=DECIMAL}, #{performanceRate,jdbcType=DECIMAL}, #{qualifiedRate,jdbcType=DECIMAL}, 
       #{rejectionRate,jdbcType=DECIMAL}, #{timeStartingRate,jdbcType=DECIMAL}, #{oee,jdbcType=DECIMAL}, 
@@ -146,8 +147,8 @@
       #{sumTimeStr,jdbcType=VARCHAR}, #{sumTime,jdbcType=DECIMAL}, #{shirtTime,jdbcType=DECIMAL}, 
       #{planStopTime,jdbcType=DECIMAL}, #{shiftName,jdbcType=VARCHAR}, #{createUserId,jdbcType=INTEGER}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlag,jdbcType=BIT}, #{preformConsume,jdbcType=INTEGER}, #{capConsume,jdbcType=INTEGER}
-      )
+      #{deleteFlag,jdbcType=BIT}, #{preformConsume,jdbcType=INTEGER}, #{capConsume,jdbcType=INTEGER}, 
+      #{actualQuantity,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamProductLineShiftData">
     insert into eam_product_line_shift_data
@@ -224,6 +225,9 @@
       <if test="capConsume != null">
         cap_consume,
       </if>
+      <if test="actualQuantity != null">
+        actual_quantity,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -297,6 +301,9 @@
       </if>
       <if test="capConsume != null">
         #{capConsume,jdbcType=INTEGER},
+      </if>
+      <if test="actualQuantity != null">
+        #{actualQuantity,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -381,6 +388,9 @@
       <if test="record.capConsume != null">
         cap_consume = #{record.capConsume,jdbcType=INTEGER},
       </if>
+      <if test="record.actualQuantity != null">
+        actual_quantity = #{record.actualQuantity,jdbcType=DECIMAL},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -411,7 +421,8 @@
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{record.deleteFlag,jdbcType=BIT},
       preform_consume = #{record.preformConsume,jdbcType=INTEGER},
-      cap_consume = #{record.capConsume,jdbcType=INTEGER}
+      cap_consume = #{record.capConsume,jdbcType=INTEGER},
+      actual_quantity = #{record.actualQuantity,jdbcType=DECIMAL}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -488,6 +499,9 @@
       <if test="capConsume != null">
         cap_consume = #{capConsume,jdbcType=INTEGER},
       </if>
+      <if test="actualQuantity != null">
+        actual_quantity = #{actualQuantity,jdbcType=DECIMAL},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -515,7 +529,8 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
       preform_consume = #{preformConsume,jdbcType=INTEGER},
-      cap_consume = #{capConsume,jdbcType=INTEGER}
+      cap_consume = #{capConsume,jdbcType=INTEGER},
+      actual_quantity = #{actualQuantity,jdbcType=DECIMAL}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <insert id="batchInsert">
@@ -527,8 +542,8 @@
         sum_time_str, sum_time, shirt_time, 
         plan_stop_time, shift_name, create_user_id, 
         create_time, update_user_id, update_time, 
-        delete_flag, preform_consume, cap_consume
-        )
+        delete_flag, preform_consume, cap_consume, 
+        actual_quantity)
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.id,jdbcType=BIGINT}, #{item.productLineId,jdbcType=VARCHAR}, #{item.actualCapacity,jdbcType=DECIMAL}, 
@@ -538,8 +553,8 @@
         #{item.sumTimeStr,jdbcType=VARCHAR}, #{item.sumTime,jdbcType=DECIMAL}, #{item.shirtTime,jdbcType=DECIMAL}, 
         #{item.planStopTime,jdbcType=DECIMAL}, #{item.shiftName,jdbcType=VARCHAR}, #{item.createUserId,jdbcType=INTEGER}, 
         #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, 
-        #{item.deleteFlag,jdbcType=BIT}, #{item.preformConsume,jdbcType=INTEGER}, #{item.capConsume,jdbcType=INTEGER}
-        )
+        #{item.deleteFlag,jdbcType=BIT}, #{item.preformConsume,jdbcType=INTEGER}, #{item.capConsume,jdbcType=INTEGER}, 
+        #{item.actualQuantity,jdbcType=DECIMAL})
       </foreach>
     </if>
   </insert>

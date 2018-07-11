@@ -2549,6 +2549,66 @@ public class EamProductLineExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andActualQuantityIdIsNull() {
+            addCriterion("eam_product_line.actual_quantity_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualQuantityIdIsNotNull() {
+            addCriterion("eam_product_line.actual_quantity_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualQuantityIdEqualTo(Integer value) {
+            addCriterion("eam_product_line.actual_quantity_id =", value, "actualQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualQuantityIdNotEqualTo(Integer value) {
+            addCriterion("eam_product_line.actual_quantity_id <>", value, "actualQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualQuantityIdGreaterThan(Integer value) {
+            addCriterion("eam_product_line.actual_quantity_id >", value, "actualQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualQuantityIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("eam_product_line.actual_quantity_id >=", value, "actualQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualQuantityIdLessThan(Integer value) {
+            addCriterion("eam_product_line.actual_quantity_id <", value, "actualQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualQuantityIdLessThanOrEqualTo(Integer value) {
+            addCriterion("eam_product_line.actual_quantity_id <=", value, "actualQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualQuantityIdIn(List<Integer> values) {
+            addCriterion("eam_product_line.actual_quantity_id in", values, "actualQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualQuantityIdNotIn(List<Integer> values) {
+            addCriterion("eam_product_line.actual_quantity_id not in", values, "actualQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualQuantityIdBetween(Integer value1, Integer value2) {
+            addCriterion("eam_product_line.actual_quantity_id between", value1, value2, "actualQuantityId");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualQuantityIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("eam_product_line.actual_quantity_id not between", value1, value2, "actualQuantityId");
+            return (Criteria) this;
+        }
+
         public Criteria addConditionSql(String conditionSql) {
             addCriterion(conditionSql);
             return (Criteria) this;

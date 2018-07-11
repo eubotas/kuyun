@@ -723,7 +723,7 @@
 
 	<sql id="DataElement_Column_List">
 		t.id, t.name, t.lable_name, t.unit, t.data_type, t.equipment_category_id, t.create_user_id, t.create_time,
-    	t.update_user_id, t.update_time, t.delete_flag, t.is_statistic_by_date,t.is_statistic_by_shift, t.is_summation,
+    	t.update_user_id, t.update_time, t.delete_flag, t.is_statistic, t.is_summation,
 	</sql>
 
 	<select id="selectDataElements" parameterType="com.kuyun.eam.vo.EamDataElementVO" resultMap="EamDataElementVOResultMap">
@@ -1356,7 +1356,7 @@
 		from eam_grm_variable, eam_data_element e
 		where eam_grm_variable.delete_flag = 0 and e.delete_flag = 0
 		and eam_grm_variable.data_element_id = e.id
-		and e.is_statistic_by_date = 1
+		and e.is_statistic = 1
 		ORDER by data_element_id,e.data_type
 
 	</select>
@@ -1636,21 +1636,20 @@
 		<result column="night_shift_start_time" jdbcType="VARCHAR" property="nightShiftStartTime" />
 		<result column="night_shift_end_time" jdbcType="VARCHAR" property="nightShiftEndTime" />
 		<result column="data_type" jdbcType="VARCHAR" property="dataType" />
-		<result column="is_statistic_by_date" jdbcType="INTEGER" property="isStatisticByDate" />
-		<result column="is_statistic_by_shift" jdbcType="INTEGER" property="isStatisticByShift" />
+		<result column="is_statistic" jdbcType="INTEGER" property="isStatisticByDate" />
 		<result column="is_summation" jdbcType="INTEGER" property="isSummation" />
 	</resultMap>
 
 	<select id="getProductShiftGrmVariable" parameterType="com.kuyun.eam.vo.EamGrmVariableVO" resultMap="eamProductLineGrmDataElementVO">
 		select
 		l.morning_shift_start_time, l.morning_shift_end_time, l.middle_shift_start_time,l.middle_shift_end_time,
-		l.night_shift_start_time, l.night_shift_end_time,e.data_type, e.is_statistic_by_date,e.is_statistic_by_shift,e.is_summation,
+		l.night_shift_start_time, l.night_shift_end_time,e.data_type, e.is_statistic,e.is_summation,
 		<include refid="com.kuyun.eam.dao.mapper.EamGrmVariableMapper.Base_Column_List" />
 		from eam_grm_variable, eam_data_element e, eam_product_line l
 		where eam_grm_variable.delete_flag = 0 and e.delete_flag = 0
 		and eam_grm_variable.data_element_id = e.id
 		and eam_grm_variable.product_line_id = l.product_line_id
-        and e.is_statistic_by_shift = 1
+        and e.is_statistic = 1
 
 		<if test="productLineId != null and productLineId != ''">
 			AND eam_grm_variable.product_line_id = #{productLineId}

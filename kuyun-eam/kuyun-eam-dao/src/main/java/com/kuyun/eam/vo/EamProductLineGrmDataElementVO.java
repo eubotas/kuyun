@@ -20,8 +20,7 @@ public class EamProductLineGrmDataElementVO extends EamGrmVariable {
     private String dataType;
 
     private Boolean isSummation;
-    private Boolean isStatisticByDate;
-    private Boolean isStatisticByShift;
+    private Boolean isStatistic;
 
     public String getMorningShiftStartTime() {
         return morningShiftStartTime;
@@ -87,21 +86,11 @@ public class EamProductLineGrmDataElementVO extends EamGrmVariable {
         isSummation = summation;
     }
 
-    public Boolean getStatisticByDate() {
-        return isStatisticByDate;
+    public Boolean getStatistic() {
+        return isStatistic;
     }
 
-    public void setStatisticByDate(Boolean statisticByDate) {
-        isStatisticByDate = statisticByDate;
+    public void setStatistic(Boolean statistic) {
+        isStatistic = statistic;
     }
-
-    public Boolean getStatisticByShift() {
-        return isStatisticByShift;
-    }
-
-    public void setStatisticByShift(Boolean statisticByShift) {
-        isStatisticByShift = statisticByShift;
-    }
-
-
 }

@@ -1609,6 +1609,66 @@ public class EamProductLineShiftDataExample implements Serializable {
             return (Criteria) this;
         }
 
+        public Criteria andActualQuantityIsNull() {
+            addCriterion("actual_quantity is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualQuantityIsNotNull() {
+            addCriterion("actual_quantity is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualQuantityEqualTo(BigDecimal value) {
+            addCriterion("actual_quantity =", value, "actualQuantity");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualQuantityNotEqualTo(BigDecimal value) {
+            addCriterion("actual_quantity <>", value, "actualQuantity");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualQuantityGreaterThan(BigDecimal value) {
+            addCriterion("actual_quantity >", value, "actualQuantity");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualQuantityGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("actual_quantity >=", value, "actualQuantity");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualQuantityLessThan(BigDecimal value) {
+            addCriterion("actual_quantity <", value, "actualQuantity");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualQuantityLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("actual_quantity <=", value, "actualQuantity");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualQuantityIn(List<BigDecimal> values) {
+            addCriterion("actual_quantity in", values, "actualQuantity");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualQuantityNotIn(List<BigDecimal> values) {
+            addCriterion("actual_quantity not in", values, "actualQuantity");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualQuantityBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("actual_quantity between", value1, value2, "actualQuantity");
+            return (Criteria) this;
+        }
+
+        public Criteria andActualQuantityNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("actual_quantity not between", value1, value2, "actualQuantity");
+            return (Criteria) this;
+        }
+
         public Criteria addConditionSql(String conditionSql) {
             addCriterion(conditionSql);
             return (Criteria) this;

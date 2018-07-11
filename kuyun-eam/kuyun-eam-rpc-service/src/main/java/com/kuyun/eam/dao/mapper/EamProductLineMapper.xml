@@ -40,6 +40,7 @@
     <result column="eam_product_line_cap_quantity_id" jdbcType="INTEGER" property="capQuantityId" />
     <result column="eam_product_line_wrap_quantity_id" jdbcType="INTEGER" property="wrapQuantityId" />
     <result column="eam_product_line_electricity_unit_price" jdbcType="DECIMAL" property="electricityUnitPrice" />
+    <result column="eam_product_line_actual_quantity_id" jdbcType="INTEGER" property="actualQuantityId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -120,7 +121,8 @@
     eam_product_line.delete_flag as eam_product_line_delete_flag, eam_product_line.bottle_quantity_id as eam_product_line_bottle_quantity_id, 
     eam_product_line.start_produce_id as eam_product_line_start_produce_id, eam_product_line.end_produce_id as eam_product_line_end_produce_id, 
     eam_product_line.preform_quantity_id as eam_product_line_preform_quantity_id, eam_product_line.cap_quantity_id as eam_product_line_cap_quantity_id, 
-    eam_product_line.wrap_quantity_id as eam_product_line_wrap_quantity_id, eam_product_line.electricity_unit_price as eam_product_line_electricity_unit_price
+    eam_product_line.wrap_quantity_id as eam_product_line_wrap_quantity_id, eam_product_line.electricity_unit_price as eam_product_line_electricity_unit_price, 
+    eam_product_line.actual_quantity_id as eam_product_line_actual_quantity_id
   </sql>
   <select id="selectByExample" parameterType="com.kuyun.eam.dao.model.EamProductLineExample" resultMap="BaseResultMap">
     select
@@ -174,7 +176,7 @@
       update_user_id, update_time, delete_flag, 
       bottle_quantity_id, start_produce_id, end_produce_id, 
       preform_quantity_id, cap_quantity_id, wrap_quantity_id, 
-      electricity_unit_price)
+      electricity_unit_price, actual_quantity_id)
     values (#{productLineId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{imagePath,jdbcType=VARCHAR}, 
       #{longitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}, #{province,jdbcType=VARCHAR}, 
       #{city,jdbcType=VARCHAR}, #{grm,jdbcType=VARCHAR}, #{grmPassword,jdbcType=VARCHAR}, 
@@ -188,7 +190,7 @@
       #{updateUserId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
       #{bottleQuantityId,jdbcType=INTEGER}, #{startProduceId,jdbcType=INTEGER}, #{endProduceId,jdbcType=INTEGER}, 
       #{preformQuantityId,jdbcType=INTEGER}, #{capQuantityId,jdbcType=INTEGER}, #{wrapQuantityId,jdbcType=INTEGER}, 
-      #{electricityUnitPrice,jdbcType=DECIMAL})
+      #{electricityUnitPrice,jdbcType=DECIMAL}, #{actualQuantityId,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.kuyun.eam.dao.model.EamProductLine">
     insert into eam_product_line
@@ -307,6 +309,9 @@
       <if test="electricityUnitPrice != null">
         electricity_unit_price,
       </if>
+      <if test="actualQuantityId != null">
+        actual_quantity_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="productLineId != null">
@@ -422,6 +427,9 @@
       </if>
       <if test="electricityUnitPrice != null">
         #{electricityUnitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="actualQuantityId != null">
+        #{actualQuantityId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -548,6 +556,9 @@
       <if test="record.electricityUnitPrice != null">
         eam_product_line.electricity_unit_price = #{record.electricityUnitPrice,jdbcType=DECIMAL},
       </if>
+      <if test="record.actualQuantityId != null">
+        eam_product_line.actual_quantity_id = #{record.actualQuantityId,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -592,7 +603,8 @@
       eam_product_line.preform_quantity_id = #{record.preformQuantityId,jdbcType=INTEGER},
       eam_product_line.cap_quantity_id = #{record.capQuantityId,jdbcType=INTEGER},
       eam_product_line.wrap_quantity_id = #{record.wrapQuantityId,jdbcType=INTEGER},
-      eam_product_line.electricity_unit_price = #{record.electricityUnitPrice,jdbcType=DECIMAL}
+      eam_product_line.electricity_unit_price = #{record.electricityUnitPrice,jdbcType=DECIMAL},
+      eam_product_line.actual_quantity_id = #{record.actualQuantityId,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -711,6 +723,9 @@
       <if test="electricityUnitPrice != null">
         electricity_unit_price = #{electricityUnitPrice,jdbcType=DECIMAL},
       </if>
+      <if test="actualQuantityId != null">
+        actual_quantity_id = #{actualQuantityId,jdbcType=INTEGER},
+      </if>
     </set>
     where product_line_id = #{productLineId,jdbcType=VARCHAR}
   </update>
@@ -752,7 +767,8 @@
       preform_quantity_id = #{preformQuantityId,jdbcType=INTEGER},
       cap_quantity_id = #{capQuantityId,jdbcType=INTEGER},
       wrap_quantity_id = #{wrapQuantityId,jdbcType=INTEGER},
-      electricity_unit_price = #{electricityUnitPrice,jdbcType=DECIMAL}
+      electricity_unit_price = #{electricityUnitPrice,jdbcType=DECIMAL},
+      actual_quantity_id = #{actualQuantityId,jdbcType=INTEGER}
     where product_line_id = #{productLineId,jdbcType=VARCHAR}
   </update>
   <insert id="batchInsert">
@@ -770,7 +786,7 @@
         update_user_id, update_time, delete_flag, 
         bottle_quantity_id, start_produce_id, end_produce_id, 
         preform_quantity_id, cap_quantity_id, wrap_quantity_id, 
-        electricity_unit_price)
+        electricity_unit_price, actual_quantity_id)
       values
       <foreach collection="items" item="item" index="index" separator=",">
       (#{item.productLineId,jdbcType=VARCHAR}, #{item.name,jdbcType=VARCHAR}, #{item.imagePath,jdbcType=VARCHAR}, 
@@ -786,7 +802,7 @@
         #{item.updateUserId,jdbcType=INTEGER}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.deleteFlag,jdbcType=BIT}, 
         #{item.bottleQuantityId,jdbcType=INTEGER}, #{item.startProduceId,jdbcType=INTEGER}, #{item.endProduceId,jdbcType=INTEGER}, 
         #{item.preformQuantityId,jdbcType=INTEGER}, #{item.capQuantityId,jdbcType=INTEGER}, #{item.wrapQuantityId,jdbcType=INTEGER}, 
-        #{item.electricityUnitPrice,jdbcType=DECIMAL})
+        #{item.electricityUnitPrice,jdbcType=DECIMAL}, #{item.actualQuantityId,jdbcType=INTEGER})
       </foreach>
     </if>
   </insert>

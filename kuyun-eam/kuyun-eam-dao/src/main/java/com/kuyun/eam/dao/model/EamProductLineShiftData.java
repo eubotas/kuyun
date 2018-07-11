@@ -54,6 +54,13 @@ public class EamProductLineShiftData extends BaseEntity implements Serializable 
      */
     private Integer capConsume;
 
+    /**
+     * 生产数量
+     *
+     * @mbg.generated
+     */
+    private BigDecimal actualQuantity;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -208,6 +215,14 @@ public class EamProductLineShiftData extends BaseEntity implements Serializable 
         this.capConsume = capConsume;
     }
 
+    public BigDecimal getActualQuantity() {
+        return actualQuantity;
+    }
+
+    public void setActualQuantity(BigDecimal actualQuantity) {
+        this.actualQuantity = actualQuantity;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -233,6 +248,7 @@ public class EamProductLineShiftData extends BaseEntity implements Serializable 
         sb.append(", shiftName=").append(shiftName);
         sb.append(", preformConsume=").append(preformConsume);
         sb.append(", capConsume=").append(capConsume);
+        sb.append(", actualQuantity=").append(actualQuantity);
         sb.append("]");
         return sb.toString();
     }
@@ -272,7 +288,8 @@ public class EamProductLineShiftData extends BaseEntity implements Serializable 
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
             && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
             && (this.getPreformConsume() == null ? other.getPreformConsume() == null : this.getPreformConsume().equals(other.getPreformConsume()))
-            && (this.getCapConsume() == null ? other.getCapConsume() == null : this.getCapConsume().equals(other.getCapConsume()));
+            && (this.getCapConsume() == null ? other.getCapConsume() == null : this.getCapConsume().equals(other.getCapConsume()))
+            && (this.getActualQuantity() == null ? other.getActualQuantity() == null : this.getActualQuantity().equals(other.getActualQuantity()));
     }
 
     @Override
@@ -303,6 +320,7 @@ public class EamProductLineShiftData extends BaseEntity implements Serializable 
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
         result = prime * result + ((getPreformConsume() == null) ? 0 : getPreformConsume().hashCode());
         result = prime * result + ((getCapConsume() == null) ? 0 : getCapConsume().hashCode());
+        result = prime * result + ((getActualQuantity() == null) ? 0 : getActualQuantity().hashCode());
         return result;
     }
 }

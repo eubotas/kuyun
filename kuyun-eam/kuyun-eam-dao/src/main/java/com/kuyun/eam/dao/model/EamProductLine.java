@@ -166,6 +166,13 @@ public class EamProductLine extends BaseEntity implements Serializable {
      */
     private BigDecimal electricityUnitPrice;
 
+    /**
+     * 生产数量
+     *
+     * @mbg.generated
+     */
+    private Integer actualQuantityId;
+
     private static final long serialVersionUID = 1L;
 
     public String getProductLineId() {
@@ -432,6 +439,14 @@ public class EamProductLine extends BaseEntity implements Serializable {
         this.electricityUnitPrice = electricityUnitPrice;
     }
 
+    public Integer getActualQuantityId() {
+        return actualQuantityId;
+    }
+
+    public void setActualQuantityId(Integer actualQuantityId) {
+        this.actualQuantityId = actualQuantityId;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -471,6 +486,7 @@ public class EamProductLine extends BaseEntity implements Serializable {
         sb.append(", capQuantityId=").append(capQuantityId);
         sb.append(", wrapQuantityId=").append(wrapQuantityId);
         sb.append(", electricityUnitPrice=").append(electricityUnitPrice);
+        sb.append(", actualQuantityId=").append(actualQuantityId);
         sb.append("]");
         return sb.toString();
     }
@@ -524,7 +540,8 @@ public class EamProductLine extends BaseEntity implements Serializable {
             && (this.getPreformQuantityId() == null ? other.getPreformQuantityId() == null : this.getPreformQuantityId().equals(other.getPreformQuantityId()))
             && (this.getCapQuantityId() == null ? other.getCapQuantityId() == null : this.getCapQuantityId().equals(other.getCapQuantityId()))
             && (this.getWrapQuantityId() == null ? other.getWrapQuantityId() == null : this.getWrapQuantityId().equals(other.getWrapQuantityId()))
-            && (this.getElectricityUnitPrice() == null ? other.getElectricityUnitPrice() == null : this.getElectricityUnitPrice().equals(other.getElectricityUnitPrice()));
+            && (this.getElectricityUnitPrice() == null ? other.getElectricityUnitPrice() == null : this.getElectricityUnitPrice().equals(other.getElectricityUnitPrice()))
+            && (this.getActualQuantityId() == null ? other.getActualQuantityId() == null : this.getActualQuantityId().equals(other.getActualQuantityId()));
     }
 
     @Override
@@ -569,6 +586,7 @@ public class EamProductLine extends BaseEntity implements Serializable {
         result = prime * result + ((getCapQuantityId() == null) ? 0 : getCapQuantityId().hashCode());
         result = prime * result + ((getWrapQuantityId() == null) ? 0 : getWrapQuantityId().hashCode());
         result = prime * result + ((getElectricityUnitPrice() == null) ? 0 : getElectricityUnitPrice().hashCode());
+        result = prime * result + ((getActualQuantityId() == null) ? 0 : getActualQuantityId().hashCode());
         return result;
     }
 }

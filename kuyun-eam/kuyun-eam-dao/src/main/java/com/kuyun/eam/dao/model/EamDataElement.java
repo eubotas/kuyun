@@ -37,25 +37,18 @@ public class EamDataElement extends BaseEntity implements Serializable {
     private Integer equipmentCategoryId;
 
     /**
-     * 是否按年、月、日统计
-     *
-     * @mbg.generated
-     */
-    private Boolean isStatisticByDate;
-
-    /**
-     * 是否按班次统计
-     *
-     * @mbg.generated
-     */
-    private Boolean isStatisticByShift;
-
-    /**
      * 是否累加统计
      *
      * @mbg.generated
      */
     private Boolean isSummation;
+
+    /**
+     * 是否按年、月、日、班次统计
+     *
+     * @mbg.generated
+     */
+    private Boolean isStatistic;
 
     private static final long serialVersionUID = 1L;
 
@@ -107,28 +100,20 @@ public class EamDataElement extends BaseEntity implements Serializable {
         this.equipmentCategoryId = equipmentCategoryId;
     }
 
-    public Boolean getIsStatisticByDate() {
-        return isStatisticByDate;
-    }
-
-    public void setIsStatisticByDate(Boolean isStatisticByDate) {
-        this.isStatisticByDate = isStatisticByDate;
-    }
-
-    public Boolean getIsStatisticByShift() {
-        return isStatisticByShift;
-    }
-
-    public void setIsStatisticByShift(Boolean isStatisticByShift) {
-        this.isStatisticByShift = isStatisticByShift;
-    }
-
     public Boolean getIsSummation() {
         return isSummation;
     }
 
     public void setIsSummation(Boolean isSummation) {
         this.isSummation = isSummation;
+    }
+
+    public Boolean getIsStatistic() {
+        return isStatistic;
+    }
+
+    public void setIsStatistic(Boolean isStatistic) {
+        this.isStatistic = isStatistic;
     }
 
     @Override
@@ -143,9 +128,8 @@ public class EamDataElement extends BaseEntity implements Serializable {
         sb.append(", unit=").append(unit);
         sb.append(", dataType=").append(dataType);
         sb.append(", equipmentCategoryId=").append(equipmentCategoryId);
-        sb.append(", isStatisticByDate=").append(isStatisticByDate);
-        sb.append(", isStatisticByShift=").append(isStatisticByShift);
         sb.append(", isSummation=").append(isSummation);
+        sb.append(", isStatistic=").append(isStatistic);
         sb.append("]");
         return sb.toString();
     }
@@ -168,14 +152,13 @@ public class EamDataElement extends BaseEntity implements Serializable {
             && (this.getUnit() == null ? other.getUnit() == null : this.getUnit().equals(other.getUnit()))
             && (this.getDataType() == null ? other.getDataType() == null : this.getDataType().equals(other.getDataType()))
             && (this.getEquipmentCategoryId() == null ? other.getEquipmentCategoryId() == null : this.getEquipmentCategoryId().equals(other.getEquipmentCategoryId()))
-            && (this.getIsStatisticByDate() == null ? other.getIsStatisticByDate() == null : this.getIsStatisticByDate().equals(other.getIsStatisticByDate()))
-            && (this.getIsStatisticByShift() == null ? other.getIsStatisticByShift() == null : this.getIsStatisticByShift().equals(other.getIsStatisticByShift()))
             && (this.getIsSummation() == null ? other.getIsSummation() == null : this.getIsSummation().equals(other.getIsSummation()))
             && (this.getCreateUserId() == null ? other.getCreateUserId() == null : this.getCreateUserId().equals(other.getCreateUserId()))
             && (this.getCreateTime() == null ? other.getCreateTime() == null : this.getCreateTime().equals(other.getCreateTime()))
             && (this.getUpdateUserId() == null ? other.getUpdateUserId() == null : this.getUpdateUserId().equals(other.getUpdateUserId()))
             && (this.getUpdateTime() == null ? other.getUpdateTime() == null : this.getUpdateTime().equals(other.getUpdateTime()))
-            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()));
+            && (this.getDeleteFlag() == null ? other.getDeleteFlag() == null : this.getDeleteFlag().equals(other.getDeleteFlag()))
+            && (this.getIsStatistic() == null ? other.getIsStatistic() == null : this.getIsStatistic().equals(other.getIsStatistic()));
     }
 
     @Override
@@ -188,14 +171,13 @@ public class EamDataElement extends BaseEntity implements Serializable {
         result = prime * result + ((getUnit() == null) ? 0 : getUnit().hashCode());
         result = prime * result + ((getDataType() == null) ? 0 : getDataType().hashCode());
         result = prime * result + ((getEquipmentCategoryId() == null) ? 0 : getEquipmentCategoryId().hashCode());
-        result = prime * result + ((getIsStatisticByDate() == null) ? 0 : getIsStatisticByDate().hashCode());
-        result = prime * result + ((getIsStatisticByShift() == null) ? 0 : getIsStatisticByShift().hashCode());
         result = prime * result + ((getIsSummation() == null) ? 0 : getIsSummation().hashCode());
         result = prime * result + ((getCreateUserId() == null) ? 0 : getCreateUserId().hashCode());
         result = prime * result + ((getCreateTime() == null) ? 0 : getCreateTime().hashCode());
         result = prime * result + ((getUpdateUserId() == null) ? 0 : getUpdateUserId().hashCode());
         result = prime * result + ((getUpdateTime() == null) ? 0 : getUpdateTime().hashCode());
         result = prime * result + ((getDeleteFlag() == null) ? 0 : getDeleteFlag().hashCode());
+        result = prime * result + ((getIsStatistic() == null) ? 0 : getIsStatistic().hashCode());
         return result;
     }
 }
