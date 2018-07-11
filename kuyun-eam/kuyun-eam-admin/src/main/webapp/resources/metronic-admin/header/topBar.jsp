@@ -207,6 +207,6 @@
     var eamPath = "${eamPath}";
     var refreshTime =5000;
     refreshAlarm();
-    setInterval(function(){ refreshAlarm(); }, refreshTime);
+    //setInterval(function(){ refreshAlarm(); }, refreshTime);
 
 </script>

@@ -1,21 +1,30 @@
 
 function refreshAlarm(){
-    ajaxGet(eamPath + '/manage/alarm/list', function (responseData) {
-        if (responseData) {
-            var total = responseData.total;
-            if (total > 0 && hasNotificationInfo == false) {
-                $("#redDot").addClass("m-badge m-badge--dot m-badge--dot-small m-badge--danger");
-                hasNotificationInfo = true;
-            }
-            $('#alarmTitle').html('<span id="topAlarmNum" class="m-dropdown__header-title">' + total +
-                '条</span><span class="m-dropdown__header-subtitle">报警信息</span>');
+    $.ajax({
+        type: 'get',
+        url: eamPath + '/manage/alarm/jsLongPollingList',
+        success: function (responseData) {
+            if (responseData) {
+                var total = responseData.total;
+                if (total > 0 && hasNotificationInfo == false) {
+                    $("#redDot").addClass("m-badge m-badge--dot m-badge--dot-small m-badge--danger");
+                    hasNotificationInfo = true;
+                }
+                $('#alarmTitle').html('<span id="topAlarmNum" class="m-dropdown__header-title">' + total +
+                    '条</span><span class="m-dropdown__header-subtitle">报警信息</span>');
 
-            var data = responseData.rows;
-            var html = "";
-            $.each(data, function (i, val) {
-                html = html + generateAlarmHtml(val);
-            });
-            $('#alarmList').html(html);
+                var data = responseData.rows;
+                var html = "";
+                $.each(data, function (i, val) {
+                    html = html + generateAlarmHtml(val);
+                });
+                $('#alarmList').html(html);
+            }
+
+            refreshAlarm();
+        },
+        error: function (XMLHttpRequest, textStatus, errorThrown) {
+            refreshAlarm();
         }
     });
 }

@@ -4,8 +4,10 @@ import com.baidu.unbiz.fluentvalidator.ComplexResult;
 import com.baidu.unbiz.fluentvalidator.FluentValidator;
 import com.baidu.unbiz.fluentvalidator.ResultCollectors;
 import com.kuyun.common.base.BaseController;
+import com.kuyun.common.util.RedisSubscribe;
 import com.kuyun.common.validator.NotNullValidator;
 import com.kuyun.eam.admin.util.EamUtil;
+import com.kuyun.eam.admin.util.SessionUser;
 import com.kuyun.eam.common.constant.AlarmStatus;
 import com.kuyun.eam.common.constant.AlarmType;
 import com.kuyun.eam.common.constant.EamResult;
@@ -18,6 +20,7 @@ import com.kuyun.upms.client.util.BaseEntityUtil;
 import com.kuyun.upms.dao.model.UpmsUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,6 +60,33 @@ public class EamAlarmController extends BaseController {
 
 	@Autowired
 	private EamUtil eamUtil;
+
+	@ApiOperation(value = "报警提醒列表")
+	@RequestMapping(value = "/jsLongPollingList")
+	@ResponseBody
+	public Object jsLongPollingList(@RequestParam(required = false, defaultValue = "0", value = "offset") int offset,
+					   @RequestParam(required = false, defaultValue = "100", value = "limit") int limit,
+					   @RequestParam(required = false, value = "sort") String sort,
+					   @RequestParam(required = false, value = "order") String order,HttpServletRequest request) {
+		UpmsUser user= new SessionUser().getUser(request);
+		Integer companyId= user.getCompanyId();
+		Integer userId=user.getUserId();
+		RedisSubscribe sub=new RedisSubscribe();
+		sub.SubAlarm(companyId, String.valueOf(userId));
+
+		while (true) {
+			if (sub.isChangedAlarm()) {
+				return list(offset, limit, sort, order);
+			} else {
+				//没有新的数据 保持住连接
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					_log.error(e.getMessage());
+				}
+			}
+		}
+	}
 
     @ApiOperation(value = "报警提醒列表")
     @RequestMapping(value = "/list")

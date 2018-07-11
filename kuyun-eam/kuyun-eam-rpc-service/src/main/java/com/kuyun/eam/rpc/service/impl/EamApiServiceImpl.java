@@ -1,6 +1,7 @@
 package com.kuyun.eam.rpc.service.impl;
 
 import com.google.gson.Gson;
+import com.kuyun.common.util.RedisPublish;
 import com.kuyun.eam.alarm.AbstractAlarmHandler;
 import com.kuyun.eam.alarm.AlarmTypeFactory;
 import com.kuyun.eam.alarm.OfflineHandler;
@@ -407,6 +408,7 @@ public class EamApiServiceImpl implements EamApiService {
         eamAlarmService.insertSelective(alarm);
         Integer alarmId = alarm.getAlarmId();
         createEamAlarmTargetUser(alarmId, Integer.valueOf(targetUserId));
+        new RedisPublish().publishAlarm(""+alarm.getCompanyId(),targetUserId);
         return alarmId;
     }
 
@@ -424,6 +426,7 @@ public class EamApiServiceImpl implements EamApiService {
     public Integer updateAlarm(String targetUserId, EamAlarm alarm) {
         int result = eamAlarmService.updateByPrimaryKey(alarm);
         updateEamAlarmTargetUser(alarm.getAlarmId(), Integer.valueOf(targetUserId));
+        new RedisPublish().publishAlarm(""+alarm.getCompanyId(),targetUserId);
         return result;
     }
 

@@ -12,12 +12,12 @@ public class RedisPublish {
         jRedis.publish(DATA_CHANGE+companyId,"Data changed");
     }
 
-    public void publishAlarm(String userId){
+    public void publishAlarm(String companyId, String userIds){
         Jedis jRedis = new Jedis("localhost");
-        jRedis.publish(ALARM_USER+userId,"Data changed");
+        jRedis.publish(ALARM_USER+companyId,userIds);
     }
 
     public static void main(String[] args)  {
-        new RedisPublish().publishAlarm("1001");
+        new RedisPublish().publishAlarm("298","1,2,3,4");
     }
 }
