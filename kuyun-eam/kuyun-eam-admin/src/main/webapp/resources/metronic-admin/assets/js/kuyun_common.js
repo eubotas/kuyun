@@ -572,6 +572,7 @@ $(document).ready(function() {
             $("#"+leftMenu).find('.m-menu__submenu').show();
         }
     }
+
 });
 
 function isContains(str, substr) {

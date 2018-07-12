@@ -24,7 +24,7 @@
 
     <style>
         .form-control-feedback{min-width:150px;}
-        .form-control{with:80%;}
+        .form-control{width:415px !important;}
     </style>
 </head>
 <body>
@@ -83,7 +83,7 @@
                         邮箱 *
                     </label>
                     <div class="col-lg-4 col-md-6 col-sm-12">
-                        <input type="text" class="form-control m-input " name="email" placeholder="邮箱" maxlength="50"
+                        <input type="text" class="form-control m-input " name="email" id="email" placeholder="邮箱" maxlength="50" value=""
                                data-toggle="m-tooltip" title="" data-original-title="邮箱" aria-describedby="email-error">
                     </div>
                 </div>
@@ -91,7 +91,7 @@
                     <label class="col-form-label col-lg-3 col-sm-12">
                         电话 *
                     </label>
-                    <div class="col-lg-3 col-md-3 col-sm-12">
+                    <div class="col-lg-3 col-md-6 col-sm-12">
                         <input type="text" class="form-control m-input" name="phone" id="phone" placeholder="电话" maxlength="20"
                                data-toggle="m-tooltip" title="" data-original-title="电话" aria-describedby="phone-error">
                     </div>
@@ -278,7 +278,10 @@
 
     $(document).ready(function() {
         FormWidgets.init('regForm');
-
+        setTimeout(function(){
+            $('#email').val('');
+            $('#email-error').css('display','none');
+        }, 500);
         $('#phone').blur(function(){
             $('#smsSendBtn').attr("disbled","true");
             checkAccount($('#phone').val());

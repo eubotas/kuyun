@@ -8312,7 +8312,7 @@ jQuery.validator.addMethod("email", function(value, element) {
     } else {
         return false;
     }
-}, "Please enter a valid Email.");
+}, "请输入有效的Email.");
 var mLayout = function() {
     var horMenu;
     var asideMenu;

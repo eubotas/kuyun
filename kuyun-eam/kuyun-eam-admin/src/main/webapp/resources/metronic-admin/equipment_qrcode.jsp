@@ -88,7 +88,7 @@
                         取消
                     </button>
                     <button type="button" class="btn btn-primary" id="saveQrcode" onclick="saveDiv('qrcodeList')">
-                        保存
+                        导出
                     </button>
                 </div>
             </div>

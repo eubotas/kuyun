@@ -442,3 +442,7 @@ function isInSet(value, values) {
             return true;
     return false;
 }
+
+function resetFileUpload(id){
+    $('#'+id).find('.qq-upload-list-selector').html('');
+}

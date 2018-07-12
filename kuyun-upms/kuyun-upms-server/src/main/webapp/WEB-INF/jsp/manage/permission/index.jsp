@@ -209,8 +209,6 @@
                 toolbarAlign: 'right',
                 minimumCountColumns: 2,
                 clickToSelect: true,
-                detailView: true,
-                detailFormatter: 'detailFormatter',
                 pagination: true,
                 paginationLoop: false,
                 sidePagination: 'server',

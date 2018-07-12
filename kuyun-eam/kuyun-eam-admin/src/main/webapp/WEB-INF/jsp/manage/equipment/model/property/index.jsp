@@ -341,6 +341,8 @@
 
     <script>
         var basePath = "${basePath}";
+        var propertyId = "${id}";
+        var protocolId= ${equipmentModel.protocolId};
     </script>
     <script src="${basePath}/resources/metronic-admin/assets/app/js/equipment/property.js"></script>
 

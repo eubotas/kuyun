@@ -25,15 +25,13 @@ var selectEquipmentModelPropertyId;
 $(function() {
     // bootstrap table初始化
     $table.bootstrapTable({
-        url: basePath+'/manage/equipment/model/property/list/'+${id}',
+        url: basePath+'/manage/equipment/model/property/list/'+propertyId,
         striped: true,
         search: true,
         searchAlign: 'left',
         toolbarAlign: 'right',
         minimumCountColumns: 2,
         clickToSelect: true,
-        detailView: true,
-        detailFormatter: 'detailFormatter',
         pagination: true,
         paginationLoop: false,
         sidePagination: 'server',
@@ -160,10 +158,10 @@ window.actionEvents = {
         $("#grmDialog").modal("show");
 
         var readWriteUrl = basePath+'/manage/equipment/model/property/modbus/${equipmentModel.equipmentModelId}/' + selectEquipmentModelPropertyId;
-        if (1 == ${equipmentModel.protocolId}){
+        if (1 == protocolId){
             $("#modbusShow").modal("show");
             readWriteUrl = basePath+'/manage/equipment/model/property/modbus/${equipmentModel.equipmentModelId}/' + selectEquipmentModelPropertyId;
-        }else if (4 == ${equipmentModel.protocolId}){
+        }else if (4 == protocolId){
             $("#grmShow").modal("show");
             readWriteUrl = basePath+'/manage/equipment/model/property/grm/${equipmentModel.equipmentModelId}/' + selectEquipmentModelPropertyId;
         }
@@ -173,7 +171,7 @@ window.actionEvents = {
                 var data = responseData;
                 $('#grm_sensorId').val(data.alarm.sensorId);
                 $('#grm_equipmentModelPropertyId').val(selectEquipmentModelPropertyId);
-                if (4 == ${equipmentModel.protocolId}) {
+                if (4 == protocolId) {
                     $('#grmVariable').val(data.sensor.grmVariable);
                     $('#grmVariableValue').val(data.sensor.grmVariableValue);
                     addOptionToHtmlSelect(data.sensor.grmAction, "grmAction", data.grmActions);

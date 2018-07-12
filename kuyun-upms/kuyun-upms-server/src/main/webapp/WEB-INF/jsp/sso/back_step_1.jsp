@@ -24,7 +24,7 @@
 
     <style>
         .form-control-feedback{min-width:150px;}
-        .form-control{with:80%;}
+        .form-control{width:80%;}
     </style>
 </head>
 <body>
@@ -61,7 +61,7 @@
                     <label class="col-form-label col-lg-3 col-sm-12">
                         手机 *
                     </label>
-                    <div class="col-lg-3 col-md-3 col-sm-12">
+                    <div class="col-lg-3 col-md-6 col-sm-12">
                         <input type="text" class="form-control m-input" name="phone" id="phone" placeholder="手机号码" maxlength="20"
                                data-toggle="m-tooltip" title="" data-original-title="请填写11位有效手机号码" aria-describedby="phone-error">
                     </div>
@@ -71,7 +71,7 @@
                     <label class="col-form-label col-lg-3 col-sm-12">
                         验证码 *
                     </label>
-                    <div class="col-lg-4 col-md-9 col-sm-12">
+                    <div class="col-lg-3 col-md-6 col-sm-12">
                         <input type="text" class="form-control m-input" name="code" id="code" placeholder="验证码" maxlength="10"
                                data-toggle="m-tooltip" title="" data-original-title="验证码" aria-describedby="code-error">
                     </div>

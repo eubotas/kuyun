@@ -36,3 +36,9 @@
 .m-aside-menu.m-aside-menu--skin-dark .m-menu__nav > .m-menu__section .m-menu__section-text {
     color: #868aa8;
 }
+.table.table-striped thead th{
+    border: 1px solid #ddd !important;
+}
+.table.table-striped thead th .th-inner{
+    font-weight: 500 !important;
+}
